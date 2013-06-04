@@ -3,35 +3,49 @@ class Irm::ApiToolsController < ApplicationController
 
   #api tools
   def index
+
+  end
+
+  def console
     @api_base_url = request.base_url
   end
 
-  #获取对应API下的function
-  def function_data
-    function_scope = Irm::Function.multilingual.query_by_function_group(params[:function_group_id])
+  def get_data
+    api_functions = Irm::Function.multilingual.api_functions
+    api_functions = api_functions.delete_if{|i| !Irm::Person.current.functions.include?(i.id) }
 
-    functions = function_scope.collect { |i| {:label => i[:name], :value => i.id, :id => i.id} }
+    permissions = Irm::Permission.with_rest_api.where(:function_id => api_functions.map(&:id))
     respond_to do |format|
-      format.json { render :json => functions.to_grid_json([:label, :value], functions.count) }
+      format.html {
+        @count = permissions.count
+        @datas = permissions
+      }
+    end
+
+  end
+
+  #获取对应API下的function
+  def permission_data
+    permission_scope = Irm::Permission.with_rest_api.query_by_function(params[:function_id])
+
+    permissions = permission_scope.collect { |i| {:label => i[:name], :value => i[:api_id], :id => i[:api_id]} }
+    respond_to do |format|
+      format.json { render :json => permissions.to_grid_json([:label, :value], permissions.count) }
     end
   end
 
   #根据function中的id获取对应的参数
   def function_params
     #根据function_id获取对应的permission
-    @api_params = []
-    @permission = Irm::Permission.query_by_function_id(params[:function_id]).first
-    if @permission.present?
-      @api_params = Irm::ApiParam.with_permission_by_function(params[:function_id])
-      @permission[:request_method] = @permission[:direct_get_flag].eql?('Y') ? "GET" : "POST"
-    end
-
+    @api_params = Irm::ApiParam.query_input_params(params[:rest_api_id])
+    @permission = Irm::Permission.query_by_rest_api_id(params[:rest_api_id]).first
+    @permission[:request_method] = @permission[:direct_get_flag].eql?('Y') ? "GET" : "POST"
   end
 
   #查看API对应permission的文档
   def doc
     #查找出所有的字段信息
-    all_params = Irm::ApiParam.query_by_function(params[:function_id])
+    all_params = Irm::ApiParam.all_params(params[:rest_api_id])
 
     @input_params = []
     @output_params = []

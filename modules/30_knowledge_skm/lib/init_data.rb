@@ -358,22 +358,31 @@ Fwk::MenuAndFunctionManager.map do |map|
       :api_flag => "Y" }
   map.function_group :skm_entry_header_api, {
       :children => {
-          :skm_add_api => {
-              :en => {:name => "Add Entry Header", :description => "Add Entry Header"},
-              :zh => {:name => "创建知识接口", :description => "创建知识接口"},
+          :skm_rest_api => {
+              :en => {:name => "Entry Header API", :description => "Entry Header API"},
+              :zh => {:name => "知识库接口", :description => "知识库接口"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "skm/api_entry_headers" => ["add"],
+              "skm/api_entry_headers" => ["add", "show"]
           },
-          :skm_show_api => {
-              :en => {:name => "Show Entry Header", :description => "Show Entry Header"},
-              :zh => {:name => "查看知识接口", :description => "查看知识接口"},
-              :default_flag => "N",
-              :login_flag => "N",
-              :public_flag => "N",
-              "skm/api_entry_headers" => ["show"]
-          },
+
+          #:skm_add_api => {
+          #    :en => {:name => "Add Entry Header", :description => "Add Entry Header"},
+          #    :zh => {:name => "创建知识接口", :description => "创建知识接口"},
+          #    :default_flag => "N",
+          #    :login_flag => "N",
+          #    :public_flag => "N",
+          #    "skm/api_entry_headers" => ["add"],
+          #},
+          #:skm_show_api => {
+          #    :en => {:name => "Show Entry Header", :description => "Show Entry Header"},
+          #    :zh => {:name => "查看知识接口", :description => "查看知识接口"},
+          #    :default_flag => "N",
+          #    :login_flag => "N",
+          #    :public_flag => "N",
+          #    "skm/api_entry_headers" => ["show"]
+          #},
       }
   }
   #=================================END:SKM API=================================

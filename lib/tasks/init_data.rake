@@ -55,6 +55,10 @@ namespace :irm do
     puts "Starting init API params......"
     api_controllers = Fwk::ApiParamsManager.api_controllers
 
+    #puts "============#{api_controllers}================"
+    #
+    #return false
+
     #初始化function groups
     puts "Starting init function groups......"
     function_groups = Fwk::MenuAndFunctionManager.function_groups
@@ -514,11 +518,13 @@ namespace :irm do
           end
 
           if function_api_flag.eql?("Y") && permission.id.present?
-            Irm::ApiParam.delete_all("permission_id = '#{permission.id}'")
+            Irm::RestApi.delete_all("permission_id = '#{permission.id}'")
             if api_controllers[controller].present? && api_controllers[controller].any?
-              api_params = api_controllers[controller][action.to_sym] || api_controllers[controller][action.to_s] || []
+              api_rest_data = api_controllers[controller][action.to_sym] || api_controllers[controller][action.to_s] || []
 
-              api_params[:params].each do |p|
+              rest_api = Irm::RestApi.new(:permission_id => permission.id, :name => api_rest_data[:name], :description => api_rest_data[:description] || api_rest_data[:name],:method => route_permission[:api_method])
+
+              api_rest_data[:params].each do |p|
                 classify = p[:classify] || p["classify"] || []
                 classify= classify.collect {|i| i.to_s.upcase}
                 if classify.count > 1
@@ -527,17 +533,16 @@ namespace :irm do
                   classify = classify.first
                 end
 
-                Irm::ApiParam.create(:permission_id => permission.id,
-                                     :method => route_permission[:api_method],
-                                     :name => p[:name] || p["name"],
-                                     :param_type => p[:type] || p["type"],
-                                     :param_classify => classify,
-                                     :required_flag => p[:required] || p["required"],
-                                     :example_value => p[:example_value] || p["example_value"],
-                                     :default_value => p[:default_value] || p["default_value"],
-                                     :description => p[:description] || p["description"]
+                rest_api.api_params.build(:name => p[:name] || p["name"],
+                               :param_type => p[:type] || p["type"],
+                               :param_classify => classify,
+                               :required_flag => p[:required] || p["required"],
+                               :example_value => p[:example_value] || p["example_value"],
+                               :default_value => p[:default_value] || p["default_value"],
+                               :description => p[:description] || p["description"]
                 )
               end
+              rest_api.save
             end
           end
 

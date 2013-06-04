@@ -2140,7 +2140,9 @@ zh:
   label_irm_person_work_number: 工号
 
   #==============================Start Api tools==============================
-  label_irm_api_tool: API 测试工具
+  label_irm_api_tool: API文档
+  label_irm_app_tool_list: API文档列表
+  label_irm_api_tool_test: API测试工具
   label_irm_api_tool_request: 请求
   label_irm_api_tool_result: 返回结果
   label_irm_api_tool_input: 输入参数
@@ -2154,12 +2156,15 @@ zh:
   label_irm_api_tool_params_help: 说明
   label_irm_api_tool_params_example: 如
   label_irm_api_tool_submit: 调用API接口
-  label_irm_api_tool_request_method: a请求方式
+  label_irm_api_tool_request_method: 请求方式
   label_irm_api_tool_request_url: 请求URL
   label_irm_api_tool_request_params: 请求参数
+  label_irm_api_tool_doc_title: 常见返回对象数据结构
   label_irm_api_tool_doc_type: 类型
   label_irm_api_tool_doc_required: 否必须
   label_irm_api_tool_doc_example_vlue: 示例值
   label_irm_api_tool_doc_defalt_vlue: 默认值
+  label_irm_api_tool_doc_yes: 是
+  label_irm_api_tool_doc_no: 否
   #==============================End Api tools==============================
 

@@ -2896,7 +2896,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/api_tools" => ["index","function_data", "function_params", "doc"]
+              "irm/api_tools" => ["index", "get_data" ,"permission_data", "function_params", "doc","console"]
           }
       }
   }

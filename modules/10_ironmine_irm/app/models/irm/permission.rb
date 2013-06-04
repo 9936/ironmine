@@ -16,8 +16,18 @@ class Irm::Permission < ActiveRecord::Base
 
   before_validation :setup_parent
 
-  scope :query_by_function_id, lambda {|function_id|
+  scope :query_by_function, lambda {|function_id|
     where("#{table_name}.function_id=?", function_id)
+  }
+
+  scope :with_rest_api, lambda {
+    joins("JOIN #{Irm::RestApi.table_name} api ON api.permission_id=#{table_name}.id").
+        select("#{table_name}.*, api.name, api.description ,api.id api_id")
+  }
+
+  scope :query_by_rest_api_id, lambda {|rest_api_id|
+    joins("JOIN #{Irm::RestApi.table_name} api ON api.permission_id=#{table_name}.id").
+        where("api.id=?", rest_api_id)
   }
 
   scope :query_by_function_code,lambda{|function_code|

@@ -25,6 +25,10 @@ class Irm::Function < ActiveRecord::Base
     where(:system_flag => system_flag)
   }
 
+  scope :api_functions, lambda{
+    where("#{table_name}.api_flag=?", 'Y')
+  }
+
   scope :query_by_function_group,lambda{|function_group_id|
     where("#{table_name}.function_group_id=?", function_group_id)
   }
