@@ -22,7 +22,7 @@ class Irm::Permission < ActiveRecord::Base
 
   scope :with_rest_api, lambda {
     joins("JOIN #{Irm::RestApi.table_name} api ON api.permission_id=#{table_name}.id").
-        select("#{table_name}.*, api.name, api.description ,api.id api_id")
+        select("#{table_name}.*, api.name, api.description ,api.id api_id, api.method http_method")
   }
 
   scope :query_by_rest_api_id, lambda {|rest_api_id|

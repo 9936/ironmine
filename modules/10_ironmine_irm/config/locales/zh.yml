@@ -2141,6 +2141,7 @@ zh:
 
   #==============================Start Api tools==============================
   label_irm_api_tool: API文档
+  label_irm_api_tool_back: 返回列表
   label_irm_app_tool_list: API文档列表
   label_irm_api_tool_test: API测试工具
   label_irm_api_tool_request: 请求

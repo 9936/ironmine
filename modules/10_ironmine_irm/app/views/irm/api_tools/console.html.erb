@@ -135,18 +135,18 @@
             </div>
 
             <!-- 提交方式 -->
-            <div class="control-group">
-              <label class="control-label"><%= t(:label_irm_api_tool_method) %>：</label>
+            <!--<div class="control-group">-->
+              <!--<label class="control-label"><%= t(:label_irm_api_tool_method) %>：</label>-->
 
-              <div class="controls">
-                <label class="radio">
-                  <%= radio_button_tag "http_method", "GET", true, :class => "api-input" %> GET
-                </label>
-                <label class="radio">
-                  <%= radio_button_tag "http_method", "POST", false, :class => "api-input" %> POST
-                </label>
-              </div>
-            </div>
+              <!--<div class="controls">-->
+                <!--<label class="radio">-->
+                  <%#= radio_button_tag "http_method", "GET", true, :class => "api-input" %> <!-- GET -->
+                <!--</label>-->
+                <!--<label class="radio">-->
+                  <%#= radio_button_tag "http_method", "POST", false, :class => "api-input" %> <!-- POST -->
+                <!--</label>-->
+              <!--</div>-->
+            <!--</div>-->
 
             <!-- API 文档 -->
             <div class="control-group">
@@ -165,7 +165,7 @@
             <div class="control-group">
               <div class="controls actions">
                 <%= link_to t(:label_irm_api_tool_submit), "javascript:void(0);", {:class => "btn btn-success disabled", :id => "api-submit-btn" } %>
-                <%= link_to t(:label_irm_api_tool), {:action => "index"}, :class => "btn" %>
+                <%= link_to t(:label_irm_api_tool_back), {:action => "index"}, :class => "btn" %>
               </div>
             </div>
 
