@@ -252,7 +252,7 @@
           <div class="control-group">
             <label class="control-label"><%= t(:label_slm_calendar_item_scedule_select) %>:</label>
             <div class="controls">
-              <%= blank_select_tag "calendar_item_id", available_schedules(@calendar).collect{|i| ["#{i.start_at} ~ #{i.end_at}",i.id]},nil, :id => "calendarSchedules", %>
+              <%= select_tag_alias("calendar_item_id", available_schedules(@calendar).collect{|i| ["#{i.start_at} ~ #{i.end_at}",i.id]},nil, :id => "calendarSchedules") %>
             </div>
           </div>
           <% end %>
