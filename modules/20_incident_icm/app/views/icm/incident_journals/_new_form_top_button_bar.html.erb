@@ -72,11 +72,11 @@
           <%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers", :action => "new_from_icm_request", :request_id => @incident_request.id},{:class=>"btn"} %>
       <% end %>
       <% if has_module?(:chm) and !@incident_request.change_request_id.present? %>
-          <%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests", :action => "incident_new", :request_id => @incident_request.id}, {:back=>true,:class=>"btn"} %>
+          <%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests", :action => "incident_new", :re4quest_id => @incident_request.id}, {:back=>true,:class=>"btn"} %>
       <% end %>
     </div>
     <div class="btn-group">
-      <% link_to t(:export_pdf), {:controller=>"icm/incident_journals",:action=>"new",:request_id=> @incident_request.id,:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
+      <%= link_to t(:export_pdf), {:controller=>"icm/incident_journals",:action=>"new",:request_id=> @incident_request.id,:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
     </div>
   </div>
 <% end %>
