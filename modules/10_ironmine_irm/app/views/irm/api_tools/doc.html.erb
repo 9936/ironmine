@@ -1,6 +1,6 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  <h3>常见返回对象数据结构</h3>
+  <h3><%= t(:label_irm_api_tool_doc_title) %></h3>
 </div>
 <div class="modal-body form-horizontal">
   <div class="accordion">
@@ -25,8 +25,8 @@
             <% @input_params.each do |p| %>
               <tr>
                 <td><%= p[:name] %></td>
-                <td><%= p[:type] %></td>
-                <td><%= p[:required_flag] %></td>
+                <td><%= p[:param_type] %></td>
+                <td><%= required_meaning(p[:required_flag]) %></td>
                 <td><%= p[:example_value] %></td>
                 <td><%= p[:default_value] %></td>
                 <td><%= p[:description] %></td>
@@ -49,18 +49,16 @@
             <tr>
               <th><%= t(:name) %></th>
               <th><%= t(:label_irm_api_tool_doc_type) %></th>
-              <th><%= t(:label_irm_api_tool_doc_required) %></th>
               <th><%= t(:label_irm_api_tool_doc_example_vlue) %></th>
               <th><%= t(:label_irm_api_tool_doc_defalt_vlue) %></th>
               <th><%= t(:descriptin) %></th>
             </tr>
             </thead>
             <tbody>
-            <% @input_params.each do |p| %>
+            <% @output_params.each do |p| %>
                 <tr>
                   <td><%= p[:name] %></td>
-                  <td><%= p[:type] %></td>
-                  <td><%= p[:required_flag] %></td>
+                  <td><%= p[:param_type] %></td>
                   <td><%= p[:example_value] %></td>
                   <td><%= p[:default_value] %></td>
                   <td><%= p[:description] %></td>
