@@ -219,4 +219,11 @@ class Irm::GroupsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def sync_admin_flag
+    Irm::GroupMember.find(params[:member_id]).update_attributes(:admin_flag=>params[:flag])
+    respond_to do |format|
+      format.any  { render :text => "successful" }
+    end
+  end
 end

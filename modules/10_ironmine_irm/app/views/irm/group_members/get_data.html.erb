@@ -5,4 +5,7 @@
   <% builder.column(:person_name,{:title=>t(:label_irm_group_person_name), :searchable => true, :width => "20%"})%>
   <% builder.column(:organization_name,{:title=>t(:label_irm_group_organization_name), :searchable => true, :width => "25%"})%>
   <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address), :searchable => true})%>
+  <% builder.column(:admin_flag,{:title=>t(:label_irm_group_member_admin_flag)}) do |data|%>
+    <%= check_box_tag("admin[#{data[:id]}]", data[:id], Irm::Constant::SYS_YES.eql?(data[:admin_flag]),{:onclick=>"syncAdminFlag(event,'#{data[:id]}')"}) %>
+  <% end %>
 <% end %>

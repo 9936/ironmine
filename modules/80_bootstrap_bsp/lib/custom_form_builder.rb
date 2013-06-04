@@ -166,6 +166,8 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
   def date_field(field, options = {})
     method = field
     field_id =  options.delete(:id)|| field
+    tip_flag = true
+    tip_flag = options.delete(:tip) if options.delete(:tip).to_s.present?
     datetime = Time.now
     date_text = datetime.strftime('%Y-%m-%d')
     if options.delete(:with_time)
@@ -198,14 +200,24 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
       content = date_time_tag + date_tag_str +@template.raw("&nbsp;-&nbsp;")+ time_tag_str
       content += @template.javascript_tag(script)
     else
-      date_tag_str = self.text_field(field,options.merge(:id=>field_id,:size=>10,:class=>"date-input",:onfocus=>"initDateField(this)",:normal=>true,:autocomplete => "off"))
+      @object || @template_object.instance_variable_get("@#{@object_name}")
+      begin
+        date = Time.parse("#{@object.send(method).to_s.capitalize}").strftime('%Y-%m-%d')
+        date_tag_str = self.text_field(field,options.merge(:value => date,:id=>field_id,:size=>10,:class=>"date-input",:onfocus=>"initDateField(this)",:normal=>true,:autocomplete => "off"))
+      rescue
+        date_tag_str = self.text_field(field,options.merge(:id=>field_id,:size=>10,:class=>"date-input",:onfocus=>"initDateField(this)",:normal=>true,:autocomplete => "off"))
+      end
+
       link_text  = datetime.strftime('%Y-%m-%d')
       content = date_tag_str
-      link_click_action = %Q(javascript:dateFieldChooseToday('#{field_id}','#{date_text}'))
+      link_click_action = %Q(javascript:dateFieldChooseToday('#{field_id}','#{date_text}')) if tip_flag
     end
-    link_str = ""
-    link_str = @template.link_to("[#{link_text}]",{},{:href=>link_click_action}) unless options[:nobutton]
-    content += link_str
+
+    if tip_flag
+      link_str = ""
+      link_str = @template.link_to(" [#{link_text}]",{},{:href=>link_click_action}) unless options[:nobutton]
+      content += link_str
+    end
     wrapped_field(@template.content_tag(:div,content,{:class=>"date-field"},false),field,options)
   end
 

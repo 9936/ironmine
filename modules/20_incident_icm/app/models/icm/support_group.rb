@@ -31,7 +31,7 @@ class Icm::SupportGroup < ActiveRecord::Base
 
   scope :with_group_process, lambda { |support_group_from, group_process_id|
     joins("LEFT OUTER JOIN #{Icm::GroupProcessRelation.table_name} gpr ON #{table_name}.id=gpr.support_group_to").
-        where("gpr.support_group_from=? AND gpr.group_process_id=?", support_group_from, group_process_id)
+        where("(gpr.support_group_from=? AND gpr.group_process_id=?) OR (#{table_name}.id=?)", support_group_from, group_process_id, support_group_from)
   }
 
   scope :with_group, lambda { |language|

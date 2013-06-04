@@ -95,4 +95,17 @@ class Irm::OauthAccessClientsController < ApplicationController
       }
     end
   end
+
+  def get_access_data
+    access_scope = Irm::OauthAccess.query_user(params[:id])
+    access,count = paginate(access_scope)
+
+    respond_to do |format|
+      format.html  {
+        @count = count
+        @datas = access
+      }
+    end
+  end
+
 end

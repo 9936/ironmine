@@ -70,4 +70,19 @@
   </div>
 </div>
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@group} %>
+<script type="text/javascript">
+  function syncAdminFlag(e,memberId){
+      var url = "<%= url_for(:action=>"sync_admin_flag",:member_id=>"{member_id}",:flag=>"{flag}",:_dom_id=>"person")%>";
+      var flag = "N";
+      if($(e.currentTarget).attr("checked"))
+        flag = "Y";
+      url = decodeURIComponent(url);
+      url = url.replace("{member_id}",memberId);
+      url = url.replace("{flag}",flag);
+      $.ajax({
+        url: url,
+        context: document.body
+      });
+  }
+</script>
 

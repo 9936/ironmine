@@ -12,6 +12,7 @@ class Irm::OauthAuthorizeController < ApplicationController
   def show
     #检查是否登录,如果当前用户已经登录则跳转到授权页面，否则跳转回登录页面
     if Irm::Person.current.logged?
+      find_client
       render :layout => false
     else
       url = ''
@@ -25,7 +26,7 @@ class Irm::OauthAuthorizeController < ApplicationController
   def create
     #根据当前client_id和 redirect_uri查找client
     find_client
-    if params[:response_type] == "code"
+    if params[:response_type] == "code" && @client.present?
       @auth_code = Irm::OauthCode.create(oauth_access_client_id: @client.id, person_id: Irm::Person.current.id, access_scope: params[:scope])
       redirect_to authorization_redirect_uri(@client, @auth_code, params[:state])
     end
@@ -39,7 +40,7 @@ class Irm::OauthAuthorizeController < ApplicationController
     end
     #刷新令牌相应的处理
     if params[:grant_type] == "refresh_token"
-      #禁止再次进系刷新，设置为过期状态
+      #禁止再次进行刷新，设置为过期状态
       @expired_token.update_attribute("expire_at", Time.now)
       @token = Irm::OauthToken.create(client_id: @client.id, oauth_code_id: @expired_token.oauth_code_id,relation_oauth_token_id: @expired_token.id, user_id: @expired_token.user_id)
     end

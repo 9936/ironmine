@@ -20,9 +20,9 @@
           <% end -%>
           <%= link_to_checker(raw(get_img_icon("img7", {:class => "menu-button-icon", :title => t(:label_irm_bulletin)}, "Small") ) + t(:label_irm_bulletin),
                                   {:controller => "irm/bulletins", :action => "new"}, {:class => "menu-button-link"})%>
-          <% link_to_checker(raw(get_img_icon("img2", {:class => "menu-button-icon", :title => t(:label_irm_todo_event)}, "Small") ) + t(:label_irm_todo_event),
+          <%# link_to_checker(raw(get_img_icon("img2", {:class => "menu-button-icon", :title => t(:label_irm_todo_event)}, "Small") ) + t(:label_irm_todo_event),
                                   {:controller => "irm/todo_events", :action => "new"},{:class => "menu-button-link"})%>
-          <% link_to_checker(raw(get_img_icon("img2", {:class => "menu-button-icon", :title => t(:label_irm_todo_task)}, "Small") ) + t(:label_irm_todo_task),
+          <%# link_to_checker(raw(get_img_icon("img2", {:class => "menu-button-icon", :title => t(:label_irm_todo_task)}, "Small") ) + t(:label_irm_todo_task),
                                   {:controller => "irm/todo_tasks", :action => "new"},{:class => "menu-button-link"})%>
         </div>
     </div>

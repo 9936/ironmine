@@ -103,6 +103,16 @@ module Irm::Customizable
           end
           self
         end
+
+        #对必填字段用修正值进行设置,先用默认值进行设置，如果默认值不存在则用修正值
+        def merge_required_default_values
+          self.required_custom_attributes.each do |field|
+            self[field[:attribute_name].to_sym] = field[:data_default_value] unless self[field[:attribute_name].to_sym].present?
+            unless self[field[:attribute_name].to_sym].present?
+              self[field[:attribute_name].to_sym] = field[:required_default_value]
+            end
+          end
+        end
       end
     end
   end

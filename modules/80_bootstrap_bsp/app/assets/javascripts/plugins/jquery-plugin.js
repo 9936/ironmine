@@ -2061,6 +2061,12 @@ jQuery.fn.menubutton = function () {
                 });
             }
         }
+
+        if(me.data.options.scrollOptions.scrollY&&me.data.options.scrollOptions.autoHeight){
+            var comHeight = $(window.top).height() - me.$element.position().top-116;
+            if(me.data.options.scrollOptions.height < comHeight)
+                me.data.options.scrollOptions.height = comHeight;
+        }
     }
 
     Internal.prototype.syncPaginatorUI = function () {
