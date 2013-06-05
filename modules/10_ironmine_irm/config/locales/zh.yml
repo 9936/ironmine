@@ -1918,6 +1918,7 @@ zh:
   label_irm_oauth_access_client_list: 远程访问列表
   label_irm_oauth_access_client_site_image_url: 图标URL
   label_irm_oauth_access_client_ip: IP地址
+  label_irm_oauth_access_client_inside_flag: 内部系统
   label_irm_oauth_access_client_site_url: 网站URL
   label_irm_oauth_access_client_callback_url: 回调URL
   label_irm_oauth_access_client_token: 标记
@@ -1941,6 +1942,7 @@ zh:
   label_irm_oauth_code_expired: 授权码过期了
   label_irm_oauth_token_unavailable: 无效的 Token
   label_irm_oauth_username_or_password_error: 用户名或密码错误
+  label_irm_oauth_username_error: 登录用户名错误或者不存在
   label_irm_oauth_ldap_error: LDAP属性同步用户出现如下问题无法登录
   #============================== end oauth_authorize ===================================
   #============================== rating config ======================================

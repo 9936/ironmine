@@ -1936,6 +1936,7 @@ en:
   label_irm_oauth_access_client_list: Remote Access List
   label_irm_oauth_access_client_site_image_url: Site Image URL
   label_irm_oauth_access_client_ip: IP Address
+  label_irm_oauth_access_client_inside_flag: Internal
   label_irm_oauth_access_client_site_url: Site URL
   label_irm_oauth_access_client_callback_url: Callback URL
   label_irm_oauth_access_client_token: Token
@@ -1952,6 +1953,7 @@ en:
   label_irm_oauth_code_expired: Expired Code
   label_irm_oauth_token_unavailable: Unavailabled Token
   label_irm_oauth_username_or_password_error: Username Or Password Error
+  label_irm_oauth_username_error: Username Error OR Not Exists
   label_irm_oauth_ldap_error: There are somethin wrong with LDAP settings so that you can't login
   #============================== end oauth_authorize ===================================
   #============================== highest_priority_incident report ===================================

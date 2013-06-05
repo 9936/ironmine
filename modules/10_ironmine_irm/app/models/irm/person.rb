@@ -76,7 +76,6 @@ class Irm::Person < ActiveRecord::Base
     !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
   end
 
-
   scope :real,where(:type=>nil)
   scope :not_anonymous,where("#{table_name}.login_name != ?","anonymous")
   scope :query_by_identity,lambda{|identity|

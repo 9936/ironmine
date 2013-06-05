@@ -6,6 +6,9 @@
     <% end %>
     <% builder.column(:code,{:title=>t(:code),:searchable=>true})%>
     <% builder.column(:name,{:title=>t(:name),:searchable=>true})%>
-    <% builder.column(:description,{:title=>t(:description),:searchable=>true})%>
+    <% builder.column(:inside_flag,{:title=>t(:label_irm_oauth_access_client_inside_flag)}) do |data| %>
+      <%= check_img(data[:inside_flag]) %>
+    <% end %>
+    <% builder.column(:description,{:title=>t(:description)})%>
     <% builder.column(:token,{:title=>t(:label_irm_oauth_access_client_token)})%>
 <% end %>

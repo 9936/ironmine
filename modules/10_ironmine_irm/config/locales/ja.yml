@@ -1814,6 +1814,7 @@ ja:
   label_irm_oauth_access_client_list: リモートアクセスリスト
   label_irm_oauth_access_client_site_image_url: サイト映像URL
   label_irm_oauth_access_client_ip: IP
+  label_irm_oauth_access_client_inside_flag: Internal
   label_irm_oauth_access_client_site_url: サイトURL
   label_irm_oauth_access_client_callback_url: URLのコールバック
   label_irm_oauth_access_client_token: しるし
@@ -1836,7 +1837,7 @@ ja:
   label_irm_oauth_code_expired: 期限が切れたコード
   label_irm_oauth_token_unavailable: 無効なしるし
   label_irm_oauth_username_or_password_error: ユーザまたはパースワードエラー
-
+  label_irm_oauth_username_error: Username Error OR Not Exists
 
   label_irm_rating_config: 階級設定
   label_irm_rating_config_grade: 階級オプション
