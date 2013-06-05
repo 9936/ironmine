@@ -2163,7 +2163,7 @@ zh:
   label_irm_api_tool_request_params: 请求参数
   label_irm_api_tool_doc_title: 常见返回对象数据结构
   label_irm_api_tool_doc_type: 类型
-  label_irm_api_tool_doc_required: 否必须
+  label_irm_api_tool_doc_required: 是否必须
   label_irm_api_tool_doc_example_vlue: 示例值
   label_irm_api_tool_doc_defalt_vlue: 默认值
   label_irm_api_tool_doc_yes: 是
