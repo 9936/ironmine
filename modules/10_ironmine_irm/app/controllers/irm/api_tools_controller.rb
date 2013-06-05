@@ -3,7 +3,18 @@ class Irm::ApiToolsController < ApplicationController
 
   #api tools
   def index
+    api_functions = Irm::Function.multilingual.api_functions
+    @api_functions = api_functions.delete_if{|i| !Irm::Person.current.functions.include?(i.id) }
+    permissions = Irm::Permission.with_rest_api.where(:function_id => @api_functions.map(&:id))
 
+    @api_functions.each do |f|
+      f[:rest_apis] ||= []
+      permissions.each do |p|
+        if p.function_id.eql?(f.id)
+          f[:rest_apis] << p
+        end
+      end
+    end
   end
 
   def console

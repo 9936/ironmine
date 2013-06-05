@@ -2154,6 +2154,7 @@ zh:
   label_irm_api_tool_doc: API文档
   label_irm_api_tool_doc_see: 点击获取文档
   label_irm_api_tool_params: API参数
+  label_irm_api_tool_params_test: 测试
   label_irm_api_tool_params_help: 说明
   label_irm_api_tool_params_example: 如
   label_irm_api_tool_submit: 调用API接口

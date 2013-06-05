@@ -117,7 +117,7 @@
               <label class="control-label"><%= t(:label_irm_api_tool_type) %>：</label>
 
               <div class="controls">
-                <%= select_tag_alias("api_type", available_api_functions, nil, {:chosen => false, :id => "api_function", :class => "api-input"}) %>
+                <%= select_tag_alias("api_type", available_api_functions, params[:function_id], {:chosen => false, :id => "api_function", :class => "api-input"}) %>
               </div>
             </div>
             <!-- API 名称 -->
@@ -125,9 +125,10 @@
               <label class="control-label"><%= t(:label_irm_api_tool_name) %>：</label>
 
               <div class="controls">
-                <%= blank_select_tag("api_type", [], nil, {:chosen => false,
+                <%= blank_select_tag("api_type", [], params[:api_id], {:chosen => false,
                                                            :id => "api_permission",
                                                            :class => "api-input",
+                                                           :origin_value=> params[:api_id],
                                                            :depend => "api_function",
                                                            :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
                                                            :href => url_for(:controller => "irm/api_tools", :action => "permission_data", :format => "json", :function_id => "${api_function}")}) %>
