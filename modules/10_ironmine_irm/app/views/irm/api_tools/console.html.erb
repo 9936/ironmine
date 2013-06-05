@@ -1,0 +1,257 @@
+<%#= common_title %>
+<style type="text/css">
+    .api-page-block {
+        padding: 0;
+        margin: auto;
+    }
+
+    table.split-table .side-bar {
+        padding-top: 20px;
+        width: 35%;
+        border-right: 1px solid #ccc;
+    }
+
+    table.split-table .side-content {
+        padding: 5px 20px;
+    }
+
+    .side-content textarea {
+        width: 100%;
+    }
+
+    .side-content dl dt {
+        margin-left: 9px;
+        padding: 0 0 10px 0;
+    }
+
+    .side-bar .control-text {
+        line-height: 24px;
+        padding: 2px 5px;
+        font-weight: bold;
+        display: block;
+    }
+
+    .side-bar .control-text .action-link {
+        color: #3c7cb3;
+        font-weight: normal;
+    }
+
+    .form-horizontal .control-group {
+        margin-bottom: 8px;
+    }
+    .form-horizontal .control-label {
+        width: 100px;
+    }
+    .form-horizontal .controls {
+        margin-left: 100px;
+    }
+    .form-horizontal .controls select {
+        min-width: 250px;
+    }
+    .form-horizontal .controls .radio {
+        display: inline-block;
+        margin-right: 15px;;
+    }
+    .form-horizontal .controls.params-box {
+        margin: 30px 20px 5px 40px;
+        /*min-height: 100px;*/
+        border-radius: 4px;
+        background-color: #eee;
+        border: 1px dashed  #ccc;
+        padding: 10px;
+    }
+
+    .form-horizontal .controls.actions {
+        margin: 10px 20px 5px 40px;
+    }
+
+    .form-horizontal .controls.params-box table td {
+        vertical-align: middle;
+    }
+    .form-horizontal .controls.params-box table td.help {
+        padding-left: 5px;
+    }
+    .form-horizontal .controls.params-box table td.help a {
+        color: #36c;
+    }
+    .form-horizontal .controls.params-box table td.key input {
+        width: 40px;
+    }
+    .form-horizontal .controls.params-box table td.value input,
+    .form-horizontal .controls.params-box table td.value textarea {
+        width: 250px;
+    }
+    abbr.required {
+        color: #ff0000;
+    }
+
+    .error textarea {
+        color: #b94a48;
+    }
+
+    .error textarea  {
+        border-color: #b94a48;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    }
+
+    .error textarea:focus {
+        border-color: #953b39;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+    }
+</style>
+<div class="api-page-block">
+  <table class="split-table" id="api-container">
+    <tr>
+      <td class="side-bar">
+        <%= form_tag({}, {:class => "form-horizontal", :id => "api-form"}) do %>
+            <div class="control-group">
+              <label class="control-label"><%= t(:label_irm_api_tool_result_format) %>：</label>
+
+              <div class="control-text">JSON</div>
+            </div>
+            <!-- API 分类 -->
+            <div class="control-group">
+              <label class="control-label"><%= t(:label_irm_api_tool_type) %>：</label>
+
+              <div class="controls">
+                <%= select_tag_alias("api_type", available_api_functions, params[:function_id], {:chosen => false, :id => "api_function", :class => "api-input"}) %>
+              </div>
+            </div>
+            <!-- API 名称 -->
+            <div class="control-group">
+              <label class="control-label"><%= t(:label_irm_api_tool_name) %>：</label>
+
+              <div class="controls">
+                <%= blank_select_tag("api_type", [], params[:api_id], {:chosen => false,
+                                                           :id => "api_permission",
+                                                           :class => "api-input",
+                                                           :origin_value=> params[:api_id],
+                                                           :depend => "api_function",
+                                                           :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                                                           :href => url_for(:controller => "irm/api_tools", :action => "permission_data", :format => "json", :function_id => "${api_function}")}) %>
+              </div>
+            </div>
+
+            <!-- 提交方式 -->
+            <!--<div class="control-group">-->
+              <!--<label class="control-label"><%= t(:label_irm_api_tool_method) %>：</label>-->
+
+              <!--<div class="controls">-->
+                <!--<label class="radio">-->
+                  <%#= radio_button_tag "http_method", "GET", true, :class => "api-input" %> <!-- GET -->
+                <!--</label>-->
+                <!--<label class="radio">-->
+                  <%#= radio_button_tag "http_method", "POST", false, :class => "api-input" %> <!-- POST -->
+                <!--</label>-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!-- API 文档 -->
+            <div class="control-group">
+              <label class="control-label"><%= t(:label_irm_api_tool_doc) %>：</label>
+              <div class="control-text">
+                <%= link_to t(:label_irm_api_tool_doc_see), "javascript:void(0);", :class => "action-link", :id=>"api-doc" %>
+              </div>
+            </div>
+            <!-- 提交参数 -->
+            <div class="control-group">
+              <label class="control-label"><%= t(:label_irm_api_tool_params) %>：</label>
+              <div class="controls params-box" id="api_params" href="<%= url_for(:controller => "irm/api_tools", :action => "function_params") %>"></div>
+            </div>
+
+            <!-- 按钮 -->
+            <div class="control-group">
+              <div class="controls actions">
+                <%= link_to t(:label_irm_api_tool_submit), "javascript:void(0);", {:class => "btn btn-success disabled", :id => "api-submit-btn" } %>
+                <%= link_to t(:label_irm_api_tool_back), {:action => "index"}, :class => "btn" %>
+              </div>
+            </div>
+
+        <% end %>
+      </td>
+      <td class="side-content">
+        <dl>
+          <dt><%= t(:label_irm_api_tool_request) %>：</dt>
+          <dd>
+            <textarea id="api-request" rows="5"></textarea>
+          </dd>
+        </dl>
+
+        <dl>
+          <dt><%= t(:label_irm_api_tool_result) %>：</dt>
+          <dd>
+            <textarea id="api-result" rows="15"></textarea>
+          </dd>
+        </dl>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        if ($("#api_function")) {
+            $("#api_function").cascade("#api_permission");
+        }
+        //当API名称发生变化时候刷新其对应的参数
+        $("#api-form input[name='http_method']").bind("click", function(){
+            $("#api-form").attr("method", $(this).val());
+        });
+        $("#api_permission").change(function(){
+            var paramsBox = $("#api_params");
+            if($(this).val()) {
+                var url = paramsBox.attr("href");
+                url += "?rest_api_id=" + $(this).val() + "&_dom_id=api-form";
+                paramsBox.load(url);
+            }else{
+                paramsBox.html("");
+                $("#api-submit-btn").addClass("disabled");
+            }
+        });
+
+        $("#api-doc").bind("click", function(){
+            if($("#api_permission").val()) {
+                openModal("/api_tools/"+$("#api_permission").val()+"/doc");
+            }
+        });
+
+        //调用API操作前处理
+        $("#api-submit-btn").bind("click", function(e){
+            var $this = $(this), $form = $("#api-form");
+
+            if($this.hasClass("disabled")) {
+                return false;
+            }else{
+                var url = $form.attr("action"), method = $form.attr("method");
+
+                var requestMethod = "<%= t(:label_irm_api_tool_request_method) %> : " + method,
+                        requestUrl = "<%= "#{t(:label_irm_api_tool_request_url)}: #{@api_base_url}" %>" + $form.attr("action");
+                $(".api-input", $form).attr("disabled", true);
+                var requestParams = "<%= t(:label_irm_api_tool_request_params) %>: " + $form.serialize();
+                var requestBody = requestMethod + "\r\n" + requestUrl + "\r\n" + requestParams
+                $.ajax({
+                    url: url,
+                    data: $form.serialize(),
+                    type: method,
+                    beforeSend: function(){
+                        $("#api-request").val(requestBody);
+                    },
+                    success: function(data){
+                        $("#api-result").parent().removeClass("error");
+                        $(".api-input", $form).removeAttr("disabled");
+                        $("#api-result").val(JSON.stringify(data, null, 4));
+                    },
+                    error: function() {
+                        $("#api-result").parent().addClass("error");
+                        $("#api-result").val("error!");
+                        $(".api-input", $form).removeAttr("disabled");
+                    }
+                })
+            }
+        });
+    });
+</script>

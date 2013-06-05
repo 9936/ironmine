@@ -17,6 +17,10 @@ class Irm::FunctionGroup < ActiveRecord::Base
 
   query_extend
 
+  scope :with_api, lambda {
+    where("#{table_name}.api_flag=?", 'Y')
+  }
+
   scope :query_by_application_ids,lambda{|application_ids|
     joins("JOIN #{Irm::Tab.table_name} ON #{Irm::Tab.table_name}.function_group_id = #{table_name}.id").
     joins("JOIN #{Irm::ApplicationTab.table_name} ON  #{Irm::ApplicationTab.table_name}.tab_id = #{Irm::Tab.table_name}.id").

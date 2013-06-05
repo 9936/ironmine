@@ -8,6 +8,14 @@ Rails.application.routes.draw do
     match '/rating_configs/create(.:format)' => "rating_configs#create", :via => :post
     match '/rating_configs/get_data(.:format)' => "rating_configs#get_data"
     match '/rating_configs/:id/show(.:format)' => "rating_configs#show", :via => :get
+
+    #api_tools
+    match '/api_tools(/index)(.:format)' => "api_tools#index", :via => :get
+    #match '/api_tools/get_data(.:format)' => "api_tools#get_data", :via => :get
+    match '/api_tools/console(.:format)' => "api_tools#console", :via => :get
+    match '/api_tools/permission_data(.:format)' => "api_tools#permission_data", :via => :get
+    match '/api_tools/function_params(.:format)' => "api_tools#function_params", :via => :get
+    match '/api_tools/:rest_api_id/doc(.:format)' => "api_tools#doc", :via => :get
   end
 
   scope :module => "irm" do

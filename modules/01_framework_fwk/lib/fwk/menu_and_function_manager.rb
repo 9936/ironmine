@@ -150,12 +150,13 @@ module Fwk::MenuAndFunctionManager
         tmp[code.to_sym][:zh] = hash[:zh] if hash[:zh]
         tmp[code.to_sym][:en] = hash[:en] if hash[:en]
         tmp[code.to_sym][:system_flag] = hash[:system_flag] if hash[:system_flag]
+        tmp[code.to_sym][:api_flag] = hash[:api_flag] if hash[:api_flag]
         tmp[code.to_sym][:zone_code] = hash[:zone_code].upcase if hash[:zone_code]
         tmp[code.to_sym][:controller] = hash[:controller] if hash[:controller]
         tmp[code.to_sym][:action] = hash[:action] if hash[:action]
         if hash[:children] and hash[:children].any?
           @function_groups[code.to_sym][:functions] ||= []
-          function_keys = ["code","en","zh","default_flag", "public_flag", "login_flag", "system_flag"]
+          function_keys = ["code","en","zh","default_flag", "public_flag", "login_flag", "system_flag", "api_flag"]
           hash[:children].each do |key, child|
             child[:code] = key.upcase
             child = child.dup
