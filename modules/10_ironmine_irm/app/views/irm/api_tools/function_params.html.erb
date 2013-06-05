@@ -5,7 +5,11 @@
       <td class="key"><%= text_field_tag(p[:id], p[:name], {:disabled => true}) %></td>
       <td>：</td>
       <td class="value">
-        <%= text_field_tag(p[:name], p[:default_value]) %>
+        <% if p[:param_type].eql?("Object") %>
+          <%= text_area_tag(p[:name], p[:default_value], :rows => 4, :placeholder => p[:example_value]) %>
+        <% else %>
+          <%= text_field_tag(p[:name], p[:default_value], :placeholder => p[:example_value]) %>
+        <% end %>
       </td>
       <td class="help">
         <% if p[:description].present? %>
