@@ -4,12 +4,14 @@
     <tr>
       <td class="key"><%= text_field_tag(p[:id], p[:name], {:disabled => true}) %></td>
       <td>：</td>
-      <td class="value"><%= text_field_tag(p[:name], p[:default_value]) %></td>
+      <td class="value">
+        <%= text_field_tag(p[:name], p[:default_value]) %>
+      </td>
       <td class="help">
         <% if p[:description].present? %>
           <% tip_content = p[:description] %>
           <% if tip_content && p[:example_value].present? %>
-            <% tip_content << "#{t(:label_irm_api_tool_params_example)}：#{p[:example_value]}" %>
+            <% tip_content << %Q{#{t(:label_irm_api_tool_params_example)}：#{p[:example_value]}} %>
           <% end %>
           <% if p[:required_flag].eql?('Y') %>
             <abbr class="required" title="<%= t(:required) %>">*</abbr><span title="<%= tip_content %>"><%= t(:label_irm_api_tool_params_help) %></span>
