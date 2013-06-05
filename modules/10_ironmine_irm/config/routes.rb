@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
     #api_tools
     match '/api_tools(/index)(.:format)' => "api_tools#index", :via => :get
-    match '/api_tools/get_data(.:format)' => "api_tools#get_data", :via => :get
+    #match '/api_tools/get_data(.:format)' => "api_tools#get_data", :via => :get
     match '/api_tools/console(.:format)' => "api_tools#console", :via => :get
     match '/api_tools/permission_data(.:format)' => "api_tools#permission_data", :via => :get
     match '/api_tools/function_params(.:format)' => "api_tools#function_params", :via => :get

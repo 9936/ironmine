@@ -1,8 +1,0 @@
-<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-    <% builder.column(:id, {:title => t(:operation), :width => "200px;"}) do |data| %>
-      <%= link_to "#{data[:controller]}/#{data[:action]}", {:action => "doc", :rest_api_id => data[:api_id] },:class => "action-link", :rel => "modal" %>
-    <% end %>
-    <% builder.column(:http_method, {:title => t(:label_irm_api_tool_request_method)}) %>
-    <% builder.column(:name,{:title=>t(:label_irm_tab_name)})%>
-    <% builder.column(:description,{:title=>t(:label_irm_tab_description)})%>
-<% end %>
