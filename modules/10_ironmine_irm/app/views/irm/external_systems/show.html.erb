@@ -324,6 +324,7 @@
 <% end %>
 
 <%= render "/irm/profiles/mini_profile_form" %>
+<%= render :partial => "multilingual/show", :locals => {:main_data => @external_system} %>
 
 <script type="text/javascript">
   function display_select_people(){
