@@ -23,7 +23,7 @@
   <div class="page-block-body">
     <div class="accordion">
       <% @api_functions.each do |api_function| %>
-          <div class="accordion-group">
+          <div class="accordion-group" style="border-left: none; border-right: none;">
             <div class="accordion-heading" style="background-color: #fafafa;">
               <a style="color: #3C7CB3; font-weight: bold;" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%= api_function[:id] %>"><%= api_function[:name] %></a>
             </div>
