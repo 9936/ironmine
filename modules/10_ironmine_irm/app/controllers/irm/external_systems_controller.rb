@@ -92,7 +92,7 @@ class Irm::ExternalSystemsController < ApplicationController
     @external_system.not_auto_mult=true
     respond_to do |format|
       if @external_system.update_attributes(params[:irm_external_system])
-        format.html { redirect_to(@external_system, :notice => 'External system was successfully updated.') }
+        format.html { redirect_to({:action => "show", :id => @external_system.id }, :notice => 'External system was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

@@ -1,4 +1,6 @@
 class Irm::OauthAuthorizeController < ApplicationController
+  skip_before_filter :verify_authenticity_token
+
   #授权码处理
   before_filter :client_where_secret_and_redirect, :find_authorization,:find_authorization_expired
   #刷新密码和密码处理
@@ -54,9 +56,10 @@ class Irm::OauthAuthorizeController < ApplicationController
   def client_where_secret_and_redirect
     if params[:grant_type] == "authorization_code"
       @client = Irm::OauthAccessClient.where(:secret => params[:client_secret]).where(:callback_url=> params[:redirect_uri]).first
+      error_code = "CLIENT_NOT_FOUND"
       message = "label_irm_oauth_client_not_found"
       info = { client_secret: params[:client_secret], client_id: params[:client_id], redirect_uri: params[:redirect_uri] }
-      render_422 message, info unless @client
+      render_422 message, info, error_code unless @client
     end
   end
 
@@ -76,9 +79,10 @@ class Irm::OauthAuthorizeController < ApplicationController
   def find_authorization
     if params[:grant_type] == "authorization_code"
       @authorization = Irm::OauthCode.where(:code => params[:code],:oauth_access_client_id => @client.id).first
+      code = "OAUTH_CODE_UNAVILABLE"
       message = "label_irm_oauth_code_unavailable"
       info = { code: params[:code], client_id: @client.site_url }
-      render_422 message, info unless @authorization
+      render_422 message, info, code unless @authorization
     end
   end
 
@@ -86,18 +90,19 @@ class Irm::OauthAuthorizeController < ApplicationController
   def find_authorization_expired
     if params[:grant_type] == "authorization_code"
       message = "label_irm_oauth_code_expired"
-      #info = { expired_at: @authorization.expire_at, description: distance_of_time_in_words(@authorization.expire_at, Time.now, true) }
+      code = "OAUTH_CODE_EXPIRED"
       info = { expired_at: @authorization.expire_at }
-      render_422 message, info if @authorization.expired?
+      render_422 message, info, code if @authorization.expired?
     end
   end
 
   def client_where_secret
-    if params[:grant_type] == "refresh_token" or params[:grant_type] == "password"
+    if params[:grant_type] == "refresh_token" || params[:grant_type] == "password"
       @client = Irm::OauthAccessClient.where(:site_url => params[:client_id], :secret => params[:client_secret]).first
       message = "label_irm_oauth_client_not_found"
+      code = "CLIENT_NOT_FOUND"
       info = { client_secret: params[:client_secret], client_id:params[:client_id] }
-      render_422 message, info unless @client
+      render_422 message, info, code unless @client
     end
   end
   #根据refresh_token进行查找，并判断当前的刷新令牌是否可用
@@ -105,20 +110,31 @@ class Irm::OauthAuthorizeController < ApplicationController
     if params[:grant_type] == "refresh_token"
       @expired_token = Irm::OauthToken.where(refresh_token: params[:refresh_token]).first
       message = "label_irm_oauth_token_unavailable"
+      code = "TOKEN_UNAVAILABLE"
       info = { token: @expired_token.token }
-      render_422 message, info if @expired_token.nil? or @expired_token.expired?
+      render_422 message, info, code if @expired_token.nil? or @expired_token.expired?
     end
   end
 
   #根据用户名和密码进系查找
   def find_resource_owner
     if params[:grant_type] == "password"
-      #检测密码中含有的安全标记是否匹配
-      params[:password] = get_password_by_security(params[:username], params[:password])
-      @resource_owner = Irm::Person.try_to_login(params[:username], params[:password])
-      message = "label_irm_oauth_username_or_password_error"
+      message = "label_irm_oauth_username_error"
+      code = "USERNAME_ERROR"
+      if params[:password].present?
+        #检测密码中含有的安全标记是否匹配
+        params[:password] = get_password_by_security(params[:username], params[:password])
+        @resource_owner = Irm::Person.try_to_login(params[:username], params[:password])
+        message = "label_irm_oauth_username_or_password_error"
+        code = "USERNAME_OR_PASSWORD_ERROR"
+      elsif @client.inside_flag.eql?('Y') && @client.ip.eql?(request.ip)
+        @resource_owner = Irm::Person.unscoped.where(:login_name => params[:username]).first
+      else
+        @resource_owner = nil
+      end
+
       info = { username: params[:username] }
-      render_422 message, info unless @resource_owner
+      render_422 message, info, code unless @resource_owner
     end
   end
 
@@ -130,8 +146,9 @@ class Irm::OauthAuthorizeController < ApplicationController
     return
   end
 
-  def render_422(message, info)
+  def render_422(message, info, code = nil)
     @message = I18n.t message
+    @code = code
     @info    = info.to_json
     render "422", status: 422
     return
