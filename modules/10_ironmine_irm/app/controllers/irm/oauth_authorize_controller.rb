@@ -1,4 +1,6 @@
 class Irm::OauthAuthorizeController < ApplicationController
+  skip_before_filter :verify_authenticity_token
+
   #授权码处理
   before_filter :client_where_secret_and_redirect, :find_authorization,:find_authorization_expired
   #刷新密码和密码处理
