@@ -4,11 +4,16 @@
         <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
         <%= link_to(t(:delete),{:action=>"destroy",:id=>data[:id]},{:class => "action-link",:back=>true,:method => :delete,:confirm => t(:label_are_you_sure)}) %>
     <% end %>
-    <% builder.column(:code,{:title=>t(:code),:searchable=>true})%>
+    <% builder.column(:app_key,{:title=> t(:label_irm_oauth_access_client_key), :width => "180px"}) do |data|%>
+      <%= data[:id] %>
+    <% end %>
+    <% builder.column(:secret, :title => t(:label_irm_oauth_access_client_secret), :width => "430px") %>
     <% builder.column(:name,{:title=>t(:name),:searchable=>true})%>
+    <% builder.column(:callback_url,{:title=>t(:label_irm_oauth_access_client_callback_url)})%>
     <% builder.column(:inside_flag,{:title=>t(:label_irm_oauth_access_client_inside_flag)}) do |data| %>
       <%= check_img(data[:inside_flag]) %>
     <% end %>
+    <% builder.column(:ip,{:title=>t(:label_irm_oauth_access_client_ip)})%>
     <% builder.column(:description,{:title=>t(:description)})%>
-    <% builder.column(:token,{:title=>t(:label_irm_oauth_access_client_token)})%>
+    <%# builder.column(:token,{:title=>t(:label_irm_oauth_access_client_token)})%>
 <% end %>

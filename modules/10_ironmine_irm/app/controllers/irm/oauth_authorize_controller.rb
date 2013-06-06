@@ -55,7 +55,7 @@ class Irm::OauthAuthorizeController < ApplicationController
 
   def client_where_secret_and_redirect
     if params[:grant_type] == "authorization_code"
-      @client = Irm::OauthAccessClient.where(:secret => params[:client_secret]).where(:callback_url=> params[:redirect_uri]).first
+      @client = Irm::OauthAccessClient.where(:secret => params[:client_secret], :callback_url=> params[:redirect_uri]).first
       error_code = "CLIENT_NOT_FOUND"
       message = "label_irm_oauth_client_not_found"
       info = { client_secret: params[:client_secret], client_id: params[:client_id], redirect_uri: params[:redirect_uri] }
@@ -71,7 +71,8 @@ class Irm::OauthAuthorizeController < ApplicationController
   end
 
   def find_client
-    @client = Irm::OauthAccessClient.where(:site_url => params[:client_id], :callback_url=> params[:redirect_uri]).first
+    @client = Irm::OauthAccessClient.where_url(params[:client_id], params[:redirect_uri]).first
+    #@client = Irm::OauthAccessClient.where(:site_url => params[:client_id], :callback_url=> params[:redirect_uri]).first
     client_not_found unless @client
   end
 
@@ -98,7 +99,9 @@ class Irm::OauthAuthorizeController < ApplicationController
 
   def client_where_secret
     if params[:grant_type] == "refresh_token" || params[:grant_type] == "password"
-      @client = Irm::OauthAccessClient.where(:site_url => params[:client_id], :secret => params[:client_secret]).first
+      @client = Irm::OauthAccessClient.where_secret(params[:client_id], params[:client_secret]).first
+
+      #@client = Irm::OauthAccessClient.where(:site_url => params[:client_id], :secret => params[:client_secret]).first
       message = "label_irm_oauth_client_not_found"
       code = "CLIENT_NOT_FOUND"
       info = { client_secret: params[:client_secret], client_id:params[:client_id] }

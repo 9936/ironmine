@@ -11,6 +11,19 @@ class Irm::OauthAccessClient < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 
+  class << self
+
+    # Filter to the client id(internal identifier) and the redirect uri
+    def where_url(client_id, redirect_url)
+      where(id: client_id,callback_url: redirect_url)
+    end
+
+    # Filter to the client secret and tclient id
+    def where_secret(client_id, secret)
+      where(secret: secret, id: client_id)
+    end
+  end
+
   #随机生成一个32位的token
   def random_token
     self.token = ActiveSupport::SecureRandom.hex(32)
@@ -20,5 +33,7 @@ class Irm::OauthAccessClient < ActiveRecord::Base
   def random_secret
     self.secret = ActiveSupport::SecureRandom.hex(32)
   end
+
+
 
 end

@@ -1940,7 +1940,8 @@ en:
   label_irm_oauth_access_client_site_url: Site URL
   label_irm_oauth_access_client_callback_url: Callback URL
   label_irm_oauth_access_client_token: Token
-  label_irm_oauth_access_client_secret: Secret
+  label_irm_oauth_access_client_key: App key
+  label_irm_oauth_access_client_secret: App secret
   #========================end oauth_access_clients=====================================
 
   #============================== oauth_authorize ======================================

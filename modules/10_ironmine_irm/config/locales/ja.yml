@@ -1818,6 +1818,7 @@ ja:
   label_irm_oauth_access_client_site_url: サイトURL
   label_irm_oauth_access_client_callback_url: URLのコールバック
   label_irm_oauth_access_client_token: しるし
+  label_irm_oauth_access_client_key: App key
   label_irm_oauth_access_client_secret: パースワード
   label_irm_oauth_access_created: 登録日付
   label_irm_oauth_access_updated: 前回のアクセス日付
