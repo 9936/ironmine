@@ -45,7 +45,7 @@ class Skm::ApiEntryHeadersController < ApplicationController
 
   #获取模板
   def get_template_data
-    entry_templates_scope = Skm::EntryTemplate
+    entry_templates_scope = Skm::EntryTemplate.enabled
     entry_templates,count = paginate(entry_templates_scope)
 
     result = {:total_rows => count}
@@ -63,10 +63,12 @@ class Skm::ApiEntryHeadersController < ApplicationController
     end
   end
 
+  #创建知识
   def add
 
   end
 
+  #根据知识id获取知识
   def show
     entry_header = Skm::EntryHeader.list_all.find(params[:id])
     entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
