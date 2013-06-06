@@ -364,7 +364,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "skm/api_entry_headers" => ["add", "show"]
+              "skm/api_entry_headers" => ["get_data", "add", "show"]
           },
 
           #:skm_add_api => {

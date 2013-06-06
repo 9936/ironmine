@@ -223,6 +223,7 @@ Rails.application.routes.draw do
       match '/entry_books/:id/multilingual_update(.:format)' => "entry_books#multilingual_update", :via => :put
 
       #Entry Header API
+      match '/api_entry_headers/get_data' => "api_entry_headers#get_data", :via => :get
       match '/api_entry_headers/add' => "api_entry_headers#add", :via => :post
       match '/api_entry_headers/show' => "api_entry_headers#show", :via => :get
     end
