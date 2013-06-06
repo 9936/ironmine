@@ -48,7 +48,7 @@ class Irm::OauthAuthorizeController < ApplicationController
     end
     #密码进行处理
     if params[:grant_type] == "password"
-      @token = OauthToken.create(client_id: @client.id, user_id: @resource_owner.id)
+      @token = Irm::OauthToken.create(client_id: @client.id, user_id: @resource_owner.id)
     end
   end
 
