@@ -1,14 +1,14 @@
 function openModal(href){
     var modalTitle = $.i18n("loading"),
         modalDialog = $("#linkModal");
-    modalDialog.css({"width": "auto", "margin-left": "-"+modalDialog.width()/2 + "px"});
+
     if(modalDialog.length == 0){
         modalDialog = buildModal();
         $('body').append(modalDialog);
     }else{
         $(".modal-footer", modalDialog).html("");
+        modalDialog.css({"width": "560px", "margin-left": "-280px"});
     }
-
     $(".modal-header h3", modalDialog).text(modalTitle);
     $(".modal-body", modalDialog).html('<div class="loading-circle"></div>');
     modalDialog.modal('show');
@@ -25,8 +25,8 @@ function openModal(href){
                 $form.attr("action", $action);
             });
             //根据modoal的宽度自动进行设置
-            modalDialog.css({"min-width": "560px", "max-width": "1000px", "width": "auto", "margin-left": "-"+modalDialog.width()/2 + "px"});
-//            modalDialog.css("min-width","560px").css("max-width","1000px").css("width", "auto").css("margin-left", "-"+modalDialog.width()/2 + "px");
+            modalDialog.css({"min-width": "560px", "max-width": "1000px", "width": "auto"});
+            modalDialog.css({"margin-left": "-"+modalDialog.width()/2 + "px"})
         });
     }
 }
