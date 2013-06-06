@@ -518,7 +518,9 @@ namespace :irm do
           end
 
           if function_api_flag.eql?("Y") && permission.id.present?
-            Irm::RestApi.delete_all("permission_id = '#{permission.id}'")
+            #Irm::RestApi.delete_all("permission_id = '#{permission.id}'")
+            Irm::RestApi.where("permission_id = '#{permission.id}'").map(&:destroy)
+
             if api_controllers[controller].present? && api_controllers[controller].any?
               api_rest_data = api_controllers[controller][action.to_sym] || api_controllers[controller][action.to_s] || []
 
