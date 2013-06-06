@@ -1,13 +1,14 @@
 function openModal(href){
     var modalTitle = $.i18n("loading"),
         modalDialog = $("#linkModal");
+    modalDialog.css({"width": "auto", "margin-left": "-"+modalDialog.width()/2 + "px"});
     if(modalDialog.length == 0){
         modalDialog = buildModal();
         $('body').append(modalDialog);
     }else{
         $(".modal-footer", modalDialog).html("");
     }
-    modalDialog.css({"max-width": "1000px", "width": "auto", "margin-left": "-"+modalDialog.width()/2 + "px"});
+
     $(".modal-header h3", modalDialog).text(modalTitle);
     $(".modal-body", modalDialog).html('<div class="loading-circle"></div>');
     modalDialog.modal('show');
