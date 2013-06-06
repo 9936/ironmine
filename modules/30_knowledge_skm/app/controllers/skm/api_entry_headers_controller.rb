@@ -43,6 +43,26 @@ class Skm::ApiEntryHeadersController < ApplicationController
 
   end
 
+  #获取模板
+  def get_template_data
+    entry_templates_scope = Skm::EntryTemplate
+    entry_templates,count = paginate(entry_templates_scope)
+
+    result = {:total_rows => count}
+    result[:items] = []
+
+    entry_templates.each do |et|
+      result[:items] << {:id => et.id, :name => et[:name], :description => et[:description]}
+    end
+
+    #根据输出参数进行显示
+    respond_to do |format|
+      format.json {
+        render json: result.to_json
+      }
+    end
+  end
+
   def add
 
   end
