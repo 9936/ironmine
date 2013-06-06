@@ -7,6 +7,7 @@ function openModal(href){
     }else{
         $(".modal-footer", modalDialog).html("");
     }
+    modalDialog.css({"max-width": "1000px", "width": "auto", "margin-left": "-"+modalDialog.width()/2 + "px"});
     $(".modal-header h3", modalDialog).text(modalTitle);
     $(".modal-body", modalDialog).html('<div class="loading-circle"></div>');
     modalDialog.modal('show');
@@ -22,6 +23,9 @@ function openModal(href){
                 $form.data("remote", true);
                 $form.attr("action", $action);
             });
+            //根据modoal的宽度自动进行设置
+            modalDialog.css({"min-width": "560px", "max-width": "1000px", "width": "auto", "margin-left": "-"+modalDialog.width()/2 + "px"});
+//            modalDialog.css("min-width","560px").css("max-width","1000px").css("width", "auto").css("margin-left", "-"+modalDialog.width()/2 + "px");
         });
     }
 }
