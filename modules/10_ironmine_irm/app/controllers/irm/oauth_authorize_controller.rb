@@ -130,7 +130,7 @@ class Irm::OauthAuthorizeController < ApplicationController
         @resource_owner = Irm::Person.try_to_login(params[:username], params[:password])
         message = "label_irm_oauth_username_or_password_error"
         code = "USERNAME_OR_PASSWORD_ERROR"
-      elsif @client.inside_flag.eql?('Y') && @client.ip.eql?(request.ip)
+      elsif @client.inside_flag.eql?('Y') #&& @client.ip.eql?(request.ip)
         @resource_owner = Irm::Person.unscoped.where(:login_name => params[:username]).first
       else
         @resource_owner = nil
