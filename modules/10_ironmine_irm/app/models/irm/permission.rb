@@ -3,6 +3,7 @@ class Irm::Permission < ActiveRecord::Base
 
   
   belongs_to :function
+  has_many :api_params, :foreign_key => :permission_id, :dependent => :destroy
 
   attr_accessor :function_code
 
@@ -14,6 +15,20 @@ class Irm::Permission < ActiveRecord::Base
   query_extend
 
   before_validation :setup_parent
+
+  scope :query_by_function, lambda {|function_id|
+    where("#{table_name}.function_id=?", function_id)
+  }
+
+  scope :with_rest_api, lambda {
+    joins("JOIN #{Irm::RestApi.table_name} api ON api.permission_id=#{table_name}.id").
+        select("#{table_name}.*, api.name, api.description ,api.id api_id, api.method http_method")
+  }
+
+  scope :query_by_rest_api_id, lambda {|rest_api_id|
+    joins("JOIN #{Irm::RestApi.table_name} api ON api.permission_id=#{table_name}.id").
+        where("api.id=?", rest_api_id)
+  }
 
   scope :query_by_function_code,lambda{|function_code|
     joins("JOIN #{Irm::Function.table_name} ON #{table_name}.function_id = #{Irm::Function.table_name}.id").

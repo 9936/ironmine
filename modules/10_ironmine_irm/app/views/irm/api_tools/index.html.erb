@@ -1,0 +1,63 @@
+<%= common_title %>
+<!--页面结构-->
+<style type="text/css">
+  a.action-link {color:#015BA7;}
+</style>
+
+
+
+<div class="page-block" style="background-color: #fff;">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_app_tool_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to({:action => "console"}, :class => "btn btn-success") do %>
+        <i class="icon-wrench icon-white"></i><%= t(:label_irm_api_tool_test) %>
+      <% end %>
+    </td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="accordion">
+      <% @api_functions.each do |api_function| %>
+          <div class="accordion-group" style="border-left: none; border-right: none;">
+            <div class="accordion-heading" style="background-color: #fafafa;">
+              <a style="color: #3C7CB3; font-weight: bold;" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%= api_function[:id] %>"><%= api_function[:name] %></a>
+            </div>
+            <div id="collapse<%= api_function[:id] %>" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                <table class="table table-condensed">
+                  <thead>
+                  <tr>
+                    <th><%= t(:operation) %></th>
+                    <th><%= t(:name) %></th>
+                    <th><%= t(:label_irm_api_tool_request_method) %></th>
+                    <th><%= t(:label_irm_api_tool_request) %></th>
+                    <th><%= t(:description) %></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <% api_function[:rest_apis].each do |p| %>
+                      <tr>
+                        <td style="width: 80px;">
+                          <%= link_to t(:label_irm_api_tool_params), {:action => "doc", :rest_api_id => p[:api_id] }, :class => "action-link", :rel => "modal" %>&nbsp;|
+                          <%= link_to t(:label_irm_api_tool_params_test), {:action => "console", :function_id => p[:function_id], :api_id => p[:api_id]  }, :class => "action-link" %>
+                        </td>
+                        <td><%= p[:name] %></td>
+                        <td><%= p[:http_method] %></td>
+                        <td><%= url_for(:controller => p[:controller], :action => p[:action], :format => "json") %></td>
+                        <td><%= p[:description] %></td>
+                      </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>

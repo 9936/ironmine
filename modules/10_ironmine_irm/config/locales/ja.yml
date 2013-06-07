@@ -1818,6 +1818,7 @@ ja:
   label_irm_oauth_access_client_site_url: サイトURL
   label_irm_oauth_access_client_callback_url: URLのコールバック
   label_irm_oauth_access_client_token: しるし
+  label_irm_oauth_access_client_key: App key
   label_irm_oauth_access_client_secret: パースワード
   label_irm_oauth_access_created: 登録日付
   label_irm_oauth_access_updated: 前回のアクセス日付
@@ -1976,3 +1977,34 @@ ja:
   label_irm_custom_attribute_show_required: Only show required
   label_irm_system_custom_attribute_order_tip: Required fields are always displayed on the front
   #============================== end system setting  ==============================
+
+  #==============================Start Api tools==============================
+  label_irm_api_tool: API document
+  label_irm_api_tool_back: Back to list
+  label_irm_app_tool_list: API list
+  label_irm_api_tool_test: API tool
+  label_irm_api_tool_request: Request
+  label_irm_api_tool_result: Return result
+  label_irm_api_tool_input: Input params
+  label_irm_api_tool_result_format: Result type
+  label_irm_api_tool_type: API classify
+  label_irm_api_tool_name: API name
+  label_irm_api_tool_method: Submit type
+  label_irm_api_tool_doc: API doc
+  label_irm_api_tool_doc_see: Click to get doc
+  label_irm_api_tool_params: API params
+  label_irm_api_tool_params_test: Test
+  label_irm_api_tool_params_help: Explanation
+  label_irm_api_tool_params_example: Example
+  label_irm_api_tool_submit: Call API
+  label_irm_api_tool_request_method: Request type
+  label_irm_api_tool_request_url: Request URL
+  label_irm_api_tool_request_params: Request params
+  label_irm_api_tool_doc_title: Common object data structure
+  label_irm_api_tool_doc_type: Type
+  label_irm_api_tool_doc_required: Required or not
+  label_irm_api_tool_doc_example_vlue: Example value
+  label_irm_api_tool_doc_defalt_vlue: Default value
+  label_irm_api_tool_doc_yes: Yes
+  label_irm_api_tool_doc_no: No
+  #==============================End Api tools==============================

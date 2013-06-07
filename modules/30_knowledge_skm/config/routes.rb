@@ -221,5 +221,13 @@ Rails.application.routes.draw do
       match '/entry_books/:id/remove_entry(.:format)' => "entry_books#remove_entry", :via => :delete
       match '/entry_books/:id/multilingual_edit(.:format)' => "entry_books#multilingual_edit", :via => :get
       match '/entry_books/:id/multilingual_update(.:format)' => "entry_books#multilingual_update", :via => :put
+
+      #Entry Header API
+      match '/api_entry_headers/get_data' => "api_entry_headers#get_data", :via => :get
+      match '/api_entry_headers/get_template_data' => "api_entry_headers#get_template_data", :via => :get
+      match '/api_entry_headers/get_elements' => "api_entry_headers#get_elements", :via => :get
+      match '/api_entry_headers/get_channels' => "api_entry_headers#get_channels", :via => :get
+      match '/api_entry_headers/add' => "api_entry_headers#add", :via => :post
+      match '/api_entry_headers/show' => "api_entry_headers#show", :via => :get
     end
 end

@@ -39,6 +39,22 @@ class Skm::Column < ActiveRecord::Base
     !children.any?
   end
 
+  def api_child_nodes(column_ids = [])
+    child_nodes = []
+    children = Skm::Column.multilingual.where(:parent_column_id => self.id)
+
+    children.each do |c|
+      child_node = {:id=>c.id,:name => c[:name], :description => c[:description], :code => c.column_code, :children => []}
+      child_node[:children] = c.get_child_nodes
+      child_node.delete(:children) if child_node[:children].size == 0
+      child_nodes << child_node
+    end
+
+    child_nodes
+
+  end
+
+
   def get_child_nodes(need_access = false, with_check = "", column_ids = [])
     child_nodes = []
     children = Skm::Column.multilingual.where(:parent_column_id => self.id)

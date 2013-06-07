@@ -2878,6 +2878,29 @@ Fwk::MenuAndFunctionManager.map do |map|
   }
 
 
+  #=================================API TOOLS=================================
+  #=================================START:Irm API=================================
+  map.function_group :api_test_tool, {
+      :en => {:name => "API Tool", :description => "API Tool"},
+      :zh => {:name => "API工具", :description => "API工具"} }
+  map.function_group :api_test_tool, {
+      :zone_code => "API",
+      :controller => "irm/api_tools",
+      :action => "index"
+  }
+  map.function_group :api_test_tool, {
+      :children => {
+          :api_test_tool => {
+              :en => {:name => "API Tool", :description => "API Tool"},
+              :zh => {:name => "API工具", :description => "API工具"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/api_tools" => ["index", "permission_data", "function_params", "doc","console"]
+          }
+      }
+  }
+
 end
 
 
