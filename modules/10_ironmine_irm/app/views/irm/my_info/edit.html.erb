@@ -81,6 +81,7 @@
   <% end %>
     
   <% content_for :form_block_approve do %>
+    <% if false %>
     <table class="form-table">
       <tbody>
            <tr>
@@ -90,7 +91,8 @@
              <td class="data-col"><%=f.check_box :approve_request_mail%></td>
            </tr>
       </tbody>
-    </table>      
+    </table>
+    <% end %>
   <% end %>
   <% content_for :form_buttons  do %>
     <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
