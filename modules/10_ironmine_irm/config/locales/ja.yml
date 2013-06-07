@@ -712,7 +712,7 @@ ja:
   label_irm_person_job_title: 職位
   label_irm_person_vip_flag: VIP
   label_irm_person_support_staff_flag: サポートスタッフ
-  label_irm_person_assignment_availability_flag: 割当利用可能
+  label_irm_person_assignment_availability_flag: 割当可能フラグ
   label_irm_person_security_flag: セキュリティフラグ
   label_irm_person_email_address: メールアドレス
   label_irm_person_home_phone: 家庭電話
@@ -724,7 +724,7 @@ ja:
   label_irm_person_site_group_code: サイトグループ
   label_irm_person_site_code: サイト
   label_irm_person_function_group_code: 機能グループ
-  label_irm_person_avatar: プロフィール写真
+  label_irm_person_avatar: アバターの変更
   label_irm_person_unrestricted_access_flag: 無制限アクセス
   label_irm_person_notification_lang: 通知言語
   label_irm_person_notification_flag: 通知フラグ
@@ -744,7 +744,7 @@ ja:
   label_irm_person_all_support_groups: 全サポートグループ
   label_irm_person_choose_company: 会社の選択
   label_irm_person_info: 個人情報
-  label_irm_person_my_profile: マイ概略
+  label_irm_person_my_profile: 私のプロファイル
   label_irm_person_other_info: その他情報
   label_irm_person_company_access_flag: 会社アクセスするかどうか
   label_irm_person_support_stuff_flag: グループをサポートするかどうか
@@ -753,7 +753,7 @@ ja:
   label_irm_person_avatar: プロフィール写真
   label_irm_person_avatar_new: 新規プロフィール写真のアップロード
   label_irm_person_avatar_crop: プロフィール写真の切り取り
-  label_irm_person_avatar_edit: プロフィール写真 の編集
+  label_irm_person_avatar_edit: プロフィール写真編集
   label_irm_person_avatar_current: 現在プロフィール写真
   label_irm_person_avatar_best_size: 理想サイズ:100px * 100px
   label_irm_person_approve_info: 承認情報
@@ -766,7 +766,7 @@ ja:
   label_irm_person_template_flag: テンプレート
   label_irm_person_profile: プロファイル
   label_irm_person_role: ロール
-  label_irm_person_access_system: システムアクセス可能
+  label_irm_person_access_system: アクセス可能システム
   label_irm_person_add_to_company: 会社に加入
   label_irm_person_add_to_system: 外部システムに追加
   label_irm_person_password_info: パスワードの設定
@@ -1564,7 +1564,7 @@ ja:
   label_irm_profile_manage_lane: レーンの管理
   label_irm_profile_add_lane: レーンの追加
   label_irm_profile_reorder_lane: 再配列
-  label_irm_profile_ir_page_kanban: 事故インデックス看板
+  label_irm_profile_ir_page_kanban: インシデント看板
   label_irm_profile_select_copy_from: 存在したプロファイルをクローンする
   label_irm_profile_existing_profile: 存在したプロファイル
 
@@ -1963,3 +1963,16 @@ ja:
   label_irm_monitor_proces_restart: Restart
   label_irm_monitor_proces_post: Post
   #============================== end process monitor  ==============================
+
+  #============================== start system setting  ==============================
+  label_irm_system: System setting
+  label_irm_system_custom_field: Custom Fields
+  label_irm_system_custom_model_field: %{model_name} Fields
+  label_irm_system_custom_business_object_list: Custom Fields's Business Object List
+  label_irm_system_custom_attribute: System Custom Fields
+  label_irm_custom_attribute: System Custom Fields
+  label_irm_system_custom_attribute_order: Reorder Custom Fields
+  label_irm_custom_attribute_show_all: Show All
+  label_irm_custom_attribute_show_required: Only show required
+  label_irm_system_custom_attribute_order_tip: Required fields are always displayed on the front
+  #============================== end system setting  ==============================
