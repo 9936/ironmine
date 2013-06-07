@@ -48,7 +48,7 @@ module Icm::AssignRulesHelper
           if bo.present?
             attribute = Irm::ObjectAttribute.where("attribute_name=?", k).multilingual.query_by_business_object(bo.id).with_external_system(current_system.id).first
           end
-          html += "#{attribute[:name]} ==> #{v}"
+          html += "#{attribute[:name]} ==> #{v}" if attribute.present?
       end
       if total_count > current_count
         html += " <span class='label' style='line-height:20px;'>#{join_type}</span> <br/>"
