@@ -1013,6 +1013,9 @@ class Skm::EntryHeadersController < ApplicationController
   def new_from_icm_request
     incident_request = Icm::IncidentRequest.list_all.where("#{Icm::IncidentRequest.table_name}.id = ?", params[:request_id]).first()
     template = Skm::EntryTemplate.where(:entry_template_code => "ENTRY_FROM_ICM_REQUEST_" + I18n.locale.to_s.upcase).first()
+    if template.nil
+      template = Skm::EntryTemplate.where(:entry_template_code => "ENTRY_FROM_ICM_REQUEST_EN").first()
+    end
     elements = Skm::EntryTemplateDetail.owned_elements(template.id)
 
     session[:skm_entry_header] = {:entry_title => incident_request.title,

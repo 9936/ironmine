@@ -104,13 +104,14 @@ class Icm::IncidentCategoriesController < ApplicationController
   end
 
   def get_data
+    ulc = {:zh => "gbk", :en => "utf8", :ja => "utf8"}
     if Irm::Person.current.login_name.eql?("ironmine")
-        incident_categories_scope = Icm::IncidentCategory.list_all.order_with_name
+        incident_categories_scope = Icm::IncidentCategory.list_all.order("icm_incident_categories.display_sequence + 0 ASC, CONVERT(icm_incident_categories_tl.name USING #{ulc[Irm::Person.current.language_code.to_sym]}) ASC")
     elsif params[:external_system_name].blank?
-      incident_categories_scope = Icm::IncidentCategory.list_all.order_with_name.
+      incident_categories_scope = Icm::IncidentCategory.list_all.order("icm_incident_categories.display_sequence + 0 ASC, CONVERT(icm_incident_categories_tl.name USING #{ulc[Irm::Person.current.language_code.to_sym]}) ASC").
           query_with_system_ids_and_self(Irm::Person.current.system_ids, Irm::Person.current.id)
     else
-      incident_categories_scope = Icm::IncidentCategory.list_all.order_with_name.
+      incident_categories_scope = Icm::IncidentCategory.list_all.order("icm_incident_categories.display_sequence + 0 ASC, CONVERT(icm_incident_categories_tl.name USING #{ulc[Irm::Person.current.language_code.to_sym]}) ASC").
           query_with_system_ids_and_self_and_name(Irm::Person.current.system_ids, Irm::Person.current.id, params[:external_system_name])
     end
     incident_categories_scope = incident_categories_scope.match_value("#{Icm::IncidentCategoriesTl.table_name}.name",params[:name])
