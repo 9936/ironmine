@@ -16,6 +16,19 @@ Fwk::ApiParamsManager.map do |map|
           ]
       },
 
+      #获取知识类别接口
+      :get_channels => {
+          :name => "知识频道接口",
+          :description => "知识频道接口",
+          :params => [
+              {:name => :id, :classify => [:output], :type => "String", :description => "知识类别ID"},
+              {:name => :name, :classify => [:output], :type => "String", :description => "知识类别名称"},
+              {:name => :description, :classify => [:output], :type => "String", :description => "知识类别描述"},
+              {:name => :code, :classify => [:output], :type => "String", :description => "知识类别编码"},
+              {:name => :children, :classify => [:output], :type => "Object", :description => "知识类别下的子类别"}
+          ]
+      },
+
       #获取知识模板列表
       :get_template_data => {
           :name => "知识模板接口",

@@ -2,6 +2,7 @@ class Skm::ApiEntryHeadersController < ApplicationController
   before_filter :set_return_columns
 
   #获取知识库列表
+  # Request: /api_entry_headers/get_data.json
   def get_data
     if params[:full_search] && params[:full_search].present?
       #全文检索
@@ -44,6 +45,7 @@ class Skm::ApiEntryHeadersController < ApplicationController
   end
 
   #获取模板
+  # Request : /api_entry_headers/get_template_data.json
   def get_template_data
     entry_templates_scope = Skm::EntryTemplate.enabled
     entry_templates,count = paginate(entry_templates_scope)
@@ -63,16 +65,40 @@ class Skm::ApiEntryHeadersController < ApplicationController
     end
   end
 
+  #获取知识类别
+  #Request: /api_entry_headers/get_channels.json
+  def get_channels
+    tree_nodes = []
+    column_ids = Skm::Column.current_person_accessible_columns
+    skm_columns = Skm::Column.multilingual.where("parent_column_id IS NULL OR LENGTH(parent_column_id) = 0")
+    skm_columns.each do |sc|
+      sc_node = {:id => sc.id, :name => sc[:name], :description => sc[:description], :code => sc.column_code, :children=>[] }
+
+      sc_node[:children] = sc.api_child_nodes(column_ids)
+      sc_node.delete(:children) if sc_node[:children].size == 0
+
+      tree_nodes << sc_node
+    end
+    #根据输出参数进行显示
+    respond_to do |format|
+      format.json {
+        render json: tree_nodes.to_json#(:only => @return_columns)
+      }
+    end
+
+  end
+
   #创建知识
+  #Request: /api_entry_headers/add.json
   def add
 
   end
 
   #根据知识id获取知识
+  #Request: /api_entry_headers/show.json
   def show
     entry_header = Skm::EntryHeader.list_all.find(params[:id])
     entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
-
 
     #根据输出参数进行显示
     respond_to do |format|
@@ -81,6 +107,7 @@ class Skm::ApiEntryHeadersController < ApplicationController
       }
     end
   end
+
   private
 
     def set_return_columns
