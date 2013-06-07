@@ -53,7 +53,8 @@ class Icm::AssignRule < ActiveRecord::Base
         value = value_str.strip.split("#")
         self.group_assignments.create(:source_type=>value[0],:source_id=>value[1], :custom_str => custom_str)
       end
-    elsif custom_str.present?
+    end
+    if custom_str.present?
       self.group_assignments.create(:source_type=> 0, :source_id=> 0, :custom_str => custom_str)
     end
   end
