@@ -36,17 +36,18 @@ class Htc::HitachiTicketStatisReport < Irm::ReportManager::ReportBase
 
 
     hour_maintainance = Icm::IncidentRequest.
-        where("incident_status_id IN (?) AND (cux_resolve_hours IS NULL OR (attribute1 LIKE ? AND (sattribute17 IS NULL OR sattribute19 IS NULL OR sattribute18 IS NULL OR sattribute20 IS NULL)))",
-              close_status, "%System Bug%").
-        where("NOT EXISTS (SELECT * FROM icm_incident_journals ij WHERE ij.incident_request_id = icm_incident_requests.id AND ij.reply_type = ? AND ij.created_at < ?)",
+        where(%Q(incident_status_id IN (?) AND
+                  (LENGTH(cux_resolve_hours) = 0 OR
+                    (attribute1 LIKE ? AND (LENGTH(sattribute17) = 0 OR LENGTH(sattribute19) = 0 OR LENGTH(sattribute18) = 0 OR LENGTH(sattribute20) = 0)))),close_status, "%System Bug%").
+        where("EXISTS (SELECT * FROM icm_incident_journals ij WHERE ij.incident_request_id = icm_incident_requests.id AND ij.reply_type = ? AND ij.created_at >= ?)",
               "CLOSE", Date.strptime("2012-11-01", '%Y-%m-%d')).
         select("count(1) hour_maintainance")
 
     root_cause = Icm::IncidentRequest.
         where("incident_status_id IN (?)", close_status).
-        where("NOT EXISTS (SELECT * FROM icm_incident_journals ij WHERE ij.incident_request_id = icm_incident_requests.id AND ij.reply_type = ? AND ij.created_at < ?)",
+        where("EXISTS (SELECT * FROM icm_incident_journals ij WHERE ij.incident_request_id = icm_incident_requests.id AND ij.reply_type = ? AND ij.created_at >= ?)",
               "CLOSE", Date.strptime("2013-03-01", '%Y-%m-%d')).
-        where("attribute1 IS NULL").
+        where("LENGTH(attribute1) = 0").
         select("count(1) root_cause")
 
     datas = []
