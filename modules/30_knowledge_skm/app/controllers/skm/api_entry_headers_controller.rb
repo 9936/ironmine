@@ -65,6 +65,24 @@ class Skm::ApiEntryHeadersController < ApplicationController
     end
   end
 
+  #获取模板元素
+  #Request: /api_entry_headers/get_elements.json
+  def get_elements
+    entry_elements = Skm::EntryTemplateElement.with_template(params[:template_id])
+
+    result = []
+    entry_elements.each do |e|
+      result << {:id => e.id, :name => e[:name], :description => e[:description], :required => e[:detail_required_flag], :rows_num => e[:detail_rows] }
+    end
+    #根据输出参数进行显示
+    respond_to do |format|
+      format.json {
+        render json: result.to_json(:only => @return_columns)
+      }
+    end
+
+  end
+
   #获取知识类别
   #Request: /api_entry_headers/get_channels.json
   def get_channels

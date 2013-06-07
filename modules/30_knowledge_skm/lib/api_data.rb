@@ -41,6 +41,21 @@ Fwk::ApiParamsManager.map do |map|
           ]
       },
 
+      #获取知识模板下对应的元素信息
+      :get_elements => {
+          :name => "模板元素接口",
+          :description => "模板元素接口",
+          :params => [
+              {:name => :template_id, :classify => [:input], :type => "String", :required => "Y", :description => "知识模板ID"},
+              {:name => :id, :classify => [:output], :type => "String", :description => "模板元素ID"},
+              {:name => :name, :classify => [:output], :type => "String", :description => "模板元素名称"},
+              {:name => :description, :classify => [:output], :type => "String", :description => "模板元素描述"},
+              {:name => :required, :classify => [:output], :type => "String", :description => "是否必填"},
+              {:name => :rows_num, :classify => [:output], :type => "Number", :description => "默认显示行数"},
+          ]
+      },
+
+      #添加知识文章
       :add => {
           :name => "创建知识接口",
           :description => "创建知识接口",
@@ -53,6 +68,8 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :content,:classify => [:input,:output], :type => "Object",:example_value => '{"contents:"[{"element_id_1:" "Please write content1 here" }, {"element_id_2:" "Please write content2 here" }, ... , {"element_N:", "Please write contentN here"}]', :required => "Y", :description => "知识库内容"}
           ],
       },
+
+      #查看知识
       :show => {
           :name => "查看知识接口",
           :description => "查看知识接口",
