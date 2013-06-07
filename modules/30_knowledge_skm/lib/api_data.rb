@@ -17,7 +17,7 @@ Fwk::ApiParamsManager.map do |map|
       },
 
       #获取知识类别接口
-      :get_channels => {
+      :get_columns => {
           :name => "知识类别接口",
           :description => "知识类别接口",
           :params => [
@@ -26,6 +26,18 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :description, :classify => [:output], :type => "String", :description => "知识类别描述"},
               {:name => :code, :classify => [:output], :type => "String", :description => "知识类别编码"},
               {:name => :children, :classify => [:output], :type => "Object", :description => "知识类别下的子类别"}
+          ]
+      },
+
+      #获取知识频道接口
+      :get_channels => {
+          :name => "知识频道接口",
+          :description => "知识频道接口",
+          :params => [
+              {:name => :start, :classify => [:input], :type => "Number", :required => "Y", :default_value => 0, :description => "用于分页，从第几条记录开始"},
+              {:name => :limit, :classify => [:input], :type => "Number", :required => "Y", :default_value => 10, :description => "每页显示记录数"},
+              {:name => :total_rows, :classify => [:output], :type => "Number", :default_value => 0, :description => "记录总数"},
+              {:name => :items, :classify => [:output], :type => "Object", :description => "频道列表，包括(id: 频道ID,code: 频道编码, name: 频道名称, description: 频道说明"}
           ]
       },
 
@@ -65,7 +77,7 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :entry_title, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章标题"},
               {:name => :keyword_tags, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章关键字"},
               {:name => :channel_id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章频道"},
-              {:name => :content,:classify => [:input,:output], :type => "Object",:example_value => '{"contents:"[{"element_id_1:" "Please write content1 here" }, {"element_id_2:" "Please write content2 here" }, ... , {"element_N:", "Please write contentN here"}]', :required => "Y", :description => "知识库内容"}
+              {:name => :content,:classify => [:input,:output], :type => "Object",:example_value => '', :required => "Y", :description => "知识库内容"}
           ],
       },
 

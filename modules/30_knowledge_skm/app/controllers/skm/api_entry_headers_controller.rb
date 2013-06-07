@@ -72,7 +72,7 @@ class Skm::ApiEntryHeadersController < ApplicationController
 
     result = []
     entry_elements.each do |e|
-      result << {:id => e.id, :name => e[:name], :description => e[:description], :required => e[:detail_required_flag], :rows_num => e[:detail_rows] }
+      result << {:id => e[:detail_id], :name => e[:name], :description => e[:description], :required => e[:detail_required_flag], :rows_num => e[:detail_rows] }
     end
     #根据输出参数进行显示
     respond_to do |format|
@@ -84,8 +84,8 @@ class Skm::ApiEntryHeadersController < ApplicationController
   end
 
   #获取知识类别
-  #Request: /api_entry_headers/get_channels.json
-  def get_channels
+  #Request: /api_entry_headers/get_columns.json
+  def get_columns
     tree_nodes = []
     column_ids = Skm::Column.current_person_accessible_columns
     skm_columns = Skm::Column.multilingual.where("parent_column_id IS NULL OR LENGTH(parent_column_id) = 0")
@@ -106,9 +106,44 @@ class Skm::ApiEntryHeadersController < ApplicationController
 
   end
 
+  #获取知识库频道
+  #Request
+  def get_channels
+    channel_scope = Skm::Channel.query_by_person(Irm::Person.current.id)
+    channels,count = paginate(channel_scope)
+
+    result = {:total_rows => count}
+    result[:items] = []
+    channels.each do |c|
+      result[:items] << {:id => c.id, :code => c[:channel_code], :name => c[:name], :description => c[:description]}
+    end
+
+    #根据输出参数进行显示
+    respond_to do |format|
+      format.json {
+        render json: result.to_json
+      }
+    end
+  end
+
   #创建知识
   #Request: /api_entry_headers/add.json
+  #"entry_template_id"=>"", "entry_title"=>"", "keyword_tags"=>"", "channel_id"=>"", "content"=>"[\r\n{\"模板元素ID\"=>\"模板元素内容\"}, \r\n{\"模板元素ID\"=>\"模板元素内容\"},\r\n{ \"模板元素ID\"=>模板元素内容\"}\r\n]"}
   def add
+    entry_header = Skm::EntryHeader.new(:entry_template_id => params[:entry_template_id],
+                                        :entry_title => params[:entry_title],
+                                        :keyword_tags => params[:keyword_tags],
+                                        :channel_id => params[:channel_id])
+    puts "==============#{params[:content]}==================="
+    if params[:content].present?
+      content_obj = eval(params[:content])
+      entry_elements = Skm::EntryTemplateElement.with_template(params[:template_id]).index_by(&:detail_id)
+      puts "==================#{entry_elements}===================="
+      content_obj.each do |d|
+        entry_header.entry_details.build
+      end
+
+    end
 
   end
 

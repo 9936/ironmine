@@ -227,6 +227,7 @@ Rails.application.routes.draw do
       match '/api_entry_headers/get_template_data' => "api_entry_headers#get_template_data", :via => :get
       match '/api_entry_headers/get_elements' => "api_entry_headers#get_elements", :via => :get
       match '/api_entry_headers/get_channels' => "api_entry_headers#get_channels", :via => :get
+      match '/api_entry_headers/get_columns' => "api_entry_headers#get_columns", :via => :get
       match '/api_entry_headers/add' => "api_entry_headers#add", :via => :post
       match '/api_entry_headers/show' => "api_entry_headers#show", :via => :get
     end
