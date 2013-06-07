@@ -18,8 +18,8 @@ Fwk::ApiParamsManager.map do |map|
 
       #获取知识类别接口
       :get_channels => {
-          :name => "知识频道接口",
-          :description => "知识频道接口",
+          :name => "知识类别接口",
+          :description => "知识类别接口",
           :params => [
               {:name => :id, :classify => [:output], :type => "String", :description => "知识类别ID"},
               {:name => :name, :classify => [:output], :type => "String", :description => "知识类别名称"},
