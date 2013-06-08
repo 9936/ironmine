@@ -1,4 +1,4 @@
-Raphael.fn.connection = function (obj1, obj2, id) {
+Raphael.fn.connection = function (obj1, obj2, id, color) {
     var bb1 = obj1.getBBox(),
         bb2 = obj2.getBBox(),
         p = [{x: bb1.x + bb1.width / 2, y: bb1.y - 1},
@@ -31,8 +31,7 @@ Raphael.fn.connection = function (obj1, obj2, id) {
         y4 = p[res[1]].y,
         dx = Math.max(Math.abs(x1 - x4) / 2, 10),
         dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-
-    var color = Raphael.getColor();
+    if(!color) var color = Raphael.getColor();
 
     var star = ["M", x4, y4, "l", 10, 18, "l", -20, 0, "l", 10, -18, "M", x4, y4 + 18, "l", 0, 10];
     //判断箭头的方向

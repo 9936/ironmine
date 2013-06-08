@@ -1,0 +1,230 @@
+<% require_jscss([:raphael]) %>
+<style type="text/css">
+    .models-page-block {
+        padding: 0;
+        margin: auto;
+    }
+
+    table.split-table .side-bar {
+        padding-top: 10px;
+        padding-right: 15px;
+        width: 20%;
+        /*min-height: 400px;*/
+        border-right: 1px solid #ccc;
+    }
+
+    table.split-table .side-content {
+        padding: 5px 20px;
+        position: relative;
+    }
+    table.split-table .side-content h3 {
+        display: block;
+        padding-left: 10px;
+        border-bottom: 1px solid #E5E5E5;
+    }
+    .accordion-group .accordion-heading {
+        background-color: #fafafa;
+    }
+    .accordion-group .accordion-heading a {
+        color: #3C7CB3;
+        font-weight: bold;
+    }
+    .accordion-group .accordion-inner {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    .accordion-group .accordion-inner ul {
+        margin-left: 5px;
+    }
+    .accordion-group .accordion-inner ul li {
+        line-height: 18px;
+        padding: 5px 5px 5px 10px;
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        list-style: none;
+    }
+    .accordion-group .accordion-inner ul li:hover {
+        background-color:#eee;
+        cursor: pointer;
+    }
+
+    .accordion-group .accordion-inner ul li.active {
+        background-color: #0088cc;
+        color: #fff;
+    }
+
+    .loading-middle {position: absolute; top: 50px; left: 40px; }
+
+    .entity-container {
+        /*padding: 100px;*/
+    }
+    table.entity {
+        border: 2px solid #ccc;
+        border-collapse: collapse;
+        min-width: 150px;
+        max-width: 250px;
+        position: absolute;
+    }
+    table.entity td { line-height: 20px; border-bottom: 1px dotted #ccc; padding: 3px; }
+    table.entity td.data-label { text-align: right; }
+    table.entity td.data-value {
+        font-weight: bold;
+        text-align: left;
+    }
+
+
+    .entity caption {
+        font-weight: bold;
+        border: 2px solid #ccc;
+        border-bottom: 0;
+        padding: 6px;
+        font-size: 14px;
+    }
+    .entity caption:hover {
+        cursor: move;
+    }
+
+</style>
+<div class="models-page-block">
+  <table class="split-table">
+    <tr>
+      <td class="side-bar">
+        <div class="accordion">
+          <% @group_models.keys.each do |key| %>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= key %>"><%= key.to_s.camelize %></a>
+              </div>
+              <div id="collapse-<%= key %>" class="accordion-body collapse <%= @group_models.keys.first.eql?(key)? "in" : "" %>">
+                <div class="accordion-inner">
+                  <ul>
+                    <% @group_models[key].sort_by(&:first).each do |model_name| %>
+                      <li><%= "#{key.to_s.camelize}::#{model_name}" %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </td>
+      <td class="side-content">
+        <div id="entity-box">
+          <h3>Irm::Person</h3>
+          <!--<div class="loading-circle loading-middle"></div>-->
+          <div class="entity-container" id="entity-container">
+            <table class="entity">
+              <caption>irm_people</caption>
+              <tbody>
+                <tr>
+                  <td class="data-label">Model:</td>
+                  <td class="data-value">Irm::Person</td>
+                </tr>
+                <tr>
+                  <td class="data-label">has_many:</td>
+                  <td class="data-value">external_system_people</td>
+                </tr>
+                <tr>
+                  <td class="data-label">has_many:</td>
+                  <td class="data-value">external_systems</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="entity">
+              <caption>irm_people</caption>
+              <tbody>
+              <tr>
+                <td class="data-label">Model:</td>
+                <td class="data-value">Irm::Person</td>
+              </tr>
+              <tr>
+                <td class="data-label">has_many:</td>
+                <td class="data-value">external_system_people</td>
+              </tr>
+              <tr>
+                <td class="data-label">has_many:</td>
+                <td class="data-value">external_systems</td>
+              </tr>
+              </tbody>
+            </table>
+
+            <table class="entity">
+              <caption>irm_people</caption>
+              <tbody>
+              <tr>
+                <td class="data-label">Model:</td>
+                <td class="data-value">Irm::Person</td>
+              </tr>
+              <tr>
+                <td class="data-label">has_many:</td>
+                <td class="data-value">external_system_people</td>
+              </tr>
+              <tr>
+                <td class="data-label">has_many:</td>
+                <td class="data-value">external_systems</td>
+              </tr>
+              </tbody>
+            </table>
+
+            <table class="entity">
+              <caption>irm_people</caption>
+              <tbody>
+              <tr>
+                <td class="data-label">Model:</td>
+                <td class="data-value">Irm::Person</td>
+              </tr>
+              <tr>
+                <td class="data-label">has_many:</td>
+                <td class="data-value">external_system_people</td>
+              </tr>
+              <tr>
+                <td class="data-label">has_many:</td>
+                <td class="data-value">external_systems</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+     $(".accordion-inner ul li").bind("click", function(e){
+         var $this = $(this);
+         $(".accordion-inner ul li").removeClass("active");
+         $this.addClass("active");
+     });
+
+     //运用Raphael画出关系模型
+      //创建绘图对象
+      var r = Raphael("entity-container", 800, 800);
+      //绘制节点
+      var entities = [],
+          nodes = $("table.entity");
+
+      var angle = 0, node_index = 0;
+      while (angle < 360) {
+          var current_node = $(nodes[node_index]);
+          var x = Math.sin(Raphael.rad(angle)) * 310;
+          var y = Math.cos(Raphael.rad(angle)) * 310;
+//          var color = Raphael.getColor();
+
+          current_node.css({"left":(420 - x) + "px", "top": (400 + y) + "px" });
+          var entity = r.rect(420 - x - 18, 400 + y - 31, current_node.width(), current_node.height()).attr({stroke:"#ccc", fill:"none", "fill-opacity":.4, "cursor": "pointer"});
+          entities.push(entity);
+          node_index += 1;
+          angle += 360 / nodes.length;
+      }
+
+      r.connection(entities[0], entities[1]);
+      r.connection(entities[0], entities[2]);
+      r.connection(entities[0], entities[3]);
+  })
+</script>
