@@ -208,7 +208,7 @@
               var x = Math.sin(Raphael.rad(angle)) * 310, y = Math.cos(Raphael.rad(angle)) * 310;
 
               current_node.css({"left":(500 - x - w/2) + "px", "top": (400 + y - h/2) + "px" });
-              entity = r.rect(500 - x - 18 - w/2, 400 + y - 31 - h/2, w, h).attr({stroke:"#fff", fill:"none", "fill-opacity":.4, "cursor": "pointer"});
+              var entity = r.rect(500 - x - 18 - w/2, 400 + y - 31 - h/2, w, h).attr({stroke:"#fff", fill:"none", "fill-opacity":.4, "cursor": "pointer"});
               angle += 360 / (nodes.length - 1);
 
               if(current_node.attr("relation") == 'from') {
