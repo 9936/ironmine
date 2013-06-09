@@ -54,7 +54,6 @@
         color: #fff;
     }
 
-    .loading-middle {position: absolute; top: 50px; left: 40px; }
 
     .entity-container {
         /*padding: 100px;*/
@@ -109,85 +108,10 @@
           <% end %>
         </div>
       </td>
-      <td class="side-content">
+      <td class="side-content" id="side-content">
         <div id="entity-box">
-          <h3>Irm::Person</h3>
-          <!--<div class="loading-circle loading-middle"></div>-->
-          <div class="entity-container" id="entity-container">
-            <table class="entity">
-              <caption>irm_people</caption>
-              <tbody>
-                <tr>
-                  <td class="data-label">Model:</td>
-                  <td class="data-value">Irm::Person</td>
-                </tr>
-                <tr>
-                  <td class="data-label">has_many:</td>
-                  <td class="data-value">external_system_people</td>
-                </tr>
-                <tr>
-                  <td class="data-label">has_many:</td>
-                  <td class="data-value">external_systems</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <table class="entity">
-              <caption>irm_people</caption>
-              <tbody>
-              <tr>
-                <td class="data-label">Model:</td>
-                <td class="data-value">Irm::Person</td>
-              </tr>
-              <tr>
-                <td class="data-label">has_many:</td>
-                <td class="data-value">external_system_people</td>
-              </tr>
-              <tr>
-                <td class="data-label">has_many:</td>
-                <td class="data-value">external_systems</td>
-              </tr>
-              </tbody>
-            </table>
-
-            <table class="entity">
-              <caption>irm_people</caption>
-              <tbody>
-              <tr>
-                <td class="data-label">Model:</td>
-                <td class="data-value">Irm::Person</td>
-              </tr>
-              <tr>
-                <td class="data-label">has_many:</td>
-                <td class="data-value">external_system_people</td>
-              </tr>
-              <tr>
-                <td class="data-label">has_many:</td>
-                <td class="data-value">external_systems</td>
-              </tr>
-              </tbody>
-            </table>
-
-            <table class="entity">
-              <caption>irm_people</caption>
-              <tbody>
-              <tr>
-                <td class="data-label">Model:</td>
-                <td class="data-value">Irm::Person</td>
-              </tr>
-              <tr>
-                <td class="data-label">has_many:</td>
-                <td class="data-value">external_system_people</td>
-              </tr>
-              <tr>
-                <td class="data-label">has_many:</td>
-                <td class="data-value">external_systems</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-
-
+          <h3></h3>
+          <div class="entity-container" id="entity-container"></div>
         </div>
       </td>
     </tr>
@@ -196,35 +120,114 @@
 
 <script type="text/javascript">
   $(function(){
+     var template = '<table class="entity"><caption class="table-name"></caption><tbody><tr><td class="data-label">Model:</td><td class="data-value model-name"></td></tr></tbody></table>';
+
+
      $(".accordion-inner ul li").bind("click", function(e){
-         var $this = $(this);
+         var $this = $(this),
+             $entityContainer = $("#entity-container");
          $(".accordion-inner ul li").removeClass("active");
          $this.addClass("active");
+         $entityContainer.html("");
+         $("#entity-box h3").text($this.text());
+         $.ajax({
+             url: "/model_associations/" + $this.text() + "/get_data.json?_dom_id=side-content",
+             type: "get",
+             success: function(data){
+                 if(data) {
+                     //创建节点本身
+                     var node = $(template), nodeContent = $("tbody:first", node);
+                     $(".table-name", node).html(data.table_name);
+                     $(".model-name", nodeContent).html(data.class_name);
+                     for(var i=0; i<data.has_many.length; i++) {
+                         nodeContent.append("<tr><td class='data-label'>has-many:</td><td class='data-value'>" + data.has_many[i].name + "</td></tr>");
+                     }
+                     for(var i=0; i<data.belongs_to.length; i++) {
+                         nodeContent.append("<tr><td class='data-label'>belongs_to:</td><td class='data-value'>" + data.belongs_to[i].name + "</td></tr>");
+                     }
+                     $entityContainer.append(node);
+
+                     //创建has-many节点
+                     for(var i=0; i<data.has_many.length; i++) {
+                         var node = $(template), nodeData = data.has_many[i], nodeContent = $("tbody:first", node);
+                         node.attr("relation", "from").attr("id", nodeData.table_name);
+                         $(".table-name", node).html(nodeData.table_name);
+                         $(".model-name", nodeContent).html(nodeData.class_name);
+                         for(var j=0; j<nodeData.has_many.length; j++) {
+                             nodeContent.append("<tr><td class='data-label'>has_many:</td><td class='data-value'>" + nodeData.has_many[j].name + "</td></tr>");
+                         }
+                         for(var j=0; j<nodeData.belongs_to.length; j++){
+                             nodeContent.append("<tr><td class='data-label'>belongs_to:</td><td class='data-value'>" + nodeData.belongs_to[j].name + "</td></tr>");
+                         }
+                         $entityContainer.append(node);
+                     }
+                     //创建belongs_to节点
+                     for(var i=0; i<data.belongs_to.length; i++) {
+                         var node = $(template), nodeData = data.belongs_to[i], nodeContent = $("tbody:first", node);
+                         node.attr("relation", "to").attr("id", nodeData.table_name);
+                         $(".table-name", node).html(nodeData.table_name);
+                         $(".model-name", nodeContent).html(nodeData.class_name);
+                         for(var j=0; j<nodeData.has_many.length; j++) {
+                             nodeContent.append("<tr><td class='data-label'>has_many:</td><td class='data-value'>" + nodeData.has_many[j].name + "</td></tr>");
+                         }
+                         for(var j=0; j<nodeData.belongs_to.length; j++){
+                             nodeContent.append("<tr><td class='data-label'>belongs_to:</td><td class='data-value'>" + nodeData.belongs_to[j].name + "</td></tr>");
+                         }
+                         $entityContainer.append(node);
+                     }
+                     drawAssociations();
+                 }
+
+             }
+         })
      });
+     $(".accordion-inner ul li:first").trigger("click");
 
      //运用Raphael画出关系模型
-      //创建绘图对象
-      var r = Raphael("entity-container", 800, 800);
-      //绘制节点
-      var entities = [],
-          nodes = $("table.entity");
+     //创建绘图对象
 
-      var angle = 0, node_index = 0;
-      while (angle < 360) {
-          var current_node = $(nodes[node_index]);
-          var x = Math.sin(Raphael.rad(angle)) * 310;
-          var y = Math.cos(Raphael.rad(angle)) * 310;
-//          var color = Raphael.getColor();
 
-          current_node.css({"left":(420 - x) + "px", "top": (400 + y) + "px" });
-          var entity = r.rect(420 - x - 18, 400 + y - 31, current_node.width(), current_node.height()).attr({stroke:"#ccc", fill:"none", "fill-opacity":.4, "cursor": "pointer"});
-          entities.push(entity);
+      function drawAssociations(){
+          var r = Raphael("entity-container", 800, 800);
+          //绘制节点
+          var entities_from = [], nodes = $("table.entity"), entities_to = [];
+
+          var angle = 90, node_index = 0;
+          //设置当前节点以(420, 400)为圆心
+          var current_node = $(nodes[node_index]),
+                  w = current_node.width(),
+                  h = current_node.height();
+          current_node.css({"left":(520 - w/2) + "px", "top": (400  - h/2) + "px" });
+          var target_entity = r.rect(520 - 18 - w/2, 400 - 31 - h/2, w, h).attr({stroke:"#fff", fill:"none", "fill-opacity":.4, "cursor": "pointer"});
+
           node_index += 1;
-          angle += 360 / nodes.length;
-      }
 
-      r.connection(entities[0], entities[1]);
-      r.connection(entities[0], entities[2]);
-      r.connection(entities[0], entities[3]);
+          while (angle < 450) {
+              current_node = $(nodes[node_index]);
+              w = current_node.width();
+              h = current_node.height();
+              var x = Math.sin(Raphael.rad(angle)) * 310, y = Math.cos(Raphael.rad(angle)) * 310;
+
+
+              current_node.css({"left":(500 - x - w/2) + "px", "top": (400 + y - h/2) + "px" });
+              entity = r.rect(500 - x - 18 - w/2, 400 + y - 31 - h/2, w, h).attr({stroke:"#fff", fill:"none", "fill-opacity":.4, "cursor": "pointer"});
+              angle += 360 / (nodes.length - 1);
+
+              if(current_node.attr("relation") == 'from') {
+                  entities_from.push(entity);
+              } else if (current_node.attr("relation") == 'to') {
+                 entities_to.push(entity)
+              }
+
+              node_index += 1;
+          }
+          //创建连接
+          for(var i=0; i<entities_from.length; i++){
+              r.connection(entities_from[i], target_entity , null, "#ccc");
+          }
+          for(var i=0; i<entities_to.length; i++){
+              r.connection(target_entity, entities_to[i],  null, "#ccc");
+          }
+      }
   })
 </script>

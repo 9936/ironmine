@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
     #models_associations
     match '/model_associations(/index)(.:format)' => "model_associations#index", :via => :get
-    match '/model_associations/:class_name/model_associations(.:format)' => "model_associations#model_associations", :via => :get
+    match '/model_associations/:class_name/get_data(.:format)' => "model_associations#get_data", :via => :get
   end
 
   scope :module => "irm" do
