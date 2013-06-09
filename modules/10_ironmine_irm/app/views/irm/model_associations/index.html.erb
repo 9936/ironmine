@@ -81,7 +81,7 @@
         font-size: 14px;
     }
     .entity caption:hover {
-        cursor: move;
+        cursor: pointer;
     }
 
 </style>
@@ -98,7 +98,7 @@
               <div id="collapse-<%= key %>" class="accordion-body collapse <%= @group_models.keys.first.eql?(key)? "in" : "" %>">
                 <div class="accordion-inner">
                   <ul>
-                    <% @group_models[key].sort_by(&:first).each do |model_name| %>
+                    <% @group_models[key].sort{ |a,b| a.to_s.downcase <=> b.to_s.downcase }.each do |model_name| %>
                       <li><%= "#{key.to_s.camelize}::#{model_name}" %></li>
                     <% end %>
                   </ul>
@@ -111,7 +111,7 @@
       <td class="side-content" id="side-content">
         <div id="entity-box">
           <h3></h3>
-          <div class="entity-container" id="entity-container"></div>
+          <div class="entity-container" id="entity-container" style="z-index: 9999;"></div>
         </div>
       </td>
     </tr>
@@ -193,13 +193,12 @@
           var entities_from = [], nodes = $("table.entity"), entities_to = [];
 
           var angle = 90, node_index = 0;
-          //设置当前节点以(420, 400)为圆心
+          //设置当前节点以(520, 400)为圆心
           var current_node = $(nodes[node_index]),
-                  w = current_node.width(),
-                  h = current_node.height();
+              w = current_node.width(),
+              h = current_node.height();
           current_node.css({"left":(520 - w/2) + "px", "top": (400  - h/2) + "px" });
-          var target_entity = r.rect(520 - 18 - w/2, 400 - 31 - h/2, w, h).attr({stroke:"#fff", fill:"none", "fill-opacity":.4, "cursor": "pointer"});
-
+          var target_entity = r.rect(520 - 18 - w/2, 400 - 31 - h/2, w, h).attr({stroke:"#fff", fill:"#fff", "fill-opacity":.4, "cursor": "pointer"});
           node_index += 1;
 
           while (angle < 450) {
@@ -207,7 +206,6 @@
               w = current_node.width();
               h = current_node.height();
               var x = Math.sin(Raphael.rad(angle)) * 310, y = Math.cos(Raphael.rad(angle)) * 310;
-
 
               current_node.css({"left":(500 - x - w/2) + "px", "top": (400 + y - h/2) + "px" });
               entity = r.rect(500 - x - 18 - w/2, 400 + y - 31 - h/2, w, h).attr({stroke:"#fff", fill:"none", "fill-opacity":.4, "cursor": "pointer"});

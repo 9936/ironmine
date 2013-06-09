@@ -38,8 +38,6 @@ class Irm::ModelAssociationsController < ApplicationController
             result[:has_many] << child
           end
 
-
-
         end
 
       rescue
