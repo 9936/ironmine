@@ -16,6 +16,10 @@ Rails.application.routes.draw do
     match '/api_tools/permission_data(.:format)' => "api_tools#permission_data", :via => :get
     match '/api_tools/function_params(.:format)' => "api_tools#function_params", :via => :get
     match '/api_tools/:rest_api_id/doc(.:format)' => "api_tools#doc", :via => :get
+
+    #models_associations
+    match '/model_associations(/index)(.:format)' => "model_associations#index", :via => :get
+    match '/model_associations/:class_name/get_data(.:format)' => "model_associations#get_data", :via => :get
   end
 
   scope :module => "irm" do

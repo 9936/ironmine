@@ -1,0 +1,231 @@
+<% require_jscss([:raphael]) %>
+<style type="text/css">
+    .models-page-block {
+        padding: 0;
+        margin: auto;
+    }
+
+    table.split-table .side-bar {
+        padding-top: 10px;
+        padding-right: 15px;
+        width: 20%;
+        /*min-height: 400px;*/
+        border-right: 1px solid #ccc;
+    }
+
+    table.split-table .side-content {
+        padding: 5px 20px;
+        position: relative;
+    }
+    table.split-table .side-content h3 {
+        display: block;
+        padding-left: 10px;
+        border-bottom: 1px solid #E5E5E5;
+    }
+    .accordion-group .accordion-heading {
+        background-color: #fafafa;
+    }
+    .accordion-group .accordion-heading a {
+        color: #3C7CB3;
+        font-weight: bold;
+    }
+    .accordion-group .accordion-inner {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    .accordion-group .accordion-inner ul {
+        margin-left: 5px;
+    }
+    .accordion-group .accordion-inner ul li {
+        line-height: 18px;
+        padding: 5px 5px 5px 10px;
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        list-style: none;
+    }
+    .accordion-group .accordion-inner ul li:hover {
+        background-color:#eee;
+        cursor: pointer;
+    }
+
+    .accordion-group .accordion-inner ul li.active {
+        background-color: #0088cc;
+        color: #fff;
+    }
+
+
+    .entity-container {
+        /*padding: 100px;*/
+    }
+    table.entity {
+        border: 2px solid #ccc;
+        border-collapse: collapse;
+        min-width: 150px;
+        max-width: 250px;
+        position: absolute;
+    }
+    table.entity td { line-height: 20px; border-bottom: 1px dotted #ccc; padding: 3px; }
+    table.entity td.data-label { text-align: right; }
+    table.entity td.data-value {
+        font-weight: bold;
+        text-align: left;
+    }
+
+
+    .entity caption {
+        font-weight: bold;
+        border: 2px solid #ccc;
+        border-bottom: 0;
+        padding: 6px;
+        font-size: 14px;
+    }
+    .entity caption:hover {
+        cursor: pointer;
+    }
+
+</style>
+<div class="models-page-block">
+  <table class="split-table">
+    <tr>
+      <td class="side-bar">
+        <div class="accordion">
+          <% @group_models.keys.each do |key| %>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= key %>"><%= key.to_s.camelize %></a>
+              </div>
+              <div id="collapse-<%= key %>" class="accordion-body collapse <%= @group_models.keys.first.eql?(key)? "in" : "" %>">
+                <div class="accordion-inner">
+                  <ul>
+                    <% @group_models[key].sort{ |a,b| a.to_s.downcase <=> b.to_s.downcase }.each do |model_name| %>
+                      <li><%= "#{key.to_s.camelize}::#{model_name}" %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </td>
+      <td class="side-content" id="side-content">
+        <div id="entity-box">
+          <h3></h3>
+          <div class="entity-container" id="entity-container" style="z-index: 9999;"></div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+     var template = '<table class="entity"><caption class="table-name"></caption><tbody><tr><td class="data-label">Model:</td><td class="data-value model-name"></td></tr></tbody></table>';
+
+
+     $(".accordion-inner ul li").bind("click", function(e){
+         var $this = $(this),
+             $entityContainer = $("#entity-container");
+         $(".accordion-inner ul li").removeClass("active");
+         $this.addClass("active");
+         $entityContainer.html("");
+         $("#entity-box h3").text($this.text());
+         $.ajax({
+             url: "/model_associations/" + $this.text() + "/get_data.json?_dom_id=side-content",
+             type: "get",
+             success: function(data){
+                 if(data) {
+                     //创建节点本身
+                     var node = $(template), nodeContent = $("tbody:first", node);
+                     $(".table-name", node).html(data.table_name);
+                     $(".model-name", nodeContent).html(data.class_name);
+                     for(var i=0; i<data.has_many.length; i++) {
+                         nodeContent.append("<tr><td class='data-label'>has-many:</td><td class='data-value'>" + data.has_many[i].name + "</td></tr>");
+                     }
+                     for(var i=0; i<data.belongs_to.length; i++) {
+                         nodeContent.append("<tr><td class='data-label'>belongs_to:</td><td class='data-value'>" + data.belongs_to[i].name + "</td></tr>");
+                     }
+                     $entityContainer.append(node);
+
+                     //创建has-many节点
+                     for(var i=0; i<data.has_many.length; i++) {
+                         var node = $(template), nodeData = data.has_many[i], nodeContent = $("tbody:first", node);
+                         node.attr("relation", "from").attr("id", nodeData.table_name);
+                         $(".table-name", node).html(nodeData.table_name);
+                         $(".model-name", nodeContent).html(nodeData.class_name);
+                         for(var j=0; j<nodeData.has_many.length; j++) {
+                             nodeContent.append("<tr><td class='data-label'>has_many:</td><td class='data-value'>" + nodeData.has_many[j].name + "</td></tr>");
+                         }
+                         for(var j=0; j<nodeData.belongs_to.length; j++){
+                             nodeContent.append("<tr><td class='data-label'>belongs_to:</td><td class='data-value'>" + nodeData.belongs_to[j].name + "</td></tr>");
+                         }
+                         $entityContainer.append(node);
+                     }
+                     //创建belongs_to节点
+                     for(var i=0; i<data.belongs_to.length; i++) {
+                         var node = $(template), nodeData = data.belongs_to[i], nodeContent = $("tbody:first", node);
+                         node.attr("relation", "to").attr("id", nodeData.table_name);
+                         $(".table-name", node).html(nodeData.table_name);
+                         $(".model-name", nodeContent).html(nodeData.class_name);
+                         for(var j=0; j<nodeData.has_many.length; j++) {
+                             nodeContent.append("<tr><td class='data-label'>has_many:</td><td class='data-value'>" + nodeData.has_many[j].name + "</td></tr>");
+                         }
+                         for(var j=0; j<nodeData.belongs_to.length; j++){
+                             nodeContent.append("<tr><td class='data-label'>belongs_to:</td><td class='data-value'>" + nodeData.belongs_to[j].name + "</td></tr>");
+                         }
+                         $entityContainer.append(node);
+                     }
+                     drawAssociations();
+                 }
+
+             }
+         })
+     });
+     $(".accordion-inner ul li:first").trigger("click");
+
+     //运用Raphael画出关系模型
+     //创建绘图对象
+
+
+      function drawAssociations(){
+          var r = Raphael("entity-container", 800, 800);
+          //绘制节点
+          var entities_from = [], nodes = $("table.entity"), entities_to = [];
+
+          var angle = 90, node_index = 0;
+          //设置当前节点以(520, 400)为圆心
+          var current_node = $(nodes[node_index]),
+              w = current_node.width(),
+              h = current_node.height();
+          current_node.css({"left":(520 - w/2) + "px", "top": (400  - h/2) + "px" });
+          var target_entity = r.rect(520 - 18 - w/2, 400 - 31 - h/2, w, h).attr({stroke:"#fff", fill:"#fff", "fill-opacity":.4, "cursor": "pointer"});
+          node_index += 1;
+
+          while (angle < 450) {
+              current_node = $(nodes[node_index]);
+              w = current_node.width();
+              h = current_node.height();
+              var x = Math.sin(Raphael.rad(angle)) * 310, y = Math.cos(Raphael.rad(angle)) * 310;
+
+              current_node.css({"left":(500 - x - w/2) + "px", "top": (400 + y - h/2) + "px" });
+              var entity = r.rect(500 - x - 18 - w/2, 400 + y - 31 - h/2, w, h).attr({stroke:"#fff", fill:"none", "fill-opacity":.4, "cursor": "pointer"});
+              angle += 360 / (nodes.length - 1);
+
+              if(current_node.attr("relation") == 'from') {
+                  entities_from.push(entity);
+              } else if (current_node.attr("relation") == 'to') {
+                 entities_to.push(entity)
+              }
+
+              node_index += 1;
+          }
+          //创建连接
+          for(var i=0; i<entities_from.length; i++){
+              r.connection(entities_from[i], target_entity , null, "#ccc");
+          }
+          for(var i=0; i<entities_to.length; i++){
+              r.connection(target_entity, entities_to[i],  null, "#ccc");
+          }
+      }
+  })
+</script>

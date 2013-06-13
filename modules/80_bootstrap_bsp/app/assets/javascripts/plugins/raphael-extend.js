@@ -1,4 +1,4 @@
-Raphael.fn.connection = function (obj1, obj2, id) {
+Raphael.fn.connection = function (obj1, obj2, id, color) {
     var bb1 = obj1.getBBox(),
         bb2 = obj2.getBBox(),
         p = [{x: bb1.x + bb1.width / 2, y: bb1.y - 1},
@@ -31,27 +31,26 @@ Raphael.fn.connection = function (obj1, obj2, id) {
         y4 = p[res[1]].y,
         dx = Math.max(Math.abs(x1 - x4) / 2, 10),
         dy = Math.max(Math.abs(y1 - y4) / 2, 10);
+    if(!color) var color = Raphael.getColor();
 
-    var color = Raphael.getColor();
-
-    var star = ["M", x4, y4, "l", 10, 18, "l", -20, 0, "l", 10, -18, "M", x4, y4 + 18, "l", 0, 10];
+    var star = ["M", x4, y4, "l", 10, 18, "l", -20, 0, "l", 10, -18, "M", x4, y4 + 18, "l", 0, 5];
     //判断箭头的方向
     if(res[1] == 4) {
         //向下的箭头
-        star = ["M", x4, y4, "l", 10, -18,"l", -20, 0, "l", 10, 18, "M", x4, y4 - 18, "l", 0, -10];
-        y4 -= 28
+        star = ["M", x4, y4, "l", 10, -18,"l", -20, 0, "l", 10, 18, "M", x4, y4 - 18, "l", 0, -5];
+        y4 -= 23
     }else if (res[1] == 5) {
         //向上箭头
-        star = ["M", x4, y4, "l", 10, 18, "l", -20, 0, "l", 10, -18, "M", x4, y4 + 18, "l", 0, 10];
-        y4 += 28;
+        star = ["M", x4, y4, "l", 10, 18, "l", -20, 0, "l", 10, -18, "M", x4, y4 + 18, "l", 0, 5];
+        y4 += 23;
     }else if(res[1] == 6) {
         //向右的箭头
-        star = ["M", x4, y4, "l", -18, 10, "l", 0, -20, "l", 18, 10, "M", x4 - 18, y4, "l", -10, 0];
-        x4 -= 28;
+        star = ["M", x4, y4, "l", -18, 10, "l", 0, -20, "l", 18, 10, "M", x4 - 18, y4, "l", -5, 0];
+        x4 -= 23;
     }else if(res[1] == 7) {
         //向左的箭头
-        star = ["M", x4, y4, "l", 18, 10, "l", 0, -20, "l", -18, 10, "M", x4+ 18, y4, "l", 10, 0];
-        x4 += 28;
+        star = ["M", x4, y4, "l", 18, 10, "l", 0, -20, "l", -18, 10, "M", x4+ 18, y4, "l", 5, 0];
+        x4 += 23;
     }
 
     var starObj = this.path(star).attr({stroke: color, fill: "none", "stroke-width": 2});
