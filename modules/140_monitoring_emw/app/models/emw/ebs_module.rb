@@ -1,10 +1,8 @@
 class Emw::EbsModule < ActiveRecord::Base
   set_table_name :emw_ebs_modules
 
-  ##多语言关系
-  #attr_accessor :name,:description
-  #has_many :ebs_modules_tls, :dependent => :destroy
-  #acts_as_multilingual
+
+  has_many :interfaces, :foreign_key => :ebs_module_id, :dependent => :destroy
 
   validates_presence_of :name, :module_code
 

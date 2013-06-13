@@ -1,7 +1,17 @@
 zh:
+  #=========================Start Ebs module=======================#
   label_emw_ebs_module: EBS模块
   label_emw_ebs_module_list: 模块列表
   label_emw_ebs_module_new: 新建模块
   label_emw_ebs_module_edit: 编辑模块
   label_emw_ebs_module_status_enabled: 启用
   label_emw_ebs_module_status_disabled: 失效
+  #=========================End Ebs module=======================#
+
+  #=========================Start Interface=======================#
+  label_emw_interface: 接口
+  label_emw_interface_list: 接口列表
+  label_emw_interface_module: 所属模块
+  label_emw_interface_new: 新建接口
+  label_emw_interface_edit: 编辑接口
+  #=========================End Interface=======================#
