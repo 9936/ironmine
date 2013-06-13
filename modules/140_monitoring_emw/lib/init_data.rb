@@ -18,7 +18,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "emw/ebs_modules" => ["index", "show", "get_data","edit","update", "new", "create", "multilingual_edit", "multilingual_update"]
+              "emw/ebs_modules" => ["index", "show", "get_data","edit","update", "new", "create"]
           }
       }
   }

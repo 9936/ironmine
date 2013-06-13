@@ -3,7 +3,5 @@ zh:
   label_emw_ebs_module_list: 模块列表
   label_emw_ebs_module_new: 新建模块
   label_emw_ebs_module_edit: 编辑模块
-  label_emw_ebs_module_name: 模块名称
-  label_emw_ebs_module_description: 模块描述
   label_emw_ebs_module_status_enabled: 启用
   label_emw_ebs_module_status_disabled: 失效

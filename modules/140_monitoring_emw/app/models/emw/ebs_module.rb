@@ -1,13 +1,14 @@
 class Emw::EbsModule < ActiveRecord::Base
   set_table_name :emw_ebs_modules
 
-  #多语言关系
-  attr_accessor :name,:description
-  has_many :ebs_modules_tls, :dependent => :destroy
+  ##多语言关系
+  #attr_accessor :name,:description
+  #has_many :ebs_modules_tls, :dependent => :destroy
+  #acts_as_multilingual
 
-  validates_presence_of :module_code
+  validates_presence_of :name, :module_code
 
-  acts_as_multilingual
+
 
   #加入activerecord的通用方法和scope
   query_extend

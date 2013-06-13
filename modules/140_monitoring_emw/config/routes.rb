@@ -8,7 +8,5 @@ Rails.application.routes.draw do
     match '/ebs_modules/new(.:format)' => "ebs_modules#new", :via => :get
     match '/ebs_modules/:id(.:format)' => "ebs_modules#show", :via => :get
     match '/ebs_modules/create(.:format)' => "ebs_modules#create", :via => :post
-    match '/ebs_modules/:id/multilingual_edit(.:format)' => "ebs_modules#multilingual_edit", :via => :get
-    match '/ebs_modules/:id/multilingual_update(.:format)' => "ebs_modules#multilingual_update", :via => :put
   end
 end

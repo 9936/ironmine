@@ -15,7 +15,7 @@ class Emw::EbsModulesController < ApplicationController
   # GET /ebs_modules/1
   # GET /ebs_modules/1.xml
   def show
-    @ebs_module = Emw::EbsModule.multilingual.find(params[:id])
+    @ebs_module = Emw::EbsModule.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -36,7 +36,7 @@ class Emw::EbsModulesController < ApplicationController
 
   # GET /ebs_modules/1/edit
   def edit
-    @ebs_module = Emw::EbsModule.multilingual.find(params[:id])
+    @ebs_module = Emw::EbsModule.find(params[:id])
   end
 
   # POST /ebs_modules
@@ -83,27 +83,10 @@ class Emw::EbsModulesController < ApplicationController
     end
   end
 
-  def multilingual_edit
-    @ebs_module = Emw::EbsModule.find(params[:id])
-  end
-
-  def multilingual_update
-    @ebs_module = Emw::EbsModule.find(params[:id])
-    @ebs_module.not_auto_mult=true
-    respond_to do |format|
-      if @ebs_module.update_attributes(params[:emw_ebs_module])
-        format.html { redirect_to({:action => "show"}, :notice => 'Ebs module was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @ebs_module.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
 
   def get_data
-    ebs_modules_scope = Emw::EbsModule.multilingual
-    ebs_modules_scope = ebs_modules_scope.match_value("#{Emw::EbsModulesTl.table_name}.name", params[:name])
+    ebs_modules_scope = Emw::EbsModule
+    ebs_modules_scope = ebs_modules_scope.match_value("#{Emw::EbsModule.table_name}.name", params[:name])
     ebs_modules,count = paginate(ebs_modules_scope)
     respond_to do |format|
       format.html  {
