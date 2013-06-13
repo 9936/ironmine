@@ -3,6 +3,8 @@ class Emw::Interface < ActiveRecord::Base
 
   belongs_to :ebs_module, :foreign_key => :ebs_module_id
 
+  validates_presence_of :ebs_module_id, :name
+
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
