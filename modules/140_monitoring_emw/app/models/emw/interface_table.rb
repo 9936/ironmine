@@ -3,6 +3,7 @@ class Emw::InterfaceTable < ActiveRecord::Base
 
   belongs_to :interface, :foreign_key => :interface_id
   has_many :interface_columns, :foreign_key => :interface_table_id, :dependent => :destroy
+  has_one :errors_table, :class_name => "Emw::ErrorTable", :foreign_key => :interface_table_id
 
   validates_presence_of :name, :table_name, :interface_id
 

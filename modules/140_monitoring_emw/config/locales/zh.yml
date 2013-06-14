@@ -38,3 +38,13 @@ zh:
   label_emw_interface_column_error_flag: 错误列
   #=========================End Interface Table=======================#
 
+  #=========================Start Error Table=======================#
+  label_emw_error_table: 错误表
+  label_emw_error_table_name: 表名
+  label_emw_error_table_interface_column: 接口表ID列
+  label_emw_error_table_error_code_column: 错误编码列
+  label_emw_error_table_error_message_column: 错误消息列
+  label_emw_error_table_new: 新建错误表
+  label_emw_error_table_edit: 编辑错误表
+  #=========================End Error Table=======================#
+

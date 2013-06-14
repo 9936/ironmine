@@ -33,5 +33,13 @@ Rails.application.routes.draw do
     match '/tables/:table_id/columns/:id/(.:format)' => "interface_columns#show", :via => :get
     match '/tables/:table_id/columns/create(.:format)' => "interface_columns#create", :via => :post
     match '/tables/:table_id/columns/:id/destroy(.:format)' => "interface_columns#destroy", :via => :delete
+
+    #Error_table
+    match '/tables/:table_id/error_tables/:id/edit(.:format)' => "error_tables#edit", :via => :get
+    match '/tables/:table_id/error_tables/:id(.:format)' => "error_tables#update", :via => :put
+    match '/tables/:table_id/error_tables/new(.:format)' => "error_tables#new", :via => :get
+    match '/tables/:table_id/error_tables/:id/(.:format)' => "error_tables#show", :via => :get
+    match '/tables/:table_id/error_tables/create(.:format)' => "error_tables#create", :via => :post
+    match '/tables/:table_id/error_tables/:id/destroy(.:format)' => "error_tables#destroy", :via => :delete
   end
 end

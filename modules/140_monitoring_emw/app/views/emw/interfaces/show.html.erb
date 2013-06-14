@@ -96,7 +96,13 @@
             </td>
             <td><%= table.name %></td>
             <td><%= table.table_name %></td>
-            <td><%= table.error_table %></td>
+            <td>
+              <% if table.errors_table.present? %>
+                <%= link_to(table.error_table,{:controller => "emw/error_tables", :action => "show",:id => table.errors_table.id, :table_id => table.id }, :class => "action-link")  %>
+              <% else %>
+                <%= link_to(t(:new), {:controller => "emw/error_tables", :action => "new", :table_id => table.id }, :class => "action-link", :rel => "modal") %>
+              <% end %>
+            </td>
             <td><%= table.description %></td>
           </tr>
         <% end %>

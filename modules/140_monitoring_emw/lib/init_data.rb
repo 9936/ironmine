@@ -21,7 +21,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               "emw/ebs_modules" => ["index", "show", "get_data","edit","update", "new", "create"],
               "emw/interfaces" => ["index", "show", "get_data","edit","update", "new", "create"],
               "emw/interface_tables" => ["show", "get_data","edit","update", "new", "create"],
-              "emw/interface_columns" => ["show", "edit","update", "new", "create","destroy"]
+              "emw/interface_columns" => ["show", "edit","update", "new", "create","destroy"],
+              "emw/error_tables" => ["show", "edit","update", "new", "create","destroy"]
           }
       }
   }
