@@ -16,7 +16,7 @@
       <div class="control-group">
         <label class="control-label"><%= t(:label_emw_interface_column_data_type) %>:</label>
         <div class="controls">
-          <%= f.text_field :data_type, :required => true %>
+          <%= f.select :data_type, available_data_types, :required => true %>
           <span class="help-inline"></span>
         </div>
       </div>

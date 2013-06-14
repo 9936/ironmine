@@ -28,7 +28,7 @@
           <%= link_to(t(:delete), {:controller => "emw/interface_columns", :action => "destroy", :id => column[:id],:table_id => @interface_table.id}, {:class => "action-link",:confirm => t(:label_are_you_sure), :method => :delete}) %>
         </td>
         <td><%= column.name %></td>
-        <td><%= column.data_type %></td>
+        <td><%= t("label_emw_interface_column_data_type_#{column.data_type.downcase}") %></td>
         <td><%= column.data_length %></td>
         <td><%= check_img(column.error_flag) %></td>
         <td><%= column.description %></td>
