@@ -20,6 +20,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "emw/ebs_modules" => ["index", "show", "get_data","edit","update", "new", "create"],
               "emw/interfaces" => ["index", "show", "get_data","edit","update", "new", "create"],
+              "emw/interface_tables" => ["show", "get_data","edit","update", "new", "create"],
+              "emw/interface_columns" => ["show", "edit","update", "new", "create","destroy"]
           }
       }
   }

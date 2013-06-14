@@ -17,5 +17,21 @@ Rails.application.routes.draw do
     match '/interfaces/new(.:format)' => "interfaces#new", :via => :get
     match '/interfaces/:id(.:format)' => "interfaces#show", :via => :get
     match '/interfaces/create(.:format)' => "interfaces#create", :via => :post
+
+    #Interface_table
+    match '/interfaces/:interface_id/tables/get_data(.:format)' => "interface_tables#get_data"
+    match '/interfaces/:interface_id/tables/:id/edit(.:format)' => "interface_tables#edit", :via => :get
+    match '/interfaces/:interface_id/tables/:id(.:format)' => "interface_tables#update", :via => :put
+    match '/interfaces/:interface_id/tables/new(.:format)' => "interface_tables#new", :via => :get
+    match '/interfaces/:interface_id/tables/:id/(.:format)' => "interface_tables#show", :via => :get
+    match '/interfaces/:interface_id/tables/create(.:format)' => "interface_tables#create", :via => :post
+
+    #Interface_column
+    match '/tables/:table_id/columns/:id/edit(.:format)' => "interface_columns#edit", :via => :get
+    match '/tables/:table_id/columns/:id(.:format)' => "interface_columns#update", :via => :put
+    match '/tables/:table_id/columns/new(.:format)' => "interface_columns#new", :via => :get
+    match '/tables/:table_id/columns/:id/(.:format)' => "interface_columns#show", :via => :get
+    match '/tables/:table_id/columns/create(.:format)' => "interface_columns#create", :via => :post
+    match '/tables/:table_id/columns/:id/destroy(.:format)' => "interface_columns#destroy", :via => :delete
   end
 end

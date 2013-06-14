@@ -2,6 +2,7 @@ class Emw::Interface < ActiveRecord::Base
   set_table_name :emw_interfaces
 
   belongs_to :ebs_module, :foreign_key => :ebs_module_id
+  has_many :interface_tables, :foreign_key => :interface_id, :dependent => :destroy
 
   validates_presence_of :ebs_module_id, :name
 

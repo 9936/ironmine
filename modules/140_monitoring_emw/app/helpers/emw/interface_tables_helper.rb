@@ -1,0 +1,2 @@
+module Emw::InterfaceTablesHelper
+end

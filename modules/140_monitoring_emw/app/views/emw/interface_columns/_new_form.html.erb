@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_emw_interface_column_new) %></h3>
+</div>
+<%= form_for(@interface_column,:url=>{:action=>"create"},:builder => CustomFormBuilder,:html => {:class => "modal-form"}) do |f| %>
+    <div class="modal-body form-horizontal">
+      <%= error_for @interface_column %>
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_emw_interface_column_name) %>:</label>
+        <div class="controls">
+          <%= f.text_field :name, :required => true %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_emw_interface_column_data_type) %>:</label>
+        <div class="controls">
+          <%= f.text_field :data_type, :required => true %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_emw_interface_column_data_length) %>:</label>
+        <div class="controls">
+          <%= f.text_field :data_length, :required => true, :irm_number_only => true %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_emw_interface_column_error_flag) %>:</label>
+        <div class="controls">
+          <%= f.check_box :error_flag %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:description) %>:</label>
+        <div class="controls">
+          <%= f.text_area :description, :rows => 3, :class => "input-xlarge" %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss"=>"modal", "aria-hidden" => "true" %>
+      <%= link_submit t(:save), :class => "btn btn-primary" %>
+    </div>
+<% end %>
