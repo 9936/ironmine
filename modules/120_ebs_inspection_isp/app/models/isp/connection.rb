@@ -127,7 +127,7 @@ class Isp::Connection < ActiveRecord::Base
 
   def execute_sql(conn, sql_script)
     begin
-      result = conn.execute(sql_script).fetch
+      result = conn.select_rows(sql_script)
     rescue
       result = nil
     end
