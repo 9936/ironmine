@@ -1,6 +1,8 @@
 class Irm::ApiPeopleController < ApplicationController
   before_filter :set_return_columns
 
+  #查看用户
+  #Request: /api_peoples/show.json
   def show
     person = Irm::Person.list_all.find(params[:id])
     #根据输出参数进行显示

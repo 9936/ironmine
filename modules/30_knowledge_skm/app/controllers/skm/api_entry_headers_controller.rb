@@ -161,6 +161,28 @@ class Skm::ApiEntryHeadersController < ApplicationController
     end
   end
 
+  #获取知识专题列表
+  #Request: /api_entry_headers/get_entry_books.json
+  def get_entry_books
+    entry_books_scope = Skm::EntryBook.multilingual
+    entry_books_scope = entry_books_scope.match_value("#{Skm::EntryBooksTl.table_name}.name", params[:name])
+    entry_books,count = paginate(entry_books_scope)
+
+
+    result = {:total_rows => count}
+    result[:items] = []
+
+    entry_books.each do |eb|
+      result[:items] << {:id => eb.id, :name => eb[:name], :description => eb[:description], :updated_at => eb[:updated_at]}
+    end
+
+    respond_to do |format|
+      format.json {
+        render json: result.to_json
+      }
+    end
+  end
+
   private
 
     def set_return_columns

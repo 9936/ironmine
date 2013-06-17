@@ -230,5 +230,6 @@ Rails.application.routes.draw do
       match '/api_entry_headers/get_columns' => "api_entry_headers#get_columns", :via => :get
       match '/api_entry_headers/add' => "api_entry_headers#add", :via => :post
       match '/api_entry_headers/show' => "api_entry_headers#show", :via => :get
+      match '/api_entry_headers/get_entry_books' => "api_entry_headers#get_entry_books", :via => :get
     end
 end
