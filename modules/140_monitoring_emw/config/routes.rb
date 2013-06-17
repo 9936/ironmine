@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     match '/interfaces/:interface_id/tables/:id/edit(.:format)' => "interface_tables#edit", :via => :get
     match '/interfaces/:interface_id/tables/:id(.:format)' => "interface_tables#update", :via => :put
     match '/interfaces/:interface_id/tables/new(.:format)' => "interface_tables#new", :via => :get
+    match '/interfaces/:interface_id/tables/import(.:format)' => "interface_tables#import", :via => [:get, :post]
     match '/interfaces/:interface_id/tables/:id/(.:format)' => "interface_tables#show", :via => :get
     match '/interfaces/:interface_id/tables/create(.:format)' => "interface_tables#create", :via => :post
 

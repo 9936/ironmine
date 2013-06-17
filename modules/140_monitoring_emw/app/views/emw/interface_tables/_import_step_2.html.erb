@@ -1,0 +1,53 @@
+<style type="text/css">
+  .check-box {margin-top: -2px !important; }
+</style>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_emw_interface_table_import_step_n, :n => @step, :total => 3) %></h3>
+</div>
+<%= form_for(@interface_table, :url => {:action => "import", :step => 3}, :builder => CustomFormBuilder, :html => {:class => "modal-form"}) do |f| %>
+    <%= f.hidden_field :interface_id %>
+    <div class="modal-body form-horizontal">
+      <table class="table table-condensed">
+        <thead>
+        <tr>
+          <th style="width: 80px;"><%= check_box_tag "select-all-column", nil, false, :class => "check-box" %> <%= t(:label_emw_interface_table_import_check_all) %></th>
+          <th><%= t(:label_emw_interface_column_name) %></th>
+          <th><%= t(:label_emw_interface_column_data_type) %></th>
+          <th><%= t(:label_emw_interface_column_data_length) %></th>
+          <th><%= t(:label_emw_interface_column_error_flag) %></th>
+          <th><%= t(:description) %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% (1..5).each do |i| %>
+        <tr>
+          <td><%= check_box_tag "columns", nil, false, :class => "check-box" %></td>
+          <td><%= "data_#{i}" %></td>
+          <td>String</td>
+          <td>30</td>
+          <td><%= check_box_tag "select_all", nil, false, :class => "check-box" %></td>
+          <td></td>
+        </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss"=>"modal", "aria-hidden" => "true" %>
+      <%= link_submit t(:next), :class => "btn btn-primary" %>
+    </div>
+<% end %>
+<script type="text/javascript">
+  $(function(){
+      $("#select-all-column").bind("click", function(e){
+          var $this = $(this), $table = $this.closest("table");
+          if ($this.is(':checked')){
+              $("tbody input[name='columns']",$table).attr("checked", true);
+          }else{
+              $("tbody input[name='columns']",$table).removeAttr("checked");
+          }
+      });
+
+  });
+</script>

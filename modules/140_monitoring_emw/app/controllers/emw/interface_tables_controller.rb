@@ -88,4 +88,31 @@ class Emw::InterfaceTablesController < ApplicationController
       format.json {render :json=>to_jsonp(interface_tables.to_grid_json([:name,:description,:status_meaning],count))}
     end
   end
+
+  #导入接口表
+  def import
+    @step = params[:step]
+    @step ||= 1
+    @step = @step.to_i
+
+    if @step == 1
+      session[:emw_interface_table] = nil
+      @interface_table = Emw::InterfaceTable.new(:interface_id => params[:interface_id])
+    else
+      if session[:emw_interface_table]
+        session[:emw_interface_table].merge!(params[:emw_interface_table]) if params[:emw_interface_table].present?
+      else
+        session[:emw_interface_table] = params[:emw_interface_table]
+      end
+
+      @interface_table = Emw::InterfaceTable.new(session[:emw_interface_table])
+      @interface_table.import_flag = 'Y'
+      if @interface_table.valid?
+
+      else
+        @step -= 1 if @step > 1
+      end
+      puts "==========#{@interface_table.errors.to_json}============"
+    end
+  end
 end
