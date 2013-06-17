@@ -1,0 +1,91 @@
+en:
+  #=========================Start Program=======================#
+  label_isp_program: Program
+  label_isp_program_params: Params
+  label_isp_program_list: Program List
+  label_isp_program_new: New Program
+  label_isp_program_edit: Edit Program
+  label_isp_program_name: Program Name
+  label_isp_program_description: Program Description
+  label_isp_program_new_execute: New Execute
+  label_isp_program_new_execute_run: Execute Now
+  label_isp_program_new_execute_trigger: Execute Trigger
+  label_isp_program_new_execute_trigger_person: Execute Trigger Person
+  label_isp_program_new_execute_trigger_receiver: Trigger Receivers
+  label_isp_program_execute: Execute
+  label_isp_program_execute_template: Execute Template
+  #=========================End Program=======================#
+
+  #=========================Start Connection=======================#
+  label_isp_connection: Connection
+  label_isp_connection_list: Connection List
+  label_isp_connection_new: New Connection
+  label_isp_connection_edit: Edit Connection
+  label_isp_connection_type: Type
+  label_isp_connection_host: Host
+  label_isp_connection_port: Port
+  label_isp_connection_database: Database
+  label_isp_connection_username: Username
+  label_isp_connection_password: Password
+  label_isp_connection_object_symbol: Symbol
+  label_isp_connection_exception: Can't connect to %{host},please check the username or password.
+  label_isp_connection_econnrefused: Can't connect to %{host}
+  label_isp_connection_add_item: Add Check Item
+  label_isp_connection_save_selected: Save Selected
+  #=========================End Connection=======================#
+
+  #=========================Start Check Parameter=======================#
+  label_isp_parameter: Check Parameter
+  label_isp_parameter_list: Check Parameter List
+  label_isp_parameter_new: New Check Parameter
+  label_isp_parameter_edit: Edit Check Parameter
+  label_isp_parameter_param_type: Parameter Type
+  label_isp_parameter_param_type_default: Default
+  label_isp_parameter_param_type_input: Input
+  label_isp_parameter_data_type: Data Type
+  label_isp_parameter_data_string: String
+  label_isp_parameter_data_number: Number
+  label_isp_parameter_object_symbol: Symbol
+  label_isp_parameter_value: Check Parameter Value
+  #=========================End Check Parameter=======================#
+
+  #=========================Start Check Item=======================#
+  label_isp_check_item: Check Item
+  label_isp_check_item_list: Check Item List
+  label_isp_check_item_new: New Check Item
+  label_isp_check_item_edit: Edit Check Item
+  label_isp_check_item_connection: Connection
+  label_isp_check_item_object_symbol: Symbol
+  label_isp_check_item_script: Script
+  #=========================Start Check Item=======================#
+
+  #=========================Start isp check template=======================#
+  label_isp_check_template: Check Template
+  label_isp_check_template_list: Template List
+  label_isp_check_template_new: New Template
+  label_isp_check_template_edit: Edit Template
+  label_isp_check_template_template_type: Template Type
+  label_isp_check_template_body: Template Body
+  #=========================End isp check template=======================#
+
+  #=========================Start Alert Filters=======================#
+  label_isp_alert_filter: Alert Filter
+  label_isp_alert_filter_new: New Alert Filter
+  label_isp_alert_filter_edit: Edit Alert Filter
+  label_isp_alert_filter_result_type: Value Type
+  label_isp_alert_filter_operation: Operation
+  label_isp_alert_filter_value: Value
+  label_isp_alert_filter_display_template: Display Template
+  label_isp_alert_filter_e: Equal
+  label_isp_alert_filter_n: Not Equal
+  label_isp_alert_filter_g: Greater Than
+  label_isp_alert_filter_l: Less Than
+  label_isp_alert_filter_result: The Check Result：%{target} %{operation} Alert value：%{value}
+  #=========================End Alert Filters=======================#
+
+  #=========================Start History=======================#
+  label_isp_program_history: Program Execute History
+  label_isp_program_history_execute_at: Execute At
+  label_isp_program_history_report_content: Execute Result
+  label_isp_program_history_conn_info: Check Connection Infos
+  #=========================End History=======================#

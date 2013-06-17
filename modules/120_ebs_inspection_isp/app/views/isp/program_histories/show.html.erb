@@ -1,0 +1,46 @@
+<style type="text/css">
+    .report-content p {font: 12px;}
+    .report-content blockquote p {font-size: 12px; font-weight: normal; line-height: 15px;}
+    .report-content div.content {padding: 5px 10px; border:1px solid #e5e5e5;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}
+</style>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_isp_program_history_conn_info) %>【<%= format_date @program_history.execute_at %>】</h3>
+</div>
+<div class="modal-body form-horizontal">
+  <div class="accordion">
+    <% @program_history.conn_histories.each do |conn| %>
+        <div class="accordion-group">
+          <div class="accordion-heading" style="background-color: #fafafa;">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%= conn.id %>">
+              <%= t(:label_isp_connection_host) %>：<%= conn.host %>， <%= t(:label_isp_connection_username) %>：<%= conn.username %>, <%= t(:label_isp_connection_password) %>：<%= conn.password %>
+            </a>
+          </div>
+          <div id="collapse<%= conn.id %>" class="accordion-body collapse in">
+            <div class="accordion-inner">
+              <%= t(:label_isp_check_item_script) %>:
+              <ol>
+                <% eval(conn.script).each do |s| %>
+                  <li><%= s %></li>
+                <% end %>
+              </ol>
+              <%= t(:label_isp_parameter) %>:
+              <ul>
+                <% conn.parameter_histories.each do |p| %>
+                <li><label style="display: inline-block;"><%= p.name %>：</label> <%= p.value %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+  <div class="report-content">
+    <label><%= t(:label_isp_program_history_report_content) %>：</label>
+    <div class="content"><%= raw @program_history.report_content %></div>
+  </div>
+
+</div>
+<div class="modal-footer">
+  <%= link_to t(:close), "#", :class => "btn", "data-dismiss" => "modal", "aria-hidden" => "true" %>
+</div>

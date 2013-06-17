@@ -1,0 +1,2 @@
+module Isp::CheckTemplatesHelper
+end

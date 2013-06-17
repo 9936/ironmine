@@ -1,0 +1,47 @@
+<%= common_title({:action_meaning => t(:label_isp_connection_add_item)}) %>
+<!--页面结构-->
+<%= form_for(Isp::Connection.new, :url => {:controller => "isp/connections", :action => "save_items"}, :builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:status_code) %>
+    <% content_for :form_check_items_buttons do %>
+        <%= link_submit t(:label_isp_connection_save_selected), {:class => "btn btn-info disabled save-btn"} %>
+        <%= link_back(t(:cancel), {}, :class => "btn") %>
+    <% end %>
+    <div class="page-block" id="available-items-container">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_isp_check_item_list) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_check_items_buttons %>
+          </td>
+          <td class="page-block-help">
+            <div id="searchItem"></div>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= datatable("isp_available_items", {:controller => "isp/connections", :action => "get_items_data"}, [], {:search_box => "searchItem", :paginator_box => "paginatorItem", :select => "multiple"}) %>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_check_items_buttons %>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#isp_available_items").bind('selectionchange', function (event, ids) {
+                $("#isp_connection_status_code").val(ids.join(","));
+                if (ids.length > 0) {
+                    $("#available-items-container .save-btn").removeClass("disabled");
+                } else {
+                    $("#available-items-container .save-btn").addClass("disabled");
+                }
+            });
+        })
+    </script>
+<% end %>

@@ -114,6 +114,23 @@ $(function(){
          $(n).attr("autocomplete", "off");
     });
 
+    //文本框小写字母和数字下划线
+    $('input[irm_lowercase_chr_only]').live('blur', function(event){
+        var reg = /^(_+)|^( +)|[^a-z0-9_]/g, $this = $(this);
+        if(reg.test($(this).val())){
+            alert($.i18n("lowercase_chr_only"));
+            $this.val($this.val().toLowerCase().replace(reg, ""));
+            setTimeout(function() {
+                $this.focus();
+            },0);
+        }
+        // $(this).val($(this).val().replace(/^(_+)|^( +)|[^A-Z a-z0-9_]/g, ""));
+    });
+
+    $('input[irm_lowercase_chr_only]').each(function(index,n){
+        $(n).attr("autocomplete", "off");
+    });
+
     $('input[irm_chr_only]').live('blur', function(event){
         var reg = /^(_+)|^( +)|[^A-Z a-z0-9_]/g, $this = $(this);
         if(reg.test($(this).val())){
