@@ -17,4 +17,22 @@ class Emw::InterfaceTable < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 
+
+  def get_columns
+    conn = Isp::OracleAdapter.establish_connection(:adapter => "oracle_enhanced",
+                                                   :database => "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = vs011.hand-china.com)(PORT = 1522))) (CONNECT_DATA = (SERVICE_NAME = VIS01)))",
+                                                   :username => self.username,
+                                                   :password => self.password).connection
+
+    begin
+      result = conn.select_rows("select column_name, data_type, data_length from user_tab_columns where Table_Name='ADS_OPM_SUPPLY_INTERFACE'")
+      #comments = conn.select_rows("select column_name, comments FROM USER_COL_COMMENTS WHERE  TABLE_NAME = 'ADS_OPM_SUPPLY_INTERFACE'")
+    rescue
+      result = nil
+    end
+    result
+  end
+
+
+
 end

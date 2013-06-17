@@ -20,12 +20,12 @@
         </tr>
         </thead>
         <tbody>
-        <% (1..5).each do |i| %>
+        <% @columns.each do |column| %>
         <tr>
-          <td><%= check_box_tag "columns", nil, false, :class => "check-box" %></td>
-          <td><%= "data_#{i}" %></td>
-          <td>String</td>
-          <td>30</td>
+          <td><%= check_box_tag "columns[]", column, false, :class => "check-box columns" %></td>
+          <td><%= column[0] %></td>
+          <td><%= column[1] %></td>
+          <td><%= column[2] %></td>
           <td><%= check_box_tag "select_all", nil, false, :class => "check-box" %></td>
           <td></td>
         </tr>
@@ -43,9 +43,9 @@
       $("#select-all-column").bind("click", function(e){
           var $this = $(this), $table = $this.closest("table");
           if ($this.is(':checked')){
-              $("tbody input[name='columns']",$table).attr("checked", true);
+              $("tbody input[class='columns']",$table).attr("checked", true);
           }else{
-              $("tbody input[name='columns']",$table).removeAttr("checked");
+              $("tbody input[class='columns']",$table).removeAttr("checked");
           }
       });
 

@@ -89,10 +89,7 @@ class Emw::InterfaceTablesController < ApplicationController
     end
   end
 
-  #Irm::Person.establish_connection(:adapter => "oracle_enhanced",
-  #                     :database => "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = vs011.hand-china.com)(PORT = 1522))) (CONNECT_DATA = (SERVICE_NAME = VIS01)))",
-  #                     :username => "apps",
-  #                     :password => "apps").connection
+
 
   #导入接口表
   def import
@@ -111,6 +108,8 @@ class Emw::InterfaceTablesController < ApplicationController
       end
 
       @interface_table = Emw::InterfaceTable.new(session[:emw_interface_table])
+      @columns = @interface_table.get_columns if @step == 2
+      puts "============#{@columns.length}=============="
       @interface_table.import_flag = 'Y'
       if @interface_table.valid?
 
