@@ -1061,5 +1061,9 @@ Rails.application.routes.draw do
     match '/monitor_process/process_data(.:format)' => "monitor_process#process_data", :via => :get
     match '/monitor_process/:id/start_process(.:format)' => "monitor_process#start_process"
     match '/monitor_process/:id/stop_process(.:format)' => "monitor_process#stop_process"
+
+    #User API
+    match '/api_peoples/show' => "api_people#show", :via => :get
+
   end
 end

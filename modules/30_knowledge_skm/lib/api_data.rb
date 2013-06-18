@@ -104,6 +104,17 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :entry_template_id, :classify => [:output], :type => "String", :description => "知识文章模板ID"},
               {:name => :details, :classify => [:output], :type => "Object", :description => "知识文章内容，包括{:element_id => 段落ID, :element_name => 段落标题, :entry_content => 段落内容}"},
           ]
+      },
+      #获取知识专题列表
+      :get_entry_books => {
+          :name => "知识专题列表接口",
+          :description => "知识专题列表接口",
+          :params => [
+              {:name => :start, :classify => [:input], :type => "Number", :required => "Y", :default_value => 0, :description => "用于分页，从第几条记录开始"},
+              {:name => :limit, :classify => [:input], :type => "Number", :required => "Y", :default_value => 10, :description => "每页显示记录数"},
+              {:name => :total_rows, :classify => [:output], :type => "Number", :default_value => 0, :description => "记录总数"},
+              {:name => :items, :classify => [:output], :type => "Object", :description => "知识专题列表，包括(id: 专题ID, name: 专题名称, description: 专题说明, updated_at: 专题更新时间"}
+          ]
       }
   }
 end
