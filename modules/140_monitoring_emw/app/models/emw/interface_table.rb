@@ -1,7 +1,7 @@
 class Emw::InterfaceTable < ActiveRecord::Base
   set_table_name :emw_interface_tables
 
-  attr_accessor :host, :username, :password, :step,:import_flag
+  attr_accessor :database, :username, :password, :step,:import_flag
 
   belongs_to :interface, :foreign_key => :interface_id
   has_many :interface_columns, :foreign_key => :interface_table_id, :dependent => :destroy
@@ -10,7 +10,7 @@ class Emw::InterfaceTable < ActiveRecord::Base
   validates_presence_of :table_name, :interface_id
   validates_presence_of :name,:if => Proc.new{|i| i.import_flag != 'Y' || (i.import_flag == 'Y' && i.step == 4) }
 
-  validates_presence_of :host, :username, :password, :if => Proc.new { |i| i.import_flag == 'Y' }
+  validates_presence_of :database, :username, :password, :if => Proc.new { |i| i.import_flag == 'Y' }
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -23,17 +23,21 @@ class Emw::InterfaceTable < ActiveRecord::Base
 
 
   def get_columns
-    self.table_name = "ADS_OPM_SUPPLY_INTERFACE"
-    conn = Isp::OracleAdapter.establish_connection(:adapter => "oracle_enhanced",
-                                                   :database => "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = vs011.hand-china.com)(PORT = 1522))) (CONNECT_DATA = (SERVICE_NAME = VIS01)))",
-                                                   :username => self.username,
-                                                   :password => self.password).connection
+    #self.table_name = "ADS_OPM_SUPPLY_INTERFACE"
+    #self.database = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = vs011.hand-china.com)(PORT = 1522))) (CONNECT_DATA = (SERVICE_NAME = VIS01)))"
+    begin
+      conn = Isp::OracleAdapter.establish_connection(:adapter => "oracle_enhanced",
+                                                    :database => self.database,
+                                                    :username => self.username,
+                                                    :password => self.password).connection
+    rescue OCIError => e
+      raise e.message
+    end
 
     begin
       result = conn.select_rows("select t.column_name, t.data_type, t.data_length, c.comments from user_tab_columns t left join user_col_comments c on t.column_name=c.column_name and t.table_name=c.table_name where t.table_name='#{self.table_name}'")
     rescue
       result = nil
-      comments
     end
     result
   end

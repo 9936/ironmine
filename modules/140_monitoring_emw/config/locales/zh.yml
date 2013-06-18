@@ -25,7 +25,7 @@ zh:
   label_emw_interface_table_add_column: 添加列
   label_emw_interface_table_import: 导入接口表
   label_emw_interface_table_import_step_n: 导入接口表 步骤%{n}, 共%{total}步
-  label_emw_interface_table_import_host: 数据库host
+  label_emw_interface_table_import_database: 数据库
   label_emw_interface_table_import_username: 数据库用户
   label_emw_interface_table_import_password: 数据库密码
   label_emw_interface_table_import_check_all: 全选

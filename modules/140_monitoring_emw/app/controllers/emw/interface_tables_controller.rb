@@ -116,13 +116,17 @@ class Emw::InterfaceTablesController < ApplicationController
       else
         @step -= 1 if @step > 1
       end
-      puts "==========#{@interface_table.errors.to_json}============"
     end
   end
 
   private
     def import_step_2
-      @columns = @interface_table.get_columns
+      begin
+        @columns = @interface_table.get_columns
+      rescue RuntimeError => e
+        @interface_table.errors.add(:database, e.message)
+        @step -= 1
+      end
     end
 
     def import_step_3

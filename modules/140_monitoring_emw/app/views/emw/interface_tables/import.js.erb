@@ -1,1 +1,2 @@
-<%= hand_result(@interface_table, "import_step_#{@step}", nil, nil, @step <= 3) %>
+
+<%= hand_result(@interface_table, "import_step_#{@step}", @step == 4 ? 'updateData' : nil, nil, @step <= 3) %>
