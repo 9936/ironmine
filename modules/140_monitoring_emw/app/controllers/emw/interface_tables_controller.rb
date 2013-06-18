@@ -167,6 +167,5 @@ class Emw::InterfaceTablesController < ApplicationController
         @interface_table.save
       end
 
-
     end
 end

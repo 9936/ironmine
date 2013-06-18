@@ -37,7 +37,7 @@ class Emw::InterfaceTable < ActiveRecord::Base
     begin
       result = conn.select_rows("select t.column_name, t.data_type, t.data_length, c.comments from user_tab_columns t left join user_col_comments c on t.column_name=c.column_name and t.table_name=c.table_name where t.table_name='#{self.table_name}'")
     rescue
-      result = nil
+      result = []
     end
     result
   end
