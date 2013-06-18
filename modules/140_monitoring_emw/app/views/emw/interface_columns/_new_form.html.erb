@@ -32,7 +32,7 @@
       <div class="control-group">
         <label class="control-label"><%= t(:label_emw_interface_column_error_flag) %>:</label>
         <div class="controls">
-          <%= f.check_box :error_flag %>
+          <%= f.check_box :error_flag, :class => "single" %>
           <span class="help-inline"></span>
         </div>
       </div>
@@ -40,7 +40,7 @@
       <div class="control-group">
         <label class="control-label"><%= t(:label_emw_interface_column_message_flag) %>:</label>
         <div class="controls">
-          <%= f.check_box :message_flag %>
+          <%= f.check_box :message_flag, :class => "single" %>
           <span class="help-inline"></span>
         </div>
       </div>
@@ -59,3 +59,15 @@
       <%= link_submit t(:save), :class => "btn btn-primary" %>
     </div>
 <% end %>
+
+
+<script type="text/javascript">
+    $(function(){
+        $("input[class='single']").bind("click", function(){
+            if($(this).is(':checked')){
+                $("input[class='single']").removeAttr("checked");
+                $(this).attr("checked", true);
+            }
+        })
+    })
+</script>
