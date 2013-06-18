@@ -19,6 +19,7 @@ zh:
   #=========================Start Interface Table=======================#
   label_emw_interface_table: 接口表
   label_emw_interface_table_name: 接口表名
+  label_emw_interface_table_name_error: 接口表名不存在或者接口表字段为空，请检查后提交
   label_emw_interface_table_error: 错误表名
   label_emw_interface_table_new: 新建接口表
   label_emw_interface_table_edit: 编辑接口表

@@ -126,6 +126,12 @@ class Emw::InterfaceTablesController < ApplicationController
       rescue RuntimeError => e
         @interface_table.errors.add(:database, e.message)
         @step -= 1
+        return
+      end
+      #当返回的列不存在时
+      if @columns.size < 1
+        @interface_table.errors.add(:table_name, I18n.t(:label_emw_interface_table_name_error))
+        @step -= 1
       end
     end
 
