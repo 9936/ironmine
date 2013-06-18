@@ -183,6 +183,43 @@ class Skm::ApiEntryHeadersController < ApplicationController
     end
   end
 
+  #获取专题下的知识和章节
+  #Request: /api_entry_headers/get_owner_entry_data.json
+  def get_owner_entry_data
+    entry_book_relations = Skm::EntryBookRelation.order_by_sequence.targets(params[:id]).index_by(&:target_id)
+    relation_headers = Skm::EntryBookRelation.query_headers_by_book(params[:id])
+    relation_books = Skm::EntryBook.multilingual.query_books_by_relations(params[:id])
+
+    if entry_book_relations.any?
+      relation_headers.each do |header|
+        if entry_book_relations[header.entry_header_id.to_s].present?
+          if entry_book_relations[header.entry_header_id.to_s][:display_name].present?
+            header[:display_name] = entry_book_relations[header.entry_header_id.to_s][:display_name]
+          else
+            header[:display_name] = header[:entry_title]
+          end
+
+          entry_book_relations[header.entry_header_id.to_s] = header
+        end
+      end
+
+      relation_books.each do |book|
+        if entry_book_relations[book.entry_book_id.to_s].present?
+          if entry_book_relations[book.entry_book_id.to_s][:display_name].present?
+            book[:display_name] = entry_book_relations[book.entry_book_id.to_s][:display_name]
+          else
+            book[:display_name] = book[:name]
+          end
+
+          entry_book_relations[book.entry_book_id.to_s] = book
+        end
+      end
+    end
+    entry_book_relations.values.each do |cr|
+
+    end
+  end
+
   private
 
     def set_return_columns
