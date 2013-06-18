@@ -22,14 +22,7 @@ class Emw::InterfaceColumnsController < ApplicationController
 
   def update
     @interface_column = Emw::InterfaceColumn.find(params[:id])
-
-    respond_to do |format|
-      if @interface_column.update_attributes(params[:emw_interface_column])
-        format.html { redirect_to({:controller => "emw/interfaces",:action => "show", :id => @interface_column.interface_table.interface_id }, :notice => t(:successfully_updated)) }
-      else
-        format.html { render :action => "edit" }
-      end
-    end
+    @interface_column.update_attributes(params[:emw_interface_column])
   end
 
   def destroy

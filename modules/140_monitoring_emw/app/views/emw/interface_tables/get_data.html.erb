@@ -1,17 +1,124 @@
-<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
-    <% builder.column(:id, {:title => t(:operation), :width => "120px"}) do |data| %>
-        <%= link_to(t(:edit), {:controller => "emw/interface_tables", :action => "edit", :id => data[:id],:interface_id => params[:interface_id] }, {:class => "action-link", :rel => "modal"}) %>&nbsp;|
-        <%= link_to(t(:label_emw_interface_table_add_column), {:controller => "emw/interface_columns", :action => "new", :table_id => data[:id]}, {:class => "action-link", :rel => "modal"}) %>&nbsp;|
-        <%= link_to(t(:show), {:controller => "emw/interface_tables", :action => "show", :id => data[:id],:interface_id => params[:interface_id]}, {:class => "action-link", :rel => "modal"}) %>
-    <% end %>
-    <% builder.column(:name, {:title => t(:name)}) %>
-    <% builder.column(:table_name, {:title => t(:name)}) %>
-    <% builder.column(:errors_table, {:title => t(:label_emw_interface_table_error)}) do |data| %>
-      <% if data.errors_table.present? %>
-        <%= link_to(data.error_table,{:controller => "emw/error_tables", :action => "show",:id => data.errors_table.id, :table_id => data.id }, :class => "action-link")  %>
-      <% else %>
-        <%= link_to(t(:new), {:controller => "emw/error_tables", :action => "new", :table_id => data.id }, :class => "action-link", :rel => "modal") %>
-      <% end %>
-    <% end %>
-    <% builder.column(:description, {:title => t(:description)}) %>
-<% end %>
+<style type="text/css">
+    tr.master {
+        background-color: #e5e5e5 !important;
+    }
+
+    tr.details td,
+    tr.item-details td {
+        padding: 0;
+    }
+    tr.details td table th {
+        border: none;
+        background: none;
+        padding: 4px 10px 4px 5px;
+        border-left: 1px solid #CBCBCB;
+        border-bottom: 1px solid #CBCBCB;
+        background: none;
+        background-color:#EDF5FF;
+    }
+    tr.details td table td {
+        padding: 5px 10px 5px 5px;
+    }
+    tr.details td.title {
+        font-weight: bold;
+        text-align: center;
+        border-left: none;
+        background-color: #e0edff;
+    }
+
+    tr.details table.table-condensed th,
+    tr.details table.table-condensed td {
+        border-left: 1px solid #CBCBCB;
+    }
+</style>
+
+<div id="interface_table">
+  <div class="datatable">
+    <div class="table-body include-header">
+      <table count="<%= @count %>">
+        <thead>
+        <tr>
+          <th style="width:120px;"><div><%= t(:operation) %></div></th>
+          <th><div><%= t(:name) %></th>
+          <th><div><%= t(:label_emw_interface_table_name) %></div></th>
+          <th><div><%= t(:label_emw_interface_table_error) %></div></th>
+          <th class="last"><div><%= t(:description) %></div></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @datas.each do |data| %>
+          <tr data-table="<%= data[:id] %>" class="master">
+            <td><div>
+              <%= link_to(t(:edit), {:controller => "emw/interface_tables", :action => "edit", :id => data[:id], :interface_id => params[:interface_id]}, {:class => "action-link", :rel => "modal"}) %>&nbsp;|
+              <%= link_to(t(:label_emw_interface_table_add_column), {:controller => "emw/interface_columns", :action => "new", :table_id => data[:id]}, {:class => "action-link", :rel => "modal"}) %>&nbsp;|
+              <%= link_to(t(:label_emw_interface_column_expand), {:controller => "emw/interface_tables", :action => "show", :id => data[:id], :interface_id => params[:interface_id]}, {:class => "action-link table-columns-action"}) %>
+            </div></td>
+            <td><div><%= data[:name] %></div></td>
+            <td><div><%= data[:table_name] %></div></td>
+            <td><div>
+              <% if data.errors_table.present? %>
+                【<%= link_to(t(:edit), {:controller => "emw/error_tables", :action => "edit", :id => data.errors_table.id, :table_id => data.id}, :class => "action-link", :rel => "modal") %>】
+                <%= link_to(data.error_table, {:controller => "emw/error_tables", :action => "show", :id => data.errors_table.id, :table_id => data.id}, :class => "action-link", :rel => "modal") %>
+              <% else %>
+                <%= link_to(t(:new), {:controller => "emw/error_tables", :action => "new", :table_id => data.id}, :class => "action-link", :rel => "modal") %>
+              <% end %>
+            </div></td>
+            <td><div><%= data[:description] %></div></td>
+          </tr>
+          <tr class="details" id="<%= data[:id] %>">
+            <td class="title"><%= t(:label_emw_interface_column) %></td>
+            <td colspan="4"  style="border-bottom: none;">
+              <table class="table table-condensed">
+                <thead>
+                <tr>
+                  <th style="width: 80px;"><%= t(:operation) %></th>
+                  <th><%= t(:label_emw_interface_column_name) %></th>
+                  <th><%= t(:label_emw_interface_column_data_type) %></th>
+                  <th><%= t(:label_emw_interface_column_data_length) %></th>
+                  <th><%= t(:label_emw_interface_column_error_flag) %></th>
+                  <th><%= t(:label_emw_interface_column_message_flag) %></th>
+                  <th><%= t(:description) %></th>
+                </tr>
+                </thead>
+                <tbody>
+                <% data.interface_columns.each do |column| %>
+                    <tr>
+                      <td>
+                        <%= link_to(t(:edit), {:controller => "emw/interface_columns", :action => "edit", :id => column[:id],:table_id => data.id}, {:class => "action-link", :rel => "modal"}) %>&nbsp;|
+                        <%= link_to(t(:delete), {:controller => "emw/interface_columns", :action => "destroy", :id => column[:id],:table_id => data.id}, {:class => "action-link",:confirm => t(:label_are_you_sure), :method => :delete}) %>
+                      </td>
+                      <td><%= column.name %></td>
+                      <td><%= column.data_type %></td>
+                      <td><%= column.data_length %></td>
+                      <td><%= check_img(column.error_flag) %></td>
+                      <td><%= check_img(column.message_flag) %></td>
+                      <td><%= column.description %></td>
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+      $("a.table-columns-action").bind("click", function(e){
+          var $this = $(this), $tr = $this.closest("tr"), dataTable = $tr.data("table");
+          if($tr.hasClass("master")){
+              $tr.removeClass("master");
+              $("#"+dataTable).hide(300);
+          }else{
+              $tr.addClass("master");
+              $("#"+dataTable).show(300);
+          }
+
+          e.preventDefault();
+      })
+  });
+</script>

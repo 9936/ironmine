@@ -22,14 +22,7 @@ class Emw::ErrorTablesController < ApplicationController
 
   def update
     @error_table = Emw::ErrorTable.find(params[:id])
-
-    respond_to do |format|
-      if @error_table.update_attributes(params[:emw_error_table])
-        format.html { redirect_to({:controller => "emw/interfaces",:action => "show", :id => @error_table.interface_table.interface_id }, :notice => t(:successfully_updated)) }
-      else
-        format.html { render :action => "edit" }
-      end
-    end
+    @error_table.update_attributes(params[:emw_error_table])
   end
 
 end
