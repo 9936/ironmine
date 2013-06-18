@@ -16,6 +16,7 @@
           <th><%= t(:label_emw_interface_column_data_type) %></th>
           <th><%= t(:label_emw_interface_column_data_length) %></th>
           <th><%= t(:label_emw_interface_column_error_flag) %></th>
+          <th><%= t(:label_emw_interface_column_message_flag) %></th>
           <th><%= t(:description) %></th>
         </tr>
         </thead>
@@ -26,8 +27,9 @@
           <td><%= column[0] %></td>
           <td><%= column[1] %></td>
           <td><%= column[2] %></td>
-          <td><%= check_box_tag "select_all", nil, false, :class => "check-box" %></td>
-          <td></td>
+          <td><%= check_box_tag "#{column[0]}_error", 'Y', false, :class => "check-box" %></td>
+          <td><%= check_box_tag "#{column[0]}_message", 'Y', false, :class => "check-box" %></td>
+          <td><%= column[3] %></td>
         </tr>
         <% end %>
         </tbody>

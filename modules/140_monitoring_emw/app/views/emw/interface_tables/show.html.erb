@@ -17,6 +17,7 @@
       <th><%= t(:label_emw_interface_column_data_type) %></th>
       <th><%= t(:label_emw_interface_column_data_length) %></th>
       <th><%= t(:label_emw_interface_column_error_flag) %></th>
+      <th><%= t(:label_emw_interface_column_message_flag) %></th>
       <th><%= t(:description) %></th>
     </tr>
     </thead>
@@ -28,9 +29,10 @@
           <%= link_to(t(:delete), {:controller => "emw/interface_columns", :action => "destroy", :id => column[:id],:table_id => @interface_table.id}, {:class => "action-link",:confirm => t(:label_are_you_sure), :method => :delete}) %>
         </td>
         <td><%= column.name %></td>
-        <td><%= t("label_emw_interface_column_data_type_#{column.data_type.downcase}") %></td>
+        <td><%= column.data_type %></td>
         <td><%= column.data_length %></td>
         <td><%= check_img(column.error_flag) %></td>
+        <td><%= check_img(column.message_flag) %></td>
         <td><%= column.description %></td>
       </tr>
     <% end %>

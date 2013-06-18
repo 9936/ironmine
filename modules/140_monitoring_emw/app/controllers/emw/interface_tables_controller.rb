@@ -77,13 +77,12 @@ class Emw::InterfaceTablesController < ApplicationController
   end
 
   def get_data
-    interface_tables_scope = Emw::InterfaceTable.multilingual
-    interface_tables_scope = interface_tables_scope.match_value("interface_table.name",params[:name])
-    interface_tables,count = paginate(interface_tables_scope)
+    interface_tables = Emw::InterfaceTable.query_by_interface(params[:interface_id])
+    #interface_tables = interface_tables_scope.match_value("interface_table.name",params[:name])
     respond_to do |format|
       format.html  {
         @datas = interface_tables
-        @count = count
+        @count = interface_tables.count
       }
       format.json {render :json=>to_jsonp(interface_tables.to_grid_json([:name,:description,:status_meaning],count))}
     end
@@ -108,15 +107,56 @@ class Emw::InterfaceTablesController < ApplicationController
       end
 
       @interface_table = Emw::InterfaceTable.new(session[:emw_interface_table])
-      @columns = @interface_table.get_columns if @step == 2
-      puts "============#{@columns.length}=============="
+      @interface_table.step = @step
       @interface_table.import_flag = 'Y'
-      if @interface_table.valid?
 
+
+      if @interface_table.valid?
+        eval("import_step_#{@step}")
       else
         @step -= 1 if @step > 1
       end
       puts "==========#{@interface_table.errors.to_json}============"
     end
   end
+
+  private
+    def import_step_2
+      @columns = @interface_table.get_columns
+    end
+
+    def import_step_3
+      @columns = []
+      selected_columns = params[:columns]
+      if selected_columns.present? && selected_columns.any?
+        selected_columns.each do |c_s|
+          column = c_s.split(" ")
+          if column.size == 4
+            description = column[3]
+          else
+            description = nil
+          end
+          error_flag = params["#{column[0]}_error"].present?? params["#{column[0]}_error"] : 'N'
+          message_flag = params["#{column[0]}_message"].present?? params["#{column[0]}_message"] : 'N'
+          @columns << {:name => column[0], :data_type => column[1], :data_length => column[2], :error_flag => error_flag, :message_flag => message_flag, :description => description }
+        end
+      end
+    end
+
+    def import_step_4
+      if params[:columns].present? && params[:columns].any?
+        params[:columns].each do |column|
+          column = eval(column)
+          @interface_table.interface_columns.build(:name => column[:name],
+                                                   :data_type => column[:data_type],
+                                                   :data_length => column[:data_length],
+                                                   :error_flag => column[:error_flag],
+                                                   :message_flag => column[:message_flag],
+                                                   :description => column[:description])
+        end
+        @interface_table.save
+      end
+
+
+    end
 end

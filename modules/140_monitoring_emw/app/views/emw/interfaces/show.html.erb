@@ -75,46 +75,13 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div class="datatable" style="background-color: #fff;">
-      <table>
-        <thead>
-        <tr>
-          <th style="width: 120px;"><%= t(:operation) %></th>
-          <th><%= t(:name) %></th>
-          <th><%= t(:label_emw_interface_table_name) %></th>
-          <th><%= t(:label_emw_interface_table_error) %></th>
-          <th><%= t(:description) %></th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @interface.interface_tables.each do |table| %>
-          <tr>
-            <td>
-              <%= link_to(t(:edit), {:controller => "emw/interface_tables", :action => "edit", :id => table[:id],:interface_id => @interface.id}, {:class => "action-link", :rel => "modal"}) %>&nbsp;|
-              <%= link_to(t(:label_emw_interface_table_add_column), {:controller => "emw/interface_columns", :action => "new", :table_id => table[:id]}, {:class => "action-link", :rel => "modal"}) %>&nbsp;|
-              <%= link_to(t(:show), {:controller => "emw/interface_tables", :action => "show", :id => table[:id],:interface_id => @interface.id}, {:class => "action-link", :rel => "modal"}) %>
-            </td>
-            <td><%= table.name %></td>
-            <td><%= table.table_name %></td>
-            <td>
-              <% if table.errors_table.present? %>
-                <%= link_to(table.error_table,{:controller => "emw/error_tables", :action => "show",:id => table.errors_table.id, :table_id => table.id }, :class => "action-link")  %>
-              <% else %>
-                <%= link_to(t(:new), {:controller => "emw/error_tables", :action => "new", :table_id => table.id }, :class => "action-link", :rel => "modal") %>
-              <% end %>
-            </td>
-            <td><%= table.description %></td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-    </div>
-
+    <%= datatable("interface_table",{:controller => "emw/interface_tables", :action=>"get_data", :interface_id => @interface.id  },[])%>
   </div>
 </div>
 
 <script type="text/javascript">
   function updateData(){
-      location.reload();
+      var current_target = $("#interface_table").data("datatable").target;
+      current_target.loadPage(1);
   }
 </script>

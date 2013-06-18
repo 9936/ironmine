@@ -33,16 +33,21 @@
           <th><%= t(:label_emw_interface_column_data_type) %></th>
           <th><%= t(:label_emw_interface_column_data_length) %></th>
           <th><%= t(:label_emw_interface_column_error_flag) %></th>
+          <th><%= t(:label_emw_interface_column_message_flag) %></th>
           <th><%= t(:description) %></th>
         </tr>
         </thead>
         <tbody>
-        <% (1..5).each do |i| %>
+        <% @columns.each do |column| %>
             <tr>
-              <td><%= "data_#{i}" %></td>
-              <td>String</td>
-              <td>30</td>
-              <td><%= check_img('Y') %></td>
+              <td>
+                <%= column[:name] %>
+                <%= hidden_field_tag "columns[]", column %>
+              </td>
+              <td><%= column[:data_type] %></td>
+              <td><%= column[:data_length] %></td>
+              <td><%= check_img(column[:error_flag]) %></td>
+              <td><%= check_img(column[:message_flag]) %></td>
               <td></td>
             </tr>
         <% end %>
@@ -51,6 +56,17 @@
     </div>
     <div class="modal-footer">
       <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss"=>"modal", "aria-hidden" => "true" %>
-      <%= link_submit t(:save), :class => "btn btn-primary" %>
+      <%= link_submit t(:save), :class => "btn btn-primary disabled" %>
     </div>
 <% end %>
+
+<script type="text/javascript">
+  $("#emw_interface_table_name").bind("keyup", function(){
+      var $this = $(this), $form = $this.closest("form");
+      if ($this.val()) {
+          $("a[type='submit']", $form).removeClass("disabled");
+      }else{
+          $("a[type='submit']", $form).addClass("disabled");
+      }
+  })
+</script>

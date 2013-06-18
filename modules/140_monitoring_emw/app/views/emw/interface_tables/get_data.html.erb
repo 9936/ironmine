@@ -1,0 +1,17 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "120px"}) do |data| %>
+        <%= link_to(t(:edit), {:controller => "emw/interface_tables", :action => "edit", :id => data[:id],:interface_id => params[:interface_id] }, {:class => "action-link", :rel => "modal"}) %>&nbsp;|
+        <%= link_to(t(:label_emw_interface_table_add_column), {:controller => "emw/interface_columns", :action => "new", :table_id => data[:id]}, {:class => "action-link", :rel => "modal"}) %>&nbsp;|
+        <%= link_to(t(:show), {:controller => "emw/interface_tables", :action => "show", :id => data[:id],:interface_id => params[:interface_id]}, {:class => "action-link", :rel => "modal"}) %>
+    <% end %>
+    <% builder.column(:name, {:title => t(:name)}) %>
+    <% builder.column(:table_name, {:title => t(:name)}) %>
+    <% builder.column(:errors_table, {:title => t(:label_emw_interface_table_error)}) do |data| %>
+      <% if data.errors_table.present? %>
+        <%= link_to(data.error_table,{:controller => "emw/error_tables", :action => "show",:id => data.errors_table.id, :table_id => data.id }, :class => "action-link")  %>
+      <% else %>
+        <%= link_to(t(:new), {:controller => "emw/error_tables", :action => "new", :table_id => data.id }, :class => "action-link", :rel => "modal") %>
+      <% end %>
+    <% end %>
+    <% builder.column(:description, {:title => t(:description)}) %>
+<% end %>
