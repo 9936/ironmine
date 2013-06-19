@@ -24,6 +24,9 @@ class Skm::ApiEntryHeadersController < ApplicationController
       entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number", params[:doc_number]) if params[:doc_number]
       entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags", params[:keyword_tags]) if params[:keyword_tags]
       entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title", params[:entry_title]) if params[:entry_title]
+      entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.source_id", params[:project_id]) if params[:project_id]
+      entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.author_id", params[:author_id]) if params[:author_id]
+
       entry_headers,count = paginate(entry_headers_scope)
     end
 

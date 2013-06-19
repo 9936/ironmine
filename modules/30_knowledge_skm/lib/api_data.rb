@@ -8,6 +8,9 @@ Fwk::ApiParamsManager.map do |map|
           :params => [
               {:name => :full_search, :classify => [:input], :type => "String", :description => "全文检索，指明此参数，可检索出于关键字相关的知识文章"},
               {:name => :doc_number, :classify => [:input], :type => "String", :description => "知识文章编码"},
+              {:name => :project_id, :classify => [:input], :type => "String", :description => "知识所属项目ID"},
+              {:name => :author_id, :classify => [:input], :type => "String", :description => "知识作者ID"},
+              {:name => :column_id, :classify => [:input], :type => "String", :description => "知识分类ID"},
               {:name => :entry_title, :classify => [:input], :type => "String", :description => "知识文章标题"},
               {:name => :start, :classify => [:input], :type => "Number", :required => "Y", :default_value => 0, :description => "用于分页，从第几条记录开始"},
               {:name => :limit, :classify => [:input], :type => "Number", :required => "Y", :default_value => 10, :description => "每页显示记录数"},
