@@ -134,15 +134,21 @@ class Skm::ApiEntryHeadersController < ApplicationController
                                         :entry_title => params[:entry_title],
                                         :keyword_tags => params[:keyword_tags],
                                         :channel_id => params[:channel_id])
-    puts "==============#{params[:content]}==================="
-    if params[:content].present?
-      content_obj = eval(params[:content])
-      entry_elements = Skm::EntryTemplateElement.with_template(params[:template_id]).index_by(&:detail_id)
-      puts "==================#{entry_elements}===================="
-      content_obj.each do |d|
-        entry_header.entry_details.build
+    if params[:content] && eval(params[:content]).any?
+      eval(params[:content]).each do |d|
+        entry_header.entry_details.build({:element_name => d["element_name"],
+                                          :entry_template_element_id => d["entry_template_element_id"],
+                                          :entry_content => d["entry_content"]})
       end
-
+      if entry_header.save
+        entry_header[:content]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
+        #根据输出参数进行显示
+        respond_to do |format|
+          format.json {
+            render json: entry_header.to_json(:only => @return_columns)
+          }
+        end
+      end
     end
 
   end
