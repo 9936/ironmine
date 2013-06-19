@@ -34,8 +34,8 @@ zh:
 
   #=========================Start Interface Table=======================#
   label_emw_interface_column: 接口表列
-  label_emw_interface_column_expand: 展开
-  label_emw_interface_column_collspad: 展开
+  label_emw_interface_column_expand: 展开列
+  label_emw_interface_column_collapse: 隐藏列
   label_emw_interface_column_new: 添加列
   label_emw_interface_column_edit: 编辑列
   label_emw_interface_column_name: 列名
