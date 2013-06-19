@@ -6,7 +6,7 @@ Fwk::ApiParamsManager.map do |map|
           :name => "查看用户接口",
           :description => "查看用户接口",
           :params => [
-              {:name => :id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "用户ID"},
+              {:name => :id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "用户ID或登录名"},
               {:name => :login_name, :classify => [:output], :type => "String", :description => "用户登录名"},
               {:name => :first_name, :classify => [:output], :type => "String", :description => "用户名"},
               {:name => :full_name, :classify => [:output], :type => "String", :description => "全名"},

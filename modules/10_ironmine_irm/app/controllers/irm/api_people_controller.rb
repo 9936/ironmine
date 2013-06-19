@@ -4,7 +4,7 @@ class Irm::ApiPeopleController < ApplicationController
   #查看用户
   #Request: /api_peoples/show.json
   def show
-    person = Irm::Person.list_all.find(params[:id])
+    person = Irm::Person.list_all.where("#{Irm::Person.table_name}.id=? OR #{Irm::Person.table_name}.login_name=?", params[:id], params[:id]).first
     #根据输出参数进行显示
     respond_to do |format|
       format.json {
