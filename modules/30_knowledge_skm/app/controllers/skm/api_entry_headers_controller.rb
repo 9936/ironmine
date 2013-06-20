@@ -158,12 +158,14 @@ class Skm::ApiEntryHeadersController < ApplicationController
     entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
     entry_header.published_date = Time.now
     entry_header.doc_number = Skm::EntryHeader.generate_doc_number
-    entry_header.version_number = @entry_header.next_version_number
+    entry_header.version_number = entry_header.next_version_number
     entry_header.author_id = Irm::Person.current.id
     entry_header.type_code = "ARTICLE"
 
-    if eval(params[:details]).present? && eval(params[:details]).any?
-      eval(params[:details]).each do |d|
+    details =  ActiveSupport::JSON.decode(eval('"' + params[:details] + '"')) if params[:details].present?
+
+    if details.present? && details.any?
+      details.each do |d|
         entry_header.entry_details.build({:element_name => d["element_name"],
                                           :entry_template_element_id => d["entry_template_element_id"],
                                           :entry_content => d["entry_content"]})
@@ -214,9 +216,11 @@ class Skm::ApiEntryHeadersController < ApplicationController
         entry_header.entry_title = params[:entry_title]
         entry_header.keyword_tags = params[:keyword_tags]
         entry_header.channel_id = params[:channel_id]
-        if eval(params[:details]).present? && eval(params[:details]).any?
-          eval(params[:details]).each do |d|
-            detail = Skm::EntryDetail.where("entry_header_id=? AND entry_template_element_id=?", entry_header.id ,d["entry_template_element_id"]).first
+        details =  ActiveSupport::JSON.decode(eval('"' + params[:details] + '"')) if params[:details].present?
+        if details.present? && details.any?
+          details.each do |d|
+            id = d["element_id"] || d["entry_template_element_id"]
+            detail = Skm::EntryDetail.where("entry_header_id=? AND id=?", entry_header.id ,id).first
             detail.update_attributes({:element_name => d["element_name"], :entry_content => d["entry_content"]}) if detail
           end
         end
@@ -243,9 +247,11 @@ class Skm::ApiEntryHeadersController < ApplicationController
       entry_header.entry_title = params[:entry_title]
       entry_header.keyword_tags = params[:keyword_tags]
       entry_header.channel_id = params[:channel_id]
-      if eval(params[:details]).present? && eval(params[:details]).any?
-        eval(params[:details]).each do |d|
-          detail = Skm::EntryDetail.where("entry_header_id=? AND entry_template_element_id=?", entry_header.id ,d["entry_template_element_id"]).first
+      details =  ActiveSupport::JSON.decode(eval('"' + params[:details] + '"')) if params[:details].present?
+      if details.present? && details.any?
+        details.each do |d|
+          id = d["element_id"] || d["entry_template_element_id"]
+          detail = Skm::EntryDetail.where("entry_header_id=? AND id=?", entry_header.id ,id).first
           detail.update_attributes({:element_name => d["element_name"], :entry_content => d["entry_content"]}) if detail
         end
       end
