@@ -42,5 +42,14 @@ Rails.application.routes.draw do
     match '/tables/:table_id/error_tables/:id/(.:format)' => "error_tables#show", :via => :get
     match '/tables/:table_id/error_tables/create(.:format)' => "error_tables#create", :via => :post
     match '/tables/:table_id/error_tables/:id/destroy(.:format)' => "error_tables#destroy", :via => :delete
+
+    #Monitor_program
+    match '/monitor_programs(/index)(.:format)' => "monitor_programs#index", :via => :get
+    match '/monitor_programs/get_data(.:format)' => "monitor_programs#get_data"
+    match '/monitor_programs/:id/edit(.:format)' => "monitor_programs#edit", :via => :get
+    match '/monitor_programs/:id(.:format)' => "monitor_programs#update", :via => :put
+    match '/monitor_programs/new(.:format)' => "monitor_programs#new", :via => :get
+    match '/monitor_programs/:id(.:format)' => "monitor_programs#show", :via => :get
+    match '/monitor_programs/create(.:format)' => "monitor_programs#create", :via => :post
   end
 end

@@ -1,0 +1,19 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "80px"}) do |data| %>
+        <%= link_to(t(:edit), {:action => "edit", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:show), {:action => "show", :id => data[:id]}, {:class => "action-link"}) %>
+    <% end %>
+    <% builder.column(:name, {:title => t(:name), :searchable => true}) %>
+    <% builder.column(:assigned_to, {:title => t(:label_emw_monitor_program_assigned_to)}) do |data| %>
+      <%= data[:full_name] %>
+    <% end %>
+    <% builder.column(:mail_alert, {:title => t(:label_emw_monitor_program_mail_alert)}) do |data| %>
+        <%= data[:mail_alert_name] %>
+    <% end %>
+    <% builder.column(:start_at, {:title => t(:label_emw_monitor_program_start_at)}) %>
+    <% builder.column(:end_at, {:title => t(:label_emw_monitor_program_end_at)}) %>
+    <% builder.column(:description, {:title => t(:description)}) %>
+    <% builder.column(:repeat_type, {:title => t(:label_emw_monitor_program_repeat_type)}) do |data| %>
+      <span class="badge badge-success"><%= t("label_emw_monitor_program_repeat_type_#{data[:repeat_type].downcase}") %></span>
+    <% end %>
+<% end %>

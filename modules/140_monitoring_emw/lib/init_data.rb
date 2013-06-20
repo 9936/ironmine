@@ -6,7 +6,7 @@ Fwk::MenuAndFunctionManager.map do |map|
       :zh => {:name => "EBS 模块", :description => "EBS 模块"}
   }
   map.function_group :ebs_modules, {
-      :zone_code => "SYSTEM_SETTING",
+      :zone_code => "EBS_MONITOR",
       :controller => "emw/ebs_modules",
       :action => "index"
   }
@@ -27,5 +27,29 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
   #=================================START:CALENDAR=================================
+
+  #=================================START:MONITOR_PROGRAM=================================
+  map.function_group :ebs_monitor_program, {
+      :en => {:name => "Monitor Program", :description => "Monitor Program"},
+      :zh => {:name => "监控方案", :description => "监控方案"}
+  }
+  map.function_group :ebs_monitor_program, {
+      :zone_code => "EBS_MONITOR",
+      :controller => "emw/monitor_programs",
+      :action => "index"
+  }
+  map.function_group :ebs_monitor_program, {
+      :children => {
+          :ebs_monitor_program => {
+              :en => {:name => "Monitor Program", :description => "Monitor Program"},
+              :zh => {:name => "监控方案", :description => "监控方案"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "emw/monitor_programs" => ["index", "show", "get_data","edit","update", "new", "create"]
+          }
+      }
+  }
+  #=================================START:MONITOR_PROGRAM=================================
 
 end

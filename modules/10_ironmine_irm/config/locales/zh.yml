@@ -2139,7 +2139,11 @@ zh:
 
   label_kpi_resolved_rate: 事故单解决率
   label_kpi_ttr: 平均处理时间
-
+  label_rule_n_weekly: 在每%{n}周的
+  label_rule_n_daily: 每%{n}天
+  label_rule_n_monthly: 在每%{n}个月的
+  label_n_setpos: 第%{n}个
+  label_n_monthday: 第%{n}天
   label_irm_person_work_number: 工号
 
   #==============================Start Api tools==============================

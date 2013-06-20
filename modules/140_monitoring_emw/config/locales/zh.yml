@@ -58,3 +58,21 @@ zh:
   label_emw_error_table_edit: 编辑错误表
   #=========================End Error Table=======================#
 
+  #=========================Start Monitor Program======================#
+  label_emw_monitor_program: 监控方案
+  label_emw_monitor_program_list: 监控方案列表
+  label_emw_monitor_program_new: 新建监控方案
+  label_emw_monitor_program_edit: 编辑监控方案
+  label_emw_monitor_program_assigned_to: 处理人
+  label_emw_monitor_program_start_at: 开始日期
+  label_emw_monitor_program_end_at: 结束日期
+  label_emw_monitor_program_history_flag: 记录监控历史
+  label_emw_monitor_program_mail_alert: 邮件警告
+  label_emw_monitor_program_repeat_type: 重复频率
+  label_emw_monitor_program_repeat_type_weekly: 每周重复
+  label_emw_monitor_program_repeat_type_daily: 每日重复
+  label_emw_monitor_program_repeat_type_monthly: 每月重复
+  label_emw_monitor_program_target: 监控对象
+  #=========================End Monitor Program=======================#
+
+
