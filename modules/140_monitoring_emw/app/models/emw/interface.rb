@@ -16,4 +16,12 @@ class Emw::Interface < ActiveRecord::Base
         joins("JOIN #{Emw::EbsModule.table_name} em ON em.id=#{table_name}.ebs_module_id")
   }
 
+  def self.lov(lov_scope, params)
+    #排除掉已经在对象列表中的
+    if "monitor_target".eql?(params[:lov_params][:lktkn])&& params[:lov_params][:monitor_program_id].present?
+      lov_scope = lov_scope.where("NOT EXISTS(SELECT 1 FROM #{Emw::MonitorTarget.table_name} et WHERE (#{table_name}.id=et.target_id AND et.monitor_program_id=?) )", params[:lov_params][:monitor_program_id])
+    end
+    lov_scope
+  end
+
 end

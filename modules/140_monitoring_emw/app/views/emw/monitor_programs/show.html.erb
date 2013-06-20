@@ -74,17 +74,21 @@
     </td>
     <td class="page-block-button"></td>
     <td class="page-block-help">
-      <%= form_tag({:controller => "emw/monitor_programs", :action => "index", :_dom_id=>"entryBook"},{:class => "form-inline",:remote=>true,:builder => CustomFormBuilder}) do %>
+      <%= form_tag({:controller => "emw/monitor_programs", :action => "add_target", :_dom_id=>"monitor_targets"},{:class => "form-inline",:remote=>true,:builder => CustomFormBuilder}) do %>
           <div class="float-right" style="margin-left: 20px;">
             <%= link_submit(t(:add), :class=>"btn") %>
+            <span class="hidden">
+              <input type="reset" value="Reset"/>
+            </span>
           </div>
           <div  style="float:right;">
-            <%= lov_field_tag "entry_book_id", Emw::Interface, {:style=>"width:150px;"}%>
+            <%= hidden_field_tag "target_type", "INTERFACE" %>
+            <%= lov_field_tag "target_id", Emw::Interface, {:style=>"width:150px;", :lov_params=>{:lktkn=>"monitor_target", :monitor_program_id=> @monitor_program.id}}%>
           </div>
       <% end %>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("interface_table",{:controller => "emw/monitor_programs", :action=>"get_data" },[])%>
+    <%= datatable("monitor_targets",{:controller => "emw/monitor_programs", :action=>"get_target_data" },[])%>
   </div>
 </div>

@@ -1,0 +1,10 @@
+<%= datatable_view({:count => @datas.count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "30px"}) do |data| %>
+        <%= link_to(t(:remove), {:action => "edit", :id => data[:id]}, {:class => "action-link"}) %>
+    <% end %>
+    <% builder.column(:name, {:title => t(:name), :searchable => true}) %>
+    <% builder.column(:target_type, {:title => t(:label_emw_monitor_program_target_type)}) do |data| %>
+      <%= t("label_emw_monitor_program_target_type_#{data[:target_type].downcase}") %>
+    <% end %>
+    <% builder.column(:description, {:title => t(:description)}) %>
+<% end %>

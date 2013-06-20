@@ -92,4 +92,27 @@ class Emw::MonitorProgramsController < ApplicationController
       format.json {render :json=>to_jsonp(monitor_programs.to_grid_json([:name,:description,:status_meaning],count))}
     end
   end
+
+  def add_target
+    @montior_target = Emw::MonitorTarget.new({:monitor_program_id => params[:id],
+                                              :target_id => params[:target_id],
+                                              :target_type => params[:target_type]})
+    @montior_target.save
+  end
+
+  def remove_target
+
+  end
+
+  def get_target_data
+    targets = Emw::MonitorTarget.with_program(params[:id])
+    #对target进行分类
+    intance_ids = []
+    targets.each do |target|
+      if target.target_type.eql?("INTERFACE")
+        intance_ids << target.target_id
+      end
+    end
+    @datas = Emw::MonitorTarget.instance_targets(intance_ids)
+  end
 end

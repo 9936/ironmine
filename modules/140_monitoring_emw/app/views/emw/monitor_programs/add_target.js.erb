@@ -1,0 +1,8 @@
+$(function(){
+    <% if @montior_target.errors.any? %>
+      alert("Somethind is error.")
+    <% else %>
+      $("#monitor_targets").data("datatable").target.loadPage();
+    <% end %>
+
+});
