@@ -162,15 +162,15 @@ class Skm::ApiEntryHeadersController < ApplicationController
     entry_header.author_id = Irm::Person.current.id
     entry_header.type_code = "ARTICLE"
 
-    if eval(params[:content]).present? && eval(params[:content]).any?
-      eval(params[:content]).each do |d|
+    if eval(params[:details]).present? && eval(params[:details]).any?
+      eval(params[:details]).each do |d|
         entry_header.entry_details.build({:element_name => d["element_name"],
                                           :entry_template_element_id => d["entry_template_element_id"],
                                           :entry_content => d["entry_content"]})
       end
       if entry_header.save
         entry_header[:project_id] = entry_header.source_id
-        entry_header[:content]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
+        entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
         #根据输出参数进行显示
         respond_to do |format|
           format.json {
@@ -214,8 +214,8 @@ class Skm::ApiEntryHeadersController < ApplicationController
         entry_header.entry_title = params[:entry_title]
         entry_header.keyword_tags = params[:keyword_tags]
         entry_header.channel_id = params[:channel_id]
-        if eval(params[:content]).present? && eval(params[:content]).any?
-          eval(params[:content]).each do |d|
+        if eval(params[:details]).present? && eval(params[:details]).any?
+          eval(params[:details]).each do |d|
             detail = Skm::EntryDetail.where("entry_header_id=? AND entry_template_element_id=?", entry_header.id ,d["entry_template_element_id"]).first
             detail.update_attributes({:element_name => d["element_name"], :entry_content => d["entry_content"]}) if detail
           end
@@ -243,8 +243,8 @@ class Skm::ApiEntryHeadersController < ApplicationController
       entry_header.entry_title = params[:entry_title]
       entry_header.keyword_tags = params[:keyword_tags]
       entry_header.channel_id = params[:channel_id]
-      if eval(params[:content]).present? && eval(params[:content]).any?
-        eval(params[:content]).each do |d|
+      if eval(params[:details]).present? && eval(params[:details]).any?
+        eval(params[:details]).each do |d|
           detail = Skm::EntryDetail.where("entry_header_id=? AND entry_template_element_id=?", entry_header.id ,d["entry_template_element_id"]).first
           detail.update_attributes({:element_name => d["element_name"], :entry_content => d["entry_content"]}) if detail
         end
@@ -254,7 +254,7 @@ class Skm::ApiEntryHeadersController < ApplicationController
 
 
     entry_header[:project_id] = entry_header.source_id
-    entry_header[:content]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
+    entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
     #根据输出参数进行显示
     respond_to do |format|
       format.json {
