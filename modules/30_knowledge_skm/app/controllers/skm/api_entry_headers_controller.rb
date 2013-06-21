@@ -162,8 +162,20 @@ class Skm::ApiEntryHeadersController < ApplicationController
     entry_header.author_id = Irm::Person.current.id
     entry_header.type_code = "ARTICLE"
 
-    details =  ActiveSupport::JSON.decode(eval('"' + params[:details] + '"')) if params[:details].present?
+    #if params[:details].present?
+    #  begin
+    #    details =  ActiveSupport::JSON.decode(params[:details])
+    #  rescue
+    #    json_str = ActiveSupport::JSON.encode(params[:details])
+    #    details =  ActiveSupport::JSON.decode(json_str)
+    #  end
+    #end
 
+    details = get_details
+
+    #puts "======================#{details}========================"
+    ##details =  ActiveSupport::JSON.decode(eval('"' + params[:details] + '"')) if params[:details].present?
+    #return
     if details.present? && details.any?
       details.each do |d|
         entry_header.entry_details.build({:element_name => d["element_name"],
@@ -216,7 +228,8 @@ class Skm::ApiEntryHeadersController < ApplicationController
         entry_header.entry_title = params[:entry_title]
         entry_header.keyword_tags = params[:keyword_tags]
         entry_header.channel_id = params[:channel_id]
-        details =  ActiveSupport::JSON.decode(eval('"' + params[:details] + '"')) if params[:details].present?
+        #details =  ActiveSupport::JSON.decode(eval('"' + params[:details] + '"')) if params[:details].present?
+        details = get_details
         if details.present? && details.any?
           details.each do |d|
             id = d["element_id"] || d["entry_template_element_id"]
@@ -247,7 +260,8 @@ class Skm::ApiEntryHeadersController < ApplicationController
       entry_header.entry_title = params[:entry_title]
       entry_header.keyword_tags = params[:keyword_tags]
       entry_header.channel_id = params[:channel_id]
-      details =  ActiveSupport::JSON.decode(eval('"' + params[:details] + '"')) if params[:details].present?
+      #details =  ActiveSupport::JSON.decode(eval('"' + params[:details] + '"')) if params[:details].present?
+      details = get_details
       if details.present? && details.any?
         details.each do |d|
           id = d["element_id"] || d["entry_template_element_id"]
@@ -354,5 +368,18 @@ class Skm::ApiEntryHeadersController < ApplicationController
         @return_columns << p.name.to_sym
       end
       @return_columns
+    end
+
+    def get_details
+      if params[:details].present?
+        begin
+          details =  ActiveSupport::JSON.decode(params[:details])
+        rescue
+          details =  ActiveSupport::JSON.decode(eval('"'+params[:details] + '"'))
+        end
+      else
+        details = nil
+      end
+      details
     end
 end
