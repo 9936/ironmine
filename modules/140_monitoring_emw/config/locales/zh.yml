@@ -79,4 +79,15 @@ zh:
   label_emw_monitor_target_application: 应用信息
   #=========================End Monitor Program=======================#
 
+  #=========================Start Monitor Program======================#
+  label_emw_monitor_history: 监控历史
+  label_emw_monitor_history_show: 查看监控历史
+  label_emw_monitor_history_info: 监控历史信息
+  label_emw_monitor_history_target: 监控对象历史
+  label_emw_monitor_history_list: 监控历史列表
+  label_emw_monitor_history_execute_by: 执行人员
+  label_emw_monitor_history_execute_at: 执行时间
+  label_emw_monitor_history_execute_script: 执行脚本
+  #=========================End Monitor Program=======================#
+
 

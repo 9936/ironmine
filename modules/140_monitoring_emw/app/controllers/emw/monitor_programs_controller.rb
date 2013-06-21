@@ -115,4 +115,5 @@ class Emw::MonitorProgramsController < ApplicationController
     end
     @datas = Emw::MonitorTarget.instance_targets(intance_ids)
   end
+
 end

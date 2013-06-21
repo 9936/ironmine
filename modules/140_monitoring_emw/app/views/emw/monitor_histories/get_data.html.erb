@@ -1,0 +1,15 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "30px"}) do |data| %>
+        <%= link_to(t(:show), {:action => "show", :id => data[:id], :program_id => data[:monitor_program_id] }, {:class => "action-link", :rel => "modal"}) %>
+    <% end %>
+    <% builder.column(:monitor_program_id, {:title => t(:name)}) do |data| %>
+      <%= @monitor_program.name %>
+    <% end %>
+    <% builder.column(:execute_by, {:title => t(:label_emw_monitor_history_execute_by)}) do |data| %>
+      <%= data[:full_name] %>
+    <% end %>
+    <% builder.column(:execute_at, {:title => t(:label_emw_monitor_history_execute_at)}) %>
+    <% builder.column(:execute_script, {:title => t(:label_emw_monitor_history_execute_script)}) do |data| %>
+        <span title="<%= data[:execute_script] %>"><%= truncate(data[:execute_script], {:length => 200}) %></span>
+    <% end %>
+<% end %>

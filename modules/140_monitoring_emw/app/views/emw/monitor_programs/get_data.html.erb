@@ -1,7 +1,8 @@
 <%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
-    <% builder.column(:id, {:title => t(:operation), :width => "80px"}) do |data| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "130px"}) do |data| %>
         <%= link_to(t(:edit), {:action => "edit", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
-        <%= link_to(t(:show), {:action => "show", :id => data[:id]}, {:class => "action-link"}) %>
+        <%= link_to(t(:show), {:action => "show", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:label_emw_monitor_history), {:controller => "emw/monitor_histories",:action => "index", :program_id => data[:id]}, {:class => "action-link"}) %>
     <% end %>
     <% builder.column(:name, {:title => t(:name), :searchable => true}) %>
     <% builder.column(:assigned_to, {:title => t(:label_emw_monitor_program_assigned_to)}) do |data| %>

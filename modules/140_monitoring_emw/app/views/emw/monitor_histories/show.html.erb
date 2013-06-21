@@ -1,0 +1,144 @@
+<style type="text/css">
+    .navbar {
+        margin-bottom: 0;
+    }
+    .navbar-inner {
+        min-height: 20px;
+        padding-right: 20px;
+        padding-left: 20px;
+        background-color: #fafafa;
+        background-image: none;
+        border: 1px solid #d4d4d4;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff2f2f2', GradientType=0);
+        *zoom: 1;
+        -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+        -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+    }
+
+    .navbar-inner:before,
+    .navbar-inner:after {
+        display: table;
+        line-height: 0;
+        content: "";
+    }
+
+    .navbar-inner:after {
+        clear: both;
+    }
+
+    .navbar-inner .brand {
+        font-size: 15px;
+        padding: 8px;
+    }
+
+    .modal-body .controls .control-text {
+        line-height: 24px;
+        display: block;
+    }
+    .modal-body.form-horizontal .control-group {
+        margin-bottom: 0;
+    }
+</style>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_emw_monitor_history_show) %></h3>
+</div>
+<div class="modal-body form-horizontal">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <span class="brand"><%= t(:label_emw_monitor_history_info) %></span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label"><%= t(:label_emw_monitor_history_execute_by) %>:</label>
+    <div class="controls">
+      <span class="control-text"><%= @monitor_history[:full_name] %></span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label"><%= t(:label_emw_monitor_history_execute_at) %>:</label>
+    <div class="controls">
+      <span class="control-text"><%= format_date @monitor_history[:execute_at] %></span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label"><%= t(:label_emw_monitor_history_execute_script) %>:</label>
+    <div class="controls">
+      <span class="control-text"><%= @monitor_history.execute_script %></span>
+    </div>
+  </div>
+
+  <div class="navbar">
+    <div class="navbar-inner">
+      <span class="brand"><%= t(:label_emw_monitor_program) %></span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label"><%=t(:name)%>:</label>
+    <div class="controls">
+      <span class="control-text"><%= @monitor_program[:name] %></span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label"><%=t(:label_emw_monitor_program_assigned_to)%>:</label>
+    <div class="controls">
+      <span class="control-text"><%= @monitor_program[:full_name] %></span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label"><%= t(:label_emw_monitor_program_mail_alert) %>:</label>
+    <div class="controls">
+      <span class="control-text"><%= @monitor_program[:mail_alert_name] %></span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label"><%= t(:label_emw_monitor_program_start_at) %>:</label>
+    <div class="controls">
+      <span class="control-text"><%= @monitor_program[:start_at] %></span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label"><%= t(:label_emw_monitor_program_end_at) %>:</label>
+    <div class="controls">
+      <span class="control-text"><%= @monitor_program[:end_at] %></span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label"><%= t(:label_emw_monitor_program_repeat_type) %>:</label>
+    <div class="controls">
+      <span class="control-text"><%= rule_meaning(@monitor_program) %></span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label"><%= t(:description) %>:</label>
+    <div class="controls">
+      <span class="control-text"><%= @monitor_program[:description] %></span>
+    </div>
+  </div>
+
+  <div class="navbar">
+    <div class="navbar-inner">
+      <span class="brand"><%= t(:label_emw_monitor_history_target) %></span>
+    </div>
+  </div>
+  <table class="table"></table>
+
+
+</div>
+<div class="modal-footer">
+  <%= link_to t(:close), "#", :class => "btn", "data-dismiss" => "modal", "aria-hidden" => "true" %>
+</div>
