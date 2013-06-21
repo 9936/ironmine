@@ -174,7 +174,6 @@ class Skm::ApiEntryHeadersController < ApplicationController
     details = get_details
 
     #puts "======================#{details}========================"
-    ##details =  ActiveSupport::JSON.decode(eval('"' + params[:details] + '"')) if params[:details].present?
     #return
     if details.present? && details.any?
       details.each do |d|
@@ -228,7 +227,7 @@ class Skm::ApiEntryHeadersController < ApplicationController
         entry_header.entry_title = params[:entry_title]
         entry_header.keyword_tags = params[:keyword_tags]
         entry_header.channel_id = params[:channel_id]
-        #details =  ActiveSupport::JSON.decode(eval('"' + params[:details] + '"')) if params[:details].present?
+
         details = get_details
         if details.present? && details.any?
           details.each do |d|
@@ -260,7 +259,7 @@ class Skm::ApiEntryHeadersController < ApplicationController
       entry_header.entry_title = params[:entry_title]
       entry_header.keyword_tags = params[:keyword_tags]
       entry_header.channel_id = params[:channel_id]
-      #details =  ActiveSupport::JSON.decode(eval('"' + params[:details] + '"')) if params[:details].present?
+
       details = get_details
       if details.present? && details.any?
         details.each do |d|
@@ -373,9 +372,9 @@ class Skm::ApiEntryHeadersController < ApplicationController
     def get_details
       if params[:details].present?
         begin
-          details =  ActiveSupport::JSON.decode(params[:details])
+          details = ActiveSupport::JSON.decode(params[:details])
         rescue
-          details =  ActiveSupport::JSON.decode(eval('"'+params[:details] + '"'))
+          details = nil
         end
       else
         details = nil
