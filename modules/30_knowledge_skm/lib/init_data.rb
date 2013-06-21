@@ -364,7 +364,28 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "skm/api_entry_headers" => ["get_data", "get_template_data", "get_elements", "get_channels" , "get_columns", "add", "show", "get_entry_books", "update"]
+              "skm/api_entry_headers" => ["get_data", "get_template_data", "get_elements", "get_channels" , "get_columns", "add", "show", "update"]
+          }
+      }
+  }
+  #=================================START:SKM BOOK API=================================
+  map.function_group :skm_entry_book_api, {
+      :en => {:name => "Entry Book API", :description => "Entry Book API"},
+      :zh => {:name => "知识专题API", :description => "知识专题API"} }
+  map.function_group :skm_entry_book_api, {
+      :zone_code => "API",
+      :controller => "skm/api_entry_books",
+      :action => "index",
+      :api_flag => "Y" }
+  map.function_group :skm_entry_book_api, {
+      :children => {
+          :skm_book_rest_api => {
+              :en => {:name => "Entry Book API", :description => "Entry Book API"},
+              :zh => {:name => "知识专题接口", :description => "知识专题接口"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "skm/api_entry_books" => ["get_data", "show", "add", "update"]
           }
       }
   }

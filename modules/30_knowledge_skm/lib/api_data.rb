@@ -147,16 +147,54 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :entry_template_id, :classify => [:output], :type => "String", :description => "知识文章模板ID"},
               {:name => :details, :classify => [:output], :type => "Object", :description => "知识文章内容，包括{:element_id => 段落ID, :element_name => 段落标题, :entry_content => 段落内容}"}
           ]
-      },
+      }
+  }
+
+  map.controller "skm/api_entry_books", {
       #获取知识专题列表
-      :get_entry_books => {
+      :get_data => {
           :name => "知识专题列表接口",
           :description => "知识专题列表接口",
           :params => [
               {:name => :start, :classify => [:input], :type => "Number", :required => "Y", :default_value => 0, :description => "用于分页，从第几条记录开始"},
               {:name => :limit, :classify => [:input], :type => "Number", :required => "Y", :default_value => 10, :description => "每页显示记录数"},
+              {:name => :name, :classify => [:input], :type => "String", :description => "知识专题名称，用户进行模糊查询"},
               {:name => :total_rows, :classify => [:output], :type => "Number", :default_value => 0, :description => "记录总数"},
               {:name => :items, :classify => [:output], :type => "Object", :description => "知识专题列表，包括(id: 专题ID, name: 专题名称, description: 专题说明, updated_at: 专题更新时间"}
+          ]
+      },
+
+      #获取知识专题下的知识和知识专题
+      :show => {
+          :name => "查看知识专题接口",
+          :description => "查看知识专题接口",
+          :params => [
+              {:name => :id, :classify => [:input,:output], :type => "String", :required => "Y", :description => "知识专题唯一ID"},
+              {:name => :name, :classify => [:output], :type => "String", :description => "知识专题名称"},
+              {:name => :description, :classify => [:output], :type => "String", :description => "知识专题描述"},
+              {:name => :items, :classify => [:output], :type => "Object", :description => "知识专题下的知识或子专题，包括(类型:【专题OR文章】, display_name: 章节标题, title: 标题, published_date:发布日期(限知识文章),created_at： 创建时间，updated_at: 更新时间, doc_number: 文档编码（限知识文章）"}
+          ]
+      },
+
+      #添加专题
+      :add => {
+          :name => "创建知识专题接口",
+          :description => "创建知识专题接口",
+          :params => [
+            {:name => :id, :classify => [:output], :type => "String",:description => "知识专题唯一ID"},
+            {:name => :name, :classify => [:input, :output], :type => "String", :description => "知识专题名称"},
+            {:name => :description, :classify => [:input,:output], :type => "String", :description => "知识专题描述"},
+          ]
+      },
+
+      #编辑专题
+      :update => {
+          :name => "编辑知识专题接口",
+          :description => "编辑知识专题接口",
+          :params => [
+              {:name => :id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识专题唯一ID"},
+              {:name => :name, :classify => [:input, :output], :type => "String", :description => "知识专题名称"},
+              {:name => :description, :classify => [:input, :output], :type => "String", :description => "知识专题描述"},
           ]
       }
   }
