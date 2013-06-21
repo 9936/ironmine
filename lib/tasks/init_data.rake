@@ -522,8 +522,8 @@ namespace :irm do
             Irm::RestApi.where("permission_id = '#{permission.id}'").map(&:destroy)
 
             if api_controllers[controller].present? && api_controllers[controller].any?
-              api_rest_data = api_controllers[controller][action.to_sym] || api_controllers[controller][action.to_s] || []
-
+              api_rest_data = api_controllers[controller][action.to_sym] || api_controllers[controller][action.to_s] || {}
+              next unless api_rest_data.any?
               rest_api = Irm::RestApi.new(:permission_id => permission.id, :name => api_rest_data[:name], :description => api_rest_data[:description] || api_rest_data[:name],:method => route_permission[:api_method])
 
               api_rest_data[:params].each do |p|
