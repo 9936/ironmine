@@ -74,7 +74,9 @@ zh:
   label_emw_monitor_program_repeat_type_monthly: 每月重复
   label_emw_monitor_program_target: 监控对象
   label_emw_monitor_program_target_type: 类型
-  label_emw_monitor_program_target_type_interface: 接口
+  label_emw_monitor_target_interface: 接口
+  label_emw_monitor_target_database: 数据库
+  label_emw_monitor_target_application: 应用信息
   #=========================End Monitor Program=======================#
 
 

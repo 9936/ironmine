@@ -77,12 +77,10 @@
       <%= form_tag({:controller => "emw/monitor_programs", :action => "add_target", :_dom_id=>"monitor_targets"},{:class => "form-inline",:remote=>true,:builder => CustomFormBuilder}) do %>
           <div class="float-right" style="margin-left: 20px;">
             <%= link_submit(t(:add), :class=>"btn") %>
-            <span class="hidden">
-              <input type="reset" value="Reset"/>
-            </span>
           </div>
-          <div  style="float:right;">
-            <%= hidden_field_tag "target_type", "INTERFACE" %>
+          <div style="float:right;">
+            <%#= hidden_field_tag "target_type", "INTERFACE" %>
+            <%= select_tag_alias("target_type", monitor_targets, nil, :id => "monitorTargetType") %>
             <%= lov_field_tag "target_id", Emw::Interface, {:style=>"width:150px;", :lov_params=>{:lktkn=>"monitor_target", :monitor_program_id=> @monitor_program.id}}%>
           </div>
       <% end %>
