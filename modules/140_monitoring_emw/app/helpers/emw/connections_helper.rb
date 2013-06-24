@@ -13,4 +13,12 @@ module Emw::ConnectionsHelper
         ""
     end
   end
+
+  def available_sql_conns
+    Emw::Connection.sql_conns.collect{|i|[i[:name], i.id]}
+  end
+
+  def available_shell_conns
+    Emw::Connection.shell_conns.collect{|i|[i[:name], i.id]}
+  end
 end

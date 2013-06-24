@@ -93,19 +93,36 @@ class Emw::MonitorProgramsController < ApplicationController
     end
   end
 
-  def add_target
-    @montior_target = Emw::MonitorTarget.new({:monitor_program_id => params[:id],
-                                              :target_id => params[:target_id],
-                                              :target_type => params[:target_type]})
-    @montior_target.save
+  def new_target
+    @monitor_target = Emw::MonitorTarget.new({:monitor_program_id => params[:id]})
+  end
+
+  def create_target
+    @monitor_target = Emw::MonitorTarget.new(params[:emw_monitor_target])
+    @monitor_target.save
   end
 
   def remove_target
-
+    @montior_target = Emw::MonitorTarget.find(params[:id])
+    @montior_target.destroy
+    respond_to do |format|
+      format.html { redirect_to(:action => "show", :id => @montior_target.monitor_program_id) }
+      format.xml  { head :ok }
+    end
   end
 
   def get_target_data
     targets = Emw::MonitorTarget.with_program(params[:id])
+
+    conn_ids = []
+    targets.each do |target|
+      conn_ids << target.sql_conn if target.sql_conn.present?
+      conn_ids << target.shell_conn if target.shell_conn.present?
+    end
+
+    @conns = Emw::Connection.query_by_ids(conn_ids).index_by(&:id)
+
+
     #对target进行分类
     intance_ids = []
     targets.each do |target|

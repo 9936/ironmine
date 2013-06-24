@@ -17,6 +17,17 @@ class Emw::Connection < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope { default_filter }
 
+  scope :query_by_ids, lambda {|ids|
+    where("#{table_name}.id IN(?)", ids)
+  }
+
+  scope :shell_conns, lambda {
+    where("#{table_name}.connect_type =?", "SHELL")
+  }
+
+  scope :sql_conns, lambda {
+    where("#{table_name}.connect_type =?", "SQL")
+  }
 
   def sql_conn?
     connect_type == "SQL"
