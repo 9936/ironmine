@@ -14,14 +14,22 @@ class Emw::MonitorTarget < ActiveRecord::Base
     where("#{table_name}.monitor_program_id=?", program_id)
   }
 
-  #scope :with_connection, lambda {
-  #  joins("#{Emw::Connection.table_name} conn ON conn.id=#{table_name}")
-  #}
-
   scope :instance_targets, lambda{|instance_ids|
     joins("JOIN #{Emw::Interface.table_name} ei ON ei.id=#{table_name}.target_id").
         where("ei.id IN(?)", instance_ids).
         select("#{table_name}.*, ei.name, ei.description")
   }
+
+  def execute
+    result = ""
+    if self.target_type.eql?("INTERFACE")
+      interface = Emw::Interface.find(self.target_id)
+      if self.sql_conn.present? && interface.present?
+        target_sql_conn = Emw::Connection.find(self.sql_conn)
+        result = target_sql_conn.execute(interface.execute)
+      end
+    end
+    result
+  end
 
 end

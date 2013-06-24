@@ -55,6 +55,7 @@ Rails.application.routes.draw do
     match '/monitor_programs/:id/create_target(.:format)' => "monitor_programs#create_target", :via => :post
     match '/monitor_programs/:id/new_target(.:format)' => "monitor_programs#new_target", :via => :get
     match '/monitor_programs/:id/remove_target(.:format)' => "monitor_programs#remove_target", :via => :delete
+    match '/monitor_programs/:id/execute(.:format)' => "monitor_programs#execute"
 
     #Monitor_histories
     match '/monitor_programs/:program_id/histories(/index)(.:format)' => "monitor_histories#index", :via => :get

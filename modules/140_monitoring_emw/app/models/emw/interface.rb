@@ -24,4 +24,13 @@ class Emw::Interface < ActiveRecord::Base
     lov_scope
   end
 
+  #接口执行操作
+  def execute
+    scripts = []
+    self.interface_tables.each do |table|
+      scripts << table.get_execute_script
+    end
+    scripts
+  end
+
 end

@@ -7,6 +7,7 @@
     </td>
     <td class="page-block-button">
       <%= link_to t(:edit), {:action => "edit", :id => @monitor_program},:class=>"btn btn-primary"%>
+      <%= link_to t(:label_emw_monitor_program_execute), {:action => "execute", :id => @monitor_program},:class=>"btn btn-primary", :rel => "modal" %>
       <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
     </td>
   </tr></table>

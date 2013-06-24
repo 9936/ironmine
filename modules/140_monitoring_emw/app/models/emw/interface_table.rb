@@ -21,6 +21,23 @@ class Emw::InterfaceTable < ActiveRecord::Base
     where("#{table_name}.interface_id=?", interface_id)
   }
 
+  #获取执行的脚本
+  def get_execute_script
+    script = "select count(1) from #{self.table_name} where "
+    where_arr = []
+    self.interface_columns.each do |column|
+      if column.error_flag.eql?('Y')
+        where_arr << "#{column.name} is not null"
+      end
+    end
+    if where_arr.any?
+      script << where_arr.join(" AND ")
+    else
+      script = ""
+    end
+    script
+  end
+
 
   def get_columns
     #self.table_name = "ADS_OPM_SUPPLY_INTERFACE"

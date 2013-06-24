@@ -30,6 +30,16 @@ class Emw::MonitorProgram < ActiveRecord::Base
         select("ma.name mail_alert_name")
   }
 
+  def execute
+    result = {}
+    history = Emw::MonitorHistory.new({:monitor_program_id => self.id, :execute_at => Time.zone.now, :execute_by => Irm::Person.current.id})
+    history.save
+    Emw::MonitorTarget.with_program(self.id).each do |target|
+      result[target.id] = target.execute
+    end
+    result
+  end
+
   def time_mode_obj
     return @time_mode_obj if @time_mode_obj
     @time_mode_obj =  prepare_time_mode

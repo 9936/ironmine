@@ -1,6 +1,7 @@
 <%= datatable_view({:count => @datas.count, :datas => @datas}) do |builder| %>
-    <% builder.column(:id, {:title => t(:operation), :width => "30px"}) do |data| %>
-        <%= link_to(t(:remove), {:action => "remove_target", :id => data[:id]}, {:class => "action-link",:method => :delete, :confirm => t(:label_are_you_sure)}) %>
+    <% builder.column(:id, {:title => t(:operation), :width => "80px"}) do |data| %>
+        <%= link_to(t(:remove), {:action => "remove_target", :id => data[:id]}, {:class => "action-link",:method => :delete, :confirm => t(:label_are_you_sure)}) %>&nbsp;|
+        <%= link_to(t(:label_emw_monitor_program_execute), {:action => "execute", :id => data[:monitor_program_id], :target_id => data[:id]}, {:class => "action-link", :rel => "modal"}) %>
     <% end %>
     <% builder.column(:name, {:title => t(:name), :searchable => true}) %>
     <% builder.column(:target_type, {:title => t(:label_emw_monitor_program_target_type)}) do |data| %>

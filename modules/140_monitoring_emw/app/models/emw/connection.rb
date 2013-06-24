@@ -52,7 +52,34 @@ class Emw::Connection < ActiveRecord::Base
     end
   end
 
-  def execute(context = {})
+  def execute(scripts = [])
+    result = []
+    if self.connect_type.eql?("SHELL")
+      ssh_conn = get_ssh_connection
+    elsif self.connect_type.eql?("SQL")
+      sql_conn = get_sql_connection
+    end
+    scripts.each do |script|
+      if script.present?
+        if self.connect_type.eql?("SHELL")
+          if ssh_conn.is_a?(Net::SSH::Connection::Session)
+            result << execute_shell(ssh_conn, script)
+          else
+            result<< ssh_conn
+          end
+        elsif self.connect_type.eql?("SQL")
+          if sql_conn.is_a?(ActiveRecord::ConnectionAdapters::OracleEnhancedAdapter)
+            result << execute_sql(sql_conn, script).first
+          else
+            result << sql_conn
+          end
+        end
+      end
+    end
+    result
+  end
+
+  def execute1(context = {})
     result = {}
 
     if self.connect_type.eql?("SHELL")
@@ -91,10 +118,13 @@ class Emw::Connection < ActiveRecord::Base
   private
 
     def get_sql_connection
+      #self.table_name = "ADS_OPM_SUPPLY_INTERFACE"
+      self.database = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = vs011.hand-china.com)(PORT = 1522))) (CONNECT_DATA = (SERVICE_NAME = VIS01)))"
+
       begin
         @conn ||= Isp::OracleAdapter.establish_connection(:adapter => "oracle_enhanced",
-                                                          :host => self.host,
-                                                          :port => self.port,
+                                                          #:host => self.host,
+                                                          #:port => self.port,
                                                           :database => self.database,
                                                           :username => self.username,
                                                           :password => self.password).connection
