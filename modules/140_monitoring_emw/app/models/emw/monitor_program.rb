@@ -4,6 +4,7 @@ class Emw::MonitorProgram < ActiveRecord::Base
   validates_presence_of :name, :assigned_to, :start_at, :end_at
 
   has_many :monitor_histories, :foreign_key => :monitor_program_id, :dependent => :destroy
+
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离

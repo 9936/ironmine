@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  scope :module => "isp" do
-  #namespace :isp do
+  #scope :module => "isp" do
+  namespace :isp do
     #programs
     match '/programs(/index)(.:format)' => "programs#index", :via => :get
     match '/programs/get_data(.:format)' => "programs#get_data"

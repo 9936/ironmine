@@ -90,4 +90,24 @@ zh:
   label_emw_monitor_history_execute_script: 执行脚本
   #=========================End Monitor Program=======================#
 
+  #=========================Start Connection======================#
+  label_emw_connection: 连接
+  label_emw_connection_list: 连接列表
+  label_emw_connection: 连接
+  label_emw_connection_list: 连接列表
+  label_emw_connection_new: 新建连接
+  label_emw_connection_edit: 编辑连接
+  label_emw_connection_type: 类型
+  label_emw_connection_host: 主机
+  label_emw_connection_port: 端口
+  label_emw_connection_database: 数据库
+  label_emw_connection_username: 用户
+  label_emw_connection_password: 密码
+  label_emw_connection_object_symbol: 符号
+  label_emw_connection_exception: 无法连接到%{host}，检查帐号和密码是否正确
+  label_emw_connection_econnrefused: 无法连接到%{host}
+  label_emw_connection_add_item: 添加巡检项
+  label_emw_connection_save_selected: 保存所选项
+  #=========================End Connection=======================#
+
 

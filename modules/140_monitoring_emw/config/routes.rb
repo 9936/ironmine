@@ -59,5 +59,15 @@ Rails.application.routes.draw do
     match '/monitor_programs/:program_id/histories(/index)(.:format)' => "monitor_histories#index", :via => :get
     match '/monitor_programs/:program_id/get_data(.:format)' => "monitor_histories#get_data", :via => :get
     match '/monitor_programs/:program_id/histories/:id(.:format)' => "monitor_histories#show", :via => :get
+
+    #Connections
+    match '/connections(/index)(.:format)' => "connections#index", :via => :get
+    match '/connections/get_data(.:format)' => "connections#get_data"
+    match '/connections/:id/edit(.:format)' => "connections#edit", :via => :get
+    match '/connections/:id(.:format)' => "connections#update", :via => :put
+    match '/connections/new(.:format)' => "connections#new", :via => :get
+    match '/connections/:id(.:format)' => "connections#show", :via => :get
+    match '/connections/:id/destroy(.:format)' => "connections#destroy", :via => :delete
+    match '/connections/create(.:format)' => "connections#create", :via => :post
   end
 end

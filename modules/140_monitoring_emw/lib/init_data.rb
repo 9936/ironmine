@@ -48,7 +48,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "emw/monitor_programs" => ["index", "show", "get_data","edit","update", "new",
                                            "create", "get_target_data", "add_target", "remove_target"],
-              "emw/monitor_histories" => ["index","show","get_data"]
+              "emw/monitor_histories" => ["index","show","get_data"],
+              "emw/connections" => ["new", "edit", "create", "update" ,"show","get_data", "destroy"]
           }
       }
   }
