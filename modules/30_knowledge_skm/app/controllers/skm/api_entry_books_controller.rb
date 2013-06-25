@@ -23,13 +23,6 @@ class Skm::ApiEntryBooksController < ApplicationController
     end
   end
 
-  def add
-
-  end
-
-  def update
-
-  end
 
   #查看知识专题
   #Request /api_entry_books/show.json
