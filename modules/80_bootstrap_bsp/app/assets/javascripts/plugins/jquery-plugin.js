@@ -1288,6 +1288,9 @@ jQuery.fn.menubutton = function () {
     // 取得文件大小
     Internal.prototype.getFileSize = function (fileInput) {
         if ($.browser.msie) {
+            if(navigator.userAgent.indexOf("MSIE 8.0")>0){
+              return 1000;
+            }
             var fileName = fileInput.val().split('\\').pop().split(".").pop();
             if ($.inArray(fileName, ['gif', 'png', 'jpg', 'jpeg'])) {
                 if ($("#uploadSizeImage").length < 1) {
@@ -1297,12 +1300,8 @@ jQuery.fn.menubutton = function () {
                 $('#uploadSizeImage').attr('src', fileInput.val());
                 return document.getElementById('uploadSizeImage').fileSize
             } else {
-                if(navigator.userAgent.indexOf("MSIE 8.0")>0){
-                    return 0;
-                }
-                else{
+
                     return new ActiveXObject("Scripting.FileSystemObject").getFile(fileInput.val()).size;
-                }
             }
         } else {
             return fileInput[0].files[0].size;
