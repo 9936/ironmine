@@ -32,10 +32,12 @@ class Emw::MonitorProgram < ActiveRecord::Base
 
   def execute(target_id=nil)
     result = {}
-    history = Emw::MonitorHistory.new({:monitor_program_id => self.id,
-                                       :execute_at => Time.zone.now,
-                                       :execute_by => Irm::Person.current.id})
-    history.save
+    if self.history_flag.eql?('Y')
+      history = Emw::MonitorHistory.new({:monitor_program_id => self.id,
+                                         :execute_at => Time.zone.now,
+                                         :execute_by => Irm::Person.current.id})
+      history.save
+    end
 
     if target_id.present?
       targets = Emw::MonitorTarget.with_program(self.id).query_by_id(target_id)
