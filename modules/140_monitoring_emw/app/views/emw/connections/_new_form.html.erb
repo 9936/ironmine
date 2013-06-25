@@ -18,23 +18,15 @@
             <td class="data-col empty">&nbsp;</td>
           </tr>
 
-          <tr>
-            <td class="label-col"><label><%=t(:label_emw_connection_host)%></label></td>
-            <td class="data-col"><%= f.text_field :host, :required => true%></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
-          </tr>
-
-          <tr  id="connPort">
-            <td class="label-col"><label><%=t(:label_emw_connection_port)%></label></td>
-            <td class="data-col"><%= f.text_field :port, :required => true, :irm_number_only => true %></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
-          </tr>
-
-          <tr id="connDatabase">
-            <td class="label-col"><label><%=t(:label_emw_connection_database)%></label></td>
-            <td class="data-col"><%= f.text_field :database, :required => true %></td>
+          <tr id="connHost">
+            <td class="label-col">
+              <label class="shell-required"><%=t(:label_emw_connection_host)%></label>
+              <label class="sql-required" style="display: none;"><%=t(:label_emw_connection_database)%></label>
+            </td>
+            <td class="data-col">
+              <%= f.text_field :host, :required => true%>
+              <span class="help-block sql-required" style="padding-top: 5px; display: none;">TNS connection description Or host:port/database</span>
+            </td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
@@ -114,11 +106,11 @@
     });
     function initSqlConn(target){
         if(target.val() == 'SQL'){
-            $("#connPort").show();
-            $("#connDatabase").show();
+            $(".sql-required").show();
+            $(".shell-required").hide();
         }else{
-            $("#connPort").hide();
-            $("#connDatabase").hide();
+            $(".sql-required").hide();
+            $(".shell-required").show();
         }
     }
 </script>

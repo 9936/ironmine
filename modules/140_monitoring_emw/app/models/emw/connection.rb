@@ -5,10 +5,11 @@ class Emw::Connection < ActiveRecord::Base
   attr_accessor :port, :database
 
   validates_presence_of :name, :connect_type, :host
-  validates_presence_of :port, :database, :if => :sql_conn?
 
-  before_save :set_host
-  after_find :hand_host
+  #validates_presence_of :database, :if => :sql_conn?
+
+  #before_save :set_host
+  #after_find :hand_host
 
 
 
@@ -29,28 +30,28 @@ class Emw::Connection < ActiveRecord::Base
     where("#{table_name}.connect_type =?", "SQL")
   }
 
-  def sql_conn?
-    connect_type == "SQL"
-  end
-
-  def set_host
-    if sql_conn?
-      self.host = "#{self.host}:#{self.port}/#{self.database}"
-    end
-  end
-
-  def hand_host
-    if sql_conn?
-      host_arr = self.host.split(":")
-      if host_arr[0].present? && host_arr[1].present?
-        port_and_database = host_arr[1].split("/")
-
-        self.host = host_arr[0]
-        self.port = port_and_database[0]
-        self.database = port_and_database[1]
-      end
-    end
-  end
+  #def sql_conn?
+  #  connect_type == "SQL"
+  #end
+  #
+  #def set_host
+  #  if sql_conn?
+  #    self.host = "#{self.host}:#{self.port}/#{self.database}"
+  #  end
+  #end
+  #
+  #def hand_host
+  #  if sql_conn?
+  #    host_arr = self.host.split(":")
+  #    if host_arr[0].present? && host_arr[1].present?
+  #      port_and_database = host_arr[1].split("/")
+  #
+  #      self.host = host_arr[0]
+  #      self.port = port_and_database[0]
+  #      self.database = port_and_database[1]
+  #    end
+  #  end
+  #end
 
   def execute(scripts = [])
     result = []
@@ -86,7 +87,7 @@ class Emw::Connection < ActiveRecord::Base
     def get_sql_connection
       #self.table_name = "ADS_OPM_SUPPLY_INTERFACE"
       self.database = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = vs011.hand-china.com)(PORT = 1522))) (CONNECT_DATA = (SERVICE_NAME = VIS01)))"
-
+      self.database = self.host
       begin
         @conn ||= Isp::OracleAdapter.establish_connection(:adapter => "oracle_enhanced",
                                                           #:host => self.host,

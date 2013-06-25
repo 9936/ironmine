@@ -5,7 +5,7 @@
       <%= link_to(t(:delete), {:action => "destroy", :id => data[:id]}, {:class => "action-link",:method => :delete, :confirm => t(:label_are_you_sure)}) %>
     <% end %>
     <% builder.column(:name, {:title => t(:name), :searchable => true}) %>
-    <% builder.column(:host, {:title => t(:label_isp_connection_host)}) %>
+    <% builder.column(:host, {:title => t(:label_isp_connection_host), :width => "40%"}) %>
     <% builder.column(:connect_type, {:title => t(:label_isp_connection_type)}) do |data| %>
       <%= connection_type_meaning(data[:connect_type]) %>
     <% end %>
