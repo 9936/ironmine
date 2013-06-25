@@ -1238,11 +1238,15 @@ jQuery.fn.menubutton = function () {
         var me = this;
         me.data.options.fileCount = me.data.options.fileCount + 1;
         var templateElement = me.$element.find("tbody.file-template");
+        var fileSizeInfo = "";
+        if(options.fileSize>5){
+            fileSizeInfo =  "("+options.fileSize.toString()+")";
+        }
         var row = $.tmpl(templateElement.html(), {
                 sequence:me.data.options.fileCount - 1,
                 ref:"files",
                 fileName:options.fileName,
-                fileSize:options.fileSize,
+                fileSize:fileSizeInfo,
                 fileUrl:options.fileUrl || "javascript:void(0)",
                 deleteTarget:options.deleteTarget || "",
                 attachmentId:options.attachmentId || options.fileName
@@ -1289,7 +1293,7 @@ jQuery.fn.menubutton = function () {
     Internal.prototype.getFileSize = function (fileInput) {
         if ($.browser.msie) {
             if(navigator.userAgent.indexOf("MSIE 8.0")>0){
-              return 1000;
+              return 1;
             }
             var fileName = fileInput.val().split('\\').pop().split(".").pop();
             if ($.inArray(fileName, ['gif', 'png', 'jpg', 'jpeg'])) {
