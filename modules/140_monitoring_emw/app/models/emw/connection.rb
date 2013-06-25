@@ -86,7 +86,7 @@ class Emw::Connection < ActiveRecord::Base
 
     def get_sql_connection
       #self.table_name = "ADS_OPM_SUPPLY_INTERFACE"
-      self.database = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = vs011.hand-china.com)(PORT = 1522))) (CONNECT_DATA = (SERVICE_NAME = VIS01)))"
+      #self.database = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = vs011.hand-china.com)(PORT = 1522))) (CONNECT_DATA = (SERVICE_NAME = VIS01)))"
       self.database = self.host
       begin
         @conn ||= Isp::OracleAdapter.establish_connection(:adapter => "oracle_enhanced",
@@ -96,7 +96,7 @@ class Emw::Connection < ActiveRecord::Base
                                                           :username => self.username,
                                                           :password => self.password).connection
       rescue Exception => e
-        "#{self.host}:/#{self.port}/#{self.database}\n" << e.message
+        "#{self.database}\n" << e.message
       end
     end
 
