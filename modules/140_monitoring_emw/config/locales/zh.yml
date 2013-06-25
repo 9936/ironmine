@@ -74,6 +74,8 @@ zh:
   label_emw_monitor_program_repeat_type_daily: 每日重复
   label_emw_monitor_program_repeat_type_monthly: 每月重复
   label_emw_monitor_program_target: 监控对象
+  label_emw_monitor_program_script: 执行脚本
+  label_emw_monitor_program_result: 执行结果
   label_emw_monitor_program_target_add: 添加监控对象
   label_emw_monitor_program_target_type: 类型
   label_emw_monitor_program_target_conn_error: Shell连接和SQL连接至少选择一个

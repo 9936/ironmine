@@ -23,11 +23,11 @@ class Emw::InterfaceTable < ActiveRecord::Base
 
   #获取执行的脚本
   def get_execute_script
-    script = "select count(1) from #{self.table_name} where "
+    script = "SELECT COUNT(1) FROM #{self.table_name} WHERE "
     where_arr = []
     self.interface_columns.each do |column|
       if column.error_flag.eql?('Y')
-        where_arr << "#{column.name} is not null"
+        where_arr << "#{column.name} IS NOT NULL"
       end
     end
     if where_arr.any?

@@ -14,6 +14,10 @@ class Emw::MonitorTarget < ActiveRecord::Base
     where("#{table_name}.monitor_program_id=?", program_id)
   }
 
+  scope :query_by_id, lambda {|id|
+    where("#{table_name}.id=?", id)
+  }
+
   scope :instance_targets, lambda{|instance_ids|
     joins("JOIN #{Emw::Interface.table_name} ei ON ei.id=#{table_name}.target_id").
         where("ei.id IN(?)", instance_ids).

@@ -2,8 +2,27 @@
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
   <h3><%= t(:label_emw_monitor_program_execute_result) %></h3>
 </div>
-<div class="modal-body form-horizontal">
-  <p>执行结果：<%= @result %></p>
+<div class="modal-body">
+  <table class="table">
+    <thead>
+    <tr>
+      <th style="width: 20%;"><%= t(:label_emw_monitor_program_target) %></th>
+      <th style="width: 50%;"><%= t(:label_emw_monitor_program_script) %></th>
+      <th style="width: 30%;"><%= t(:label_emw_monitor_program_result) %></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @result.each do |k, values| %>
+      <% values.each do |v| %>
+      <tr>
+        <td><%= v[:name] %></td>
+        <td><%= v[:script] %></td>
+        <td><%= v[:result] %></td>
+      </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
 </div>
 <div class="modal-footer">
   <%= link_to t(:close), "#", :class => "btn", "data-dismiss" => "modal", "aria-hidden" => "true" %>

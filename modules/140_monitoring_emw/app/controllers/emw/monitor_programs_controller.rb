@@ -134,14 +134,8 @@ class Emw::MonitorProgramsController < ApplicationController
   end
 
   def execute
-    if params[:target_id].present?
-      target = Emw::MonitorTarget.find(params[:target_id])
-      @result = {target.id => target.execute}
-    else
-      monitor_program = Emw::MonitorProgram.find(params[:id])
-      @result = monitor_program.execute
-    end
-
+    monitor_program = Emw::MonitorProgram.find(params[:id])
+    @result = monitor_program.execute(params[:target_id])
   end
 
 end

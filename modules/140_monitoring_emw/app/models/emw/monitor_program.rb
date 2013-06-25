@@ -30,12 +30,29 @@ class Emw::MonitorProgram < ActiveRecord::Base
         select("ma.name mail_alert_name")
   }
 
-  def execute
+  def execute(target_id=nil)
     result = {}
-    history = Emw::MonitorHistory.new({:monitor_program_id => self.id, :execute_at => Time.zone.now, :execute_by => Irm::Person.current.id})
+    history = Emw::MonitorHistory.new({:monitor_program_id => self.id,
+                                       :execute_at => Time.zone.now,
+                                       :execute_by => Irm::Person.current.id})
     history.save
-    Emw::MonitorTarget.with_program(self.id).each do |target|
-      result[target.id] = target.execute
+
+    if target_id.present?
+      targets = Emw::MonitorTarget.with_program(self.id).query_by_id(target_id)
+    else
+      targets = Emw::MonitorTarget.with_program(self.id)
+    end
+
+    targets.each do |target|
+      if target.target_type.eql?("INTERFACE")
+        origin_target = Emw::Interface.find(target.target_id)
+      else
+        origin_target = {}
+      end
+      result_arr = target.execute
+      result_arr.collect{|i|i[:name] = origin_target[:name]}
+
+      result[target.id] = result_arr
     end
     result
   end

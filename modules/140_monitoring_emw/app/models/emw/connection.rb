@@ -63,57 +63,23 @@ class Emw::Connection < ActiveRecord::Base
       if script.present?
         if self.connect_type.eql?("SHELL")
           if ssh_conn.is_a?(Net::SSH::Connection::Session)
-            result << execute_shell(ssh_conn, script)
+            result << {:script => script, :result => execute_shell(ssh_conn, script) }
           else
-            result<< ssh_conn
+            result<< {:error_info => ssh_conn}
           end
         elsif self.connect_type.eql?("SQL")
           if sql_conn.is_a?(ActiveRecord::ConnectionAdapters::OracleEnhancedAdapter)
-            result << execute_sql(sql_conn, script).first
+            result << {:script => script, :result => execute_sql(sql_conn, script).first }
           else
-            result << sql_conn
+            result << {:error_info => sql_conn}
           end
         end
       end
     end
-    result
-  end
-
-  def execute1(context = {})
-    result = {}
-
-    if self.connect_type.eql?("SHELL")
-      ssh_conn = get_ssh_connection
-    elsif self.connect_type.eql?("SQL")
-      sql_conn = get_sql_connection
-    end
-
-    self.check_items.each do |check_item|
-      context[self.object_symbol].merge!(check_item.execute(context[self.object_symbol]))
-
-      script = check_item.script
-
-      if script.present?
-        if self.connect_type.eql?("SHELL")
-          if ssh_conn.is_a?(Net::SSH::Connection::Session)
-            result[check_item.object_symbol] = execute_shell(ssh_conn, script)
-          else
-            result[check_item.object_symbol] = ssh_conn
-          end
-        elsif self.connect_type.eql?("SQL")
-          if sql_conn.is_a?(ActiveRecord::ConnectionAdapters::OracleEnhancedAdapter)
-            result[check_item.object_symbol] = execute_sql(sql_conn, script)
-          else
-            result[check_item.object_symbol] = sql_conn
-          end
-        end
-      end
-    end
-
     ssh_conn.close if ssh_conn.is_a?(Net::SSH::Connection::Session)
-
     result
   end
+
 
   private
 
@@ -150,7 +116,7 @@ class Emw::Connection < ActiveRecord::Base
 
     def execute_sql(conn, sql_script)
       begin
-        result = conn.select_rows(sql_script)
+        result = conn.select_values(sql_script)
       rescue
         result = nil
       end
