@@ -2175,7 +2175,7 @@ zh:
   #==============================End Api tools==============================
 
   #========================begin oauth_access_history===================================
-  label_irm_oauth_access_history: 访问日志
+  label_irm_oauth_access_history: API访问日志
   label_irm_oauth_access_by: 访问者
   label_irm_oauth_access_ip: 访问IP
   label_irm_oauth_access_api: API名称
