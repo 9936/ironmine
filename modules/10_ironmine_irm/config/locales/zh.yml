@@ -2174,3 +2174,16 @@ zh:
   label_irm_api_tool_doc_no: 否
   #==============================End Api tools==============================
 
+  #========================begin oauth_access_history===================================
+  label_irm_oauth_access_history: 访问日志
+  label_irm_oauth_access_by: 访问者
+  label_irm_oauth_access_ip: 访问IP
+  label_irm_oauth_access_api: API名称
+  label_irm_oauth_accessed_at: 访问时间
+  label_irm_oauth_access_params: 请求参数
+  label_irm_oauth_access_status: 状态
+  label_irm_oauth_access_error_message: 错误消息
+  label_irm_oauth_access_success: 请求成功
+  label_irm_oauth_access_error: 请求失败
+  #========================end oauth_access_history=====================================
+

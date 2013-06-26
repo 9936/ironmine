@@ -2171,3 +2171,16 @@ en:
   label_irm_api_tool_doc_yes: Yes
   label_irm_api_tool_doc_no: No
   #==============================End Api tools==============================
+
+  #========================begin oauth_access_history===================================
+  label_irm_oauth_access_history: Access Log
+  label_irm_oauth_access_by: Access user
+  label_irm_oauth_access_ip: Access IP
+  label_irm_oauth_access_api: API Name
+  label_irm_oauth_accessed_at: Access Time
+  label_irm_oauth_access_params: Request Params
+  label_irm_oauth_access_status: Status
+  label_irm_oauth_access_error_message: Error Message
+  label_irm_oauth_access_success: Success
+  label_irm_oauth_access_error: Error
+  #========================end oauth_access_history=====================================

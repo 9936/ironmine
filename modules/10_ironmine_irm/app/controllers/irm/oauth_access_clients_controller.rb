@@ -108,4 +108,15 @@ class Irm::OauthAccessClientsController < ApplicationController
     end
   end
 
+  def get_history_data
+    history_scope = Irm::OauthAccessHistory.select_all.with_person.with_client(params[:id])
+    histories,count = paginate(history_scope)
+    respond_to do |format|
+      format.html  {
+        @count = count
+        @datas = histories
+      }
+    end
+  end
+
 end

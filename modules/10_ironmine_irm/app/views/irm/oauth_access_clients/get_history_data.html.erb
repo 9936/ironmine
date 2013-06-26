@@ -1,0 +1,17 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:full_name, {:title => t(:label_irm_oauth_access_by),:width=>"80px"}) %>
+    <% builder.column(:access_ip,{:title=>t(:label_irm_oauth_access_ip),:width=>"90px"}) %>
+    <% builder.column(:accessed_at,{:title=>t(:label_irm_oauth_accessed_at),:width=>"130px"}) %>
+    <% builder.column(:access_api,{:title=>t(:label_irm_oauth_access_api),:width=>"130px"}) %>
+    <% builder.column(:access_params,{:title=>t(:label_irm_oauth_access_params)}) %>
+    <% builder.column(:success_flag,{:title=>t(:label_irm_oauth_access_status)}) do |data| %>
+      <% if data[:success_flag].eql?('Y') %>
+        <span class="label label-success"><i class="icon-ok-sign icon-white"></i><%= t(:label_irm_oauth_access_success) %></span>
+      <% else %>
+        <span class="label label-important"><i class=" icon-remove-circle icon-white"></i><%= t(:label_irm_oauth_access_error) %></span>
+      <% end %>
+    <% end %>
+    <% builder.column(:error_message,{:title=>t(:label_irm_oauth_access_error_message)}) do |data| %>
+      <span style="color: #b94a48;"><%= data[:error_message] %></span>
+    <% end %>
+<% end %>

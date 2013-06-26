@@ -9,7 +9,8 @@ class Irm::OauthAccess < ActiveRecord::Base
     joins("JOIN #{Irm::OauthToken.table_name} ot ON ot.id=#{table_name}.token_id").
         joins("JOIN #{Irm::Person.table_name} p ON ot.user_id=p.id").
         where("ot.client_id=?", client_id).
-        select("#{table_name}.*, p.full_name user_name")
+        order("#{table_name}.updated_at desc").
+        select("#{table_name}.*, p.full_name user_name, ot.token")
   }
 
   def increment!

@@ -1,5 +1,4 @@
-class Skm::ApiEntryBooksController < ApplicationController
-  before_filter :set_return_columns
+class Skm::ApiEntryBooksController < ApiController
 
   #获取专题列表
   #Request /api_entry_books/get_data.json
@@ -7,7 +6,6 @@ class Skm::ApiEntryBooksController < ApplicationController
     entry_books_scope = Skm::EntryBook.multilingual
     entry_books_scope = entry_books_scope.match_value("#{Skm::EntryBooksTl.table_name}.name", params[:name])
     entry_books,count = paginate(entry_books_scope)
-
 
     result = {:total_rows => count}
     result[:items] = []
@@ -98,6 +96,8 @@ class Skm::ApiEntryBooksController < ApplicationController
           render json: result.to_json(:only => @return_columns)
         }
       end
+    else
+      raise entry_book.errors.full_messages.to_s
     end
 
 
@@ -115,20 +115,9 @@ class Skm::ApiEntryBooksController < ApplicationController
           render json: result.to_json(:only => @return_columns)
         }
       end
+    else
+      raise result.errors.full_messages.to_s
     end
-
-
-
   end
 
-  private
-
-    def set_return_columns
-      @return_columns = []
-      output_params = Irm::ApiParam.get_output_params(params[:controller], params[:action])
-      output_params.each do |p|
-        @return_columns << p.name.to_sym
-      end
-      @return_columns
-    end
 end
