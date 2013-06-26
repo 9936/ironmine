@@ -13,7 +13,8 @@ class Emw::MonitorHistory < ActiveRecord::Base
   end
 
   scope :with_program, lambda {|program_id|
-    where("#{table_name}.monitor_program_id=?", program_id)
+    where("#{table_name}.monitor_program_id=?", program_id).
+        order("#{table_name}.execute_at desc")
   }
 
   scope :with_execute_person, lambda {
