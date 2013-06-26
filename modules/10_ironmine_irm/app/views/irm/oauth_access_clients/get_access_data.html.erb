@@ -3,6 +3,7 @@
     <% builder.column(:user_name, {:title => t(:label_irm_oauth_access_user)}) do |data| %>
       <%= data[:user_name] %>
     <% end %>
+    <% builder.column(:token,{:title=>t(:label_irm_oauth_access_token)}) %>
     <% builder.column(:updated_at,{:title=>t(:label_irm_oauth_access_updated)})%>
     <% builder.column(:times,{:title=>t(:label_irm_oauth_access_num)})%>
 <% end %>

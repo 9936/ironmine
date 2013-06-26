@@ -1824,6 +1824,7 @@ ja:
   label_irm_oauth_access_updated: 前回のアクセス日付
   label_irm_oauth_access_num: アクセス数
   label_irm_oauth_access_ip: リモートIP
+  label_irm_oauth_access_token: Access Token
   label_irm_oauth_access_name: アプリケーション名
   label_irm_oauth_access_user: User
   label_irm_oauth_access_total: Access Total

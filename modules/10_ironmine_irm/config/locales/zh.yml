@@ -1928,6 +1928,7 @@ zh:
   label_irm_oauth_access_updated: 上次访问日期
   label_irm_oauth_access_num: 访问累计
   label_irm_oauth_access_ip: 远程IP
+  label_irm_oauth_access_token: 令牌
   label_irm_oauth_access_name: 应用名称
   label_irm_oauth_access_user: 用户
   label_irm_oauth_access_total: 访问统计

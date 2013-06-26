@@ -1829,6 +1829,7 @@ en:
   label_irm_mail_host_name_tip: Mail Host Name
   label_irm_oauth_access_created: Oauth Access Created
   label_irm_oauth_access_ip: Access Ip
+  label_irm_oauth_access_token: Access Token
   label_irm_oauth_access_name: Access Name
   label_irm_oauth_access_user: User
   label_irm_oauth_access_total: Access Total
