@@ -30,29 +30,6 @@ class Emw::Connection < ActiveRecord::Base
     where("#{table_name}.connect_type =?", "SQL")
   }
 
-  #def sql_conn?
-  #  connect_type == "SQL"
-  #end
-  #
-  #def set_host
-  #  if sql_conn?
-  #    self.host = "#{self.host}:#{self.port}/#{self.database}"
-  #  end
-  #end
-  #
-  #def hand_host
-  #  if sql_conn?
-  #    host_arr = self.host.split(":")
-  #    if host_arr[0].present? && host_arr[1].present?
-  #      port_and_database = host_arr[1].split("/")
-  #
-  #      self.host = host_arr[0]
-  #      self.port = port_and_database[0]
-  #      self.database = port_and_database[1]
-  #    end
-  #  end
-  #end
-
   def execute(scripts = [])
     result = []
     if self.connect_type.eql?("SHELL")

@@ -14,6 +14,7 @@ zh:
   label_emw_interface_module: 所属模块
   label_emw_interface_new: 新建接口
   label_emw_interface_edit: 编辑接口
+  label_emw_interface_execute_result: 接口执行结果
   #=========================End Interface=======================#
 
   #=========================Start Interface Table=======================#

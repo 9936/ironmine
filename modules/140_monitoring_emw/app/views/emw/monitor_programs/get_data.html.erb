@@ -2,7 +2,7 @@
     <% builder.column(:id, {:title => t(:operation), :width => "180px"}) do |data| %>
         <%= link_to(t(:edit), {:action => "edit", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
         <%= link_to(t(:show), {:action => "show", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
-        <%= link_to t(:label_emw_monitor_program_execute), {:action => "execute", :id => data[:id]},:class=>"action-link", :rel => "modal" %>&nbsp;|
+        <%= link_to t(:label_emw_monitor_program_execute), {:action => "execute", :id => data[:id]},:class=>"action-link", :target => "_blank" %>&nbsp;|
         <%= link_to(t(:label_emw_monitor_history), {:controller => "emw/monitor_histories",:action => "index", :program_id => data[:id]}, {:class => "action-link"}) %>
     <% end %>
     <% builder.column(:name, {:title => t(:name), :searchable => true}) %>

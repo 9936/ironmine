@@ -52,9 +52,16 @@ class Emw::MonitorProgram < ActiveRecord::Base
         origin_target = {}
       end
       result_arr = target.execute
-      result_arr.collect{|i|i[:name] = origin_target[:name]}
+      #将执行结果根据类型进行分类
+      result[target.target_type.downcase.to_sym] = []
 
-      result[target.id] = result_arr
+      result_arr.each do |i|
+        i[:name] = origin_target[:name]
+        i[:description] = origin_target[:description]
+        i[:target_type] = target.target_type
+      end
+
+      result[target.target_type.downcase.to_sym] += result_arr
     end
     result
   end
