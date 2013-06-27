@@ -70,7 +70,8 @@
     <div class="btn-group">
       <% if can_edit_addition_info?(@incident_request) %>
           <%= link_to(t(:label_yan_edit_additional_info_form),
-                      {:controller => "icm/incident_journals", :action => "new", :id => @incident_request.id},
+                      {:controller => "icm/incident_journals", :action => "edit_additional_info",
+                       :request_id => @incident_request.id, :sid => @incident_request.external_system_id},
                       {:class => "btn",:rel => "modal"}) %>
       <% end %>
       <% if has_module?(:skm) and @incident_request.kb_flag==Irm::Constant::SYS_NO  %>

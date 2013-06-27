@@ -3,10 +3,7 @@ module Yan::IncidentJournalsControllerEx
     base.class_eval do
 
       def edit_additional_info
-        @incident_request = Icm::IncidentRequest.find(params[:id])
-        respond_to do |format|
-          format.html
-        end
+        @incident_request = Icm::IncidentRequest.find(params[:request_id])
       end
 
       def update_additional_info

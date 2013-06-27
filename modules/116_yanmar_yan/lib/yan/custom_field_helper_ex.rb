@@ -15,10 +15,8 @@ module Yan::CustomFieldHelperEx
       end
       if only_block
         build_block_html(model, custom_attributes,only_required, block_fields)
-      elsif for_modal
-        build_html_for_modal(model, custom_attributes, only_required, columns, block_fields)
       else
-        build_html(model, custom_attributes, only_required, columns, block_fields)
+        build_html_for_modal(model, custom_attributes, only_required, columns, block_fields)
       end
     end
 
