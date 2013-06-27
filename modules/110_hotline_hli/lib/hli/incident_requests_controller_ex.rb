@@ -144,15 +144,18 @@ module Hli::IncidentRequestsControllerEx
         incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{Icm::PriorityCode.view_name}.name", params[:priority_id_label])
-        incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number", params[:request_number])
-
-        if !incident_requests_scope && params[:request_number] && !params[:request_number].blank?
+        t = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number", params[:request_number])
+        if t.any?
+          incident_requests_scope = t
+        elsif params[:request_number] && !params[:request_number].blank?
           results = Sunspot.search(Icm::IncidentRequest) do |s|
             s.keywords params[:request_number]
             s.paginate :per_page => 30000
           end.results
           incident_requests_scope = incident_requests_scope.where("#{Icm::IncidentRequest.table_name}.id IN (?)", results.collect(&:id))
         end
+
+
 
         respond_to do |format|
           format.json {

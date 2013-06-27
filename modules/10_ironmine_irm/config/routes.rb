@@ -1041,8 +1041,9 @@ Rails.application.routes.draw do
     match '/oauth_access_clients/create(.:format)' => "oauth_access_clients#create", :via => :post
     match '/oauth_access_clients/:id/update(.:format)' => "oauth_access_clients#update", :via => :put
     match '/oauth_access_clients/:id/show(.:format)' => "oauth_access_clients#show", :via => :get
-    match '/oauth_access_clients/get_data(.:format)' => "oauth_access_clients#get_data"
-    match '/oauth_access_clients/:id/get_access_data(.:format)' => "oauth_access_clients#get_access_data"
+    match '/oauth_access_clients/get_data(.:format)' => "oauth_access_clients#get_data", :via => :get
+    match '/oauth_access_clients/:id/get_access_data(.:format)' => "oauth_access_clients#get_access_data", :via => :get
+    match '/oauth_access_clients/:id/get_history_data(.:format)' => "oauth_access_clients#get_history_data", :via => :get
     match '/oauth_access_clients/:id/destroy(.:format)' => "oauth_access_clients#destroy", :via => :delete
 
     #oauth_authorize

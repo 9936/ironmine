@@ -429,6 +429,7 @@ class ApplicationController < ActionController::Base
       token = Irm::OauthToken.where(token: params[:token]).first
       #检查当前的token是否为空或者过期
       if token.present? and !token.expired?
+        session[:client_id] = token.client_id
         access = Irm::OauthAccess.where(:token_id => token.id).where(:ip_address => request.remote_ip).first
         if access.nil?
           Irm::OauthAccess.create(token_id: token.id, ip_address: request.remote_ip)

@@ -244,6 +244,9 @@
                     success: function(data){
                         $("#api-result").parent().removeClass("error");
                         $(".api-input", $form).removeAttr("disabled");
+                        if(data.error_info){
+                            $("#api-result").parent().addClass("error");
+                        }
                         $("#api-result").val(JSON.stringify(data, null, 4));
                     },
                     error: function() {

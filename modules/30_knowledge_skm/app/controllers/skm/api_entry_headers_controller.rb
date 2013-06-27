@@ -1,6 +1,4 @@
-class Skm::ApiEntryHeadersController < ApplicationController
-  before_filter :set_return_columns
-
+class Skm::ApiEntryHeadersController < ApiController
   #获取知识库列表
   # Request: /api_entry_headers/get_data.json
   def get_data
@@ -162,19 +160,8 @@ class Skm::ApiEntryHeadersController < ApplicationController
     entry_header.author_id = Irm::Person.current.id
     entry_header.type_code = "ARTICLE"
 
-    #if params[:details].present?
-    #  begin
-    #    details =  ActiveSupport::JSON.decode(params[:details])
-    #  rescue
-    #    json_str = ActiveSupport::JSON.encode(params[:details])
-    #    details =  ActiveSupport::JSON.decode(json_str)
-    #  end
-    #end
-
     details = get_details
 
-    #puts "======================#{details}========================"
-    #return
     if details.present? && details.any?
       details.each do |d|
         entry_header.entry_details.build({:element_name => d["element_name"],
@@ -190,7 +177,11 @@ class Skm::ApiEntryHeadersController < ApplicationController
             render json: entry_header.to_json(:only => @return_columns)
           }
         end
+      else
+        raise entry_header.errors.full_messages.to_s
       end
+    else
+      raise "details can't be blank."
     end
 
   end
@@ -249,7 +240,10 @@ class Skm::ApiEntryHeadersController < ApplicationController
           target_id = (hr.source_id == old_header.id)? hr.target_id : hr.source_id
           Skm::EntryHeaderRelation.create(:source_id => entry_header.id, :target_id => target_id, :relation_type => hr.relation_type, :created_by => hr.created_by)
         end
-        entry_header.save
+        unless entry_header.save
+          raise entry_header.errors.full_messages.to_s
+        end
+
       end
 
     else
@@ -268,7 +262,10 @@ class Skm::ApiEntryHeadersController < ApplicationController
           detail.update_attributes({:element_name => d["element_name"], :entry_content => d["entry_content"]}) if detail
         end
       end
-      entry_header.save
+      unless entry_header.save
+        raise entry_header.errors.full_messages.to_s
+      end
+
     end
 
 
@@ -299,39 +296,8 @@ class Skm::ApiEntryHeadersController < ApplicationController
     end
   end
 
-  #获取知识专题列表
-  #Request: /api_entry_headers/get_entry_books.json
-  def get_entry_books
-    entry_books_scope = Skm::EntryBook.multilingual
-    entry_books_scope = entry_books_scope.match_value("#{Skm::EntryBooksTl.table_name}.name", params[:name])
-    entry_books,count = paginate(entry_books_scope)
-
-
-    result = {:total_rows => count}
-    result[:items] = []
-
-    entry_books.each do |eb|
-      result[:items] << {:id => eb.id, :name => eb[:name], :description => eb[:description], :updated_at => eb[:updated_at]}
-    end
-
-    respond_to do |format|
-      format.json {
-        render json: result.to_json
-      }
-    end
-  end
-
 
   private
-
-    def set_return_columns
-      @return_columns = []
-      output_params = Irm::ApiParam.get_output_params(params[:controller], params[:action])
-      output_params.each do |p|
-        @return_columns << p.name.to_sym
-      end
-      @return_columns
-    end
 
     def get_details
       if params[:details].present?
