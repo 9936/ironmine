@@ -488,6 +488,7 @@ namespace :irm do
       function_api_flag = tmp_function.api_flag
 
       permissions =  function[:permissions]
+      permissions ||= {}
       permissions.each do |controller,actions|
         actions.each do |action|
           route_permission = route_permissions.detect{|rp| rp[:controller].eql?(controller)&&rp[:action].eql?(action.to_s)}
@@ -549,7 +550,7 @@ namespace :irm do
           end
 
         end
-      end
+      end if permissions.any?
 
     end
     deleted_row = Irm::Permission.delete_all("status_code = 'UNKNOW'")
