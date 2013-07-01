@@ -2022,3 +2022,9 @@ ja:
   label_irm_oauth_access_success: Success
   label_irm_oauth_access_error: Error
   #========================end oauth_access_history=====================================
+
+  #========================begin time_trigger===================================
+  label_irm_time_trigger_start_at: Start Date
+  label_irm_time_trigger_end_at: End Date
+  label_irm_time_trigger_start_time: Execute Time
+  #========================end time_trigger=====================================

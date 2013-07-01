@@ -38,6 +38,7 @@ namespace :irm do
     BLUE    = "\e[34m"
     puts "Init data,it will takes a few seconds......"
     #根据启用的模块初始化功能组、菜单和权限数据
+    Rails.application.config.fwk.modules
     begin
       rails_config = Rails.application.config
       rails_config.fwk.modules.each do |module_name|
