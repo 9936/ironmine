@@ -34,7 +34,10 @@ class Emw::MonitorProgram < ActiveRecord::Base
 
   def perform
     puts "===========start execute program=============="
-    self.execute
+    if self.mail_alert.present?
+      mail_alert = Irm::WfMailAlert.find(self.mail_alert)
+      mail_alert.perform(self)
+    end
     puts "===========end execute program=============="
   end
 
