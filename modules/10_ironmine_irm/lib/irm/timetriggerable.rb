@@ -22,13 +22,13 @@ module Irm::Timetriggerable
           def save_time_trigger
             current_time_trigger = Irm::TimeTrigger.query_target(self.id, self.class.name).first
             if current_time_trigger.present?
+              current_time_trigger.update_attributes(self.time_trigger)
+            else
               time_trigger = Irm::TimeTrigger.new(self.time_trigger)
               time_trigger.target_id = self.id
               time_trigger.target_type = self.class.name
               time_trigger.schedule_days = self.schedule_days
               time_trigger.save
-            else
-              current_time_trigger.update_attributes(self.time_trigger)
             end
           end
       end
