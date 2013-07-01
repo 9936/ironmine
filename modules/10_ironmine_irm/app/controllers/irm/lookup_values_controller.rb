@@ -33,7 +33,8 @@ class Irm::LookupValuesController < ApplicationController
     @lookup_value = Irm::LookupValue.find(params[:id])
     @lookup_value.not_auto_mult=true
     respond_to do |format|
-      if @lookup_value.update_attributes(params[:irm_lookup_type])
+      if @lookup_value.update_attributes(params[:irm_lookup_value])
+        @lookup_type = Irm::LookupType.multilingual.query_by_lookup_type(@lookup_value.lookup_type).first
         format.html { render({:action=>"show"}) }
       else
         format.html { render({:action=>"multilingual_edit"}) }

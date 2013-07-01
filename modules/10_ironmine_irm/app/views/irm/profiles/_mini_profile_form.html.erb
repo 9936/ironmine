@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div id="editSystemProfileModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-  <%= form_tag({}, {:class => "modal-form", :id => "edit_system_profile_form"}) do %>
+  <%= form_tag({:controller => "irm/external_system_members", :action => "update", :external_system_id => "${external_system_id}", :id => "${system_member_id}"}, {:class => "modal-form", :id => "edit_system_profile_form"}) do %>
   <%= hidden_field_tag "redirect_to" %>
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -30,7 +30,8 @@
   function showProfileDialog(selected, system_member_id, system_id){
       if (selected && system_member_id) {
           $("#systemProfileSelect").val(selected);
-          $("#edit_system_profile_form").attr("action", "/external_system_members/"+system_id+"/"+system_member_id+"/update");
+          var $action = $.tmpl(decodeURIComponent($("#edit_system_profile_form").attr("action")), {"external_system_id":system_id, "system_member_id": system_member_id}).text();
+          $("#edit_system_profile_form").attr("action", $action);
           $("#editSystemProfileModal").modal("show");
       }
   }

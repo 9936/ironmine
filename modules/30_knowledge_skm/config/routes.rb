@@ -229,6 +229,14 @@ Rails.application.routes.draw do
       match '/api_entry_headers/get_channels' => "api_entry_headers#get_channels", :via => :get
       match '/api_entry_headers/get_columns' => "api_entry_headers#get_columns", :via => :get
       match '/api_entry_headers/add' => "api_entry_headers#add", :via => :post
+      match '/api_entry_headers/update' => "api_entry_headers#update", :via => :post
       match '/api_entry_headers/show' => "api_entry_headers#show", :via => :get
+      #match '/api_entry_headers/get_entry_books' => "api_entry_headers#get_entry_books", :via => :get
+
+      #Entry Book API
+      match '/api_entry_books/get_data' => "api_entry_books#get_data", :via => :get
+      match '/api_entry_books/add' => "api_entry_books#add", :via => :post
+      match '/api_entry_books/update' => "api_entry_books#update", :via => :post
+      match '/api_entry_books/show' => "api_entry_books#show", :via => :get
     end
 end

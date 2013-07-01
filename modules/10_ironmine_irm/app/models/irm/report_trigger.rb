@@ -2,6 +2,8 @@ class Irm::ReportTrigger < ActiveRecord::Base
   set_table_name :irm_report_triggers
   attr_accessor :receiver_str
 
+  #acts_as_timetrigger(3)
+
   after_save :setup_schedule
 
   has_many :report_schedules,:dependent => :destroy

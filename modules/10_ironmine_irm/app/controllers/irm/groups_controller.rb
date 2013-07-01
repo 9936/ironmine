@@ -106,7 +106,7 @@ class Irm::GroupsController < ApplicationController
     @group = Irm::Group.find(params[:id])
     @group.not_auto_mult=true
     respond_to do |format|
-      if @group.update_attributes(params[:irm_support_group])
+      if @group.update_attributes(params[:irm_group])
         format.html { redirect_to({:action=>"show"}) }
       else
         format.html { render({:action=>"multilingual_edit"}) }

@@ -2687,7 +2687,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/oauth_access_clients" => ["create", "destroy", "edit", "get_data", "index", "new", "show", "update", "get_access_data"],
+              "irm/oauth_access_clients" => ["create", "destroy", "edit", "get_data", "index", "new", "show", "update", "get_access_data", "get_history_data"],
           },
       }
   }
@@ -2901,6 +2901,29 @@ Fwk::MenuAndFunctionManager.map do |map|
           }
       }
   }
+
+  #=================================START:IRM API=================================
+  map.function_group :irm_people_api, {
+      :en => {:name => "User API", :description => "User API"},
+      :zh => {:name => "用户API", :description => "用户API"} }
+  map.function_group :irm_people_api, {
+      :zone_code => "API",
+      :controller => "irm/api_people",
+      :action => "index",
+      :api_flag => "Y" }
+  map.function_group :irm_people_api, {
+      :children => {
+          :irm_user_rest_api => {
+              :en => {:name => "User API", :description => "User API"},
+              :zh => {:name => "用户接口", :description => "用户接口"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/api_people" => ["index","show"]
+          }
+      }
+  }
+  #=================================END:IRM API=================================
 
 end
 

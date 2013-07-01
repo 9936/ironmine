@@ -8,6 +8,9 @@ Fwk::ApiParamsManager.map do |map|
           :params => [
               {:name => :full_search, :classify => [:input], :type => "String", :description => "全文检索，指明此参数，可检索出于关键字相关的知识文章"},
               {:name => :doc_number, :classify => [:input], :type => "String", :description => "知识文章编码"},
+              {:name => :project_id, :classify => [:input], :type => "String", :description => "知识所属项目ID"},
+              {:name => :author_id, :classify => [:input], :type => "String", :description => "知识作者ID"},
+              {:name => :column_id, :classify => [:input], :type => "String", :description => "知识分类ID"},
               {:name => :entry_title, :classify => [:input], :type => "String", :description => "知识文章标题"},
               {:name => :start, :classify => [:input], :type => "Number", :required => "Y", :default_value => 0, :description => "用于分页，从第几条记录开始"},
               {:name => :limit, :classify => [:input], :type => "Number", :required => "Y", :default_value => 10, :description => "每页显示记录数"},
@@ -73,11 +76,50 @@ Fwk::ApiParamsManager.map do |map|
           :description => "创建知识接口",
           :params => [
               {:name => :id, :classify => [:output], :type => "String", :description => "知识文章唯一ID"},
+              {:name => :project_id, :classify => [:input, :output], :type => "String", :description => "知识所属项目ID"},
               {:name => :entry_template_id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章模板ID"},
               {:name => :entry_title, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章标题"},
               {:name => :keyword_tags, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章关键字"},
               {:name => :channel_id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章频道"},
-              {:name => :content,:classify => [:input,:output], :type => "Object",:example_value => '', :required => "Y", :description => "知识库内容"}
+              {:name => :details,:classify => [:input,:output], :type => "Object",:example_value => '', :required => "Y", :description => "知识文章段落列表，数组每个元素包括{:entry_template_element_id => 模板元素ID, :element_name => 段落标题, :entry_content => 段落内容}"},
+              {:name => :doc_number, :classify => [:output], :type => "String", :description => "知识文章文档号"},
+              {:name => :history_flag, :classify => [:output], :type => "String", :description => "知识文章历史标记('Y'表示历史版本，'N'表示最新版本)"},
+              {:name => :entry_status_code, :classify => [:output], :type => "String", :description => "知识文章当前状态('PUBLISHED'表示已发布,'WAIT_APPROVE'表示等待审批)"},
+              {:name => :version_number, :classify => [:output], :type => "String", :description => "知识文章版本号"},
+              {:name => :published_date, :classify => [:output], :type => "Datetime", :description => "知识文章发布日期"},
+              {:name => :type_code, :classify => [:output], :type => "String", :description => "知识文章类型（‘ARTICLE’,表示文本知识,'VIDEO'表示视频知识）"},
+              {:name => :created_at, :classify => [:output], :type => "Datetime", :description => "知识文章创建日期"},
+              {:name => :created_by, :classify => [:output], :type => "String", :description => "知识文章创建人ID"},
+              {:name => :updated_at, :classify => [:output], :type => "Datetime", :description => "知识文章更新日期"},
+              {:name => :updated_by, :classify => [:output], :type => "String", :description => "知识文章更新人ID"},
+              {:name => :author_id, :classify => [:output], :type => "String", :description => "知识文章作者ID"}
+          ],
+      },
+
+      #添加知识文章
+      :update => {
+          :name => "更新知识接口",
+          :description => "更新知识接口",
+          :params => [
+              {:name => :id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章唯一ID"},
+              {:name => :new_version_flag, :classify => [:input], :type => "String", :default_value => "N", :description => "是否保存为新版不，可选值['Y','N'],默认为‘N’"},
+              {:name => :project_id, :classify => [:input, :output], :type => "String", :description => "知识所属项目ID"},
+              {:name => :entry_template_id, :classify => [:output], :type => "String", :required => "Y", :description => "知识文章模板ID"},
+              {:name => :entry_title, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章标题"},
+              {:name => :keyword_tags, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章关键字"},
+              {:name => :channel_id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章频道"},
+              {:name => :details,:classify => [:input,:output], :type => "Object",:example_value => '', :required => "Y", :description => "知识文章段落列表，数组每个元素包括{:entry_template_element_id => 模板元素ID, :element_name => 段落标题, :entry_content => 段落内容}"},
+              {:name => :doc_number, :classify => [:output], :type => "String", :description => "知识文章文档号"},
+              {:name => :history_flag, :classify => [:output], :type => "String", :description => "知识文章历史标记('Y'表示历史版本，'N'表示最新版本)"},
+              {:name => :entry_status_code, :classify => [:output], :type => "String", :description => "知识文章当前状态('PUBLISHED'表示已发布,'WAIT_APPROVE'表示等待审批)"},
+              {:name => :version_number, :classify => [:output], :type => "String", :description => "知识文章版本号"},
+              {:name => :published_date, :classify => [:output], :type => "Datetime", :description => "知识文章发布日期"},
+              {:name => :type_code, :classify => [:output], :type => "String", :description => "知识文章类型（‘ARTICLE’,表示文本知识,'VIDEO'表示视频知识）"},
+              {:name => :created_at, :classify => [:output], :type => "Datetime", :description => "知识文章创建日期"},
+              {:name => :created_by, :classify => [:output], :type => "String", :description => "知识文章创建人ID"},
+              {:name => :updated_at, :classify => [:output], :type => "Datetime", :description => "知识文章更新日期"},
+              {:name => :updated_by, :classify => [:output], :type => "String", :description => "知识文章更新人ID"},
+              {:name => :author_id, :classify => [:output], :type => "String", :description => "知识文章作者ID"}
           ],
       },
 
@@ -88,6 +130,7 @@ Fwk::ApiParamsManager.map do |map|
           :params => [
               {:name => :id, :classify => [:input,:output], :type => "String", :required => "Y", :description => "知识文章唯一ID"},
               {:name => :entry_title, :classify => [:output], :type => "String", :description => "知识文章标题"},
+              {:name => :project_id, :classify => [:output], :type => "String", :description => "知识所属项目ID"},
               {:name => :keyword_tags, :classify => [:output], :type => "String", :description => "知识文章关键字"},
               {:name => :doc_number, :classify => [:output], :type => "String", :description => "知识文章文档号"},
               {:name => :history_flag, :classify => [:output], :type => "String", :description => "知识文章历史标记('Y'表示历史版本，'N'表示最新版本)"},
@@ -102,7 +145,56 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :author_id, :classify => [:output], :type => "String", :description => "知识文章作者ID"},
               {:name => :channel_id, :classify => [:output], :type => "String", :description => "知识文章频道ID"},
               {:name => :entry_template_id, :classify => [:output], :type => "String", :description => "知识文章模板ID"},
-              {:name => :details, :classify => [:output], :type => "Object", :description => "知识文章内容，包括{:element_id => 段落ID, :element_name => 段落标题, :entry_content => 段落内容}"},
+              {:name => :details, :classify => [:output], :type => "Object", :description => "知识文章内容，包括{:element_id => 段落ID, :element_name => 段落标题, :entry_content => 段落内容}"}
+          ]
+      }
+  }
+
+  map.controller "skm/api_entry_books", {
+      #获取知识专题列表
+      :get_data => {
+          :name => "知识专题列表接口",
+          :description => "知识专题列表接口",
+          :params => [
+              {:name => :start, :classify => [:input], :type => "Number", :required => "Y", :default_value => 0, :description => "用于分页，从第几条记录开始"},
+              {:name => :limit, :classify => [:input], :type => "Number", :required => "Y", :default_value => 10, :description => "每页显示记录数"},
+              {:name => :name, :classify => [:input], :type => "String", :description => "知识专题名称，用户进行模糊查询"},
+              {:name => :total_rows, :classify => [:output], :type => "Number", :default_value => 0, :description => "记录总数"},
+              {:name => :items, :classify => [:output], :type => "Object", :description => "知识专题列表，包括(id: 专题ID, name: 专题名称, description: 专题说明, updated_at: 专题更新时间"}
+          ]
+      },
+
+      #获取知识专题下的知识和知识专题
+      :show => {
+          :name => "查看知识专题接口",
+          :description => "查看知识专题接口",
+          :params => [
+              {:name => :id, :classify => [:input,:output], :type => "String", :required => "Y", :description => "知识专题唯一ID"},
+              {:name => :name, :classify => [:output], :type => "String", :description => "知识专题名称"},
+              {:name => :description, :classify => [:output], :type => "String", :description => "知识专题描述"},
+              {:name => :items, :classify => [:output], :type => "Object", :description => "知识专题下的知识或子专题，包括(类型:【专题OR文章】, display_name: 章节标题, title: 标题, published_date:发布日期(限知识文章),created_at： 创建时间，updated_at: 更新时间, doc_number: 文档编码（限知识文章）"}
+          ]
+      },
+
+      #添加专题
+      :add => {
+          :name => "创建知识专题接口",
+          :description => "创建知识专题接口",
+          :params => [
+            {:name => :id, :classify => [:output], :type => "String",:description => "知识专题唯一ID"},
+            {:name => :name, :classify => [:input, :output], :type => "String", :description => "知识专题名称"},
+            {:name => :description, :classify => [:input,:output], :type => "String", :description => "知识专题描述"},
+          ]
+      },
+
+      #编辑专题
+      :update => {
+          :name => "编辑知识专题接口",
+          :description => "编辑知识专题接口",
+          :params => [
+              {:name => :id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识专题唯一ID"},
+              {:name => :name, :classify => [:input, :output], :type => "String", :description => "知识专题名称"},
+              {:name => :description, :classify => [:input, :output], :type => "String", :description => "知识专题描述"},
           ]
       }
   }

@@ -112,6 +112,8 @@ module Ironmine
       end
     end
 
+    config.paths["config/locales"] = config.paths["config/locales"].reverse
+
     # auto load class in lib and module lib
     config.autoload_paths += config.paths["lib"].expanded
 

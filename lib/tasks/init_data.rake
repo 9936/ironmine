@@ -38,6 +38,7 @@ namespace :irm do
     BLUE    = "\e[34m"
     puts "Init data,it will takes a few seconds......"
     #根据启用的模块初始化功能组、菜单和权限数据
+    Rails.application.config.fwk.modules
     begin
       rails_config = Rails.application.config
       rails_config.fwk.modules.each do |module_name|
@@ -488,6 +489,7 @@ namespace :irm do
       function_api_flag = tmp_function.api_flag
 
       permissions =  function[:permissions]
+      permissions ||= {}
       permissions.each do |controller,actions|
         actions.each do |action|
           route_permission = route_permissions.detect{|rp| rp[:controller].eql?(controller)&&rp[:action].eql?(action.to_s)}
@@ -522,8 +524,8 @@ namespace :irm do
             Irm::RestApi.where("permission_id = '#{permission.id}'").map(&:destroy)
 
             if api_controllers[controller].present? && api_controllers[controller].any?
-              api_rest_data = api_controllers[controller][action.to_sym] || api_controllers[controller][action.to_s] || []
-
+              api_rest_data = api_controllers[controller][action.to_sym] || api_controllers[controller][action.to_s] || {}
+              next unless api_rest_data.any?
               rest_api = Irm::RestApi.new(:permission_id => permission.id, :name => api_rest_data[:name], :description => api_rest_data[:description] || api_rest_data[:name],:method => route_permission[:api_method])
 
               api_rest_data[:params].each do |p|
@@ -549,7 +551,7 @@ namespace :irm do
           end
 
         end
-      end
+      end if permissions.any?
 
     end
     deleted_row = Irm::Permission.delete_all("status_code = 'UNKNOW'")
