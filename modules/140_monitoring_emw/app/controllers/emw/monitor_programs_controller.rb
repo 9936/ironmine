@@ -37,7 +37,6 @@ class Emw::MonitorProgramsController < ApplicationController
   # POST /monitor_programs.xml
   def create
     @monitor_program = Emw::MonitorProgram.new(params[:emw_monitor_program])
-    @monitor_program.time_mode = YAML.dump(params[:time_mode_obj])
 
     respond_to do |format|
       if @monitor_program.save
@@ -54,7 +53,6 @@ class Emw::MonitorProgramsController < ApplicationController
   # PUT /monitor_programs/1.xml
   def update
     @monitor_program = Emw::MonitorProgram.find(params[:id])
-    @monitor_program.time_mode = YAML.dump(params[:time_mode_obj])
 
     respond_to do |format|
       if @monitor_program.update_attributes(params[:emw_monitor_program])
