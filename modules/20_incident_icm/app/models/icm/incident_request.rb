@@ -2,7 +2,7 @@ include ActionView::Helpers::SanitizeHelper
 
 class Icm::IncidentRequest < ActiveRecord::Base
   set_table_name :icm_incident_requests
-
+  has_many :incident_workloads
   has_many :incident_journals
 
   has_many :change_incident_requests,:class_name => "Chm::ChangeIncidentRelation"

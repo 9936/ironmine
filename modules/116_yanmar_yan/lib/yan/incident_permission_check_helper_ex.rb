@@ -9,5 +9,12 @@ module Yan::IncidentPermissionCheckHelperEx
       end
     end
 
+    def can_edit_workload?(incident_request)
+      if allow_to_function?(:edit_workload_self, incident_request[:external_system_id])
+        return true
+      else
+        return false
+      end
+    end
   end
 end
