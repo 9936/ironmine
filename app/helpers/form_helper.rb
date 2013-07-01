@@ -141,7 +141,7 @@ module FormHelper
   #定义timetrigger_tag
   def time_trigger(form)
     time_trigger = Irm::TimeTrigger.query_target(form.object.id, form.object.class.name).first if form.object.id.present?
-    time_trigger ||= Irm::TimeTrigger.new
+    time_trigger ||= Irm::TimeTrigger.new(form.object.time_trigger)
 
     time_trigger_object_name = "#{form.object_name}[time_trigger]"
 
