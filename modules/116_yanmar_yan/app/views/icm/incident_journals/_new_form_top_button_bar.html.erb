@@ -43,7 +43,7 @@
           <% end %>
         </div>
         <div class="btn-group">
-          <% if (Icm::IncidentRequest.support_person_id.blank? && Icm::IncidentRequest.support_group_id.blank? && false) ||
+          <% if (@incident_request.support_person_id.blank? && @incident_request.support_group_id.blank? && false) ||
                   Icm::IncidentRequest.assignable_to_person(Irm::Person.current.id).query(@incident_request.id).present?%>
               <%= link_to t(:label_icm_incident_request_assign_me_receive), {:controller=>"icm/incident_requests",
                                                                              :action => "update_assign_me",
