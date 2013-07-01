@@ -2187,3 +2187,9 @@ zh:
   label_irm_oauth_access_error: 请求失败
   #========================end oauth_access_history=====================================
 
+  #========================begin time_trigger===================================
+  label_irm_time_trigger_start_at: 开始日期
+  label_irm_time_trigger_end_at: 结束日期
+  label_irm_time_trigger_start_time: 执行时间
+  #========================end time_trigger=====================================
+

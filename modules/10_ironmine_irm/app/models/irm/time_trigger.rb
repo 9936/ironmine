@@ -1,72 +1,33 @@
-class Irm::ReportTrigger < ActiveRecord::Base
-  set_table_name :irm_report_triggers
-  attr_accessor :receiver_str
+class Irm::TimeTrigger < ActiveRecord::Base
+  set_table_name :irm_time_triggers
 
-  #acts_as_timetrigger(3)
+  has_many :time_schedules, :foreign_key => :time_trigger_id, :dependent => :destroy
 
-  after_save :setup_schedule
+  attr_accessor :time_mode_obj
 
-  has_many :report_schedules,:dependent => :destroy
-  has_many :report_receivers,:dependent => :destroy
-  belongs_to :report
-
-  validates_uniqueness_of :report_id
-  validates_presence_of :report_id,:start_at,:end_at,:person_id
+  validates_uniqueness_of :target_id
+  validates_presence_of :target_id, :target_type, :start_at, :end_at, :start_time
 
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope {default_filter}
+  default_scope { default_filter }
+
+  before_save :set_time_mode
+  after_save :setup_schedule
 
 
-  #添加报表可见人员
-  def create_receiver_from_str
-    if(!self.receiver_type.eql?("CHOOSE_STAFF"))
-      self.receiver_str = ""
-    end
-    return unless self.receiver_str
-    str_values = self.receiver_str.split(",").delete_if{|i| !i.present?}
-    exists_values = Irm::ReportReceiver.where(:report_trigger_id=>self.id)
-    exists_values.each do |value|
-      if str_values.include?("#{value.receiver_type}##{value.receiver_id}")
-        str_values.delete("#{value.receiver_type}##{value.receiver_id}")
-      else
-        value.destroy
-      end
+  scope :query_target, lambda{|target_id, target_type|
+    where("#{table_name}.target_id=? AND #{table_name}.target_type=?", target_id, target_type)
+  }
 
-    end
-
-    str_values.each do |value_str|
-      next unless value_str.strip.present?
-      value = value_str.strip.split("#")
-      self.report_receivers.create(:receiver_type=>value[0],:receiver_id=>value[1])
-    end
-  end
-
-
-  def get_receiver_str
-    return @get_receiver_str if @get_receiver_str
-    @get_receiver_str||=receiver_str
-    @get_receiver_str||= Irm::ReportReceiver.where(:report_trigger_id=>self.id).collect{|value| "#{value.receiver_type}##{value.receiver_id}"}.join(",")
-  end
-
-  def receiver_person_ids
-    if(!self.receiver_type.eql?("CHOOSE_STAFF"))
-      return [self.created_by]
-    end
-
-    person_ids = Irm::ReportReceiver.where(:report_trigger_id=>self.id).query_person_ids.collect{|i| i[:person_id]}
-    person_ids.uniq!
-    person_ids
-  end
-
-  def time_mode_obj
+  def get_time_mode_obj
     return @time_mode_obj if @time_mode_obj
-    @time_mode_obj =  prepare_time_mode
+    @time_mode_obj = prepare_time_mode
   end
 
   def to_rrule_hash
-    mode_obj = self.time_mode_obj
+    mode_obj = self.get_time_mode_obj
     rrule_hash = {:freq=>mode_obj[:freq]}
     case rrule_hash[:freq]
       when "DAILY"
@@ -116,7 +77,7 @@ class Irm::ReportTrigger < ActiveRecord::Base
   end
 
   # 计算2天内存在的执行时间
-  def schedule_in_days(days=2,now = DateTime.now.change(:hour=>0,:min=>0,:sec=>0))
+  def schedule_in_days(days=2, now = DateTime.now.change(:hour=>0,:min=>0,:sec=>0))
     # 计算开始时间与结束时间
     start_date =  self.start_at.to_datetime
     if now > start_date
@@ -126,7 +87,7 @@ class Irm::ReportTrigger < ActiveRecord::Base
     if end_date > self.end_at.to_datetime
       end_date = self.end_at.to_datetime
     end
-    # 取得rrule hash字符串
+    #取得rrule hash字符串
     rrule_hash =  self.to_rrule_hash
     rrule_i = RiCal::PropertyValue::RecurrenceRule.new(nil, rrule_hash.merge(:until =>end_date))
 
@@ -152,7 +113,7 @@ class Irm::ReportTrigger < ActiveRecord::Base
     while 1 do
       occurrence = enum.next_occurrence
       if occurrence.nil?
-          break
+        break
       end
       occurrence_datetime = occurrence.dtstart.to_datetime
       occurrence_datetime = occurrence_datetime.change(:hour=>self.start_time.hour,:min=>self.start_time.min,:sec=>self.start_time.sec)
@@ -160,38 +121,45 @@ class Irm::ReportTrigger < ActiveRecord::Base
     end
     occurrences
   end
-  # 同步两天要执行的任务
+
+  #同步指定天数需要执行的任务
   def sync_schedule
-    schedule_datetimes = schedule_in_days
-    trigger_id = self.id
+    schedule_datetimes = schedule_in_days(self.schedule_days)
     schedule_datetimes.each do |t|
-      rs = Irm::ReportSchedule.where(:report_trigger_id=>trigger_id,:run_at_str=>t.to_i.to_s).first
+      rs = Irm::TimeSchedule.where(:time_trigger_id=> self.id, :run_at_str=> t.to_i.to_s).first
       unless rs
-        Irm::ReportSchedule.create(:report_trigger_id=>trigger_id,:run_at=>t)
+        Irm::TimeSchedule.create(:time_trigger_id=> self.id, :run_at=> t)
       end
     end
   end
 
-  # 添理过时的schedule
-  def clean_schedule
-    Irm::ReportSchedule.where(:report_trigger_id=>self.id,:run_status=>"PENDING").delete_all
-  end
 
   private
-  def setup_schedule
-    clean_schedule
-    sync_schedule
-  end
-  def prepare_time_mode
-    if self.time_mode.present?
-      return YAML.load(self.time_mode)
-    else
-     {
-      :freq=>"DAILY",
-      :daily=>{:type=>"BYDAY", :interval=>"1"},
-      :weekly=>{:interval=>"1", :days=>["MO"]},
-      :monthly=>{:type=>"WEEK",:day=>{ :interval=>"1", :dayno=>"1"}, :week=>{:interval=>"1", :weekno=>"1", :weekday=>"MO"}}
-     }
+    def setup_schedule
+      clean_schedule
+      sync_schedule
     end
-  end
+
+    #清理过时的schedule
+    def clean_schedule
+      Irm::TimeSchedule.where(:time_trigger_id=>self.id, :run_status=>"PENDING").delete_all
+    end
+
+    def set_time_mode
+      self.time_mode= YAML.dump(self.time_mode_obj)
+    end
+
+    def prepare_time_mode
+      if self.time_mode.present?
+        return YAML.load(self.time_mode)
+      else
+        {
+            :freq => "DAILY",
+            :daily => {:type => "BYDAY", :interval => "1"},
+            :weekly => {:interval => "1", :days => ["MO"]},
+            :monthly => {:type => "WEEK", :day => {:interval => "1", :dayno => "1"}, :week => {:interval => "1", :weekno => "1", :weekday => "MO"}}
+        }
+      end
+    end
+
 end

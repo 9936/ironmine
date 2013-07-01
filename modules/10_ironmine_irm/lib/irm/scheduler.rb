@@ -15,6 +15,15 @@ module Irm
         }
       end
 
+      # sync time schedule
+      scheduler.cron '0 0 0 * * *' do
+        logger.debug "sync time schedule"
+        Irm::TimeTrigger.unscoped.all.each { |i|
+          Irm::Person.current = Irm::Person.unscoped.find(i.created_by)
+          i.sync_schedule
+        }
+      end
+
       # Generate incident request from mail
       scheduler.every Irm::MailManager.receive_interval do
         logger.debug "schedule receive mail and generate request job"

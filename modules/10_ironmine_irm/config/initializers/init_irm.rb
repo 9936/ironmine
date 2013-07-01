@@ -5,6 +5,8 @@ ActiveRecord::Base.send(:include, Irm::QueryExtend)
 
 #扩展ActionRecord::Base,校验自定义字段
 ActiveRecord::Base.send(:include, Irm::Customizable)
+#扩展ActiveRecord::Base,添加Timetrigger支持
+ActiveRecord::Base.send(:include, Irm::Timetriggerable)
 
 #扩展ActionRecord::Base,自动生成event
 ActiveRecord::Base.send(:include, Irm::EventGenerator)
