@@ -34,10 +34,13 @@ Ironmine::Application.routes.draw do
     match '/priority_codes/:id(.:format)' => "priority_codes#update", :via => :put
     match '/priority_codes/new(.:format)' => "priority_codes#new", :via => :get
     match '/priority_codes/create(.:format)' => "priority_codes#create", :via => :post
+    match '/priority_codes/edit_transform(.:format)' => "priority_codes#edit_transform", :via => :get
+    match '/priority_codes/update_transform(.:format)' => "priority_codes#update_transform", :via => :post
     match '/priority_codes/:id/multilingual_edit(.:format)' => "priority_codes#multilingual_edit", :via => :get
     match '/priority_codes/:id/multilingual_update(.:format)' => "priority_codes#multilingual_update", :via => :put
     match '/priority_codes/get_data(.:format)' => "priority_codes#get_data"
     match '/priority_codes/:id(.:format)' => "priority_codes#show", :via => :get
+
     #close_reasons
     match '/close_reasons(/index)(.:format)' => "close_reasons#index", :via => :get
     match '/close_reasons/:id/edit(.:format)' => "close_reasons#edit", :via => :get

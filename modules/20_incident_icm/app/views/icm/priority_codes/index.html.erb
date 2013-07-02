@@ -29,13 +29,16 @@
       <td class="page-block-title">
         <h2 class="block-title"><%= t(:label_icm_priority_code) %></h2>
       </td>
+      <td class="page-block-button">
+        <%= link_to t(:edit), {:action => "edit_transform"}, :class => "btn btn-primary" %>
+      </td>
     </tr>
   </table>
   <div class="page-block-body">
     <table class="matrix" cellpadding="0" cellspacing="0" border="0">
       <% urgence_codes = Icm::UrgenceCode.multilingual.order("display_sequence Desc");
          impact_ranges = Icm::ImpactRange.multilingual.order("display_sequence Desc");
-         priority_weight_value_hashes = priority_weight_value_hash
+         name_hash = priorities_name_hash
       %>
       <tbody>
         <tr>
@@ -46,17 +49,17 @@
         <tr>
           <th rowspan="<%= impact_ranges.length+1 %>" style="vertical-align:middle;"><%=t(:label_icm_impact_range)  %></th>
           <th></th>
-          <% urgence_codes.each do |urgency| %>
-            <th class="to"><%= urgency[:name]%></th>
+          <% urgence_codes.each do |urgence| %>
+            <th class="to"><%= urgence[:name]%></th>
           <% end %>
         </tr>
         <% impact_ranges.each do |impact| %>
           <tr>
             <th class="from"><%= impact[:name]%></th>
-            <% urgence_codes.each do |urgency| %>
-              <td title="<%=impact[:name]%>">
-                <% current_weight = impact.weight_values+urgency.weight_values-1 %>
-                <%= current_weight %>
+            <% urgence_codes.each do |urgence| %>
+              <% priority_id = (available_priority_transform[impact.id] && available_priority_transform[impact.id][urgence.id]) ? available_priority_transform[impact.id][urgence.id] : nil %>
+              <td title="<%= name_hash[priority_id] %>">
+                <%= name_hash[priority_id] %>
               </td>
             <% end %>
           </tr>

@@ -462,7 +462,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/priority_codes" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
+              "icm/priority_codes" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update",
+                                         "edit_transform", "update_transform", "get_data"],
           },
       }
   }
