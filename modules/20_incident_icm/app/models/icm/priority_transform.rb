@@ -21,4 +21,14 @@ class Icm::PriorityTransform < ActiveRecord::Base
     where("#{table_name}.impact_range_id=? AND #{table_name}.urgence_id=?",impact_id, urgence_id)
   }
 
+  #恩将事故单的获取其定义的优先级
+  def self.query_priority(sid, impact_id, urgence_id)
+    transform = self.with_sid(sid).with_impact_urgence(impact_id, urgence_id).first
+    unless transform.present?
+      transform = self.with_global.with_impact_urgence(impact_id, urgence_id).first
+    end
+    transform
+  end
+
+
 end
