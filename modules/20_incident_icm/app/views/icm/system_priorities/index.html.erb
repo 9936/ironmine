@@ -1,0 +1,90 @@
+<style type="text/css">
+    table.matrix{
+        padding-left: 20px;
+    }
+    table.matrix th{
+        font-weight:bold;
+        padding:5px;
+    }
+    table.matrix td{
+        text-align: center;
+        min-width: 50px;
+        padding:5px;
+        border: solid 1px;
+        border-color:#CBCBCB;
+    }
+    table.matrix th.to{
+        text-align: center;
+    }
+    table.matrix th.from{
+        text-align: right;
+    }
+</style>
+<%= common_title(:model_meaning=>"【#{current_system[:system_name]}】",:action_meaning => t(:label_icm_priority_code_edit_transform)) %>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_icm_priority_code) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:edit), {:action => "edit_transform"}, :class => "btn btn-primary" %>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="matrix" cellpadding="0" cellspacing="0" border="0">
+      <% urgence_codes = Icm::UrgenceCode.multilingual.order("display_sequence Desc");
+         impact_ranges = Icm::ImpactRange.multilingual.order("display_sequence Desc");
+         priority_transform = available_priority_transform(current_system.id);
+         name_hash = priorities_name_hash
+      %>
+      <tbody>
+      <tr>
+        <th></th>
+        <th></th>
+        <th class="to" colspan="<%=urgence_codes.length%>"><%=t(:label_icm_urgence_code)  %></th>
+      </tr>
+      <tr>
+        <th rowspan="<%= impact_ranges.length+1 %>" style="vertical-align:middle;"><%=t(:label_icm_impact_range)  %></th>
+        <th></th>
+        <% urgence_codes.each do |urgence| %>
+            <th class="to"><%= urgence[:name]%></th>
+        <% end %>
+      </tr>
+      <% impact_ranges.each do |impact| %>
+          <tr>
+            <th class="from"><%= impact[:name]%></th>
+            <% urgence_codes.each do |urgence| %>
+                <% priority_id = (priority_transform[impact.id] && priority_transform[impact.id][urgence.id]) ? priority_transform[impact.id][urgence.id] : nil %>
+                <td title="<%= name_hash[priority_id] %>">
+                  <%= name_hash[priority_id] %>
+                </td>
+            <% end %>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_icm_priority_code_list) %></h2>
+      </td>
+      <td class="page-block-button">
+      </td>
+      <td class="page-block-help">
+        <div id="priorityCodesSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable("priority_code",{:action=>"get_data"},[],{:paginator_box=>"priorityPaginator",:search_box=>"priorityCodesSearchBox"})%>
+  </div>
+</div>

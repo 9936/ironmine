@@ -669,7 +669,17 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :en => {:name => "Assign Rules", :description => "Assign Rules"},
                   :zh => {:name => "分派规则", :description => "分派规则"}
               }
+          },
+
+          :system_priority => {
+              :type => "function",
+              :entry => {
+                  :sequence => 120,
+                  :en => {:name => "Priorities", :description => "Priorities"},
+                  :zh => {:name => "优先级", :description => "优先级"}
+              }
           }
+
       }
   }
 
@@ -692,6 +702,29 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "icm/systems" => ["index","edit_transform","update_transform","get_status_data"]
+          }
+      }
+  }
+
+  map.function_group :system_priority, {
+      :en => {:name => "Priorities", :description => "Priorities"},
+      :zh => {:name => "优先级设置", :description => "优先级设置"},
+      :system_flag => 'Y'
+  }
+  map.function_group :system_priority, {
+      :zone_code => "INCIDENT_SETTING",
+      :controller => "icm/system_priorities",
+      :action => "index"
+  }
+  map.function_group :system_priority, {
+      :children => {
+          :system_priority => {
+              :en => {:name => "Priorities settings", :description => "Priorities settings"},
+              :zh => {:name => "优先级设置", :description => "优先级设置"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/system_priorities" => ["index","edit_transform","update_transform","get_data"]
           }
       }
   }

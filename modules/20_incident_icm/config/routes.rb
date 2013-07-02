@@ -221,5 +221,11 @@ Ironmine::Application.routes.draw do
     match '/system_group_processes/:sid/:id/edit(.:format)' => "system_group_processes#edit", :via => :get
     match '/system_group_processes/:sid/:id(.:format)' => "system_group_processes#update", :via => :put
     #match '/system_group_processes/:sid/:id/get_groups_processes(.:format)' => "system_group_processes#get_groups_processes"
+
+    #System Priority setting
+    match '/system_priorities/:sid(/index)(.:format)' => "system_priorities#index", :via => :get
+    match '/system_priorities/:sid/get_data(.:format)' => "system_priorities#get_data",:via => :get
+    match '/system_priorities/:sid/edit_transform(.:format)' => "system_priorities#edit_transform",:via => :get
+    match '/system_priorities/:sid/update_transform(.:format)' => "system_priorities#update_transform", :via => :post
   end
 end
