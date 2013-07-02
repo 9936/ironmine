@@ -12,8 +12,12 @@
     <% builder.column(:mail_alert, {:title => t(:label_emw_monitor_program_mail_alert)}) do |data| %>
         <%= data[:mail_alert_name] %>
     <% end %>
-    <% builder.column(:start_at, {:title => t(:label_emw_monitor_program_start_at)}) %>
-    <% builder.column(:end_at, {:title => t(:label_emw_monitor_program_end_at)}) %>
+    <% builder.column(:start_at, {:title => t(:label_emw_monitor_program_start_at)}) do |data| %>
+      <%= data.time_trigger_obj[:start_at] %>
+    <% end %>
+    <% builder.column(:end_at, {:title => t(:label_emw_monitor_program_end_at)}) do |data| %>
+      <%= data.time_trigger_obj[:end_at] %>
+    <% end %>
     <% builder.column(:description, {:title => t(:description)}) %>
     <% builder.column(:repeat_type, {:title => t(:label_emw_monitor_program_repeat_type)}) do |data| %>
       <span class="badge badge-success"><%= t("label_emw_monitor_program_repeat_type_#{data[:repeat_type].downcase}") %></span>
