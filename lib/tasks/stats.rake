@@ -40,7 +40,6 @@ end
 
 STATS_DIRECTORIES = origin_directories.collect { |name, dir| [ name, "#{Rails.root}/#{dir}" ] }.select { |name, dir| File.directory?(dir) }
 
-puts STATS_DIRECTORIES
 desc "Report code statistics (KLOCs, etc) from the application"
 task :stats do
   require 'rails/code_statistics'
