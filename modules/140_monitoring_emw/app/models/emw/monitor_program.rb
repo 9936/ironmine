@@ -12,7 +12,6 @@ class Emw::MonitorProgram < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 
-  before_save :init_repeat_type
 
 
 
@@ -77,10 +76,4 @@ class Emw::MonitorProgram < ActiveRecord::Base
     result
   end
 
-
-
-  private
-    def init_repeat_type
-      self.repeat_type = "weekly"# self.time_mode_obj[:freq]
-    end
 end

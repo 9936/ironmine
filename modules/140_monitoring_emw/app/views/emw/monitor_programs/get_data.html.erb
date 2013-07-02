@@ -20,6 +20,6 @@
     <% end %>
     <% builder.column(:description, {:title => t(:description)}) %>
     <% builder.column(:repeat_type, {:title => t(:label_emw_monitor_program_repeat_type)}) do |data| %>
-      <span class="badge badge-success"><%= t("label_emw_monitor_program_repeat_type_#{data[:repeat_type].downcase}") %></span>
+      <span class="badge badge-success"><%= t("label_emw_monitor_program_repeat_type_#{data.time_trigger_obj[:repeat_type].downcase}") %></span>
     <% end %>
 <% end %>
