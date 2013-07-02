@@ -104,7 +104,9 @@ class Skm::BooksController < ApplicationController
       format.html # show.html.erb
       format.pdf {
         pdf_path = Skm::WikiToStatic.instance.book_to_static(@book,:pdf)
-        send_data File.open(pdf_path,"r").read :filename=>"#{@book.name}.pdf", :type => 'application/pdf', :disposition => 'inline'
+        File.open(pdf_path, 'rb') do |f|
+          send_data f.read, :filename=>"#{@book.name}.pdf", :type => 'application/pdf', :disposition => 'inline'
+        end
       }
       #format.pdf {
       #  render :pdf => "#{@book.name}",

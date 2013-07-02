@@ -141,6 +141,7 @@ class Skm::WikiToStatic
 
 
   def page_to_doc(page, title="", wiki_id=nil, mode=nil)
+    if page
     if wiki_id.present?
       page.attachments = Irm::AttachmentVersion.select_all.where(:source_id => wiki_id, :source_type => Skm::Wiki.name)
     end
@@ -149,7 +150,10 @@ class Skm::WikiToStatic
     if title.present?
       doc = check_h1(title, doc)
     end
-    doc
+     return doc
+    else
+      return Nokogiri::HTML::DocumentFragment.parse("#{I18n.t(:label_skm_wiki_git_folder_page_missing)}:#{wiki_id}<br/>")
+    end
   end
 
 
