@@ -41,6 +41,11 @@ class Irm::GroupMember < ActiveRecord::Base
         select("task_counts.count opened_task_count")
   }
 
+  scope :with_system, lambda{|system_id|
+      joins(",#{Irm::ExternalSystemPerson.table_name} esp").
+          where("esp.external_system_id = ?", system_id).
+          where("#{Irm::GroupMember.table_name}.person_id = esp.person_id")
+  }
 
   scope :assignable,lambda{
     where("#{Irm::Person.table_name}.assignment_availability_flag = ?",Irm::Constant::SYS_YES)

@@ -91,6 +91,7 @@ ja:
   label_report_request_workload: ワークロード
   label_action_show_template: テンプレートレポート実行中
   label_icm_incident_request_update_workload: Update Workload
+  label_icm_incident_request_update_workload_group: Update Workload
   label_report_rank: Rank
   label_report_share: Rate
 

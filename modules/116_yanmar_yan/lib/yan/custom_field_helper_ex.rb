@@ -27,50 +27,28 @@ module Yan::CustomFieldHelperEx
 
       if custom_attributes.any?
         fields_for model, nil, :builder => CustomFormBuilder do |f|
-          html += "<div class='control-group'>"
+
+
           custom_attributes.each do |attribute|
-            if column_count > 0 and column_count%columns == 0
-              html += "</div><div class='control-group'>"
-            end
-            if block_fields[attribute[:attribute_name].to_sym].present?
-              if block_fields[attribute[:attribute_name].to_sym][:block]
-                tmp_html = capture(attribute[:name], show_custom_field(attribute, f) ,attribute, &block_fields[attribute[:attribute_name].to_sym][:block])
+            if attribute[:field_type].eql?("SYSTEM_CUX_FIELD")
+              attribute_number = attribute[:attribute_name].gsub("sattribute", "").to_i
 
-                colspan = 0
-                if tmp_html.match(/label-col/)
-                   colspan += tmp_html.match(/label-col/).size
-                end
-
-                if tmp_html.match(/data-\d{1}col/)
-                  if tmp_html.match(/data-\d{1}col/)[0].match(/\d{1}/)
-                    colspan += tmp_html.match(/data-\d{1}col/)[0].match(/\d{1}/)[0].to_i
-                  else
-                    colspan += 1
-                  end
-                end
-
-                if colspan > 0 and column_count % colspan < colspan
-                  html += "</div><div class='control-group'>"
-                  html += tmp_html
-                  column_count += columns - column_count % columns
-                  column_count += colspan
-                else
-                  html += tmp_html
-                  column_count += colspan
-                end
+              if attribute_number >= 21 && attribute_number <= 30 && !allow_to_function?(:additional_info_area1, attribute[:external_system_id])
+                next
+              elsif attribute_number >= 31 && attribute_number <= 40 && !allow_to_function?(:additional_info_area2, attribute[:external_system_id])
+                next
+              elsif attribute_number >= 41 && attribute_number <= 50 && !allow_to_function?(:additional_info_area3, attribute[:external_system_id])
+                next
               end
-            else
-              html += "<label class='control-label' data-required='#{attribute[:required_flag]}'><label>#{attribute[:name]}</label></div>"
-              html += "<div class='controls' data-required='#{attribute[:required_flag]}'>#{show_custom_field(attribute, f)}<span class='help-inline'></span></div>"
-              column_count += 2
             end
+
+            html += "<div class='control-group'>"
+            html += "<label class='control-label' data-required='#{attribute[:required_flag]}'>#{attribute[:name]}</label>"
+            html += "<div class='controls' data-required='#{attribute[:required_flag]}'>#{show_custom_field(attribute, f)}<span class='help-inline'></span></div>"
+            html += "</div>"
+
           end
-          #将填不满的给补齐
-          ((custom_attributes.count * 2 % columns)/2).times do
-            html += "<label class='control-label'></label>"
-            html += "<div class='controls'><span class='help-inline'></span></div>"
-          end
-          html += "</div>"
+
         end
       end
       html.html_safe

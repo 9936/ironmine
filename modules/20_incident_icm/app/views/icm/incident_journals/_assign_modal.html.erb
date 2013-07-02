@@ -48,7 +48,9 @@
                 <td class="data-col"><%= blank_select_tag(:support_person_id, [], {},
                                                           {
                                                                   :id => "incident_request_support_person_id",
-                                                                  :href => url_for(:controller => "icm/support_groups", :action => "get_member_options", :format => "json", :id => "${incident_request_support_group_id}"),
+                                                                  :href => url_for(:controller => "icm/support_groups", :action => "get_member_options",
+                                                                                   :external_system_id => @incident_request.external_system_id,
+                                                                                   :format => "json", :id => "${incident_request_support_group_id}"),
                                                                   :depend => "incident_request_support_group_id",
                                                                   :style => "width:200px"
                                                           }) %></td>

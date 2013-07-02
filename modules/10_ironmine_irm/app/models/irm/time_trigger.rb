@@ -5,8 +5,8 @@ class Irm::TimeTrigger < ActiveRecord::Base
 
   attr_accessor :time_mode_obj
 
-  validates_uniqueness_of :target_id
-  validates_presence_of :target_id, :target_type, :start_at, :end_at, :start_time
+  validates_uniqueness_of :source_id
+  validates_presence_of :source_id, :source_type, :start_at, :end_at, :start_time
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -17,8 +17,8 @@ class Irm::TimeTrigger < ActiveRecord::Base
   after_save :setup_schedule
 
 
-  scope :query_target, lambda{|target_id, target_type|
-    where("#{table_name}.target_id=? AND #{table_name}.target_type=?", target_id, target_type)
+  scope :query_source, lambda{|source_id, source_type|
+    where("#{table_name}.source_id=? AND #{table_name}.source_type=?", source_id, source_type)
   }
 
   def get_time_mode_obj
@@ -147,6 +147,7 @@ class Irm::TimeTrigger < ActiveRecord::Base
 
     def set_time_mode
       self.time_mode= YAML.dump(self.time_mode_obj)
+      self.repeat_type = self.get_time_mode_obj[:freq]
     end
 
     def prepare_time_mode
