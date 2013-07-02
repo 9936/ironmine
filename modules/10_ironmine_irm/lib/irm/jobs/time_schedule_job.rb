@@ -5,22 +5,19 @@ module Irm
         Irm::Person.current = Irm::Person.anonymous
         time_schedule = Irm::TimeSchedule.unscoped.where(:id => time_schedule_id, :run_status=>"PENDING").first
         if time_schedule.present?
-          begin
-            #找到对应的Time_trigger
-            time_trigger = time_schedule.time_trigger
-            target = time_trigger.target_type
-            target_id = time_trigger.target_id
-            if target && target_id
-              time_schedule.update_attribute(:run_status,"RUNNING")
+          #找到对应的Time_trigger
+          time_trigger = time_schedule.time_trigger
+          source = time_trigger.source_type
+          source_id = time_trigger.source_id
+          if source && source_id
+            time_schedule.update_attribute(:run_status,"RUNNING")
 
-              #执行目标中的真正逻辑代码
-              target_obj = target.constantize.find(target_id)
-              target_obj.perform if target_obj.present? && target_obj.respond_to?(:perform)
+            #执行目标中的真正逻辑代码
+            source_obj = source.constantize.find(source_id)
+            source_obj.perform #if source_obj.present? && source_obj.respond_to?(:perform)
 
-              time_schedule.update_attribute(:run_status,"DONE")
-            end
+            time_schedule.update_attribute(:run_status,"DONE")
           end
-
         end
       end
     end
