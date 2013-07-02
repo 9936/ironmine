@@ -46,4 +46,30 @@ module Icm::SupportGroupsHelper
                  AND sg.oncall_flag = ?)", Irm::Constant::SYS_YES).order("CONVERT(full_name USING gbk ) ")
     supporters.collect{|p| [p.full_name + "(" + p.login_name + ")", p.id]}
   end
+
+  def support_groups_with_external_system(external_system_id, exclude_support_group_ids = [])
+    groups = Irm::Group.enabled.multilingual.
+        where(%Q(EXISTS (
+                    SELECT group_id
+                    FROM #{Icm::SupportGroup.table_name}, #{Icm::ExternalSystemGroup.table_name}
+                    WHERE #{Irm::Group.table_name}.id = #{Icm::SupportGroup.table_name}.group_id
+                    AND #{Icm::ExternalSystemGroup.table_name}.support_group_id = #{Icm::SupportGroup.table_name}.id
+                    AND #{Icm::ExternalSystemGroup.table_name}.external_system_id = ?
+                    AND #{Icm::SupportGroup.table_name}.id NOT IN (?))), external_system_id, exclude_support_group_ids + [""])
+    groups.collect{|i|[i[:name],i.id]}
+  end
+
+  def support_groups_with_person(person_id, exclude_support_group_ids = [])
+    groups = Irm::Group.enabled.multilingual.
+        where(%Q(EXISTS (
+                    SELECT group_id
+                    FROM #{Icm::SupportGroup.table_name}, #{Icm::ExternalSystemGroup.table_name}
+                    WHERE #{Irm::Group.table_name}.id = #{Icm::SupportGroup.table_name}.group_id
+                    AND #{Icm::ExternalSystemGroup.table_name}.support_group_id = #{Icm::SupportGroup.table_name}.id
+                    AND #{Icm::SupportGroup.table_name}.person_id = ?
+                    AND #{Icm::SupportGroup.table_name}.id NOT IN (?))), person_id, exclude_support_group_ids + [""])
+
+    groups.collect{|i|[i[:name],i.id]}
+  end
+
 end

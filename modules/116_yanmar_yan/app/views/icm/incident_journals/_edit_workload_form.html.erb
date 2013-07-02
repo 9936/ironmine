@@ -1,0 +1,65 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_yan_edit_workload) %></h3>
+</div>
+<%= form_for(@incident_request, :url => {:controller => "icm/incident_journals", :action => "update_workload",
+                                         :request_id => @incident_request.id, :sid => @incident_request.external_system_id, :person_id => Irm::Person.current.id},
+             :html => {:class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
+    <div class="modal-body form-horizontal">
+      <div id="workload_list"></div>
+      <% @incident_workloads.each do |sp| %>
+          <%= fields_for("incident_workloads[]", @incident_request.incident_workloads.build()) do |w|%>
+              <div id="workload_<%= sp[:support_group_id]%><%= sp[:person_id]%>" class="control-group">
+                <label class="control-label"><%= sp[:support_group_name]%>-<%= sp[:supporter_name]%></label>
+                <div class="controls">
+                  <%= w.text_field :real_processing_time,
+                                   :value => sp[:real_processing_time].blank? ? '0' : sp[:real_processing_time], :irm_pos_real_number => true, :size => 5, :style => "width:30px"%>
+                  <%= w.hidden_field :support_group_id, :value => sp[:support_group_id]%>
+                  <%= w.hidden_field :person_id, :value => sp[:person_id]%>
+                  <%= link_to I18n.t(:remove), {}, {:class => "remove_workload", :href => "javascript:void(0)"}%>
+                  <span class="help-inline"></span>
+                </div>
+              </div>
+          <% end%>
+
+      <% end %>
+      <div class="control-group">
+        <label class="control-label"></label>
+        <div class="controls">
+          <%= select_tag("add_workload_select",
+                         options_for_select(support_groups_with_external_system(@incident_request.external_system_id)), {:id => "workload_select"})%>
+          <%= link_to I18n.t(:add), {}, {:id => "add_workload", :href => "javascript:void(0)"}%>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss"=>"modal", "aria-hidden" => "true" %>
+      <%= link_submit t(:save), :class => "btn btn-primary" %>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function(){
+     $("#add_workload").click(function(){
+        add_workload($("#workload_select option:selected").val(), '<%= Irm::Person.current.id%>',
+                $("#workload_select option:selected").html(), '<%= Irm::Person.current.full_name%>');
+     })
+
+     $(".remove_workload").click(function(){
+        $(this).parent().parent().remove();
+     })
+  });
+
+  function add_workload(wid, pid, wtext, ptext){
+    if ($("#workload_"+ wid + pid).length < 1){
+        $("#workload_list").after('<div id="workload_'+ wid + pid +'"  class="control-group">'+
+                              '<label class="control-label">'+ wtext + '-' +  ptext + '</label>'+
+                              '<div class="controls"><input type="text" value="0" size="5" style="width:30px" name="incident_workloads[][real_processing_time]" irm_pos_real_number="true" id="incident_workloads__real_processing_time">&nbsp;' +
+                                '<input type="hidden" value="'+ wid +'" name="incident_workloads[][support_group_id]" id="incident_workloads__support_group_id">'+
+                                '<input type="hidden" value="'+ pid +'" name="incident_workloads[][person_id]" id="incident_workloads__person_id">'+
+                                '<a href="javascript:void(0)" class="remove_workload" onclick=$(this).parent().parent().remove() ><%= I18n.t(:remove)%></a>'+
+                              '</div>'+
+                            '</div>');
+    }
+  }
+</script>

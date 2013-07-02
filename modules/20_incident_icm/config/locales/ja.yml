@@ -337,3 +337,7 @@ ja:
   #================================================================================
   label_icm_incident_request_watcher: 監視者
   label_icm_incident_request_update_journal: 返答更新
+
+
+  label_icm_incident_request_update_workload: Edit Workload
+  label_icm_incident_request_update_workload_group: Edit Workload

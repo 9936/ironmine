@@ -39,7 +39,17 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               :system_flag => "Y",
               "icm/incident_journals" => ["edit_additional_info", "update_additional_info"]
-          }
+          },
+
+          :edit_workload_self => {
+              :zh => {:name => "维护个人工时", :description => "维护个人工时"},
+              :en => {:name => "Edit Personal Workload", :description => "Edit Personal Workload"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              "icm/incident_journals" => ["edit_worklaod", "update_worklaod"]
+          },
 
       }
   }

@@ -295,6 +295,14 @@ class Icm::IncidentHistory < ActiveRecord::Base
         if new_meaning.nil?
           new_meaning = self.new_value
         end
+      when "update_workload_group"
+        if old_meaning.nil?
+          real_value = Irm::Group.multilingual.query(self.old_value).first.name
+          old_meaning = real_value if real_value
+        end
+        if new_meaning.nil?
+          new_meaning = self.new_value
+        end
     end
     old_meaning = "" if old_meaning.nil?
     new_meaning = "" if new_meaning.nil?
