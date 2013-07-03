@@ -669,9 +669,11 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   def setup_priority
     transform = Icm::PriorityTransform.query_priority(self.external_system_id, self.impact_range_id, self.urgence_id)
-    self.priority_id = transform.priority_id
-    priority = Icm::PriorityCode.find(transform.priority_id)
-    self.weight_value = priority.weight_values
+    if transform.present?
+      self.priority_id = transform.priority_id
+      priority = Icm::PriorityCode.find(transform.priority_id)
+      self.weight_value = priority.weight_values
+    end
 
     #urgence = Icm::UrgenceCode.find(self.urgence_id)
     #impact_range = Icm::ImpactRange.find(self.impact_range_id)
