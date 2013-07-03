@@ -57,6 +57,13 @@ module FormHelper
     if options.delete(:with_time)
       if options[:value].present?
         begin
+          object_time = options[:value]
+          if object_time && object_time.is_a?(Time)
+            init_datetime = object_time.in_time_zone
+          else
+            init_datetime = Time.parse("#{options[:value]}")
+          end
+
           init_datetime = Time.parse("#{options[:value]}")
           init_date = init_datetime.strftime('%Y-%m-%d')
           init_time = init_datetime.strftime('%H:%M:%S')
