@@ -61,7 +61,7 @@
           <tr>
             <td class="label-col"><label><%=t(:label_icm_incident_request_estimated_date)%></label></td>
             <td class="data-3col">
-              <%= f.date_field(:estimated_date,:size=>12,:class=>"date")%>
+              <%= f.date_field(:estimated_date,:size=>12,:class=>"date", :with_time => true)%>
             </td>
           </tr>
           <tr>
