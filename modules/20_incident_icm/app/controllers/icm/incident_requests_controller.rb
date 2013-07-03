@@ -187,6 +187,9 @@ class Icm::IncidentRequestsController < ApplicationController
                       :incident_category_id_label,
                       :incident_sub_category_id,
                       :incident_sub_category_id_label,
+                      :submitted_by,
+                      :submitted_by_label,
+                      :submitted_date,
                       :estimated_date,
                       :kb_flag,
                       :reply_flag]
@@ -263,6 +266,9 @@ class Icm::IncidentRequestsController < ApplicationController
                       :incident_category_id_label,
                       :incident_sub_category_id,
                       :incident_sub_category_id_label,
+                      :submitted_by,
+                      :submitted_by_label,
+                      :submitted_date,
                       :kb_flag,
                       :estimated_date,
                       :reply_flag]
