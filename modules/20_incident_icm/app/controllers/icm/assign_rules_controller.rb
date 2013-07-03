@@ -73,7 +73,7 @@ class Icm::AssignRulesController < ApplicationController
     if params[:custom_str].present?
       custom_str = {}
       params[:custom_str].each do |k,v|
-        if k.present? and v.present?
+        if k.present? && v.present?
           custom_str[k.to_sym] = v
         end
       end
