@@ -86,7 +86,7 @@ class Skm::WikiToStatic
 
 
     save_path = "#{folder}/pdf.pdf"
-    File.open(save_path, 'wb') do |file|
+    File.open(save_path, 'w+') do |file|
       file << pdf
     end
     save_path
@@ -95,7 +95,7 @@ class Skm::WikiToStatic
   def wiki_to_html(wiki, folder)
     html_doc = wiki_to_doc(wiki)
     save_path = "#{folder}/html.html"
-    File.open(save_path, 'wb') do |file|
+    File.open(save_path, 'w+') do |file|
       file << html_doc.to_html
     end
     save_path
