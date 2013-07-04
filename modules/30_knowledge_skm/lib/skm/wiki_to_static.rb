@@ -9,7 +9,7 @@ class Skm::WikiToStatic
       wiki_to_html(wiki, static_folder)
     end
 
-    if mode.present?
+    if cached_static?(tmp_folder)&&mode.present?
       if mode.to_sym.eql?(:pdf)
         return tmp_folder+"/pdf.pdf"
       else
