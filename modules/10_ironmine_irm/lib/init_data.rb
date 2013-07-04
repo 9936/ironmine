@@ -2532,14 +2532,14 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "skm/entry_headers" => ["portlet"],
           },
-          #:todo_task_portlet => {
-          #    :en => {:name => "View Portlet of My To Do Tasks", :description => "View Portlet of My To Do Tasks"},
-          #    :zh => {:name => "待办事项Portlet", :description => "待办事项Portlet"},
-          #    :default_flag => "N",
-          #    :login_flag => "N",
-          #    :public_flag => "N",
-          #    "irm/todo_tasks" => ["portlet"],
-          #},
+          :todo_task_portlet => {
+              :en => {:name => "View Portlet of My To Do Tasks", :description => "View Portlet of My To Do Tasks"},
+              :zh => {:name => "待办事项Portlet", :description => "待办事项Portlet"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/todo_tasks" => ["portlet"],
+          },
           :report_portlet => {
               :en => {:name => "View Portlet of Report", :description => "View Portlet of Report"},
               :zh => {:name => "报表Portlet", :description => "报表Portlet"},

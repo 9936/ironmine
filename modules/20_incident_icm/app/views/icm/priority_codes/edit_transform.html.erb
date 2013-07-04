@@ -1,0 +1,88 @@
+<style type="text/css">
+    #priorityMatrix{
+        padding-left: 20px;
+    }
+    #priorityMatrix th{
+        font-weight:bold;
+        padding:5px;
+    }
+    #priorityMatrix td{
+        font-weight:bold;
+        padding:5px;
+    }
+    #priorityMatrix th.to{
+        text-align: center;
+    }
+    #priorityMatrix th.from{
+        text-align: right;
+    }
+</style>
+<%= common_title(:action_meaning=>t(:label_icm_priority_code_edit_transform)) %>
+<%= form_tag({:action=>"update_transform"},:builder => CustomFormBuilder) do |f| %>
+    <% content_for :form_buttons  do %>
+        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+        <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+    <% end %>
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%=t(:label_icm_priority_code_edit_transform)%></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 一般信息 -->
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%=t(:label_icm_priority_code_info)%></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <table id="priorityMatrix" cellpadding="0" cellspacing="0" border="0" error="<%=t(:label_icm_priority_code_edit_transform_error) %>">
+              <% urgence_codes = Icm::UrgenceCode.multilingual.order("display_sequence Desc");
+                 impact_ranges = Icm::ImpactRange.multilingual.order("display_sequence Desc");
+              %>
+              <tbody>
+              <tr>
+                <th></th>
+                <th></th>
+                <th class="to" colspan="<%=urgence_codes.length%>"><%=t(:label_icm_urgence_code)  %></th>
+              </tr>
+              <tr>
+                <th rowspan="<%= impact_ranges.length+1 %>" style="vertical-align:middle;"><%=t(:label_icm_impact_range)  %></th>
+                <th></th>
+                <% urgence_codes.each do |urgency| %>
+                    <th class="to"><%= urgency[:name]%></th>
+                <% end %>
+              </tr>
+              <% impact_ranges.each do |impact| %>
+                  <tr>
+                    <th class="from"><%= impact[:name]%></th>
+                    <% urgence_codes.each do |urgence| %>
+                      <td>
+                        <%= select_tag_alias("priority_transforms[#{impact.id}][#{urgence.id}]",available_priorities, (available_priority_transform[impact.id] && available_priority_transform[impact.id][urgence.id]) ? available_priority_transform[impact.id][urgence.id] : nil,{:class=>"prioritySelect"}) %>
+                      </td>
+                    <% end %>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+

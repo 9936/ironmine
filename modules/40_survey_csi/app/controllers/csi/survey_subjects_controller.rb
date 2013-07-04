@@ -71,10 +71,11 @@ class Csi::SurveySubjectsController < ApplicationController
         Csi::SubjectOption.delete_by_subject(@survey_subject.id)
         if @subject_options
           @subject_options.each do |option|
-             @survey_subject.subject_options.create({:value=>option})
+             @survey_subject.subject_options.create({:value => option })
           end
         end
-        format.html { redirect_to(@return_url, :notice => t(:successfully_updated)) }
+        format.html { redirect_to( {:controller=>"csi/surveys",:action=>"show",
+                                   :id=>@survey_subject.survey_id}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

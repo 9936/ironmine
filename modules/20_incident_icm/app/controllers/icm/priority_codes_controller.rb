@@ -93,5 +93,31 @@ class Icm::PriorityCodesController < ApplicationController
         @datas = priority_codes
       }
     end
-  end  
+  end
+
+  def edit_transform
+
+  end
+
+  def update_transform
+    if params[:priority_transforms].present?
+      params[:priority_transforms].each do |impact_id,urgences|
+        urgences.each do |urgence_id, priority_id|
+          exists_priority_transform = Icm::PriorityTransform.with_global.with_impact_urgence(impact_id, urgence_id).first
+          if exists_priority_transform
+            if priority_id.present?
+              exists_priority_transform.update_attribute(:priority_id, priority_id)
+            else
+              exists_priority_transform.destroy
+            end
+          else
+            Icm::PriorityTransform.create(:urgence_id => urgence_id,:impact_range_id => impact_id,:priority_id => priority_id) if priority_id.present?
+          end
+        end
+      end if params[:priority_transforms].any?
+    end
+    respond_to do |format|
+      format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
+    end
+  end
 end
