@@ -18,7 +18,7 @@ class Csi::SubjectOption < ActiveRecord::Base
   default_scope {default_filter}
 
   def self.delete_by_subject(subject_id)
-    delete_all :subject_id=>subject_id
+    delete_all :survey_subject_id=> subject_id
   end
 
 end

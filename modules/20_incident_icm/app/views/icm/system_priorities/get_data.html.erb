@@ -1,0 +1,6 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:priority_code,{:title=>t(:label_icm_priority_code_priority_code),:searchable=>true})  %>
+    <% builder.column(:name,{:title=>t(:label_icm_priority_code_name),:searchable=>true})%>
+    <% builder.column(:weight_values,{:title=>t(:label_icm_priority_code_weight_values)})%>
+    <% builder.column(:status_meaning,{:title=>t(:status),:width=>"70px"})%>
+<% end %>

@@ -34,10 +34,13 @@ Ironmine::Application.routes.draw do
     match '/priority_codes/:id(.:format)' => "priority_codes#update", :via => :put
     match '/priority_codes/new(.:format)' => "priority_codes#new", :via => :get
     match '/priority_codes/create(.:format)' => "priority_codes#create", :via => :post
+    match '/priority_codes/edit_transform(.:format)' => "priority_codes#edit_transform", :via => :get
+    match '/priority_codes/update_transform(.:format)' => "priority_codes#update_transform", :via => :post
     match '/priority_codes/:id/multilingual_edit(.:format)' => "priority_codes#multilingual_edit", :via => :get
     match '/priority_codes/:id/multilingual_update(.:format)' => "priority_codes#multilingual_update", :via => :put
     match '/priority_codes/get_data(.:format)' => "priority_codes#get_data"
     match '/priority_codes/:id(.:format)' => "priority_codes#show", :via => :get
+
     #close_reasons
     match '/close_reasons(/index)(.:format)' => "close_reasons#index", :via => :get
     match '/close_reasons/:id/edit(.:format)' => "close_reasons#edit", :via => :get
@@ -218,5 +221,11 @@ Ironmine::Application.routes.draw do
     match '/system_group_processes/:sid/:id/edit(.:format)' => "system_group_processes#edit", :via => :get
     match '/system_group_processes/:sid/:id(.:format)' => "system_group_processes#update", :via => :put
     #match '/system_group_processes/:sid/:id/get_groups_processes(.:format)' => "system_group_processes#get_groups_processes"
+
+    #System Priority setting
+    match '/system_priorities/:sid(/index)(.:format)' => "system_priorities#index", :via => :get
+    match '/system_priorities/:sid/get_data(.:format)' => "system_priorities#get_data",:via => :get
+    match '/system_priorities/:sid/edit_transform(.:format)' => "system_priorities#edit_transform",:via => :get
+    match '/system_priorities/:sid/update_transform(.:format)' => "system_priorities#update_transform", :via => :post
   end
 end

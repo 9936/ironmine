@@ -7,7 +7,7 @@
   <% end %>
   <% content_for :form_buttons  do %>
     <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
-    <%= link_to t(:save_and_new), {:controller=>"csi/survey_subjects",:action=>"create",:survey_id=>@survey_subject.survey_id,:save_and_new=>true},{:class=>"btn"} %>
+    <%= link_to t(:save_and_new), {:controller=>"csi/survey_subjects",:action=>"create",:survey_id=>@survey_subject.survey_id,:save_and_new=>true},{:class=>"btn submit"} %>
     <%= link_to t(:cancel), {:controller=>"csi/surveys",:action => "show",:id=>@survey_subject.survey_id},:class =>"btn cancel"%>
   <% end %>
 
