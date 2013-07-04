@@ -174,7 +174,13 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
       @object || @template_object.instance_variable_get("@#{@object_name}")
       if @object.send(method).to_s.capitalize.present?
         begin
-          init_datetime = Time.parse("#{@object.send(method).to_s.capitalize}")
+          object_time = @object.send(method)
+          if object_time && object_time.is_a?(Time)
+            init_datetime = object_time.in_time_zone
+          else
+            init_datetime = Time.parse("#{@object.send(method).to_s.capitalize}")
+          end
+
           init_date = init_datetime.strftime('%Y-%m-%d')
           init_time = init_datetime.strftime('%H:%M:%S')
         rescue

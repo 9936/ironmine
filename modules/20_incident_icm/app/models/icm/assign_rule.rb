@@ -51,7 +51,7 @@ class Icm::AssignRule < ActiveRecord::Base
       str_values.each do |value_str|
         next unless value_str.strip.present?
         value = value_str.strip.split("#")
-        self.group_assignments.create(:source_type=>value[0],:source_id=>value[1], :custom_str => custom_str)
+        self.group_assignments.create(:source_type=>value[0],:source_id=>value[1])
       end
     end
     if custom_str.present?
@@ -68,7 +68,12 @@ class Icm::AssignRule < ActiveRecord::Base
   def custom_hash
     return eval(self.custom_str) if self.custom_str.present?
     if self.group_assignments.any?
-      self.custom_str = self.group_assignments.first.custom_str
+      self.group_assignments.each do |ga|
+        if ga.source_type.eql?('0') && ga.source_id.eql?('0')
+          self.custom_str = ga.custom_str
+        end
+      end
+
     else
       return {}
     end
