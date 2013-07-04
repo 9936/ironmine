@@ -668,11 +668,19 @@ class Icm::IncidentRequest < ActiveRecord::Base
   end
 
   def setup_priority
-    urgence = Icm::UrgenceCode.find(self.urgence_id)
-    impact_range = Icm::ImpactRange.find(self.impact_range_id)
-    self.weight_value = urgence.weight_values + impact_range.weight_values-1
-    priority = Icm::PriorityCode.query_by_weight_value(self.weight_value).first
-    self.priority_id = priority.id
+    transform = Icm::PriorityTransform.query_priority(self.external_system_id, self.impact_range_id, self.urgence_id)
+    if transform.present?
+      self.priority_id = transform.priority_id
+      priority = Icm::PriorityCode.find(transform.priority_id)
+      self.weight_value = priority.weight_values
+    end
+
+    #urgence = Icm::UrgenceCode.find(self.urgence_id)
+    #impact_range = Icm::ImpactRange.find(self.impact_range_id)
+    #
+    #self.weight_value = urgence.weight_values + impact_range.weight_values-1
+    #priority = Icm::PriorityCode.query_by_weight_value(self.weight_value).first
+    #self.priority_id = priority.id
   end
 
   def setup_organization
