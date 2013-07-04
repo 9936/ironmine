@@ -43,7 +43,7 @@ class Skm::WikiToStatic
 
   end
 
-  def book_static_exists?(book,mode=nil)
+  def book_static_exists?(book, mode=nil)
     if mode.present?
       return File.exists?("#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}/#{mode.to_s}.#{mode.to_s}")
     else
@@ -51,7 +51,7 @@ class Skm::WikiToStatic
     end
   end
 
-  def wiki_static_exists?(wiki,mode=nil)
+  def wiki_static_exists?(wiki, mode=nil)
     if mode.present?
       return File.exists?("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}/#{mode.to_s}.#{mode.to_s}")
     else
@@ -141,19 +141,19 @@ class Skm::WikiToStatic
 
 
   def page_to_doc(page, title="", wiki_id=nil, mode=nil)
-    if page
-    if wiki_id.present?
-      page.attachments = Irm::AttachmentVersion.select_all.where(:source_id => wiki_id, :source_type => Skm::Wiki.name)
-    end
-    page.mode = mode
-    doc = Nokogiri::HTML::DocumentFragment.parse(page.formatted_data.force_encoding("utf-8"))
-    if title.present?
-      doc = check_h1(title, doc)
-    end
-     return doc
-    else
-      return Nokogiri::HTML::DocumentFragment.parse("#{I18n.t(:label_skm_wiki_git_folder_page_missing)}:#{wiki_id}<br/>")
-    end
+    #if page
+      if wiki_id.present?
+        page.attachments = Irm::AttachmentVersion.select_all.where(:source_id => wiki_id, :source_type => Skm::Wiki.name)
+      end
+      page.mode = mode
+      doc = Nokogiri::HTML::DocumentFragment.parse(page.formatted_data.force_encoding("utf-8"))
+      if title.present?
+        doc = check_h1(title, doc)
+      end
+      return doc
+    #else
+    #  return Nokogiri::HTML::DocumentFragment.parse("#{I18n.t(:label_skm_wiki_git_folder_page_missing)}:#{wiki_id}<br/>")
+    #end
   end
 
 
