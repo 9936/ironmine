@@ -1,4 +1,4 @@
-module CustomFieldHelper
+module Irm::CustomFieldHelper
 
   def show_custom_field(attribute, form, options = {})
     if form
@@ -129,32 +129,32 @@ module CustomFieldHelper
   end
 
 
-  def show_custom_field_info(model, columns = 6)
-    #获取出自定义字段
-    custom_attributes = model.custom_attributes
-
-    column_count = 0
-    html = ''
-    if custom_attributes.any?
-      html += "<tr data-custom-flag='Y'>"
-      custom_attributes.each do |attribute|
-        if column_count > 0 and column_count%columns == 0
-          html += "</tr><tr data-custom-flag='Y'>"
-        end
-        html += "<td class='label-col'><label>#{attribute[:name]}</label></td>"
-        html += "<td class='data-col'>#{hand_value attribute[:category], model[attribute[:attribute_name].to_sym]}</td>"
-        column_count += 2
-      end
-      #将填不满的给补齐
-      if column_count % columns != 0
-        colspan = columns - column_count % columns
-        html += "<td colspan='#{colspan}'></td>"
-      end
-
-      html += "</tr>"
-    end
-    html.html_safe
-  end
+  #def show_custom_field_info(model, columns = 6)
+  #  #获取出自定义字段
+  #  custom_attributes = model.custom_attributes
+  #
+  #  column_count = 0
+  #  html = ''
+  #  if custom_attributes.any?
+  #    html += "<tr data-custom-flag='Y'>"
+  #    custom_attributes.each do |attribute|
+  #      if column_count > 0 and column_count%columns == 0
+  #        html += "</tr><tr data-custom-flag='Y'>"
+  #      end
+  #      html += "<td class='label-col'><label>#{attribute[:name]}</label></td>"
+  #      html += "<td class='data-col'>#{hand_value attribute[:category], model[attribute[:attribute_name].to_sym]}</td>"
+  #      column_count += 2
+  #    end
+  #    #将填不满的给补齐
+  #    if column_count % columns != 0
+  #      colspan = columns - column_count % columns
+  #      html += "<td colspan='#{colspan}'></td>"
+  #    end
+  #
+  #    html += "</tr>"
+  #  end
+  #  html.html_safe
+  #end
 
   def hand_value(type, value)
     case type
