@@ -1,4 +1,4 @@
-<%= common_title(:show_data=>@survey_response.survey.title,:action_meaning=>t(:label_csi_survey_result_show_response)) %>
+<%= common_title(:show_data=>@survey_member.task_title,:action_meaning=>t(:label_csi_survey_result_show_response)) %>
 
 <% datas = survey_response_data(@survey_response);types = subject_types %>
 
@@ -13,7 +13,7 @@
 <div class="show-block">
   <table class="page-block-header"><tr>
     <td class="page-block-title">
-      <h2 class="block-title"><%=@survey_response.survey.title%></h2>
+      <h2 class="block-title"><%=@survey_member.task_title%></h2>
     </td>
     <td class="page-block-button">
       <%= link_back t(:back), {},:class => "btn cancel"%>

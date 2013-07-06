@@ -65,6 +65,21 @@
     <% end %>
 
     <div class="btn-group">
+      <% survey = Csi::SurveyMember.where(:source_id => @incident_request.id) %>
+      <% if survey.any?
+            survey_response = Csi::SurveyResponse.where(:survey_id => survey.first.survey_id).first
+            if survey_response
+      %>
+      <%= link_to(t(:label_yan_view_survey),
+                  {:controller => "csi/survey_results", :action => "show_response",
+                   :id => survey_response.id},
+                  {:class => "btn"}) %>
+
+      <%
+            end
+         end
+      %>
+
       <% if can_edit_workload?(@incident_request) %>
           <%= link_to(t(:label_yan_edit_workload),
                       {:controller => "icm/incident_journals", :action => "edit_workload",
@@ -77,6 +92,8 @@
                        :request_id => @incident_request.id, :sid => @incident_request.external_system_id},
                       {:class => "btn",:rel => "modal"}) %>
       <% end %>
+    </div>
+    <div class="btn-group">
       <% if has_module?(:skm) and @incident_request.kb_flag==Irm::Constant::SYS_NO  %>
           <%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers", :action => "new_from_icm_request", :request_id => @incident_request.id},{:class=>"btn"} %>
       <% end %>

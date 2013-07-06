@@ -45,6 +45,7 @@ class Csi::SurveyResultsController < ApplicationController
 
   def show_response
     @survey_response = Csi::SurveyResponse.find(params[:id])
+    @survey_member = Csi::SurveyMember.find(@survey_response.survey_member_id)
     respond_to do |format|
       format.html
     end

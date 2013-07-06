@@ -12,7 +12,7 @@ class Csi::SurveyMember < ActiveRecord::Base
   acts_as_task({
                  :scope=>"as_task",
                  :show_url  => {:controller => "csi/survey_responses", :action => "new", :survey_member_id => :id,:survey_id=>:survey_id},
-                 :title => :title,
+                 :title => :task_title,
                  :status_name=>nil,
                  :start_at=>:created_at,
                  :end_at=>:end_date_active
@@ -45,6 +45,14 @@ class Csi::SurveyMember < ActiveRecord::Base
     select("#{table_name}.*").with_survey
   end
 
+  def task_title
+    if self.source_type = Icm::IncidentRequest.name
+      request = Icm::IncidentRequest.where("id = ?", self.source_id).first
+      return "#{self.survey.title}: [#{request.request_number}] #{request.title}"
+    end
+
+    return self.survey.title
+  end
 
   def respond?
     self.end_date_active.nil?||self.end_date_active<Date.today||Irm::Constant::SYS_YES.eql?(self.response_flag)
