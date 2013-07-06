@@ -59,6 +59,22 @@ module Icm::SupportGroupsHelper
     groups.collect{|i|[i[:name],i.id]}
   end
 
+  def support_groups_with_external_system_person(external_system_id, person_id, exclude_support_group_ids = [])
+    groups = Irm::Group.enabled.multilingual.
+        where(%Q(EXISTS (
+                    SELECT group_id
+                    FROM #{Icm::SupportGroup.table_name}, #{Icm::ExternalSystemGroup.table_name}
+                    WHERE #{Irm::Group.table_name}.id = #{Icm::SupportGroup.table_name}.group_id
+                    AND #{Icm::ExternalSystemGroup.table_name}.support_group_id = #{Icm::SupportGroup.table_name}.id
+                    AND #{Icm::ExternalSystemGroup.table_name}.external_system_id = ?
+                    AND #{Icm::SupportGroup.table_name}.id NOT IN (?))), external_system_id, exclude_support_group_ids + [""]).
+        where(%Q(EXISTS (
+                    SELECT group_id FROM #{Irm::GroupMember.table_name} gm
+                    WHERE gm.group_id = #{Irm::Group.table_name}.id
+                    AND gm.person_id = ?)), person_id)
+    groups.collect{|i|[i[:name],i.id]}
+  end
+
   def support_groups_with_person(person_id, exclude_support_group_ids = [])
     groups = Irm::Group.enabled.multilingual.
         where(%Q(EXISTS (

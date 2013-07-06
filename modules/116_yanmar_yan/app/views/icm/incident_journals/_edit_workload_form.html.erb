@@ -9,12 +9,12 @@
       <div id="workload_list"></div>
       <% @incident_workloads.each do |sp| %>
           <%= fields_for("incident_workloads[]", @incident_request.incident_workloads.build()) do |w|%>
-              <div id="workload_<%= sp[:support_group_id]%><%= sp[:person_id]%>" class="control-group">
+              <div id="workload_<%= sp[:group_id]%><%= sp[:person_id]%>" class="control-group">
                 <label class="control-label"><%= sp[:support_group_name]%>-<%= sp[:supporter_name]%></label>
                 <div class="controls">
                   <%= w.text_field :real_processing_time,
                                    :value => sp[:real_processing_time].blank? ? '0' : sp[:real_processing_time], :irm_pos_real_number => true, :size => 5, :style => "width:30px"%>
-                  <%= w.hidden_field :support_group_id, :value => sp[:support_group_id]%>
+                  <%= w.hidden_field :group_id, :value => sp[:group_id]%>
                   <%= w.hidden_field :person_id, :value => sp[:person_id]%>
                   <%= link_to I18n.t(:remove), {}, {:class => "remove_workload", :href => "javascript:void(0)"}%>
                   <span class="help-inline"></span>
@@ -27,7 +27,7 @@
         <label class="control-label"></label>
         <div class="controls">
           <%= select_tag("add_workload_select",
-                         options_for_select(support_groups_with_external_system(@incident_request.external_system_id)), {:id => "workload_select"})%>
+                         options_for_select(support_groups_with_external_system_person(@incident_request.external_system_id, Irm::Person.current.id)), {:id => "workload_select"})%>
           <%= link_to I18n.t(:add), {}, {:id => "add_workload", :href => "javascript:void(0)"}%>
         </div>
       </div>
@@ -50,12 +50,26 @@
      })
   });
 
+  function empty(v){
+    switch (typeof v){
+        case 'undefined' : return true;
+        case 'string' : if(trim(v).length == 0) return true; break;
+        case 'boolean' : if(!v) return true; break;
+        case 'number' : if(0 === v) return true; break;
+        case 'object' :
+        if(null === v) return true;
+        if(undefined !== v.length && v.length==0) return true;
+        for(var k in v){return false;} return true;
+        break;
+    }
+  }
+
   function add_workload(wid, pid, wtext, ptext){
-    if ($("#workload_"+ wid + pid).length < 1){
+    if ($("#workload_"+ wid + pid).length < 1 && !empty($("#workload_select option:selected").val())){
         $("#workload_list").after('<div id="workload_'+ wid + pid +'"  class="control-group">'+
                               '<label class="control-label">'+ wtext + '-' +  ptext + '</label>'+
                               '<div class="controls"><input type="text" value="0" size="5" style="width:30px" name="incident_workloads[][real_processing_time]" irm_pos_real_number="true" id="incident_workloads__real_processing_time">&nbsp;' +
-                                '<input type="hidden" value="'+ wid +'" name="incident_workloads[][support_group_id]" id="incident_workloads__support_group_id">'+
+                                '<input type="hidden" value="'+ wid +'" name="incident_workloads[][group_id]" id="incident_workloads__group_id">'+
                                 '<input type="hidden" value="'+ pid +'" name="incident_workloads[][person_id]" id="incident_workloads__person_id">'+
                                 '<a href="javascript:void(0)" class="remove_workload" onclick=$(this).parent().parent().remove() ><%= I18n.t(:remove)%></a>'+
                               '</div>'+

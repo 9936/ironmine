@@ -17,7 +17,7 @@ module Yan::IncidentJournalsControllerEx
             joins(",#{Irm::Person.table_name} ip").
             joins(",icm_support_groups_vl sg").
             where("sg.language = ?", I18n.locale).
-            where("#{Icm::IncidentWorkload.table_name}.support_group_id = sg.group_id").
+            where("#{Icm::IncidentWorkload.table_name}.group_id = sg.group_id").
             where("#{Icm::IncidentWorkload.table_name}.incident_request_id = ?", params[:request_id]).
             where("#{Icm::IncidentWorkload.table_name}.person_id = ?", Irm::Person.current.id).
             where("#{Icm::IncidentWorkload.table_name}.person_id = ip.id").
@@ -35,12 +35,12 @@ module Yan::IncidentJournalsControllerEx
         end
 
         params[:incident_workloads].each do |work|
-          if work[:real_processing_time].blank? || work[:real_processing_time].to_f == 0 || work[:support_group_id].blank?
+          if work[:real_processing_time].blank? || work[:real_processing_time].to_f == 0 || work[:group_id].blank?
             next
           end
           Icm::IncidentWorkload.create(:incident_request_id => @incident_request.id,
                                        :real_processing_time => work[:real_processing_time],
-                                       :support_group_id => work[:support_group_id],
+                                       :group_id => work[:group_id],
                                        :person_id => work[:person_id])
           #Icm::IncidentHistory.create({:request_id => @incident_request.id,
           #                             :journal_id=> "",
