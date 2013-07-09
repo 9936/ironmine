@@ -4,11 +4,11 @@ class Csi::SurveyResponsesController < ApplicationController
     @survey = @survey_member.survey
 
     respond_to do |format|
-        if @survey && @survey.password.present? &&(!session[:survey_token].present?||session[:survey_token] != params[:survey_token])
-          format.html {redirect_with_back(:action=>"fill_password",:survey_member_id=>@survey_member.id)}
-        else
-          format.html {render :layout => "application_full"}
-        end
+      if @survey && @survey.password.present? &&(!session[:survey_token].present?||session[:survey_token] != params[:survey_token])
+        format.html {redirect_with_back(:action=>"fill_password",:survey_member_id=>@survey_member.id)}
+      else
+        format.html {render :layout => "application_full"}
+      end
     end
 
   end
