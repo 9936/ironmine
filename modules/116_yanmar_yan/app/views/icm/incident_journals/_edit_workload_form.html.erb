@@ -53,7 +53,7 @@
   function empty(v){
     switch (typeof v){
         case 'undefined' : return true; break;
-        case 'string' : if(trim(v).length == 0) return true; break;
+        case 'string' : if(v.length == 0) return true; break;
         break;
     }
   }
