@@ -648,7 +648,7 @@ class Icm::IncidentRequestsController < ApplicationController
       incident_request.request_type_code = "REQUESTED_TO_CHANGE"
     end
 
-    if incident_request.report_source_code.nil?||incident_request.report_source_code.blank?
+    if incident_request.report_source_code.nil?
       incident_request.report_source_code = "CUSTOMER_SUBMIT"
     end
     if incident_request.requested_by.present?
