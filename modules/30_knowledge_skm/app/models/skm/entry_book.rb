@@ -19,6 +19,37 @@ class Skm::EntryBook < ActiveRecord::Base
         select("sebr.relation_type, sebr.id, #{table_name}.id entry_book_id")
   }
 
+  scope :with_author, lambda{|author_id|
+    where("#{table_name}.created_by=?", author_id)
+  }
+
+  scope :with_project, lambda{|project_id|
+    where("#{table_name}.project_id=?", project_id)
+  }
+
+  scope :with_login_name, lambda{|login_name|
+    #joins("JOIN #{Irm::Person.table_name} p on p.id=#{table_name}.created_by").
+    where("p.login_name=?", login_name)
+  }
+
+  scope :with_person, lambda {
+    joins("JOIN #{Irm::Person.table_name} p on p.id=#{table_name}.created_by").
+        select("#{table_name}.*, p.full_name author_name")
+  }
+
+  def self.within_accessible_columns(column_id=nil)
+    within_accessible_columns_c(column_id)
+  end
+
+  def self.within_accessible_columns_c(column_id=nil)
+    columns = Skm::Column.current_person_accessible_columns
+    if column_id and column = Skm::Column.where("id=?",column_id).first
+      column_ids = column.recursive_columns.delete_if{|i| !columns.include?(i)}
+      columns = column_ids
+    end
+    where(" EXISTS (SELECT * FROM #{Skm::Channel.table_name} c, #{Skm::ChannelColumn.table_name} cc WHERE c.id = #{Skm::EntryBook.table_name}.channel_id AND cc.channel_id = c.id AND cc.column_id IN (?))", columns + [''])
+  end
+
 
   def self.lov(lov_scope, params)
     if params[:lov_params].present?&&params[:lov_params].is_a?(Hash)&&params[:lov_params][:lktkn].present?
