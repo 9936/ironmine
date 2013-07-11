@@ -226,9 +226,12 @@ class Skm::ApiEntryHeadersController < ApiController
       entry_header.author_id = old_header.author_id
       entry_header.source_type = old_header.source_type
       entry_header.source_id = old_header.source_id
+      entry_header.project_id = old_header.project_id
+      entry_header.project_name = old_header.project_name
 
       if old_header.save && entry_header.save
-        entry_header.source_id = params[:project_id]
+        entry_header.project_id = params[:project_id]
+        entry_header.project_name = params[:project_name]
         entry_header.entry_title = params[:entry_title]
         entry_header.keyword_tags = params[:keyword_tags]
         entry_header.channel_id = params[:channel_id]
@@ -263,7 +266,8 @@ class Skm::ApiEntryHeadersController < ApiController
     else
       #直接更新原有知识
       entry_header = Skm::EntryHeader.find(params[:id])
-      entry_header.source_id = params[:project_id]
+      entry_header.project_id = params[:project_id]
+      entry_header.project_name = params[:project_name]
       entry_header.entry_title = params[:entry_title]
       entry_header.keyword_tags = params[:keyword_tags]
       entry_header.channel_id = params[:channel_id]
@@ -282,9 +286,13 @@ class Skm::ApiEntryHeadersController < ApiController
 
     end
 
+    entry_header = Skm::EntryHeader.list_all.with_author.find(entry_header.id)
+    entry_header[:project_id] = entry_header.project_id
+    entry_header[:project_name] = entry_header.project_name
+    entry_header[:author_login_name] = entry_header[:author_login_name]
+    entry_header[:author_name] = entry_header[:author_name]
 
-    entry_header[:project_id] = entry_header.source_id
-    entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
+    entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :entry_template_element_id => i.entry_template_element_id, :element_name => i.element_name, :entry_content => i.entry_content }}
     #根据输出参数进行显示
     respond_to do |format|
       format.json {
