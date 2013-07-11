@@ -79,6 +79,7 @@ Fwk::ApiParamsManager.map do |map|
           :params => [
               {:name => :id, :classify => [:output], :type => "String", :description => "知识文章唯一ID"},
               {:name => :project_id, :classify => [:input, :output], :type => "String", :description => "知识所属项目ID"},
+              {:name => :project_name, :classify => [:input, :output], :type => "String", :description => "知识所属项目名称"},
               {:name => :entry_template_id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章模板ID"},
               {:name => :entry_title, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章标题"},
               {:name => :keyword_tags, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章关键字"},
@@ -94,7 +95,9 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :created_by, :classify => [:output], :type => "String", :description => "知识文章创建人ID"},
               {:name => :updated_at, :classify => [:output], :type => "Datetime", :description => "知识文章更新日期"},
               {:name => :updated_by, :classify => [:output], :type => "String", :description => "知识文章更新人ID"},
-              {:name => :author_id, :classify => [:output], :type => "String", :description => "知识文章作者ID"}
+              {:name => :author_id, :classify => [:output], :type => "String", :description => "知识文章作者ID"},
+              {:name => :author_name, :classify => [:output], :type => "String", :description => "知识文章作者"},
+              {:name => :author_login_name, :classify => [:output], :type => "String", :description => "知识文章作者登录名"}
           ],
       },
 
@@ -110,7 +113,8 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :entry_title, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章标题"},
               {:name => :keyword_tags, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章关键字"},
               {:name => :channel_id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章频道"},
-              {:name => :details,:classify => [:input,:output], :type => "Object",:example_value => '', :required => "Y", :description => "知识文章段落列表，数组每个元素包括{:entry_template_element_id => 模板元素ID, :element_name => 段落标题, :entry_content => 段落内容}"},
+              {:name => :details,:classify => [:input], :type => "Object",:example_value => '', :required => "Y", :description => "知识文章段落列表，数组每个元素包括{:entry_template_element_id => 模板元素ID, :element_name => 段落标题, :entry_content => 段落内容}"},
+              {:name => :details,:classify => [:input], :type => "Object", :description => "知识文章段落列表，数组每个元素包括{:element_id => 元素ID， :entry_template_element_id => 模板元素ID, :element_name => 段落标题, :entry_content => 段落内容}"},
               {:name => :doc_number, :classify => [:output], :type => "String", :description => "知识文章文档号"},
               {:name => :history_flag, :classify => [:output], :type => "String", :description => "知识文章历史标记('Y'表示历史版本，'N'表示最新版本)"},
               {:name => :entry_status_code, :classify => [:output], :type => "String", :description => "知识文章当前状态('PUBLISHED'表示已发布,'WAIT_APPROVE'表示等待审批)"},
@@ -121,7 +125,9 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :created_by, :classify => [:output], :type => "String", :description => "知识文章创建人ID"},
               {:name => :updated_at, :classify => [:output], :type => "Datetime", :description => "知识文章更新日期"},
               {:name => :updated_by, :classify => [:output], :type => "String", :description => "知识文章更新人ID"},
-              {:name => :author_id, :classify => [:output], :type => "String", :description => "知识文章作者ID"}
+              {:name => :author_id, :classify => [:output], :type => "String", :description => "知识文章作者ID"},
+              {:name => :author_name, :classify => [:output], :type => "String", :description => "知识文章作者"},
+              {:name => :author_login_name, :classify => [:output], :type => "String", :description => "知识文章作者登录名"}
           ],
       },
 

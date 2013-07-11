@@ -142,7 +142,8 @@ class Skm::ApiEntryHeadersController < ApiController
                                         :entry_title => params[:entry_title],
                                         :keyword_tags => params[:keyword_tags],
                                         :channel_id => params[:channel_id],
-                                        :source_id => params[:project_id])
+                                        :project_id => params[:project_id],
+                                        :project_name => params[:project_name])
 
     enable_entry_audit=Irm::SystemParametersManager.enable_skm_header_audit
     #读取当前系统中的审批设置
@@ -176,8 +177,14 @@ class Skm::ApiEntryHeadersController < ApiController
                                           :entry_content => d["entry_content"]})
       end
       if entry_header.save
-        entry_header[:project_id] = entry_header.source_id
-        entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
+        entry_header = Skm::EntryHeader.list_all.with_author.find(entry_header.id)
+        entry_header[:project_id] = entry_header.project_id
+        entry_header[:project_name] = entry_header.project_name
+        entry_header[:author_login_name] = entry_header[:author_login_name]
+        entry_header[:author_name] = entry_header[:author_name]
+
+
+        entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :entry_template_element_id => i.entry_template_element_id, :element_name => i.element_name, :entry_content => i.entry_content }}
         #根据输出参数进行显示
         respond_to do |format|
           format.json {
