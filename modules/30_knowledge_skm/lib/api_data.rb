@@ -133,6 +133,7 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :id, :classify => [:input,:output], :type => "String", :required => "Y", :description => "知识文章唯一ID"},
               {:name => :entry_title, :classify => [:output], :type => "String", :description => "知识文章标题"},
               {:name => :project_id, :classify => [:output], :type => "String", :description => "知识所属项目ID"},
+              {:name => :project_name, :classify => [:output], :type => "String", :description => "知识所属项目名称"},
               {:name => :keyword_tags, :classify => [:output], :type => "String", :description => "知识文章关键字"},
               {:name => :doc_number, :classify => [:output], :type => "String", :description => "知识文章文档号"},
               {:name => :history_flag, :classify => [:output], :type => "String", :description => "知识文章历史标记('Y'表示历史版本，'N'表示最新版本)"},
@@ -147,7 +148,9 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :author_id, :classify => [:output], :type => "String", :description => "知识文章作者ID"},
               {:name => :channel_id, :classify => [:output], :type => "String", :description => "知识文章频道ID"},
               {:name => :entry_template_id, :classify => [:output], :type => "String", :description => "知识文章模板ID"},
-              {:name => :details, :classify => [:output], :type => "Object", :description => "知识文章内容，包括{:element_id => 段落ID, :element_name => 段落标题, :entry_content => 段落内容}"}
+              {:name => :author_name, :classify => [:output], :type => "String", :description => "知识文章作者"},
+              {:name => :author_login_name, :classify => [:output], :type => "String", :description => "知识文章作者登录名"},
+              {:name => :details, :classify => [:output], :type => "Object", :description => "知识文章内容，包括{:element_id => 段落ID, :element_name => 段落标题, :entry_content => 段落内容, :entry_template_element_id => 元素模板ID }"}
           ]
       }
   }

@@ -56,7 +56,7 @@ class Skm::EntryHeader < ActiveRecord::Base
   scope :draft, where("#{table_name}.entry_status_code = ?", "DRAFT")
   scope :current_entry, where("#{table_name}.history_flag = ?", Irm::Constant::SYS_NO)
   scope :history_entry, where("#{table_name}.history_flag = ?", Irm::Constant::SYS_YES)
-  scope :list_all, select("#{table_name}.id, #{table_name}.source_id,  #{table_name}.entry_template_id, #{table_name}.entry_title, #{table_name}.relation_id, #{table_name}.channel_id, #{table_name}.type_code" +
+  scope :list_all, select("#{table_name}.id, #{table_name}.project_id,  #{table_name}.project_name, #{table_name}.entry_template_id, #{table_name}.entry_title, #{table_name}.relation_id, #{table_name}.channel_id, #{table_name}.type_code" +
                               ", #{table_name}.keyword_tags, #{table_name}.doc_number, #{table_name}.history_flag, #{table_name}.entry_status_code" +
                               ", #{table_name}.version_number,  #{table_name}.published_date, #{table_name}.author_id, #{table_name}.status_code" +
                               ", #{table_name}.created_by, #{table_name}.created_at, #{table_name}.updated_by, #{table_name}.updated_at,  CONCAT('[', #{table_name}.doc_number, ']', #{table_name}.entry_title) full_title").
@@ -68,7 +68,7 @@ class Skm::EntryHeader < ActiveRecord::Base
   }
   scope :with_author, lambda {
     joins("LEFT OUTER JOIN irm_people ON irm_people.id = #{table_name}.author_id").
-        select("irm_people.full_name author_name")
+        select("irm_people.full_name author_name, irm_people.login_name author_login_name")
   }
 
   scope :with_author_id, lambda {|author_id|

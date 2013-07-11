@@ -290,10 +290,13 @@ class Skm::ApiEntryHeadersController < ApiController
   #根据知识id获取知识
   #Request: /api_entry_headers/show.json
   def show
-    entry_header = Skm::EntryHeader.list_all.find(params[:id])
-    entry_header[:project_id] = entry_header.source_id
+    entry_header = Skm::EntryHeader.list_all.with_author.find(params[:id])
+    entry_header[:project_id] = entry_header.project_id
+    entry_header[:project_name] = entry_header.project_name
+    entry_header[:author_login_name] = entry_header[:author_login_name]
+    entry_header[:author_name] = entry_header[:author_name]
 
-    entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
+    entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :entry_template_element_id => i.entry_template_element_id, :element_name => i.element_name, :entry_content => i.entry_content }}
 
     #根据输出参数进行显示
     respond_to do |format|
