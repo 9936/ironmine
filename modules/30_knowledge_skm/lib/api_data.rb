@@ -9,13 +9,15 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :full_search, :classify => [:input], :type => "String", :description => "全文检索，指明此参数，可检索出于关键字相关的知识文章"},
               {:name => :doc_number, :classify => [:input], :type => "String", :description => "知识文章编码"},
               {:name => :project_id, :classify => [:input], :type => "String", :description => "知识所属项目ID"},
-              {:name => :author_id, :classify => [:input], :type => "String", :description => "知识作者ID"},
+              {:name => :project_name, :classify => [:input], :type => "String", :description => "项目名称，可进行模糊查询"},
+              {:name => :author_id, :classify => [:input], :type => "String", :description => "作者ID"},
+              {:name => :author_login_name, :classify => [:input], :type => "String", :description => "作者登录名"},
               {:name => :column_id, :classify => [:input], :type => "String", :description => "知识分类ID"},
               {:name => :entry_title, :classify => [:input], :type => "String", :description => "知识文章标题"},
               {:name => :start, :classify => [:input], :type => "Number", :required => "Y", :default_value => 0, :description => "用于分页，从第几条记录开始"},
               {:name => :limit, :classify => [:input], :type => "Number", :required => "Y", :default_value => 10, :description => "每页显示记录数"},
               {:name => :total_rows, :classify => [:output], :type => "Number", :default_value => 0, :description => "记录总数"},
-              {:name => :items, :classify => [:output], :type => "Object", :description => "知识记录列表,其中每条记录中包含(id: 知识文章ID,is_favorite：是否被当前用户收藏,entry_status_code: 知识状态,full_title: 完整的文章标题，即[文章编码]+文章标题,entry_title: 文章标题,keyword_tags: 关键字,doc_number: 文章编码,version_number: 版本号,published_date: 发布日期,type_code: 类型编码)"}
+              {:name => :items, :classify => [:output], :type => "Object", :description => "知识记录列表,其中每条记录中包含(id: 知识文章ID,is_favorite：是否被当前用户收藏,entry_status_code: 知识状态,full_title: 完整的文章标题，即[文章编码]+文章标题,entry_title: 文章标题,keyword_tags: 关键字,doc_number: 文章编码,version_number: 版本号,published_date: 发布日期,type_code: 类型编码,author_name: 作者名)"}
           ]
       },
 

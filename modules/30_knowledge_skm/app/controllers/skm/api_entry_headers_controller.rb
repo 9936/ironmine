@@ -19,11 +19,17 @@ class Skm::ApiEntryHeadersController < ApiController
           current_entry.
           with_favorite_flag(Irm::Person.current.id)
 
+
+      entry_headers_scope = entry_headers_scope.with_login_name(params[:author_login_name])  if params[:author_login_name].present?
+      entry_headers_scope = entry_headers_scope.with_author_id(params[:author_id]) if params[:author_id].present?
+      entry_headers_scope = entry_headers_scope.with_project(params[:project_id]) if params[:project_id].present?
+
+
       entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number", params[:doc_number]) if params[:doc_number]
       entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags", params[:keyword_tags]) if params[:keyword_tags]
       entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title", params[:entry_title]) if params[:entry_title]
-      entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.source_id", params[:project_id]) if params[:project_id]
-      entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.author_id", params[:author_id]) if params[:author_id]
+      entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.project_name", params[:project_name]) if params[:project_name]
+
 
       entry_headers,count = paginate(entry_headers_scope)
     end
@@ -34,7 +40,8 @@ class Skm::ApiEntryHeadersController < ApiController
     entry_headers.each do |h|
       result[:items] << {:id => h.id, :is_favorite => h[:is_favorite], :entry_status_code => h[:entry_status_code],
                                 :full_title => h[:full_title], :entry_title => h[:entry_title], :keyword_tags => h[:keyword_tags],
-                                :doc_number => h[:doc_number], :version_number => h[:version_number] , :published_date => h[:published_date], :type_code => h[:type_code]}
+                                :doc_number => h[:doc_number], :version_number => h[:version_number] , :published_date => h[:published_date],
+                                :type_code => h[:type_code], :author_name => h[:author_name]}
     end
 
     respond_to do |format|

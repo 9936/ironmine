@@ -70,6 +70,19 @@ class Skm::EntryHeader < ActiveRecord::Base
     joins("LEFT OUTER JOIN irm_people ON irm_people.id = #{table_name}.author_id").
         select("irm_people.full_name author_name")
   }
+
+  scope :with_author_id, lambda {|author_id|
+     where("#{table_name}.author_id=?", author_id)
+  }
+
+  scope :with_project, lambda {|project_id|
+    where("#{table_name}.project_id=?", project_id)
+  }
+
+  scope :with_login_name, lambda{|login_name|
+    where("irm_people.login_name=?", login_name)
+  }
+
   scope :my_favorites, lambda { |person_id|
     joins(",#{Skm::EntryFavorite.table_name} ef").
         where("ef.entry_header_id = #{table_name}.id").
