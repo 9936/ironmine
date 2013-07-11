@@ -31,7 +31,7 @@ class Skm::EntryBookRelation < ActiveRecord::Base
   private
     #构建sequence
     def build_sequence
-      current_sequence = Skm::EntryBookRelation.select("display_sequence").order("display_sequence DESC").first
+      current_sequence = Skm::EntryBookRelation.targets(self.book_id).select("display_sequence").order("display_sequence DESC").first
       if current_sequence.present?
         self.display_sequence = current_sequence[:display_sequence] + 1
       else

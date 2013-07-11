@@ -75,9 +75,39 @@ class Skm::ApiEntryBooksController < ApiController
     result = Skm::EntryBook.find(params[:id])
 
     if result.update_attributes({:name => params[:name],
+                                 :description => params[:description],
                                  :project_id => params[:project_id],
                                  :project_name => params[:project_name],
                                  :channel_id => params[:channel_id]})
+
+      if params[:items].present?
+        items = ActiveSupport::JSON.decode(params[:items])
+        #查找目前专题中的专题和子专题
+        old_relations = Skm::EntryBookRelation.targets(result.id)
+        sequence = 1
+        items.each do |item|
+          if item["id"].present? && item["display_name"].present?
+            old_relations.delete_if{|r| r.id.eql?(item[:id])}
+
+            relation = Skm::EntryBookRelation.where(:id => item["id"]).first
+            if relation.present?
+              relation.display_sequence = sequence
+              relation.display_name = item["display_name"]
+
+            elsif item["relation_type"].present?
+              relation = Skm::EntryBookRelation.new(:book_id => result.id,
+                                                    :target_id => item["id"],
+                                                    :relation_type => item["relation_type"],
+                                                    :display_name => item["display_name"],
+                                                    :display_sequence => sequence)
+
+            end
+            relation.save
+            sequence += 1
+          end
+          old_relations.map(&:destroy)
+        end
+      end
 
       result = entry_book_details(result.id)
       respond_to do |format|

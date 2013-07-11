@@ -221,6 +221,7 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :author_name, :classify => [:output], :type => "String", :description => "作者名"},
               {:name => :channel_id, :classify => [:input,:output], :type => "String", :description => "专题频道ID"},
               {:name => :description, :classify => [:input,:output], :type => "String", :description => "知识专题描述"},
+              {:name => :items, :classify => [:input], :type => "Object", :description => "知识专题下的知识或子专题，对象数组包括(id：对象ID， relation_type: 类型【专题OR文章】值为ENTRYHEADER or ENTRYBOOK，display_name: 显示名称)"},
               {:name => :updated_at, :classify => [:output], :type => "String", :description => "知识专题最新修改日期"},
               {:name => :items, :classify => [:output], :type => "Object", :description => "知识专题下的知识或子专题，包括(类型:【专题OR文章】, display_name: 章节标题, title: 标题, published_date:发布日期(限知识文章),created_at： 创建时间，updated_at: 更新时间, doc_number: 文档编码（限知识文章）,author_name: 作者名"},
           ]
