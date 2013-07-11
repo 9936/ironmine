@@ -160,6 +160,18 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :author_login_name, :classify => [:output], :type => "String", :description => "知识文章作者登录名"},
               {:name => :details, :classify => [:output], :type => "Object", :description => "知识文章内容，包括{:element_id => 段落ID, :element_name => 段落标题, :entry_content => 段落内容, :entry_template_element_id => 元素模板ID }"}
           ]
+      },
+
+      #获取知识频道分类关系数据
+      :channel_columns => {
+          :name => "知识频道关系接口",
+          :description => "知识频道关系接口",
+          :params => [
+              {:name => :id, :classify => [:output], :type => "String", :description => "ID"},
+              {:name => :channel_id, :classify => [:output], :type => "String", :description => "频道ID"},
+              {:name => :column_id, :classify => [:output], :type => "String", :description => "分类ID"},
+              {:name => :status_code, :classify => [:output], :type => "String", :description => "状态:【ENABLED or DISABLED】"}
+          ]
       }
   }
 

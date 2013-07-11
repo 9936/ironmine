@@ -364,7 +364,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "skm/api_entry_headers" => ["get_data", "get_template_data", "get_elements", "get_channels" , "get_columns", "add", "show", "update"]
+              "skm/api_entry_headers" => ["get_data", "get_template_data", "get_elements", "get_channels" , "get_columns", "add", "show", "update", "channel_columns"]
           }
       }
   }

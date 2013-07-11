@@ -321,6 +321,18 @@ class Skm::ApiEntryHeadersController < ApiController
     end
   end
 
+  #获取频道分类关系表
+  #Request: /api_entry_headers/channel_columns.json
+  def channel_columns
+    result = Skm::ChannelColumn.all
+    #根据输出参数进行显示
+    respond_to do |format|
+      format.json {
+        render json: result.to_json(:only => @return_columns)
+      }
+    end
+  end
+
 
   private
 

@@ -231,7 +231,7 @@ Rails.application.routes.draw do
       match '/api_entry_headers/add' => "api_entry_headers#add", :via => :post
       match '/api_entry_headers/update' => "api_entry_headers#update", :via => :post
       match '/api_entry_headers/show' => "api_entry_headers#show", :via => :get
-      #match '/api_entry_headers/get_entry_books' => "api_entry_headers#get_entry_books", :via => :get
+      match '/api_entry_headers/channel_columns' => "api_entry_headers#channel_columns", :via => :get
 
       #Entry Book API
       match '/api_entry_books/get_data' => "api_entry_books#get_data", :via => :get
