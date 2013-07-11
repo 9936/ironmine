@@ -34,7 +34,7 @@ class Skm::EntryBook < ActiveRecord::Base
 
   scope :with_person, lambda {
     joins("JOIN #{Irm::Person.table_name} p on p.id=#{table_name}.created_by").
-        select("#{table_name}.*, p.full_name author_name")
+        select("#{table_name}.*, p.full_name author_name, p.login_name author_login_name")
   }
 
   def self.within_accessible_columns(column_id=nil)

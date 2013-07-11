@@ -19,8 +19,9 @@ class Skm::EntryBookRelation < ActiveRecord::Base
 
   scope :query_headers_by_book, lambda{|book_id|
     joins("JOIN #{Skm::EntryHeader.table_name} seh ON #{table_name}.target_id=seh.id").
+        joins("JOIN #{Irm::Person.table_name} p ON p.id=seh.author_id").
         where("#{table_name}.book_id=? AND #{table_name}.relation_type=?", book_id, "ENTRYHEADER").
-        select("#{table_name}.*, seh.entry_title, seh.doc_number, seh.id entry_header_id, seh.type_code, seh.published_date, seh.created_at entry_created_at, seh.updated_at entry_updated_at")
+        select("#{table_name}.*, p.full_name author_name,seh.entry_title, seh.doc_number, seh.id entry_header_id, seh.type_code, seh.published_date, seh.created_at entry_created_at, seh.updated_at entry_updated_at")
   }
 
   def self.merge_headers(old_header_id, new_header_id)

@@ -163,7 +163,7 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :project_name, :classify => [:input], :type => "String", :description => "项目名称，可进行模糊查询"},
               {:name => :author_id, :classify => [:input], :type => "String", :description => "作者ID"},
               {:name => :author_login_name, :classify => [:input], :type => "String", :description => "作者登录名"},
-              {:name => :column_id, :classify => [:input], :type => "String", :description => "专题类型ID"},
+              {:name => :column_id, :classify => [:input], :type => "String", :description => "专题类别ID"},
               {:name => :total_rows, :classify => [:output], :type => "Number", :default_value => 0, :description => "记录总数"},
               {:name => :items, :classify => [:output], :type => "Object", :description => "知识专题列表，包括(id: 专题ID, name: 专题名称, description: 专题说明, updated_at: 专题更新时间， author_name: 作者名"}
           ]
@@ -176,7 +176,14 @@ Fwk::ApiParamsManager.map do |map|
           :params => [
               {:name => :id, :classify => [:input,:output], :type => "String", :required => "Y", :description => "知识专题唯一ID"},
               {:name => :name, :classify => [:output], :type => "String", :description => "知识专题名称"},
+              {:name => :project_id, :classify => [:output], :type => "String", :description => "项目ID"},
+              {:name => :project_name, :classify => [:output], :type => "String", :description => "项目名称，可进行模糊查询"},
+              {:name => :author_id, :classify => [:output], :type => "String", :description => "作者ID"},
+              {:name => :author_login_name, :classify => [:output], :type => "String", :description => "作者登录名"},
+              {:name => :author_name, :classify => [:output], :type => "String", :description => "作者名"},
+              {:name => :column_id, :classify => [:output], :type => "String", :description => "专题类别ID"},
               {:name => :description, :classify => [:output], :type => "String", :description => "知识专题描述"},
+              {:name => :updated_at, :classify => [:output], :type => "String", :description => "知识专题最新修改日期"},
               {:name => :items, :classify => [:output], :type => "Object", :description => "知识专题下的知识或子专题，包括(类型:【专题OR文章】, display_name: 章节标题, title: 标题, published_date:发布日期(限知识文章),created_at： 创建时间，updated_at: 更新时间, doc_number: 文档编码（限知识文章）"}
           ]
       },

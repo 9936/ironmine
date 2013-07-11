@@ -17,7 +17,7 @@ class Skm::ApiEntryBooksController < ApiController
     entry_books_scope = entry_books_scope.match_value("#{Skm::EntryBooksTl.table_name}.name", params[:name])
     entry_books_scope = entry_books_scope.match_value("#{Skm::EntryBook.table_name}.project_name", params[:project_name])
 
-    entry_books,count = paginate(entry_books_scope)
+    entry_books, count = paginate(entry_books_scope)
 
     result = {:total_rows => count}
     result[:items] = []
@@ -37,10 +37,10 @@ class Skm::ApiEntryBooksController < ApiController
   #查看知识专题
   #Request /api_entry_books/show.json
   def show
-    entry_book = Skm::EntryBook.multilingual.find(params[:id])
+    entry_book = Skm::EntryBook.multilingual.with_person.find(params[:id])
     entry_book_relations = Skm::EntryBookRelation.order_by_sequence.targets(params[:id]).index_by(&:target_id)
     relation_headers = Skm::EntryBookRelation.query_headers_by_book(params[:id])
-    relation_books = Skm::EntryBook.multilingual.query_books_by_relations(params[:id])
+    relation_books = Skm::EntryBook.multilingual.with_person.query_books_by_relations(params[:id])
 
     if entry_book_relations.any?
       relation_headers.each do |header|
@@ -68,7 +68,17 @@ class Skm::ApiEntryBooksController < ApiController
       end
     end
 
-    result = {:id => entry_book.id, :name => entry_book[:name], :description => entry_book[:description], :items => [] }
+    result = {:id => entry_book.id,
+              :name => entry_book[:name],
+              :author_id => entry_book[:created_by],
+              :author_name => entry_book[:author_name],
+              :author_login_name => entry_book[:author_login_name],
+              :project_id => entry_book[:project_id],
+              :project_name => entry_book[:project_name],
+              :channel_id => entry_book[:channel_id],
+              :description => entry_book[:description],
+              :updated_at => entry_book[:updated_at],
+              :items => []}
 
 
     entry_book_relations.values.each do |cr|
@@ -80,11 +90,11 @@ class Skm::ApiEntryBooksController < ApiController
       if cr[:relation_type].eql?("ENTRYHEADER")
         published_date = cr[:published_date]
         doc_number = cr[:doc_number]
-        result[:items] << {:relation_type => cr[:relation_type], :id => id, :display_name => cr[:display_name], :title => title,
-                           :updated_at => updated_at, :created_at => created_at, :published_date => published_date, :doc_number => doc_number }
+        result[:items] << {:relation_type => cr[:relation_type], :id => id, :display_name => cr[:display_name], :title => title, :author_name => cr[:author_name],
+                           :updated_at => updated_at, :created_at => created_at, :published_date => published_date, :doc_number => doc_number}
       else
-        result[:items] << {:relation_type => cr[:relation_type], :id => id, :display_name => cr[:display_name], :title => title,
-                           :updated_at => updated_at, :created_at => created_at }
+        result[:items] << {:relation_type => cr[:relation_type], :id => id, :display_name => cr[:display_name], :title => title, :author_name => cr[:author_name],
+                           :updated_at => updated_at, :created_at => created_at}
       end
     end
 
