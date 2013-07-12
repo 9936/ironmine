@@ -48,7 +48,7 @@ class Csi::SurveyMember < ActiveRecord::Base
   def task_title
     if self.source_type = Icm::IncidentRequest.name
       request = Icm::IncidentRequest.where("id = ?", self.source_id).first
-      return "#{self.survey.title}: [#{request.request_number}] #{request.title}"
+      return "#{self.survey.title}: [#{request.request_number}] #{request.title}" if request.present?
     end
 
     return self.survey.title

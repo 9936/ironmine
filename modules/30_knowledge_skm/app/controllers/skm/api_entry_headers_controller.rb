@@ -19,11 +19,17 @@ class Skm::ApiEntryHeadersController < ApiController
           current_entry.
           with_favorite_flag(Irm::Person.current.id)
 
+
+      entry_headers_scope = entry_headers_scope.with_login_name(params[:author_login_name])  if params[:author_login_name].present?
+      entry_headers_scope = entry_headers_scope.with_author_id(params[:author_id]) if params[:author_id].present?
+      entry_headers_scope = entry_headers_scope.with_project(params[:project_id]) if params[:project_id].present?
+
+
       entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number", params[:doc_number]) if params[:doc_number]
       entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags", params[:keyword_tags]) if params[:keyword_tags]
       entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title", params[:entry_title]) if params[:entry_title]
-      entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.source_id", params[:project_id]) if params[:project_id]
-      entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.author_id", params[:author_id]) if params[:author_id]
+      entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.project_name", params[:project_name]) if params[:project_name]
+
 
       entry_headers,count = paginate(entry_headers_scope)
     end
@@ -34,7 +40,8 @@ class Skm::ApiEntryHeadersController < ApiController
     entry_headers.each do |h|
       result[:items] << {:id => h.id, :is_favorite => h[:is_favorite], :entry_status_code => h[:entry_status_code],
                                 :full_title => h[:full_title], :entry_title => h[:entry_title], :keyword_tags => h[:keyword_tags],
-                                :doc_number => h[:doc_number], :version_number => h[:version_number] , :published_date => h[:published_date], :type_code => h[:type_code]}
+                                :doc_number => h[:doc_number], :version_number => h[:version_number] , :published_date => h[:published_date],
+                                :type_code => h[:type_code], :author_name => h[:author_name]}
     end
 
     respond_to do |format|
@@ -135,7 +142,8 @@ class Skm::ApiEntryHeadersController < ApiController
                                         :entry_title => params[:entry_title],
                                         :keyword_tags => params[:keyword_tags],
                                         :channel_id => params[:channel_id],
-                                        :source_id => params[:project_id])
+                                        :project_id => params[:project_id],
+                                        :project_name => params[:project_name])
 
     enable_entry_audit=Irm::SystemParametersManager.enable_skm_header_audit
     #读取当前系统中的审批设置
@@ -169,8 +177,14 @@ class Skm::ApiEntryHeadersController < ApiController
                                           :entry_content => d["entry_content"]})
       end
       if entry_header.save
-        entry_header[:project_id] = entry_header.source_id
-        entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
+        entry_header = Skm::EntryHeader.list_all.with_author.find(entry_header.id)
+        entry_header[:project_id] = entry_header.project_id
+        entry_header[:project_name] = entry_header.project_name
+        entry_header[:author_login_name] = entry_header[:author_login_name]
+        entry_header[:author_name] = entry_header[:author_name]
+
+
+        entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :entry_template_element_id => i.entry_template_element_id, :element_name => i.element_name, :entry_content => i.entry_content }}
         #根据输出参数进行显示
         respond_to do |format|
           format.json {
@@ -212,9 +226,12 @@ class Skm::ApiEntryHeadersController < ApiController
       entry_header.author_id = old_header.author_id
       entry_header.source_type = old_header.source_type
       entry_header.source_id = old_header.source_id
+      entry_header.project_id = old_header.project_id
+      entry_header.project_name = old_header.project_name
 
       if old_header.save && entry_header.save
-        entry_header.source_id = params[:project_id]
+        entry_header.project_id = params[:project_id]
+        entry_header.project_name = params[:project_name]
         entry_header.entry_title = params[:entry_title]
         entry_header.keyword_tags = params[:keyword_tags]
         entry_header.channel_id = params[:channel_id]
@@ -249,7 +266,8 @@ class Skm::ApiEntryHeadersController < ApiController
     else
       #直接更新原有知识
       entry_header = Skm::EntryHeader.find(params[:id])
-      entry_header.source_id = params[:project_id]
+      entry_header.project_id = params[:project_id]
+      entry_header.project_name = params[:project_name]
       entry_header.entry_title = params[:entry_title]
       entry_header.keyword_tags = params[:keyword_tags]
       entry_header.channel_id = params[:channel_id]
@@ -268,9 +286,13 @@ class Skm::ApiEntryHeadersController < ApiController
 
     end
 
+    entry_header = Skm::EntryHeader.list_all.with_author.find(entry_header.id)
+    entry_header[:project_id] = entry_header.project_id
+    entry_header[:project_name] = entry_header.project_name
+    entry_header[:author_login_name] = entry_header[:author_login_name]
+    entry_header[:author_name] = entry_header[:author_name]
 
-    entry_header[:project_id] = entry_header.source_id
-    entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
+    entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :entry_template_element_id => i.entry_template_element_id, :element_name => i.element_name, :entry_content => i.entry_content }}
     #根据输出参数进行显示
     respond_to do |format|
       format.json {
@@ -283,15 +305,30 @@ class Skm::ApiEntryHeadersController < ApiController
   #根据知识id获取知识
   #Request: /api_entry_headers/show.json
   def show
-    entry_header = Skm::EntryHeader.list_all.find(params[:id])
-    entry_header[:project_id] = entry_header.source_id
+    entry_header = Skm::EntryHeader.list_all.with_author.find(params[:id])
+    entry_header[:project_id] = entry_header.project_id
+    entry_header[:project_name] = entry_header.project_name
+    entry_header[:author_login_name] = entry_header[:author_login_name]
+    entry_header[:author_name] = entry_header[:author_name]
 
-    entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :element_name => i.element_name, :entry_content => i.entry_content }}
+    entry_header[:details]= entry_header.entry_details.collect {|i| {:element_id => i.id, :entry_template_element_id => i.entry_template_element_id, :element_name => i.element_name, :entry_content => i.entry_content }}
 
     #根据输出参数进行显示
     respond_to do |format|
       format.json {
         render json: entry_header.to_json(:only => @return_columns)
+      }
+    end
+  end
+
+  #获取频道分类关系表
+  #Request: /api_entry_headers/channel_columns.json
+  def channel_columns
+    result = Skm::ChannelColumn.all
+    #根据输出参数进行显示
+    respond_to do |format|
+      format.json {
+        render json: result.to_json(:only => @return_columns)
       }
     end
   end

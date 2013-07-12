@@ -5,7 +5,6 @@ module Yan::CustomFieldHelperEx
     #only_block => false 时默认显示格式和block自定义的格式合并显示；
     #only_block => true 时，只显示block下定义的格式代码
     def show_input_custom_fields_2(model, columns = 4, only_block = false,  &block)
-      puts("++++++++++++++++++++++++++++A")
       #获取自定义字段
       custom_attributes = model.custom_attributes
 
@@ -123,11 +122,11 @@ module Yan::CustomFieldHelperEx
             if attribute[:field_type].eql?("SYSTEM_CUX_FIELD")
               attribute_number = attribute[:attribute_name].gsub("sattribute", "").to_i
 
-              if attribute_number >= 21 && attribute_number <= 30 && !allow_to_function?(:additional_info_area1, attribute[:external_system_id])
+              if attribute_number >= 21 && attribute_number <= 30# && !allow_to_function?(:additional_info_area1, attribute[:external_system_id])
                 next
-              elsif attribute_number >= 31 && attribute_number <= 40 && !allow_to_function?(:additional_info_area2, attribute[:external_system_id])
+              elsif attribute_number >= 31 && attribute_number <= 40# && !allow_to_function?(:additional_info_area2, attribute[:external_system_id])
                 next
-              elsif attribute_number >= 41 && attribute_number <= 50 && !allow_to_function?(:additional_info_area3, attribute[:external_system_id])
+              elsif attribute_number >= 41 && attribute_number <= 50# && !allow_to_function?(:additional_info_area3, attribute[:external_system_id])
                 next
               end
             end
