@@ -98,11 +98,11 @@ class Skm::ApiEntryBooksController < ApiController
               relation = Skm::EntryBookRelation.new(:book_id => result.id,
                                                     :target_id => item["id"],
                                                     :relation_type => item["relation_type"],
-                                                    :display_name => item["display_name"],
-                                                    :display_sequence => sequence)
+                                                    :display_name => item["display_name"])
 
             end
             relation.save
+            sequence = relation.display_sequence
             sequence += 1
           end
           old_relations.map(&:destroy)
