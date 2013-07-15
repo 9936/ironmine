@@ -184,7 +184,7 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :start, :classify => [:input], :type => "Number", :required => "Y", :default_value => 0, :description => "用于分页，从第几条记录开始"},
               {:name => :limit, :classify => [:input], :type => "Number", :required => "Y", :default_value => 10, :description => "每页显示记录数"},
               {:name => :name, :classify => [:input], :type => "String", :description => "知识专题名称，用户进行模糊查询"},
-              {:name => :project_id, :classify => [:input], :type => "String", :description => "项目ID"},
+              {:name => :project_id, :classify => [:input], :type => "String", :description => "项目ID,当其值为-1时查询模板专题"},
               {:name => :project_name, :classify => [:input], :type => "String", :description => "项目名称，可进行模糊查询"},
               {:name => :author_id, :classify => [:input], :type => "String", :description => "作者ID"},
               {:name => :author_login_name, :classify => [:input], :type => "String", :description => "作者登录名"},
