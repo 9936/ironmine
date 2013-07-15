@@ -16,6 +16,11 @@ class Skm::EntryBookRelation < ActiveRecord::Base
     where("#{table_name}.book_id=?", book_id)
   }
 
+  scope :template_entry_book, lambda {
+    joins("JOIN #{Skm::EntryBook.table_name} tb ON tb.id=#{table_name}.book_id").
+        where("tb.project_id='-1'")
+  }
+
 
   scope :query_headers_by_book, lambda{|book_id|
     joins("JOIN #{Skm::EntryHeader.table_name} seh ON #{table_name}.target_id=seh.id").
