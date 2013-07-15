@@ -21,6 +21,11 @@ class Skm::EntryBookRelation < ActiveRecord::Base
         where("tb.project_id='-1'")
   }
 
+  scope :with_person, lambda {
+    joins("JOIN #{Irm::Person.table_name} p on p.id=#{table_name}.created_by").
+        select("#{table_name}.*, p.full_name author_name, p.login_name author_login_name")
+  }
+
 
   scope :query_headers_by_book, lambda{|book_id|
     joins("JOIN #{Skm::EntryHeader.table_name} seh ON #{table_name}.target_id=seh.id").

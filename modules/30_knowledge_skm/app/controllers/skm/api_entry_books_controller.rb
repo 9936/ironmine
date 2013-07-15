@@ -36,7 +36,8 @@ class Skm::ApiEntryBooksController < ApiController
   #获取模板专题关系数据
   #Request /api_entry_books/get_relations.json
   def get_relations
-    relations = Skm::EntryBookRelation.template_entry_book
+    relations = Skm::EntryBookRelation.with_person.template_entry_book
+
 
     respond_to do |format|
       format.json {
