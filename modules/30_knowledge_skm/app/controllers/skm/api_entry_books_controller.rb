@@ -33,6 +33,38 @@ class Skm::ApiEntryBooksController < ApiController
     end
   end
 
+  #获取模板专题列表
+  #Request /api_entry_books/get_data.json
+  def get_template_data
+    entry_books_scope = Skm::EntryBook.multilingual.with_person
+    entry_books_scope = entry_books_scope.with_author(params[:author_id]) if params[:author_id].present?
+    entry_books_scope = entry_books_scope.with_login_name(params[:author_login_name]) if params[:author_login_name].present?
+    entry_books_scope = entry_books_scope.where("project_id is null")
+
+    #根据分类进行查找
+    if params[:column_id].present?
+      entry_books_scope = entry_books_scope.within_accessible_columns(params[:column_id])
+    end
+
+    #根据名称和项目名称进行模糊查找
+    entry_books_scope = entry_books_scope.match_value("#{Skm::EntryBooksTl.table_name}.name", params[:name])
+
+    entry_books, count = paginate(entry_books_scope)
+
+    result = {:total_rows => count}
+    result[:items] = []
+
+    entry_books.each do |eb|
+      result[:items] << {:id => eb.id, :name => eb[:name], :description => eb[:description], :updated_at => eb[:updated_at], :author_name => eb[:author_name]}
+    end
+
+    respond_to do |format|
+      format.json {
+        render json: result.to_json
+      }
+    end
+  end
+
 
   #查看知识专题
   #Request /api_entry_books/show.json

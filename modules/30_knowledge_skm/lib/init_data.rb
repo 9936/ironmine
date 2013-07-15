@@ -385,7 +385,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "skm/api_entry_books" => ["get_data", "show", "add", "update"]
+              "skm/api_entry_books" => ["get_data", "get_template_data" ,"show", "add", "update"]
           }
       }
   }

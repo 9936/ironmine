@@ -194,6 +194,22 @@ Fwk::ApiParamsManager.map do |map|
           ]
       },
 
+      #获取知识专题列表
+      :get_template_data => {
+          :name => "知识专题模板列表接口",
+          :description => "知识专题模板列表接口",
+          :params => [
+              {:name => :start, :classify => [:input], :type => "Number", :required => "Y", :default_value => 0, :description => "用于分页，从第几条记录开始"},
+              {:name => :limit, :classify => [:input], :type => "Number", :required => "Y", :default_value => 10, :description => "每页显示记录数"},
+              {:name => :name, :classify => [:input], :type => "String", :description => "知识专题名称，用户进行模糊查询"},
+              {:name => :author_id, :classify => [:input], :type => "String", :description => "作者ID"},
+              {:name => :author_login_name, :classify => [:input], :type => "String", :description => "作者登录名"},
+              {:name => :column_id, :classify => [:input], :type => "String", :description => "专题类别ID"},
+              {:name => :total_rows, :classify => [:output], :type => "Number", :default_value => 0, :description => "记录总数"},
+              {:name => :items, :classify => [:output], :type => "Object", :description => "知识专题列表，包括(id: 专题ID, name: 专题名称, description: 专题说明, updated_at: 专题更新时间， author_name: 作者名"}
+          ]
+      },
+
       #获取知识专题下的知识和知识专题
       :show => {
           :name => "查看知识专题接口",

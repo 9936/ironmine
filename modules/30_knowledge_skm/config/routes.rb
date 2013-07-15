@@ -235,6 +235,7 @@ Rails.application.routes.draw do
 
       #Entry Book API
       match '/api_entry_books/get_data' => "api_entry_books#get_data", :via => :get
+      match '/api_entry_books/get_template_data' => "api_entry_books#get_template_data", :via => :get
       match '/api_entry_books/add' => "api_entry_books#add", :via => :post
       match '/api_entry_books/update' => "api_entry_books#update", :via => :post
       match '/api_entry_books/show' => "api_entry_books#show", :via => :get
