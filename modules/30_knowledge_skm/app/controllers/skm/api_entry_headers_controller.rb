@@ -155,13 +155,13 @@ class Skm::ApiEntryHeadersController < ApiController
       approval_people = Skm::ChannelApprovalPerson.approval_people(params[:channel_id])
       approval_people.delete_if{|i| i[:person_id] == Irm::Person.current.id }
       if approval_people.any?
-        entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
+        entry_header.entry_status_code = "WAIT_APPROVE"
       else
-        entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+        entry_header.entry_status_code = "PUBLISHED"
       end
     end
 
-    entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
+    #entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
     entry_header.published_date = Time.now
     entry_header.doc_number = Skm::EntryHeader.generate_doc_number
     entry_header.version_number = entry_header.next_version_number
@@ -210,17 +210,17 @@ class Skm::ApiEntryHeadersController < ApiController
       entry_header.history_flag = "N"
       enable_entry_audit = Irm::SystemParametersManager.enable_skm_header_audit
       if enable_entry_audit.eql? Irm::Constant::SYS_NO
-        entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+        entry_header.entry_status_code = "PUBLISHED"
       else
         approval_people = Skm::ChannelApprovalPerson.approval_people(params[:channel_id])
         approval_people.delete_if{|i| i[:person_id] == Irm::Person.current.id }
         if approval_people.any?
-          entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
+          entry_header.entry_status_code = "WAIT_APPROVE"
         else
-          entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+          entry_header.entry_status_code = "PUBLISHED"
         end
       end
-      entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
+      #entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
       entry_header.version_number = old_header.next_version_number.to_s
       entry_header.published_date = Time.now
       entry_header.author_id = old_header.author_id
