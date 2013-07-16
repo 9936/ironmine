@@ -205,7 +205,9 @@ Fwk::ApiParamsManager.map do |map|
               {:name => :target_id, :classify => [:output], :type => "String", :description => "目标对象ID（专题ID或者知识ID）"},
               {:name => :display_name, :classify => [:output], :type => "String", :description => "在专题中的显示名称"},
               {:name => :display_sequence, :classify => [:output], :type => "String", :description => "在专题中的显示顺序，从小到大（数字不一定连续）"},
-              {:name => :status_code, :classify => [:output], :type => "String", :description => "状态:【ENABLED or DISABLED】"}
+              {:name => :doc_number, :classify => [:output], :type => "String", :description => "知识文章的文档号，专题类型的为-1"},
+              {:name => :published_date, :classify => [:output], :type => "String", :description => "知识文章的发布日期，若为专题则为专题的创建日期"},
+              {:name => :author_name, :classify => [:output], :type => "String", :description => "知识或者专题的作者名"}
           ]
       },
 
