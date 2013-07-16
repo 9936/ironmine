@@ -1,5 +1,4 @@
 class Skm::ApiEntryBooksController < ApiController
-
   #获取专题列表
   #Request /api_entry_books/get_data.json
   def get_data
@@ -36,12 +35,27 @@ class Skm::ApiEntryBooksController < ApiController
   #获取模板专题关系数据
   #Request /api_entry_books/get_relations.json
   def get_relations
-    relations = Skm::EntryBookRelation.with_person.template_entry_book
+    relations = ActiveRecord::Base.connection.select_all("select ebr.*, sh.doc_number, sh.published_date, p.full_name author_name from skm_entry_books_relations ebr
+      JOIN skm_entry_headers sh on ebr.target_id = sh.id and ebr.relation_type = 'ENTRYHEADER'
+      JOIN irm_people p on p.id = sh.author_id
+      JOIN skm_entry_books eb on ebr.book_id = eb.id
+      WHERE eb.project_id = '-1'
+      UNION
+      SELECT ebr.*, '-1' doc_number, b.created_at published_date, p.full_name author_name from skm_entry_books_relations ebr
+      JOIN skm_entry_books b ON ebr.target_id = b.id and ebr.relation_type = 'ENTRYBOOK'
+      JOIN skm_entry_books eb on ebr.book_id = eb.id
+      JOIN irm_people p on p.id = b.created_by
+      WHERE eb.project_id = '-1'")
 
+    result = []
+    relations.each do |r|
+      result << {:id => r["id"], :book_id => r["book_id"], :target_id => r["target_id"], :display_name => r["display_name"], :status_code => r["status_code"],
+                 :display_sequence => r["display_sequence"], :doc_number => r['doc_number'], :published_date => r['published_date'], :author_name => r['author_name'] }
+    end
 
     respond_to do |format|
       format.json {
-        render json: relations.to_json(:only => @return_columns)
+        render json: result.to_json#(:only => @return_columns)
       }
     end
   end
