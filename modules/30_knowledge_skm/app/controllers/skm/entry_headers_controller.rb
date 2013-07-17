@@ -751,7 +751,7 @@ class Skm::EntryHeadersController < ApplicationController
       else
         @entry_header = Skm::EntryHeader.find(params[:id])
         respond_to do |format|
-          if @entry_header.update_attributes(params[:skm_entry_header]) && @entry_header.update_attribute( :entry_status_code, params[:status])
+          if @entry_header.update_attributes(params[:skm_entry_header]) #&& @entry_header.update_attribute(:entry_status_code, params[:status])
             params[:skm_entry_details].each do |k, v|
               detail = Skm::EntryDetail.find(k)
               detail.update_attributes(v)
