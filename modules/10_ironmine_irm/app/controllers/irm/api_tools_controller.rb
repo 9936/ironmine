@@ -49,6 +49,7 @@ class Irm::ApiToolsController < ApplicationController
   def function_params
     #根据function_id获取对应的permission
     @api_params = Irm::ApiParam.query_input_params(params[:rest_api_id])
+    @rest_api = Irm::RestApi.find(params[:rest_api_id])
     @permission = Irm::Permission.query_by_rest_api_id(params[:rest_api_id]).first
     @permission[:request_method] = @permission[:direct_get_flag].eql?('Y') ? "GET" : "POST"
   end

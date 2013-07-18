@@ -75,6 +75,7 @@ Fwk::ApiParamsManager.map do |map|
       #添加知识文章
       :add => {
           :name => "创建知识接口",
+          :update_flag => 'Y',
           :description => "创建知识接口",
           :params => [
               {:name => :id, :classify => [:output], :type => "String", :description => "知识文章唯一ID"},
@@ -102,9 +103,10 @@ Fwk::ApiParamsManager.map do |map|
           ],
       },
 
-      #添加知识文章
+      #更新知识文章
       :update => {
           :name => "更新知识接口",
+          :update_flag => 'Y',
           :description => "更新知识接口",
           :params => [
               {:name => :id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识文章唯一ID"},
@@ -211,22 +213,6 @@ Fwk::ApiParamsManager.map do |map|
           ]
       },
 
-      ##获取知识专题列表
-      #:get_template_data => {
-      #    :name => "知识专题模板列表接口",
-      #    :description => "知识专题模板列表接口",
-      #    :params => [
-      #        {:name => :start, :classify => [:input], :type => "Number", :required => "Y", :default_value => 0, :description => "用于分页，从第几条记录开始"},
-      #        {:name => :limit, :classify => [:input], :type => "Number", :required => "Y", :default_value => 10, :description => "每页显示记录数"},
-      #        {:name => :name, :classify => [:input], :type => "String", :description => "知识专题名称，用户进行模糊查询"},
-      #        {:name => :author_id, :classify => [:input], :type => "String", :description => "作者ID"},
-      #        {:name => :author_login_name, :classify => [:input], :type => "String", :description => "作者登录名"},
-      #        {:name => :column_id, :classify => [:input], :type => "String", :description => "专题类别ID"},
-      #        {:name => :total_rows, :classify => [:output], :type => "Number", :default_value => 0, :description => "记录总数"},
-      #        {:name => :items, :classify => [:output], :type => "Object", :description => "知识专题列表，包括(id: 专题ID, name: 专题名称, description: 专题说明, updated_at: 专题更新时间， author_name: 作者名"}
-      #    ]
-      #},
-
       #获取知识专题下的知识和知识专题
       :show => {
           :name => "查看知识专题接口",
@@ -249,6 +235,7 @@ Fwk::ApiParamsManager.map do |map|
       #添加专题
       :add => {
           :name => "创建知识专题接口",
+          :update_flag => 'Y',
           :description => "创建知识专题接口",
           :params => [
             {:name => :id, :classify => [:output], :type => "String",:description => "知识专题唯一ID"},
@@ -268,6 +255,7 @@ Fwk::ApiParamsManager.map do |map|
       #编辑专题
       :update => {
           :name => "编辑知识专题接口",
+          :update_flag => 'Y',
           :description => "编辑知识专题接口",
           :params => [
               {:name => :id, :classify => [:input, :output], :type => "String", :required => "Y", :description => "知识专题唯一ID"},

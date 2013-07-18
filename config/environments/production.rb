@@ -79,6 +79,9 @@ Ironmine::Application.configure do
 		:password => 'handhand',
 		:authentication => :login
   }
+
+  # config for rest api
+  config.fwk.production_flag = 'Y'
   # config for receive mail
   config.fwk.mail_receive_method = :imap
   config.fwk.mail_send_from = "rootironmine@163.com"
