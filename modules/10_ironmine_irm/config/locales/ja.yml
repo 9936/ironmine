@@ -2008,6 +2008,8 @@ ja:
   label_irm_api_tool_doc_defalt_vlue: Default value
   label_irm_api_tool_doc_yes: Yes
   label_irm_api_tool_doc_no: No
+  label_irm_api_tool_update_flag: Update Database
+  label_irm_api_tool_warn_info: In production environment，can't operate this api.
   #==============================End Api tools==============================
 
   #========================begin oauth_access_history===================================

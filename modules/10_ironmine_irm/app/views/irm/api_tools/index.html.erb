@@ -36,6 +36,7 @@
                     <th><%= t(:name) %></th>
                     <th><%= t(:label_irm_api_tool_request_method) %></th>
                     <th><%= t(:label_irm_api_tool_request) %></th>
+                    <th><%= t(:label_irm_api_tool_update_flag) %></th>
                     <th><%= t(:description) %></th>
                   </tr>
                   </thead>
@@ -49,6 +50,7 @@
                         <td><%= p[:name] %></td>
                         <td><%= p[:http_method] %></td>
                         <td><%= url_for(:controller => p[:controller], :action => p[:action], :format => "json") %></td>
+                        <td><%= check_img(p[:update_flag]) %></td>
                         <td><%= p[:description] %></td>
                       </tr>
                   <% end %>

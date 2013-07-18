@@ -11,4 +11,8 @@ class Irm::RestApi < ActiveRecord::Base
         select("#{table_name}.name")
   }
 
+  def can_update?
+    Ironmine::Application.config.fwk.production_flag.eql?('N') || self.update_flag.eql?('N')
+  end
+
 end

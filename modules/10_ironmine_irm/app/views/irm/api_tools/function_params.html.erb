@@ -32,7 +32,13 @@
   $(function(){
       //设置form的action为对应的permission
       $("#api-form").attr("action", "<%= url_for({:controller => @permission[:controller] ,:action => @permission[:action],:format => "json"}) %>")
-                    .attr("method", "<%= @permission[:request_method] %>")
-      $("#api-submit-btn").removeClass("disabled");
+                    .attr("method", "<%= @permission[:request_method] %>");
+      <% if @rest_api.can_update? %>
+      $("#warn-info").hide();
+        $("#api-submit-btn").removeClass("disabled");
+      <% else %>
+        $("#warn-info").show();
+        $("#api-submit-btn").addClass("disabled");
+      <% end %>
   })
 </script>

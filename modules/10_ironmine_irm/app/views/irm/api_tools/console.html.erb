@@ -108,6 +108,9 @@
   <table class="split-table" id="api-container">
     <tr>
       <td class="side-bar">
+        <div class="alert alert-block alert-error" id="warn-info" style="margin-right:12px; display: none; ">
+          <p><%= t(:label_irm_api_tool_warn_info) %></p>
+        </div>
         <%= form_tag({}, {:class => "form-horizontal", :id => "api-form"}) do %>
             <div class="control-group">
               <label class="control-label"><%= t(:label_irm_api_tool_result_format) %>：</label>
@@ -203,6 +206,7 @@
             $("#api-form").attr("method", $(this).val());
         });
         $("#api_permission").change(function(){
+            $("#warn-info").hide();
             var paramsBox = $("#api_params");
             if($(this).val()) {
                 var url = paramsBox.attr("href");

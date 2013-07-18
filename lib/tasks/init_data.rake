@@ -526,7 +526,11 @@ namespace :irm do
             if api_controllers[controller].present? && api_controllers[controller].any?
               api_rest_data = api_controllers[controller][action.to_sym] || api_controllers[controller][action.to_s] || {}
               next unless api_rest_data.any?
-              rest_api = Irm::RestApi.new(:permission_id => permission.id, :name => api_rest_data[:name], :description => api_rest_data[:description] || api_rest_data[:name],:method => route_permission[:api_method])
+              rest_api = Irm::RestApi.new(:permission_id => permission.id,
+                                          :name => api_rest_data[:name],
+                                          :update_flag => api_rest_data[:update_flag] || 'N',
+                                          :description => api_rest_data[:description] || api_rest_data[:name],
+                                          :method => route_permission[:api_method])
 
               api_rest_data[:params].each do |p|
                 classify = p[:classify] || p["classify"] || []
@@ -538,12 +542,12 @@ namespace :irm do
                 end
 
                 rest_api.api_params.build(:name => p[:name] || p["name"],
-                               :param_type => p[:type] || p["type"],
-                               :param_classify => classify,
-                               :required_flag => p[:required] || p["required"],
-                               :example_value => p[:example_value] || p["example_value"],
-                               :default_value => p[:default_value] || p["default_value"],
-                               :description => p[:description] || p["description"]
+                                          :param_type => p[:type] || p["type"],
+                                          :param_classify => classify,
+                                          :required_flag => p[:required] || p["required"],
+                                          :example_value => p[:example_value] || p["example_value"],
+                                          :default_value => p[:default_value] || p["default_value"],
+                                          :description => p[:description] || p["description"]
                 )
               end
               rest_api.save

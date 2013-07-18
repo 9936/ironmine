@@ -34,7 +34,11 @@
           schedulePopup(popupValue);
       }
       else{
-          window.location.href = "<%=logout_url %>";
+          //ajax先去执行退出操作
+          $.get('<%= url_for({:controller => "irm/common", :action => "logout", :format => "json", "_dom_id" => "null"}) %>', function(){
+              window.location.reload();
+          });
+//          window.location.href = "<%= logout_url %>";
       }
   }
   var alertWindow = null;
