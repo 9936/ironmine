@@ -5,6 +5,7 @@ tmp/**/*
 wiki
 .idea
 db/schema.rb
+db/data.yml
 vendor/cache/**
 vendor/cache/*
 vendor/bundle/**
