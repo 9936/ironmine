@@ -20,7 +20,12 @@ class Irm::CommonController < ApplicationController
   def logout
     logout_successful
     self.logged_user = nil
-    redirect_to login_url
+    respond_to do |format|
+      format.html {redirect_to login_url}
+      format.json {
+        render json: { :success => true }
+      }
+    end
   end
 
   def forgot_password

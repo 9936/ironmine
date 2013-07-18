@@ -3,79 +3,84 @@
 <head>
   <%= render :partial => "irm/common/application_title" %>
   <!--加载基础javascript与css-->
-  <% ie6? ? require_jscss(:default_ie6):require_jscss(:default) %>
+  <% ie6? ? require_jscss(:default_ie6) : require_jscss(:default) %>
   <!--生成javascript与css 标签-->
-  <%=render_required_jscss%>
+  <%= render_required_jscss %>
 </head>
 <body style="margin: 0;">
-    <div id="contentWrapper">
-        <div id="pageHeader" class="page-header">
-            <table id="phHeader" class="phHeader" cellpadding="0" cellspacing="0" border="0">
-              <tbody>
-                <tr>
-                  <td class="left">
-                    <%= render :partial => "irm/common/app_top_logo"%>
-                  </td>
-                  <td class="right vtop">
-                    <div class="multiforce">
-                      <div class="messages"></div>
-                      <div>
-                        <%= current_application_menu %>
-                        <span class="navLinks" style="float:right">
+<div id="contentWrapper">
+  <div id="pageHeader" class="page-header">
+    <table id="phHeader" class="phHeader" cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+      <tr>
+        <td class="left">
+          <%= render :partial => "irm/common/app_top_logo" %>
+        </td>
+        <td class="right vtop">
+          <div class="multiforce">
+            <div class="messages"></div>
+            <div>
+              <%= current_application_menu %>
+              <span class="navLinks" style="float:right">
                           <span class="linkElements"></span>
                         </span>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <style>
-              .errorMsg {
-                color: #ff1100;
-                font-family:Arial;
-                font-size: 14px;
-                line-height: 16px;
-                text-align: center;
-                padding-top: 20px;
-                padding-bottom: 32px;
-                padding-left: 20px;
-            }
-            </style>
-            <table width=100% border=0 height=80>
-              <tr><td align=left valign=top>
-                <table border=0 cellspacing=0 cellpadding=5 height=80>
-                  <tr>
-                    <td class="errorMsg" valign=top><%= simple_format(t(:label_irm_session_warn)) %></td>
-                  </tr>
-                </table>
-                </td></tr>
-              <tr><td align=center>
-                <input id="continueButton" type=button class="login_button" name="continueButton" value="<%= t(:label_irm_common_continue) %>" onclick="doNotTimeout();">
-                &nbsp;
-                <input id="logoutButton" type=button class="login_button" name="logoutButton" value="<%= t(:label_irm_common_logout) %>" onclick="doLogout()"></td></tr>
-            </table>
-        </div>
-    </div>
-<script>
-  setTimeout(doLogout, 30*1000);
-  var continue_flag= true; //默认将继续工作
-  window.onunload=function(){
-      if(continue_flag != null && continue_flag) {
-          window.opener.updateSessionTimeouts();
-      }else if(continue_flag == false) {
-          window.opener.doLogout();
-      }
-      return;
-  };
-  function doLogout() {
-    continue_flag = false;
-    window.close();
-  }
-  function doNotTimeout() {
-    continue_flag = true;
-    window.close();
-  }
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <style>
+        .errorMsg {
+            color: #ff1100;
+            font-family: Arial;
+            font-size: 14px;
+            line-height: 16px;
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 32px;
+            padding-left: 20px;
+        }
+    </style>
+    <table width=100% border=0 height=80>
+      <tr>
+        <td align=left valign=top>
+          <table border=0 cellspacing=0 cellpadding=5 height=80>
+            <tr>
+              <td class="errorMsg" valign=top><%= simple_format(t(:label_irm_session_warn)) %></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align=center>
+          <input id="continueButton" type=button class="login_button" name="continueButton" value="<%= t(:label_irm_common_continue) %>" onclick="doNotTimeout();">
+          &nbsp;
+          <input id="logoutButton" type=button class="login_button" name="logoutButton" value="<%= t(:label_irm_common_logout) %>" onclick="doLogout()">
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<script type="text/javascript">
+    setTimeout(doLogout, 30 * 1000);
+    var continue_flag = true; //默认将继续工作
+    window.onunload = function () {
+        if (continue_flag != null && continue_flag) {
+            window.opener.updateSessionTimeouts();
+        } else if (continue_flag == false) {
+            window.opener.doLogout();
+        }
+        return;
+    };
+    function doLogout() {
+        continue_flag = false;
+        window.close();
+    }
+    function doNotTimeout() {
+        continue_flag = true;
+        window.close();
+    }
 </script>
 </body>
 
