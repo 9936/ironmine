@@ -4,7 +4,7 @@ module Fwk
     include Singleton
 
     attr_accessor :rails_root,:modules, :module_mapping, :module_folder, :framework_modules,:module_dependencies, :languages, :javascript, :css, :jscss
-    attr_accessor :mail_receive_method, :mail_receive_interval, :mail_receive_imap, :mail_receive_pop ,:mail_send_from
+    attr_accessor :mail_receive_method, :mail_receive_interval, :mail_receive_imap, :mail_receive_pop ,:mail_send_from, :production_flag
 
     def initialize
       self.modules = []
@@ -16,6 +16,7 @@ module Fwk
       self.css = ActiveSupport::OrderedOptions.new
       self.languages = [:zh, :en, :ja]
       self.jscss = {}
+      self.production_flag = 'N'
       # 加载此文件时,rails的配置还没有开始
       self.rails_root = Rails.root||File.expand_path("../../..", __FILE__)
 

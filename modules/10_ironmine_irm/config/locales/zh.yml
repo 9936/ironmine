@@ -2172,6 +2172,7 @@ zh:
   label_irm_api_tool_doc_defalt_vlue: 默认值
   label_irm_api_tool_doc_yes: 是
   label_irm_api_tool_doc_no: 否
+  label_irm_api_tool_warn_info: 正式环境下，不允许通过测试工具操作该接口，以防数据被修改。
   #==============================End Api tools==============================
 
   #========================begin oauth_access_history===================================
