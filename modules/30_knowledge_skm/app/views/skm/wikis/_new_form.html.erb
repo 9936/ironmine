@@ -9,12 +9,12 @@
             <td class="data-3col"><%= f.text_field :name, :required => true, :id => "name", :full => true, :style => "width:80%;" %></td>
           </tr>
           <tr>
-            <td class="label-col"><label for="name"><%= t(:label_skm_wiki_tags) %></label></td>
+            <td class="label-col"><label for="tags"><%= t(:label_skm_wiki_tags) %></label></td>
             <td class="data-3col"><%= f.text_field :tags, :required => true, :id => "tags", :full => true, :style => "width:50%;" %></td>
           </tr>
           <tr>
-            <td class="label-col"><label for="name"><%= t(:label_skm_wiki_channel) %></label></td>
-            <td class="data-3col"><%= f.lov_field :channel_id, Skm::Channel, {:required => true} %></td>
+            <td class="label-col"><label for="channel_id"><%= t(:label_skm_wiki_channel) %></label></td>
+            <td class="data-3col"><%= f.lov_field :channel_id, Skm::Channel, {:required => true,:id => "channel_id"} %></td>
           </tr>
 
           <tr>
@@ -32,7 +32,7 @@
           </tr>
           <tr>
             <td class="label-col"><label for="description"><%= t(:label_skm_wiki_description) %></label></td>
-            <td class="data-col"><%= f.text_field :description, :id => "description", :full => true, :style => "width:80%;" %></td>
+            <td class="data-col"><%= f.text_field :description, :id => "description", :required => true,  :full => true, :style => "width:80%;" %></td>
             <td class="label-col">&nbsp;</td>
             <td class="data-col">&nbsp;</td>
           </tr>
