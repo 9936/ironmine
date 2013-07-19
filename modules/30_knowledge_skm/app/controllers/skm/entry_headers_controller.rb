@@ -1059,7 +1059,7 @@ class Skm::EntryHeadersController < ApplicationController
         )
       elsif e.entry_template_element_code.include?("INCIDENT_REQUEST_INSTANCE_")
         session[:skm_entry_details].merge!({e.id.to_sym =>{
-            :entry_content => Irm::Sanitize.sanitize(incident_request.summary.gsub(/<(br)(| [^>]*)>/i, "\n"),""),
+             :entry_content => Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(incident_request.summary.to_s,"")),
              :default_rows => e.default_rows,
              :entry_template_element_id => e.id,
              :element_name => e.element_name,
