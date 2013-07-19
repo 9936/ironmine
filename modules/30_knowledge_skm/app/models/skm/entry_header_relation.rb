@@ -5,7 +5,7 @@ class Skm::EntryHeaderRelation < ActiveRecord::Base
     select("eh.id entry_id, eh.entry_title entry_title, eh.published_date published_date, eh.version_number version_number, eh.doc_number doc_number, #{table_name}.relation_type relation_type,#{table_name}.source_id source_id, #{table_name}.target_id target_id, #{table_name}.id relation_id").
         joins(",#{Skm::EntryHeader.table_name} eh").
         where("(eh.id = #{table_name}.source_id AND ? = #{table_name}.target_id) OR (eh.id = #{table_name}.target_id AND ? = #{table_name}.source_id)", entry_header_id, entry_header_id).
-        order("#{table_name}.created_at desc")
+        order("eh.doc_number desc, #{table_name}.created_at desc")
   }
 
   scope :with_created_by,lambda{
