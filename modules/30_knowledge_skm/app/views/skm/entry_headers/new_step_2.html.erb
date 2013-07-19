@@ -154,7 +154,7 @@
 
 <script type="text/javascript">
     $(function(){
-        var URI = "/common/create_upload_file";
+        var URI = "<%= url_for(:controller => "irm/common", :action => "create_upload_file") %>";
         var token = $('meta[name="csrf-token"]').attr('content');
 
         $(".editor-toolbar input.file").live("change", function(){
