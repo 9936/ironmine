@@ -168,7 +168,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
     field_id =  options.delete(:id)|| field
     tip_flag = true
     tip_flag = options.delete(:tip) if options.delete(:tip).to_s.present?
-    datetime = Time.now
+    datetime = Time.zone.now
     date_text = datetime.strftime('%Y-%m-%d')
     if options.delete(:with_time)
       @object || @template_object.instance_variable_get("@#{@object_name}")
