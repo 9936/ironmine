@@ -1019,7 +1019,7 @@ class Skm::EntryHeadersController < ApplicationController
     end
     elements = Skm::EntryTemplateDetail.owned_elements(template.id)
 
-    session[:skm_entry_header] = {:entry_title => incident_request.title,
+    session[:skm_entry_header] = {:entry_title => "[#{incident_request.request_number}]#{incident_request.title}",
                                   :doc_number => Skm::EntryHeader.generate_doc_number,
                                   :entry_template_id => template.id,
                                   :history_flag => "N",
@@ -1039,8 +1039,17 @@ class Skm::EntryHeadersController < ApplicationController
     session[:skm_entry_details] = {}
     elements.each do |e|
       if e.entry_template_element_code.include?("INCIDENT_REQUEST_INFO_")
+        content = "Ticket No. :#{incident_request.request_number}" + "\n" +
+                  "Title      :#{incident_request.title}" + "\n" +
+                  "Project    :#{incident_request[:external_system_name]}" + "\n" +
+                  "Category   :#{incident_request[:incident_category_name]}" + "\n" +
+                  "Subcategory:#{incident_request[:incident_sub_category_name]}" + "\n" +
+                  "Requester  :#{incident_request[:requested_name]}" + "\n" +
+                  "Urgency    :#{incident_request[:urgence_name]}" + "\n" +
+                  "Support Group :#{incident_request[:support_group_name]}" + "\n" +
+                  "Supporter     :#{incident_request[:supporter_name]}"
         session[:skm_entry_details].merge!({e.id.to_sym =>
-            {:entry_content =>Irm::Sanitize.sanitize(incident_request.summary.gsub(/<(br)(| [^>]*)>/i, "\n"),""),
+            {:entry_content => content,
              :default_rows => e.default_rows,
              :entry_template_element_id => e.id,
              :element_name => e.element_name,
@@ -1050,7 +1059,7 @@ class Skm::EntryHeadersController < ApplicationController
         )
       elsif e.entry_template_element_code.include?("INCIDENT_REQUEST_INSTANCE_")
         session[:skm_entry_details].merge!({e.id.to_sym =>{
-            :entry_content => I18n::t(:label_incident_request) + ": " + incident_request.request_number + " ; " + I18n::t(:label_icm_incident_request_title) + ": " + incident_request.title,
+             :entry_content => Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(incident_request.summary.to_s,"")),
              :default_rows => e.default_rows,
              :entry_template_element_id => e.id,
              :element_name => e.element_name,
@@ -1060,7 +1069,7 @@ class Skm::EntryHeadersController < ApplicationController
         })
       elsif e.entry_template_element_code.include?("INCIDENT_REQUEST_SOLUTION_")
         session[:skm_entry_details].merge!({e.id.to_sym => {
-            :entry_content => incident_request.concat_journals,
+            :entry_content => incident_request.concat_journals_with_text,
              :default_rows => e.default_rows,
              :entry_template_element_id => e.id,
              :element_name => e.element_name,
@@ -1083,6 +1092,7 @@ class Skm::EntryHeadersController < ApplicationController
 
   def create_from_icm_request
     @entry_header = Skm::EntryHeader.new(params[:skm_entry_header])
+    incident_request = Icm::IncidentRequest.find(@entry_header.source_id)
     params[:skm_entry_details].each do |k, v|
       t = Skm::EntryDetail.new(v)
       @entry_header.entry_details << t
@@ -1132,6 +1142,20 @@ class Skm::EntryHeadersController < ApplicationController
             attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, @entry_header.id)
           rescue
             @entry_header.errors << "FILE UPLOAD ERROR"
+          end
+        end
+        #创建来自事故单的附件
+        Irm::AttachmentVersion.where(:source_type => Icm::IncidentRequest.name).where(:source_id => incident_request.id).each do |at|
+          puts("+++++++++++++++++++++++++++++A")
+          Irm::AttachmentVersion.create_single_version_file(at.data, at.description, at.category_id, Skm::EntryHeader.name, @entry_header.id)
+          puts("+++++++++++++++++++++++++++++B")
+        end
+        #创建来自回复的附件
+        incident_request.incident_journals.each do |ij|
+          Irm::AttachmentVersion.where(:source_type => Icm::IncidentJournal.name).where(:source_id => ij.id).each do |at|
+            puts("+++++++++++++++++++++++++++++C")
+            Irm::AttachmentVersion.create_single_version_file(at.data, at.description, at.category_id, Skm::EntryHeader.name, @entry_header.id)
+            puts("+++++++++++++++++++++++++++++D")
           end
         end
 

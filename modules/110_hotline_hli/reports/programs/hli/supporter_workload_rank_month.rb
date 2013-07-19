@@ -82,8 +82,9 @@ class Hli::SupporterWorkloadRankMonth < Irm::ReportManager::ReportBase
       data[3] = "0%"
       statis.where("iw.person_id = ?", sp.id).each do |st|
         data[1] = sp[:first_name]
-        data[2] = data[2] + (st[:current_person_time].to_f/st[:total_time]).round(2).to_s
+        data[2] = data[2] + (st[:current_person_time].to_f/st[:total_time].to_f).round(2)
       end
+      data[2] = data[2].round(2)
       #data[3] = ((data[2].to_f/sum_statis[:sum_statis].to_f * 100 * 100).round / 100.0).to_f.to_s + "%" unless sum_statis[:sum_statis] == 0
 
       data[3] = (data[2].to_f/sum_statis[:sum_statis].to_f * 100).round(2).to_s + "%" unless sum_statis[:sum_statis] == 0
