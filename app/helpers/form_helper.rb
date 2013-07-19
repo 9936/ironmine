@@ -52,7 +52,7 @@ module FormHelper
 
   def date_field_tag(field, options = {})
     field_id =  options.delete(:id)||field
-    datetime = Time.now
+    datetime = Time.zone.now
     date_text = datetime.strftime('%Y-%m-%d')
     if options.delete(:with_time)
       if options[:value].present?
