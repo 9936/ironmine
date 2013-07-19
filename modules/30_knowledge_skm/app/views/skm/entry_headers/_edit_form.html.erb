@@ -65,7 +65,7 @@
 
           <% @entry_header.entry_details.order("line_num ASC").each do |ed| %>
               <div class="sub-page-block-header">
-                <h3 class="sub-page-block-title"><%= ed.element_name %>&nbsp;<%= ed.required_flag == "Y" ? "(必填)" : "" %></h3>
+                <h3 class="sub-page-block-title"><%= ed.element_name %>&nbsp;<%= ed.required_flag == "Y" ? "(#{t(:label_is_required)})" : "" %></h3>
               </div>
               <div class="sub-page-block-body">
                 <table class="show-table">
