@@ -346,7 +346,7 @@ class Skm::EntryHeadersController < ApplicationController
       @entry_header.version_number = "1" #此处直接设置为1
       @entry_header.published_date = Time.now
       @entry_header.created_at = Time.now
-      @entry_header.author_id = old_header.author_id
+      @entry_header.author_id = Irm::Person.current.id
       @entry_header.source_type = old_header.source_type
       @entry_header.source_id = old_header.source_id
 
