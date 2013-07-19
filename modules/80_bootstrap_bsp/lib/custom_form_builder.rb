@@ -132,7 +132,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
         @template.content_tag(:i,"",{:class=>"icon-search"}).html_safe
       end
     end
-    tooltip = @template.content_tag(:div,I18n.t(:lov_tooltip_text),{:id => "#{lov_field_id}Tip",:class => "alert fade in",:style => "z-index:99;position:absolute;display:none;padding:5px;*left:0;*top:24px;","tooltip-text" => I18n.t(:lov_tooltip_text), "tooltip-error-text" => I18n.t(:lov_error_tooltip_text)})
+    tooltip = @template.content_tag(:div,I18n.t(:lov_tooltip_text),{:id => "#{lov_field_id}Tip",:class => "alert fade in",:style => "z-index:99;position:absolute;display:none;padding:5px;*left:0;*top:24px;text-align:left; ","tooltip-text" => I18n.t(:lov_tooltip_text), "tooltip-error-text" => I18n.t(:lov_error_tooltip_text)})
 
     wrapped_field(@template.content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str+@template.javascript_tag(onblur_script)+tooltip,{:class => "from-inline input-append", :style => "width: 100%;"},false),field,options)
 

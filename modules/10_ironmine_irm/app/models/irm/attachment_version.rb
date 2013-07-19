@@ -346,7 +346,7 @@ class Irm::AttachmentVersion < ActiveRecord::Base
   def save_source_file_name
     self.source_file_name = data_file_name
 
-    if source_file_name.match(/[&$+,\/:;=?@<>\[\]\{\}\|\\\^~%#! ]/)
+    if source_file_name.present? && source_file_name.match(/[&$+,\/:;=?@<>\[\]\{\}\|\\\^~%#! ]/)
       self.source_file_name = source_file_name.gsub(/[&$+,\/:;=?@<>\[\]\{\}\|\\\^~%#! ]/, '_')
       self.data.instance_write(:file_name, self.source_file_name)
     end

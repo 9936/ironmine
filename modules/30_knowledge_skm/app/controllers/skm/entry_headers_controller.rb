@@ -498,7 +498,8 @@ class Skm::EntryHeadersController < ApplicationController
     temp_uniq_id = UUID.generate(:compact)[0, 21]
     val, now = Irm::AttachmentVersion.validates?(params[:skm_video])
     video = nil
-    if val && @entry_header.valid?
+    valid_flag =  @entry_header.valid?
+    if val && now.to_s.eql?('0') && valid_flag
       video = Irm::AttachmentVersion.create_single_version_file(params[:skm_video],
                                                         params[:skm_video_description],
                                                         Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "VIDEO"),

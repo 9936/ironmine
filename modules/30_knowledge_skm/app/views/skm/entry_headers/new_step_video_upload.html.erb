@@ -21,7 +21,7 @@
               <label><%= t(:label_skm_entry_video) %></label>
             </td>
             <td class="data-2col">
-              <%= file_field_tag :skm_video, :jrequired => true, :accept => "video/*" %>
+              <%= input_file_tag :skm_video, :required => true, :accept => "video/*" %>
             </td>
           </tr>
           <tr>
@@ -37,7 +37,7 @@
   <% end %>
   <% content_for :form_buttons  do %>
     <%= link_submit t(:save_as_published), :class=>"btn btn-primary"%>
-    <% if params[:entry_book_id] %>
+    <% if params[:entry_book_id].present? %>
       <%= link_to t(:cancel), {:controller => "skm/entry_books", :action => "show", :id => params[:entry_book_id]}, {:class => "btn cancel"}%>
     <% else %>
       <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
