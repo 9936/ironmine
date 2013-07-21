@@ -1039,15 +1039,15 @@ class Skm::EntryHeadersController < ApplicationController
     session[:skm_entry_details] = {}
     elements.each do |e|
       if e.entry_template_element_code.include?("INCIDENT_REQUEST_INFO_")
-        content = "Ticket No. :#{incident_request.request_number}" + "\n" +
-                  "Title      :#{incident_request.title}" + "\n" +
-                  "Project    :#{incident_request[:external_system_name]}" + "\n" +
-                  "Category   :#{incident_request[:incident_category_name]}" + "\n" +
-                  "Subcategory:#{incident_request[:incident_sub_category_name]}" + "\n" +
-                  "Requester  :#{incident_request[:requested_name]}" + "\n" +
-                  "Urgency    :#{incident_request[:urgence_name]}" + "\n" +
-                  "Support Group :#{incident_request[:support_group_name]}" + "\n" +
-                  "Supporter     :#{incident_request[:supporter_name]}"
+        content = "\n" + "Ticket No.: #{incident_request.request_number}" + "\n" +
+                  "Title: #{incident_request.title}" + "\n" +
+                  "Project: #{incident_request[:external_system_name]}" + "\n" +
+                  "Category: #{incident_request[:incident_category_name]}" + "\n" +
+                  "Subcategory: #{incident_request[:incident_sub_category_name]}" + "\n" +
+                  "Requester: #{incident_request[:requested_name]}" + "\n" +
+                  "Urgency: #{incident_request[:urgence_name]}" + "\n" +
+                  "Support Group: #{incident_request[:support_group_name]}" + "\n" +
+                  "Supporter: #{incident_request[:supporter_name]}"
         session[:skm_entry_details].merge!({e.id.to_sym =>
             {:entry_content => content,
              :default_rows => e.default_rows,
