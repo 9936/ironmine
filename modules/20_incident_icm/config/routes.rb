@@ -227,5 +227,8 @@ Ironmine::Application.routes.draw do
     match '/system_priorities/:sid/get_data(.:format)' => "system_priorities#get_data",:via => :get
     match '/system_priorities/:sid/edit_transform(.:format)' => "system_priorities#edit_transform",:via => :get
     match '/system_priorities/:sid/update_transform(.:format)' => "system_priorities#update_transform", :via => :post
-  end
+
+    #Incident Request API
+    match '/api_incident_requests/add' => "api_incident_requests#add", :via => :post
+ end
 end
