@@ -7,6 +7,7 @@ module Yan
       Icm::IncidentJournalsController.send(:include, Yan::IncidentJournalsControllerEx)
       Icm::IncidentRequest.send(:include, Yan::IncidentRequestModelEx)
       Icm::IncidentWorkload.send(:include, Yan::IncidentWorkloadModelEx)
+      Irm::Rating.send(:include, Yan::RatingModelEx)
     end
   end
 end
