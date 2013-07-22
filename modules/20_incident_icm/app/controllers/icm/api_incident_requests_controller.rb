@@ -10,7 +10,7 @@ class Icm::ApiIncidentRequestsController < ApiController
                      :title => params[:title],
                      :summary => params[:summary],
                      :contact_id => params[:contact_id],
-                     :contact_number => params[:contact_number] || '123456',
+                     :contact_number => params[:contact_number],
                      :urgence_id => params[:urgence_id],
                      :impact_range_id => params[:impact_range_id],
                      :report_source_code => params[:report_source_code],

@@ -16,6 +16,7 @@ Fwk::ApiParamsManager.map do |map|
             {:name => :title, :classify => [:input, :output], :required => 'Y', :type => "String", :description => "主题"},
             {:name => :summary, :classify => [:input, :output], :required => 'Y', :type => "String", :description => "内容"},
             {:name => :contact_id, :classify => [:input, :output], :required => 'Y', :type => "String", :description => "联系人ID"},
+            {:name => :contact_number, :classify => [:input, :output], :required => 'Y', :type => "String", :description => "联系人电话号码"},
             {:name => :urgence_id, :classify => [:input, :output], :required => 'Y', :type => "String", :description => "紧急度ID"},
             {:name => :impact_range_id, :classify => [:input, :output], :required => 'Y', :type => "String", :description => "影响度ID"},
             {:name => :report_source_code, :classify => [:input, :output], :required => 'Y', :type => "String", :description => "来源类型编码"},
