@@ -1,0 +1,12 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "80px"}) do |data| %>
+        <%= link_to(t(:edit), {:action => "edit", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:show), {:action => "show", :id => data[:id]}, {:class => "action-link"}) %>
+    <% end %>
+    <% builder.column(:name, {:title => t(:name), :width => "25%", :searchable => true}) %>
+    <% builder.column(:module_code, {:title => t(:code), :searchable => true}) %>
+    <% builder.column(:description, {:title => t(:description)}) %>
+    <% builder.column(:status_code, {:title => t(:status)}) do |data| %>
+      <%= t("label_emw_ebs_module_status_#{data[:status_code].downcase}") %>
+    <% end %>
+<% end %>

@@ -6,9 +6,17 @@
     <% builder.column(:name,{:title=>t(:label_irm_menu_entry_name)})%>
     <% builder.column(:description,{:title=>t(:label_irm_menu_entry_description)})%>
     <% builder.column(:sub_menu_code,{:title=>t(:label_irm_menu_entry_sub_menu)})%>
-    <% builder.column(:sub_menu_name,{:title=>t(:label_irm_menu_entry_sub_menu_name)})%>
+    <% builder.column(:sub_menu_name,{:title=>t(:label_irm_menu_entry_sub_menu_name)}) do |data|%>
+        <%if data[:sub_menu_id]%>
+    <%= link_to(data[:sub_menu_name],{:controller => "irm/menus",:action=>"show",:id=>data[:sub_menu_id]}, {:class => "action-link"}) %>
+            <%end%>
+    <% end %>
     <% builder.column(:sub_function_group_code,{:title=>t(:label_irm_menu_entry_sub_function_group_code)})%>
-    <% builder.column(:sub_function_group_name,{:title=>t(:label_irm_menu_entry_sub_function_group_name)})%>
+    <% builder.column(:sub_function_group_name,{:title=>t(:label_irm_menu_entry_sub_function_group_name)}) do |data|%>
+    <%if data[:sub_function_group_id]%>
+        <%= link_to(data[:sub_function_group_name],{:controller => "irm/function_groups",:action=>"show",:id=>data[:sub_function_group_id]}, {:class => "action-link"}) %>
+    <%end%>
+<% end %>
     <% builder.column(:status_code,{:title=>t(:active)}) do |data|%>
         <%= check_img(data[:status_code]) %>
     <% end %>

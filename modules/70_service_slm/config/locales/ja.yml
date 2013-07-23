@@ -1,7 +1,7 @@
 # Sample localization file for English. Add more files in this directory for other locales.
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
-en:
+ja:
   #=========================    slm service_categories_controller=======================#
   label_slm_service_category_list: Service Category List
   label_slm_service_category_show: Service Category Show

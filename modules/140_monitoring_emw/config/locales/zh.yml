@@ -1,0 +1,120 @@
+zh:
+  #=========================Start Ebs module=======================#
+  label_emw_ebs_module: EBS模块
+  label_emw_ebs_module_list: 模块列表
+  label_emw_ebs_module_new: 新建模块
+  label_emw_ebs_module_edit: 编辑模块
+  label_emw_ebs_module_status_enabled: 启用
+  label_emw_ebs_module_status_disabled: 失效
+  #=========================End Ebs module=======================#
+
+  #=========================Start Interface=======================#
+  label_emw_interface: 接口
+  label_emw_interface_list: 接口列表
+  label_emw_interface_module: 所属模块
+  label_emw_interface_new: 新建接口
+  label_emw_interface_edit: 编辑接口
+  label_emw_interface_execute_result: 接口执行结果
+  #=========================End Interface=======================#
+
+  #=========================Start Interface Table=======================#
+  label_emw_interface_table: 接口表
+  label_emw_interface_table_name: 接口表名
+  label_emw_interface_table_name_error: 接口表名不存在或者接口表字段为空，请检查后提交
+  label_emw_interface_table_error: 错误表名
+  label_emw_interface_table_new: 新建接口表
+  label_emw_interface_table_edit: 编辑接口表
+  label_emw_interface_table_add_column: 添加列
+  label_emw_interface_table_import: 导入接口表
+  label_emw_interface_table_import_step_n: 导入接口表 步骤%{n}, 共%{total}步
+  label_emw_interface_table_import_database: 数据库
+  label_emw_interface_table_import_username: 数据库用户
+  label_emw_interface_table_import_password: 数据库密码
+  label_emw_interface_table_import_check_all: 全选
+  #=========================End Interface Table=======================#
+
+  #=========================Start Interface Table=======================#
+  label_emw_interface_column: 接口表列
+  label_emw_interface_column_expand: 展开列
+  label_emw_interface_column_collapse: 隐藏列
+  label_emw_interface_column_new: 添加列
+  label_emw_interface_column_edit: 编辑列
+  label_emw_interface_column_name: 列名
+  label_emw_interface_column_data_type: 数据类型
+  label_emw_interface_column_data_type_string: 字符类型
+  label_emw_interface_column_data_type_number: 数字类型
+  label_emw_interface_column_data_type_text: 文本类型
+  label_emw_interface_column_data_length: 数据长度
+  label_emw_interface_column_error_flag: 错误列
+  label_emw_interface_column_message_flag: 消息列
+  #=========================End Interface Table=======================#
+
+  #=========================Start Error Table=======================#
+  label_emw_error_table: 错误表
+  label_emw_error_table_name: 表名
+  label_emw_error_table_interface_column: 接口表ID列
+  label_emw_error_table_error_code_column: 错误编码列
+  label_emw_error_table_error_message_column: 错误消息列
+  label_emw_error_table_new: 新建错误表
+  label_emw_error_table_edit: 编辑错误表
+  #=========================End Error Table=======================#
+
+  #=========================Start Monitor Program======================#
+  label_emw_monitor_program: 监控方案
+  label_emw_monitor_program_list: 监控方案列表
+  label_emw_monitor_program_new: 新建监控方案
+  label_emw_monitor_program_edit: 编辑监控方案
+  label_emw_monitor_program_assigned_to: 处理人
+  label_emw_monitor_program_start_at: 开始日期
+  label_emw_monitor_program_end_at: 结束日期
+  label_emw_monitor_program_history_flag: 记录监控历史
+  label_emw_monitor_program_mail_alert: 邮件警告
+  label_emw_monitor_program_execute: 执行
+  label_emw_monitor_program_repeat_type: 重复频率
+  label_emw_monitor_program_repeat_type_weekly: 每周重复
+  label_emw_monitor_program_repeat_type_daily: 每日重复
+  label_emw_monitor_program_repeat_type_monthly: 每月重复
+  label_emw_monitor_program_target: 监控对象
+  label_emw_monitor_program_script: 执行脚本
+  label_emw_monitor_program_result: 执行结果
+  label_emw_monitor_program_target_add: 添加监控对象
+  label_emw_monitor_program_target_type: 类型
+  label_emw_monitor_program_target_conn_error: Shell连接和SQL连接至少选择一个
+  label_emw_monitor_program_execute_result: 方案执行结果
+  label_emw_monitor_target_interface: 接口
+  label_emw_monitor_target_database: 数据库
+  label_emw_monitor_target_application: 应用信息
+  #=========================End Monitor Program=======================#
+
+  #=========================Start Monitor Program======================#
+  label_emw_monitor_history: 监控历史
+  label_emw_monitor_history_show: 查看监控历史
+  label_emw_monitor_history_info: 监控历史信息
+  label_emw_monitor_history_target: 监控对象历史
+  label_emw_monitor_history_list: 监控历史列表
+  label_emw_monitor_history_execute_by: 执行人员
+  label_emw_monitor_history_execute_at: 执行时间
+  label_emw_monitor_history_execute_script: 执行脚本
+  #=========================End Monitor Program=======================#
+
+  #=========================Start Connection======================#
+  label_emw_connection: 连接
+  label_emw_connection_list: 连接列表
+  label_emw_connection_sql: SQL连接
+  label_emw_connection_shell: Shell连接
+  label_emw_connection_new: 新建连接
+  label_emw_connection_edit: 编辑连接
+  label_emw_connection_type: 类型
+  label_emw_connection_host: 主机
+  label_emw_connection_port: 端口
+  label_emw_connection_database: 数据库
+  label_emw_connection_username: 用户
+  label_emw_connection_password: 密码
+  label_emw_connection_object_symbol: 符号
+  label_emw_connection_exception: 无法连接到%{host}，检查帐号和密码是否正确
+  label_emw_connection_econnrefused: 无法连接到%{host}
+  label_emw_connection_add_item: 添加巡检项
+  label_emw_connection_save_selected: 保存所选项
+  #=========================End Connection=======================#
+
+

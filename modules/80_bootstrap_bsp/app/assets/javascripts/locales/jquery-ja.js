@@ -22,6 +22,7 @@ var irm_labels = {
     reset_order_btn_text: "表示順序の調整",
     save_btn_text: "保存",
     cancel_btn_text: "取消",
+
     load_data_error: "ロードデータエラー.",
     number_and_cross: "数字とハイフンのみ入力できる",
     number_only: "数字のみ入力できる",

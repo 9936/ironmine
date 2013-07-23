@@ -6,7 +6,7 @@ module Irm::BusinessObjectsHelper
 
     models = ActiveRecord::Base.send(:subclasses)
 
-    models.delete_if{|m| m.table_name.end_with?("s_tl")}
+    models.delete_if{|m| m.table_name.nil? || m.table_name.end_with?("s_tl")}
     models = models.collect{|m| m.name}.sort
     exists_models = Irm::BusinessObject.all.collect{|bo| bo.bo_model_name}
     models.delete_if{|m| exists_models.include?(m)}

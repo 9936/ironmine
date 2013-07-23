@@ -1,0 +1,91 @@
+zh:
+  #=========================Start Program=======================#
+  label_isp_program: 巡检方案
+  label_isp_program_params: 参数
+  label_isp_program_list: 方案列表
+  label_isp_program_new: 新建方案
+  label_isp_program_edit: 编辑方案
+  label_isp_program_name: 方案名称
+  label_isp_program_description: 方案描述
+  label_isp_program_new_execute: 执行方案
+  label_isp_program_new_execute_run: 立即执行
+  label_isp_program_new_execute_trigger: 执行计划
+  label_isp_program_new_execute_trigger_person: 执行计划人员
+  label_isp_program_new_execute_trigger_receiver: 结果接收人员
+  label_isp_program_execute: 执行
+  label_isp_program_execute_template: 巡检报告模板
+  #=========================End Program=======================#
+
+  #=========================Start Connection=======================#
+  label_isp_connection: 连接
+  label_isp_connection_list: 连接列表
+  label_isp_connection_new: 新建连接
+  label_isp_connection_edit: 编辑连接
+  label_isp_connection_type: 类型
+  label_isp_connection_host: 主机
+  label_isp_connection_port: 端口
+  label_isp_connection_database: 数据库
+  label_isp_connection_username: 用户
+  label_isp_connection_password: 密码
+  label_isp_connection_object_symbol: 符号
+  label_isp_connection_exception: 无法连接到%{host}，检查帐号和密码是否正确
+  label_isp_connection_econnrefused: 无法连接到%{host}
+  label_isp_connection_add_item: 添加巡检项
+  label_isp_connection_save_selected: 保存所选项
+  #=========================End Connection=======================#
+
+  #=========================Start Check Parameter=======================#
+  label_isp_parameter: 巡检参数
+  label_isp_parameter_list: 参数列表
+  label_isp_parameter_new: 新建参数
+  label_isp_parameter_edit: 修改参数
+  label_isp_parameter_param_type: 参数类型
+  label_isp_parameter_param_type_default: 默认
+  label_isp_parameter_param_type_input: 输入
+  label_isp_parameter_data_type: 数据类型
+  label_isp_parameter_data_string: 文本
+  label_isp_parameter_data_number: 数字
+  label_isp_parameter_object_symbol: 符号
+  label_isp_parameter_value: 参数值
+  #=========================End Check Parameter=======================#
+
+  #=========================Start Check Item=======================#
+  label_isp_check_item: 巡检项
+  label_isp_check_item_list: 巡检项
+  label_isp_check_item_new: 新建巡检项
+  label_isp_check_item_edit: 编辑巡检项
+  label_isp_check_item_connection: 连接
+  label_isp_check_item_object_symbol: 符号
+  label_isp_check_item_script: 脚本
+  #=========================End Check Item=======================#
+
+  #=========================Start isp check template=======================#
+  label_isp_check_template: 展示模板
+  label_isp_check_template_list: 模板列表
+  label_isp_check_template_new: 新建模板
+  label_isp_check_template_edit: 修改模板
+  label_isp_check_template_template_type: 模板类型
+  label_isp_check_template_body: 内容
+  #=========================end isp check template=======================#
+
+  #=========================Start Alert Filters=======================#
+  label_isp_alert_filter: 警告条件
+  label_isp_alert_filter_new: 新建条件
+  label_isp_alert_filter_edit: 编辑条件
+  label_isp_alert_filter_result_type: 值类型
+  label_isp_alert_filter_operation: 操作符号
+  label_isp_alert_filter_value: 值
+  label_isp_alert_filter_display_template: 展示模板
+  label_isp_alert_filter_e: 等于
+  label_isp_alert_filter_n: 不等于
+  label_isp_alert_filter_g: 大于
+  label_isp_alert_filter_l: 小于
+  label_isp_alert_filter_result: 检测结果：%{target} %{operation} 警告值：%{value}
+  #=========================End Alert Filters=======================#
+
+  #=========================Start History=======================#
+  label_isp_program_history: 方案执行历史
+  label_isp_program_history_execute_at: 执行时间
+  label_isp_program_history_report_content: 执行结果
+  label_isp_program_history_conn_info: 巡检连接信息
+  #=========================End History=======================#

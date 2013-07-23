@@ -1,0 +1,18 @@
+<%= wicked_pdf_stylesheet_link_tag("markdown") %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"></h2>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="markdown-body" style="width: 551pt;text-align: left;margin: 0 auto;">
+      <%= raw @doc %>
+
+      <div style="color: #ff0000;">
+        <%= raw @doc_alerts %>
+      </div>
+    </div>
+  </div>
+</div>

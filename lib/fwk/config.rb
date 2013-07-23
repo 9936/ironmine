@@ -23,7 +23,7 @@ module Fwk
       # 额外加载模块
       addition_modules = []
       if File.exists?("#{self.rails_root}/#{self.module_folder}/module")
-        addition_modules = File.open("#{self.rails_root}/#{self.module_folder}/module", "rb").read.gsub("\s", "").split(",").collect { |i| i if i.present? }.compact
+        addition_modules = File.open("#{self.rails_root}/#{self.module_folder}/module", "rb").read.gsub("\s", "").gsub("\n","").split(",").collect { |i| i if i.present? }.compact
       end
 
       load_modules = self.framework_modules + addition_modules||[]

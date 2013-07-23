@@ -29,6 +29,7 @@ class ModuleGenerator < Rails::Generators::NamedBase
     template 'init_.rb',    "#{module_path}/initializers/init_#{module_real_name}.rb"
     template 'routes.rb',   "#{module_path}/config/routes.rb"
     template 'en.yml',      "#{module_path}/config/locales/en.yml"
+    template 'ja.yml',      "#{module_path}/config/locales/ja.yml"
     template 'zh.yml',      "#{module_path}/config/locales/zh.yml"
     template 'init_data.rb',"#{module_path}/lib/init_data.rb"
   end

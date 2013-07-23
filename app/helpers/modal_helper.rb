@@ -1,6 +1,8 @@
 module ModalHelper
-  def hand_result(obj, render_template, success_callback = '', error_callback = '')
-    if obj.errors.any?
+  def hand_result(obj, render_template, success_callback = 'null', error_callback = 'null', next_step = false)
+    success_callback = 'null' unless success_callback
+    error_callback = 'null' unless error_callback
+    if obj.errors.any? || next_step
       script = %Q(
         $('#linkModal').html('#{escape_javascript(render(render_template))}');
         $('#linkModal form').each(function () {
@@ -8,6 +10,7 @@ module ModalHelper
           action += action.indexOf("?") > 0 ? "&_dom_id=linkModal" : "?_dom_id=linkModal";
           $(this).data("remote", true);
           $(this).attr("action", action);
+
           var error_callback = #{error_callback};
           if(error_callback){
              error_callback.call();

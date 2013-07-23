@@ -1,0 +1,177 @@
+<%= common_title(:action_meaning => t(:label_isp_program_new_execute)) %>
+<style type="text/css">
+    .datatable table td > div,
+    .datatable table th > div {
+        padding: 0 !important;
+    }
+    .datatable table th {
+        padding: 5px 10px 5px 5px;
+        border-right: none;
+    }
+    .datatable table td {
+        padding: 5px 5px 5px 10px;
+    }
+    tr.master {
+        background-color: #e5e5e5 !important;
+    }
+    tr.details td,
+    tr.item-details td {
+        padding: 0;
+    }
+    tr.details td table th {
+        border: none;
+        background: none;
+        padding: 4px 10px 4px 5px;
+        border-left: 1px solid #CBCBCB;
+        border-bottom: 1px solid #CBCBCB;
+        background: none;
+        background-color:#EDF5FF;
+    }
+    tr.details td table td {
+        padding: 5px 10px 5px 5px;
+    }
+    tr.details td table td.title {
+        font-weight: bold;
+        width: 106px;
+        text-align: center;
+        border-left: none;
+        border-right: 1px solid #CBCBCB;
+        background-color: #e0edff;
+    }
+    tr.details td table td.item-title {
+        background-color: #e0edff;
+    }
+</style>
+<%= form_for(@program, :url => {:action => "create_execute"}, :builder => CustomFormBuilder) do |f| %>
+    <% content_for :form_block_common do %>
+        <table class="show-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%= t(:name) %></label></td>
+            <td class="data-col"><%= @program[:name] %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:description) %></label></td>
+            <td class="data-col">
+              <div><%= @program[:description] %></div>
+            </td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+
+    <% content_for :form_block_connection do %>
+      <div class="datatable">
+        <table>
+          <thead>
+          <tr>
+            <th><%= t(:name) %></th>
+            <th><%= t(:label_isp_connection_type) %></th>
+            <th><%= t(:label_isp_connection_host) %></th>
+            <th><%= t(:label_isp_connection_username) %></th>
+            <th><%= t(:label_isp_connection_password) %></th>
+          </tr>
+          </thead>
+          <tbody>
+          <%= f.fields_for :connections, :builder => CustomFormBuilder do |c_f| %>
+            <tr class="master">
+              <td><%= c_f.object.name %></td>
+              <td><%= c_f.object.connect_type %></td>
+              <td><%= c_f.text_field :host, :required => true, :size => 20 %></td>
+              <td><%= c_f.text_field :username, :required => true, :size => 20 %></td>
+              <td><%= c_f.text_field :password, :required => true, :size => 20 %></td>
+            </tr>
+            <tr class="details">
+              <td colspan="5" style="border-bottom: none;">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td rowspan="<%= rowspan(c_f.object.check_items) %>" class="title"><%= t(:label_isp_check_item_list) %></td>
+                      <td class="item-title"><%= t(:name) %></td>
+                      <td class="item-title"><%= t(:label_isp_check_item_script) %></td>
+                    </tr>
+                    <% c_f.object.check_items.each do |check_item| %>
+                      <tr>
+                        <td><%= check_item.name %></td>
+                        <td title="<%= check_item.script %>"><%= truncate(check_item.script, {:length => 200}) %></td>
+                      </tr>
+                      <% if check_item.check_parameters.count > 0 %>
+                      <tr class="item-details">
+                        <td colspan="2" style="padding: 0; border-bottom: none;">
+                          <table>
+                            <tbody>
+                              <tr>
+                                <td style="background-color: #ddd9d9;" rowspan="<%= check_item.check_parameters.count + 1 %>" class="title"><%= t(:label_isp_program_params) %></td>
+                                <td style="background-color: #ddd9d9;"><%= t(:name) %></td>
+                                <td style="background-color: #ddd9d9;"><%= t(:label_isp_parameter_value) %></td>
+                              </tr>
+                              <% check_item.check_parameters.each do |parameter| %>
+                              <tr>
+                                <td><%= parameter[:name] %></td>
+                                <td>
+                                  <%= text_field_tag("isp_check_item[#{c_f.object.id}][#{check_item.id}][#{parameter.id}][value]", parameter[:value], :required => true) %>
+                                </td>
+                              </tr>
+                              <% end %>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          <% end %>
+
+          </tbody>
+        </table>
+
+        <div class="page-block-template form-horizontal" style="margin-top: 20px;">
+          <div class="control-group">
+            <label class="control-label"><%= t(:label_isp_program_execute_template) %></label>
+            <div class="controls">
+              <%= f.select :template_id, @program.check_templates.collect{|i|[i[:name], i.id]}, {}, :class => "input-xlarge" %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    <% end %>
+    <% content_for :form_buttons do %>
+        <%= link_submit t(:label_isp_program_execute), {:class => "btn btn-primary"} %>
+        <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= @program[:name] %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= content_for :form_block_connection %>
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title">
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
