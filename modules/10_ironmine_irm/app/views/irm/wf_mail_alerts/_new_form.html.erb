@@ -49,12 +49,12 @@
                 <td class="label-col"><label for="wf_mail_alert_additional_email"><%=t(:label_irm_wf_mail_alert_additional_email)%></label></td>
                 <td class="data-3col" colspan="3" width="82%"><%=f.text_area :additional_email,:rows=>4,:cols=>60%></td>
               </tr>
-              <tr>
-                <td class="label-col"><label for="wf_mail_alert_from_email"><%=t(:label_irm_wf_mail_alert_from_email)%></label></td>
-                <td class="data-col"><%=f.text_field :from_email, :id=>"wf_mail_alert_from_email"%></td>
-                <td class="label-col empty">&nbsp;</td>
-                <td class="data-col empty">&nbsp;</td>
-              </tr>
+              <!--<tr>-->
+                <!--<td class="label-col"><label for="wf_mail_alert_from_email"><%=t(:label_irm_wf_mail_alert_from_email)%></label></td>-->
+                <!--<td class="data-col"><%=f.text_field :from_email, :id=>"wf_mail_alert_from_email"%></td>-->
+                <!--<td class="label-col empty">&nbsp;</td>-->
+                <!--<td class="data-col empty">&nbsp;</td>-->
+              <!--</tr>-->
               <tr>
                 <td class="label-col"><label for="wf_mail_alert_all_flag"><%=t(:label_irm_wf_mail_alert_all)%></label></td>
                 <td class="data-col"><%=f.check_box :all_flag, :id=>"wf_mail_alert_all_flag"%></td>
@@ -84,7 +84,7 @@
       <table class="page-block-header">
         <tr>
           <td class="page-block-title">
-            <h2 class="block-title"><%= t(:label_irm_wf_rule_time_trigger_new) %></h2>
+            <h2 class="block-title"><%= t(:label_irm_report_type_category_new) %></h2>
           </td>
           <td class="page-block-button">
             <%= content_for :form_buttons %>
