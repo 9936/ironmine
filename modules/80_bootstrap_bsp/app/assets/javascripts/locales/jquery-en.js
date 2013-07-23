@@ -25,6 +25,7 @@ var irm_labels = {
     number_only: "Only allowed to enter the num",
     chr_only: "Can't allow to enter Chinese characters",
     uppercase: "Only allowed to enter Caps letters and underline.",
+    lowercase_chr_only: "Only allowed to enter Lower letters,num and underline.",
     loading: "Loading..."
 };
 

@@ -1,0 +1,10 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "80px"}) do |data| %>
+      <%= link_to(t(:show), {:controller => "isp/program_histories", :program_id => data[:program_id], :action => "show", :id => data[:id]}, {:class => "action-link", :rel => "modal"}) %>&nbsp;|
+      <%= link_to(t(:delete), {:controller => "isp/program_histories", :program_id => data[:program_id],:action => "destroy", :id => data[:id]}, {:class => "action-link",:method => :delete, :confirm => t(:label_are_you_sure)}) %>
+    <% end %>
+    <% builder.column(:execute_at,{:title => t(:label_isp_program_history_execute_at)}) %>
+    <% builder.column(:report_content, {:title => t(:label_isp_program_history_report_content)}) do |data| %>
+      <span title="<%= strip_tags(data[:report_content]) %>"><%= truncate(strip_tags(data[:report_content]), {:length => 100}) %></span>
+    <% end %>
+<% end %>

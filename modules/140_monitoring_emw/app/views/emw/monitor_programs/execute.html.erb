@@ -1,0 +1,24 @@
+<%= common_title({:show_data=> t(:label_emw_monitor_program_execute)}) %>
+<% require_jscss(:markdown) %>
+
+<style type="text/css">
+    .markdown-body table span {
+        margin-left: 0;
+    }
+</style>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"></h2>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="markdown-body" style="width: 551pt;text-align: left;margin: 0 auto;">
+      <h1><%= t(:label_emw_monitor_program_execute_result) %></h1>
+      <% @result.each do |k, values| %>
+        <%= render :partial => "emw/interfaces/report" ,:locals => {:values => values } if "interface".eql?(k.to_s) %>
+      <% end %>
+    </div>
+  </div>
+</div>

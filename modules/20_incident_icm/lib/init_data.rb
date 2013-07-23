@@ -990,4 +990,27 @@ Fwk::MenuAndFunctionManager.map do |map|
 
   #=================================END: SYSTEM SETTING=================================
 
+  #=================================START:ICM INCIDENT REQUEST API=================================
+  map.function_group :icm_incident_request_api, {
+      :en => {:name => "Incident Request API", :description => "Incident Request API"},
+      :zh => {:name => "事故单API", :description => "事故单API"} }
+  map.function_group :icm_incident_request_api, {
+      :zone_code => "API",
+      :controller => "icm/api_incident_requests",
+      :action => "index",
+      :api_flag => "Y" }
+  map.function_group :icm_incident_request_api, {
+      :children => {
+          :icm_incident_request_api => {
+              :en => {:name => "Incident Request API", :description => "Incident Request API"},
+              :zh => {:name => "事故单接口", :description => "事故单接口"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/api_incident_requests" => ["add"]
+          }
+      }
+  }
+  #=================================END:ICM INCIDENT REQUEST API=================================
+
 end

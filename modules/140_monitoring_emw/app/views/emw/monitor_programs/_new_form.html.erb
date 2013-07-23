@@ -1,0 +1,114 @@
+<%= common_title %>
+<style type="text/css">
+    .form-inline label.radio,
+    .form-inline label.checkbox {font-weight: normal;}
+    .form-inline label.checkbox input {margin-top: 1px;}
+
+    #recurrences td.label-col {width: 200px;}
+    #recurrences td.data-2col {width: 90%;}
+    #recurrences .sub-container { white-space:nowrap;border:1px solid rgb(204,204,204);background-color:rgb(255,255,255);}
+</style>
+
+<%= form_for(@monitor_program, :url => {:action => "create"}, :builder => CustomFormBuilder) do |f| %>
+    <% content_for :form_block_a do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%= t(:name) %></label></td>
+            <td class="data-col"><%= f.text_field :name, :required => true %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%= t(:label_emw_monitor_program_assigned_to) %></label></td>
+            <td class="data-col"><%= f.lov_field :assigned_to, Irm::Person, :required => true %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%= t(:label_emw_monitor_program_history_flag) %></label></td>
+            <td class="data-col"><%= f.check_box :history_flag %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%= t(:label_emw_monitor_program_mail_alert) %></label></td>
+            <td class="data-col"><%= f.select :mail_alert, available_mail_alerts, :required => true %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%= t(:description) %></label></td>
+            <td class="data-col"><%= f.text_area :description, :rows => 4, :class => "input-xlarge" %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label for="report_trigger_time_mode"><%=t(:label_irm_report_trigger_time_mode)%></label></td>
+            <td class="data-col" colspan="3">
+              <%= time_trigger(f) %>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_buttons do %>
+        <%= link_submit t(:save), {:class => "btn btn-primary"} %>
+        <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_emw_monitor_program_new) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= error_for @monitor_program %>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a %>
+          </div>
+        </div>
+
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+//    $(function(){
+//        //============================time mode processor========================================
+//        $("input.freq").click(function(e){
+//            $("#rd_zone").css("display","none");
+//            $("#rw_zone").css("display","none");
+//            $("#rm_zone").css("display","none");
+//            $("#"+$(e.target).attr("id")+"_zone").css("display","");
+//        });
+//        $.checkRadioButton("input.freq");
+//        //============================end time mode processor========================================
+//    });
+</script>

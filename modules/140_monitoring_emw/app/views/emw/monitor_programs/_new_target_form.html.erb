@@ -1,0 +1,45 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_emw_monitor_program_target_add) %></h3>
+</div>
+<%= form_for(@monitor_target,:url=>{:action=>"create_target", :id => @monitor_target.monitor_program_id},:builder => CustomFormBuilder,:html => {:class => "modal-form"}) do |f| %>
+    <%= f.hidden_field :monitor_program_id %>
+    <div class="modal-body form-horizontal">
+      <%= error_for @monitor_target %>
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_emw_monitor_program_target_type) %>:</label>
+        <div class="controls">
+          <%= f.select :target_type , monitor_targets, {:required => true}, :id => "monitorTargetType", :style => "width:150px;" %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_emw_monitor_program_target) %>:</label>
+        <div class="controls">
+          <%= f.lov_field :target_id, Emw::Interface, {:required => true, :style=>"width:150px;", :lov_params=>{:lktkn=>"monitor_target", :monitor_program_id=> @monitor_target.monitor_program_id}}%>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_emw_connection_sql) %>:</label>
+        <div class="controls">
+          <%= f.blank_select :sql_conn, available_sql_conns, {}, {:style=>"width:150px;"}%>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_emw_connection_shell) %>:</label>
+        <div class="controls">
+          <%= f.blank_select :shell_conn, available_shell_conns,{}, {:style=>"width:150px;"}%>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss"=>"modal", "aria-hidden" => "true" %>
+      <%= link_submit t(:save), :class => "btn btn-primary" %>
+    </div>
+<% end %>

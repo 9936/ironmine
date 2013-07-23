@@ -1121,6 +1121,8 @@
 
               $('#gollum-editor-template #gollum-editor-template-content').load($(this).attr("path"));
           }
+          //
+
           return true;
       },
       applyTemplate: function(e){
