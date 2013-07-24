@@ -118,3 +118,11 @@ zh:
   #=========================End Connection=======================#
 
 
+  #=========================Start Database======================#
+  label_emw_database: 数据库
+  label_emw_database_list: 数据库列表
+  label_emw_database_new: 新建数据库
+  label_emw_database_edit: 编辑数据库
+  #=========================End Database======================#
+
+

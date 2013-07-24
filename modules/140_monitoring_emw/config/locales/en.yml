@@ -1,2 +1,7 @@
 en:
-  hello: Hello
+  #=========================Start Database======================#
+  label_emw_database: Database
+  label_emw_database_list: Database List
+  label_emw_database_new: New Database
+  label_emw_database_edit: Edit Database
+  #=========================End Database======================#
