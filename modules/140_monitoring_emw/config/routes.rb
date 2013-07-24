@@ -71,5 +71,14 @@ Rails.application.routes.draw do
     match '/connections/:id(.:format)' => "connections#show", :via => :get
     match '/connections/:id/destroy(.:format)' => "connections#destroy", :via => :delete
     match '/connections/create(.:format)' => "connections#create", :via => :post
+
+    #Database
+    match '/databases(/index)(.:format)' => "databases#index", :via => :get
+    match '/databases/get_data(.:format)' => "databases#get_data"
+    match '/databases/:id/edit(.:format)' => "databases#edit", :via => :get
+    match '/databases/:id(.:format)' => "databases#update", :via => :put
+    match '/databases/new(.:format)' => "databases#new", :via => :get
+    match '/databases/:id(.:format)' => "databases#show", :via => :get
+    match '/databases/create(.:format)' => "databases#create", :via => :post
   end
 end
