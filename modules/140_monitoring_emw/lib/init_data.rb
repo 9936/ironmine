@@ -73,7 +73,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "emw/databases" => ["new", "edit", "create", "update" ,"show","get_data", "destroy"]
+              "emw/databases" => ["index","new", "edit", "create", "update" ,"show","get_data"]
           }
       }
   }
