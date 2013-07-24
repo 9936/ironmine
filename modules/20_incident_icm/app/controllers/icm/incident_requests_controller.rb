@@ -197,6 +197,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
     incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_status_id")
     supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "support_person_id")
+    request_by_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"requested_by")
     incident_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_category_id")
     incident_sub_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_sub_category_id")
 
@@ -210,6 +211,7 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title", params[:title])
     incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name", params[:external_system_id_label])
     incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name", params[:support_person_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{request_by_table_alias}.full_name",params[:request_by_label])
     incident_requests_scope = incident_requests_scope.match_value("#{incident_category_table_alias}.name", params[:incident_category_id_label])
     incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name", params[:incident_sub_category_id_label])
     incident_requests_scope = incident_requests_scope.match_value("#{incident_status_table_alias}.name", params[:incident_status_id_label])
@@ -275,6 +277,7 @@ class Icm::IncidentRequestsController < ApplicationController
     bo = Irm::BusinessObject.where(:business_object_code => "ICM_INCIDENT_REQUESTS").first
     incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_status_id")
     supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "support_person_id")
+    request_by_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"requested_by")
     incident_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_category_id")
     incident_sub_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_sub_category_id")
 
@@ -290,6 +293,7 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title", params[:title])
     incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name", params[:external_system_id_label])
     incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name", params[:support_person_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{request_by_table_alias}.full_name",params[:request_by_label])
     incident_requests_scope = incident_requests_scope.match_value("#{incident_category_table_alias}.name", params[:incident_category_id_label])
     incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name", params[:incident_sub_category_id_label])
     incident_requests_scope = incident_requests_scope.match_value("#{incident_status_table_alias}.name", params[:incident_status_id_label])
