@@ -55,4 +55,29 @@ Fwk::MenuAndFunctionManager.map do |map|
   }
   #=================================START:MONITOR_PROGRAM=================================
 
+  #=================================START:DATABASE=================================
+  map.function_group :ebs_database, {
+      :en => {:name => "database", :description => "database"},
+      :zh => {:name => "数据库", :description => "数据库"}
+  }
+  map.function_group :ebs_database, {
+      :zone_code => "EBS_MONITOR",
+      :controller => "emw/databases",
+      :action => "index"
+  }
+  map.function_group :ebs_database, {
+      :children => {
+          :ebs_database => {
+              :en => {:name => "database", :description => "database"},
+              :zh => {:name => "数据库", :description => "数据库"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "emw/databases" => ["index","new", "edit", "create", "update" ,"show","get_data"]
+          }
+      }
+  }
+  #=================================END:DATABASE=================================
+
+
 end

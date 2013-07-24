@@ -49,7 +49,7 @@ class Skm::ApiEntryBooksController < ApiController
 
     result = []
     relations.each do |r|
-      result << {:id => r["id"], :book_id => r["book_id"], :target_id => r["target_id"], :display_name => r["display_name"], :status_code => r["status_code"],
+      result << {:relation_type => r["relation_type"],:id => r["id"], :book_id => r["book_id"], :target_id => r["target_id"], :display_name => r["display_name"], :status_code => r["status_code"],
                  :display_sequence => r["display_sequence"], :doc_number => r['doc_number'], :published_date => r['published_date'], :author_name => r['author_name'] }
     end
 
