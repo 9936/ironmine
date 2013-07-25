@@ -30,3 +30,26 @@
     </table>
   </div>
 </div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_emw_database_item) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:controller => "emw/database_items", :action => "new", :database_id => @emw_database.id },
+                  :class=>"btn btn-primary", :rel => "modal" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("database_item",{:controller => "emw/database_items", :action=>"get_data", :database_id => @emw_database.id  },[])%>
+  </div>
+</div>
+
+<script type="text/javascript">
+    function updateData(){
+        var current_target = $("#database_item").data("datatable").target;
+        current_target.loadPage(1);
+    }
+</script>
