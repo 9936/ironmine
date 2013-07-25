@@ -80,5 +80,15 @@ Rails.application.routes.draw do
     match '/databases/new(.:format)' => "databases#new", :via => :get
     match '/databases/:id(.:format)' => "databases#show", :via => :get
     match '/databases/create(.:format)' => "databases#create", :via => :post
+
+    #DatabaseItem
+    match '/database_items(/index)(.:format)' => "database_items#index", :via => :get
+    match '/database_items/get_data(.:format)' => "database_items#get_data"
+    match '/database_items/:id/edit(.:format)' => "database_items#edit", :via => :get
+    match '/database_items/:id(.:format)' => "database_items#update", :via => :put
+    match '/database_items/new(.:format)' => "database_items#new", :via => :get
+    match '/database_items/:id(.:format)' => "database_items#show", :via => :get
+    match '/database_items/create(.:format)' => "database_items#create", :via => :post
+    match '/database_items/:id/destroy(.:format)' => "database_items#destroy", :via => :delete
   end
 end
