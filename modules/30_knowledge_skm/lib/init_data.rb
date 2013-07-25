@@ -71,16 +71,16 @@ Fwk::MenuAndFunctionManager.map do |map|
             :login_flag => "N",
             :public_flag => "N",
             "skm/file_managements" => ["batch_create", "create", "destroy", "edit", "get_data", "get_version_files","version_details", "download_data", "remove_version_file","index", "new", "show", "update", "download"]
-        },
+        }#,
 
-        :download_files => {
-            :en => {:name => "Download Files", :description => "Download Files"},
-            :zh => {:name => "下载文件", :description => "下载文件"},
-            :default_flag => "N",
-            :login_flag => "N",
-            :public_flag => "N",
-            "skm/file_managements" => ["get_data", "get_version_files","version_details", "download_data", "download"]
-        }
+        #:download_files => {
+        #    :en => {:name => "Download Files", :description => "Download Files"},
+        #    :zh => {:name => "下载文件", :description => "下载文件"},
+        #    :default_flag => "N",
+        #    :login_flag => "N",
+        #    :public_flag => "N",
+        #    "skm/file_managements" => ["get_data", "get_version_files","version_details", "download_data", "download"]
+        #}
       }
   }
   #=================================START:KNOWLEDGE_MANAGEMENT=================================

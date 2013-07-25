@@ -343,3 +343,5 @@ ja:
 
   label_icm_incident_request_update_workload: Edit Workload
   label_icm_incident_request_update_workload_group: Edit Workload
+
+  label_icm_incident_journal_close_date: Close Date
