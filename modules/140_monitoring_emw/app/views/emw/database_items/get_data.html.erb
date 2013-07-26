@@ -1,0 +1,11 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "80px"}) do |data| %>
+        <%= link_to(t(:edit), {:action => "edit", :id => data[:id]}, {:class => "action-link",:rel => "modal"}) %>&nbsp;|
+        <%= link_to(t(:show), {:action => "show", :id => data[:id]}, {:class => "action-link",:rel => "modal"}) %>&nbsp;|
+        <%= link_to(t(:delete), {:action => "destroy", :id => data[:id]}, {:class => "action-link",:method => :delete, :confirm => t(:label_are_you_sure),:remote=>true,:_dom_id=>"database_item"})%>
+
+            <% end %>
+    <% builder.column(:name, {:title => t(:name), :width => "25%", :searchable => true}) %>
+    <% builder.column(:description, {:title => t(:description),:width => "40%"}) %>
+    <% builder.column(:script_type, {:title => t(:label_emw_database_script_type),:width => "25%"}) %>
+<% end %>

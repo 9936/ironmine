@@ -134,7 +134,7 @@
                 <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}")  %></h3>
                 <br/>
                 <br/>
-                <div style="padding: 10px;">
+                <div style="padding: 10px;word-break:break-all;">
                   <%= raw  process_message(@incident_request[:summary])  %>
                 </div>
               </div>

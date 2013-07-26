@@ -23,6 +23,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "emw/interface_tables" => ["show", "get_data","edit","update", "new", "create","import"],
               "emw/interface_columns" => ["show", "edit","update", "new", "create","destroy"],
               "emw/error_tables" => ["show", "edit","update", "new", "create","destroy"]
+
           }
       }
   }
@@ -49,7 +50,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "emw/monitor_programs" => ["index", "show", "get_data","edit","update", "new", "execute",
                                            "create", "get_target_data","new_target", "create_target", "remove_target"],
               "emw/monitor_histories" => ["index","show","get_data"],
-              "emw/connections" => ["new", "edit", "create", "update" ,"show","get_data", "destroy"]
+              "emw/connections" => ["index","new", "edit", "create", "update" ,"show","get_data", "destroy"]
           }
       }
   }
@@ -73,7 +74,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "emw/databases" => ["index","new", "edit", "create", "update" ,"show","get_data"]
+              "emw/databases" => ["index","new", "edit", "create", "update" ,"show","get_data"],
+              "emw/database_items" => ["index","new", "edit", "create", "update" ,"show","get_data","destroy"]
           }
       }
   }
