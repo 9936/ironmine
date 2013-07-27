@@ -1,0 +1,50 @@
+<style type="text/css">
+    .modal-body .controls .control-text {
+        line-height: 24px;
+        display: block;
+    }
+    .modal-body.form-horizontal .control-group {
+        margin-bottom: -0.5;
+    }
+</style>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_emw_database_item) %></h3>
+</div>
+<%= form_for(@emw_database_item,:url=>{:action=>"create",:database_id=>params[:database_id]},:builder => CustomFormBuilder,:html => {:class => "modal-form"}) do |f| %>
+    <div class="modal-body form-horizontal">
+      <%= error_for @emw_database_item %>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:name) %>:</label>
+        <div class="controls">
+          <span class="control-text"><%= @emw_database_item[:name] %></span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:description) %>:</label>
+        <div class="controls">
+          <span class="control-text"> <%= @emw_database_item[:description] %></span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_emw_database_script_type) %>:</label>
+        <div class="controls">
+          <span class="control-text"> <%= @emw_database_item[:script_type] %></span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_emw_database_script) %>:</label>
+        <div class="controls">
+          <span class="control-text"> <%= @emw_database_item[:script] %></span>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss"=>"modal", "aria-hidden" => "true" %>
+    </div>
+<% end %>

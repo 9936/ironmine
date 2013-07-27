@@ -45,13 +45,19 @@ class Yan::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                I18n.t(:label_irm_external_system),
                I18n.t(:label_icm_incident_request_requested_by),
                I18n.t(:label_icm_incident_request_support_person),
+               I18n.t(:label_icm_incident_request_support_group),
                I18n.t(:label_icm_incident_request_priority),
                I18n.t(:label_icm_incident_request_incident_category),
                I18n.t(:label_icm_incident_request_incident_sub_category),
                I18n.t(:label_icm_incident_request_incident_status_code),
                I18n.t(:label_icm_incident_request_submitted_date),
+               I18n.t(:label_icm_incident_request_estimated_date),
                I18n.t(:label_icm_incident_request_last_date),
-               I18n.t(:label_icm_close_reason)
+               I18n.t(:label_icm_incident_journal_close_date),
+               I18n.t(:label_icm_close_reason),
+               I18n.t(:label_icm_urgency_name),
+               I18n.t(:label_icm_impact_range),
+               I18n.t(:label_icm_incident_request_report_source_code)
                ]
 
     ex_attributes.each do |ea|
@@ -64,19 +70,21 @@ class Yan::CuxTicketsDetailList < Irm::ReportManager::ReportBase
     end 
    
     statis.each do |s|
-      data = Array.new(13 + ex_attributes.size)
+      data = Array.new(19 + ex_attributes.size)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
       data[3] = s[:external_system_name]
       data[4] = s[:requested_name]
       data[5] = s[:supporter_name]
-      data[6] = s[:priority_name]
-      data[7] = s[:incident_category_name]
-      data[8] = s[:incident_sub_category_name]
-      data[9] = s[:incident_status_name]
-      data[10] = s[:submitted_date]
-      data[11] = s[:last_response_date]
+      data[6] = s[:support_group_name]
+      data[7] = s[:priority_name]
+      data[8] = s[:incident_category_name]
+      data[9] = s[:incident_sub_category_name]
+      data[10] = s[:incident_status_name]
+      data[11] = s[:submitted_date]
+      data[12] = s[:estimated_date]
+      data[13] = s[:last_response_date]
       # get close date
       last_close_journal = Icm::IncidentJournal.
                             where("incident_request_id = ?", s.id).
@@ -84,27 +92,22 @@ class Yan::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                             select("created_at").
                             order("created_at DESC").limit(1)
       if last_close_journal.any?
-        data[12] = last_close_journal.first[:created_at]
+        data[14] = last_close_journal.first[:created_at]
         # (CloseDate is Null or CloseDate >= A)
-        next if s.close? && Date.strptime("#{data[12]}", '%Y-%m-%d') < Date.strptime("#{start_date}", '%Y-%m-%d')
+        next if s.close? && Date.strptime("#{data[14]}", '%Y-%m-%d') < Date.strptime("#{start_date}", '%Y-%m-%d')
       else
         if s.close?
-          data[12] = s[:last_response_date]
-          next if Date.strptime("#{data[12]}", '%Y-%m-%d') < Date.strptime("#{start_date}", '%Y-%m-%d')
+          data[14] = s[:last_response_date]
+          next if Date.strptime("#{data[14]}", '%Y-%m-%d') < Date.strptime("#{start_date}", '%Y-%m-%d')
         else
-          data[12] = ""
+          data[14] = ""
         end
       end
-
-      data[13] = ""
-      if s.requested_by.present?
-        pt = Irm::Person.find(s.requested_by)
-        gp = pt.groups.multilingual.enabled.collect{|p| p[:name]}
-        gp.uniq!
-        data[13] = pt.full_name + "\\" + gp.join(",") if gp && gp.size > 0
-      end
-
-      nc = 14
+      data[15] = s[:close_reason_name]
+      data[16] = s[:urgence_name]
+      data[17] = s[:impact_range_name]
+      data[18] = s[:report_source_name]
+      nc = 19
       ex_attributes.each do |ea|
         data[nc] = s[ea[:attribute_name].to_sym]
         nc = nc + 1
