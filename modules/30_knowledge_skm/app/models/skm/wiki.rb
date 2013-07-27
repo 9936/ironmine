@@ -44,6 +44,7 @@ class Skm::Wiki < ActiveRecord::Base
     page.versions
   end
 
+  #a = Skm::Jobs::StaticWikiJob.new('004U00094zD8SW6TpPYFyi')
   def page
     if @page
       return @page
@@ -56,6 +57,10 @@ class Skm::Wiki < ActiveRecord::Base
         self.save
       end
       @page = Ironmine::WIKI.page(self.wiki_name)
+      unless @page
+        commit = {:message=>self.description,:name=>Irm::Person.current.login_name,:email=>Irm::Person.current.email_address}
+        @page = Ironmine::WIKI.write_page(self.wiki_name,self.content_format.to_sym, self.content, commit)
+      end
       return @page
     end
 
