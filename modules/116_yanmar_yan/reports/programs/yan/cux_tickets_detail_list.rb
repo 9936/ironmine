@@ -8,8 +8,12 @@ class Yan::CuxTicketsDetailList < Irm::ReportManager::ReportBase
         with_close_reason(I18n.locale).
         with_requested_by(I18n.locale).
         with_incident_status(I18n.locale).
+        with_support_group(I18n.locale).
         with_supporter(I18n.locale).
         with_priority(I18n.locale).
+        with_urgence(I18n.locale).
+        with_impact_range(I18n.locale).
+        with_report_source(I18n.locale).
         with_external_system(I18n.locale).
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
 
