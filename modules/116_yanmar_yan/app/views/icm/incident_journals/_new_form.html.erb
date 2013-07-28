@@ -150,7 +150,7 @@
     </table>
 
     <div class="digg-zone" id="diggZone" style="padding: 20px;">
-      <%= show_rating("ICM_RATING", @incident_request) %>
+      <%= show_rating("ICM_RATING", @incident_request, Irm::Person.current.id.eql?(@incident_request.submitted_by)) %>
     </div>
   </div>
 <% end %>

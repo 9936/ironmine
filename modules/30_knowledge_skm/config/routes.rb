@@ -74,7 +74,7 @@ Rails.application.routes.draw do
       match '/entry_headers/wait_my_approve_data' => "entry_headers#wait_my_approve_data"
       match '/entry_headers/wait_my_approve' => "entry_headers#wait_my_approve", :via => :get
       match '/entry_headers/approve_knowledge(.:format)' => "entry_headers#approve_knowledge", :via => :post
-      match '/entry_headers/:person_id/:id/add_favorites' => "entry_headers#add_favorites", :via => :get
+      match '/entry_headers/:person_id/:id/add_favorites(.:format)' => "entry_headers#add_favorites", :via => :get
       match '/entry_headers/data_grid(.:format)' => "entry_headers#data_grid", :via => :get
       match '/entry_headers/my_favorites(.:format)' => "entry_headers#my_favorites", :via => :get
       match '/entry_headers/my_unpublished(.:format)' => "entry_headers#my_unpublished", :via => :get

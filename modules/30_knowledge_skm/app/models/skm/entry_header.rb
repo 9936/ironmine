@@ -116,7 +116,7 @@ class Skm::EntryHeader < ActiveRecord::Base
       order("DATE_FORMAT(#{table_name}.created_at,'%Y-%m-%d') asc")
 
   scope :with_favorite_flag, lambda { |person_id|
-    select("if(ef.id is null, 'Y', 'N') is_favorite").
+    select("if(ef.id is null, 'N', 'Y') is_favorite").
         joins("LEFT OUTER JOIN #{Skm::EntryFavorite.table_name} ef ON ef.person_id = '#{person_id}' AND ef.entry_header_id = #{table_name}.id")
   }
 

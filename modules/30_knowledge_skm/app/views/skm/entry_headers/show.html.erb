@@ -7,6 +7,9 @@
     .markdown-body table span {
         margin-left: 0;
     }
+    .markdown-body p{
+        text-indent: 0;
+    }
 
 </style>
 
@@ -33,6 +36,7 @@
       <!-- 如果知识库没有发布则不能进行新建关联知识库和导出pdf数据 -->
       <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
           <%= link_to t(:label_skm_entry_header_new_relation),{:action => "new_relation", :id => @entry_header.id }, :class => "btn btn-primary" %>
+          <%= link_to t(:label_skm_entry_header_favorites),{:action => "add_favorites", :person_id => Irm::Person.current.id, :id => @entry_header.id }, :class => "btn btn-info" %>
           <%= link_to t(:export_pdf), {:controller=>"skm/entry_headers",:action=>"show",:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
       <%- end -%>
     </td>

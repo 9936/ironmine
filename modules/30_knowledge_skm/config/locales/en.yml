@@ -66,6 +66,7 @@ en:
   notice_skm_entry_header_preview_entry: Preview
   label_skm_entry_header_search_by_title: Search by entry title
   label_skm_entry_header_my_favorites: Favorites
+  label_skm_entry_header_favorites: Favorites
   label_skm_entry_header_my_favorites_list: My favorites list
   label_skm_entry_header_my_unpublished_list: My unpublished list
   label_skm_my_drafts: Drafts
@@ -249,7 +250,7 @@ en:
   label_skm_wiki_private_flag: Private
   label_skm_wiki_tags: Tag
   label_skm_wiki_template_private_flag: Private
-  label_skm_wiki_word_content: Content
+  label_skm_wiki_word_content: Importing content form word,wait a moment and don't modify the article.
   label_skm_wiki_word_description: Description
   #============================== end wiki  ===================================
   #============================== wiki ======================================
@@ -267,7 +268,7 @@ en:
   label_skm_book_list: Wiki topic list
   label_skm_book_name: Name
   label_skm_book_description: Description
-  label_skm_book_new: New
+  label_skm_book_new: Wiki topic
   label_skm_book_edit: Edit
   label_skm_book_preview: Prewview
   label_skm_book_wiki: Wiki topic chapter

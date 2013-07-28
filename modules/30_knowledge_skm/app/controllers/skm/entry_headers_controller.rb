@@ -878,7 +878,7 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def add_favorites
-    favorite = Skm::EntryFavorite.new({:person_id => params[:person_id], :entry_header_id => params[:id]})
+    favorite = Skm::EntryFavorite.new({:person_id => Irm::Person.current.id || params[:person_id], :entry_header_id => params[:id]})
     respond_to do |format|
       if favorite.save
         format.html { redirect_to(:action => "my_favorites") }

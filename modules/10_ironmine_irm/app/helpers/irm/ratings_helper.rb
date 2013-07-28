@@ -1,5 +1,5 @@
 module Irm::RatingsHelper
-  def show_rating(rating_config_code,bo,dom_id="diggZone")
+  def show_rating(rating_config_code, bo, rating = 'N', dom_id="diggZone")
     result = []
     bo_hash = {}
     grades = Irm::RatingConfigGrade.by_config_code(rating_config_code).order("grade desc")
@@ -21,8 +21,10 @@ module Irm::RatingsHelper
         o.rating_num = 0
       end
     end
-
-    render :partial=>"irm/ratings/show",:locals=>{:datas=>grades,:rating=>!Irm::Rating.exists?(:person_id=>Irm::Person.current.id,:bo_name=>bo_hash[:class_name],:rating_object_id=>bo[:id]),:bo_name=>bo_hash[:class_name],:code=>rating_config_code,:rating_object_id=>bo[:id],:dom_id=>dom_id}
+    if rating.eql?('N')
+      rating = !Irm::Rating.exists?(:person_id=>Irm::Person.current.id,:bo_name=>bo_hash[:class_name],:rating_object_id=>bo[:id])
+    end
+    render :partial=>"irm/ratings/show",:locals=>{:datas=>grades,:rating=> rating,:bo_name=>bo_hash[:class_name],:code=>rating_config_code,:rating_object_id=>bo[:id],:dom_id=>dom_id}
 
   end
 
