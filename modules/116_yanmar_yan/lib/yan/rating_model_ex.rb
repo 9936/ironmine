@@ -12,6 +12,8 @@ module Yan::RatingModelEx
 
           #当评价对象为事故单，且评分小于6分给支持人员触发调查问卷
           if self.grade.to_i < 6
+            #邮件通知
+            Delayed::Job.enqueue(Yan::Jobs::RatingJob.new(incident_request.id))
             #创建调查问卷
             Delayed::Job.enqueue(Icm::Jobs::IncidentRequestSurveyTaskJob.new(incident_request.id))
           end
