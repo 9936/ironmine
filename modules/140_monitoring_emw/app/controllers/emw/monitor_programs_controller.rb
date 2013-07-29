@@ -96,7 +96,17 @@ class Emw::MonitorProgramsController < ApplicationController
   end
 
   def create_target
-    @monitor_target = Emw::MonitorTarget.new(params[:emw_monitor_target])
+   # @monitor_target = Emw::MonitorTarget.new(params[:emw_monitor_target])
+    @monitor_target = Emw::MonitorTarget.new
+    @monitor_target.monitor_program_id=params[:id]
+    @monitor_target.sql_conn=params[:sql_conn]
+    @monitor_target.shell_conn=params[:shell_conn]
+    @monitor_target.target_type=params[:target_type]
+    if params[:target_id1].empty?
+      @monitor_target.target_id=params[:target_id2]
+    else
+      @monitor_target.target_id=params[:target_id1]
+    end
     @monitor_target.save
   end
 
