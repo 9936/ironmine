@@ -69,11 +69,11 @@ module Icm::IncidentRequestsHelper
   end
 
   def available_urgence_code
-    Icm::UrgenceCode.multilingual.order_display.collect{|p|[p[:name],p.id]}
+    Icm::UrgenceCode.multilingual.enabled.order_display.collect{|p|[p[:name],p.id]}
   end
 
   def available_impact_range
-    Icm::ImpactRange.multilingual.order_display.collect{|p|[p[:name],p.id]}
+    Icm::ImpactRange.multilingual.enabled.order_display.collect{|p|[p[:name],p.id]}
   end
 
   def available_priority_code
