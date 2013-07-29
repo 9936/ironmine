@@ -9,17 +9,19 @@
       <div class="control-group">
         <label class="control-label"><%= t(:label_emw_monitor_program_target_type) %>:</label>
         <div class="controls">
-          <%= f.select :target_type , monitor_targets, {:required => true}, :id => "monitorTargetType", :style => "width:150px;" %>
+          <%= select_tag_alias("target_type", monitor_targets, nil, :id => "monitorTargetType") %>
         </div>
       </div>
 
-      <div class="control-group">
+      <div class="control-group" id="interface">
         <label class="control-label"><%= t(:label_emw_monitor_program_target) %>:</label>
         <div class="controls">
-          <%= f.lov_field :target_id, Emw::Interface, {:required => true, :style=>"width:150px;", :lov_params=>{:lktkn=>"monitor_target", :monitor_program_id=> @monitor_target.monitor_program_id}}%>
-          <span class="help-inline"></span>
-        </div>
-      </div>
+          <%= lov_field_tag "target_id1", Emw::Interface,{:style=>"width:150px;",:lov_params=>{:lktkn=>"monitor_target", :monitor_program_id=> @monitor_target.monitor_program_id}}%>
+          <%= lov_field_tag "target_id2", Emw::Database,{:style=>"width:150px;",:lov_params=>{:lktkn=>"monitor_target", :monitor_program_id=> @monitor_target.monitor_program_id}}%>
+              <span class="help-inline"></span>
+              </div>
+              </div>
+
 
       <div class="control-group">
         <label class="control-label"><%= t(:label_emw_connection_sql) %>:</label>
@@ -36,10 +38,33 @@
           <span class="help-inline"></span>
         </div>
       </div>
-
     </div>
+
     <div class="modal-footer">
       <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss"=>"modal", "aria-hidden" => "true" %>
       <%= link_submit t(:save), :class => "btn btn-primary" %>
     </div>
 <% end %>
+
+<script type="text/javascript">
+    $(function(){
+        switch_target($("#monitorTargetType").val());
+        $("#monitorTargetType").change(function(){
+            switch_target($(this).val());
+        });
+
+        function switch_target(target){
+            if (target && target == 'INTERFACE') {
+                $("#interface").show();
+                $("#target_id1Box").show();
+                $("#target_id2Box").hide();
+            }else if( target == 'DATABASE'){
+                $("#interface").show();
+                $("#target_id2Box").show();
+                $("#target_id1Box").hide();
+            }else{
+                $("#interface").hide();
+            }
+        }
+    });
+</script>
