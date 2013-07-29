@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_yan_edit_additional_info_form) %></h3>
+</div>
+<%= form_for(@incident_request, :url => {:action => "update_additional_info", :request_id => @incident_request.id, :sid => @incident_request.external_system_id},
+             :html => {:class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
+    <div class="modal-body form-horizontal">
+        <%= show_input_custom_fields_ex(@incident_request) %>
+    </div>
+    <div class="modal-footer">
+      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss"=>"modal", "aria-hidden" => "true" %>
+      <%= link_submit t(:save), :class => "btn btn-primary" %>
+    </div>
+<% end %>
