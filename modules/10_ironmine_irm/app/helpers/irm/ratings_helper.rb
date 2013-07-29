@@ -23,6 +23,8 @@ module Irm::RatingsHelper
     end
     if rating.eql?('N')
       rating = !Irm::Rating.exists?(:person_id=>Irm::Person.current.id,:bo_name=>bo_hash[:class_name],:rating_object_id=>bo[:id])
+    elsif rating
+      rating = !Irm::Rating.exists?(:person_id=>Irm::Person.current.id,:bo_name=>bo_hash[:class_name],:rating_object_id=>bo[:id])
     end
     render :partial=>"irm/ratings/show",:locals=>{:datas=>grades,:rating=> rating,:bo_name=>bo_hash[:class_name],:code=>rating_config_code,:rating_object_id=>bo[:id],:dom_id=>dom_id}
 
