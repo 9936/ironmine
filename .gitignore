@@ -24,4 +24,6 @@ public/assets/*
 lib/function_data.rb
 lib/menu_data.rb
 modules/module
+**/.DS_Store
+.DS_Store
 
