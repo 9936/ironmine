@@ -18,6 +18,7 @@
       <h1><%= t(:label_emw_monitor_program_execute_result) %></h1>
       <% @result.each do |k, values| %>
         <%= render :partial => "emw/interfaces/report" ,:locals => {:values => values } if "interface".eql?(k.to_s) %>
+        <%= render :partial => "emw/databases/report" ,:locals => {:values => values } if "database".eql?(k.to_s) %>
       <% end %>
     </div>
   </div>

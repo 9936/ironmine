@@ -96,16 +96,12 @@ class Emw::MonitorProgramsController < ApplicationController
   end
 
   def create_target
-   # @monitor_target = Emw::MonitorTarget.new(params[:emw_monitor_target])
-    @monitor_target = Emw::MonitorTarget.new
-    @monitor_target.monitor_program_id=params[:id]
-    @monitor_target.sql_conn=params[:sql_conn]
-    @monitor_target.shell_conn=params[:shell_conn]
+    @monitor_target = Emw::MonitorTarget.new(params[:emw_monitor_target])
     @monitor_target.target_type=params[:target_type]
-    if params[:target_id1].empty?
-      @monitor_target.target_id=params[:target_id2]
+    if params[:interface_target_id].empty?
+      @monitor_target.target_id=params[:database_target_id]
     else
-      @monitor_target.target_id=params[:target_id1]
+      @monitor_target.target_id=params[:interface_target_id]
     end
     @monitor_target.save
   end
@@ -114,8 +110,9 @@ class Emw::MonitorProgramsController < ApplicationController
     @montior_target = Emw::MonitorTarget.find(params[:id])
     @montior_target.destroy
     respond_to do |format|
-      format.html { redirect_to(:action => "show", :id => @montior_target.monitor_program_id) }
-      format.xml  { head :ok }
+      format.js
+      #format.html { redirect_to(:action => "show", :id => @montior_target.monitor_program_id) }
+      #format.xml  { head :ok }
     end
   end
 
@@ -134,9 +131,9 @@ class Emw::MonitorProgramsController < ApplicationController
     #对target进行分类
     intance_ids = []
     targets.each do |target|
-      if target.target_type.eql?("INTERFACE")
+     # if target.target_type.eql?("INTERFACE")
         intance_ids << target.target_id
-      end
+     # end
     end
     @datas = Emw::MonitorTarget.instance_targets(intance_ids)
   end
