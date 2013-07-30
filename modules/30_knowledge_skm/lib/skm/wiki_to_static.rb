@@ -21,11 +21,21 @@ class Skm::WikiToStatic
 
   def wiki_to_static?(wiki, mode=nil)
     tmp_folder = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}"
-    if mode.to_sym.eql?(:pdf)
-      return File.exist?(tmp_folder+"/pdf.pdf")
-    else
-      return File.exist?(tmp_folder+"/html.html")
+    if mode.present?
+      if mode.to_sym.eql?(:pdf)
+        if !File.exist?(tmp_folder+"/pdf.pdf")
+          sync_wiki_static(wiki.id)
+          return false
+        end
+
+      else
+        if !File.exist?(tmp_folder+"/html.html")
+          sync_wiki_static(wiki.id)
+          return false
+        end
+      end
     end
+    return true
   end
 
 
@@ -38,11 +48,19 @@ class Skm::WikiToStatic
     tmp_folder = "#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}"
     if mode.present?
       if mode.to_sym.eql?(:pdf)
-        return File.exist?(tmp_folder+"/pdf.pdf")
+        if !File.exist?(tmp_folder+"/pdf.pdf")
+          sync_book_static(book.id)
+          return false
+        end
+
       else
-        return File.exist?(tmp_folder+"/html.html")
+        if !File.exist?(tmp_folder+"/html.html")
+          sync_book_static(book.id)
+          return false
+        end
       end
     end
+    return true
   end
 
 
@@ -64,21 +82,6 @@ class Skm::WikiToStatic
 
   end
 
-  def book_static_exists?(book, mode=nil)
-    if mode.present?
-      return File.exists?("#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}/#{mode.to_s}.#{mode.to_s}")
-    else
-      return File.exists?("#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}/html.html")&&File.exists?("#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}/pdf.pdf")
-    end
-  end
-
-  def wiki_static_exists?(wiki, mode=nil)
-    if mode.present?
-      return File.exists?("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}/#{mode.to_s}.#{mode.to_s}")
-    else
-      return File.exists?("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}/html.html")&&File.exists?("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}/pdf.pdf")
-    end
-  end
 
 
   def sync_wiki_static(wiki_id)

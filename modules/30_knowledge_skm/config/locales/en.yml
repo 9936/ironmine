@@ -252,6 +252,7 @@ en:
   label_skm_wiki_template_private_flag: Private
   label_skm_wiki_word_content: Importing content form word,wait a moment and don't modify the article.
   label_skm_wiki_word_description: Description
+  label_skm_wiki_static_msg: Generating pdf file...
   #============================== end wiki  ===================================
   #============================== wiki ======================================
   label_skm_wiki_template: Wiki Template

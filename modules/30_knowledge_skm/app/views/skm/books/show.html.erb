@@ -10,6 +10,8 @@
         <%= link_to t(:edit), {:action => "edit", :id => @book}, :class => "btn" %>
         <% if Skm::WikiToStatic.instance.book_to_static?(@book,:pdf) %>
           <%= link_to t(:export), {:action => "publish",:format=>:pdf},:target=>"_blank", :class => "btn" %>
+        <% else %>
+            <%= link_to t(:export), {:action => "publish",:format=>:pdf},:target=>"_blank",:title=>t(:label_skm_wiki_static_msg), :class => "btn disabled" %>
         <% end %>
         <%= link_to t(:back), {:action => "index"}, :class => "btn" %>
       </td>
