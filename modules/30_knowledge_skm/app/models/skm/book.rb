@@ -10,8 +10,8 @@ class Skm::Book < ActiveRecord::Base
 
   validates_uniqueness_of :name,:if=>Proc.new{|i| i.name.present?}
 
-  has_many :book_wikis
-  has_many :wikis,:through => :book_wikis
+  has_many :book_wikis, :order=>:display_sequence
+  has_many :wikis,:through => :book_wikis, :order=>:display_sequence
 
   #def wikis
   #  Skm::Wiki.by_book(self.id).select_all
@@ -22,7 +22,7 @@ class Skm::Book < ActiveRecord::Base
   }
 
   def md5_flag
-    @md5_flag ||= Digest::SHA1.hexdigest(Skm::Wiki.by_book(self.id).select("#{Skm::Wiki.table_name}.updated_at").collect{|i| i.updated_at.to_s}.join)
+    @md5_flag ||= Digest::SHA1.hexdigest(self.wikis.select("#{Skm::Wiki.table_name}.updated_at").collect{|i| i.updated_at.to_s}.join)
   end
 
 

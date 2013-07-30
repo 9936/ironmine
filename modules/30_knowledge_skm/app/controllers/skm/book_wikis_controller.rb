@@ -22,7 +22,7 @@ class Skm::BookWikisController < ApplicationController
   def destroy
     book_wiki = Skm::BookWiki.find(params[:id])
     book_wiki.destroy
-    @book = Skm::Book.find(@book_wiki.book_id)
+    @book = Skm::Book.find(book_wiki.book_id)
 
     respond_to do |format|
       format.js

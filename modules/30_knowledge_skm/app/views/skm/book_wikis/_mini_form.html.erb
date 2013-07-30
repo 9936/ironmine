@@ -3,6 +3,6 @@
       <%= link_submit(t(:add), :class=>"btn") %>
     </div>
     <div  style="float:right;">
-      <%= lov_field_tag "wiki_id", Skm::Wiki,{:style=>"width:150px;"}%>
+      <%= lov_field_tag "wiki_id", Skm::Wiki,{:lov_params=>{:lktkn=>"add_to_books", :book_id=> book.id},:style=>"width:150px;"}%>
     </div>
 <% end %>
