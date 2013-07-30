@@ -193,7 +193,7 @@ class Skm::WikiToStatic
   end
 
   def cached_static?(folder)
-    File.exists?("#{folder}/html.html")||File.exists?("#{folder}/pdf.pdf")
+    File.exists?(folder)
   end
 
   def check_h1(title, doc)
