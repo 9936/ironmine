@@ -19,11 +19,32 @@ class Skm::WikiToStatic
 
   end
 
+  def wiki_to_static?(wiki, mode=nil)
+    tmp_folder = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}"
+    if mode.to_sym.eql?(:pdf)
+      return File.exist?(tmp_folder+"/pdf.pdf")
+    else
+      return File.exist?(tmp_folder+"/html.html")
+    end
+  end
+
 
   def wiki_to_doc(wiki, mode=nil)
     doc = page_to_doc(wiki.page, wiki.name, wiki.id, mode)
     doc = generate_sequence(doc)
   end
+
+  def book_to_static?(book, mode=nil)
+    tmp_folder = "#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}"
+    if mode.present?
+      if mode.to_sym.eql?(:pdf)
+        return File.exist?(tmp_folder+"/pdf.pdf")
+      else
+        return File.exist?(tmp_folder+"/html.html")
+      end
+    end
+  end
+
 
   def book_to_static(book, mode=nil)
     tmp_folder = "#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}"

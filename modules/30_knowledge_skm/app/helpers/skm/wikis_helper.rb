@@ -18,8 +18,7 @@ module Skm::WikisHelper
   def show_wiki(wiki,preview=false)
     doc = nil
     if wiki.id.present?&&!preview
-      html_file = Skm::WikiToStatic.instance.wiki_to_static(wiki,:html)
-      if File.exist?(html_file)
+      if Skm::WikiToStatic.instance.wiki_to_static?(wiki,:html)
         doc = Nokogiri::HTML(File.open(html_file,"r").read)
       else
         doc = Skm::WikiToStatic.instance.wiki_to_doc(wiki)
