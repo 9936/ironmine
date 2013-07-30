@@ -123,6 +123,7 @@ zh:
   label_emw_database_list: 数据库列表
   label_emw_database_new: 新建数据库
   label_emw_database_edit: 编辑数据库
+  label_emw_database_execute_result:  数据库执行结果
   #=========================End Database======================#
   #=========================Start DatabaseItem======================#
   label_emw_database_item: 数据库监控属性
