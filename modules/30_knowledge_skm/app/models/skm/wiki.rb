@@ -74,9 +74,13 @@ class Skm::Wiki < ActiveRecord::Base
       end
       @page = Ironmine::WIKI.page(self.wiki_name)
       unless @page
+        begin
         commit = {:message => self.description, :name => Irm::Person.current.login_name, :email => Irm::Person.current.email_address}
         Ironmine::WIKI.write_page(self.wiki_name, self.content_format.to_sym, self.content, commit)
         @page = Ironmine::WIKI.page(self.wiki_name)
+        rescue Exception => e
+          nil
+        end
       end
       return @page
     end

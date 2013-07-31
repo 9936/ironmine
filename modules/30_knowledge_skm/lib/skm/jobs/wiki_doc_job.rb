@@ -34,6 +34,7 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
     #sync with ui
     wiki.sync_flag = Irm::Constant::SYS_YES
 
+
     File.open(log_file_path, 'a') do |f1|
       f1.puts("="*50+"after")
       f1.puts(wiki.content)
@@ -51,7 +52,9 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
       end if atch.errors.any?
 
     end
+    Ironmine::WIKI.clear_cache
     wiki.save
+
 
     [mark, files]
   end
