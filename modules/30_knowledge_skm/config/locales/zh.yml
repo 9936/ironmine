@@ -254,6 +254,7 @@ zh:
   label_skm_wiki_word_description: 初始化从WORD文档导入内容
   label_skm_wiki_word_content: 正在从WORD文档导入文章内容,请等待,不要修改文章内容
   label_skm_wiki_git_folder_page_missing: 无法在wiki文件夹中找到相应的文件,请检查
+  label_skm_wiki_static_msg: 正在生成PDF文件,请稍候...
   #============================== end wiki  ===================================
   #============================== wiki ======================================
   label_skm_wiki_template: Wiki模板

@@ -19,11 +19,50 @@ class Skm::WikiToStatic
 
   end
 
+  def wiki_to_static?(wiki, mode=nil)
+    tmp_folder = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}"
+    if mode.present?
+      if mode.to_sym.eql?(:pdf)
+        if !File.exist?(tmp_folder+"/pdf.pdf")
+          publish_job(wiki)
+          return false
+        end
+
+      else
+        if !File.exist?(tmp_folder+"/html.html")
+          publish_job(wiki)
+          return false
+        end
+      end
+    end
+    return true
+  end
+
 
   def wiki_to_doc(wiki, mode=nil)
     doc = page_to_doc(wiki.page, wiki.name, wiki.id, mode)
     doc = generate_sequence(doc)
   end
+
+  def book_to_static?(book, mode=nil)
+    tmp_folder = "#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}"
+    if mode.present?
+      if mode.to_sym.eql?(:pdf)
+        if !File.exist?(tmp_folder+"/pdf.pdf")
+          publish_job(book)
+          return false
+        end
+
+      else
+        if !File.exist?(tmp_folder+"/html.html")
+          publish_job(book)
+          return false
+        end
+      end
+    end
+    return true
+  end
+
 
   def book_to_static(book, mode=nil)
     tmp_folder = "#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}"
@@ -43,32 +82,17 @@ class Skm::WikiToStatic
 
   end
 
-  def book_static_exists?(book, mode=nil)
-    if mode.present?
-      return File.exists?("#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}/#{mode.to_s}.#{mode.to_s}")
-    else
-      return File.exists?("#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}/html.html")&&File.exists?("#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}/pdf.pdf")
-    end
-  end
-
-  def wiki_static_exists?(wiki, mode=nil)
-    if mode.present?
-      return File.exists?("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}/#{mode.to_s}.#{mode.to_s}")
-    else
-      return File.exists?("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}/html.html")&&File.exists?("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}/pdf.pdf")
-    end
-  end
 
 
   def sync_wiki_static(wiki_id)
-    Delayed::Job.enqueue(Skm::Jobs::StaticWikiJob.new(wiki_id))
+    publish_job(Skm::Wiki.find(wiki_id))
     Skm::Book.by_wiki(wiki_id).select_all.each do |b|
-      Delayed::Job.enqueue(Skm::Jobs::StaticBookJob.new(b.id))
+      publish_job(Skm::Book.find(b.id))
     end
   end
 
   def sync_book_static(book_id)
-    Delayed::Job.enqueue(Skm::Jobs::StaticBookJob.new(book_id))
+    publish_job(Skm::Book.find(book_id))
   end
 
   private
@@ -247,5 +271,13 @@ class Skm::WikiToStatic
       "<style type='text/css'>#{Rails.application.assets.find_asset(source+".css")}</style>"
     }.join("\n").html_safe
   end
+
+  def publish_job(model,event_type="UPDATE")
+    bo_code = Irm::BusinessObject.class_name_to_code(model.class.name)
+    #消除重复的事件
+    return if Irm::Event.where(:bo_code=>bo_code,:business_object_id=>model.id,:event_code=>"SKM_WIKI_EVENT",:event_type=>event_type,:end_at=>nil).count>0
+    event = Irm::Event.create(:bo_code=>bo_code,:business_object_id=>model.id,:event_code=>"SKM_WIKI_EVENT",:event_type=>event_type)
+    Delayed::Job.enqueue(Skm::Jobs::StaticWikiAndBookJob.new(event.id))
+    end
 
 end

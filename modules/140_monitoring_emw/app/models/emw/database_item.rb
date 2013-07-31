@@ -12,4 +12,9 @@ class Emw::DatabaseItem < ActiveRecord::Base
   scope :query_by_database, lambda {|database_id|
     where("#{table_name}.database_id=?", database_id)
   }
+
+  #获取执行的脚本
+  def get_execute_script
+    self.script
+  end
 end
