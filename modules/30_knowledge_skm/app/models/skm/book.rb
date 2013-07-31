@@ -22,7 +22,7 @@ class Skm::Book < ActiveRecord::Base
   }
 
   def md5_flag
-    @md5_flag ||= Digest::SHA1.hexdigest(self.wikis.select("#{Skm::Wiki.table_name}.updated_at").collect{|i| i.updated_at.to_s}.join)
+    @md5_flag ||= Digest::SHA1.hexdigest(self.wikis.select("#{Skm::Wiki.table_name}.updated_at").collect{|i| i.updated_at.in_time_zone(8).to_s}.join)
   end
 
 

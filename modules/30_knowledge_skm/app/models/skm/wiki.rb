@@ -98,7 +98,7 @@ class Skm::Wiki < ActiveRecord::Base
   end
 
   def md5_flag
-    Digest::SHA1.hexdigest("#{self.updated_at}#{self.created_at}")
+    Digest::SHA1.hexdigest("#{self.updated_at.in_time_zone(8)}#{self.created_at.in_time_zone(8)}")
   end
 
 

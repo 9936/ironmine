@@ -5,7 +5,7 @@ class Skm::Jobs::StaticWikiAndBookJob<Struct.new(:event_id)
   		if event.bo_code.eql?(Irm::BusinessObject.class_name_to_code(Skm::Wiki.name))
   			wiki = Skm::Wiki.find(event.business_object_id)
   			Skm::WikiToStatic.instance.wiki_to_static(wiki)
-  	    elsif event.bo_code.eql?(Irm::BusinessObject.class_name_to_code(Skm::Book.name))
+  	  elsif event.bo_code.eql?(Irm::BusinessObject.class_name_to_code(Skm::Book.name))
   	    	book = Skm::Book.find(event.business_object_id)
   	    	Skm::WikiToStatic.instance.book_to_static(book)
   		end

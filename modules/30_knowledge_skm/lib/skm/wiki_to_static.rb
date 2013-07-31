@@ -34,6 +34,11 @@ class Skm::WikiToStatic
           return false
         end
       end
+    else
+      if !File.exist?(tmp_folder+"/html.html")||!File.exist?(tmp_folder+"/pdf.pdf")
+        publish_job(wiki)
+        return false
+      end
     end
     return true
   end
@@ -58,6 +63,11 @@ class Skm::WikiToStatic
           publish_job(book)
           return false
         end
+      end
+    else
+      if !File.exist?(tmp_folder+"/html.html")||!File.exist?(tmp_folder+"/pdf.pdf")
+        publish_job(book)
+        return false
       end
     end
     return true
