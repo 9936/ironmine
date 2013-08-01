@@ -1,0 +1,22 @@
+<p class="h2-title"></p>
+<h2><%= t(:label_emw_component_execute_result) %></h2>
+<div style="margin-left: 50px;">
+  <table style="margin-left: 0;">
+    <tbody>
+    <tr>
+      <th style="width: 20%;"><%= t(:label_emw_monitor_program_target) %></th>
+      <th style="width: 20%;"><%= t(:label_emw_monitor_program_target_type) %></th>
+      <th style="width: 30%;"><%= t(:label_emw_monitor_program_result) %></th>
+      <th style="width: 30%;"><%= t(:description) %></th>
+    </tr>
+      <% values.each do |v| %>
+        <tr>
+          <td><%= v[:name] %></td>
+          <td><%= t("label_emw_monitor_target_#{v[:target_type].downcase}") %></td>
+          <td><%= v[:result] %></td>
+          <td><%= v[:description] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
