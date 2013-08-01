@@ -2,8 +2,10 @@ class Emw::MonitorTarget < ActiveRecord::Base
   set_table_name :emw_monitor_targets
 
   validates_presence_of :monitor_program_id, :target_id, :target_type
-  validates_presence_of :sql_conn, :if => Proc.new { |i| !i.shell_conn.present? }, :message => I18n.t(:label_emw_monitor_program_target_conn_error)
-  validates_presence_of :shell_conn, :if => Proc.new { |i| !i.sql_conn.present? }, :message => I18n.t(:label_emw_monitor_program_target_conn_error)
+  #validates_presence_of :sql_conn, :if => Proc.new { |i| !i.shell_conn.present? }, :message => I18n.t(:label_emw_monitor_program_target_conn_error)
+  #validates_presence_of :shell_conn, :if => Proc.new { |i| !i.sql_conn.present? }, :message => I18n.t(:label_emw_monitor_program_target_conn_error)
+  validates_presence_of :sql_conn, :if => Proc.new { |i| !i.shell_conn.present? }, :message => I18n.t(:label_emw_monitor_program_target_conn)
+  validates_presence_of :shell_conn, :if => Proc.new { |i| !i.sql_conn.present? }, :message => I18n.t(:label_emw_monitor_program_target_conn)
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -25,7 +27,9 @@ class Emw::MonitorTarget < ActiveRecord::Base
   #}
 
   scope :instance_targets, lambda { |instance_ids|
-    joins("JOIN (select id,name,description from #{Emw::Database.table_name} Union select id,name,description from #{Emw::Interface.table_name}) ei ON ei.id=#{table_name}.target_id").
+    joins("JOIN (select id,name,description from #{Emw::Database.table_name} Union select id,name,description from
+#{Emw::Interface.table_name} Union select id,name,description from
+ #{Emw::Component.table_name}) ei ON ei.id=#{table_name}.target_id").
         where("ei.id IN(?)", instance_ids).
         select("#{table_name}.*, ei.name, ei.description")
   }
@@ -46,6 +50,12 @@ class Emw::MonitorTarget < ActiveRecord::Base
         elsif target_conn = Emw::Connection.find(self.shell_conn)
         end
         result = target_conn.execute(database.execute)
+      end
+    else
+      component=Emw::Component.find(self.target_id)
+      if self.shell_conn.present? && component.present?
+        target_shell_conn = Emw::Connection.find(self.shell_conn)
+        result = target_shell_conn.execute(component.execute)
       end
     end
     result

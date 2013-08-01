@@ -1,7 +1,7 @@
 class Emw::DatabaseItem < ActiveRecord::Base
   set_table_name :emw_database_items
 
-  belongs_to :database_item, :foreign_key => :database_id
+  belongs_to :database, :foreign_key => :database_id
   validates :name,:script,:script_type, :presence => true
 
   #加入activerecord的通用方法和scope

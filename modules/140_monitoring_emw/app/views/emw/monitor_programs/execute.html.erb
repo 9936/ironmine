@@ -19,6 +19,7 @@
       <% @result.each do |k, values| %>
         <%= render :partial => "emw/interfaces/report" ,:locals => {:values => values } if "interface".eql?(k.to_s) %>
         <%= render :partial => "emw/databases/report" ,:locals => {:values => values } if "database".eql?(k.to_s) %>
+        <%= render :partial => "emw/components/report" ,:locals => {:values => values } if "component".eql?(k.to_s) %>
       <% end %>
     </div>
   </div>
