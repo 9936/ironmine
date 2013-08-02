@@ -79,7 +79,7 @@ Fwk::MenuAndFunctionManager.map do |map|
             :default_flag => "N",
             :login_flag => "N",
             :public_flag => "N",
-            "skm/file_managements" => ["get_data", "get_version_files","version_details", "download_data", "download"]
+            "skm/file_managements" => ["get_data", "get_version_files","version_details", "download_data", "download", "index"]
         }
       }
   }
