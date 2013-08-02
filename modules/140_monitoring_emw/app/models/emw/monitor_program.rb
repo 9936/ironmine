@@ -58,8 +58,8 @@ class Emw::MonitorProgram < ActiveRecord::Base
     targets.each do |target|
       if target.target_type.eql?("INTERFACE")
         origin_target = Emw::Interface.find(target.target_id)
-      else
-        origin_target = {}
+      elsif  target.target_type.eql?("DATABASE")
+        origin_target = Emw::Database.find(target.target_id)
       end
       result_arr = target.execute
       #将执行结果根据类型进行分类

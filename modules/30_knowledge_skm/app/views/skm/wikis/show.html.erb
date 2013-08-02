@@ -9,7 +9,11 @@
     </td>
     <td class="page-block-button">
       <%= link_to t(:edit), {:action => "edit", :id => @wiki},:class=>"btn"%>
-      <%= link_to t(:export), {:action => "show", :id => @wiki,:format=>:pdf,},:target=>"_blank",:class=>"btn"%>
+      <% if Skm::WikiToStatic.instance.wiki_to_static?(@wiki,:pdf) %>
+         <%= link_to t(:export), {:action => "show", :id => @wiki,:format=>:pdf,},:target=>"_blank",:class=>"btn"%>
+      <% else %>
+          <%= link_to t(:export), {},:title=>t(:label_skm_wiki_static_msg),:href=>"javascript:alert('#{t(:label_skm_wiki_static_msg)}')",:class=>"btn disabled"%>
+      <% end %>
       <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
     </td>
   </tr></table>

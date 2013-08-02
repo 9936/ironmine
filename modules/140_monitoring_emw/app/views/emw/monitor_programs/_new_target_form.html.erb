@@ -2,68 +2,80 @@
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
   <h3><%= t(:label_emw_monitor_program_target_add) %></h3>
 </div>
-<%= form_for(@monitor_target,:url=>{:action=>"create_target", :id => @monitor_target.monitor_program_id},:builder => CustomFormBuilder,:html => {:class => "modal-form"}) do |f| %>
+<%= form_for(@monitor_target, :url => {:action => "create_target", :id => @monitor_target.monitor_program_id}, :builder => CustomFormBuilder, :html => {:class => "modal-form"}) do |f| %>
     <%= f.hidden_field :monitor_program_id %>
     <div class="modal-body form-horizontal">
       <%= error_for @monitor_target %>
       <div class="control-group">
         <label class="control-label"><%= t(:label_emw_monitor_program_target_type) %>:</label>
+
         <div class="controls">
           <%= select_tag_alias("target_type", monitor_targets, nil, :id => "monitorTargetType") %>
         </div>
       </div>
 
-      <div class="control-group" id="interface">
+      <div class="control-group" id="target_id">
         <label class="control-label"><%= t(:label_emw_monitor_program_target) %>:</label>
-        <div class="controls">
-          <%= lov_field_tag "target_id1", Emw::Interface,{:style=>"width:150px;",:lov_params=>{:lktkn=>"monitor_target", :monitor_program_id=> @monitor_target.monitor_program_id}}%>
-          <%= lov_field_tag "target_id2", Emw::Database,{:style=>"width:150px;",:lov_params=>{:lktkn=>"monitor_target", :monitor_program_id=> @monitor_target.monitor_program_id}}%>
-              <span class="help-inline"></span>
-              </div>
-              </div>
 
-
-      <div class="control-group">
-        <label class="control-label"><%= t(:label_emw_connection_sql) %>:</label>
         <div class="controls">
-          <%= f.blank_select :sql_conn, available_sql_conns, {}, {:style=>"width:150px;"}%>
+          <%= lov_field_tag "interface_target_id", Emw::Interface, {:style => "width:150px;", :lov_params => {:lktkn => "monitor_target", :monitor_program_id => @monitor_target.monitor_program_id}} %>
+          <%= lov_field_tag "database_target_id", Emw::Database, {:style => "width:150px;", :lov_params => {:lktkn => "monitor_target", :monitor_program_id => @monitor_target.monitor_program_id}} %>
+          <%= lov_field_tag "component_target_id", Emw::Component, {:style => "width:150px;", :lov_params => {:lktkn => "monitor_target", :monitor_program_id => @monitor_target.monitor_program_id}} %>
           <span class="help-inline"></span>
         </div>
       </div>
 
-      <div class="control-group">
-        <label class="control-label"><%= t(:label_emw_connection_shell) %>:</label>
+
+      <div class="control-group" id="sql_id">
+        <label class="control-label"><%= t(:label_emw_connection_sql) %>:</label>
+
         <div class="controls">
-          <%= f.blank_select :shell_conn, available_shell_conns,{}, {:style=>"width:150px;"}%>
+          <%= f.blank_select :sql_conn, available_sql_conns, {}, {:style => "width:150px;"} %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+      <div class="control-group" id="shell_id">
+        <label class="control-label"><%= t(:label_emw_connection_shell) %>:</label>
+
+        <div class="controls">
+          <%= f.blank_select :shell_conn, available_shell_conns, {}, {:style => "width:150px;"} %>
           <span class="help-inline"></span>
         </div>
       </div>
     </div>
 
     <div class="modal-footer">
-      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss"=>"modal", "aria-hidden" => "true" %>
+      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss" => "modal", "aria-hidden" => "true" %>
       <%= link_submit t(:save), :class => "btn btn-primary" %>
     </div>
 <% end %>
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         switch_target($("#monitorTargetType").val());
-        $("#monitorTargetType").change(function(){
+        $("#monitorTargetType").change(function () {
             switch_target($(this).val());
         });
-
-        function switch_target(target){
+        function switch_target(target) {
             if (target && target == 'INTERFACE') {
-                $("#interface").show();
-                $("#target_id1Box").show();
-                $("#target_id2Box").hide();
-            }else if( target == 'DATABASE'){
-                $("#interface").show();
-                $("#target_id2Box").show();
-                $("#target_id1Box").hide();
-            }else{
-                $("#interface").hide();
+                $("#interface_target_idBox").show();
+                $("#database_target_idBox").hide();
+                $("#component_target_idBox").hide();
+                $("#sql_id").show();
+                $("#shell_id").hide();
+            } else if (target == 'DATABASE') {
+                $("#database_target_idBox").show();
+                $("#interface_target_idBox").hide();
+                $("#component_target_idBox").hide();
+                $("#shell_id").show();
+                $("#sql_id").show();
+            } else {
+                $("#database_target_idBox").hide();
+                $("#interface_target_idBox").hide();
+                $("#component_target_idBox").show();
+                $("#shell_id").show();
+                $("#sql_id").hide();
             }
         }
     });

@@ -81,5 +81,30 @@ Fwk::MenuAndFunctionManager.map do |map|
   }
   #=================================END:DATABASE=================================
 
+  #=================================START:COMPONENT=================================
+  map.function_group :ebs_component, {
+      :en => {:name => "component", :description => "component"},
+      :zh => {:name => "应用组件", :description => "应用组件"}
+  }
+  map.function_group :ebs_component, {
+      :zone_code => "EBS_MONITOR",
+      :controller => "emw/components",
+      :action => "index"
+  }
+  map.function_group :ebs_component, {
+      :children => {
+          :ebs_component => {
+              :en => {:name => "component", :description => "component"},
+              :zh => {:name => "应用组件", :description => "应用组件"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "emw/components" => ["index","new", "edit", "create", "update" ,"show","get_data"],
+              "emw/component_items" => ["index","new", "edit", "create", "update" ,"show","get_data","destroy"]
+          }
+      }
+  }
+  #=================================END:COMPONENT=================================
+
 
 end

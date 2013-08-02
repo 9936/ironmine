@@ -1,20 +1,20 @@
 class Skm::Wiki < ActiveRecord::Base
   set_table_name :skm_wikis
 
-  attr_accessor :origin_name,:sync_git_flag
+  attr_accessor :origin_name, :sync_git_flag
 
   #加入activerecord的通用方法和scope
   query_extend
   #对运维中心数据进行隔离
-  default_scope {default_filter}
+  default_scope { default_filter }
 
-  validates_presence_of :name,:description
+  validates_presence_of :name, :description,:channel_id
 
-  validates_uniqueness_of :name,:if=>Proc.new{|i| i.name.present?}
+  validates_uniqueness_of :name, :if => Proc.new { |i| i.name.present? }
 
   after_create do
-    commit = {:message=>self.description,:name=>Irm::Person.current.login_name,:email=>Irm::Person.current.email_address}
-    page = Ironmine::WIKI.write_page(self.wiki_name,self.content_format.to_sym, self.content, commit)
+    commit = {:message => self.description, :name => Irm::Person.current.login_name, :email => Irm::Person.current.email_address}
+    page = Ironmine::WIKI.write_page(self.wiki_name, self.content_format.to_sym, self.content, commit)
   end
 
   before_update do
@@ -24,16 +24,32 @@ class Skm::Wiki < ActiveRecord::Base
   after_update do
 
     if (self.sync_git_flag.present?&&sync_git_flag.eql?(Irm::Constant::SYS_YES))||!self.sync_git_flag.present?
-      commit = {:message=>self.description,:name=>Irm::Person.current.login_name,:email=>Irm::Person.current.email_address}
+      commit = {:message => self.description, :name => Irm::Person.current.login_name, :email => Irm::Person.current.email_address}
       page = Ironmine::WIKI.page(self.origin_wiki_name)
       Ironmine::WIKI.update_page(page, self.wiki_name, self.content_format.to_sym, self.content, commit)
     end
   end
 
-  scope :by_book,lambda{ |book_id|
+  scope :by_book, lambda { |book_id|
     joins("JOIN #{Skm::BookWiki.table_name} ON #{Skm::BookWiki.table_name}.book_id = '#{book_id}' AND #{Skm::BookWiki.table_name}.wiki_id = #{table_name}.id").
         order("#{Skm::BookWiki.table_name}.display_sequence")
   }
+
+  scope :by_person, lambda { |person_id|
+    where("(created_by = ? AND private_flag = ?) OR private_flag = ?", person_id, Irm::Constant::SYS_YES, Irm::Constant::SYS_NO)
+  }
+
+  # LOV额外处理方法
+  def self.lov(lov_scope, params)
+    if params[:lov_params].present?&&params[:lov_params].is_a?(Hash)&&params[:lov_params][:lktkn].present?
+      #根据lov的使用不同,进行不同的处理
+      if "add_to_books".eql?(params[:lov_params][:lktkn])&& params[:lov_params][:book_id].present?
+        lov_scope = lov_scope.where("NOT EXISTS (SELECT 1 FROM #{Skm::BookWiki.table_name} where #{Skm::BookWiki.table_name}.book_id = ? AND wiki_id=#{self.table_name}.id)",  params[:lov_params][:book_id])
+      end
+    end
+
+    lov_scope
+  end
 
   def wiki_name
     "#{self.name} #{self.id}"
@@ -58,8 +74,13 @@ class Skm::Wiki < ActiveRecord::Base
       end
       @page = Ironmine::WIKI.page(self.wiki_name)
       unless @page
-        commit = {:message=>self.description,:name=>Irm::Person.current.login_name,:email=>Irm::Person.current.email_address}
-        @page = Ironmine::WIKI.write_page(self.wiki_name,self.content_format.to_sym, self.content, commit)
+        begin
+        commit = {:message => self.description, :name => Irm::Person.current.login_name, :email => Irm::Person.current.email_address}
+        Ironmine::WIKI.write_page(self.wiki_name, self.content_format.to_sym, self.content, commit)
+        @page = Ironmine::WIKI.page(self.wiki_name)
+        rescue Exception => e
+          nil
+        end
       end
       return @page
     end
@@ -73,15 +94,15 @@ class Skm::Wiki < ActiveRecord::Base
   def show_url(absolute = false)
     return "#" unless self.id
     if absolute
-      Irm::GlobalHelper.instance.absolute_url(:controller=>"skm/wikis",:action=>"show",:id=>self.id)
+      Irm::GlobalHelper.instance.absolute_url(:controller => "skm/wikis", :action => "show", :id => self.id)
     else
-      Irm::GlobalHelper.instance.url(:controller=>"skm/wikis",:action=>"show",:id=>self.id)
+      Irm::GlobalHelper.instance.url(:controller => "skm/wikis", :action => "show", :id => self.id)
     end
 
   end
 
   def md5_flag
-    Digest::SHA1.hexdigest("#{self.updated_at}#{self.created_at}")
+    Digest::SHA1.hexdigest("#{self.updated_at.in_time_zone(8)}#{self.created_at.in_time_zone(8)}")
   end
 
 

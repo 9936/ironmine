@@ -1,6 +1,8 @@
 class Skm::WikisController < ApplicationController
   layout "application_full"
 
+  before_filter :permission_check ,:only=>[:show,:edit,:update]
+
   # GET /irm/wikis
   # GET /irm/wikis.xml
   def index
@@ -180,8 +182,9 @@ class Skm::WikisController < ApplicationController
 
 
   def get_data
-    irm_wikis_scope = Skm::Wiki.where("1=1")
+    irm_wikis_scope = Skm::Wiki.by_person(Irm::Person.current.id)
     irm_wikis_scope = irm_wikis_scope.match_value("#{Skm::Wiki.table_name}.name", params[:name])
+    irm_wikis_scope = irm_wikis_scope.order("created_at desc")
     irm_wikis, count = paginate(irm_wikis_scope)
     respond_to do |format|
       format.json { render :json => to_jsonp(irm_wikis.to_grid_json([:name, :description, :content], count)) }
@@ -388,5 +391,9 @@ class Skm::WikisController < ApplicationController
       return [results[find][:position], results[find+1][:position]-1]
     end
 
+  end
+
+  def permission_check
+    redirect_to({:controller=>"skm/wikis",:action => "index"}) unless Skm::Wiki.by_person(Irm::Person.current.id).query(params[:id]).first.present?
   end
 end

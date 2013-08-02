@@ -33,7 +33,7 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
     wiki.description = "Generate content from #{attachment[:data_file_name]}"
     #sync with ui
     wiki.sync_flag = Irm::Constant::SYS_YES
-    wiki.save
+
 
     File.open(log_file_path, 'a') do |f1|
       f1.puts("="*50+"after")
@@ -52,6 +52,10 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
       end if atch.errors.any?
 
     end
+    Ironmine::WIKI.clear_cache
+    wiki.save
+
+
     [mark, files]
   end
 
