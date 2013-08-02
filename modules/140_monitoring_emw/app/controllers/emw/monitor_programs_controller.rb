@@ -98,10 +98,12 @@ class Emw::MonitorProgramsController < ApplicationController
   def create_target
     @monitor_target = Emw::MonitorTarget.new(params[:emw_monitor_target])
     @monitor_target.target_type=params[:target_type]
-    if params[:interface_target_id].empty?
+    if params[:interface_target_id].present?
+      @monitor_target.target_id=params[:interface_target_id]
+    elsif params[:database_target_id].present?
       @monitor_target.target_id=params[:database_target_id]
     else
-      @monitor_target.target_id=params[:interface_target_id]
+      @monitor_target.target_id=params[:component_target_id]
     end
     @monitor_target.save
   end
@@ -124,7 +126,8 @@ class Emw::MonitorProgramsController < ApplicationController
       conn_ids << target.sql_conn if target.sql_conn.present?
       conn_ids << target.shell_conn if target.shell_conn.present?
     end
-
+    conn_ids.each do |conn|
+    end
     @conns = Emw::Connection.query_by_ids(conn_ids).index_by(&:id)
 
 

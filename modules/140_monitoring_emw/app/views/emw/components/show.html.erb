@@ -1,0 +1,61 @@
+<%= common_title %>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_emw_component) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @component},:class=>"btn btn-primary"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%= t(:name) %></label></td>
+        <td class="data-col"><%= @component[:name] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_emw_component_type) %></label></td>
+        <td class="data-col"><%= @component[:component_type] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:description) %></label></td>
+        <td class="data-col"><%= @component[:description] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_emw_component_item) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:controller => "emw/component_items", :action => "new", :component_id => @component.id },
+                  :class=>"btn btn-primary", :rel => "modal" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("component_item",{:controller => "emw/component_items", :action=>"get_data", :component_id => @component.id  },[])%>
+  </div>
+</div>
+
+<script type="text/javascript">
+    function updateData(){
+        var current_target = $("#component_item").data("datatable").target;
+        current_target.loadPage(1);
+    }
+</script>

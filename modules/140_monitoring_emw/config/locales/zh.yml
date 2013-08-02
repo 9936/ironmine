@@ -80,10 +80,12 @@ zh:
   label_emw_monitor_program_target_add: 添加监控对象
   label_emw_monitor_program_target_type: 类型
   label_emw_monitor_program_target_conn_error: Shell连接和SQL连接至少选择一个
+  label_emw_monitor_program_target_conn: 请选择连接
   label_emw_monitor_program_execute_result: 方案执行结果
   label_emw_monitor_target_interface: 接口
   label_emw_monitor_target_database: 数据库
   label_emw_monitor_target_application: 应用信息
+  label_emw_monitor_target_component:  应用组件
   #=========================End Monitor Program=======================#
 
   #=========================Start Monitor Program======================#
@@ -132,6 +134,26 @@ zh:
   label_emw_database_script_type : 脚本类型
   label_emw_database_script : 脚本
   #=========================End DatabaseItem======================#
+
+  #=========================Start Component======================#
+  label_emw_component_new:   新建应用组件
+  label_emw_component: 应用组件
+  label_emw_component_list: 应用组件列表
+  label_emw_component_type: 类型
+  label_emw_component_type_edit: 编辑应用组件
+  #=========================End Component======================#
+
+  #=========================Start ComponentItem======================#
+  label_emw_component_item: 应用组件属性
+  label_emw_component_item_new:  新建应用组件属性
+  label_emw_component_item_script:  脚本
+  label_emw_component_item_edit: 编辑应用组件属性
+  label_emw_component_execute_result:  应用组件执行结果
+  #=========================End ComponentItem======================#
+
+
+
+
 
 
 

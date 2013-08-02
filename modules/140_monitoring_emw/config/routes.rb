@@ -90,5 +90,24 @@ Rails.application.routes.draw do
     match '/database_items/:id(.:format)' => "database_items#show", :via => :get
     match '/database_items/create(.:format)' => "database_items#create", :via => :post
     match '/database_items/:id/destroy(.:format)' => "database_items#destroy", :via => :delete
+
+    #Component
+    match '/components(/index)(.:format)' => "components#index", :via => :get
+    match '/components/get_data(.:format)' => "components#get_data"
+    match '/components/:id/edit(.:format)' => "components#edit", :via => :get
+    match '/components/:id(.:format)' => "components#update", :via => :put
+    match '/components/new(.:format)' => "components#new", :via => :get
+    match '/components/:id(.:format)' => "components#show", :via => :get
+    match '/components/create(.:format)' => "components#create", :via => :post
+
+    #ComponentItem
+    match '/component_items(/index)(.:format)' => "component_items#index", :via => :get
+    match '/component_items/get_data(.:format)' => "component_items#get_data"
+    match '/component_items/:id/edit(.:format)' => "component_items#edit", :via => :get
+    match '/component_items/:id(.:format)' => "component_items#update", :via => :put
+    match '/component_items/new(.:format)' => "component_items#new", :via => :get
+    match '/component_items/:id(.:format)' => "component_items#show", :via => :get
+    match '/component_items/create(.:format)' => "component_items#create", :via => :post
+    match '/component_items/:id/destroy(.:format)' => "component_items#destroy", :via => :delete
   end
 end
