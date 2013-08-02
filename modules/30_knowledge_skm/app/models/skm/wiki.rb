@@ -8,7 +8,7 @@ class Skm::Wiki < ActiveRecord::Base
   #对运维中心数据进行隔离
   default_scope { default_filter }
 
-  validates_presence_of :name, :description
+  validates_presence_of :name, :description,:channel_id
 
   validates_uniqueness_of :name, :if => Proc.new { |i| i.name.present? }
 
@@ -74,9 +74,13 @@ class Skm::Wiki < ActiveRecord::Base
       end
       @page = Ironmine::WIKI.page(self.wiki_name)
       unless @page
+        begin
         commit = {:message => self.description, :name => Irm::Person.current.login_name, :email => Irm::Person.current.email_address}
         Ironmine::WIKI.write_page(self.wiki_name, self.content_format.to_sym, self.content, commit)
         @page = Ironmine::WIKI.page(self.wiki_name)
+        rescue Exception => e
+          nil
+        end
       end
       return @page
     end
@@ -98,7 +102,7 @@ class Skm::Wiki < ActiveRecord::Base
   end
 
   def md5_flag
-    Digest::SHA1.hexdigest("#{self.updated_at}#{self.created_at}")
+    Digest::SHA1.hexdigest("#{self.updated_at.in_time_zone(8)}#{self.created_at.in_time_zone(8)}")
   end
 
 

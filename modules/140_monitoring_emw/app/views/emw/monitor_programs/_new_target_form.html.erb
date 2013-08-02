@@ -20,12 +20,13 @@
         <div class="controls">
           <%= lov_field_tag "interface_target_id", Emw::Interface, {:style => "width:150px;", :lov_params => {:lktkn => "monitor_target", :monitor_program_id => @monitor_target.monitor_program_id}} %>
           <%= lov_field_tag "database_target_id", Emw::Database, {:style => "width:150px;", :lov_params => {:lktkn => "monitor_target", :monitor_program_id => @monitor_target.monitor_program_id}} %>
+          <%= lov_field_tag "component_target_id", Emw::Component, {:style => "width:150px;", :lov_params => {:lktkn => "monitor_target", :monitor_program_id => @monitor_target.monitor_program_id}} %>
           <span class="help-inline"></span>
         </div>
       </div>
 
 
-      <div class="control-group">
+      <div class="control-group" id="sql_id">
         <label class="control-label"><%= t(:label_emw_connection_sql) %>:</label>
 
         <div class="controls">
@@ -34,7 +35,7 @@
         </div>
       </div>
 
-      <div class="control-group">
+      <div class="control-group" id="shell_id">
         <label class="control-label"><%= t(:label_emw_connection_shell) %>:</label>
 
         <div class="controls">
@@ -58,15 +59,23 @@
         });
         function switch_target(target) {
             if (target && target == 'INTERFACE') {
-                $("#target_id").show();
                 $("#interface_target_idBox").show();
                 $("#database_target_idBox").hide();
+                $("#component_target_idBox").hide();
+                $("#sql_id").show();
+                $("#shell_id").hide();
             } else if (target == 'DATABASE') {
-                $("#target_id").show();
                 $("#database_target_idBox").show();
                 $("#interface_target_idBox").hide();
+                $("#component_target_idBox").hide();
+                $("#shell_id").show();
+                $("#sql_id").show();
             } else {
-                $("#target_id").hide();
+                $("#database_target_idBox").hide();
+                $("#interface_target_idBox").hide();
+                $("#component_target_idBox").show();
+                $("#shell_id").show();
+                $("#sql_id").hide();
             }
         }
     });

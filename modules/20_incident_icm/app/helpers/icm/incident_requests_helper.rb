@@ -85,7 +85,7 @@ module Icm::IncidentRequestsHelper
   end
 
   def available_request_status_code
-    Icm::IncidentStatus.multilingual.query_by_close_flag(Irm::Constant::SYS_NO).order_display.collect{|i|[i[:name],i.id]}
+    Icm::IncidentStatus.enabled.multilingual.query_by_close_flag(Irm::Constant::SYS_NO).order_display.collect{|i|[i[:name],i.id]}
   end
 
   def available_all_request_status_code

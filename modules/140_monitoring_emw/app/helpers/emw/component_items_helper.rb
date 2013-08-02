@@ -1,0 +1,2 @@
+module Emw::ComponentItemsHelper
+end
