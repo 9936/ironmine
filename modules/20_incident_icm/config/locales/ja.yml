@@ -151,7 +151,7 @@ ja:
   label_icm_incident_request_assign_me_receive: Accept
   label_icm_incident_request_assign_me_able_list: Tickets for My Group
   label_icm_incident_request_close_reason: Close Reason
-  label_icm_incident_request_incident_status: Change Status
+  label_icm_incident_request_incident_status: ステータス変更
   label_icm_incident_request_upgrade: Upgrade
   label_icm_incident_status_edit_transform: Incident status transform
   label_icm_incident_request_relation: 関連インシデント依頼
