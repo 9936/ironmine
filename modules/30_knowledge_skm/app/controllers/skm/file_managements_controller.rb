@@ -128,7 +128,7 @@ class Skm::FileManagementsController < ApplicationController
     version = Irm::AttachmentVersion.find(params[:version_id])
     if version.present?
       Irm::AttachmentCounter.create(:version_id => version.id, :download_by => Irm::Person.current.id)
-      send_file "#{Rails.root}/public/upload/irm/attachment_versions/#{version[:id]}/original/#{version[:data_file_name]}"
+      send_data File.open(version.data.path,"r").read, :filename=>version.data.original_filename,:type => version.data.content_type
     end
   end
 

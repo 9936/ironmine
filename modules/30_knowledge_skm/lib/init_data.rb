@@ -70,7 +70,8 @@ Fwk::MenuAndFunctionManager.map do |map|
             :default_flag => "N",
             :login_flag => "N",
             :public_flag => "N",
-            "skm/file_managements" => ["batch_create", "create", "destroy", "edit", "get_data", "get_version_files","version_details", "download_data", "remove_version_file","index", "new", "show", "update", "download"]
+            "skm/file_managements" => ["batch_create", "create", "destroy", "edit", "get_data", "get_version_files",
+                                       "version_details", "download_data", "remove_version_file","index", "new", "show", "update", "download"]
         },
 
         :download_files => {
@@ -79,7 +80,7 @@ Fwk::MenuAndFunctionManager.map do |map|
             :default_flag => "N",
             :login_flag => "N",
             :public_flag => "N",
-            "skm/file_managements" => ["get_data", "get_version_files","version_details", "download_data", "download"]
+            "skm/file_managements" => ["get_data", "get_version_files","version_details", "download_data", "download", "index", "show"]
         }
       }
   }

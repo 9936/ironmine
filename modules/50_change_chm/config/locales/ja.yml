@@ -77,7 +77,7 @@ ja:
   label_chm_change_request_category: Change Request Category
   label_chm_change_request_change_impact: Change Impact
   label_chm_change_request_change_priority: Change Priority
-  label_chm_change_request_change_status: Change Status
+  label_chm_change_request_change_status: ステータス変更
   label_chm_change_request_change_urgency: Change Urgency
   label_chm_change_request_config_items: Config Items
   label_chm_change_request_contact: Change Request Contact
