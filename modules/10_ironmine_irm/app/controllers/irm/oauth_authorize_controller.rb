@@ -161,10 +161,14 @@ class Irm::OauthAuthorizeController < ApplicationController
   def get_password_by_security(login_name, security)
     person = Irm::Person.where(:login_name => login_name).first
     #security末尾含有安全标记
-    if security.end_with?(person.security_flag)
-      security[0,(security.size - person.security_flag.size)]
+    if person.security_flag.present?
+      if security.end_with?(person.security_flag)
+        security[0,(security.size - person.security_flag.size)]
+      else
+        nil
+      end
     else
-      nil
+      security
     end
   end
 
