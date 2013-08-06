@@ -33,7 +33,16 @@ class Skm::WikiToStatic
           publish_job(wiki)
           return false
         end
-
+      elsif mode.to_sym.eql?(:doc)
+        if !File.exist?(tmp_folder+"/doc.doc")
+          publish_job(wiki)
+          return false
+        end
+      elsif mode.to_sym.eql?(:docx)
+        if !File.exist?(tmp_folder+"/docx.docx")
+          publish_job(wiki)
+          return false
+        end
       else
         if !File.exist?(tmp_folder+"/html.html")
           publish_job(wiki)
@@ -247,20 +256,7 @@ class Skm::WikiToStatic
   end
 
   def cached_static?(folder)
-    #if mode.present?
-    #  if mode.to_sym.eql?(:pdf)
-    #    File.exists?("#{folder}/pdf.pdf")
-    #  elsif mode.to_sym.eql?(:doc)
-    #    File.exists?("#{folder}/doc.doc")
-    #  elsif mode.to_sym.eql?(:docx)
-    #    File.exists?("#{folder}/docx.docx")
-    #  else
-    #    File.exists?("#{folder}/html.html")
-    #  end
-    #else
-    #  File.exists?("#{folder}/html.html")&&File.exists?("#{folder}/pdf.pdf")&&File.exists?("#{folder}/doc.doc")&&File.exists?("#{folder}/docx.docx")
-    #end
-    File.exists?("#{folder}/html.html")||File.exists?("#{folder}/pdf.pdf")||File.exists?("#{folder}/doc.doc")||File.exists?("#{folder}/docx.docx")
+    File.exists?("#{folder}/html.html")&&File.exists?("#{folder}/pdf.pdf")&&File.exists?("#{folder}/doc.doc")&&File.exists?("#{folder}/docx.docx")
   end
 
   def check_h1(title, doc)
