@@ -5,13 +5,19 @@ class Skm::WikiToStatic
     tmp_folder = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}"
     if !cached_static?(tmp_folder)
       static_folder = check_folder("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}", wiki.md5_flag)
-      wiki_to_pdf(wiki, static_folder)
-      wiki_to_html(wiki, static_folder)
+         wiki_to_pdf(wiki, static_folder)
+         wiki_to_html(wiki, static_folder)
+         wiki_to_word(static_folder)
+         wiki_to_docx(static_folder)
     end
 
     if cached_static?(tmp_folder)&&mode.present?
       if mode.to_sym.eql?(:pdf)
         return tmp_folder+"/pdf.pdf"
+      elsif mode.to_sym.eql?(:doc)
+        return tmp_folder+"/doc.doc"
+      elsif mode.to_sym.eql?(:docx)
+        return tmp_folder+"/docx.docx"
       else
         return tmp_folder+"/html.html"
       end
@@ -35,7 +41,7 @@ class Skm::WikiToStatic
         end
       end
     else
-      if !File.exist?(tmp_folder+"/html.html")||!File.exist?(tmp_folder+"/pdf.pdf")
+      if !File.exist?(tmp_folder+"/html.html")||!File.exist?(tmp_folder+"/pdf.pdf")||!File.exist?(tmp_folder+"/doc.doc")
         publish_job(wiki)
         return false
       end
@@ -93,7 +99,6 @@ class Skm::WikiToStatic
   end
 
 
-
   def sync_wiki_static(wiki_id)
     publish_job(Skm::Wiki.find(wiki_id))
     Skm::Book.by_wiki(wiki_id).select_all.each do |b|
@@ -130,6 +135,7 @@ class Skm::WikiToStatic
     save_path
   end
 
+
   def wiki_to_html(wiki, folder)
     html_doc = wiki_to_doc(wiki)
     save_path = "#{folder}/html.html"
@@ -138,6 +144,44 @@ class Skm::WikiToStatic
     end
     save_path
   end
+
+
+
+  def wiki_to_word(folder)
+    rtf_file_path = "#{folder}/rtf.rtf"
+    html_file_path = "#{folder}/html.html"
+    html_rtf_log = "#{folder}/html_rtf_log.txt"
+    html_rtf = "xvfb-run -a unoconv -f rtf --output=#{rtf_file_path} #{html_file_path} > #{html_rtf_log}"
+    doc_file_path = "#{folder}/doc.doc"
+    rtf_doc_log = "#{folder}/rtf_doc_log.txt"
+    rtf_doc = "xvfb-run -a unoconv -f doc --output=#{doc_file_path} #{rtf_file_path} > #{rtf_doc_log}"
+
+    unless system(html_rtf)
+      raise(File.open(html_rtf_log, "rb").read)
+    end
+
+    unless system(rtf_doc)
+      raise(File.open(rtf_doc_log, "rb").read)
+    end
+  end
+
+  def wiki_to_docx(folder)
+    rtf_file_path = "#{folder}/rtf.rtf"
+    #html_file_path = "#{folder}/html.html"
+    #html_rtf_log = "#{folder}/html_rtf_log.txt"
+    #html_rtf = "xvfb-run -a unoconv -f rtf --output=#{rtf_file_path} #{html_file_path} > #{html_rtf_log}"
+    docx_file_path = "#{folder}/docx.docx"
+    rtf_docx_log = "#{folder}/rtf_docx_log.txt"
+    rtf_docx = "xvfb-run -a unoconv -f docx --output=#{docx_file_path} #{rtf_file_path} > #{rtf_docx_log}"
+
+    #unless system(html_rtf)
+    #  raise(File.open(html_rtf_log, "rb").read)
+    #end
+    unless system(rtf_docx)
+      raise(File.open(rtf_docx_log, "rb").read)
+    end
+  end
+
 
   def book_to_pdf(book, folder)
     html_doc = book_to_doc(book, :pdf)
@@ -203,7 +247,20 @@ class Skm::WikiToStatic
   end
 
   def cached_static?(folder)
-    File.exists?("#{folder}/html.html")||File.exists?("#{folder}/pdf.pdf")
+    #if mode.present?
+    #  if mode.to_sym.eql?(:pdf)
+    #    File.exists?("#{folder}/pdf.pdf")
+    #  elsif mode.to_sym.eql?(:doc)
+    #    File.exists?("#{folder}/doc.doc")
+    #  elsif mode.to_sym.eql?(:docx)
+    #    File.exists?("#{folder}/docx.docx")
+    #  else
+    #    File.exists?("#{folder}/html.html")
+    #  end
+    #else
+    #  File.exists?("#{folder}/html.html")&&File.exists?("#{folder}/pdf.pdf")&&File.exists?("#{folder}/doc.doc")&&File.exists?("#{folder}/docx.docx")
+    #end
+    File.exists?("#{folder}/html.html")||File.exists?("#{folder}/pdf.pdf")||File.exists?("#{folder}/doc.doc")||File.exists?("#{folder}/docx.docx")
   end
 
   def check_h1(title, doc)
@@ -282,12 +339,12 @@ class Skm::WikiToStatic
     }.join("\n").html_safe
   end
 
-  def publish_job(model,event_type="UPDATE")
+  def publish_job(model, event_type="UPDATE")
     bo_code = Irm::BusinessObject.class_name_to_code(model.class.name)
     #消除重复的事件
-    return if Irm::Event.where(:bo_code=>bo_code,:business_object_id=>model.id,:event_code=>"SKM_WIKI_EVENT",:event_type=>event_type,:end_at=>nil).count>0
-    event = Irm::Event.create(:bo_code=>bo_code,:business_object_id=>model.id,:event_code=>"SKM_WIKI_EVENT",:event_type=>event_type)
+    return if Irm::Event.where(:bo_code => bo_code, :business_object_id => model.id, :event_code => "SKM_WIKI_EVENT", :event_type => event_type, :end_at => nil).count>0
+    event = Irm::Event.create(:bo_code => bo_code, :business_object_id => model.id, :event_code => "SKM_WIKI_EVENT", :event_type => event_type)
     Delayed::Job.enqueue(Skm::Jobs::StaticWikiAndBookJob.new(event.id))
-    end
+  end
 
 end
