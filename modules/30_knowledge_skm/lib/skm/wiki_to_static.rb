@@ -3,12 +3,16 @@ class Skm::WikiToStatic
 
   def wiki_to_static(wiki, mode=nil)
     tmp_folder = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}"
-    if !cached_static?(tmp_folder)
-      static_folder = check_folder("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}", wiki.md5_flag)
-         wiki_to_pdf(wiki, static_folder)
-         wiki_to_html(wiki, static_folder)
-         wiki_to_word(static_folder)
-         wiki_to_docx(static_folder)
+    static_folder = check_folder("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}", wiki.md5_flag)
+    if mode.to_sym.eql?(:html)&&File.exist?(tmp_folder+"/html.html")
+      return tmp_folder+"/html.html"
+    end
+
+    if !cached_static?(tmp_folder)&&!mode.to_sym.eql?(:html)
+      wiki_to_pdf(wiki, static_folder)
+      wiki_to_html(wiki, static_folder)
+      wiki_to_word(static_folder)
+      wiki_to_docx(static_folder)
     end
 
     if cached_static?(tmp_folder)&&mode.present?
@@ -22,8 +26,8 @@ class Skm::WikiToStatic
         return tmp_folder+"/html.html"
       end
     end
-
   end
+
 
   def wiki_to_static?(wiki, mode=nil)
     tmp_folder = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}"
@@ -50,7 +54,7 @@ class Skm::WikiToStatic
         end
       end
     else
-      if !File.exist?(tmp_folder+"/html.html")||!File.exist?(tmp_folder+"/pdf.pdf")||!File.exist?(tmp_folder+"/doc.doc")
+      if !File.exist?(tmp_folder+"/html.html")||!File.exist?(tmp_folder+"/pdf.pdf")||!File.exist?(tmp_folder+"/doc.doc")||!File.exist?(tmp_folder+"/docx.docx")
         publish_job(wiki)
         return false
       end
