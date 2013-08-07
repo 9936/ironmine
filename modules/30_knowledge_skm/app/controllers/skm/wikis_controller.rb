@@ -1,7 +1,8 @@
 class Skm::WikisController < ApplicationController
   layout "application_full"
 
-  before_filter :permission_check ,:only=>[:show,:edit,:update]
+  before_filter :permission_check, :only => [:show, :edit, :update]
+
 
   # GET /irm/wikis
   # GET /irm/wikis.xml
@@ -18,13 +19,23 @@ class Skm::WikisController < ApplicationController
   # GET /irm/wikis/1.xml
   def show
     @wiki = Skm::Wiki.find(params[:id])
-
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml { render :xml => @wiki }
       format.pdf {
-        pdf_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki,:pdf)
-        send_data File.open(pdf_path,"r").read, :filename=>"#{@wiki.name}.pdf",:type => 'application/pdf', :disposition => 'inline'
+        redirect_to({:action => "show", :format => :html}) unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki, :pdf)
+        pdf_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki, :pdf)
+        send_data File.open(pdf_path, "r").read, :filename => "#{@wiki.name}.pdf", :type => 'application/pdf', :disposition => 'inline'
+      }
+      format.doc {
+        redirect_to({:action => "show", :format => :html}) unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki, :doc)
+        doc_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki, :doc)
+        send_data File.open(doc_path, "r").read, :filename => "#{@wiki.name}.doc", :type => 'application/doc', :disposition => 'inline'
+      }
+      format.docx {
+        redirect_to({:action => "show", :format => :html}) unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki, :docx)
+        docx_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki, :docx)
+        send_data File.open(docx_path, "r").read, :filename => "#{@wiki.name}.docx", :type => 'application/docx', :disposition => 'inline'
       }
       #format.pdf {
       #  render :pdf => "#{@wiki.name}",
@@ -115,11 +126,11 @@ class Skm::WikisController < ApplicationController
       tmp_content = @wiki.content
       @wiki.content = params[:skm_wiki][:content]
       if start!=0
-        @wiki.content = "\n"+@wiki.content unless ["\n","\r"].include?(@wiki.content[0])
+        @wiki.content = "\n"+@wiki.content unless ["\n", "\r"].include?(@wiki.content[0])
         @wiki.content = tmp_content[0..start-1] + @wiki.content
       end
       if final!=-1
-        @wiki.content = @wiki.content+"\n" unless ["\n","\r"].include?(tmp_content[0])||["\n","\r"].include?(@wiki.content[-1])
+        @wiki.content = @wiki.content+"\n" unless ["\n", "\r"].include?(tmp_content[0])||["\n", "\r"].include?(@wiki.content[-1])
         @wiki.content = @wiki.content+tmp_content[final+1..-1]
       end
 
@@ -157,7 +168,7 @@ class Skm::WikisController < ApplicationController
       if params[:files]&&params[:files].any?&&@wiki.save
         files = process_word_files(@wiki)
         if files[0].present?
-          Delayed::Job.enqueue(Skm::Jobs::WikiDocJob.new({:wiki_id=>@wiki.id,:attachment_id=>files[0].id}))
+          Delayed::Job.enqueue(Skm::Jobs::WikiDocJob.new({:wiki_id => @wiki.id, :attachment_id => files[0].id}))
         end
         format.html { redirect_to({:action => "show", :id => @wiki.id}, :notice => t(:successfully_created)) }
         format.xml { render :xml => @wiki, :status => :created, :location => @wiki }
@@ -394,6 +405,6 @@ class Skm::WikisController < ApplicationController
   end
 
   def permission_check
-    redirect_to({:controller=>"skm/wikis",:action => "index"}) unless Skm::Wiki.by_person(Irm::Person.current.id).query(params[:id]).first.present?
+    redirect_to({:controller => "skm/wikis", :action => "index"}) unless Skm::Wiki.by_person(Irm::Person.current.id).query(params[:id]).first.present?
   end
 end
