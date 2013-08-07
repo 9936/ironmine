@@ -93,11 +93,17 @@ module Icm::IncidentJournalsHelper
     link = ""
     #down_link = url_for(:controller => "irm/attachments", :action => "download",:url => f.data.url, :id => f.id )
     link = "<div class='file-icon' style='*display:inline-block;'>#{image_tag(image_path,:alt => "#{f.description}", :title => "#{f.description}",:style => "width:20px;height:20px;") }</div>" if with_image
-    description = "<a target='_blank' href='#{f.data.url}' stats='' style='float:left'>
-                    <div class='file-info'>
-                      <div title='#{f.data.original_filename}' class='file-name'><b>#{f.data.original_filename}</b></div>
-                    </div>
-                   </a>"
+    description = link_to f.data.url, :stats => "", :style => "float:left",:target =>'_blank' do
+      "<div class='file-info'>
+        <div title='#{f.data.original_filename}' class='file-name'><b>#{f.data.original_filename}</b></div>
+      </div>".html_safe
+    end
+
+    #description = "<a target='_blank' href='#{f.data.url}' stats='' style='float:left'>
+    #                <div class='file-info'>
+    #                  <div title='#{f.data.original_filename}' class='file-name'><b>#{f.data.original_filename}</b></div>
+    #                </div>
+    #               </a>"
     delete_link = ""
     #检查是否具有删除回复附件功能
     delete_link << "<a data-remote=true data-confirm='#{I18n.t(:label_delete_confirm)}' href='#{url_for(:controller => "icm/incident_requests",
