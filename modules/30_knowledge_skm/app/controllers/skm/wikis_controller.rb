@@ -19,21 +19,36 @@ class Skm::WikisController < ApplicationController
   # GET /irm/wikis/1.xml
   def show
     @wiki = Skm::Wiki.find(params[:id])
+
+    if params[:format].eql?("pdf")
+      unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki, :pdf)
+        redirect_to({:action => "show", :format => :html,:id=>@wiki.id})
+        return
+      end
+    elsif params[:format].eql?("doc")
+      unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki, :doc)
+        redirect_to({:action => "show", :format => :html,:id=>@wiki.id})
+        return
+      end
+    elsif params[:format].eql?("docx")
+      unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki, :docx)
+        redirect_to({:action => "show", :format => :html,:id=>@wiki.id})
+        return
+      end
+    end
+
     respond_to do |format|
       format.html
       format.xml { render :xml => @wiki }
       format.pdf {
-        redirect_to({:action => "show", :format => :html}) unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki, :pdf)
         pdf_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki, :pdf)
         send_data File.open(pdf_path, "r").read, :filename => "#{@wiki.name}.pdf", :type => 'application/pdf', :disposition => 'inline'
       }
       format.doc {
-        redirect_to({:action => "show", :format => :html}) unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki, :doc)
         doc_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki, :doc)
         send_data File.open(doc_path, "r").read, :filename => "#{@wiki.name}.doc", :type => 'application/doc', :disposition => 'inline'
       }
       format.docx {
-        redirect_to({:action => "show", :format => :html}) unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki, :docx)
         docx_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki, :docx)
         send_data File.open(docx_path, "r").read, :filename => "#{@wiki.name}.docx", :type => 'application/docx', :disposition => 'inline'
       }
