@@ -16,7 +16,6 @@ class Skm::WikiToStatic
     #end
 
     if !cached_static?(tmp_folder)&&mode.nil?
-      Delayed::Worker.logger.debug("if !cached_static?(tmp_folder)&&mode.nil?")
       static_folder = check_folder("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}", wiki.md5_flag)
       wiki_to_pdf(wiki, static_folder)
       wiki_to_html(wiki, static_folder)
@@ -70,6 +69,17 @@ class Skm::WikiToStatic
     end
     return true
   end
+
+  def wiki_to_static_forpage?(wiki, mode=nil)
+    tmp_folder = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}"
+      if !File.exist?(tmp_folder+"/html.html")||!File.exist?(tmp_folder+"/pdf.pdf")||!File.exist?(tmp_folder+"/doc.doc")||!File.exist?(tmp_folder+"/docx.docx")
+        return false
+      else
+        return true
+      end
+  end
+
+
 
 
   def wiki_to_doc(wiki, mode=nil)
@@ -159,7 +169,7 @@ class Skm::WikiToStatic
 
 
   def wiki_to_html(wiki, folder)
-    html_doc = wiki_to_doc(wiki)
+    html_doc = wiki_to_doc(wiki,:pdf)
     save_path = "#{folder}/html.html"
     File.open(save_path, 'wb') do |file|
       file << html_doc.to_html
@@ -168,40 +178,63 @@ class Skm::WikiToStatic
   end
 
 
+  #def wiki_to_word(folder)
+  #  rtf_file_path = "#{folder}/rtf.rtf"
+  #  html_file_path = "#{folder}/html.html"
+  #  html_rtf_log = "#{folder}/html_rtf_log.txt"
+  #  html_rtf = "xvfb-run -a unoconv -f rtf --output=#{rtf_file_path} #{html_file_path} > #{html_rtf_log}"
+  #  doc_file_path = "#{folder}/doc.doc"
+  #  rtf_doc_log = "#{folder}/rtf_doc_log.txt"
+  #  rtf_doc = "xvfb-run -a unoconv -f doc --output=#{doc_file_path} #{rtf_file_path} > #{rtf_doc_log}"
+  #
+  #  unless system(html_rtf)
+  #    raise(File.open(html_rtf_log, "rb").read)
+  #  end
+  #
+  #  unless system(rtf_doc)
+  #    raise(File.open(rtf_doc_log, "rb").read)
+  #  end
+  #end
+
   def wiki_to_word(folder)
-    rtf_file_path = "#{folder}/rtf.rtf"
     html_file_path = "#{folder}/html.html"
-    html_rtf_log = "#{folder}/html_rtf_log.txt"
-    html_rtf = "xvfb-run -a unoconv -f rtf --output=#{rtf_file_path} #{html_file_path} > #{html_rtf_log}"
     doc_file_path = "#{folder}/doc.doc"
-    rtf_doc_log = "#{folder}/rtf_doc_log.txt"
-    rtf_doc = "xvfb-run -a unoconv -f doc --output=#{doc_file_path} #{rtf_file_path} > #{rtf_doc_log}"
+    html_doc_log = "#{folder}/html_doc_log.txt"
+    html_doc = "xvfb-run -a unoconv -f doc --output=#{doc_file_path} #{html_file_path} > #{html_doc_log}"
 
-    unless system(html_rtf)
-      raise(File.open(html_rtf_log, "rb").read)
-    end
-
-    unless system(rtf_doc)
-      raise(File.open(rtf_doc_log, "rb").read)
+    unless system(html_doc)
+      raise(File.open(html_doc_log, "rb").read)
     end
   end
+
 
   def wiki_to_docx(folder)
-    rtf_file_path = "#{folder}/rtf.rtf"
-    #html_file_path = "#{folder}/html.html"
-    #html_rtf_log = "#{folder}/html_rtf_log.txt"
-    #html_rtf = "xvfb-run -a unoconv -f rtf --output=#{rtf_file_path} #{html_file_path} > #{html_rtf_log}"
+    html_file_path = "#{folder}/html.html"
     docx_file_path = "#{folder}/docx.docx"
-    rtf_docx_log = "#{folder}/rtf_docx_log.txt"
-    rtf_docx = "xvfb-run -a unoconv -f docx --output=#{docx_file_path} #{rtf_file_path} > #{rtf_docx_log}"
+    html_docx_log = "#{folder}/html_docx_log.txt"
+    html_docx = "xvfb-run -a unoconv -f docx --output=#{docx_file_path} #{html_file_path} > #{html_docx_log}"
 
-    #unless system(html_rtf)
-    #  raise(File.open(html_rtf_log, "rb").read)
-    #end
-    unless system(rtf_docx)
-      raise(File.open(rtf_docx_log, "rb").read)
+    unless system(html_docx)
+      raise(File.open(html_docx_log, "rb").read)
     end
   end
+
+  #def wiki_to_docx(folder)
+  #  rtf_file_path = "#{folder}/rtf.rtf"
+  #  #html_file_path = "#{folder}/html.html"
+  #  #html_rtf_log = "#{folder}/html_rtf_log.txt"
+  #  #html_rtf = "xvfb-run -a unoconv -f rtf --output=#{rtf_file_path} #{html_file_path} > #{html_rtf_log}"
+  #  docx_file_path = "#{folder}/docx.docx"
+  #  rtf_docx_log = "#{folder}/rtf_docx_log.txt"
+  #  rtf_docx = "xvfb-run -a unoconv -f docx --output=#{docx_file_path} #{rtf_file_path} > #{rtf_docx_log}"
+  #
+  #  #unless system(html_rtf)
+  #  #  raise(File.open(html_rtf_log, "rb").read)
+  #  #end
+  #  unless system(rtf_docx)
+  #    raise(File.open(rtf_docx_log, "rb").read)
+  #  end
+  #end
 
 
   def book_to_pdf(book, folder)
@@ -253,10 +286,15 @@ class Skm::WikiToStatic
     if title.present?
       doc = check_h1(title, doc)
     end
+    set_encode(doc)
     return doc
     #else
     #  return Nokogiri::HTML::DocumentFragment.parse("#{I18n.t(:label_skm_wiki_git_folder_page_missing)}:#{wiki_id}<br/>")
     #end
+  end
+
+  def set_encode(doc)
+    doc.children.before(Nokogiri::XML::DocumentFragment.parse("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>"))
   end
 
 
