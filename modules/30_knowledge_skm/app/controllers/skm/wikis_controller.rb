@@ -21,17 +21,17 @@ class Skm::WikisController < ApplicationController
     @wiki = Skm::Wiki.find(params[:id])
 
     if params[:format].eql?("pdf")
-      unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki, :pdf)
+      unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki)
         redirect_to({:action => "show", :format => :html,:id=>@wiki.id})
         return
       end
     elsif params[:format].eql?("doc")
-      unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki, :doc)
+      unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki)
         redirect_to({:action => "show", :format => :html,:id=>@wiki.id})
         return
       end
     elsif params[:format].eql?("docx")
-      unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki, :docx)
+      unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki)
         redirect_to({:action => "show", :format => :html,:id=>@wiki.id})
         return
       end

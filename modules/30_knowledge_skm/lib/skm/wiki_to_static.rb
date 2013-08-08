@@ -4,23 +4,13 @@ class Skm::WikiToStatic
   def wiki_to_static(wiki, mode=nil)
     tmp_folder = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}"
 
-    #if mode.present?
-    #  if mode.to_sym.eql?(:html)&&File.exist?(tmp_folder+"/html.html")
-    #    return tmp_folder+"/html.html"
-    #  end
-    #
-    ##  if mode.to_sym.eql?(:html)
-    ##    wiki_to_html(wiki, static_folder)
-    ##    return tmp_folder+"/html.html"
-    ##  end
-    #end
+    if !cached_static?(tmp_folder)
 
-    if !cached_static?(tmp_folder)&&mode.nil?
       static_folder = check_folder("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}", wiki.md5_flag)
       wiki_to_pdf(wiki, static_folder)
       wiki_to_html(wiki, static_folder)
-      wiki_to_word(static_folder)
-      wiki_to_docx(static_folder)
+      wiki_to_word(wiki,static_folder)
+      wiki_to_docx(wiki,static_folder)
     end
 
     if cached_static?(tmp_folder)&&mode.present?
@@ -37,36 +27,12 @@ class Skm::WikiToStatic
   end
 
 
-  def wiki_to_static?(wiki, mode=nil)
+  def wiki_to_static?(wiki)
     tmp_folder = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}"
-    if mode.present?
-      if mode.to_sym.eql?(:pdf)
-        if !File.exist?(tmp_folder+"/pdf.pdf")
-          publish_job(wiki)
-          return false
-        end
-      elsif mode.to_sym.eql?(:doc)
-        if !File.exist?(tmp_folder+"/doc.doc")
-          publish_job(wiki)
-          return false
-        end
-      elsif mode.to_sym.eql?(:docx)
-        if !File.exist?(tmp_folder+"/docx.docx")
-          publish_job(wiki)
-          return false
-        end
-      elsif mode.to_sym.eql?(:html)
-        if !File.exist?(tmp_folder+"/html.html")
-          publish_job(wiki)
-          return false
-        end
-      end
-    elsif mode.nil?
       if !File.exist?(tmp_folder+"/html.html")||!File.exist?(tmp_folder+"/pdf.pdf")||!File.exist?(tmp_folder+"/doc.doc")||!File.exist?(tmp_folder+"/docx.docx")
         publish_job(wiki)
         return false
       end
-    end
     return true
   end
 
@@ -142,7 +108,7 @@ class Skm::WikiToStatic
     publish_job(Skm::Book.find(book_id))
   end
 
-  private
+  #private
 
 
   def wiki_to_pdf(wiki, folder)
@@ -178,63 +144,41 @@ class Skm::WikiToStatic
   end
 
 
-  #def wiki_to_word(folder)
-  #  rtf_file_path = "#{folder}/rtf.rtf"
-  #  html_file_path = "#{folder}/html.html"
-  #  html_rtf_log = "#{folder}/html_rtf_log.txt"
-  #  html_rtf = "xvfb-run -a unoconv -f rtf --output=#{rtf_file_path} #{html_file_path} > #{html_rtf_log}"
-  #  doc_file_path = "#{folder}/doc.doc"
-  #  rtf_doc_log = "#{folder}/rtf_doc_log.txt"
-  #  rtf_doc = "xvfb-run -a unoconv -f doc --output=#{doc_file_path} #{rtf_file_path} > #{rtf_doc_log}"
-  #
-  #  unless system(html_rtf)
-  #    raise(File.open(html_rtf_log, "rb").read)
-  #  end
-  #
-  #  unless system(rtf_doc)
-  #    raise(File.open(rtf_doc_log, "rb").read)
-  #  end
-  #end
-
-  def wiki_to_word(folder)
-    html_file_path = "#{folder}/html.html"
+  def wiki_to_word(wiki,folder)
+    html_file_path = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_word/#{wiki.id}/wiki_doc.html"
+    rtf_file_path = "#{folder}/rtf.rtf"
     doc_file_path = "#{folder}/doc.doc"
-    html_doc_log = "#{folder}/html_doc_log.txt"
-    html_doc = "xvfb-run -a unoconv -f doc --output=#{doc_file_path} #{html_file_path} > #{html_doc_log}"
-
-    unless system(html_doc)
+    rtf_doc_log = "#{folder}/rtf_doc_log.txt"
+    html_rtf_log = "#{folder}/html_rtf_log.txt"
+    html_rtf = "xvfb-run -a unoconv -f rtf --output=#{rtf_file_path} #{html_file_path} > #{html_rtf_log}"
+    rtf_doc = "xvfb-run -a unoconv -f doc --output=#{doc_file_path} #{rtf_file_path} > #{rtf_doc_log}"
+    unless system(html_rtf)
+      raise(File.open(html_doc_log, "rb").read)
+    end
+    unless system(rtf_doc)
       raise(File.open(html_doc_log, "rb").read)
     end
   end
 
 
-  def wiki_to_docx(folder)
-    html_file_path = "#{folder}/html.html"
+  def wiki_to_docx(wiki,folder)
+    html_file_path = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_word/#{wiki.id}/wiki_doc.html"
     docx_file_path = "#{folder}/docx.docx"
-    html_docx_log = "#{folder}/html_docx_log.txt"
-    html_docx = "xvfb-run -a unoconv -f docx --output=#{docx_file_path} #{html_file_path} > #{html_docx_log}"
+    rtf_file_path = "#{folder}/rtf.rtf"
+    html_rtf_log = "#{folder}/html_rtf_log.txt"
+    rtf_docx_log="#{folder}/rtf_docx_log.txt"
 
-    unless system(html_docx)
-      raise(File.open(html_docx_log, "rb").read)
+    html_rtf = "xvfb-run -a unoconv -f rtf --output=#{rtf_file_path} #{html_file_path} > #{html_rtf_log}"
+    rtf_docx= "xvfb-run -a unoconv -f docx --output=#{docx_file_path} #{rtf_file_path} > #{rtf_docx_log}"
+    if !File.exist?(rtf_file_path)
+      unless system(html_rtf)
+        raise(File.open(html_rtf_log, "rb").read)
+      end
+    end
+    unless system(rtf_docx)
+      raise(File.open(rtf_docx_log, "rb").read)
     end
   end
-
-  #def wiki_to_docx(folder)
-  #  rtf_file_path = "#{folder}/rtf.rtf"
-  #  #html_file_path = "#{folder}/html.html"
-  #  #html_rtf_log = "#{folder}/html_rtf_log.txt"
-  #  #html_rtf = "xvfb-run -a unoconv -f rtf --output=#{rtf_file_path} #{html_file_path} > #{html_rtf_log}"
-  #  docx_file_path = "#{folder}/docx.docx"
-  #  rtf_docx_log = "#{folder}/rtf_docx_log.txt"
-  #  rtf_docx = "xvfb-run -a unoconv -f docx --output=#{docx_file_path} #{rtf_file_path} > #{rtf_docx_log}"
-  #
-  #  #unless system(html_rtf)
-  #  #  raise(File.open(html_rtf_log, "rb").read)
-  #  #end
-  #  unless system(rtf_docx)
-  #    raise(File.open(rtf_docx_log, "rb").read)
-  #  end
-  #end
 
 
   def book_to_pdf(book, folder)
