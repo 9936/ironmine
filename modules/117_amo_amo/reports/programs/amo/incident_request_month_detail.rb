@@ -34,7 +34,7 @@ class Amo::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
                "タイトル",
                "インシデント依頼カテゴリー",
                "サブカテゴリ",
-               I18n.t(:label_project),
+               I18n.t(:label_irm_external_system),
                "依頼者",
                "連絡者",
                "レポーター",
