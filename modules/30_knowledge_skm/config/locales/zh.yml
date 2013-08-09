@@ -251,10 +251,13 @@ zh:
   label_skm_wiki_edit_chapter: 编辑章节
   label_skm_wiki_new_word_file: 选择一个WORD文档
   label_skm_wiki_new_word: 文件导入wiki
+  label_skm_wiki_export_pdf: 导出为PDF
+  label_skm_wiki_export_doc: 导出为DOC
+  label_skm_wiki_export_docx: 导出为DOCX
   label_skm_wiki_word_description: 初始化从WORD文档导入内容
   label_skm_wiki_word_content: 正在从WORD文档导入文章内容,请等待,不要修改文章内容
   label_skm_wiki_git_folder_page_missing: 无法在wiki文件夹中找到相应的文件,请检查
-  label_skm_wiki_static_msg: 正在生成PDF文件,请稍候...
+  label_skm_wiki_static_msg: 正在生成导出文件,请稍候...
   #============================== end wiki  ===================================
   #============================== wiki ======================================
   label_skm_wiki_template: Wiki模板
