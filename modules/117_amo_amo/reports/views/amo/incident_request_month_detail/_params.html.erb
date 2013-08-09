@@ -34,15 +34,6 @@
         </fieldset>
       </td>
       <td>
-        <label><%=t(:label_icm_incident_request_hotline)%></label>
-        <div style="white-space:nowrap">
-            <%= radio_button_tag "program_params[hotline]", Irm::Constant::SYS_YES, program_params[:hotline].eql?("Y"), :id => "incident_request_hotline_y" %>
-            <label for="incident_request_hotline_y" style="display:inline;"><%=t(:label_icm_incident_request_hotline_y)%></label>&nbsp;&nbsp;
-            <%= radio_button_tag "program_params[hotline]", Irm::Constant::SYS_NO, program_params[:hotline].eql?("N"), :id => "incident_request_hotline_n"%>
-            <label for="incident_request_hotline_n" style="display:inline;"><%=t(:label_icm_incident_request_hotline_n)%></label>
-        </div>
-      </td>
-      <td>
         <label><%= I18n.t(:label_hil_include_journal_history)%></label>
         <div style="white-space:nowrap">
             <%= radio_button_tag "program_params[inc_history]", Irm::Constant::SYS_YES, program_params[:inc_history].eql?("Y"), :id => "incident_request_inc_history_y" %>

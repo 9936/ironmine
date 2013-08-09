@@ -23,10 +23,6 @@ class Amo::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
       statis = statis.where("date_format(icm_incident_requests.submitted_date, '%Y-%m-%d') <= ?", Date.strptime("#{params[:end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d"))
     end
 
-    if params[:hotline].present?
-      statis = statis.where("icm_incident_requests.hotline = ?", params[:hotline])
-    end
-
     if params[:external_system_id].present? && params[:external_system_id].size > 0 && params[:external_system_id][0].present?
       statis = statis.where("external_system.id IN (?)", params[:external_system_id] + [])
     else
