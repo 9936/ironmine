@@ -18,8 +18,10 @@ class Amo::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
         with_impact_range(I18n.locale).
         with_external_system(I18n.locale).order("(#{Icm::IncidentRequest.table_name}.request_number + 0) ASC")
 
-    if params[:start_date].present? && params[:end_date].present?
+    if params[:start_date].present?
       statis = statis.where("date_format(icm_incident_requests.submitted_date, '%Y-%m-%d') >= ?", Date.strptime("#{params[:start_date]}", '%Y-%m-%d').strftime("%Y-%m-%d"))
+    end
+    if params[:end_date].present?
       statis = statis.where("date_format(icm_incident_requests.submitted_date, '%Y-%m-%d') <= ?", Date.strptime("#{params[:end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d"))
     end
 
@@ -62,8 +64,8 @@ class Amo::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
       data[6] = s[:contact_name]
       data[7] = s[:submitted_name]
       data[8] = s[:incident_status_name]
-      data[9] = s[:submitted_date].strftime('%F %T')
-      data[10] = s[:estimated_date].strftime('%F %T')
+      data[9] = s[:submitted_date].strftime('%F %T') if s[:submitted_date].present?
+      data[10] = s[:estimated_date].strftime('%F %T') if s[:estimated_date].present?
       data[11] = s[:urgence_name]
       data[12] = s[:impact_range_name]
       data[13] = s[:priority_name]
