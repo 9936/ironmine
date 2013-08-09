@@ -46,16 +46,13 @@ class Amo::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
                "優先度",
                "サポーター",
                "工数",
-               "概要",
-               I18n.t(:label_report_request_last_updated),
-               I18n.t(:label_icm_incident_request_contact_way),
-               I18n.t(:label_icm_incident_request_client_info)
+               "概要"
                ]
     headers << I18n.t(:label_report_incident_request_journal) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
 
     statis.each do |s|
-      data = Array.new(20)
-      data = Array.new(21) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
+      data = Array.new(17)
+      data = Array.new(18) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = s[:incident_category_name]
@@ -73,14 +70,11 @@ class Amo::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
       data[14] = s[:supporter_name]
       data[15] = s[:total_processing_time]
       data[16] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
-      data[17] = s[:last_response_date].strftime('%F %T')
-      data[18] = s[:contact_number]
-      data[19] = s[:client_info]
       if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
         messages = ''
         messages << s.concat_journals_with_text
         messages = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(messages,""))
-        data[20] = messages
+        data[17] = messages
       end
       datas << data
     end
