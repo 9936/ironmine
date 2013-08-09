@@ -64,8 +64,8 @@ class Amo::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
       data[8] = s[:incident_status_name]
       data[9] = s[:submitted_date].strftime('%F %T')
       data[10] = s[:estimated_date].strftime('%F %T')
-      data[11] = s[:impact_range_name]
-      data[12] = s[:report_source_name]
+      data[11] = s[:urgence_name]
+      data[12] = s[:impact_range_name]
       data[13] = s[:priority_name]
       data[14] = s[:supporter_name]
       data[15] = s[:total_processing_time]
