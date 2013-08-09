@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 class Amo::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
