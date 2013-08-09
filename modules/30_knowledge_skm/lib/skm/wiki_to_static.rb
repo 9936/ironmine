@@ -108,7 +108,7 @@ class Skm::WikiToStatic
     publish_job(Skm::Book.find(book_id))
   end
 
-  #private
+  private
 
 
   def wiki_to_pdf(wiki, folder)
@@ -135,7 +135,7 @@ class Skm::WikiToStatic
 
 
   def wiki_to_html(wiki, folder)
-    html_doc = wiki_to_doc(wiki,:pdf)
+    html_doc = wiki_to_doc(wiki)
     save_path = "#{folder}/html.html"
     File.open(save_path, 'wb') do |file|
       file << html_doc.to_html
@@ -145,7 +145,12 @@ class Skm::WikiToStatic
 
 
   def wiki_to_word(wiki,folder)
-    html_file_path = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_word/#{wiki.id}/wiki_doc.html"
+    html_doc = wiki_to_doc(wiki)
+    doc_str = to_pdf_html(html_doc)
+    html_file_path = "#{folder}/wiki_doc.html"
+    File.open(html_file_path, 'wb') do |file|
+      file << doc_str
+    end
     rtf_file_path = "#{folder}/rtf.rtf"
     doc_file_path = "#{folder}/doc.doc"
     rtf_doc_log = "#{folder}/rtf_doc_log.txt"
@@ -162,12 +167,11 @@ class Skm::WikiToStatic
 
 
   def wiki_to_docx(wiki,folder)
-    html_file_path = "#{Rails.root.to_s}/tmp/skm/wikis/wiki_word/#{wiki.id}/wiki_doc.html"
+    html_file_path = "#{folder}/wiki_doc.html"
     docx_file_path = "#{folder}/docx.docx"
     rtf_file_path = "#{folder}/rtf.rtf"
     html_rtf_log = "#{folder}/html_rtf_log.txt"
     rtf_docx_log="#{folder}/rtf_docx_log.txt"
-
     html_rtf = "xvfb-run -a unoconv -f rtf --output=#{rtf_file_path} #{html_file_path} > #{html_rtf_log}"
     rtf_docx= "xvfb-run -a unoconv -f docx --output=#{docx_file_path} #{rtf_file_path} > #{rtf_docx_log}"
     if !File.exist?(rtf_file_path)
