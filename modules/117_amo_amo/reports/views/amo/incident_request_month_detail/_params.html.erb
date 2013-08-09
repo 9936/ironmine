@@ -33,15 +33,6 @@
           </table>
         </fieldset>
       </td>
-      <td>
-        <label><%= I18n.t(:label_hil_include_journal_history)%></label>
-        <div style="white-space:nowrap">
-            <%= radio_button_tag "program_params[inc_history]", Irm::Constant::SYS_YES, program_params[:inc_history].eql?("Y"), :id => "incident_request_inc_history_y" %>
-            <label for="incident_request_inc_history_y" style="display:inline;">Y</label>&nbsp;&nbsp;
-            <%= radio_button_tag "program_params[inc_history]", Irm::Constant::SYS_NO, program_params[:inc_history].eql?("N"), :id => "incident_request_inc_history_n"%>
-            <label for="incident_request_inc_history_n" style="display:inline;">N</label>
-        </div>
-      </td>
     </tr>
   </tbody>
 </table>
