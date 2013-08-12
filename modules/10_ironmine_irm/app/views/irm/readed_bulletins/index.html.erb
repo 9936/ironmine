@@ -1,0 +1,113 @@
+<style type="text/css">
+    body {
+        font-family: "Helvetica Neue Regular", Helvetica, sans-serif;
+        font-weight: 300;
+        font-size: 13px;
+        color: #586064;
+    }
+
+    #main {
+        padding: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 823px;
+    }
+
+    #wrapper {
+        background-color: #ffffff;
+        min-width: 280px;
+        min-height: 417px;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.40);
+        -moz-box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.40);
+        -webkit-box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.40);
+        background: -ms-linear-gradient(top, #fafafa 0%, #e5e5e5 100%);
+        background: -moz-linear-gradient(top, #fafafa 0%, #e5e5e5 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #e5e5e5));
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#e5e5e5', GradientType=0);
+        border-radius: 3px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        overflow: hidden;
+    }
+
+    #title {
+        max-height: 80px;
+        overflow: hidden;
+        width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+        line-height: 70px;
+        text-align: center;
+        font-size: 20px;
+    }
+
+    #message {
+        padding-left: 20px;
+    }
+
+    #message {
+        display: block;
+        list-style-type: disc;
+        -webkit-margin-before: 1em;
+        -webkit-margin-after: 1em;
+        -webkit-margin-start: 0px;
+        -webkit-margin-end: 0px;
+        -webkit-padding-start: 10px;
+    }
+
+    #content {
+        padding-left: 20px;
+    }
+
+    #content {
+        border: 1px solid #CCCCCC;
+        border-radius: 3px;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        padding: 10px;
+    }
+
+    #content {
+        background-color: #ffffff;
+    }
+
+    #content {
+        margin: 20px;
+        min-height: 50px;
+    }
+
+    #content {
+        margin-top: 5px;
+    }
+        #continue{
+            margin-left: auto;
+            margin-right: auto;
+            rigth: 50px;
+        }
+</style>
+<div id="main">
+  <div id="wrapper">
+    <div id="left_side">
+      <div id="component">
+        <div id="title">
+          <h1><%= t(:label_irm_unread_bulletin) %></h1>
+        </div>
+        <div id="content">
+          <% @unreaded.each do |p| %>
+              <h2><%= p[:title] %></h2>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发布时间：<%=p[:created_at].strftime("%Y-%m-%d %H:%M:%S")%>
+              <div id="message" style="list-style: disc;margin-left: 0px;margin-bottom: 25px;margin-top:10px;font-size:12px;line-height:19px;color:#464646;">
+                <%= p[:content] %>
+              </div>
+          <% end %>
+          <div id="continue" style="list-style: disc;margin-left:680px;margin-top:2px;font-size:12px;line-height:19px">
+            <%= link_to t(:label_irm_continue), {:action => "continue", :back_url => params[:back_url]}, :class => "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

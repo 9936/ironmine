@@ -945,7 +945,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/setting" => ["common"],
               "irm/filters" => ["operator_value"],
               "irm/custom_attributes" => ["custom_fields_block"],
-              "irm/model_associations" => ["index","get_data"]
+              "irm/model_associations" => ["index","get_data"],
+              "irm/readed_bulletins"=>["index","continue"]
           },
 
           :home_page => {
@@ -1005,6 +1006,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "irm/bulletins" => ["destroy", "remove_exits_attachments"],
           },
+
           :workflow_approval => {
               :en => {:name => "Workflow Approval", :description => "Workflow Approval"},
               :zh => {:name => "工作流审批", :description => "工作流审批"},

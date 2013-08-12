@@ -257,6 +257,7 @@ zh:
   label_irm_recently_objects: 最近的项目
   notice_account_locked: 你的帐户已经被锁定,请联系管理员!
   label_irm_common_continue: 继续工作
+  label_irm_continue: 继续
   #=========================    end common_controller=======================#
   #=========================    irm menus_controller=======================#  
   label_irm_menu: 菜单
@@ -1017,6 +1018,7 @@ zh:
   label_irm_bulletin_if_access_list_none: 如果没有限制可访问对象，则该公告对所有用户可见
   label_irm_bulletin_attachment: 公告附件
   error_irm_bulletin_content_can_not_blank: 公告内容不能为空
+  label_irm_unread_bulletin: 未读置顶公告
   #======================== end bulletin controller ======================
   #======================== bu_column controller ======================
   label_irm_bu_column: 公告栏目
