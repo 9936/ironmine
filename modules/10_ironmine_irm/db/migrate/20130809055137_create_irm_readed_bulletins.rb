@@ -11,6 +11,6 @@ class CreateIrmReadedBulletins < ActiveRecord::Migration
       t.datetime "updated_at"
       t.timestamps
     end
-    change_column :irm_readed_bulletin, "id", :string, :limit => 22, :collate => "utf8_bin"
+    change_column :irm_readed_bulletins, "id", :string, :limit => 22, :collate => "utf8_bin"
   end
 end
