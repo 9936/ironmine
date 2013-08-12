@@ -44,6 +44,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # 检查是否需要展示公告信息
+  def check_if_bulletin_required
+    # 获取所有未读公告
+    @unreaded=Irm::ReadedBulletin.unread_bulletin
+    unless @unreaded.blank?
+      redirect_to({:controller => "irm/readed_bulletins", :action => "index",:back_url=>params[:back_url]})
+    else
+      redirect_back_or_default
+    end
+  end
+
+
+
   # 设置当前页面访问的人员
   def person_setup
     if(Irm::Person.current)
@@ -333,6 +346,27 @@ class ApplicationController < ActionController::Base
       return false
     end
     true
+  end
+
+
+
+  def read_bulletin
+      # 如果是get将url存起来就可以,如果是其他方法则需要存一些参数
+      #if request.get?
+      #  url = url_for(params)
+      #else
+      #  url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id])
+      #end
+
+      respond_to do |format|
+        format.html {
+          if params[:controller].eql?("irm/readed_bulletins")&&params[:action].eql?("index")
+            return true
+          else
+            redirect_to({:controller => "irm/readed_bulletins", :action => "index"})
+          end
+        }
+      end
   end
 
   # 解释浏览器传过来的信息,取得对应的语言

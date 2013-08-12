@@ -42,6 +42,10 @@ Rails.application.routes.draw do
     match 'common/kpi_resolved_rate(.:format)' => "common#kpi_resolved_rate", :via => [:get, :post]
     match 'common/kpi_tto(.:format)' => "common#kpi_tto", :via => [:get, :post]
 
+    # readed_bulletins
+    match '/readed_bulletins/continue' => "readed_bulletins#continue"
+    match '/readed_bulletins(/index)(.:format)' => "readed_bulletins#index", :via => :get
+
     #systems
     match '/systems/:sid/info' => "systems#index"
     #match '/systems/:sid/edit(.:format)' => "systems#edit"
@@ -1065,6 +1069,5 @@ Rails.application.routes.draw do
 
     #User API
     match '/api_peoples/show' => "api_people#show", :via => :get
-
   end
 end
