@@ -4,7 +4,6 @@ class Irm::ReadedBulletinsController < ApplicationController
   # GET /irm/readed_bulletins.xml
   def index
     @unreaded=Irm::ReadedBulletin.unread_bulletin
-
     @back_url=params[:back_url]
     #防止未读公告为空时，用户输入链接直接跳转
     if @unreaded.blank?

@@ -14,8 +14,7 @@ class Irm::ReadedBulletin < ActiveRecord::Base
     bulletin_ids.each do |id|
       ids<<id.bulletin_id
     end
-    rec = Irm::Bulletin.select_all_top.with_author.without_delete.accessible(Irm::Person.current.id).sticky.with_order.not_in_bulletin_ids(ids).list_all
-    @unreaded=rec
+    @unreaded = Irm::Bulletin.select_all_top.with_author.without_delete.accessible(Irm::Person.current.id).sticky.with_order.not_in_bulletin_ids(ids).list_all
   end
 
 
