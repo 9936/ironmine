@@ -181,7 +181,6 @@ class Skm::EntryBooksController < ApplicationController
   #添加知识
   def add_entry
     @entry_book = Skm::EntryBook.find(params[:id])
-
     if @entry_book && params[:relation_type]
       relation_type = params[:relation_type]
       target_id = nil
@@ -193,6 +192,9 @@ class Skm::EntryBooksController < ApplicationController
       if relation_type && target_id && !target_id.eql?(@entry_book.id)
         relation = Skm::EntryBookRelation.new(:book_id => @entry_book.id, :target_id => target_id, :relation_type => relation_type)
         relation.save
+        @entry_book.updated_at=Time.now
+        @entry_book.not_auto_mult=true
+        @entry_book.save
       end
 
     end
@@ -206,12 +208,17 @@ class Skm::EntryBooksController < ApplicationController
   def remove_entry
     entry_book_relation = Skm::EntryBookRelation.where(:book_id => params[:id], :target_id => params[:target_id]).first
     entry_book_relation.destroy
+    @entry_book = Skm::EntryBook.find(params[:id])
+    @entry_book.updated_at=Time.now
+    @entry_book.not_auto_mult=true
+    @entry_book.save
     respond_to do |format|
       format.js
     end
   end
 
   def switch_sequence
+    @entry_book = Skm::EntryBook.find(params[:id])
     sequence_str = params[:ordered_ids]
     if sequence_str.present?
       sequence = 1
@@ -224,6 +231,9 @@ class Skm::EntryBooksController < ApplicationController
         sequence += 1
       end
     end
+    @entry_book.updated_at=Time.now
+    @entry_book.not_auto_mult=true
+    @entry_book.save
     respond_to do |format|
       format.json  {render :json => {:success => true}}
     end
