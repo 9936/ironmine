@@ -24,6 +24,13 @@ class Irm::Bulletin < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter.select_all}
 
+  scope :not_in_bulletin_ids,lambda{|bulletin_ids|
+    if bulletin_ids.nil?
+          bulletin_id=""
+    end
+    where("#{Irm::Bulletin.table_name}.id NOT IN (?) and  sticky_flag = 'Y' and notice_flag='Y'",bulletin_ids+[''])
+  }
+
   scope :with_author, lambda{
     select("concat(pr.last_name, pr.first_name) author")
     joins(",#{Irm::Person.table_name} pr").
@@ -74,6 +81,7 @@ class Irm::Bulletin < ActiveRecord::Base
   def self.list_all
     select_all.with_author
   end
+
 
   def self.current_accessible(companies = [])
     bulletins = Irm::Bulletin.select_all.accessible(Irm::Person.current.id).collect(&:id)
@@ -134,4 +142,5 @@ class Irm::Bulletin < ActiveRecord::Base
       self.errors[:content] << I18n.t(:error_irm_bulletin_content_can_not_blank)
     end
   end
+
 end

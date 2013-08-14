@@ -12,6 +12,7 @@ class Irm::BulletinsController < ApplicationController
     @bulletin = Irm::Bulletin.new(params[:irm_bulletin])
     @bulletin.author_id = Irm::Person.current.id
     @bulletin.page_views = 0
+    @bulletin.notice_flag="Y"
     column_ids = params[:irm_bulletin][:column_ids].split(",")
     respond_to do |format|
       file_flag = true
