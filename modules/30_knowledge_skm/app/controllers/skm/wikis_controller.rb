@@ -25,16 +25,16 @@ class Skm::WikisController < ApplicationController
         redirect_to({:action => "show", :format => :html,:id=>@wiki.id})
         return
       end
-    elsif params[:format].eql?("doc")
-      unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki)
-        redirect_to({:action => "show", :format => :html,:id=>@wiki.id})
-        return
-      end
-    elsif params[:format].eql?("docx")
-      unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki)
-        redirect_to({:action => "show", :format => :html,:id=>@wiki.id})
-        return
-      end
+    #elsif params[:format].eql?("doc")
+    #  unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki)
+    #    redirect_to({:action => "show", :format => :html,:id=>@wiki.id})
+    #    return
+    #  end
+    #elsif params[:format].eql?("docx")
+    #  unless Skm::WikiToStatic.instance.wiki_to_static?(@wiki)
+    #    redirect_to({:action => "show", :format => :html,:id=>@wiki.id})
+    #    return
+    #  end
     end
 
     respond_to do |format|
@@ -44,14 +44,14 @@ class Skm::WikisController < ApplicationController
         pdf_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki, :pdf)
         send_data File.open(pdf_path, "r").read, :filename => "#{@wiki.name}.pdf", :type => 'application/pdf', :disposition => 'inline'
       }
-      format.doc {
-        doc_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki, :doc)
-        send_data File.open(doc_path, "r").read, :filename => "#{@wiki.name}.doc", :type => 'application/doc', :disposition => 'inline'
-      }
-      format.docx {
-        docx_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki, :docx)
-        send_data File.open(docx_path, "r").read, :filename => "#{@wiki.name}.docx", :type => 'application/docx', :disposition => 'inline'
-      }
+      #format.doc {
+      #  doc_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki, :doc)
+      #  send_data File.open(doc_path, "r").read, :filename => "#{@wiki.name}.doc", :type => 'application/doc', :disposition => 'inline'
+      #}
+      #format.docx {
+      #  docx_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki, :docx)
+      #  send_data File.open(docx_path, "r").read, :filename => "#{@wiki.name}.docx", :type => 'application/docx', :disposition => 'inline'
+      #}
       #format.pdf {
       #  render :pdf => "#{@wiki.name}",
       #         :print_media_type => false,
