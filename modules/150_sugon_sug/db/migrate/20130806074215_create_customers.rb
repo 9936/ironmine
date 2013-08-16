@@ -5,10 +5,6 @@ class CreateCustomers < ActiveRecord::Migration
       t.string   "name", :limit => 200
       t.string   "parent_id", :limit => 22, :null => false, :collate => "utf8_bin"
       t.string   "zip_code", :limit => 20
-      t.string   "country_id", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.string   "province_id", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.string   "city_id", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.string   "district_id", :limit => 22, :null => false, :collate => "utf8_bin"
       t.string   "industry", :limit => 200
       t.string   "project",:limit => 200
       t.string   "profit_id", :limit => 22, :null => false, :collate => "utf8_bin"

@@ -9,6 +9,7 @@ class CreateAddresses < ActiveRecord::Migration
       t.string   "city_id", :limit => 22, :null => false, :collate => "utf8_bin"
       t.string   "district_id", :limit => 22, :null => false, :collate => "utf8_bin"
       t.string   "details"
+      t.string   "default_flag", :limit => 1, :default => 'Y'
       t.string   "status_code", :limit => 30, :default => "ENABLED"
       t.string   "created_by", :limit => 22, :collate => "utf8_bin"
       t.string   "updated_by", :limit => 22, :collate => "utf8_bin"
