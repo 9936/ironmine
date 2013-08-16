@@ -1,0 +1,74 @@
+zh:
+  label_icm_incident_request_incident_category: 服务类型
+  label_icm_incident_request_incident_status_code: 维修单状态
+  label_icm_incident_request_urgence_code: 维修级别
+  label_icm_incident_request_impact_range_code: 用户性质
+
+  #========================= icm incident_phases_controller=======================#
+  label_icm_incident_phase_list: 工单阶段列表
+  label_icm_incident_phase: 工单阶段
+  label_icm_incident_phase_new: 新建工单阶段
+  label_icm_incident_phase_edit: 编辑工单阶段
+  #========================= end icm incident_phases_controller=======================#
+
+  #=========================    icm incident_statuses_controller=======================#
+  label_icm_incident_status_list: 工单状态
+  label_icm_incident_status_edit: 编辑工单状态
+  label_icm_incident_status_new: 新建工单状态
+  label_icm_incident_status_description: 描述
+  label_icm_incident_status_info: 工单状态信息
+  label_icm_incident_status_show: 工单状态
+  label_icm_incident_status_edit_transform: 工单状态转移
+  #========================= end icm incident_statuses_controller=======================#
+  #=========================    icm incident_requests_controller=======================#
+  label_icm_incident_request_assign_me_able_list: 可领取工单列表
+  label_icm_incident_request: 工单
+  label_icm_incident_request_list: 工单列表
+  label_icm_incident_request_new: 新建工单
+  label_icm_incident_request_edit: 编辑工单
+  label_icm_incident_request_short_new: 快速创建工单
+  label_icm_incident_request_number: 工单号
+  label_icm_incident_request_request_number: 工单号
+  label_incident_request: 工单
+  label_incident_request_title: 工单主题
+  label_icm_wait_for_me_request_count: 待我回复的工单
+  label_icm_reply_today_count: 今天已回复的工单
+  label_icm_request_submitted_today_count: 今天提交的工单
+  label_icm_my_un_solved_request: 我的未解决的工单
+  label_icm_my_solved_request: 我的已解决的工单
+  label_icm_incident_request_assignable_list: 待分配工单
+  label_icm_incident_request_relation: 相关工单
+  label_icm_incident_request_relation_new: 创建关联工单
+  label_icm_incident_request_relation_error_self: 工单不能关联自身！
+  label_icm_incident_request_relation_error_no_target: 关联的工单不存在！
+  label_icm_incident_request_relation_source: 源工单
+  #========================= end icm incident_requests_controller=======================#
+
+  #========================= start sug country=======================#
+  label_sug_country: 国家
+  label_sug_country_list: 国家列表
+  label_sug_address: 国家/省/市/地区
+  #========================= end sug country=======================#
+  #========================= start sug province=======================#
+  label_sug_province: 省份
+  label_sug_province_list: 省份列表
+  #========================= end sug province=======================#
+
+  #========================= start sug city=======================#
+  label_sug_city: 城市
+  label_sug_city_list: 城市列表
+  #========================= end sug city=======================#
+  #========================= start sug city=======================#
+  label_sug_district: 地区
+  label_sug_district_list: 地区列表
+  #========================= end sug city=======================#
+
+  #========================= start sug customer=======================#
+  label_sug_customer: 客户
+  label_sug_customer_list: 客户列表
+  label_sug_customer_new: 新建客户
+  label_sug_customer_edit: 编辑客户
+  label_sug_customer_name: 客户名称
+  #========================= end sug customer=======================#
+
+

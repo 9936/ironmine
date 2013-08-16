@@ -1,0 +1,272 @@
+<%= common_title(:show_data => @person[:person_name]) %>
+
+<%= form_for(@person, :url => {:action => "update"}, :as => "irm_person", :builder => CustomFormBuilder) do |f| %>
+    <% content_for :form_block_person do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%= t(:label_irm_identity_login_name) %></label></td>
+            <td class="data-col">
+              <% if allow_to_function?(:edit_person_login_name) -%>
+                  <%= f.text_field :login_name %>
+              <% else -%>
+                  <label><%= @person.login_name %></label>
+              <% end -%>
+            </td>
+            <td class="label-col"><label><%= (t :label_irm_person_role) %></label></td>
+            <td class="data-col"><%= f.blank_select :role_id, available_roles, {}, {:id => "role_id"} %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= (t :label_irm_person_email_address) %></label></td>
+            <td class="data-col">
+              <% if allow_to_function?(:edit_person_email_and_password) -%>
+                  <%= f.text_field :email_address, :required => true %>
+              <% else -%>
+                  <label><%= @person.email_address %></label>
+              <% end -%>
+            </td>
+            <td class="label-col"><label><%= t(:label_irm_person_profile) %></label></td>
+            <td class="data-col">
+              <% if allow_to_function?(:edit_person_permission) -%>
+                  <%= f.blank_select(:profile_id, available_profile, {}, {:required => true, :id => "profile_id"}) %>
+              <% else -%>
+                  <%= f.blank_select(:profile_id, available_profile, {}, {:required => true, :id => "profile_id", :disabled => "disabled"}) %>
+              <% end -%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= (t :label_irm_person_last_name) %></label></td>
+            <td class="data-col"><%= f.text_field :last_name %></td>
+            <td class="label-col"><label><%= t(:label_irm_person_organization) %></label></td>
+            <td class="data-col"><%= f.blank_select(:organization_id, available_organization, {}, {:required => true, :chosen => true}) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= (t :label_irm_person_first_name) %></label></td>
+            <td class="data-col"><%= f.text_field :first_name, :required => true %></td>
+            <td class="label-col"><label><%= t(:label_irm_person_bussiness_phone) %></label></td>
+            <td class="data-col"><%= f.text_field :bussiness_phone, {:required => true, :irm_number_and_cross => true} %></td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%= t(:label_irm_identity_language_code) %></label></td>
+            <td class="data-col"><%= f.select(:language_code, selectable_languages) %></td>
+            <td class="label-col"><label><%= t(:label_irm_person_notification_lang) %></label></td>
+            <td class="data-col"><%= f.select :notification_lang, selectable_languages %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_irm_person_mobile_phone) %></label></td>
+            <td class="data-col"><%= f.text_field :mobile_phone, {:irm_number_only => true} %></td>
+            <td class="label-col"><label><%= t(:label_irm_person_fax_number) %></label></td>
+            <td class="data-col"><%= f.text_field :fax_number, {:irm_number_and_cross => true} %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_irm_person_notification_flag) %></label></td>
+            <td class="data-col"><%= f.check_box :notification_flag %></td>
+            <td class="label-col"><label><%= t(:label_irm_person_home_phone) %></label></td>
+            <td class="data-col"><%= f.text_field :home_phone, {:irm_number_and_cross => true} %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_irm_person_vip_flag) %></label></td>
+            <td class="data-col"><%= f.check_box :vip_flag %></td>
+            <td class="label-col"><label><%= t(:label_irm_person_home_address) %></label></td>
+            <td class="data-col"><%= f.text_field :home_address %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_irm_person_assignment_availability_flag) %></label></td>
+            <td class="data-col"><%= f.check_box :assignment_availability_flag %></td>
+            <td class="label-col"><label><%= t(:label_irm_person_status_enabled) %></label></td>
+            <td class="data-col">
+              <% if allow_to_function?(:edit_person_email_and_password) -%>
+                  <%= f.check_box :status_code, {}, "ENABLED", "OFFLINE" %>
+              <% else -%>
+                  <%= check_img(@person.status_code.to_s.eql?('ENABLED') ? 'Y' : 'N') %>
+              <% end -%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= (t :label_irm_person_ldap_source) %></label></td>
+            <td class="data-col">
+              <div>
+                <% if allow_to_function?(:edit_person_permission) -%>
+                    <%= f.blank_select(:auth_source_id, available_ldap_auth_headers_helper, {}, {}) %>
+                <% else -%>
+                    <%= @person[:ldap_source_name].blank? ? check_img("N") : @person[:ldap_source_name] %>
+                <% end -%>
+
+              </div>
+            </td>
+            <td class="label-col empty"></td>
+            <td class="data-col empty"></td>
+          </tr>
+          <% if Irm::Person.current.admin?&&!current_person?(@person.id) %>
+              <tr>
+                <td class="label-col"><label><%= t(:label_irm_person_admin_flag) %></label></td>
+                <td class="data-col"><%= f.check_box(:admin_flag) %></td>
+                <td class="label-col empty"></td>
+                <td class="data-col empty"></td>
+              </tr>
+          <% end %>
+          <tr>
+            <td class="label-col"><label for="time_zone_code"><%= t(:label_irm_person_time_zone) %></label></td>
+            <td class="data-col" colspan="3">
+              <%= f.time_zone_select :time_zone, nil %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_sug_address) %></label></td>
+            <td class="data-col" colspan="3">
+              <%= f.select :country_id, available_countries, {}, :id => "person_country", :required => true %>
+              <%= f.select :province_id, [], {}, :id => "person_province",
+                           :chosen => false,
+                           :origin_value=> @person.province_id,
+                           :depend => "person_country",
+                           :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                           :href => url_for(:controller => "sug/countries", :action => "get_province_data", :format => "json", :id => "${person_country}") %>
+
+              <%= f.select :city_id, [], {}, :id => "person_city",
+                           :chosen => false,
+                           :origin_value=> @person.city_id,
+                           :depend => "person_province",
+                           :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                           :href => url_for(:controller => "sug/provinces", :action => "get_city_data", :format => "json", :id => "${person_province}") %>
+
+              <%= f.select :district_id, [], {}, :id => "person_district",
+                           :chosen => false,
+                           :origin_value=> @person.district_id,
+                           :depend => "person_city",
+                           :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                           :href => url_for(:controller => "sug/cities", :action => "get_district_data", :format => "json", :id => "${person_city}") %>
+              <%= f.text_field :details %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_block_password do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%= t(:label_irm_identity_password) %></label></td>
+            <td class="data-col"><%= f.password_field(:password, :size => 40, :required => true, :autocomplete => "off") %></td>
+            <td class="label-col empty"></td>
+            <td class="data-col empty"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_irm_identity_password_confirmation) %></label></td>
+            <td class="data-col"><%= f.password_field(:password_confirmation, :size => 40, :required => true, :autocomplete => "off") %></td>
+            <td class="label-col empty"></td>
+            <td class="data-col empty"></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end if allow_to_function?(:edit_person_email_and_password) %>
+    <% content_for :form_block_approve do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%= t(:label_irm_person_delegate_approver) %></label></td>
+            <td class="data-col"><%= f.blank_select(:delegate_approver, available_person) %></td>
+            <td class="labelCol"><label><%= t(:label_irm_person_approve_request_mail) %></label></td>
+            <td class="data-col"><%= f.check_box :approve_request_mail %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_irm_person_delegate_manager) %></label></td>
+            <td class="data-col"><%= f.blank_select(:manager, available_person) %></td>
+            <td class="label-col empty"></td>
+            <td class="data-col empty"></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_buttons do %>
+        <% if @step %>
+            <%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "btn btn-primary next-step-btn"} %>
+        <% else %>
+            <%= link_submit t(:save), {:class => "btn btn-primary"} %>
+        <% end %>
+        <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"} %>
+    <% end %>
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <% if @step %>
+              <td class="page-block-title">
+                <h2 class="block-title"><%= t(:step_n, :n => "1") %><%= t(:label_irm_person_edit) %></h2>
+              </td>
+              <td class="page-block-button">
+                <%= content_for :form_buttons %>
+              </td>
+              <td class="page-block-help">
+                <%= t(:step_n_total_m, :n => "1", :m => "3") %>
+              </td>
+          <% else %>
+              <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_person_edit) %></h2></td>
+          <% end %>
+        </tr>
+      </table>
+      <%= error_for @person %>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 个人信息 -->
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_irm_person_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_person %>
+          </div>
+
+          <% if allow_to_function?(:edit_person_email_and_password) && @person[:ldap_flag].eql?(Irm::Constant::SYS_NO) -%>
+              <!-- 设置密码 -->
+              <div class="sub-page-block-header">
+                <h3 class="sub-page-block-title"><%= t(:label_irm_person_password_info) %></h3>
+              </div>
+              <div class="sub-page-block-body">
+                <%= content_for :form_block_password %>
+              </div>
+          <% end -%>
+          <!-- 审批信息 -->
+          <% if false %>
+              <div class="sub-page-block-header">
+                <h3 class="sub-page-block-title"><%= t(:label_irm_person_approve_info) %></h3>
+              </div>
+              <div class="sub-page-block-body">
+                <%= content_for :form_block_approve %>
+              </div>
+          <% end %>
+        </div>
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+<% end %>
+
+<script type="text/javascript">
+    $(function () {
+        $("#irm_person_new a.next-step-btn").click(function () {
+            $("#irm_person_new").attr('action', '<%= url_for(:action => "create", :controller => "irm/people", :next_action => "add_system")%>');
+            $("#irm_person_new").submit();
+        });
+        if ($("#person_country")) {
+            $("#person_country").cascade("#person_province");
+        }
+        if ($("#person_province")) {
+            $("#person_province").cascade("#person_city");
+        }
+        if ($("#person_city")) {
+            $("#person_city").cascade("#person_district");
+        }
+    })
+</script>
+
+
