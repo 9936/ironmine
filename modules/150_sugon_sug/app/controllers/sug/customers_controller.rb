@@ -13,7 +13,7 @@ class Sug::CustomersController < ApplicationController
   # GET /customers/1
   # GET /customers/1.xml
   def show
-    @customer = Sug::Customer.find(params[:id])
+    @customer = Sug::Customer.select_all.with_address.with_parent.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -35,12 +35,13 @@ class Sug::CustomersController < ApplicationController
   # GET /customers/1/edit
   def edit
     @customer = Sug::Customer.find(params[:id])
+    @customer.merge_address
   end
 
   # POST /customers
   # POST /customers.xml
   def create
-    @customer = Sug::Customer.new(params[:customer])
+    @customer = Sug::Customer.new(params[:sug_customer])
 
     respond_to do |format|
       if @customer.save
@@ -59,7 +60,7 @@ class Sug::CustomersController < ApplicationController
     @customer = Sug::Customer.find(params[:id])
 
     respond_to do |format|
-      if @customer.update_attributes(params[:customer])
+      if @customer.update_attributes(params[:sug_customer])
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
@@ -100,8 +101,8 @@ class Sug::CustomersController < ApplicationController
   end
 
   def get_data
-    customers_scope = Sug::Customer.multilingual
-    customers_scope = customers_scope.match_value("customer.name",params[:name])
+    customers_scope = Sug::Customer.select_all.with_address.with_parent
+    customers_scope = customers_scope.match_value("#{Sug::Customer.table_name}.name", params[:name])
     customers,count = paginate(customers_scope)
     respond_to do |format|
       format.html  {

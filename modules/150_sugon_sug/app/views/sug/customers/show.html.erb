@@ -3,17 +3,86 @@
 <div class="show-block">
   <table class="page-block-header"><tr>
     <td class="page-block-title">
-      <h2 class="block-title"><%= t(:label_irm_customer) %></h2>
+      <h2 class="block-title"><%= t(:label_sug_customer) %></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:edit), {:action => "edit", :id => @customer},:class=>"btn"%>
+      <%= link_to t(:edit), {:action => "edit", :id => @customer},:class=>"btn btn-primary"%>
       <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
     </td>
   </tr></table>
+  <table class="page-block-header">
+    <tbody>
+    <tr>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_common_info) %></h2></td>
+    </tr>
+    </tbody>
+  </table>
   <div class="page-block-body">
     <table class="show-table">
       <tbody>
-        
+      <tr>
+        <td class="label-col"><label><%= t(:label_sug_customer_name) %></label></td>
+        <td class="data-col"><%= @customer.name %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_sug_customer_parent) %></label></td>
+        <td class="data-col"><%= @customer[:parent_name] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_sug_customer_industry) %></label></td>
+        <td class="data-col"><%= @customer[:industry] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_sug_customer_project) %></label></td>
+        <td class="data-col"><%= @customer[:project] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+        <td class="label-col"><label><%= t(:label_sug_customer_zip_code) %></label></td>
+        <td class="data-col"><%= @customer[:zip_code] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+        <td class="label-col"><label><%= t(:label_sug_address) %></label></td>
+        <td class="data-col"><%= @customer[:address_name] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <table class="page-block-header">
+    <tbody>
+    <tr>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_sug_customer_priority) %></h2></td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%= t(:label_sug_customer_profit) %></label></td>
+        <td class="data-col"><%= @customer.profit_id %></td>
+        <td class="label-col"><label><%= t(:label_sug_customer_affect) %></label></td>
+        <td class="data-col"><%= @customer.affect_id %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_sug_customer_phase) %></label></td>
+        <td class="data-col"><%= @customer.phase_id %></td>
+        <td class="label-col"><label><%= t(:label_sug_customer_custom) %></label></td>
+        <td class="data-col"><%= @customer.custom_id %></td>
+      </tr>
       </tbody>
     </table>
   </div>

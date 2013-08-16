@@ -47,7 +47,7 @@ zh:
   #========================= start sug country=======================#
   label_sug_country: 国家
   label_sug_country_list: 国家列表
-  label_sug_address: 国家/省/市/地区
+  label_sug_address: 地址
   #========================= end sug country=======================#
   #========================= start sug province=======================#
   label_sug_province: 省份
@@ -65,10 +65,20 @@ zh:
 
   #========================= start sug customer=======================#
   label_sug_customer: 客户
+  label_sug_customer_parent: 父客户
   label_sug_customer_list: 客户列表
   label_sug_customer_new: 新建客户
   label_sug_customer_edit: 编辑客户
   label_sug_customer_name: 客户名称
+  label_sug_customer_industry: 行业
+  label_sug_customer_project: 项目
+  label_sug_customer_zip_code: 邮编
+  label_sug_customer_note: 备注信息
+  label_sug_customer_priority: 客户优先级
+  label_sug_customer_profit: 利润价值
+  label_sug_customer_affect: 影响力价值
+  label_sug_customer_phase: 实施关键阶段
+  label_sug_customer_custom: 指定情况
   #========================= end sug customer=======================#
 
 

@@ -3,14 +3,14 @@ class CreateCustomers < ActiveRecord::Migration
     create_table :sug_customers, :force => true do |t|
       t.string   "opu_id", :limit => 22, :null => false, :collate => "utf8_bin"
       t.string   "name", :limit => 200
-      t.string   "parent_id", :limit => 22, :null => false, :collate => "utf8_bin"
+      t.string   "parent_id", :limit => 22, :collate => "utf8_bin"
       t.string   "zip_code", :limit => 20
       t.string   "industry", :limit => 200
       t.string   "project",:limit => 200
-      t.string   "profit_id", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.string   "affect_id", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.string   "phase_id", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.string   "custom_id", :limit => 22, :null => false, :collate => "utf8_bin"
+      t.string   "profit_id", :limit => 22, :collate => "utf8_bin"
+      t.string   "affect_id", :limit => 22, :collate => "utf8_bin"
+      t.string   "phase_id", :limit => 22,  :collate => "utf8_bin"
+      t.string   "custom_id", :limit => 22, :collate => "utf8_bin"
       t.text "note"
       t.string   "status_code", :limit => 30, :default => "ENABLED"
       t.string   "created_by", :limit => 22, :collate => "utf8_bin"
