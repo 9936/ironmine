@@ -162,6 +162,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
     where("#{table_name}.support_person_id = ?", person_id)
   }
 
+  scope :with_workloads, lambda{
+    select("(SELECT sum(iw.real_processing_time) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id) total_processing_time")
+  }
   #scope :filter_incident_by_person, lambda{|person_id|
   #  select("#{table_name}.id").#where("#{table_name}.external_system_id IN (?)",system_ids).
   #      where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",

@@ -14,7 +14,7 @@
           <%= "#{data[:incident_category_id_label]}" %><%= "(#{data[:incident_sub_category_id_label]})" if data[:incident_sub_category_id_label].present?%>
           </CENTER>
     <% end %>
-    <% builder.column(:organization_id_label,{:title=>t(:label_irm_organization), :width => "200px"})%>
+    <% builder.column(:organization_id_label,{:title=>t(:label_irm_organization), :searchable => true, :width => "200px"})%>
     <% builder.column(:incident_category_id_label,{:title=>t(:label_icm_incident_request_incident_category), :hidden => true, :searchable=>true, :width => "0"})%>
     <% builder.column(:incident_sub_category_id_label,{:title=>t(:label_icm_incident_request_incident_sub_category), :hidden => true, :searchable=>true, :width => "0"})%>
     <% builder.column(:priority_id_label,{:title=>t(:label_icm_incident_request_priority),:searchable=>true, :width => "60px"})%>
@@ -27,6 +27,7 @@
     <% end %>
     <% builder.column(:incident_status_id_label,{:title=>t(:label_icm_incident_request_incident_status_code), :hidden => true, :searchable=>true, :width => "0"})%>
     <% builder.column(:request_by_label,{:title=>t(:label_icm_incident_request_requested_by), :hidden => true, :searchable=>true, :width => "0"})%>
+    <% builder.column(:support_group_id_label,{:title=>t(:label_icm_incident_request_support_group), :hidden => true, :searchable=>true, :width => "0"})%>
     <% builder.column(:last_response_date,{:title=>t(:label_icm_incident_request_last_date), :width => "150px",:sortable=>true})%>
     <% builder.row do |data|%>
           style="background-color:<%=data[:display_color]%>;color:<%=get_contrast_yiq(data[:display_color])%>;"

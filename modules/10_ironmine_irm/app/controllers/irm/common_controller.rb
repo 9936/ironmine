@@ -286,7 +286,7 @@ class Irm::CommonController < ApplicationController
       end
 
 
-    rescue Irm::LdapPersonError => error
+   rescue Irm::LdapPersonError => error
       params[:ldap_errors] = error.message
     end
   end
@@ -340,7 +340,8 @@ class Irm::CommonController < ApplicationController
     #  cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
     #end
     #call_hook(:controller_account_success_authentication_after, {:user => user })
-    redirect_back_or_default
+    check_if_bulletin_required  #展示置顶公告之后再进行跳转
+   # redirect_back_or_default
   end
 
   def logout_successful

@@ -18,11 +18,11 @@ module Skm::WikisHelper
   def show_wiki(wiki,preview=false)
     doc = nil
     if wiki.id.present?&&!preview
-      if Skm::WikiToStatic.instance.wiki_to_static?(wiki,:html)
+     if Skm::WikiToStatic.instance.wiki_to_static?(wiki)
         doc = Nokogiri::HTML(File.open(Skm::WikiToStatic.instance.wiki_to_static(wiki,:html),"r").read)
-      else
+     else
         doc = Skm::WikiToStatic.instance.wiki_to_doc(wiki)
-      end
+     end
     else
       doc = Skm::WikiToStatic.instance.wiki_to_doc(wiki)
     end
