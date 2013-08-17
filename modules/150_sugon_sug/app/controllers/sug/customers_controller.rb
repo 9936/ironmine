@@ -25,6 +25,7 @@ class Sug::CustomersController < ApplicationController
   # GET /customers/new.xml
   def new
     @customer = Sug::Customer.new
+    @customer.build_address
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,7 +36,6 @@ class Sug::CustomersController < ApplicationController
   # GET /customers/1/edit
   def edit
     @customer = Sug::Customer.find(params[:id])
-    @customer.merge_address
   end
 
   # POST /customers

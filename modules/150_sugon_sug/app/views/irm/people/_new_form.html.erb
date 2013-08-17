@@ -1,6 +1,7 @@
 <%= common_title() %>
 
 <%= form_for(@person, :url => {:action => "create"}, :as => "irm_person", :builder => CustomFormBuilder) do |f| %>
+    <% @person.build_address unless @person.address %>
     <% content_for :form_block_person do %>
         <table class="form-table">
           <tbody>
@@ -82,28 +83,33 @@
           <tr>
             <td class="label-col"><label><%= t(:label_sug_address) %></label></td>
             <td class="data-col" colspan="3">
-              <%= f.select :country_id, available_countries, {}, :id => "person_country", :required => true %>
-              <%= f.select :province_id, [], {}, :id => "person_province",
-                           :chosen => false,
-                           :origin_value=> @person.province_id,
-                           :depend => "person_country",
-                           :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
-                           :href => url_for(:controller => "sug/countries", :action => "get_province_data", :format => "json", :id => "${person_country}") %>
+              <%= f.fields_for :address do |a_f|  %>
+                  <%= a_f.hidden_field :source_type, :value=> "Irm::Person"  %>
 
-              <%= f.select :city_id, [], {}, :id => "person_city",
-                           :chosen => false,
-                           :origin_value=> @person.city_id,
-                           :depend => "person_province",
-                           :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
-                           :href => url_for(:controller => "sug/provinces", :action => "get_city_data", :format => "json", :id => "${person_province}") %>
+                  <%= a_f.select :country_id, available_countries, {}, :id => "person_country", :required => true %>
+                  <%= a_f.select :province_id, [], {}, :id => "person_province",
+                               :chosen => false,
+                               :origin_value=> @person.address.province_id,
+                               :depend => "person_country",
+                               :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                               :href => url_for(:controller => "sug/countries", :action => "get_province_data", :format => "json", :id => "${person_country}") %>
 
-              <%= f.select :district_id, [], {}, :id => "person_district",
-                           :chosen => false,
-                           :origin_value=> @person.district_id,
-                           :depend => "person_city",
-                           :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
-                           :href => url_for(:controller => "sug/cities", :action => "get_district_data", :format => "json", :id => "${person_city}") %>
-              <%= f.text_field :details %>
+                  <%= a_f.select :city_id, [], {}, :id => "person_city",
+                               :chosen => false,
+                               :origin_value=>  @person.address.city_id,
+                               :depend => "person_province",
+                               :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                               :href => url_for(:controller => "sug/provinces", :action => "get_city_data", :format => "json", :id => "${person_province}") %>
+
+                  <%= a_f.select :district_id, [], {}, :id => "person_district",
+                               :chosen => false,
+                               :origin_value=>  @person.address.district_id,
+                               :depend => "person_city",
+                               :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                               :href => url_for(:controller => "sug/cities", :action => "get_district_data", :format => "json", :id => "${person_city}") %>
+                  <%= a_f.text_field :details %>
+              <% end %>
+
             </td>
           </tr>
           </tbody>

@@ -16,4 +16,5 @@ class Sug::Address < ActiveRecord::Base
         joins("JOIN #{Sug::District.table_name} d ON d.id=#{table_name}.district_id")
 
   }
+
 end

@@ -1,16 +1,21 @@
 class Sug::Customer < ActiveRecord::Base
   set_table_name :sug_customers
 
-  attr_accessor :country_id, :province_id, :city_id, :district_id, :details, :level
+  has_one :address, :foreign_key => :source_id, :dependent => :destroy
 
-  validates_presence_of :country_id, :name, :project
+  attr_accessor :level
 
-  after_save :save_address, :explore_hierarchy
+  validates_presence_of :name, :project
+
+
+  after_save :explore_hierarchy
 
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
   default_scope {default_filter}
+
+  accepts_nested_attributes_for :address
 
 
   scope :with_parent,lambda{
@@ -46,44 +51,11 @@ class Sug::Customer < ActiveRecord::Base
   end
 
 
-  def merge_address
-    address = Sug::Address.query_by_source(self.id, self.class.to_s).first
-    if address.present?
-      self.country_id = address.country_id
-      self.province_id = address.province_id
-      self.city_id = address.city_id
-      self.district_id = address.district_id
-      self.details = address.details
-    end
-  end
-
 
   private
 
     def explore_hierarchy
       Sug::CustomerExplosion.explore_hierarchy(self.id, self.parent_id)
-    end
-
-
-
-    def save_address
-      address = Sug::Address.query_by_source(self.id, self.class.to_s).first
-      if address.present?
-        address.update_attributes({:country_id => self.country_id,
-                                   :province_id => self.province_id,
-                                   :city_id => self.city_id,
-                                   :district_id => self.district_id,
-                                   :details => self.details})
-      else
-        address = Sug::Address.new({:source_id => self.id,
-                                    :source_type => self.class.to_s,
-                                    :country_id => self.country_id,
-                                    :province_id => self.province_id,
-                                    :city_id => self.city_id,
-                                    :district_id => self.district_id,
-                                    :details => self.details})
-        address.save
-      end
     end
 
 end
