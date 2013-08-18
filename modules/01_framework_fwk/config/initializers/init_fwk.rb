@@ -20,7 +20,7 @@ Delayed::Backend::ActiveRecord::Job.send(:include, Fwk::ExtendsLogDelayedJob)
 Delayed::Worker.send(:include, Fwk::ExtendsLogDelayedWorker)
 
 #修改asset path 生成相对路径
-ActionView::AssetPaths.send(:include, Fwk::AssetPaths)
+#ActionView::AssetPaths.send(:include, Fwk::AssetPaths)
 
 #配置delayed_job
 #当job执行失败,是否从队列中删除
