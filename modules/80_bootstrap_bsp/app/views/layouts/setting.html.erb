@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale%>" class="<%= controller_action_css_class%> setting-page">
 <head>
+  <!--页面个性化head加载-->
+  <% if content_for?(:page_head) %>
+      <%=yield :page_head%>
+  <% end %>
   <%= render "layouts/head" %>
 </head>
 <body id ="body">
