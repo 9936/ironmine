@@ -1,0 +1,56 @@
+<div id="address-template" style="display: none;">
+  <div class="form-field-wrapped">
+    <span class="form-field-required-flag"></span>
+        <span class="form-field">
+          <%= select_tag "address[${size}][country]", options_for_select(available_countries), :id => "address_${size}_country", :class => "region-select",:chosen => false, %>
+          <%= select_tag "address[${size}][province]", options_for_select([]), :id => "address_${size}_province", :class => "region-select",
+                         :chosen => false,
+                         :depend=>"address_${size}_country",
+                         :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                         :href=>url_for(:controller=>"sug/countries",:action=>"get_province_data",:format=>"json",:id=>"${address_0_country}", "_dom_id" => "null") %>
+
+          <%= select_tag "address[${size}][city]", options_for_select([]), :id => "address_${size}_city", :class => "region-select",
+                         :chosen => false,
+                         :depend=>"address_${size}_province",
+                         :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                         :href=>url_for(:controller=>"sug/provinces",:action=>"get_city_data",:format=>"json",:id=>"${address_0_province}", "_dom_id" => "null") %>
+          <%= select_tag "address[${size}][district]", options_for_select([]), :id => "address_${size}_district", :class => "region-select",
+                         :chosen => false,
+                         :depend=>"address_${size}_city",
+                         :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                         :href=>url_for(:controller=>"sug/cities",:action=>"get_district_data",:format=>"json",:id=>"${address_0_city}", "_dom_id" => "null") %>
+          <%= text_field_tag "address[${size}][details]", nil, :id => "address_${size}_details" %>
+        </span>
+  </div>
+</div>
+<div id="address-body">
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var size = 0, templateHtml = $("#address-template").html();
+        for(var i= 0; i<2; i++){
+            size = i
+            addAddress(size, templateHtml);
+        }
+
+        function addAddress(size, templateHtml) {
+            var node = $.tmpl(templateHtml, {size: size});
+            $("#address-body").append(node);
+            buildCascade(size);
+        }
+
+        function buildCascade(size){
+            if($("#address_"+size+"_country")){
+                $("#address_"+size+"_country").cascade("#address_"+size+"_province");
+            }
+            if($("#address_"+size+"_province")){
+                $("#address_"+size+"_province").cascade("#address_"+size+"_city");
+            }
+            if($("#address_"+size+"_city")){
+                $("#address_"+size+"_city").cascade("#address_"+size+"_district");
+            }
+        }
+    });
+</script>
