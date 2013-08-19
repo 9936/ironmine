@@ -85,7 +85,8 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :sequence => 100,
                   :en => {:name => "Mail Request Conf.", :description => "Mail Request Conf."},
                   :zh => {:name => "邮服务单设置", :description => "邮服务单设置"},
-              }},
+              }
+          },
           :incident_category => {
               :type => "function",
               :entry => {
@@ -93,10 +94,39 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :en => {:name => "Incident Category", :description => "Incident Category"},
                   :zh => {:name => "分类设置", :description => "创建、编辑服务单的分类，或为分类添加子分类"},
               }
+          },
+          :sug_category => {
+              :type => "function",
+              :entry => {
+                  :sequence => 36,
+                  :en => {:name => "Category Tree", :description => "Category Tree"},
+                  :zh => {:name => "三级类型", :description => "三级类型"},
+              }
           }
       }
   }
   #====================================End 覆盖事故单菜单设置======================================
+
+  map.function_group :sug_category, {
+      :en => {:name => "Customer", :description => "Customer"},
+      :zh => {:name => "客户", :description => "客户"}
+  }
+  map.function_group :sug_category, {
+      :zone_code => "INCIDENT_SETTING",
+      :controller => "sug/categories",
+      :action => "index"}
+  map.function_group :sug_category, {
+      :children => {
+          :sug_category => {
+              :en => {:name => "Category Tree", :description => "Category Tree"},
+              :zh => {:name => "三级类型设置", :description => "三级类型设置"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "sug/categories" => ["create", "edit", "get_data", "index", "new", "show", "update"],
+          },
+      }
+  }
 
 
   #=================================START:国家、省市地区=================================

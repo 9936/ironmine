@@ -44,6 +44,17 @@ zh:
   label_icm_incident_request_relation_source: 源工单
   #========================= end icm incident_requests_controller=======================#
 
+  #========================= start sug category=======================#
+  label_sug_category: 三级类型
+  label_sug_category_list: 三级类型列表
+  label_sug_category_new: 新建三级类型
+  label_sug_category_edit: 编辑三级类型
+  label_sug_category_zero: 三级类型类别
+  label_sug_category_one: 一级类型
+  label_sug_category_two: 二级类型
+  label_sug_category_three: 三级类型
+  #========================= end sug category=======================#
+
   #========================= start sug country=======================#
   label_sug_country: 国家
   label_sug_country_list: 国家列表
