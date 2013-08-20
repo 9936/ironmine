@@ -51,10 +51,13 @@ class Icm::IncidentRequestsController < ApplicationController
     @return_url = params[:return_url] if params[:return_url]
     #加入创建事故单的默认参数
     prepared_for_create(@incident_request)
-    #if @incident_request.estimated_date.present?
-    #
-    #end
-
+    if @incident_request.estimated_date.present?
+      begin
+        @incident_request.estimated_date = @incident_request.estimated_date + 18.hour if @incident_request.estimated_date.strftime('%H').to_i == 0
+      rescue
+        nil
+      end
+    end
     respond_to do |format|
       flag = true
       flag, now = validate_files(@incident_request) if params[:files].present?
@@ -394,7 +397,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :priority_id, :priority_id_label,
                       :external_system_id, :external_system_id_label]
     bo = Irm::BusinessObject.where(:business_object_code => "ICM_INCIDENT_REQUESTS").first
-    close_status_ids = Icm::IncidentStatus.where(:close_flag, "Y").enabled.collect(&:id)
+    close_status_ids = Icm::IncidentStatus.where(:close_flag => "Y").enabled.collect(&:id)
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns, true)).
         with_external_system(I18n.locale).
         where("LENGTH(external_system_id) > 0").
