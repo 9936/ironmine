@@ -48,6 +48,15 @@ Rails.application.routes.draw do
     match '/customers/create(.:format)' => "customers#create", :via => :post
     match '/customers/:id/update(.:format)' => "customers#update", :via => :put
 
+    #Sug_contact
+    match '/contacts/get_data(.:format)' => "contacts#get_data"
+    match '/contacts(/index)(.:format)' => "contacts#index", :via => :get
+    match '/contacts/:id/edit(.:format)' => "contacts#edit", :via => :get
+    match '/contacts/new(.:format)' => "contacts#new", :via => :get
+    match '/contacts/:id/show(.:format)' => "contacts#show", :via => :get
+    match '/contacts/create(.:format)' => "contacts#create", :via => :post
+    match '/contacts/:id/update(.:format)' => "contacts#update", :via => :put
+
     #Sug_categories
     match '/categories/get_data(.:format)' => "categories#get_data"
     match '/categories(/index)(.:format)' => "categories#index", :via => :get

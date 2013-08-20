@@ -1,0 +1,2 @@
+module Sug::ContactsHelper
+end

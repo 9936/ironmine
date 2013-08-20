@@ -5,9 +5,9 @@ class CreateAddresses < ActiveRecord::Migration
       t.string   "source_id", :limit => 22, :null => false, :collate => "utf8_bin"
       t.string   "source_type", :limit => 50
       t.string   "country_id", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.string   "province_id", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.string   "city_id", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.string   "district_id", :limit => 22, :null => false, :collate => "utf8_bin"
+      t.string   "province_id", :limit => 22,  :collate => "utf8_bin"
+      t.string   "city_id", :limit => 22,  :collate => "utf8_bin"
+      t.string   "district_id", :limit => 22, :collate => "utf8_bin"
       t.string   "details"
       t.string   "default_flag", :limit => 1, :default => 'Y'
       t.string   "status_code", :limit => 30, :default => "ENABLED"

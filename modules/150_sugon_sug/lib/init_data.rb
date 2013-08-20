@@ -35,6 +35,14 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :en => {:name => "Customer", :description => "Customer"},
                   :zh => {:name => "客户", :description => "客户"},
               }
+          },
+          :sug_contact => {
+              :type => "function",
+              :entry => {
+                  :sequence => 20,
+                  :en => {:name => "Contact", :description => "Contact"},
+                  :zh => {:name => "联系人", :description => "联系人"},
+              }
           }
       }
   }
@@ -60,7 +68,48 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
   #====================================End 客户管理======================================
-
+  map.function_group :sug_customer, {
+      :en => {:name => "Customer", :description => "Customer"},
+      :zh => {:name => "客户", :description => "客户"}
+  }
+  map.function_group :sug_customer, {
+      :zone_code => "SYSTEM_SETTING",
+      :controller => "sug/customers",
+      :action => "index"}
+  map.function_group :sug_customer, {
+      :children => {
+          :sug_customer => {
+              :en => {:name => "Manage Customer", :description => "Manage Customer"},
+              :zh => {:name => "管理客户", :description => "管理客户"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "sug/customers" => ["create", "edit", "get_data", "index", "new", "show", "update"],
+          },
+      }
+  }
+  #====================================Start 联系人======================================
+  map.function_group :sug_contact, {
+      :en => {:name => "Contact", :description => "Contact"},
+      :zh => {:name => "联系人", :description => "联系人"},
+  }
+  map.function_group :sug_contact, {
+      :zone_code => "SYSTEM_SETTING",
+      :controller => "sug/contacts",
+      :action => "index"}
+  map.function_group :sug_contact, {
+      :children => {
+          :sug_contact => {
+              :en => {:name => "Manage Contact", :description => "Manage Contact"},
+              :zh => {:name => "管理联系人", :description => "管理联系人"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "sug/contacts" => ["create", "edit", "get_data", "index", "new", "show", "update"],
+          },
+      }
+  }
+  #====================================End 联系人======================================
 
   #====================================Start 覆盖事故单菜单设置======================================
   map.menu :management_setting, {
