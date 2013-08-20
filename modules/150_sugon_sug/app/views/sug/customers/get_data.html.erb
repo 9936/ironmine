@@ -1,0 +1,14 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation),:width=>"80px"}) do |data| %>
+        <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},:class => "action-link") %>&nbsp;|
+        <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},:class => "action-link") %>
+    <% end %>
+    <% builder.column(:name,{:title=>t(:label_sug_customer)})%>
+    <% builder.column(:parent_id,{:title=>t(:label_sug_customer_parent)}) do |data|%>
+      <%= data[:parent_name] %>
+    <% end %>
+    <% builder.column(:project,{:title=>t(:label_sug_customer_project)})%>
+    <% builder.column(:industry,{:title=>t(:label_sug_customer_industry)})%>
+    <% builder.column(:address_name,{:title=>t(:label_sug_address)}) %>
+    <% builder.column(:note,{:title=>t(:description)})%>
+<% end %>

@@ -19,7 +19,8 @@ Delayed::Backend::Base::ClassMethods.send(:include, Fwk::DelayedJobBaseEx)
 Delayed::Backend::ActiveRecord::Job.send(:include, Fwk::ExtendsLogDelayedJob)
 Delayed::Worker.send(:include, Fwk::ExtendsLogDelayedWorker)
 
-
+#修改asset path 生成相对路径
+#ActionView::AssetPaths.send(:include, Fwk::AssetPaths)
 
 #配置delayed_job
 #当job执行失败,是否从队列中删除
@@ -113,4 +114,6 @@ rails_config.fwk.jscss.merge!({
                                   :raphael => {:css =>[], :js => ["plugins/raphael","plugins/raphael-extend"]},
                                   :orgchart => {:css => ["plugins/jquery-orgchart"], :js => ["plugins/jquery-orgchart"]}
                               })
+
+
 

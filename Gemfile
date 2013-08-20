@@ -78,6 +78,8 @@ end
 #  gem "better_errors"
 #end
 
+gem "httparty", "~> 0.11.0"
+
 # Deploy with Capistrano
 gem 'capistrano'
 gem 'rvm-capistrano', :require => false

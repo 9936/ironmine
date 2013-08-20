@@ -1,0 +1,146 @@
+<%= common_title %>
+<%= form_for(@contact,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
+    <% content_for :form_block_a   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%= (t :label_irm_person_last_name) %></label></td>
+            <td class="data-col"><%= f.text_field :last_name %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= (t :label_irm_person_first_name) %></label></td>
+            <td class="data-col"><%= f.text_field :first_name, :required => true %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= (t :label_sug_contact_sex) %></label></td>
+            <td class="data-col"><%= f.lookup_field :sex,"SUG_SEX" %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_sug_contact_mobile_phone) %></label></td>
+            <td class="data-col"><%= f.text_field :mobile_phone, {:irm_number_only => true} %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_sug_contact_home_phone) %></label></td>
+            <td class="data-col"><%= f.text_field :home_phone, {:irm_number_and_cross => true} %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_sug_contact_email_address) %></label></td>
+            <td class="data-col"><%= f.text_field :email_address %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+
+          <%= render :partial => "sug/addresses/address_template", :locals => {:f => f, :target => "addresses", :source_type => "Sug::Contact", :total_size => @contact.addresses.size} %>
+
+
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_buttons  do %>
+        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+        <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_sug_contact_new)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= error_for @contact %>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a   %>
+          </div>
+        </div>
+
+      </div>
+
+      <table class="page-block-footer"><tr>
+        <td class="page-block-title">
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+//    $(function () {
+//        var totalSize = $("tr.address-item").length;
+//        for(var i=0; i<totalSize; i++) {
+//            buildCascade(i);
+//        }
+//
+//        $("a.delete-address").on("click", function(e){
+//            var $tr = $(this).closest("tr"), addressId = $tr.data("id");
+//            if (addressId) {
+//                //ajax删除地址
+//                $.ajax({
+//
+//                })
+//            }
+//            $tr.remove();
+//            e.preventDefault();
+//        });
+//
+//        $("#add-address-btn").click(function(e){
+//            var $this = $(this), $tr = $this.closest("tr");
+//            var newNode = $tr.clone(), size = $tr.data("size");
+//            var newHtml = newNode.html();
+//            var regArr = [new RegExp("country_"+size , "g"), new RegExp("province_"+size, "g"),
+//                          new RegExp("city_"+size, "g"), new RegExp("district_"+size, "g"), new RegExp("\\["+size +"\\]", "g")]
+//            console.log(regArr);
+//            size = $("tr.address-item").length;
+//            newNode.html(newHtml.replace(regArr[0], "country_"+size)
+//                    .replace(regArr[1], "province_"+size)
+//                    .replace(regArr[2], "city_"+size)
+//                    .replace(regArr[3], "district_"+size)
+//                    .replace(regArr[4], "["+size+"]"));
+//            newNode.find(".add-address").remove();
+//            newNode.find(".delete-item").remove();
+//            newNode.find(".delete-address").show();
+//            newNode.insertBefore($tr);
+//            newNode.attr("data-size", size);
+//            //清空新添加的条目,默认为空
+//            $("#province_"+size).removeAttr("origin_value");
+//            $("#city_"+size).removeAttr("origin_value");
+//            $("#district_"+size).removeAttr("origin_value");
+//            newNode.find("input[type=text]").val("");
+//
+//            buildCascade(size);
+//            e.preventDefault();
+//        });
+//
+//        function buildCascade(size) {
+//            if ($("#country_"+size)) {
+//                $("#country_"+size).cascade("#province_"+size);
+//            }
+//            if ($("#province_"+size)) {
+//                $("#province_"+size).cascade("#city_"+size);
+//            }
+//            if ($("#city_"+size)) {
+//                $("#city_"+size).cascade("#district_"+size);
+//            }
+//        }
+//    });
+</script>
