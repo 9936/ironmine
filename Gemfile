@@ -84,8 +84,8 @@ gem "httparty", "~> 0.11.0"
 gem 'capistrano'
 gem 'rvm-capistrano', :require => false
 
-gem 'ruby-oci8'
-gem 'activerecord-oracle_enhanced-adapter'
+#gem 'ruby-oci8'
+#gem 'activerecord-oracle_enhanced-adapter'
 
 
 if RUBY_VERSION =~ /1.9/

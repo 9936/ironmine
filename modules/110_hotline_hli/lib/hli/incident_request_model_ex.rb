@@ -7,6 +7,14 @@ module Hli::IncidentRequestModelEx
         select("(SELECT sum(iw.real_processing_time) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id) total_processing_time")
       }
 
+      scope :with_workloads_remote, lambda{
+        select("(SELECT sum(iw.real_processing_time) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND iw.workload_type = 'REMOTE') total_processing_time_remote")
+      }
+
+      scope :with_workloads_scene, lambda{
+        select("(SELECT sum(iw.real_processing_time) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND iw.workload_type = 'SCENE') total_processing_time_scene")
+      }
+
       validates_presence_of :contact_number
 
     #  def self.search(query)
