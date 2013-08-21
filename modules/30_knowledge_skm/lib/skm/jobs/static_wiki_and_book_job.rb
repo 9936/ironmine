@@ -16,6 +16,9 @@ class Skm::Jobs::StaticWikiAndBookJob<Struct.new(:event_id)
       end
       event.end_at = Time.now
       event.save
+      if event.last_error
+        raise(e)
+      end
     end
   end
 end

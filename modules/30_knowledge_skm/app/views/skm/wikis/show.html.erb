@@ -10,7 +10,7 @@
 
     <td class="page-block-button btn-toolbar">
       <div class="btn-group" >
-        <%= link_to t(:edit), {:controller=>"skm/books",:action => "index"}, :class => "btn" %>
+        <%= link_to t(:edit), {:action => "edit", :id => @wiki},:class=>"btn"%>
       </div>
 
       <% if Skm::WikiToStatic.instance.wiki_to_static?(@wiki) %>
