@@ -44,6 +44,17 @@ zh:
   label_icm_incident_request_relation_source: 源工单
   #========================= end icm incident_requests_controller=======================#
 
+  #========================= start sug category=======================#
+  label_sug_category: 三级类型
+  label_sug_category_list: 三级类型列表
+  label_sug_category_new: 新建三级类型
+  label_sug_category_edit: 编辑三级类型
+  label_sug_category_zero: 三级类型类别
+  label_sug_category_one: 一级类型
+  label_sug_category_two: 二级类型
+  label_sug_category_three: 三级类型
+  #========================= end sug category=======================#
+
   #========================= start sug country=======================#
   label_sug_country: 国家
   label_sug_country_list: 国家列表
@@ -79,6 +90,17 @@ zh:
   label_sug_customer_affect: 影响力价值
   label_sug_customer_phase: 实施关键阶段
   label_sug_customer_custom: 指定情况
+  #========================= end sug customer=======================#
+
+  #========================= start sug customer=======================#
+  label_sug_contact: 联系人
+  label_sug_contact_list: 联系人列表
+  label_sug_contact_sex: 性别
+  label_sug_contact_mobile_phone: 移动电话
+  label_sug_contact_home_phone: 办公电话
+  label_sug_contact_email_address: 电子邮件
+  label_sug_contact_default_address: 主要地址
+  label_sug_contact_new: 新建联系人
   #========================= end sug customer=======================#
 
 

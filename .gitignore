@@ -26,4 +26,5 @@ lib/menu_data.rb
 modules/module
 **/.DS_Store
 .DS_Store
+.ruby-uuid
 

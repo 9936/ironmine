@@ -1,0 +1,145 @@
+<%= common_title %>
+<%= form_for(@contact,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_a   do%>
+    <table class="form-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%= (t :label_irm_person_last_name) %></label></td>
+        <td class="data-col"><%= f.text_field :last_name %></td>
+        <td class="label-col"></td>
+        <td class="data-col"></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= (t :label_irm_person_first_name) %></label></td>
+        <td class="data-col"><%= f.text_field :first_name, :required => true %></td>
+        <td class="label-col"></td>
+        <td class="data-col"></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= (t :label_sug_contact_sex) %></label></td>
+        <td class="data-col"><%= f.lookup_field :sex,"SUG_SEX" %></td>
+        <td class="label-col"></td>
+        <td class="data-col"></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_sug_contact_mobile_phone) %></label></td>
+        <td class="data-col"><%= f.text_field :mobile_phone, {:irm_number_only => true} %></td>
+        <td class="label-col"></td>
+        <td class="data-col"></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_sug_contact_home_phone) %></label></td>
+        <td class="data-col"><%= f.text_field :home_phone, {:irm_number_and_cross => true} %></td>
+        <td class="label-col"></td>
+        <td class="data-col"></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_sug_contact_email_address) %></label></td>
+        <td class="data-col"><%= f.text_field :email_address %></td>
+        <td class="label-col"></td>
+        <td class="data-col"></td>
+      </tr>
+      <%= f.fields_for :addresses do |a_f|  %>
+        <tr data-size="0">
+          <td class="label-col"><label><%= t(:label_sug_address) %></label></td>
+          <td class="data-3col" colspan="3">
+              <%= a_f.hidden_field :source_type, :value=> "Sug::Contact"  %>
+              <%= a_f.select :country_id, available_countries, {}, :id => "country_0", :required => true %>
+              <%= a_f.select :province_id, [], {}, :id => "province_0",
+                             :chosen => false,
+                             :depend => "country_0",
+                             :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                             :href => url_for(:controller => "sug/countries", :action => "get_province_data", :format => "json", :id => "${country_0}") %>
+
+              <%= a_f.select :city_id, [], {}, :id => "city_0",
+                             :chosen => false,
+                             :depend => "province_0",
+                             :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                             :href => url_for(:controller => "sug/provinces", :action => "get_city_data", :format => "json", :id => "${province_0}") %>
+
+              <%= a_f.select :district_id, [], {}, :id => "district_0",
+                             :chosen => false,
+                             :depend => "city_0",
+                             :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                             :href => url_for(:controller => "sug/cities", :action => "get_district_data", :format => "json", :id => "${city_0}") %>
+              <%= a_f.text_field :details %>
+              <%= link_to "", :class => "btn btn-success", :id => "add-address-btn" do %>
+                <i class="icon-plus icon-white"></i>
+              <% end %>
+
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+  <% end %>
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header"><tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%=t(:label_sug_contact_new)%></h2>
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+    </tr></table>
+    <div class="page-block-body">
+      <%= error_for @contact %>
+      <div class="sub-page-block">
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_a   %>
+        </div>
+      </div>
+
+    </div>
+
+    <table class="page-block-footer"><tr>
+      <td class="page-block-title">
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+    </tr></table>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+    $(function () {
+        buildCascade(0);
+        $("#add-address-btn").click(function(e){
+            var $this = $(this), $tr = $this.closest("tr");
+            var newNode = $tr.clone(), size = $tr.data("size") + 1;
+            $tr.attr("data-size", size);
+            var newHtml = newNode.html();
+            newNode.html(newHtml.replace(/country_0/g, "country_"+size)
+                                .replace(/province_0/g, "province_"+size)
+                                .replace(/city_0/g, "city_"+size)
+                                .replace(/district_0/g, "district_"+size)
+                                .replace(/\[0\]/g, "["+size+"]"));
+            newNode.find(".btn").remove();
+            newNode.insertBefore($tr);
+            buildCascade(size);
+            e.preventDefault();
+        });
+
+        function buildCascade(size) {
+            if ($("#country_"+size)) {
+                $("#country_"+size).cascade("#province_"+size);
+            }
+            if ($("#province_"+size)) {
+                $("#province_"+size).cascade("#city_"+size);
+            }
+            if ($("#city_"+size)) {
+                $("#city_"+size).cascade("#district_"+size);
+            }
+        }
+    });
+</script>

@@ -1,0 +1,105 @@
+<% size = 0;  total_size ||= 0 %>
+<%= f.fields_for target.to_sym do |a_f|  %>
+    <tr data-size="<%= size %>" class="address-item" data-id="<%= a_f.object.id %>">
+      <td class="label-col"><label><%= t(:label_sug_address) %></label></td>
+      <td class="data-3col" colspan="3">
+        <%= a_f.hidden_field :source_type, :value=> source_type %>
+        <%= a_f.select :country_id, available_countries, {}, :id => "country_#{size}", :required => true %>
+        <%= a_f.select :province_id, [], {}, :id => "province_#{size}",
+                       :chosen => false,
+                       :depend => "country_#{size}",
+                       :origin_value=> a_f.object.province_id,
+                       :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                       :href => url_for(:controller => "sug/countries", :action => "get_province_data", :format => "json", :id => "${country_#{size}}") %>
+
+        <%= a_f.select :city_id, [], {}, :id => "city_#{size}",
+                       :chosen => false,
+                       :depend => "province_#{size}",
+                       :origin_value=> a_f.object.city_id,
+                       :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                       :href => url_for(:controller => "sug/provinces", :action => "get_city_data", :format => "json", :id => "${province_#{size}}") %>
+
+        <%= a_f.select :district_id, [], {}, :id => "district_#{size}",
+                       :chosen => false,
+                       :depend => "city_#{size}",
+                       :origin_value=> a_f.object.district_id,
+                       :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                       :href => url_for(:controller => "sug/cities", :action => "get_district_data", :format => "json", :id => "${city_#{size}}") %>
+        <%= a_f.text_field :details %>
+        <% size += 1 %>
+        <% if size == total_size %>
+            <%= link_to "#", :class => "btn btn-success add-address", :id => "add-address-btn" do %>
+                <i class="icon-plus icon-white"></i>
+            <% end %>
+            <%= link_to "#", :class => "btn btn-danger delete-address", :style => "display:none;" do %>
+                <i class="icon-minus icon-white"></i>
+            <% end %>
+        <% else %>
+            <%= link_to "#", :class => "btn btn-danger delete-address" do %>
+                <i class="icon-minus icon-white"></i>
+            <% end %>
+        <% end %>
+      </td>
+    </tr>
+<% end %>
+
+<script type="text/javascript">
+    $(function () {
+        var totalSize = $("tr.address-item").length;
+        for(var i=0; i<totalSize; i++) {
+            buildCascade(i);
+        }
+
+        $("a.delete-address").on("click", function(e){
+            var $tr = $(this).closest("tr"), addressId = $tr.data("id");
+            if (addressId) {
+                //ajax删除地址
+                $.ajax({
+
+                })
+            }
+            $tr.remove();
+            e.preventDefault();
+        });
+
+        $("#add-address-btn").click(function(e){
+            var $this = $(this), $tr = $this.closest("tr");
+            var newNode = $tr.clone(), size = $tr.data("size");
+            var newHtml = newNode.html();
+            var regArr = [new RegExp("country_"+size , "g"), new RegExp("province_"+size, "g"),
+                new RegExp("city_"+size, "g"), new RegExp("district_"+size, "g"), new RegExp("\\["+size +"\\]", "g")]
+            console.log(regArr);
+            size = $("tr.address-item").length;
+            newNode.html(newHtml.replace(regArr[0], "country_"+size)
+                    .replace(regArr[1], "province_"+size)
+                    .replace(regArr[2], "city_"+size)
+                    .replace(regArr[3], "district_"+size)
+                    .replace(regArr[4], "["+size+"]"));
+            newNode.find(".add-address").remove();
+            newNode.find(".delete-item").remove();
+            newNode.find(".delete-address").show();
+            newNode.insertBefore($tr);
+            newNode.attr("data-size", size);
+            //清空新添加的条目,默认为空
+            $("#province_"+size).removeAttr("origin_value");
+            $("#city_"+size).removeAttr("origin_value");
+            $("#district_"+size).removeAttr("origin_value");
+            newNode.find("input[type=text]").val("");
+
+            buildCascade(size);
+            e.preventDefault();
+        });
+
+        function buildCascade(size) {
+            if ($("#country_"+size)) {
+                $("#country_"+size).cascade("#province_"+size);
+            }
+            if ($("#province_"+size)) {
+                $("#province_"+size).cascade("#city_"+size);
+            }
+            if ($("#city_"+size)) {
+                $("#city_"+size).cascade("#district_"+size);
+            }
+        }
+    });
+</script>
