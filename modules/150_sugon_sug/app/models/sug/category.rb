@@ -9,6 +9,12 @@ class Sug::Category < ActiveRecord::Base
   belongs_to :parent, :class_name => name, :foreign_key => :parent_id
   has_many :children, :class_name => name, :foreign_key => :parent_id, :dependent => :destroy
 
+  before_save do
+    if self.leaf?
+      self.leaf_flag = 'Y'
+    end
+  end
+
   scope :roots, lambda {
     where("#{self.table_name}.parent_id IS NULL")
   }

@@ -8,7 +8,7 @@ class Sug::Customer < ActiveRecord::Base
   validates_presence_of :name, :project
 
 
-  after_save :explore_hierarchy
+  #after_save :explore_hierarchy
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -52,10 +52,10 @@ class Sug::Customer < ActiveRecord::Base
 
 
 
-  private
-
-    def explore_hierarchy
-      Sug::CustomerExplosion.explore_hierarchy(self.id, self.parent_id)
-    end
+  #private
+  #
+  #  def explore_hierarchy
+  #    Sug::CustomerExplosion.explore_hierarchy(self.id, self.parent_id)
+  #  end
 
 end

@@ -28,43 +28,45 @@
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
+          <%= f.fields_for :address do |a_f|  %>
           <tr>
             <td class="label-col"><label><%=t(:label_sug_customer_zip_code)%></label></td>
-            <td class="data-col"><%=f.text_field :zip_code %></td>
+            <td class="data-col"><%=a_f.text_field :zip_code %></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_sug_address)%></label></td>
             <td class="data-3col" colspan="3">
-              <%= f.fields_for :address do |a_f|  %>
-                  <%= a_f.hidden_field :source_type, :value=> "Sug::Customer"  %>
-                  <%= a_f.select :country_id, available_countries, {}, :id => "customer_country", :required => true %>
-                  <%= a_f.select :province_id, [], {}, :id => "customer_province",
-                                 :chosen => false,
-                                 :origin_value=> @customer.address.province_id,
-                                 :depend => "customer_country",
-                                 :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
-                                 :href => url_for(:controller => "sug/countries", :action => "get_province_data", :format => "json", :id => "${customer_country}") %>
 
-                  <%= a_f.select :city_id, [], {}, :id => "customer_city",
-                                 :chosen => false,
-                                 :origin_value=> @customer.address.city_id,
-                                 :depend => "customer_province",
-                                 :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
-                                 :href => url_for(:controller => "sug/provinces", :action => "get_city_data", :format => "json", :id => "${customer_province}") %>
+              <%= a_f.hidden_field :source_type, :value=> "Sug::Customer"  %>
+              <%= a_f.select :country_id, available_countries, {}, :id => "customer_country", :required => true %>
+              <%= a_f.select :province_id, [], {}, :id => "customer_province",
+                             :chosen => false,
+                             :origin_value=> @customer.address.province_id,
+                             :depend => "customer_country",
+                             :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                             :href => url_for(:controller => "sug/countries", :action => "get_province_data", :format => "json", :id => "${customer_country}") %>
 
-                  <%= a_f.select :district_id, [], {}, :id => "customer_district",
-                                 :chosen => false,
-                                 :origin_value=> @customer.address.district_id,
-                                 :depend => "customer_city",
-                                 :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
-                                 :href => url_for(:controller => "sug/cities", :action => "get_district_data", :format => "json", :id => "${customer_city}") %>
-                  <%= a_f.text_field :details %>
-              <% end %>
+              <%= a_f.select :city_id, [], {}, :id => "customer_city",
+                             :chosen => false,
+                             :origin_value=> @customer.address.city_id,
+                             :depend => "customer_province",
+                             :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                             :href => url_for(:controller => "sug/provinces", :action => "get_city_data", :format => "json", :id => "${customer_province}") %>
+
+              <%= a_f.select :district_id, [], {}, :id => "customer_district",
+                             :chosen => false,
+                             :origin_value=> @customer.address.district_id,
+                             :depend => "customer_city",
+                             :blank => "--- #{t(:actionview_instancetag_blank_option)} ---",
+                             :href => url_for(:controller => "sug/cities", :action => "get_district_data", :format => "json", :id => "${customer_city}") %>
+              <%= a_f.text_field :details %>
+
 
             </td>
           </tr>
+          <% end %>
           <tr>
             <td class="label-col"><label><%=t(:label_sug_customer_note)%></label></td>
             <td class="data-col"><%= f.text_area :note, :rows => 4, :class => "input-xxlarge" %></td>
