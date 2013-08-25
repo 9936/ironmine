@@ -6,7 +6,6 @@ class Skm::ApiEntryHeadersController < ApiController
       #全文检索
       entry_headers = Sunspot.search Skm::EntryHeader do
         keywords params[:full_search]
-        with(:entry_status_code, "PUBLISHED")
         with(:history_flag, Irm::Constant::SYS_NO)
         paginate(:page => params[:page] ? params[:page] : 1, :per_page => params[:limit] ? params[:limit] : 10)
       end.results
@@ -15,7 +14,6 @@ class Skm::ApiEntryHeadersController < ApiController
       entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).
           list_all.
           with_author.
-          published.
           current_entry.
           with_favorite_flag(Irm::Person.current.id)
 
