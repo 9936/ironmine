@@ -142,7 +142,11 @@ module Icm::IncidentJournalsHelper
   def available_passable_supporter(group_id, external_system_id = nil)
     people =  Irm::GroupMember.select_all.with_person(I18n.locale).assignable.query_by_support_group(group_id)
     people = people.with_system(external_system_id) if external_system_id
-    people = people.order("CONVERT( #{Irm::Person.table_name}.full_name USING gbk )").collect{|p|[p[:person_name],p[:person_id]]}
+    if I18n.locale.eql?("zh")
+      people = people.order("CONVERT( #{Irm::Person.table_name}.full_name USING gbk )").collect{|p|[p[:person_name],p[:person_id]]}
+    else
+      people = people.order("#{Irm::Person.table_name}.full_name").collect{|p|[p[:person_name],p[:person_id]]}
+    end
     people.delete_if{|p| Irm::Person.current.id.eql?(p[1])}
   end
 
