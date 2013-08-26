@@ -1,5 +1,4 @@
 <%= common_title %>
-<%= @category.errors.to_json %>
 <%= form_for(@category,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
   <%= f.hidden_field :parent_id, :value=> @category.parent_id if @category.parent_id.present?  %>
   <% content_for :form_block_a   do%>
