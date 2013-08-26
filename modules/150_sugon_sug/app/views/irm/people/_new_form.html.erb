@@ -136,14 +136,15 @@
     <% content_for :form_block_skill do %>
         <table class="form-table">
           <tbody>
-          <% available_skills.each do |skill| %>
           <tr>
-            <td class="label-col"><label><%= skill.name %></label></td>
-            <td class="data-col"><%= check_box_tag "irm_person[skills][]", skill.id %></td>
-            <td class="label-col empty"></td>
-            <td class="data-col empty"></td>
+            <td class="label-col"></td>
+            <td class="data-3col" colspan="3">
+              <% available_skills.each do |skill| %>
+                <%= check_box_tag "irm_person[skills][]", skill.id %>
+                <label style="padding: 5px 20px 5px 5px; font-weight: normal;"><%= skill.name %></label>
+              <% end %>
+            </td>
           </tr>
-          <% end %>
           </tbody>
         </table>
     <% end %>
