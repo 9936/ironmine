@@ -100,6 +100,23 @@ class Sug::CustomersController < ApplicationController
     end
   end
 
+  def nicknames
+
+  end
+
+  def create_nickname
+    if params[:sug_customer]
+      customer_ids = params[:sug_customer][:status_code].split(",")
+      if customer_ids.any? && params[:sug_customer][:nickname].present?
+         Sug::Customer.update_all({:nickname => params[:sug_customer][:nickname]}, ["id in(?)", customer_ids])
+      end
+    end
+    respond_to do |format|
+      format.html { redirect_to({:action => "nicknames"}, :notice => t(:successfully_updated)) }
+      format.xml  { head :ok }
+    end
+  end
+
   def get_data
     customers_scope = Sug::Customer.select_all.with_address.with_parent
     customers_scope = customers_scope.match_value("#{Sug::Customer.table_name}.name", params[:name])
@@ -109,7 +126,6 @@ class Sug::CustomersController < ApplicationController
         @datas = customers
         @count = count
       }
-      format.json {render :json=>to_jsonp(customers.to_grid_json([:name,:description,:status_meaning],count))}
     end
   end
 end
