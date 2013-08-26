@@ -22,7 +22,13 @@
       <tbody>
       <tr>
         <td class="label-col"><label><%= t(:label_sug_customer_name) %></label></td>
-        <td class="data-col"><%= @customer.name %></td>
+        <td class="data-col">
+          <% if @customer.nickname.present? %>
+            <del><%= @customer.name %></del>(<%= @customer.nickname %>)
+          <% else %>
+            <%= @customer.name %>
+          <% end %>
+        </td>
         <td class="label-col empty">&nbsp;</td>
         <td class="data-col empty">&nbsp;</td>
       </tr>
@@ -87,3 +93,101 @@
     </table>
   </div>
 </div>
+
+<style type="text/css">
+    .unreal-hidden {
+        visibility:hidden;
+        position:absolute;
+        top:-2000px;
+        left:-2000px;
+    }
+    .page-block-button form{
+        margin: 0;
+    }
+</style>
+<%= form_for(@customer,:url=>{:action=>"create_contacts", :id => @customer.id},:builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:status_code) %>
+    <div class="page-block unreal-hidden" id="available-contacts">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_sug_customer_contact_select) %>&nbsp;【<%= t(:label_irm_select_result) %>】</h2>
+          </td>
+          <td class="page-block-button">
+            <%= link_submit t(:label_sug_customer_contact_save), :class=>"btn btn-info"%>
+            <%= link_to t(:cancel), {},:href => "javascript:void(0)", :onclick=>"display_owned_contacts();", :class => "btn " %>
+          </td>
+          <td class="page-block-help">
+            <div id="searchBox2"></div>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= datatable("sug_availavle_contacts",{:controller=>"sug/customers",:action=>"available_contacts", :id => @customer.id},[],{:search_box=>"searchBox2",:paginator_box=>"paginatorBox2",:select=>"multiple" }) %>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= link_submit t(:label_sug_customer_contact_save), :class=>"btn btn-info"%>
+            <%= link_to t(:cancel), {},:href => "javascript:void(0)", :onclick=>"display_owned_contacts();", :class => "btn " %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+<!--页面结构-->
+<%= form_for(@customer,:url=>{:action=>"remove_contacts", :id => @customer.id},:builder => CustomFormBuilder) do |f| %>
+<%= f.hidden_field(:temp_id_string, :value => "") %>
+<div class="page-block" id="owned-contacts">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_sug_contact_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+        <%= link_to t(:label_sug_customer_contact_new), {},:href => "javascript:void(0)", :onclick=>"display_available_contacts();", :class => "btn btn-info" %>
+      </td>
+      <td class="page-block-help">
+        <div id="searchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable("sug_contacts",{:controller=>"sug/customers",:action=>"owned_contacts", :id => @customer.id},[],{:search_box=>"searchBox",:paginator_box=>"paginatorBox",:select=>"multiple" }) %>
+  </div>
+  <table class="page-block-footer">
+    <tr>
+      <td class="page-block-title"></td>
+      <td class="page-block-button">
+        <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+        <%= link_to t(:label_sug_customer_contact_new), {},:href => "javascript:void(0)", :onclick=>"display_available_contacts();", :class => "btn btn-info" %>
+      </td>
+    </tr>
+  </table>
+</div>
+<% end %>
+<script type="text/javascript">
+    function display_owned_contacts(){
+        $("#owned-contacts").removeClass("unreal-hidden");
+        $("#available-contacts").addClass("unreal-hidden");
+        $("#sug_customer_temp_id_string").val("");
+    }
+
+    function display_available_contacts(){
+        $("#owned-contacts").addClass("unreal-hidden");
+        $("#available-contacts").removeClass("unreal-hidden");
+        $("#sug_customer_status_code").val("");
+    }
+    $(function(){
+        $("#owned-contacts").bind('selectionchange',function(event,ids){
+            $("#sug_customer_temp_id_string").val(ids.join(","));
+        });
+
+        $("#available-contacts").bind('selectionchange',function(event,ids){
+            $("#sug_customer_status_code").val(ids.join(","));
+        });
+    })
+</script>

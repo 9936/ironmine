@@ -84,7 +84,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "sug/customers" => ["create", "edit", "get_data", "index", "new", "show", "update"],
+              "sug/customers" => ["create", "edit", "get_data", "index", "new", "show", "update", "nicknames", "create_nickname",
+                                  "owned_contacts", "available_contacts", "create_contacts", "remove_contacts"]
           },
       }
   }
@@ -154,6 +155,45 @@ Fwk::MenuAndFunctionManager.map do |map|
           }
       }
   }
+
+  #====================================Start 技能======================================
+  map.menu :user_management, {
+      :children => {
+          :sug_skill => {
+              :type => "function",
+              :entry => {
+                  :sequence => 40,
+                  :en => {:name => "Skill", :description => "Skill"},
+                  :zh => {:name => "技能", :description => "技能管理"}
+              }
+          }
+      }
+  }
+
+
+  map.function_group :sug_skill, {
+      :en => {:name => "Skill", :description => "Skill"},
+      :zh => {:name => "技能", :description => "技能管理"}
+  }
+  map.function_group :sug_skill, {
+      :zone_code => "SYSTEM_SETTING",
+      :controller => "sug/skills",
+      :action => "index"}
+  map.function_group :sug_skill, {
+      :children => {
+          :sug_skill => {
+              :en => {:name => "Skill Setting", :description => "Skill Setting"},
+              :zh => {:name => "技能设置", :description => "技能设置"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "sug/skills" => ["create", "edit", "get_data", "index", "new", "show", "update",
+                               "owned_categories", "available_categories", "create_categories", "remove_categories"]
+          },
+      }
+  }
+  #====================================End 技能======================================
+
   #====================================End 覆盖事故单菜单设置======================================
 
   map.function_group :sug_category, {
@@ -172,7 +212,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "sug/categories" => ["create", "edit", "get_data", "index", "new", "show", "update"],
+              "sug/categories" => ["create", "edit", "get_data", "index", "new", "show", "update", "get_children"],
           },
       }
   }

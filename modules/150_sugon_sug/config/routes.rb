@@ -40,7 +40,13 @@ Rails.application.routes.draw do
     match '/districts/:city_id/create(.:format)' => "districts#create", :via => :post
 
     #Sug_customer
-    match '/customers/get_data(.:format)' => "customers#get_data"
+    match '/customers/get_data(.:format)' => "customers#get_data", :via => :get
+    match '/customers/nicknames(.:format)' => "customers#nicknames", :via => :get
+    match '/customers/create_nickname(.:format)' => "customers#create_nickname", :via => :post
+    match '/customers/:id/owned_contacts(.:format)' => "customers#owned_contacts", :via => :get
+    match '/customers/:id/available_contacts(.:format)' => "customers#available_contacts", :via => :get
+    match '/customers/:id/create_contacts(.:format)' => "customers#create_contacts", :via => :put
+    match '/customers/:id/remove_contacts(.:format)' => "customers#remove_contacts", :via => :put
     match '/customers(/index)(.:format)' => "customers#index", :via => :get
     match '/customers/:id/edit(.:format)' => "customers#edit", :via => :get
     match '/customers/new(.:format)' => "customers#new", :via => :get
@@ -65,6 +71,19 @@ Rails.application.routes.draw do
     match '/categories/:id/show(.:format)' => "categories#show", :via => :get
     match '/categories/create(.:format)' => "categories#create", :via => :post
     match '/categories/:id/update(.:format)' => "categories#update", :via => :put
+    match '/categories/:id/get_children(.:format)' => "categories#get_children", :via => :get
 
+    #Sug_skills
+    match '/skills/get_data(.:format)' => "skills#get_data", :via => :get
+    match '/skills(/index)(.:format)' => "skills#index", :via => :get
+    match '/skills/:id/owned_categories(.:format)' => "skills#owned_categories", :via => :get
+    match '/skills/:id/available_categories(.:format)' => "skills#available_categories", :via => :get
+    match '/skills/:id/create_categories(.:format)' => "skills#create_categories", :via => :put
+    match '/skills/:id/remove_categories(.:format)' => "skills#remove_categories", :via => :put
+    match '/skills/:id/edit(.:format)' => "skills#edit", :via => :get
+    match '/skills/new(.:format)' => "skills#new", :via => :get
+    match '/skills/:id/show(.:format)' => "skills#show", :via => :get
+    match '/skills/create(.:format)' => "skills#create", :via => :post
+    match '/skills/:id/update(.:format)' => "skills#update", :via => :put
   end
 end
