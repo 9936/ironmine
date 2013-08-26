@@ -22,7 +22,7 @@ class Skm::ApiEntryBooksController < ApiController
     result[:items] = []
 
     entry_books.each do |eb|
-      result[:items] << {:id => eb.id, :name => eb[:name], :description => eb[:description], :updated_at => eb[:updated_at], :author_name => eb[:author_name]}
+      result[:items] << {:id => eb.id, :name => eb[:name], :description => eb[:description], :updated_at => eb[:updated_at], :author_name => eb[:author_name],:project_id=>eb[:project_id],:project_name=>eb[:project_name]}
     end
 
     respond_to do |format|

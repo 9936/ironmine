@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'nokogiri'
+require 'fileutils'
 
 class Skm::Jobs::WikiDocJob<Struct.new(:options)
   def perform
@@ -21,8 +22,9 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
     word_file_path = attachment.data.path
     html_file_path = "#{tmp_folder}/wiki_doc.html"
     log_file_path = "#{tmp_folder}/wiki_doc_log.txt"
-    executable = "xvfb-run -a unoconv -f html --output=#{html_file_path} #{word_file_path} > #{log_file_path}"
+    executable = "xvfb-run -a unoconv -f html --output='#{html_file_path}' '#{word_file_path}' > '#{log_file_path}'"
     unless system(executable)
+      FileUtils.touch(log_file_path)
       raise(File.open(log_file_path, "rb").read)
     end
 

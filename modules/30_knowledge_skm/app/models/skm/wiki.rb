@@ -66,13 +66,12 @@ class Skm::Wiki < ActiveRecord::Base
       return @page
     else
       #process flag from word
-      if self.sync_flag.present?&&self.sync_flag.eql?(Irm::Constant::SYS_YES)
-        Ironmine::WIKI.clear_cache
-        self.sync_flag = Irm::Constant::SYS_NO
-        self.sync_git_flag = Irm::Constant::SYS_NO
-        self.save
-      end
       @page = Ironmine::WIKI.page(self.wiki_name)
+      if @page&&self.updated_at > @page.version.committed_date
+        Ironmine::WIKI.clear_cache
+        @page = Ironmine::WIKI.page(self.wiki_name)
+      end
+
       unless @page
         begin
         commit = {:message => self.description, :name => Irm::Person.current.login_name, :email => Irm::Person.current.email_address}
