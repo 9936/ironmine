@@ -111,4 +111,17 @@ class Sug::CategoriesController < ApplicationController
       }
     end
   end
+
+  def get_children
+    category = Sug::Category.find(params[:id])
+    unless category.leaf?
+      categories = category.children
+      categories = categories.collect{|i| {:label=>i[:name], :value=>i.id, :id=>i.id}}
+    else
+      []
+    end
+    respond_to do |format|
+      format.json {render :json=> categories.to_grid_json([:label, :value], categories.count)}
+    end
+  end
 end

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class CreateCategoryTypes < ActiveRecord::Migration
   def change
     create_table :sug_categories, :force => true do |t|
@@ -14,6 +16,12 @@ class CreateCategoryTypes < ActiveRecord::Migration
     end
     change_column :sug_categories, "id", :string, :limit => 22, :collate => "utf8_bin"
     add_index :sug_categories, [:parent_id, :code], :name => "SUG_CATEGORIES_N1"
+
+    category1 = Sug::Category.new(:code => "SERVICE_REQUEST_CATEGORY", :name => "服务三级类型", :description => "服务三级类型")
+    category1.save
+
+    category2 = Sug::Category.new(:code => "PROBLEM_CATEGORY", :name => "故障三级类型", :description => "故障三级类型")
+    category2.save
 
   end
 end

@@ -1,0 +1,77 @@
+<%= common_title %>
+<style type="text/css">
+    .form-horizontal .control-label {
+        font-weight: bold;
+    }
+    .modal-body .controls .control-text {
+        line-height: 24px;
+        display: block;
+        padding-top: 3px;
+    }
+    .modal-body.form-horizontal .control-group {
+        margin-bottom: 8px;
+    }
+</style>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_sug_customer_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <a data-toggle="modal" href="#modal-merge" class="btn btn-primary"><%= t(:label_sug_customer_nickname_new) %></a>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("customers",{:action=>"get_data", :operation => "hidden"},[],{:search_box=>"searchBox",:paginator_box=>"paginator", :select=>"multiple"})%>
+  </div>
+  <table class="page-block-footer">
+    <tbody>
+    <tr>
+      <td class="page-block-title"></td>
+      <td class="page-block-button">
+        <a data-toggle="modal" href="#modal-merge" class="btn btn-primary"><%= t(:label_sug_customer_nickname_new) %></a>
+        <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal hide" id="modal-merge" style="display: none;">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3><%= t(:label_sug_customer_nickname_new) %></h3>
+  </div>
+  <%= form_for(Sug::Customer.new,:url=>{:action=>"create_nickname"},:builder => CustomFormBuilder, :class => "modal-form") do |f| %>
+  <%= f.hidden_field(:status_code) %>
+  <div class="modal-body form-horizontal">
+      <div class="alert"><%= t(:label_sug_customer_nickname_tip) %></div>
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_sug_customer_nickname) %>:</label>
+        <div class="controls">
+          <%= f.text_field :nickname, :required => true %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:vod(0);" class="btn" data-dismiss="modal"><%= t(:cancel) %></a>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+  </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+      $("#customers").bind('selectionchange',function(event,ids){
+          $("#sug_customer_status_code").val(ids.join(","));
+      });
+  })
+</script>
+
+

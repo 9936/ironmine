@@ -27,6 +27,6 @@ class CreateContacts < ActiveRecord::Migration
       t.datetime "created_at"
       t.datetime "updated_at"
     end
-
+    change_column :sug_customer_contacts, "id", :string, :limit => 22, :collate => "utf8_bin"
   end
 end

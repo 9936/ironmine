@@ -100,6 +100,76 @@ class Sug::CustomersController < ApplicationController
     end
   end
 
+  def nicknames
+
+  end
+
+  def create_nickname
+    if params[:sug_customer]
+      customer_ids = params[:sug_customer][:status_code].split(",")
+      if customer_ids.any? && params[:sug_customer][:nickname].present?
+         Sug::Customer.update_all({:nickname => params[:sug_customer][:nickname]}, ["id in(?)", customer_ids])
+      end
+    end
+    respond_to do |format|
+      format.html { redirect_to({:action => "nicknames"}, :notice => t(:successfully_updated)) }
+      format.xml  { head :ok }
+    end
+  end
+
+  def owned_contacts
+    contact_scope = Sug::Contact.list_all.owned_by_customer(params[:id])
+    contact_scope = contact_scope.match_value("#{Sug::Contact.table_name}.first_name", params[:first_name])
+    contact_scope = contact_scope.match_value("#{Sug::Contact.table_name}.last_name", params[:last_name])
+    contacts,count = paginate(contact_scope)
+    respond_to do |format|
+      format.html  {
+        @datas = contacts
+        @count = count
+      }
+    end
+  end
+
+  def available_contacts
+    contact_scope = Sug::Contact.list_all.available_by_customer(params[:id])
+    contact_scope = contact_scope.match_value("#{Sug::Contact.table_name}.first_name", params[:first_name])
+    contact_scope = contact_scope.match_value("#{Sug::Contact.table_name}.last_name", params[:last_name])
+    contacts,count = paginate(contact_scope)
+    respond_to do |format|
+      format.html  {
+        @datas = contacts
+        @count = count
+      }
+    end
+  end
+
+  def create_contacts
+    if params[:sug_customer] && params[:sug_customer][:status_code] && params[:id]
+      contact_ids = params[:sug_customer][:status_code].split(",")
+      contact_ids.each do |contact_id|
+        Sug::CustomerContact.create(:contact_id => contact_id, :customer_id => params[:id])
+      end
+    end
+    respond_to do |format|
+      format.html { redirect_to({:action => "show", :id => params[:id]}) }
+      format.xml  { head :ok }
+    end
+  end
+
+  def remove_contacts
+    if params[:sug_customer] && params[:sug_customer][:temp_id_string] && params[:id]
+      contact_ids = params[:sug_customer][:temp_id_string].split(",")
+      contact_ids.each do |contact_id|
+        customer_contact = Sug::CustomerContact.where(:contact_id => contact_id, :customer_id => params[:id]).first
+        customer_contact.destroy
+      end
+    end
+    respond_to do |format|
+      format.html { redirect_to({:action => "show", :id => params[:id]}) }
+      format.xml  { head :ok }
+    end
+  end
+
   def get_data
     customers_scope = Sug::Customer.select_all.with_address.with_parent
     customers_scope = customers_scope.match_value("#{Sug::Customer.table_name}.name", params[:name])
@@ -109,7 +179,6 @@ class Sug::CustomersController < ApplicationController
         @datas = customers
         @count = count
       }
-      format.json {render :json=>to_jsonp(customers.to_grid_json([:name,:description,:status_meaning],count))}
     end
   end
 end

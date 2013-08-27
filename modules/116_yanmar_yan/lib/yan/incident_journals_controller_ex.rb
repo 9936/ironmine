@@ -52,6 +52,46 @@ module Yan::IncidentJournalsControllerEx
         end if params[:incident_workloads]
 
       end
+
+      def update_pass
+        @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+        @incident_journal.reply_type = "PASS"
+        @incident_request.attributes = params[:icm_incident_request]
+
+        #如果服务台人员手动修改状态，则使用手工修改的状态，如果状态为空则使用状态转移逻辑
+        #unless @incident_reply.incident_status_id.present?
+        if params[:new_incident_status_id] && !params[:new_incident_status_id].blank? && !params[:new_incident_status_id].eql?(@incident_request.incident_status_id)
+          @incident_request.incident_status_id = params[:new_incident_status_id]
+        else
+          @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
+        end
+
+        perform_create(true)
+        respond_to do |format|
+          if @incident_journal.valid?&&@incident_request.support_group_id
+            #@incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
+            support_person_id = @incident_request.support_person_id
+            support_person_id = Icm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
+            @incident_request.support_person_id = support_person_id
+
+            @incident_request.charge_person_id = support_person_id
+            @incident_request.charge_group_id = @incident_request.support_group_id
+            @incident_request.upgrade_person_id = support_person_id
+            @incident_request.upgrade_group_id = @incident_request.upgrade_group_id
+            @incident_request.save
+            process_change_attributes([:incident_status_id,:support_group_id,:support_person_id,
+                                       :charge_group_id,:charge_person_id,
+                                       :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
+            process_files(@incident_journal)
+            @incident_journal.create_elapse
+            format.html { redirect_to({:action => "new"}) }
+            format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+          else
+            format.html { render :action => "edit_pass",:layout => "application_full" }
+            format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+          end
+        end
+      end
     end
   end
 end

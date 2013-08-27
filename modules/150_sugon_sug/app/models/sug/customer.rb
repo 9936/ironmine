@@ -8,7 +8,6 @@ class Sug::Customer < ActiveRecord::Base
   validates_presence_of :name, :project
 
 
-  after_save :explore_hierarchy
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -24,7 +23,7 @@ class Sug::Customer < ActiveRecord::Base
   }
 
   scope :with_address, lambda{
-    joins("JOIN sug_addresses_vl av on #{self.table_name}.id = av.source_id").
+    joins("LEFT JOIN sug_addresses_vl av on #{self.table_name}.id = av.source_id").
         select("av.address_name").
         where("av.source_type=?", "Sug::Customer")
   }
@@ -51,11 +50,5 @@ class Sug::Customer < ActiveRecord::Base
   end
 
 
-
-  private
-
-    def explore_hierarchy
-      Sug::CustomerExplosion.explore_hierarchy(self.id, self.parent_id)
-    end
 
 end

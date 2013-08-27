@@ -1,0 +1,4 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:name,{:title=>t(:name)})%>
+    <% builder.column(:description,{:title=>t(:description)})%>
+<% end %>

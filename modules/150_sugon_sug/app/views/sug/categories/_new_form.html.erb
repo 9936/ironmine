@@ -4,12 +4,14 @@
   <% content_for :form_block_a   do%>
     <table class="form-table">
       <tbody>
+      <% if @category.root?  %>
       <tr>
         <td class="label-col"><label><%=t(:code)%></label></td>
         <td class="data-col"><%=f.text_field :code, :required=>true, :irm_uppercase=>true %></td>
         <td class="label-col empty">&nbsp;</td>
         <td class="data-col empty">&nbsp;</td>
       </tr>
+      <% end %>
       <tr>
         <td class="label-col"><label><%=t(:name)%></label></td>
         <td class="data-col"><%=f.text_field :name, :required=>true %></td>

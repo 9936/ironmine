@@ -1,14 +1,17 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-    <% builder.column(:id,{:title=>t(:operation),:width=>"80px"}) do |data| %>
+    <% unless params[:operation].eql?("hidden") %>
+      <% builder.column(:id,{:title=>t(:operation),:width=>"80px"}) do |data| %>
         <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},:class => "action-link") %>&nbsp;|
         <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},:class => "action-link") %>
+      <% end %>
     <% end %>
-    <% builder.column(:name,{:title=>t(:label_sug_customer)})%>
+    <% builder.column(:name,{:title=>t(:label_sug_customer_name), :searchable => true})%>
+    <% builder.column(:nickname,{:title=>t(:label_sug_customer_nickname)})%>
     <% builder.column(:parent_id,{:title=>t(:label_sug_customer_parent)}) do |data|%>
       <%= data[:parent_name] %>
     <% end %>
     <% builder.column(:project,{:title=>t(:label_sug_customer_project)})%>
     <% builder.column(:industry,{:title=>t(:label_sug_customer_industry)})%>
     <% builder.column(:address_name,{:title=>t(:label_sug_address)}) %>
-    <% builder.column(:note,{:title=>t(:description)})%>
+    <% builder.column(:note,{:title=>t(:label_sug_customer_note)})%>
 <% end %>

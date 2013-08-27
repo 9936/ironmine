@@ -1,0 +1,131 @@
+<%= common_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_sug_skill) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @skill},:class=>"btn btn-primary"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%=(t :name)%></label></td>
+        <td class="data-col"><%= @skill.name %></td>
+        <td class="label-col"></td>
+        <td class="data-col"></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=(t :description)%></label></td>
+        <td class="data-col"><%=@skill.description %></td>
+        <td class="label-col"></td>
+        <td class="data-col"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style type="text/css">
+    .unreal-hidden {
+        visibility:hidden;
+        position:absolute;
+        top:-2000px;
+        left:-2000px;
+    }
+    .page-block-button form{
+        margin: 0;
+    }
+</style>
+<%= form_for(@skill,:url=>{:action=>"create_categories", :id => @skill.id},:builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:status_code) %>
+    <div class="page-block unreal-hidden" id="available-categories">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_sug_skill_category_select) %>&nbsp;【<%= t(:label_irm_select_result) %>】</h2>
+          </td>
+          <td class="page-block-button">
+            <%= link_submit t(:label_sug_skill_category_save), :class=>"btn btn-info"%>
+            <%= link_to t(:cancel), {},:href => "javascript:void(0)", :onclick=>"display_owned_categories();", :class => "btn " %>
+          </td>
+          <td class="page-block-help">
+            <div id="searchBox2"></div>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= datatable("sug_available_skills",{:controller=>"sug/skills",:action=>"available_categories", :id => @skill.id},[],{:search_box=>"searchBox2",:paginator_box=>"paginatorBox2",:select=>"multiple" }) %>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= link_submit t(:label_sug_skill_category_save), :class=>"btn btn-info"%>
+            <%= link_to t(:cancel), {},:href => "javascript:void(0)", :onclick=>"display_owned_categories();", :class => "btn " %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+<!--页面结构-->
+<%= form_for(@skill,:url=>{:action=>"remove_categories", :id => @skill.id},:builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:temp_id_string, :value => "") %>
+    <div class="page-block" id="owned-categories">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_sug_skill_category) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+            <%= link_to t(:label_sug_skill_category_new), {},:href => "javascript:void(0)", :onclick=>"display_available_categories();", :class => "btn btn-info" %>
+          </td>
+          <td class="page-block-help">
+            <div id="searchBox"></div>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= datatable("sug_skill_categories",{:controller=>"sug/skills",:action=>"owned_categories", :id => @skill.id},[],{:search_box=>"searchBox",:paginator_box=>"paginatorBox",:select=>"multiple" }) %>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+            <%= link_to t(:label_sug_skill_category_new), {},:href => "javascript:void(0)", :onclick=>"display_available_categories();", :class => "btn btn-info" %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+<script type="text/javascript">
+    function display_owned_categories(){
+        $("#owned-categories").removeClass("unreal-hidden");
+        $("#available-categories").addClass("unreal-hidden");
+        $("#sug_skill_temp_id_string").val("");
+    }
+
+    function display_available_categories(){
+        $("#owned-categories").addClass("unreal-hidden");
+        $("#available-categories").removeClass("unreal-hidden");
+        $("#sug_skill_status_code").val("");
+    }
+    $(function(){
+        $("#owned-categories").bind('selectionchange',function(event,ids){
+            $("#sug_skill_temp_id_string").val(ids.join(","));
+        });
+
+        $("#available-categories").bind('selectionchange',function(event,ids){
+            $("#sug_skill_status_code").val(ids.join(","));
+        });
+    })
+</script>
+
+

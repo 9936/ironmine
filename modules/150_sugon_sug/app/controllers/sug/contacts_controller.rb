@@ -84,7 +84,7 @@ class Sug::ContactsController < ApplicationController
 
 
   def get_data
-    contacts_scope = Sug::Contact
+    contacts_scope = Sug::Contact.list_all
     contacts_scope = contacts_scope.match_value("contact.name",params[:name])
     contacts,count = paginate(contacts_scope)
     respond_to do |format|

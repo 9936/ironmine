@@ -133,6 +133,21 @@
           </tbody>
         </table>
     <% end %>
+    <% content_for :form_block_skill do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"></td>
+            <td class="data-3col" colspan="3">
+              <% available_skills.each do |skill| %>
+                <%= check_box_tag "irm_person[skills][]", skill.id %>
+                <label style="padding: 5px 20px 5px 5px; font-weight: normal;"><%= skill.name %></label>
+              <% end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
     <% content_for :form_block_approve do %>
         <table class="form-table">
           <tbody>
@@ -185,6 +200,14 @@
           </div>
           <div class="sub-page-block-body">
             <%= content_for :form_block_person %>
+          </div>
+
+          <!-- 技能信息 -->
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%= t(:label_sug_skill_setting) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_skill %>
           </div>
 
           <!-- 设置密码 -->

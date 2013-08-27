@@ -1,13 +1,8 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-    <% builder.column(:id,{:title=>t(:operation),:width=>"80px"}) do |data| %>
-        <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},:class => "action-link") %>&nbsp;|
-        <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},:class => "action-link") %>
-    <% end %>
-    <% builder.column(:person_name,{:title=>t(:label_irm_person_name)}) do |data| %>
-      <%= data[:last_name] + data[:first_name] %>
-    <% end %>
+    <% builder.column(:last_name,{:title=>t(:label_irm_person_last_name), :searchable => true}) %>
+    <% builder.column(:first_name,{:title=>t(:label_irm_person_first_name), :searchable => true}) %>
     <% builder.column(:sex,{:title=>t(:label_sug_contact_sex)}) do |data|%>
-      <%= data[:sex_name] %>
+        <%= data[:sex_name] %>
     <% end %>
     <% builder.column(:mobile_phone,{:title=>t(:label_sug_contact_mobile_phone)})%>
     <% builder.column(:home_phone,{:title=>t(:label_sug_contact_home_phone)}) %>
