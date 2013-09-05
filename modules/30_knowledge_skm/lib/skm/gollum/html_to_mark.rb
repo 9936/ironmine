@@ -81,8 +81,9 @@ class Skm::Gollum::HtmlToMark
 
         if img_nodes.any?
           img_nodes.each do |img|
-            mark_code << process_line("[[#{img['name'].gsub(" ","_")}.#{img['src'].split('.').last}|alt=#{img['name']}|align=center]]","img")
-            files << {:origin_name => img['src'], :name => "#{img['name']}.#{img['src'].split('.').last}"}
+            image_name = "#{img['name']||img['src']}.#{img['src'].split('.').last}".gsub(" ","_")
+            mark_code << process_line("[[#{image_name}|alt=#{img['name']}|align=center]]","img")
+            files << {:origin_name => img['src'], :name => image_name}
           end
         end
 
