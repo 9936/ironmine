@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
   scope :module => "irm" do
+    #Added by Lei.Peng, 2013;
+    resources :attachment_folders ,:except=>'show' do
+      collection do
+        get 'get_data'
+        get 'get_folders_tree'
+      end
+    end
+    #Added by Lei.Peng, 2013;
     #rating_configs
     match '/rating_configs(/index)(.:format)' => "rating_configs#index", :via => :get
     match '/rating_configs/:id/edit(.:format)' => "rating_configs#edit", :via => :get

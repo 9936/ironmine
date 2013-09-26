@@ -147,6 +147,7 @@ class Skm::FileManagementsController < ApplicationController
     files_scope = Irm::Attachment.accessible(Irm::Person.current.id)
     files_scope = files_scope.match_value("#{Irm::AttachmentVersion.table_name}.data_file_name",params[:data_file_name])
     files_scope = files_scope.match_value("#{Irm::Attachment.table_name}.description",params[:description])
+    files_scope = files_scope.where("#{Irm::Attachment.table_name}.folder_id = ?",params[:folder_id]) if params[:folder_id].present?
 
     files,count = paginate(files_scope)
     respond_to do |format|
@@ -193,4 +194,5 @@ class Skm::FileManagementsController < ApplicationController
         format.html { redirect_to({:action=>"get_version_files", :id =>  @file_version.attachment_id }, :notice =>t(:successfully_created)) }
     end
   end
+
 end

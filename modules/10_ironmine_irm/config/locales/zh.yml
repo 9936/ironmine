@@ -2201,3 +2201,11 @@ zh:
   label_irm_time_trigger_start_time: 执行时间
   #========================end time_trigger=====================================
 
+  label_irm_attachment_folder: 文件夹管理
+  label_irm_upload_new_folder: 创建新文件夹
+  label_irm_attachment_folder_new: 新建文件夹
+  label_irm_upload_edit_folder: 编辑文件夹
+  label_irm_attachment_folder_name: 文件夹名称
+  label_irm_attachment_folder_description: 描述
+  label_irm_attachment_folder_parent_id: 父文件夹
+  label_irm_must_have_folder: 上传文件之前必须建立文件夹
