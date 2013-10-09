@@ -2194,3 +2194,14 @@ en:
   label_irm_time_trigger_end_at: End Date
   label_irm_time_trigger_start_time: Execute Time
   #========================end time_trigger=====================================
+
+  #========================begin attachment_folder===================================
+  label_irm_attachment_folder: Folder Manager
+  label_irm_upload_new_folder: Create New Folder
+  label_irm_attachment_folder_new: New Folder
+  label_irm_upload_edit_folder: Edit Folder
+  label_irm_attachment_folder_name: Folder Name
+  label_irm_attachment_folder_description: Description
+  label_irm_attachment_folder_parent_id: Parent Folder
+  label_irm_must_have_folder: Before uploading files,folder must be established.
+  #========================end attachment_folder=====================================
