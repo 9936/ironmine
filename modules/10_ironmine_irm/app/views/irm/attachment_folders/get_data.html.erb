@@ -1,0 +1,12 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:name,{:title=>t(:label_irm_attachment_folders_name),:searchable=>true,:width=>"250px"}) do |data|%>
+    <% if data[:id].present? %>
+      <%= link_to(data[:name], {:controller => "irm/attachment_folders", :action => "show", :id => data[:id]})%>
+      <%= bootstrap_icons("icon-time",t(:edit),{:controller=>"irm/attachment_folders",:action=>"edit",:id=>data[:id]}) %>
+    <% else %>
+      <%= link_to(data[:name], {:controller => "irm/attachment_folders", :action => "show", :id => data[:id]})%>
+    <% end %>
+  <% end %>
+  <% builder.column(:parent_id,{:title=>t(:label_irm_attachment_folders_folder),:width=>"150px"}) %>
+  <% builder.column(:description,{:title=>t(:label_irm_attachment_folders_description)})%>
+<% end %>
