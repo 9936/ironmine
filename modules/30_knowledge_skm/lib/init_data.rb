@@ -79,6 +79,7 @@ Fwk::MenuAndFunctionManager.map do |map|
             :default_flag => "N",
             :login_flag => "N",
             :public_flag => "N",
+            "irm/attachment_folders" => ["get_data","get_folders_tree","api_child_nodes"],
             "skm/file_managements" => ["get_data", "get_version_files","version_details", "download_data", "download", "index", "show"]
         },
       :file_folders_management => {
