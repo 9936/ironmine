@@ -66,15 +66,15 @@
 <% end %>
 
 <script type="text/javascript">
-  function save(){
-    document.file_form.action = "create";
+    function save(){
+        document.file_form.action = "<%=url_for(:action=>"create")%>";
 //    document.file_form.submit();
-  }
+    }
 
-  function save_and_new(){
-    document.file_form.action = "create?act=next";
+    function save_and_new(){
+        document.file_form.action = "<%=url_for(:action=>"create",:act=>"next")%>";
 //    document.file_form.submit();
-  }
-</script>    
+    }
+</script>
 
 
