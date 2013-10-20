@@ -145,7 +145,7 @@ ja:
   label_skm_file_add_line: Add file
   label_skm_file_download: Download
   label_skm_file_download_count: Download Num
-  label_skm_file_download_people: Download People List
+  label_skm_file_download_people: Download People
   label_skm_file_download_person: Download Person
   label_skm_file_download_date: Download Date
   label_skm_file_history_versions: History versions
@@ -239,10 +239,20 @@ ja:
   label_skm_wiki_revert_message:  Revert change between %{from} and %{to}
   label_skm_wiki_default_commit_message: Message
   label_skm_wiki_preview: Preview
-  label_skm_wiki_img: 图
-  label_skm_wiki_table: 表
-  label_skm_wiki_table_of_content: 目录
-  label_skm_wiki_git_folder_page_missing: 无法在wiki文件夹中找到相应的文件,请检查
+  label_skm_wiki_img: Image
+  label_skm_wiki_table: Table
+  label_skm_wiki_table_of_content: Table of contents
+  label_skm_wiki_git_folder_page_missing: Can't find the wiki file in the database
+  label_skm_wiki_channel: Channel
+  label_skm_wiki_edit_chapter: Edit chapter
+  label_skm_wiki_new_word: Create from word document
+  label_skm_wiki_new_word_file: Create from word document
+  label_skm_wiki_private_flag: Private
+  label_skm_wiki_tags: Tag
+  label_skm_wiki_template_private_flag: Private
+  label_skm_wiki_word_content: Importing content form word,wait a moment and don't modify the article.
+  label_skm_wiki_word_description: Description
+  label_skm_wiki_static_msg: Generating pdf file...
   #============================== end wiki  ===================================
   #============================== wiki ======================================
   label_skm_wiki_template: Wiki Template
@@ -255,16 +265,16 @@ ja:
   label_skm_wiki_template_preview: 预览
   #============================== end wiki  ===================================
   #============================== book ======================================
-  label_skm_book: Wiki专题
-  label_skm_book_list: Wiki专题列表
-  label_skm_book_name: 名称
-  label_skm_book_description: 描述
-  label_skm_book_new: 新建Wiki专题
-  label_skm_book_edit: 编辑Wiki专题
-  label_skm_book_preview: 预览
-  label_skm_book_wiki: Wiki专题章节
-  label_skm_book_wiki_order: 排序
-  label_skm_book_publish: 发布
+  label_skm_book: Wiki topic
+  label_skm_book_list: Wiki topic list
+  label_skm_book_name: Name
+  label_skm_book_description: Description
+  label_skm_book_new: Wiki topic
+  label_skm_book_edit: Edit
+  label_skm_book_preview: Prewview
+  label_skm_book_wiki: Wiki topic chapter
+  label_skm_book_wiki_order: Sort
+  label_skm_book_publish: Publish
   #============================== end book  ===================================
 
   #============================== Start Entry Book ======================================
@@ -284,3 +294,4 @@ ja:
   label_skm_entry_book_back_header: Back to headers
   label_skm_entry_book_haeder_reference: Copy
   #============================== End Entry Book ===================================
+  label_skm_folder: Folder
