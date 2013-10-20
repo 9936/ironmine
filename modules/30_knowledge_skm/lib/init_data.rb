@@ -89,7 +89,15 @@ Fwk::MenuAndFunctionManager.map do |map|
           :login_flag => "N",
           :public_flag => "N",
           "irm/attachment_folders" => ["index","show","new","edit","create","update","destroy","get_data","get_folders_tree","api_child_nodes"]
-  }
+        },
+      :file_folders_read_only => {
+                :en => {:name => "File Folders Read Only", :description => "File Folders Read Only"},
+                :zh => {:name => "文件夹只读", :description => "文件夹只读"},
+                :default_flag => "N",
+                :login_flag => "N",
+                :public_flag => "N",
+                "irm/attachment_folders" => ["index","show","get_data","get_folders_tree","api_child_nodes"]
+        }
       }
   }
   #=================================START:KNOWLEDGE_MANAGEMENT=================================
