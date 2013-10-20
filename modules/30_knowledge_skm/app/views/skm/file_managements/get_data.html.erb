@@ -16,6 +16,7 @@
     <% builder.column(:access_type,{:title=>t(:label_skm_file_access_types),:width => "100px"}) do |data| %>
       <%= access_type_meaning(data[:access_type]) %>
     <% end %>
+    <% builder.column(:folder_name,{:title=>t(:label_skm_folder),:searchable=>false, :width => "100px"})%>
     <% builder.column(:full_name,{:title=>t(:label_skm_file_created_by), :width => "100px"})%>
     <% builder.column(:data_file_size,{:title=>t(:label_skm_file_size), :width => "100px"})%>
     <% builder.column(:download_count,{:title=>t(:label_skm_file_download_count),:width => "100px"})%>

@@ -73,15 +73,23 @@ Fwk::MenuAndFunctionManager.map do |map|
             "skm/file_managements" => ["batch_create", "create", "destroy", "edit", "get_data", "get_version_files",
                                        "version_details", "download_data", "remove_version_file","index", "new", "show", "update", "download"]
         },
-
         :download_files => {
             :en => {:name => "Download Files", :description => "Download Files"},
             :zh => {:name => "下载文件", :description => "下载文件"},
             :default_flag => "N",
             :login_flag => "N",
             :public_flag => "N",
+            "irm/attachment_folders" => ["get_data","get_folders_tree","api_child_nodes"],
             "skm/file_managements" => ["get_data", "get_version_files","version_details", "download_data", "download", "index", "show"]
-        }
+        },
+      :file_folders_management => {
+          :en => {:name => "File Folders Management", :description => "File Folders Management"},
+          :zh => {:name => "文件夹管理", :description => "文件夹管理"},
+          :default_flag => "N",
+          :login_flag => "N",
+          :public_flag => "N",
+          "irm/attachment_folders" => ["index","show","new","edit","create","update","destroy","get_data","get_folders_tree","api_child_nodes"]
+  }
       }
   }
   #=================================START:KNOWLEDGE_MANAGEMENT=================================

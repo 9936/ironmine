@@ -3,7 +3,7 @@
     // 插件名称
     var PLUGIN_NAME = "cascade";
 
-    var OPTIONS_TEMPLATE = "<option value=${value}>${label}</option>";
+    var OPTIONS_TEMPLATE = "<option value='${value}'>${label}</option>";
     // 插件默认配置参数
     var DEFAULT_OPTIONS =
     {
