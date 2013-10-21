@@ -81,7 +81,7 @@
                                         :</strong>["<%= t(:error_skm_entry_detail_can_not_blank) %>"]</span>
                                   <% end if @error_details %>
                               <% else %>
-                                  <%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;", :value => (session[:skm_entry_details][e.id.to_s.to_sym][:entry_content] if session[:skm_entry_details])} %>
+                                  <%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;", :value => (session[:skm_entry_details][e.id.to_s.to_sym][:entry_content] if session[:skm_entry_details][e.id.to_s.to_sym])} %>
                               <% end %>
                             </td>
                             <%= ef.hidden_field :default_rows, :value => e.default_rows %>
