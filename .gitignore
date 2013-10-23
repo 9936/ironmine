@@ -28,3 +28,4 @@ modules/module
 .DS_Store
 .ruby-uuid
 public/doc
+.ruby-version
