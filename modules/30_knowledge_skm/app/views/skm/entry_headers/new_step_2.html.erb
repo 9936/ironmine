@@ -75,7 +75,7 @@
                             <td class="data-col">
                               <%= render "skm/entry_headers/editor_toolbar" %>
                               <% if e.required_flag == "Y" %>
-                                  <%= ef.text_area :entry_content, {:required => true, :rows => e.default_rows, :style => "width:100%;", :value => (session[:skm_entry_details][e.id.to_s.to_sym][:entry_content] if session[:skm_entry_details])} %>
+                                  <%= ef.text_area :entry_content, {:required => true, :rows => e.default_rows, :style => "width:100%;", :value => (session[:skm_entry_details][e.id.to_s.to_sym][:entry_content] if session[:skm_entry_details][e.id.to_s.to_sym])} %>
                                   <% if @error_details.include?(e.id) %>
                                       <span class="error-message" style="color: #C00;"><strong><%= t(:error) %>
                                         :</strong>["<%= t(:error_skm_entry_detail_can_not_blank) %>"]</span>
@@ -142,12 +142,12 @@
 <% end %>
 <script type="text/javascript">
     function submit_next() {
-        document.new_skm_entry_header.action = "new?step=3";
+        document.new_skm_entry_header.action = "<%=url_for(:action=>"new",:step=>"3")%>";
 //        document.new_skm_entry_header.submit();
     }
 
     function submit_last() {
-        document.new_skm_entry_header.action = "new?step=1";
+        document.new_skm_entry_header.action = "<%=url_for(:action=>"new",:step=>"1")%>";
 //        document.new_skm_entry_header.submit();
     }
 </script>
