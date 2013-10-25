@@ -146,6 +146,7 @@ class Skm::FileManagementsController < ApplicationController
   def get_data
     files_scope = Irm::Attachment.accessible(Irm::Person.current.id)
     files_scope = files_scope.match_value("av.data_file_name",params[:data_file_name])
+    files_scope = files_scope.match_value("p.full_name",params[:full_name])
     files_scope = files_scope.match_value("#{Irm::Attachment.table_name}.description",params[:description])
     files_scope = files_scope.where("#{Irm::Attachment.table_name}.folder_id = ?",params[:folder_id]) if params[:folder_id].present?
 
