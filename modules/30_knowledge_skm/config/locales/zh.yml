@@ -46,6 +46,7 @@ zh:
   label_action_new_relation: 新建关联知识
   label_skm_entry_header_edit: 编辑知识文章
   label_skm_entry_header_title: 标题
+  label_skm_entry_header_channel_name: 频道名称
   label_skm_entry_header_portlet_title: 我的知识库
   label_skm_entry_header_keyword_tags: 关键字
   label_skm_entry_header_version: 文档版本

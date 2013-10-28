@@ -805,6 +805,7 @@ class Skm::EntryHeadersController < ApplicationController
       entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).
         list_all.
         with_author.
+        with_channel.
         published.
         current_entry.
         with_favorite_flag(Irm::Person.current.id)
@@ -857,7 +858,7 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def my_favorites_data
-    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.my_favorites(params[:person_id]).published.current_entry
+    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.my_favorites(params[:person_id]).published.current_entry.with_channel
     #entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
