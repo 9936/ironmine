@@ -1016,7 +1016,7 @@ class Skm::EntryHeadersController < ApplicationController
     elements = Skm::EntryTemplateDetail.owned_elements(template.id)
 
     session[:skm_entry_header] = {:entry_title => "[#{incident_request.request_number}]#{incident_request.title}",
-                                  :doc_number => Skm::EntryHeader.generate_doc_number,
+                                  #:doc_number => Skm::EntryHeader.generate_doc_number,
                                   :entry_template_id => template.id,
                                   :history_flag => "N",
                                   :entry_status_code => "DRAFT",
