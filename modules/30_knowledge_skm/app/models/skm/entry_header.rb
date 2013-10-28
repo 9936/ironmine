@@ -100,7 +100,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   scope :my_unpublished, lambda { |person_id|
     where("#{table_name}.author_id = ?", person_id).
-        where("#{table_name}.entry_status_code" => ["WAIT_APPROVE", "APPROVE_DENY"])
+        where("#{table_name}.entry_status_code" => ["WAIT_APPROVE", "APPROVE_DENY","DRAFT"])
   }
 
   scope :unpublished, lambda {

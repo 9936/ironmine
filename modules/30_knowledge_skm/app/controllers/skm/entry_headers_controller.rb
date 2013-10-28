@@ -457,11 +457,7 @@ class Skm::EntryHeadersController < ApplicationController
           entry_book_id = params[:entry_book_id]
           format.html { redirect_to({:controller => "skm/entry_books",:action => "show",:id => entry_book_id }, :notice => t(:successfully_created)) }
         else
-          if params[:status] == "DRAFT"
-            format.html { redirect_to({:action=>"my_drafts"}, :notice =>t(:successfully_created)) }
-          else
             format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
-          end
 
           format.json { render :json=>@entry_header.attributes}
           format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
@@ -706,7 +702,7 @@ class Skm::EntryHeadersController < ApplicationController
             header_relations = Skm::EntryHeaderRelation.with_created_by.list_all(old_header.id)
             header_relations.each do |hr|
               target_id = (hr.source_id == old_header.id)? hr.target_id : hr.source_id
-              Skm::EntryHeaderRelation.create(:source_id => @entry_header.id, :target_id => target_id, :relation_type => hr.relation_type, :created_by => hr.created_by)
+              Skm::EntryHeaderRelation.create(:source_id => @entry_header.id, :target_id => target_id, :relation_type => hr.relation_type, :created_by => hr.d_by)
             end
             #同步附件
             old_header.attachments.each do |at|

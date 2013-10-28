@@ -31,6 +31,9 @@
         <% else %>
             <%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary"%>
         <% end %>
+        <% if @entry_header.entry_status_code.eql?("DRAFT")%>
+            <%= link_to t(:save_as_draft), {}, :href => "javascript:void(0);", :onclick => "submit_draft();",:class => "btn btn-primary", :type => "submit"%>
+        <% end %>
         <% if params[:entry_book_id].present? %>
             <%= link_to t(:cancel), {:controller => "skm/entry_books", :action => "show", :id => params[:entry_book_id]}, {:class => "btn cancel"}%>
         <% else %>
@@ -195,5 +198,9 @@
         txtBox.val(before_text + src_merged + source.slice(caret_pos + 1, source.count));
         txtBox.caretPos(caret_pos + src_merged.length);
         txtBox.focus();
+    }
+
+    function submit_draft(){
+        document.new_skm_entry_header.action = "create?status=DRAFT";
     }
 </script>
