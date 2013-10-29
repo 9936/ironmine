@@ -73,7 +73,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   scope :with_channel, lambda {
     joins("LEFT OUTER JOIN skm_channels_tl ON skm_channels_tl.channel_id = #{table_name}.channel_id").
-     where("language=?",Irm::Person.current.language_code.to_sym).
+     where("skm_channels_tl.language=?",Irm::Person.current.language_code.to_sym).
         select("skm_channels_tl.name")
   }
   scope :with_author_id, lambda {|author_id|
