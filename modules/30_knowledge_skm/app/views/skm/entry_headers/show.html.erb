@@ -1,4 +1,8 @@
-<%= common_title(:show_data=> "[#{@entry_header.doc_number}]  #{@entry_header.entry_title}".html_safe)%>
+<% if @entry_header.entry_status_code.eql?("DRAFT")%>
+<%= common_title(:show_data=> "[#{@entry_header.doc_number}]  #{@entry_header.entry_title}  [#{t(:label_skm_draft)}]".html_safe) %>
+<% else %>
+    <%= common_title(:show_data=> "[#{@entry_header.doc_number}]  #{@entry_header.entry_title}".html_safe) %>
+<% end %>
 <% require_jscss(:markdown) %>
 
 <style type="text/css">

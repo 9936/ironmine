@@ -100,7 +100,7 @@ zh:
   label_skm_entry_header_choice_people: 请至少选择一个转交人
   label_skm_entry_header_to_people: 已经转交给%{person_name}处理
   label_skm_entry_header_to_people_save: 确定转交
-
+  label_skm_draft: 草稿
   label_skm_my_drafts: 我的草稿
   error_choice_template: 先选择一个模板
   label_action_my_favorites: 我的收藏
@@ -225,7 +225,7 @@ zh:
   label_skm_channel_approval_management: 添加审核人员
 
   label_action_new_from_icm_request: 从事故单创建知识文章
-
+  label_action_create_from_icm_request: 从事故单创建知识文章
   button_skm_entry_header_new: 新建知识
   tip_skm_entry_header_full_search: 搜索知识库文章标题、内容...
   label_skm_entry_header_reference: 请参考以下知识项

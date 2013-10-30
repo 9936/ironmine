@@ -45,7 +45,7 @@
 
 
   <% content_for :form_buttons  do %>
-    <%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary", :type => "submit"%>
+    <%= link_to t(:label_skm_save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary", :type => "submit"%>
     <%= link_to t(:save_as_draft), {}, :href => "javascript:void(0);", :onclick => "submit_draft();",:class => "btn btn-primary", :type => "submit"%>
     <%= link_to t(:cancel), {:controller => "icm/incident_journals", :action => "new", :request_id => @entry_header.source_id},:class => "btn cancel"%>
   <% end %>

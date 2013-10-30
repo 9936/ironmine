@@ -426,7 +426,6 @@ class Skm::EntryHeadersController < ApplicationController
         @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
       end
     end
-
     @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
     @entry_header.published_date = Time.now
     @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
@@ -1106,17 +1105,18 @@ class Skm::EntryHeadersController < ApplicationController
       approval_people = Skm::ChannelApprovalPerson.approval_people(@entry_header.channel_id)
       approval_people.delete_if{|i| i[:person_id] == Irm::Person.current.id }
       if approval_people.any?
-        @entry_header.entry_status_code = "WAIT_APPROVE"
+        @entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
       else
-        @entry_header.entry_status_code = "PUBLISHED"
+        @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
       end
     end
-
+    @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
     #@entry_header.entry_status_code = "PUBLISHED"
     @entry_header.published_date = Time.now
     @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
     @entry_header.version_number = @entry_header.next_version_number
     @entry_header.author_id = Irm::Person.current.id
+    @entry_header.type_code = "ARTICLE"
 #    column_ids = params[:skm_entry_header][:column_ids].split(",")
     incident_request = Icm::IncidentRequest.find(@entry_header.source_id)
     respond_to do |format|
