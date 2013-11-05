@@ -101,6 +101,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "icm/incident_journals" => ["index", "new"],
               "icm/incident_requests" => ["get_data", "get_external_systems", "get_help_desk_data", "get_slm_services", "index",
                                           "update", "remove_attachment"],
+              "icm/support_groups" => ["get_pass_member_options"]
           },
           :view_all_incident_request => {
               :en => {:name => "View ALL", :description => "View ALL"},
