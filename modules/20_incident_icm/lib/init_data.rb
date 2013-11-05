@@ -810,7 +810,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              "icm/incident_journals" => ["edit_pass", "update_pass"]
+              "icm/incident_journals" => ["edit_pass", "update_pass"],
+              "icm/support_groups" => ["get_pass_member_options"]
           },
           :system_pass_anyone => {
               :zh => {:name => "转交任意事故单", :description => "转交任意事故单"},
@@ -819,7 +820,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              "icm/incident_journals" => ["edit_pass", "update_pass"]
+              "icm/incident_journals" => ["edit_pass", "update_pass"],
+              "icm/support_groups" => ["get_pass_member_options"]
           },
           ##状态
           :system_status_mine => {
