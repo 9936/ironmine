@@ -1739,7 +1739,7 @@ zh:
 
   #========================= mail setting =========================
   label_irm_mail_from_address: 来源邮箱地址
-  label_irm_mail_prefix: 邮件前缀
+  label_irm_mail_prefix: Imap邮件文件夹
   label_irm_mail_protocol: 协议
   label_irm_mail_smtp_host_name: 发件服务器
   label_irm_mail_imap_host_name: 收件服务器
