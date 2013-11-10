@@ -29,7 +29,7 @@ module Irm
       end
 
       def default_email_from
-        Ironmine::Application.config.action_mailer.smtp_settings[:user_name]||Ironmine::Application.config.fwk.mail_send_from || "root.ironmine@gmail.com"
+        current_smtp_settings[:user_name]||Ironmine::Application.config.fwk.mail_send_from || "root.ironmine@gmail.com"
       end
 
 
@@ -62,6 +62,30 @@ module Irm
           result = result||p.perform(email,parsed_email) if p.respond_to?(:perform)
         end
         return result
+      end
+
+      def current_smtp_settings
+        smtp_settings =  Ironmine::Application.config.action_mailer.smtp_settings.dup
+        smtp_setting = Irm::SmtpSetting.first
+        if smtp_setting.present?
+          if smtp_setting.authentication_flag.eql?(Irm::Constant::SYS_NO)
+            smtp_setting.username = nil
+            smtp_setting.password = nil
+            smtp_setting.authentication = nil
+          end
+
+          smtp_settings.merge!({
+                                   :address => smtp_setting.host_name,
+                                   :port => smtp_setting.port,
+                                   :user_name => smtp_setting.username,
+                                   :password => smtp_setting.password,
+                                   :active_flag => smtp_setting.active_flag,
+                                   :enable_starttls_auto => smtp_setting.tls_flag.eql?(Irm::Constant::SYS_YES)? true : false,
+                                   :authentication => smtp_setting.authentication
+                               })
+        end
+        smtp_settings
+
       end
     end
     class Processor

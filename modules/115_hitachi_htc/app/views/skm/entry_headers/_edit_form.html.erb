@@ -27,9 +27,9 @@
     <% end %>
     <% content_for :form_buttons  do %>
         <% if @reference_flag.eql?('Y') %>
-            <%= link_submit(t(:save_as_published), :class => "btn btn-primary") %>
+            <%= link_submit(t(:label_skm_save_as_published), :class => "btn btn-primary") %>
         <% else %>
-            <%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary"%>
+            <%= link_to t(:label_skm_save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary"%>
         <% end %>
         <% if @entry_header.entry_status_code.eql?("DRAFT")%>
             <%= link_to t(:save_as_draft), {}, :href => "javascript:void(0);", :onclick => "submit_draft();",:class => "btn btn-primary", :type => "submit"%>
@@ -192,9 +192,9 @@
     function appendImage(txtBox, src) {
         src = src.replace(/^.*[\\\/]|\?.*/, '').replace(/\?.*/,'');
         var caret_pos = txtBox.caretPos(),
-            src_merged = "!"+ src +"!\n";
+                src_merged = "!"+ src +"!\n";
         var source = txtBox.val(),
-            before_text = source.slice(0, caret_pos);
+                before_text = source.slice(0, caret_pos);
         txtBox.val(before_text + src_merged + source.slice(caret_pos + 1, source.count));
         txtBox.caretPos(caret_pos + src_merged.length);
         txtBox.focus();

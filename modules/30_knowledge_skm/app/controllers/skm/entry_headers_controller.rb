@@ -426,7 +426,6 @@ class Skm::EntryHeadersController < ApplicationController
         @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
       end
     end
-
     @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
     @entry_header.published_date = Time.now
     @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
@@ -457,11 +456,7 @@ class Skm::EntryHeadersController < ApplicationController
           entry_book_id = params[:entry_book_id]
           format.html { redirect_to({:controller => "skm/entry_books",:action => "show",:id => entry_book_id }, :notice => t(:successfully_created)) }
         else
-          if params[:status] == "DRAFT"
-            format.html { redirect_to({:action=>"my_drafts"}, :notice =>t(:successfully_created)) }
-          else
             format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
-          end
 
           format.json { render :json=>@entry_header.attributes}
           format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
@@ -706,7 +701,7 @@ class Skm::EntryHeadersController < ApplicationController
             header_relations = Skm::EntryHeaderRelation.with_created_by.list_all(old_header.id)
             header_relations.each do |hr|
               target_id = (hr.source_id == old_header.id)? hr.target_id : hr.source_id
-              Skm::EntryHeaderRelation.create(:source_id => @entry_header.id, :target_id => target_id, :relation_type => hr.relation_type, :created_by => hr.created_by)
+              Skm::EntryHeaderRelation.create(:source_id => @entry_header.id, :target_id => target_id, :relation_type => hr.relation_type, :created_by => hr.d_by)
             end
             #同步附件
             old_header.attachments.each do |at|
@@ -809,6 +804,7 @@ class Skm::EntryHeadersController < ApplicationController
       entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).
         list_all.
         with_author.
+        with_channel.
         published.
         current_entry.
         with_favorite_flag(Irm::Person.current.id)
@@ -861,7 +857,8 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def my_favorites_data
-    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.my_favorites(params[:person_id]).published.current_entry
+    entry_headers_scope = Skm::EntryHeader.with_channel.within_accessible_columns(params[:column_id]).list_all.my_favorites(params[:person_id]).published.current_entry
+    #entry_headers_scope = entry_headers_scope.with_channel
     #entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
@@ -918,7 +915,7 @@ class Skm::EntryHeadersController < ApplicationController
 
   end
   def my_unpublished_data
-    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.with_entry_status.current_entry.my_unpublished(params[:person_id])
+    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.with_entry_status.current_entry.my_unpublished(params[:person_id]).with_channel
     #entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
@@ -939,7 +936,7 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def unpublished_data
-    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.with_author.with_entry_status.current_entry.unpublished
+    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.with_author.with_entry_status.current_entry.unpublished.with_channel
     #entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
@@ -958,7 +955,7 @@ class Skm::EntryHeadersController < ApplicationController
 
   end
   def wait_my_approve_data
-    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.with_author.current_entry.with_entry_status.wait_my_approve
+    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.with_author.current_entry.with_entry_status.wait_my_approve.with_channel
     #entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
 
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
@@ -1020,7 +1017,7 @@ class Skm::EntryHeadersController < ApplicationController
     elements = Skm::EntryTemplateDetail.owned_elements(template.id)
 
     session[:skm_entry_header] = {:entry_title => "[#{incident_request.request_number}]#{incident_request.title}",
-                                  :doc_number => Skm::EntryHeader.generate_doc_number,
+                                  #:doc_number => Skm::EntryHeader.generate_doc_number,
                                   :entry_template_id => template.id,
                                   :history_flag => "N",
                                   :entry_status_code => "DRAFT",
@@ -1108,17 +1105,18 @@ class Skm::EntryHeadersController < ApplicationController
       approval_people = Skm::ChannelApprovalPerson.approval_people(@entry_header.channel_id)
       approval_people.delete_if{|i| i[:person_id] == Irm::Person.current.id }
       if approval_people.any?
-        @entry_header.entry_status_code = "WAIT_APPROVE"
+        @entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
       else
-        @entry_header.entry_status_code = "PUBLISHED"
+        @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
       end
     end
-
+    @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
     #@entry_header.entry_status_code = "PUBLISHED"
     @entry_header.published_date = Time.now
     @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
     @entry_header.version_number = @entry_header.next_version_number
     @entry_header.author_id = Irm::Person.current.id
+    @entry_header.type_code = "ARTICLE"
 #    column_ids = params[:skm_entry_header][:column_ids].split(",")
     incident_request = Icm::IncidentRequest.find(@entry_header.source_id)
     respond_to do |format|

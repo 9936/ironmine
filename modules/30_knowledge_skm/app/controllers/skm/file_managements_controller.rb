@@ -102,6 +102,7 @@ class Skm::FileManagementsController < ApplicationController
     else
       @file.update_attribute(:description, infile[:description])
       @file.update_attribute(:file_category, infile[:file_category])
+      @file.update_attribute(:folder_id, infile[:folder_id])
       #@file.update_attribute(:private_flag, infile[:private_flag])
       file = Irm::AttachmentVersion.where(:id => @file.latest_version_id)
       if file.any?

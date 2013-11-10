@@ -45,13 +45,7 @@
               <p class="help-block"><%= t :label_irm_mail_smtp_from_address_tip%></p>
             </td>
           </tr>
-          <tr>
-            <td class="label-col"><label><%= t :label_irm_mail_prefix %></label></td>
-            <td class="data-2col">
-              <%= smtp.text_field :email_prefix, :required => true%>
-              <p class="help-block"><%= t :label_irm_mail_smtp_prefix_tip %></p>
-            </td>
-          </tr>
+
           <tr>
             <td class="label-col"><label><%= t :label_irm_mail_smtp_port %></label></td>
             <td class="data-2col">
@@ -104,6 +98,14 @@
             <td class="label-col"><label><%= t :label_irm_mail_imap_port %></label></td>
             <td class="data-2col"><%= imap.text_field :port, :irm_number_only => true, :required => true%>
               <p class="help-block"><%= t :label_irm_mail_imap_port_tip%></p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_prefix %></label></td>
+            <td class="data-2col">
+              <%= smtp.text_field :email_prefix, :required => true%>
+              <p class="help-block"><%= t :label_irm_mail_smtp_prefix_tip %></p>
             </td>
           </tr>
 
