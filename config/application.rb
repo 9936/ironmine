@@ -113,6 +113,11 @@ module Ironmine
     end
 
     config.paths["config/locales"] = config.paths["config/locales"].reverse
+    config.paths["config/locales"].each do |local_path|
+      #由于资源文件根据locale，i18n会读取不同的语言的资源文件然后加载到内存中
+      config.i18n.load_path += Dir[Rails.root.join(local_path,'*.{rb,yml}')]
+    end
+    config.paths["config/locales"] = []
 
     # auto load class in lib and module lib
     config.autoload_paths += config.paths["lib"].expanded

@@ -36,7 +36,7 @@ zh:
   label_gtd_task_view_list: 列表视图
   label_gtd_task_view_calendar: 日历视图
 
-  label_action_today: 今日工作清单【%{today}】
+  label_action_today: "今日工作清单【%{today}】"
   label_gtd_task_info: 日常保障工作详细信息
   label_gtd_task_instance_info: 日常保障工作实例详细信息
   #=========================End Task=======================#

@@ -142,19 +142,19 @@ ja:
   updated_at: 更新時間
   kanban_mode: 看板
   list_mode: リスト
-  error_file_upload_limit: サイズを超えた添付ファイル（最大ファイルサイズ%{m} KB、現在アップロードされたサイズ％{n}KB）
-  error_file_upload_limit_shot: サイズを超えた添付ファイル（最大ファイルサイズ%{m} KB、現在アップロードされたサイズ_KB）
+  error_file_upload_limit: "サイズを超えた添付ファイル（最大ファイルサイズ%{m} KB、現在アップロードされたサイズ％{n}KB）"
+  error_file_upload_limit_shot: "サイズを超えた添付ファイル（最大ファイルサイズ%{m} KB、現在アップロードされたサイズ_KB）"
   error_file_upload_repeat: 添付ファイルが繰り返しアップロードされました
   error_file_upload_empty: ファイルを選択していないので、再選択してください。
-  file_upload_limit_alert: 最大ファイルサイズ %{m} KB
+  file_upload_limit_alert: "最大ファイルサイズ %{m} KB"
   by_name: 名称別
   by_date: 期日別
   search_options_with_dot: 詳細検索
   search_options: 検索オプション
   search_all: 全検索
   label_attachment_info: ファイル情報
-  label_attachment_file_size_limit: ファイルサイズ%{リミット}
-  label_attachment_file_type: ファイルタイプ %{タイプ}
+  label_attachment_file_size_limit: "ファイルサイズ%{リミット}"
+  label_attachment_file_type: "ファイルタイプ %{タイプ}"
 
 
   label_lookup_types: 検索タイプ
@@ -1013,9 +1013,9 @@ ja:
   label_irm_todo_event_recurrence_weekly: 毎週
   label_irm_todo_event_recurrence_monthly: 毎月
   label_irm_todo_event_recurrence_yearly: 毎年
-  label_irm_todo_event_recurrence_every_week: %{m}の週ごとに繰返し
-  label_irm_todo_event_recurrence_day_of_every_month: %{m}ヶ月ごとの%{n}日に
-  label_irm_todo_event_recurrence_weekday_of_every_month: %{m}ヶ月ごとの%{n}に
+  label_irm_todo_event_recurrence_every_week: "%{m}の週ごとに繰返し"
+  label_irm_todo_event_recurrence_day_of_every_month: "%{m}ヶ月ごとの%{n}日に"
+  label_irm_todo_event_recurrence_weekday_of_every_month: "%{m}ヶ月ごとの%{n}に"
   label_irm_todo_event_assigned_to: に割当
   label_irm_todo_event_recurrence_edit: 繰返一連の編集
   label_irm_todo_event_priority: 優先度
@@ -1190,9 +1190,9 @@ ja:
   label_irm_todo_task_recurrence_weekly: 毎週
   label_irm_todo_task_recurrence_monthly: 毎月
   label_irm_todo_task_recurrence_yearly: 毎年
-  label_irm_todo_task_recurrence_every_week: %{m}の週ごとに繰返
-  label_irm_todo_task_recurrence_day_of_every_month: %{m}ヶ月ごとの%{n}日に
-  label_irm_todo_task_recurrence_weekday_of_every_month: %{m}ヶ月ごとの%{n}に
+  label_irm_todo_task_recurrence_every_week: "%{m}の週ごとに繰返"
+  label_irm_todo_task_recurrence_day_of_every_month: "%{m}ヶ月ごとの%{n}日に"
+  label_irm_todo_task_recurrence_weekday_of_every_month: "%{m}ヶ月ごとの%{n}に"
   label_irm_todo_task_assigned_to: ～に割当
   label_irm_todo_task_recurrence_edit: 一連の編集
   label_irm_todo_task_priority: 優先度
@@ -1312,7 +1312,7 @@ ja:
   label_irm_wf_approval_step_filter: 条件
   label_irm_wf_approval_step_evaluate_mode_all: すべての記録はこのステップに入ることが必要です
   label_irm_wf_approval_step_evaluate_mode_all_filter: 以下の条件を満たせれば、このステップに入る
-  label_irm_wf_approval_step_validate_step_number: %{min}より大きく、%{max}より小さければならない
+  label_irm_wf_approval_step_validate_step_number: "%{min}より大きく、%{max}より小さければならない"
   label_irm_wf_approval_step_select_approver: 承認者を選択する
   label_irm_wf_approval_ste_approver_type: 承認者タイプ
   label_irm_wf_approval_step_approver: 承認者
@@ -1420,9 +1420,9 @@ ja:
   label_irm_report_type_define_record_sets: レコードセットを定義する
   label_irm_report_type_object_relationship: ビジネスオブジェクト関係
   label_irm_report_type_click_to_relate_to_other_bo: （クリックして別のオブジェクトを関連する）
-  label_irm_report_type_relate_to: %{master} から %{detail} の関係
-  label_irm_report_type_relate_inner: 毎 %{master} が少なくとも一つ %{detail} に関連レコードがなければならない
-  label_irm_report_type_relate_outer: %{master} レコードに関連の %{detail} レコードがあるかあるいはないかもしれない
+  label_irm_report_type_relate_to: "%{master} から %{detail} の関係"
+  label_irm_report_type_relate_inner: "毎 %{master} が少なくとも一つ %{detail} に関連レコードがなければならない"
+  label_irm_report_type_relate_outer: "%{master} レコードに関連の %{detail} レコードがあるかあるいはないかもしれない"
   label_irm_report_type_relate_no_detail: 選択したオブジェクトに一層の関連オブジェクトがない
   label_irm_report_type_relate_limit: 多くとも四つのオブジェクトをカスタマイズレポートタイプに関連できる
   label_irm_report_type_object_relationship_inner: 最低でも一つの関連レコードがある
@@ -1528,7 +1528,7 @@ ja:
   label_irm_tab_business_object: 業務オブジェクト
   label_irm_tab_function_group: 機能グループ
   label_irm_tab_style_image: アイコン
-  label_irm_tab_style_image_no: アイコン %{no}
+  label_irm_tab_style_image_no: "アイコン %{no}"
 
 
   label_irm_application_list: アプリケーションリスト
@@ -1831,7 +1831,7 @@ ja:
 
 
   label_irm_oauth_grant_access_application: 授权应用
-  label_irm_oauth_grant_access_application_tip: 使用你的Hisms帐号访问 %{client} ，并同时登录Hisms
+  label_irm_oauth_grant_access_application_tip: "使用你的Hisms帐号访问 %{client} ，并同时登录Hisms"
   label_irm_oauth_grant_access: 権限
   label_irm_oauth_deny_access: 取消す
   label_irm_oauth_client_not_found: クライアントを見つけない
@@ -1920,7 +1920,7 @@ ja:
   label_irm_wiki_history: 履歴バージョン
   label_irm_wiki_compare: バージョン比較
   label_irm_wiki_revert: 回復
-  label_irm_wiki_revert_message: %{from} から  %{to} までのことを回復
+  label_irm_wiki_revert_message: "%{from} から  %{to} までのことを回復"
   label_irm_wiki_default_commit_message: メッセージ
   label_irm_wiki_preview: プレビュー
 
@@ -1933,7 +1933,7 @@ ja:
   label_before_one_week: 1週間内
   label_before_one_month: 一月内
   label_before_one_year: 一年内
-  label_search_result_count:  %{count} の結果を捜す
+  label_search_result_count: "%{count} の結果を捜す"
   label_search_options_setting: 検索オプション設定
   label_search_options_time: 検索オプション時間
   label_search_no_result_alert_1: 1.キーワードはブランクになることができない
@@ -1969,7 +1969,7 @@ ja:
   #============================== start system setting  ==============================
   label_irm_system: System setting
   label_irm_system_custom_field: Custom Fields
-  label_irm_system_custom_model_field: %{model_name} Fields
+  label_irm_system_custom_model_field: "%{model_name} Fields"
   label_irm_system_custom_business_object_list: Custom Fields's Business Object List
   label_irm_system_custom_attribute: System Custom Fields
   label_irm_custom_attribute: System Custom Fields
