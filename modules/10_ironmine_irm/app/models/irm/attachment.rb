@@ -5,20 +5,27 @@ class Irm::Attachment < ActiveRecord::Base
 
   has_many :attachment_versions, :dependent => :destroy
 
+  #Added by Lei.Peng, 2013;
+  belongs_to :attachment_folder
+  #Added by Lei.Peng, 2013;
+
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
   default_scope { default_filter }
   #Irm::Attachment.accessible('000100012i8IyyjJaqMaJ6')
   scope :accessible, lambda { |person_id|
-    select("#{table_name}.*, p.full_name, av.id version_id, av.data_file_name data_file_name, av.download_count download_count, av.data_content_type data_content_type, av.data_file_size/1024 data_file_size, av.data_updated_at data_updated_at").
+    select("#{table_name}.*,af.name as folder_name, p.full_name, av.id version_id, av.data_file_name data_file_name, av.download_count download_count, av.data_content_type data_content_type, av.data_file_size/1024 data_file_size, av.data_updated_at data_updated_at").
         joins("LEFT JOIN #{Irm::AttachmentMember.table_name} iam ON (#{table_name}.id=iam.attachment_id AND #{table_name}.created_by != '#{person_id}')").
         joins("LEFT JOIN #{Irm::Person.table_name} p ON #{table_name}.created_by = p.id").
         joins("LEFT JOIN #{Irm::AttachmentVersion.table_name} av ON(av.attachment_id=#{table_name}.id AND av.id = #{table_name}.latest_version_id)").
+        #Added by Lei.Peng
+        joins("INNER JOIN #{Irm::AttachmentFolder.table_name} af ON(af.id=#{table_name}.folder_id)").
+        #added by Lei.Peng
         where("(#{table_name}.access_type='PUBLIC') OR (#{table_name}.created_by='#{person_id}') OR (#{table_name}.access_type='PRIVATE' AND #{table_name}.created_by='#{person_id}' ) OR (#{table_name}.access_type='MEMBERS' AND (EXISTS(SELECT 1 FROM irm_person_relations_v iprv WHERE iprv.source_id=iam.member_id AND iprv.source_type=iam.member_type AND iprv.person_id = '#{person_id}' ) ) ) ")
   }
 
-  scope :list_all, lambda{
+  scope :list_all, lambda {
     select("#{table_name}.*, p.full_name, av.id version_id, av.category_id category_id, av.data_file_name data_file_name, av.download_count download_count, av.data_content_type data_content_type, av.data_file_size/1024 data_file_size, av.data_updated_at data_updated_at, fvt.meaning category_name").
         select("av.source_type source_type, av.source_id source_id").
         joins(", #{Irm::AttachmentVersion.table_name} av").

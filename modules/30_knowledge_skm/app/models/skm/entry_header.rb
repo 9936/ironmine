@@ -71,6 +71,11 @@ class Skm::EntryHeader < ActiveRecord::Base
         select("irm_people.full_name author_name, irm_people.login_name author_login_name")
   }
 
+  scope :with_channel, lambda {
+    joins("LEFT OUTER JOIN skm_channels_tl ON skm_channels_tl.channel_id = #{table_name}.channel_id").
+     where("skm_channels_tl.language=?",Irm::Person.current.language_code.to_sym).
+        select("skm_channels_tl.name")
+  }
   scope :with_author_id, lambda {|author_id|
      where("#{table_name}.author_id=?", author_id)
   }
@@ -100,7 +105,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   scope :my_unpublished, lambda { |person_id|
     where("#{table_name}.author_id = ?", person_id).
-        where("#{table_name}.entry_status_code" => ["WAIT_APPROVE", "APPROVE_DENY"])
+        where("#{table_name}.entry_status_code" => ["WAIT_APPROVE", "APPROVE_DENY","DRAFT"])
   }
 
   scope :unpublished, lambda {

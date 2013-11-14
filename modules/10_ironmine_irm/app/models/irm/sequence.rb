@@ -23,8 +23,8 @@ class Irm::Sequence < ActiveRecord::Base
     seq = Irm::Sequence.where(:opu_id => opu_id).where(:object_name => in_object_name)
     return -1 unless seq.any?
     seq = seq.first
-    ret = seq.parse_val
-    seq.update_attribute(:seq_next, (seq.seq_next + 1))
-    ret
+    increment_counter(:seq_next,seq.id)
+    seq.reload
+    seq.parse_val
   end
 end

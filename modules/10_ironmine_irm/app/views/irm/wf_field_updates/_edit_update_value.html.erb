@@ -14,19 +14,6 @@
             <td class="data-col"></td>
           </tr>
         <% end %>
-
-        <% if object_attribute.lov_code.present?  %>
-          <tr>
-            <td class="label-col"><label><%=f.radio_button(:value_type,"OPTIONS_VALUE",:id=>"optionsValueButton",:class=>"typeButton")%></label></td>
-            <td class="data-col"><label for="optionsValueButton"><%=t(:label_irm_wf_field_update_value_type_options_value)%></label></td>
-            <td class="label-col"></td>
-            <td class="data-col"></td>
-          </tr>
-          <tr id="optionsValue" refValue="OPTIONS_VALUE" class="updateValueTR" style="display:none">
-            <td class="label-col"><label for="wf_field_update_value"><%=t(:label_irm_wf_field_update_value)%></label></td>
-            <td class="data-col" colspan="3" width="82%"><%=f.lov_field :value,object_attribute.lov_code, {:value=>("OPTIONS_VALUE".eql?(@wf_field_update.value_type)? @wf_field_update.value : "")},:required=>true ,:class=>"updateValue",:id=>"wf_field_update_value"%></td>
-          </tr>
-        <% end %>
         <tr>
           <td class="label-col"><label><%=f.radio_button(:value_type,"FORMULA_VALUE",:id=>"formulaValueButton",:class=>"typeButton")%></label></td>
           <td class="data-col"><label for="formulaValueButton"><%=t(:label_irm_wf_field_update_value_type_formula_value)%></label></td>

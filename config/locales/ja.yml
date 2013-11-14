@@ -16,21 +16,25 @@ ja:
   submit: Submit
   today: Today
   tomorrow: Tomorrow
-  ago: %{message} ago
+  ago: "%{message} ago"
   find: find
 
   date:
-    formats:
-      default: "%m/%d/%Y"
-      short: "%b %d"
-      long: "%B %d, %Y"
+#    formats:
+#      default: "%m/%d/%Y"
+#      short: "%b %d"
+#      long: "%B %d, %Y"
 
     day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
     abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
     season_names: [First quarter, Second quarter, Third quarter, Fourth quarter]
     month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
-    order: [ :year, :month, :day ]
+#    order: [ :year, :month, :day ]
+    order:
+        - :day
+        - :month
+        - :year
     su: Sunday
     mo: Monday
     tu: Tuesday
@@ -173,7 +177,7 @@ ja:
   label_action_show: Show
   label_action_multilingual_edit: Multilingual edit
   label_action_multilingual_update: Multilingual edit
-  label_reply_title: reply at %{date_format} (%{time_distance}ago)
+  label_reply_title: "reply at %{date_format} (%{time_distance}ago)"
   label_more_info: More
   label_less_info: Less
   #=========paginator==============

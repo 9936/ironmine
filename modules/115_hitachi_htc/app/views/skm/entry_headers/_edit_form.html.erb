@@ -1,0 +1,206 @@
+<%= app_title %>
+<%= form_for(@entry_header,:url=>{:action=>"update"},:builder => CustomFormBuilder, :html => {:name => "edit_form", :id => "edit_form",:multipart => true}) do |f| %>
+    <%= hidden_field_tag("entry_book_id", params[:entry_book_id]) %>
+    <%= f.hidden_field :tmp_source_ids, :id => "tmpSourceIds" %>
+    <%= hidden_field_tag("reference_flag", @reference_flag) %>
+    <% content_for :form_block_common do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_entry_header_doc_number)%></label></td>
+            <td class="data-2col"><label><%= @entry_header.doc_number%></label></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_entry_header_title)%></label></td>
+            <td class="data-2col"><%=f.text_field :entry_title, :required=>true, :size => 80%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_entry_header_keyword_tags)%></label></td>
+            <td class="data-2col"><%=f.text_field :keyword_tags, :size => 80%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_channel)%></label></td>
+            <td class="data-2col"><%= f.lov_field :channel_id, Skm::Channel, {:required => true}%></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_buttons  do %>
+        <% if @reference_flag.eql?('Y') %>
+            <%= link_submit(t(:label_skm_save_as_published), :class => "btn btn-primary") %>
+        <% else %>
+            <%= link_to t(:label_skm_save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary"%>
+        <% end %>
+        <% if @entry_header.entry_status_code.eql?("DRAFT")%>
+            <%= link_to t(:save_as_draft), {}, :href => "javascript:void(0);", :onclick => "submit_draft();",:class => "btn btn-primary", :type => "submit"%>
+        <% end %>
+        <% if params[:entry_book_id].present? %>
+            <%= link_to t(:cancel), {:controller => "skm/entry_books", :action => "show", :id => params[:entry_book_id]}, {:class => "btn cancel"}%>
+        <% else %>
+            <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+        <% end %>
+    <% end %>
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%=t(:label_skm_entry_header_edit)%></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+          <td class="page-block-help"></td>
+        </tr>
+      </table>
+      <%= error_for @entry_header %>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 个人信息 -->
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%=t(:label_common_info)%></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_common   %>
+          </div>
+
+          <% @entry_header.entry_details.order("line_num ASC").each do |ed| %>
+              <div class="sub-page-block-header">
+                <h3 class="sub-page-block-title"><%= ed.element_name %>&nbsp;<%= ed.required_flag == "Y" ? "(#{t(:label_is_required)})" : "" %></h3>
+              </div>
+              <div class="sub-page-block-body">
+                <table class="show-table">
+                  <tbody>
+                  <%= fields_for("skm_entry_details[]", ed) do |ef| %>
+                      <tr>
+                        <td class="data-col" style="padding: 2px 20px 2px 10px !important;">
+                          <%= render "skm/entry_headers/editor_toolbar" %>
+                          <% if ed.required_flag == "Y"%>
+                              <%= ef.text_area :entry_content, {:rows => ed.default_rows, :style => "width:100%;", :required => true, :value => ed.entry_content} %>
+                          <% else %>
+                              <%= ef.text_area :entry_content, {:rows => ed.default_rows, :style => "width:100%;", :value => ed.entry_content} %>
+                          <% end %>
+                        </td>
+                      </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+          <% end %>
+          <!-- 加载上传附件模板 -->
+          <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => true, :exist_attachments => list_exist_skm_entry_attachments(@entry_header.attachments, @entry_header.id), :attachments => @entry_header.attachments,:delete_url => {:controller => "skm/entry_headers", :action => "remove_exits_attachment"} } %>
+        </div>
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+<script type="text/javascript">
+    function submit_draft(){
+        if (confirm("<%= t(:label_skm_entry_header_publish_tip) %>")){
+            document.edit_form.action = "<%= url_for(:controller => 'skm/entry_headers', :action => 'update', :status => "DRAFT", :new => "1")%>";
+        }else{
+            document.edit_form.action = "<%= url_for(:controller => 'skm/entry_headers', :action => 'update', :status => "DRAFT")%>";
+        }
+        document.edit_form.submit();
+    }
+
+    function submit_published(){
+        var edit_flag = '<%= allow_to_function?(:edit_skm_entries) %>';
+        if (edit_flag === 'false') {
+            document.edit_form.action = document.edit_form.action = "<%= url_for(:controller => 'skm/entry_headers', :action => 'update', :status => "PUBLISHED", :new => "1")%>";
+        }else{
+            if (confirm("<%= t(:label_skm_entry_header_publish_tip) %>")){
+                document.edit_form.action = document.edit_form.action = "<%= url_for(:controller => 'skm/entry_headers', :action => 'update', :status => "PUBLISHED", :new => "1")%>";
+            }else{
+                document.edit_form.action = "<%= url_for(:controller => 'skm/entry_headers', :action => 'update', :status => "PUBLISHED")%>";
+            }
+        }
+        document.edit_form.submit();
+    }
+    function delete_subject(tar){
+        $("#tr_" + tar).remove();
+    }
+
+    function add_subject(tar){
+        $("#tr_");
+    }
+</script>
+
+<script type="text/javascript">
+    $(function(){
+        var URI = "/common/create_upload_file";
+        var token = $('meta[name="csrf-token"]').attr('content');
+
+        $(".editor-toolbar input.file").live("change", function(){
+            var copyInput = $(this).clone();
+            var textarea = $(this).parent().parent().parent().find("textarea");
+            if(window.ActiveXObject) {
+                if(typeof uri == 'boolean')
+                    var frameSrc = 'javascript:false';
+                else if(typeof uri== 'string')
+                    var frameSrc = URI;
+            }
+            var frameId = "ImageFrame" + (new Date).getTime(),
+                    tmpFrame = $("<iframe class='tmp-ifame' id='"+frameId+"' name='"+frameId+"'></iframe>").appendTo(document.body),
+                    tmpForm = $("<form />", {
+                        enctype:"multipart/form-data",
+                        encoding:"multipart/form-data",
+                        method:"POST",
+                        target: frameId,
+                        name: frameId,
+                        action:URI,
+                        class: "tmp-form"
+                    }).appendTo(document.body);
+            if (token) $('<input name="authenticity_token" type="hidden" value="'+ token +'"/>').appendTo(tmpForm);
+            $(this).parent().append(copyInput);
+            tmpForm.append($("<input type='hidden' value='true' name='content_image' />"));
+            tmpForm.append($(this));
+            tmpFrame.load(function(resp){
+                try {
+                    var content = tmpFrame.contents().find('body').text();
+                } catch (e) {
+                    var content = ""
+                }
+
+                if (content) {
+                    content = content.split(",");
+                    if ( $("#tmpSourceIds").val()) {
+                        $("#tmpSourceIds").val($("#tmpSourceIds").val() + "," + content[1]);
+                    }else{
+                        $("#tmpSourceIds").val(content[1]);
+                    }
+                    appendImage(textarea, content[0]);
+                    tmpForm.remove();
+                    tmpFrame.remove();
+                }
+            });
+            tmpForm.submit();
+        })
+
+
+    })
+    function appendImage(txtBox, src) {
+        src = src.replace(/^.*[\\\/]|\?.*/, '').replace(/\?.*/,'');
+        var caret_pos = txtBox.caretPos(),
+                src_merged = "!"+ src +"!\n";
+        var source = txtBox.val(),
+                before_text = source.slice(0, caret_pos);
+        txtBox.val(before_text + src_merged + source.slice(caret_pos + 1, source.count));
+        txtBox.caretPos(caret_pos + src_merged.length);
+        txtBox.focus();
+    }
+
+    function submit_draft(){
+        document.new_skm_entry_header.action = "create?status=DRAFT";
+    }
+</script>

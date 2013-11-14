@@ -194,7 +194,7 @@ class Irm::AttachmentVersion < ActiveRecord::Base
         file = attachment['file']
         next unless file && file.size > 0
         #创建附件容器
-        @container=Irm::Attachment.create()
+        @container=Irm::Attachment.create(:folder_id => attachment['folder_id'])
         #创建附件，此处的:data不是数据库列,而是在Attachment中用语句
         #has_attached_file :data, :styles => {:thumb=> "60x60#",:small => "150x150>" }
         #生成的由Paperclip插件处理
@@ -204,6 +204,7 @@ class Irm::AttachmentVersion < ActiveRecord::Base
                                               :source_type=>source_type,
                                               :source_id =>source_id,
                                               :category_id => attachment['file_category'],
+                                              #:folder_id => attachment['folder_id'],
                                               :description => attachment['description'].to_s.strip)
         if version.new_record?
            unsaved << version

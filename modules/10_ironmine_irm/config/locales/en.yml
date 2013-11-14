@@ -8,7 +8,7 @@ en:
   #usual button
   fresh: Resh
   browse: Browse
-  after_n_fresh: Auto refresh in %{n} seconds
+  after_n_fresh: "Auto refresh in %{n} seconds"
   not_auto_refresh: Not auto refresih
   fresh_time: Setting fresh time
   result: Result
@@ -167,17 +167,17 @@ en:
   upload_from_clipboard: Upload Image From Clipboard
   kanban_mode: Kanban
   list_mode: List
-  error_file_upload_limit: Attachment beyond the limit(Limit %{m} Kb, Now %{n} KB)
-  error_file_upload_limit_shot: Attachment beyond the limit(Limit %{m} Kb)
+  error_file_upload_limit: "Attachment beyond the limit(Limit %{m} Kb, Now %{n} KB)"
+  error_file_upload_limit_shot: "Attachment beyond the limit(Limit %{m} Kb)"
   error_file_upload_repeat: Attached file upload repeatly.
   error_file_upload_empty: Not Choose File,Please Choose Again!
-  file_upload_limit_alert: File limit %{m} KB
+  file_upload_limit_alert: "File limit %{m} KB"
   by_name: By name
   by_date: By date
   search_options_with_dot: Advanced Search
   uncategory: Not classified
-  label_attachment_file_size_limit: File size limit %{limit}
-  label_attachment_file_type: File type limit %{type}
+  label_attachment_file_size_limit: "File size limit %{limit}"
+  label_attachment_file_type: "File type limit %{type}"
   label_attachment_file_not_exists: The download link semms bad.
   self: Self
   hide: Hide
@@ -1052,24 +1052,24 @@ en:
   label_irm_todo_event_recurrence_weekly: Weekly
   label_irm_todo_event_recurrence_monthly: Monthly
   label_irm_todo_event_recurrence_yearly: Yearly
-  label_irm_todo_event_recurrence_every_day: Recurs every %{m} day(s) on
-  label_irm_todo_event_recurrence_every_week: Recurs every %{m} week(s) on
-  label_irm_todo_event_recurrence_week_x: Week %{x}
-  label_irm_todo_event_recurrence_every_year: Recurs every %{m} year(s) on
-  label_irm_todo_event_recurrence_day_of_every_month: On day %{n} of every %{m} month(s)
-  label_irm_todo_event_recurrence_weekday_of_every_month: On the %{n} of every %{m} month(s)
+  label_irm_todo_event_recurrence_every_day: "Recurs every %{m} day(s) on"
+  label_irm_todo_event_recurrence_every_week: "Recurs every %{m} week(s) on"
+  label_irm_todo_event_recurrence_week_x: "Week %{x}"
+  label_irm_todo_event_recurrence_every_year: "Recurs every %{m} year(s) on"
+  label_irm_todo_event_recurrence_day_of_every_month: "On day %{n} of every %{m} month(s)"
+  label_irm_todo_event_recurrence_weekday_of_every_month: "On the %{n} of every %{m} month(s)"
   label_irm_todo_event_assigned_to: Assigned To
   label_irm_todo_event_recurrence_edit: Edit Series
   label_action_edit_recurrence: Edit Series
   label_action_my_events_index: My Events
   recurrence_occurs: Occurs
-  recurrence_byday: on day %{m}
-  recurrence_byday_week: on %{m}
-  recurrence_until: until %{m}
+  recurrence_byday: "on day %{m}"
+  recurrence_byday_week: "on %{m}"
+  recurrence_until: "until %{m}"
   recurrence_daily: day(s)
   recurrence_weekly: week(s)
   recurrence_monthly: month(s)
-  recurrence_interval: every %{m}
+  recurrence_interval: "every %{m}"
   label_irm_calendar_view: Calendar View
   label_irm_todo_event_list_view: Events List View
   label_action_portlet: Need To Do Task
@@ -1257,9 +1257,9 @@ en:
   label_irm_todo_task_recurrence_weekly: Weekly
   label_irm_todo_task_recurrence_monthly: Monthly
   label_irm_todo_task_recurrence_yearly: Yearly
-  label_irm_todo_task_recurrence_every_week: Recurs every %{m} week(s) on
-  label_irm_todo_task_recurrence_day_of_every_month: On day %{n} of every %{m} month(s)
-  label_irm_todo_task_recurrence_weekday_of_every_month: On the %{n} of every %{m} month(s)
+  label_irm_todo_task_recurrence_every_week: "Recurs every %{m} week(s) on"
+  label_irm_todo_task_recurrence_day_of_every_month: "On day %{n} of every %{m} month(s)"
+  label_irm_todo_task_recurrence_weekday_of_every_month: "On the %{n} of every %{m} month(s)"
   label_irm_todo_task_assigned_to: Assigned To
   label_irm_todo_task_recurrence_edit: Edit Series
   label_action_my_tasks_index: My Tasks
@@ -1376,7 +1376,7 @@ en:
   label_irm_wf_approval_step_filter: Criteria
   label_irm_wf_approval_step_evaluate_mode_all: All records should enter this step.
   label_irm_wf_approval_step_evaluate_mode_all_filter: Enter this step if satisfied the followings
-  label_irm_wf_approval_step_validate_step_number: Must greater than %{min} and less than%{max}
+  label_irm_wf_approval_step_validate_step_number: "Must greater than %{min} and less than%{max}"
   label_irm_wf_approval_step_select_approver: Select Approver
   label_irm_wf_approval_ste_approver_type: Approver Type
   label_irm_wf_approval_step_approver: Approver
@@ -1458,10 +1458,10 @@ en:
   label_action_item_list: Delayed Job Items List
   label_clear_logs: Clear Logs
   label_clear_logs_btn: Clear
-  label_period_x_days_ago: %{x} days ago
-  label_period_x_weeks_ago: %{x} weeks ago
-  label_period_x_months_ago: %{x} months ago
-  label_period_x_years_ago: %{x} years ago
+  label_period_x_days_ago: "%{x} days ago"
+  label_period_x_weeks_ago: "%{x} weeks ago"
+  label_period_x_months_ago: "%{x} months ago"
+  label_period_x_years_ago: "%{x} years ago"
   label_period_log_clear_all: Clear all
   label_clear_logs_alert_tips: Maybe there are too many logs records, so it will take a few minutes, please wait patiently.
 
@@ -1494,9 +1494,9 @@ en:
   label_irm_report_type_define_record_sets: Define Record Sets
   label_irm_report_type_object_relationship: Business Object Relationship
   label_irm_report_type_click_to_relate_to_other_bo: (Click to relate another object)
-  label_irm_report_type_relate_to: %{master} to %{detail} Relationship
-  label_irm_report_type_relate_inner: Each "%{master}" record must have at least one related "%{detail}" record.
-  label_irm_report_type_relate_outer: %{master} records may or may not have related "%{detail}" records.
+  label_irm_report_type_relate_to: "%{master} to %{detail} Relationship"
+  label_irm_report_type_relate_inner: "Each '%{master}' record must have at least one related '%{detail}' record."
+  label_irm_report_type_relate_outer: "%{master} records may or may not have related '%{detail}' records."
   label_irm_report_type_relate_no_detail: The selected object has no further relatable objects.
   label_irm_report_type_relate_limit: You can associate 4 objects to report type at most
   label_irm_report_type_object_relationship_inner: with at least one related record from
@@ -1602,7 +1602,7 @@ en:
   label_irm_tab_business_object: Business Object
   label_irm_tab_function_group: Function Group
   label_irm_tab_style_image: Icon
-  label_irm_tab_style_image_no: No.%{no} Icon
+  label_irm_tab_style_image_no: "No.%{no} Icon"
   #=======================end tab====================
   #======================= tab ====================
   label_irm_application_list: Application List
@@ -1747,7 +1747,7 @@ en:
   label_irm_mail_test: Test Smtp settings
   label_irm_mail_test_label: Please enter a available email：
   label_irm_mail_test_help: If you receive a email from the system means the smtp settings is corrently.
-  label_irm_mail_test_result: Please check your email： %{email}
+  label_irm_mail_test_result: "Please check your email： %{email}"
 
   label_irm_mail_imap_protocol_choose: Choose form IMAP, POP.
   label_irm_mail_imap_host_name_tip: POP/IMAP Email server.
@@ -1947,7 +1947,7 @@ en:
 
   #============================== oauth_authorize ======================================
   label_irm_oauth_grant_access_application: 授权应用
-  label_irm_oauth_grant_access_application_tip: 使用你的Hisms帐号访问 %{client} ，并同时登录Hisms
+  label_irm_oauth_grant_access_application_tip: "使用你的Hisms帐号访问 %{client} ，并同时登录Hisms"
   label_irm_oauth_grant_access: Grant Acess
   label_irm_oauth_deny_access: Deny Acess
   label_irm_oauth_client_not_found: Not Find Client
@@ -2025,7 +2025,7 @@ en:
   label_irm_wiki_history: History
   label_irm_wiki_compare: Versions Compare
   label_irm_wiki_revert: Revert
-  label_irm_wiki_revert_message:  Revert change between %{from} and %{to}
+  label_irm_wiki_revert_message: "Revert change between %{from} and %{to}"
   label_irm_wiki_default_commit_message: Message
   label_irm_wiki_preview: Preview
   #============================== end wiki  ===================================
@@ -2039,7 +2039,7 @@ en:
   label_before_one_week: 1 Week
   label_before_one_month: 1 Month
   label_before_one_year: 1 Year
-  label_search_result_count: %{count} Results found
+  label_search_result_count: "%{count} Results found"
   label_search_options_setting: Search options setting
   label_search_options_time: Search options time
   label_search_no_result_alert_1: the keyword can't be blank；
@@ -2090,8 +2090,8 @@ en:
   label_report_time_yesterday: Yesterday
   label_report_time_today: Today
   label_report_time_tomorrow: Tomorrow
-  label_report_time_future_n_days: Next %{n} days
-  label_report_time_ago_n_days: Last %{n} days
+  label_report_time_future_n_days: "Next %{n} days"
+  label_report_time_ago_n_days: "Last %{n} days"
   label_report_time_grouped_year: CY
   label_report_time_grouped_season: Fiscal year
   label_report_time_grouped_circle: Fiscal period
@@ -2105,7 +2105,7 @@ en:
   #============================== start system setting  ==============================
   label_irm_system: System setting
   label_irm_system_custom_field: Custom Fields
-  label_irm_system_custom_model_field: %{model_name} Fields
+  label_irm_system_custom_model_field: "%{model_name} Fields"
   label_irm_system_custom_business_object_list: Custom Fields's Business Object List
   label_irm_system_custom_attribute: System Custom Fields
   label_irm_custom_attribute: System Custom Fields
@@ -2136,12 +2136,12 @@ en:
   label_irm_monitor_proces_post: Post
   #============================== end process monitor  ==============================
 
-  label_total_data_size: Total %{m}
+  label_total_data_size: "Total %{m}"
   label_kpi_resolved_rate: Resolved Rate
   label_kpi_ttr: Time To Resolve
-  label_rule_n_weekly: 在每%{n}周的
-  label_rule_n_daily: 每%{n}天
-  label_rule_n_monthly: 在每%{n}个月的
+  label_rule_n_weekly: "在每%{n}周的"
+  label_rule_n_daily: "每%{n}天"
+  label_rule_n_monthly: "在每%{n}个月的"
   label_irm_person_work_number: Number
   #==============================Start Api tools==============================
   label_irm_api_tool: API document
@@ -2194,3 +2194,14 @@ en:
   label_irm_time_trigger_end_at: End Date
   label_irm_time_trigger_start_time: Execute Time
   #========================end time_trigger=====================================
+
+  #========================begin attachment_folder===================================
+  label_irm_attachment_folder: Folder Manager
+  label_irm_upload_new_folder: Create New Folder
+  label_irm_attachment_folder_new: New Folder
+  label_irm_upload_edit_folder: Edit Folder
+  label_irm_attachment_folder_name: Folder Name
+  label_irm_attachment_folder_description: Description
+  label_irm_attachment_folder_parent_id: Parent Folder
+  label_irm_must_have_folder: Before uploading files,folder must be established.
+  #========================end attachment_folder=====================================

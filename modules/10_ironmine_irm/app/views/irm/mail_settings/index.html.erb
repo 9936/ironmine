@@ -58,11 +58,6 @@
                 </td>
               </tr>
               <tr>
-                <td class="label-col"><label><%= t :label_irm_mail_prefix %></label></td>
-                <td class="data-2col"><%= @smtp_setting.email_prefix%>
-                </td>
-              </tr>
-              <tr>
                 <td class="label-col"><label><%= t :label_irm_mail_smtp_port %></label></td>
                 <td class="data-2col"><%= @smtp_setting.port%>
                 </td>
@@ -101,6 +96,11 @@
               <tr>
                 <td class="label-col"><label><%= t :label_irm_mail_imap_port %></label></td>
                 <td class="data-2col"><%= @imap_setting.port%>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%= t :label_irm_mail_prefix %></label></td>
+                <td class="data-2col"><%= @smtp_setting.email_prefix%>
                 </td>
               </tr>
               <tr>

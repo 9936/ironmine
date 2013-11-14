@@ -22,10 +22,6 @@
             <td class="data-2col">
                 <table class="detail-list" cellpadding="0" cellspacing="0" border="0">
                   <tbody>
-                      <tr>
-                        <td class="label-col"><label><%=(t :label_skm_entry_header_doc_number)%></label></td>
-                        <td class="data-2col"><label><%= @entry_header.doc_number%></label></td>
-                      </tr>
 
                       <tr>
                         <td class="label-col"><label><%=(t :label_skm_entry_header_title)%></label></td>
@@ -49,7 +45,8 @@
 
 
   <% content_for :form_buttons  do %>
-    <%= link_submit t(:save_as_published),:class => "btn btn-primary"%>
+    <%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary", :type => "submit"%>
+    <%= link_to t(:save_as_draft), {}, :href => "javascript:void(0);", :onclick => "submit_draft();",:class => "btn btn-primary", :type => "submit"%>
     <%= link_to t(:cancel), {:controller => "icm/incident_journals", :action => "new", :request_id => @entry_header.source_id},:class => "btn cancel"%>
   <% end %>
 
@@ -153,3 +150,13 @@
     </table>
   </div>
 <% end %>
+
+<script type="text/javascript">
+    function submit_draft(){
+        document.edit_form.action = "<%=url_for(:action=>"create_from_icm_request",:status=>"DRAFT")%>";
+    }
+
+    function submit_published(){
+        document.edit_form.action = "<%=url_for(:action=>"create_from_icm_request",:status=>"PUBLISHED")%>";
+    }
+</script>

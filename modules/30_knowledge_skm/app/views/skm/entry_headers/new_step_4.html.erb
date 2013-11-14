@@ -6,6 +6,7 @@
   <% content_for :form_buttons  do %>
     <%= link_to t(:last), {}, {:href => "javascript:void(0);", :onclick => "submit_last()",:class => "btn ", :type => "submit"}%>
     <%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary", :type => "submit"%>
+    <%= link_to t(:save_as_draft), {}, :href => "javascript:void(0);", :onclick => "submit_draft();",:class => "btn btn-primary", :type => "submit"%>
     <% if params[:entry_book_id] %>
       <%= link_to t(:cancel), {:controller => "skm/entry_books", :action => "show", :id => params[:entry_book_id]}, {:confirm => t(:label_cancel_confirm), :class => "btn cancel"}%>
     <% else %>
@@ -65,12 +66,12 @@
 
 <script type="text/javascript">
   function submit_last(){
-    document.new_skm_entry_header.action = "new?step=3";
+    document.new_skm_entry_header.action = "<%=url_for(:action=>"new",:step=>"3")%>";
 //    document.new_skm_entry_header.submit();
   }
   function submit_draft(){
     document.new_skm_entry_header.action = "create?status=DRAFT";
-    document.new_skm_entry_header.submit();
+//    document.new_skm_entry_header.submit();
   }
 
   function submit_published(){

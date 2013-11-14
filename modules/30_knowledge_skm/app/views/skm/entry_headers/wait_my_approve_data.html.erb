@@ -1,4 +1,4 @@
-<%=datatable_view({:columns=>[:id,:author_name,:entry_status_code,:doc_number,:entry_title,:published_date],:count=>@count,:datas=>@datas}) do |builder|%>
+<%=datatable_view({:columns=>[:id,:author_name,:entry_status_code,:doc_number,:entry_title,:published_date,:name],:count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:id,{:title=>t(:operation), :width => "100px"}) do |data|%>
     <%= link_to(t(:label_skm_entry_header_load), {:controller => "skm/entry_headers", :action => "knowledge_details", :id => data[:id]}, :class => "action-link")%>
   <% end %>
@@ -18,4 +18,5 @@
     <%= title %>
     <% end %>
   <% end %>
+    <% builder.column(:name,{:title=>t(:label_skm_entry_header_channel_name),:width=>"150px"})%>
 <% end %>

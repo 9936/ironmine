@@ -8,7 +8,7 @@ zh:
   #公用按钮
   fresh: 立即刷新
   browse: 浏览
-  after_n_fresh: %{n} 秒后自动刷新
+  after_n_fresh: "%{n} 秒后自动刷新"
   not_auto_refresh: 禁用自动刷新
   fresh_time: 设置定时刷新
   result: 结果
@@ -155,19 +155,19 @@ zh:
   kanban_mode: 看板
   list_mode: 列表
   label_new_child: 创建子分类
-  error_file_upload_limit: 附件大小超出限制(最大限制 %{m} KB, 现上传 %{n} KB)
-  error_file_upload_limit_shot: 附件大小超出限制(最大限制 %{m} KB)
+  error_file_upload_limit: "附件大小超出限制(最大限制 %{m} KB, 现上传 %{n} KB)"
+  error_file_upload_limit_shot: "附件大小超出限制(最大限制 %{m} KB)"
   error_file_upload_repeat: 附件中有文件重复上传
   error_file_upload_empty: 附件内容为空，请重新选择文件
-  file_upload_limit_alert: 最大尺寸 %{m} KB
+  file_upload_limit_alert: "最大尺寸 %{m} KB"
   by_name: 按名称
   by_date: 按时间
   search_options_with_dot: 搜索选项...
   search_options: 搜索选项
   search_all: 搜索全部
   label_attachment_info: 附件信息
-  label_attachment_file_size_limit: 文件大小限制 %{limit}
-  label_attachment_file_type: 文件类型限制 %{type}
+  label_attachment_file_size_limit: "文件大小限制 %{limit}"
+  label_attachment_file_type: "文件类型限制 %{type}"
   label_attachment_file_not_exists: 你所下载的附件似乎已经不存在了。
   self: 自己
   hide: 隐藏
@@ -1058,12 +1058,12 @@ zh:
   label_irm_todo_event_recurrence_weekly: 每周
   label_irm_todo_event_recurrence_monthly: 每月
   label_irm_todo_event_recurrence_yearly: 每年
-  label_irm_todo_event_recurrence_every_day: 每 %{m} 天重复
-  label_irm_todo_event_recurrence_every_week: 每 %{m} 个星期重复
-  label_irm_todo_event_recurrence_week_x: 星期 %{x}
-  label_irm_todo_event_recurrence_every_year: 每 %{m} 年重复
-  label_irm_todo_event_recurrence_day_of_every_month: 在每 %{m} 个月的第 %{n} 天
-  label_irm_todo_event_recurrence_weekday_of_every_month: 在每 %{m} 个月的第 %{n}
+  label_irm_todo_event_recurrence_every_day: "每 %{m} 天重复"
+  label_irm_todo_event_recurrence_every_week: "每 %{m} 个星期重复"
+  label_irm_todo_event_recurrence_week_x: "星期 %{x}"
+  label_irm_todo_event_recurrence_every_year: "每 %{m} 年重复"
+  label_irm_todo_event_recurrence_day_of_every_month: "在每 %{m} 个月的第 %{n} 天"
+  label_irm_todo_event_recurrence_weekday_of_every_month: "在每 %{m} 个月的第 %{n}"
   label_irm_todo_event_assigned_to: 分配给
   label_irm_todo_event_recurrence_edit: 编辑重复序列
   label_irm_todo_event_priority: 优先级
@@ -1073,13 +1073,13 @@ zh:
   label_action_edit_recurrence: 编辑重复序列
   label_action_my_events_index: 我的事件
   recurrence_occurs: Occurs
-  recurrence_byday: on day %{m}
-  recurrence_byday_week: on %{m}
-  recurrence_until: until %{m}
+  recurrence_byday: "on day %{m}"
+  recurrence_byday_week: "on %{m}"
+  recurrence_until: "until %{m}"
   recurrence_daily: day(s)
   recurrence_weekly: week(s)
   recurrence_monthly: month(s)
-  recurrence_interval: every %{m}
+  recurrence_interval: "every %{m}"
   label_irm_calendar_view: 日历视图
   label_irm_todo_event_list_view: 事件列表视图
   #======================== end calendar tasks====================
@@ -1262,9 +1262,9 @@ zh:
   label_irm_todo_task_recurrence_weekly: 每周
   label_irm_todo_task_recurrence_monthly: 每月
   label_irm_todo_task_recurrence_yearly: 每年
-  label_irm_todo_task_recurrence_every_week: 每 %{m} 个星期重复
-  label_irm_todo_task_recurrence_day_of_every_month: 在每 %{m} 个月的第 %{n} 天
-  label_irm_todo_task_recurrence_weekday_of_every_month: 在每 %{m} 个月的第 %{n}
+  label_irm_todo_task_recurrence_every_week: "每 %{m} 个星期重复"
+  label_irm_todo_task_recurrence_day_of_every_month: "在每 %{m} 个月的第 %{n} 天"
+  label_irm_todo_task_recurrence_weekday_of_every_month: "在每 %{m} 个月的第 %{n}"
   label_irm_todo_task_assigned_to: 分配给
   label_irm_todo_task_recurrence_edit: 编辑重复序列
   label_irm_todo_task_priority: 优先级
@@ -1386,7 +1386,7 @@ zh:
   label_irm_wf_approval_step_filter: 条件
   label_irm_wf_approval_step_evaluate_mode_all: 所有记录都应进入此步骤。
   label_irm_wf_approval_step_evaluate_mode_all_filter: 如果满足以下条件，则进入此步骤
-  label_irm_wf_approval_step_validate_step_number: 必须大于%{min}小于%{max}
+  label_irm_wf_approval_step_validate_step_number: "必须大于%{min}小于%{max}"
   label_irm_wf_approval_step_select_approver: 选择批准人
   label_irm_wf_approval_ste_approver_type: 审批人类型
   label_irm_wf_approval_step_approver: 审批人
@@ -1468,10 +1468,10 @@ zh:
   label_action_item_list: 详细记录
   label_clear_logs: 清空日志
   label_clear_logs_btn: 清空
-  label_period_x_days_ago: %{x} 天前
-  label_period_x_weeks_ago: %{x} 星期前
-  label_period_x_months_ago: %{x} 月前
-  label_period_x_years_ago: %{x} 年前
+  label_period_x_days_ago: "%{x} 天前"
+  label_period_x_weeks_ago: "%{x} 星期前"
+  label_period_x_months_ago: "%{x} 月前"
+  label_period_x_years_ago: "%{x} 年前"
   label_period_log_clear_all: 清空所有
   label_clear_logs_alert_tips: 当日志记录太多时，清空操作可能需要一定的时间请耐心等候
 
@@ -1504,9 +1504,9 @@ zh:
   label_irm_report_type_define_record_sets: 定义报表记录集
   label_irm_report_type_object_relationship: 对象关系
   label_irm_report_type_click_to_relate_to_other_bo: (点击以相关另一个对象）
-  label_irm_report_type_relate_to: %{master}到 %{detail} 关系
-  label_irm_report_type_relate_inner: 每个 %{master} 记录必须至少有一个相关 %{detail} 记录.
-  label_irm_report_type_relate_outer: %{master} 记录可能有或没有相关 %{detail} 记录.
+  label_irm_report_type_relate_to: "%{master}到 %{detail} 关系"
+  label_irm_report_type_relate_inner: "每个 %{master} 记录必须至少有一个相关 %{detail} 记录."
+  label_irm_report_type_relate_outer: "%{master} 记录可能有或没有相关 %{detail} 记录."
   label_irm_report_type_relate_no_detail: 选择的对象没有可以进一步关联的对象。
   label_irm_report_type_relate_limit: 您最多可以将四个对象关联到自定义报表类型
   label_irm_report_type_object_relationship_inner: 具有至少一个相关记录
@@ -1612,7 +1612,7 @@ zh:
   label_irm_tab_business_object: 业务对像
   label_irm_tab_function_group: 功能组
   label_irm_tab_style_image: 图标
-  label_irm_tab_style_image_no: 图标%{no}
+  label_irm_tab_style_image_no: "图标%{no}"
   #=======================end tab====================
   #======================= tab ====================
   label_irm_application_list: 应用列表
@@ -1739,7 +1739,7 @@ zh:
 
   #========================= mail setting =========================
   label_irm_mail_from_address: 来源邮箱地址
-  label_irm_mail_prefix: 邮件前缀
+  label_irm_mail_prefix: Imap邮件文件夹
   label_irm_mail_protocol: 协议
   label_irm_mail_smtp_host_name: 发件服务器
   label_irm_mail_imap_host_name: 收件服务器
@@ -1758,7 +1758,7 @@ zh:
   label_irm_mail_test: 测试SMTP配置参数
   label_irm_mail_test_label: 请输入一个有效的Email地址：
   label_irm_mail_test_help: 当你确定收到一封系统发送的邮件时标识smtp配置参数正确，否则系统将不能正常的发送邮件。
-  label_irm_mail_test_result: 请查收%{email}是否有收到系统邮件
+  label_irm_mail_test_result: "请查收%{email}是否有收到系统邮件"
 
   label_irm_mail_imap_protocol_choose: 从POP、IMAP中选择。
   label_irm_mail_host_name_tip: 邮件服务器名。
@@ -1938,7 +1938,7 @@ zh:
 
   #============================== oauth_authorize ======================================
   label_irm_oauth_grant_access_application: 授权应用
-  label_irm_oauth_grant_access_application_tip: 使用你的Hisms帐号访问 %{client} ，并同时登录Hisms
+  label_irm_oauth_grant_access_application_tip: "使用你的Hisms帐号访问 %{client} ，并同时登录Hisms"
   label_irm_oauth_grant_access: 授权
   label_irm_oauth_deny_access: 取消
   label_irm_oauth_client_not_found: 没有找到相应的应用
@@ -2029,7 +2029,7 @@ zh:
   label_irm_wiki_history: 历史版本
   label_irm_wiki_compare: 对比历史版本
   label_irm_wiki_revert: 撤销修改
-  label_irm_wiki_revert_message:  撤销修改 %{from} 到 %{to} 之间的修改
+  label_irm_wiki_revert_message: "撤销修改 %{from} 到 %{to} 之间的修改"
   label_irm_wiki_default_commit_message: 信息
   label_irm_wiki_preview: 预览
   #============================== end wiki  ===================================
@@ -2042,7 +2042,7 @@ zh:
   label_before_one_week: 1 周内
   label_before_one_month: 1 月内
   label_before_one_year: 1 年内
-  label_search_result_count: 共搜到约 %{count} 个结果
+  label_search_result_count: "共搜到约 %{count} 个结果"
   label_search_options_setting: 搜索内容设置
   label_search_options_time: 搜索时间设置
   label_search_no_result_alert_1: 搜索关键词不能为空；
@@ -2092,8 +2092,8 @@ zh:
   label_report_time_yesterday: 昨天
   label_report_time_today: 今天
   label_report_time_tomorrow: 明天
-  label_report_time_future_n_days: 未来 %{n} 天
-  label_report_time_ago_n_days: 过去 %{n} 天
+  label_report_time_future_n_days: "未来 %{n} 天"
+  label_report_time_ago_n_days: "过去 %{n} 天"
   label_report_time_grouped_year: 会计年度
   label_report_time_grouped_season: 会计季度
   label_report_time_grouped_circle: 会计周期
@@ -2107,7 +2107,7 @@ zh:
   #============================== start system setting  ==============================
   label_irm_system: 系统设置
   label_irm_system_custom_field: 自定义字段
-  label_irm_system_custom_model_field: %{model_name}自定义字段
+  label_irm_system_custom_model_field: "%{model_name}自定义字段"
   label_irm_system_custom_business_object_list: 可自定义字段业务对象
   label_irm_system_custom_attribute: 系统自定义字段
   label_irm_custom_attribute: 系统自定义字段
@@ -2138,15 +2138,15 @@ zh:
   label_irm_monitor_proces_post: 确定
   #============================== end process monitor  ==============================
 
-  label_total_data_size: 共 %{m} 条数据
+  label_total_data_size: "共 %{m} 条数据"
 
   label_kpi_resolved_rate: 事故单解决率
   label_kpi_ttr: 平均处理时间
-  label_rule_n_weekly: 在每%{n}周的
-  label_rule_n_daily: 每%{n}天
-  label_rule_n_monthly: 在每%{n}个月的
-  label_n_setpos: 第%{n}个
-  label_n_monthday: 第%{n}天
+  label_rule_n_weekly: "在每%{n}周的"
+  label_rule_n_daily: "每%{n}天"
+  label_rule_n_monthly: "在每%{n}个月的"
+  label_n_setpos: "第%{n}个"
+  label_n_monthday: "第%{n}天"
   label_irm_person_work_number: 工号
 
   #==============================Start Api tools==============================
@@ -2201,3 +2201,11 @@ zh:
   label_irm_time_trigger_start_time: 执行时间
   #========================end time_trigger=====================================
 
+  label_irm_attachment_folder: 文件夹管理
+  label_irm_upload_new_folder: 创建新文件夹
+  label_irm_attachment_folder_new: 新建文件夹
+  label_irm_upload_edit_folder: 编辑文件夹
+  label_irm_attachment_folder_name: 文件夹名称
+  label_irm_attachment_folder_description: 描述
+  label_irm_attachment_folder_parent_id: 父文件夹
+  label_irm_must_have_folder: 上传文件之前必须建立文件夹

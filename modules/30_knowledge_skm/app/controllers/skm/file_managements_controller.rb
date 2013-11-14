@@ -102,6 +102,7 @@ class Skm::FileManagementsController < ApplicationController
     else
       @file.update_attribute(:description, infile[:description])
       @file.update_attribute(:file_category, infile[:file_category])
+      @file.update_attribute(:folder_id, infile[:folder_id])
       #@file.update_attribute(:private_flag, infile[:private_flag])
       file = Irm::AttachmentVersion.where(:id => @file.latest_version_id)
       if file.any?
@@ -145,8 +146,10 @@ class Skm::FileManagementsController < ApplicationController
   
   def get_data
     files_scope = Irm::Attachment.accessible(Irm::Person.current.id)
-    files_scope = files_scope.match_value("#{Irm::AttachmentVersion.table_name}.data_file_name",params[:data_file_name])
+    files_scope = files_scope.match_value("av.data_file_name",params[:data_file_name])
+    files_scope = files_scope.match_value("p.full_name",params[:full_name])
     files_scope = files_scope.match_value("#{Irm::Attachment.table_name}.description",params[:description])
+    files_scope = files_scope.where("#{Irm::Attachment.table_name}.folder_id = ?",params[:folder_id]) if params[:folder_id].present?
 
     files,count = paginate(files_scope)
     respond_to do |format|
@@ -193,4 +196,5 @@ class Skm::FileManagementsController < ApplicationController
         format.html { redirect_to({:action=>"get_version_files", :id =>  @file_version.attachment_id }, :notice =>t(:successfully_created)) }
     end
   end
+
 end

@@ -27,7 +27,7 @@
           <tr>
             <td class="label-col"></td>
             <td class="data-3col" colspan="3">
-              <%= render :partial=>"helper/upload_file_sample",:locals=>{:upload_file_id=>"new_wiki",:url_options=>{:source_id=>"nil",:source_type=>@wiki.class.name},:file_type=>"gif,png,jpg,jpeg",:pasted_zone=>"gollum-editor-body"} %>
+              <%= upload_file_sample({:upload_file_id=>"new_wiki",:url_options=>{:source_id=>"nil",:source_type=>@wiki.class.name},:file_type=>"gif,png,jpg,jpeg",:pasted_zone=>"gollum-editor-body"}) %>
             </td>
           </tr>
           <tr>

@@ -1,10 +1,10 @@
 module Amo::RatingModelEx
   def self.included(base)
     base.class_eval do
-      after_create :trigger_survey
+      #after_create :trigger_survey
 
       def trigger_survey
-        if self.bo_name.eql?("Icm::IncidentRequest")
+        if false && self.bo_name.eql?("Icm::IncidentRequest")
           #将事故单的状态进行修改
           incident_request = Icm::IncidentRequest.find(self.rating_object_id)
           incident_request.incident_status_id = Icm::IncidentStatus.transform(incident_request.incident_status_id, "RATING", incident_request.external_system_id)

@@ -19,6 +19,13 @@
             <td class="data-2col"><%=select_tag "file[0][file_category]", options_for_select(available_file_categories, @file[:category_id])%></td>
           </tr>
           <tr>
+            <td class="label-col"><label for="parent_id"><%= t(:label_irm_attachment_folder_parent_id) %></label></td>
+            <td class="data-col">
+              <%= select_tag "file[0][folder_id]", options_for_select(available_attachment_parent_folder(@file[:folder_id],false),@file[:folder_id]), {:required => false} %>
+            </td>
+
+          </tr>
+          <tr>
             <td class="label-col"><label><%=(t :description)%></label></td>
             <td class="data-2col"><%=text_area_tag "file[0][description]", @file[:description], {:rows => 3, :cols => 35}%></td>
           </tr>
