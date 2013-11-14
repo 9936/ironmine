@@ -26,7 +26,7 @@ zh:
   label_emw_interface_table_edit: 编辑接口表
   label_emw_interface_table_add_column: 添加列
   label_emw_interface_table_import: 导入接口表
-  label_emw_interface_table_import_step_n: 导入接口表 步骤%{n}, 共%{total}步
+  label_emw_interface_table_import_step_n: "导入接口表 步骤%{n}, 共%{total}步"
   label_emw_interface_table_import_database: 数据库
   label_emw_interface_table_import_username: 数据库用户
   label_emw_interface_table_import_password: 数据库密码
@@ -113,8 +113,8 @@ zh:
   label_emw_connection_username: 用户
   label_emw_connection_password: 密码
   label_emw_connection_object_symbol: 符号
-  label_emw_connection_exception: 无法连接到%{host}，检查帐号和密码是否正确
-  label_emw_connection_econnrefused: 无法连接到%{host}
+  label_emw_connection_exception: "无法连接到%{host}，检查帐号和密码是否正确"
+  label_emw_connection_econnrefused: "无法连接到%{host}"
   label_emw_connection_add_item: 添加巡检项
   label_emw_connection_save_selected: 保存所选项
   #=========================End Connection=======================#

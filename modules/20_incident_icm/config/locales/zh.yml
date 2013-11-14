@@ -190,8 +190,8 @@ zh:
   label_icm_incident_joural_back_to_request: 返回事故单
   label_icm_incident_joural_recover: 撤消删除
   label_icm_incident_journal_upgrade: 升级事故单
-  label_icm_reply_title: 于 %{message} 前回复
-  label_icm_submit_title: 于 %{message} 前提交
+  label_icm_reply_title: "于 %{message} 前回复"
+  label_icm_submit_title: "于 %{message} 前提交"
   label_action_edit_pass: 转交事故单
   label_action_update_pass: 转交事故单
   label_action_edit_close: 关闭事故单
@@ -300,7 +300,7 @@ zh:
   label_icm_external_system_save_selected: 保存所选支持组
   label_icm_support_group_system_num: 所属系统数
   label_icm_support_group_group_num: 所属组数
-  label_icm_support_group_has_n_systems: 该支持组下有%{n}个系统，删除支持组下的成员可能会影响到其他系统！
+  label_icm_support_group_has_n_systems: "该支持组下有%{n}个系统，删除支持组下的成员可能会影响到其他系统！"
   label_icm_system_group_process: 支持组流程
   label_irm_system_group_process_list: 流程列表
   label_irm_system_group_process_new: 新建流程

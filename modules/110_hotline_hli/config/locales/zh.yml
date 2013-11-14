@@ -75,15 +75,15 @@ zh:
   #========================== end incident_amount_by_month_cate report  ===============================
 
   #========================== template report  ===================================
-  message_report_template_subject: 您%{m}的时候在HISMS系统中提交的模板报表请求已经执行完成
-  message_report_template_content: 您%{m}的时候在HISMS系统中提交的模板报表请求已经执行完成。本次递交模板:%{n}，执行参数:%{o}。执行结果请查阅附件。
+  message_report_template_subject: "您%{m}的时候在HISMS系统中提交的模板报表请求已经执行完成"
+  message_report_template_content: 您%{m}的时候在HISMS系统中提交的模板报表请求已经执行完成。本次递交模板:%{n}，执行参数: "%{o}。执行结果请查阅附件。"
   message_report_template_running: 您提交的请求正在执行，执行完毕后，结果会发到您的联系邮箱。您现在可以关闭本页面。
   #========================== end template report  ===============================
 
   #报表相关
   label_percentage: 比例
   label_amount: 数量
-  label_total_data_size: 共 %{m} 条数据
+  label_total_data_size: "共 %{m} 条数据"
   label_project: 项目
   label_reporter: 报告员(请求人)
   label_report_number: 编号
