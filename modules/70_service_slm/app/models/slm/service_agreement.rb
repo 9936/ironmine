@@ -36,15 +36,15 @@ class Slm::ServiceAgreement < ActiveRecord::Base
 
   #根据天，小时还有秒来区分
   def transform_time
-    self.duration = self.duration_day.to_i * 86400 + self.duration_hour.to_i * 60 + self.duration_minute.to_i
+    self.duration = self.duration_day.to_i * 1440 + self.duration_hour.to_i * 60 + self.duration_minute.to_i
   end
 
   def untransform_time
     self.duration ||= 0
     self.duration = self.duration.to_i
     self.duration ||= self.duration.to_i
-    self.duration_day ||= self.duration/86400
-    self.duration_hour ||= (self.duration%86400)/60
+    self.duration_day ||= self.duration/1440
+    self.duration_hour ||= (self.duration%1440)/60
     self.duration_minute ||= self.duration%60
   end
 
