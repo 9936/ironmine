@@ -126,6 +126,8 @@ ja:
   label_skm_entry_header_choice_people: Chose at least one people
   label_skm_entry_header_to_people: Has hand over to {{person_name}}
   label_skm_entry_header_to_people_save: Save
+  label_skm_draft: Draft
+  label_skm_my_drafts: My Draft
   label_skm_entry_header_publish_tip: Do you want to save as a new version?
   label_skm_entry_header_lov_channel: Please select channel
   #=========================skm FileManagement================================
