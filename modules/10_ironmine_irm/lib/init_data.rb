@@ -921,7 +921,6 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/navigations" => ["access_deny", "combo"],
               "irm/oauth_authorize" => ["create", "show", "token"],
               "irm/ratings" => ["create"],
-              "irm/external_system_members" => ["update"],
           },
           :login_function => {
               :en => {:name => "Login Accessage Function", :description => "Login Accessage Function"},
@@ -947,7 +946,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/filters" => ["operator_value"],
               "irm/custom_attributes" => ["custom_fields_block"],
               "irm/model_associations" => ["index","get_data"],
-              "irm/readed_bulletins"=>["index","continue"]
+              "irm/readed_bulletins"=>["index","continue"],
+              "irm/external_system_members" => ["update"],
           },
 
           :home_page => {
