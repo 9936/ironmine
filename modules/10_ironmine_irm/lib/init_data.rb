@@ -1779,7 +1779,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/external_system_members" => ["new_from_person", "create_from_person", "delete_from_person", "get_available_external_system_data"]
+              "irm/external_system_members" => ["update", "new_from_person", "create_from_person", "delete_from_person", "get_available_external_system_data"]
           },
           :add_person => {
               :en => {:name => "Add New User", :description => "Add New User"},
@@ -2024,7 +2024,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               #"irm/external_system_members" => ["add_people", "create_from_person", "delete_from_person", "delete_people", "get_available_external_system_data", "get_available_people_data", "get_owned_members_data", "index", "new_from_person"],
-              "irm/external_system_members" => ["add_people", "delete_people", "get_available_people_data", "get_owned_members_data", "index"],
+              "irm/external_system_members" => ["update", "add_people", "delete_people", "get_available_people_data", "get_owned_members_data", "index"],
           },
       }
   }
@@ -2875,7 +2875,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/system_members" => ["index","add_people", "delete_people","get_available_people_data", "get_owned_members_data"]
+              "irm/system_members" => ["index","add_people", "delete_people","get_available_people_data", "get_owned_members_data"],
+              "irm/external_system_members" => ["update"]
           }
       }
   }
