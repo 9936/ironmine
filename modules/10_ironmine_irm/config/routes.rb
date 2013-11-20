@@ -964,6 +964,7 @@ Rails.application.routes.draw do
     match '/external_system_members/:person_id/delete_from_person(.:format)' => "external_system_members#delete_from_person"
     match '/external_system_members/:person_id/get_available_external_system_data(.:format)' => "external_system_members#get_available_external_system_data", :via => :get
     match '/external_system_members/:external_system_id/:id/update(.:format)' => "external_system_members#update"
+    match '/external_system_members/:sid/:external_system_id/:id/update(.:format)' => "external_system_members#update"
 
     #licenses
     match '/licenses(/index)(.:format)' => "licenses#index", :via => :get
