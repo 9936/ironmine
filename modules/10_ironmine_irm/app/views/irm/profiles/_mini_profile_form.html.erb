@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div id="editSystemProfileModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-  <%= form_tag({:controller => "irm/external_system_members", :action => "update", :external_system_id => "${external_system_id}", :id => "${system_member_id}"}, {:class => "modal-form", :id => "edit_system_profile_form"}) do %>
+  <%= form_tag({:controller => "irm/external_system_members", :action => "update", :sid => "${external_system_id}", :external_system_id => "${external_system_id}", :id => "${system_member_id}"}, {:class => "modal-form", :id => "edit_system_profile_form"}) do %>
   <%= hidden_field_tag "redirect_to" %>
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
