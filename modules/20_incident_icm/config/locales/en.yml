@@ -199,8 +199,8 @@ en:
   label_icm_incident_journal_reopen: Ropen ticket
   label_icm_incident_joural_back_to_request: Back to incident
   label_icm_incident_joural_recover: Recover
-  label_icm_reply_title: reply at %{message} ago
-  label_icm_submit_title: submit at %{message} ago
+  label_icm_reply_title: "reply at %{message} ago"
+  label_icm_submit_title: "submit at %{message} ago"
   label_action_edit_pass: Pass ticket
   label_action_update_pass: Pass ticket
   label_action_edit_close: Close ticket
@@ -304,7 +304,7 @@ en:
   label_icm_external_system_save_selected: Save Selected Groups
   label_icm_support_group_system_num: The Systems num
   label_icm_support_group_group_num: The Groups num
-  label_icm_support_group_has_n_systems: The support group has %{n} systems,as delete supportors may be invoke other systems!
+  label_icm_support_group_has_n_systems: "The support group has %{n} systems,as delete supportors may be invoke other systems!"
   label_icm_system_group_process: Support Group Processes
   label_irm_system_group_process_list: Processes List
   label_irm_system_group_process_new: New Process

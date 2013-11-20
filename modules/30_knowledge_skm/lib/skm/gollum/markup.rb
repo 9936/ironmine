@@ -1,4 +1,4 @@
-require 'iconv'
+#require 'iconv'
 module Skm::Gollum::Markup
   def self.included(base)
     base.class_eval do

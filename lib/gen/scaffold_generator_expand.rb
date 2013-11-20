@@ -5,6 +5,12 @@ module Gen::ScaffoldGeneratorExpand
       def create_root_folder
         empty_directory File.join("#{get_module}app/views", controller_file_path)
       end
+
+      protected
+
+      def available_views
+        %w(index edit show _new_form _edit_form get_data)
+      end
     end
   end
 end

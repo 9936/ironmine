@@ -28,8 +28,8 @@ ja:
   label_isp_connection_username: Username
   label_isp_connection_password: Password
   label_isp_connection_object_symbol: Symbol
-  label_isp_connection_exception: Can't connect to %{host},please check the username or password.
-  label_isp_connection_econnrefused: Can't connect to %{host}
+  label_isp_connection_exception: "Can't connect to %{host},please check the username or password."
+  label_isp_connection_econnrefused: "Can't connect to %{host}"
   label_isp_connection_add_item: Add Check Item
   label_isp_connection_save_selected: Save Selected
   #=========================End Connection=======================#
@@ -80,7 +80,7 @@ ja:
   label_isp_alert_filter_n: Not Equal
   label_isp_alert_filter_g: Greater Than
   label_isp_alert_filter_l: Less Than
-  label_isp_alert_filter_result: The Check Result：%{target} %{operation} Alert value：%{value}
+  label_isp_alert_filter_result: "The Check Result：%{target} %{operation} Alert value：%{value}"
   #=========================End Alert Filters=======================#
 
   #=========================Start History=======================#

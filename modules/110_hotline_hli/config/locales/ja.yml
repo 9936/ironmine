@@ -74,15 +74,15 @@ ja:
    #========================== end incident_amount_by_month_cate report  ===============================
 
    #========================== template report  ===================================
-  message_report_template_subject: %{m} の時に、システムHISMS で提出したテンプレートレポート請求が実行完了しました。
-  message_report_template_content: %{m} の時に、システムHISMS で提出したテンプレートレポート請求が実行完了しました。現提出テンプレート：%{n}、実行パラメータ：%{o}。実行結果は添付ファイルをご参照してください。
+  message_report_template_subject: "%{m} の時に、システムHISMS で提出したテンプレートレポート請求が実行完了しました。"
+  message_report_template_content: "%{m} の時に、システムHISMS で提出したテンプレートレポート請求が実行完了しました。現提出テンプレート：%{n}、実行パラメータ：%{o}。実行結果は添付ファイルをご参照してください。"
   message_report_template_running: 提出した請求は実行中です。実行完了後、結果のメールは送信します。このページをクローズしてよいです。
    #========================== end template report  ===============================
 
    #报表相关
   label_percentage: 比率
   label_amount: 数量
-  label_total_data_size: 総計 %{m}
+  label_total_data_size: "総計 %{m}"
   label_project: プロジェクト
   label_reporter: 報告者
   label_report_number: 番号
