@@ -66,12 +66,7 @@
                                                         {},{:id=>"incident_request_impact_range_code"}%>
                   </td>
                   <td>
-                    <label for="incident_request_hotline"><%=t(:label_icm_incident_request_hotline)%></label>
-                    <% if Irm::Person.current.email_address.include?('hand-china')%>
-                        <%= f.check_box :hotline, {:id => "incident_request_hotline", :checked => false} %>
-                    <% else %>
-                        <%= f.check_box :hotline, {:id => "incident_request_hotline", :checked => true} %>
-                    <% end %>
+
                   </td>
                 </tr>
               </table>

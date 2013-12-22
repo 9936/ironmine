@@ -316,6 +316,16 @@ module Hli::IncidentRequestsControllerEx
         if incident_request.requested_by.present?
           incident_request.contact_id = incident_request.requested_by
         end
+
+        short_name = Irm::ExternalSystem.find(incident_request.external_system_id)
+        org = Irm::Organization.where("short_name = ?", short_name)
+
+        if org.any? && org.first[:hotline].eql?(Irm::Constant::SYS_YES)
+          incident_request.hotline = Irm::Constant::SYS_YES
+        else
+          incident_request.hotline = Irm::Constant::SYS_NO
+        end
+
         if incident_request.contact_number.present? && incident_request.contact_number.eql?(I18n.t(:label_icm_incident_request_contact_number_tip_a)) ||
             incident_request.contact_number.eql?(I18n.t(:label_icm_incident_request_contact_number_tip_b))
           if incident_request.hotline.eql?(Irm::Constant::SYS_YES)
