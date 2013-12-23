@@ -538,6 +538,8 @@ module Hli::IncidentRequestsControllerEx
           incident_request.contact_id = incident_request.requested_by
         end
 
+        short_name = Irm::ExternalSystem.find(incident_request.external_system_id)
+        org = Irm::Organization.where("short_name = ?", short_name)
         if org.any? && org.first.hotline.eql?(Irm::Constant::SYS_YES)
           incident_request.hotline = Irm::Constant::SYS_YES
         else
