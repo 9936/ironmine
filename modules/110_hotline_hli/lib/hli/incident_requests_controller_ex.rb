@@ -538,6 +538,12 @@ module Hli::IncidentRequestsControllerEx
           incident_request.contact_id = incident_request.requested_by
         end
 
+        if org.any? && org.first.hotline.eql?(Irm::Constant::SYS_YES)
+          incident_request.hotline = Irm::Constant::SYS_YES
+        else
+          incident_request.hotline = Irm::Constant::SYS_NO
+        end
+
         if incident_request.contact_number.present? && incident_request.contact_number.eql?(I18n.t(:label_icm_incident_request_contact_number_tip_a)) ||
             incident_request.contact_number.eql?(I18n.t(:label_icm_incident_request_contact_number_tip_b))
           if incident_request.hotline.eql?(Irm::Constant::SYS_YES)
