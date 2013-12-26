@@ -1,6 +1,6 @@
 <%= common_title() %>
 
-<%= form_for(@person,:url=>{:action=>"create"},:as=>"irm_person",:builder => CustomFormBuilder) do |f| %>
+<%= form_for(@person,:url=>{:action=>"create"},:as=>"irm_person",:builder => CustomFormBuilder,:html => {:id => 'new_irm_person' }) do |f| %>
   <% content_for :form_block_person   do%>
     <table class="form-table">
       <tbody>
@@ -187,9 +187,9 @@
 
 <script type="text/javascript">
   $(function(){
-    $("#irm_person_new a.next-step-btn").click(function(){
-        $("#irm_person_new").attr('action', '<%= url_for(:action => "create", :controller => "irm/people", :next_action => "add_system")%>');
-        $("#irm_person_new").submit();
+    $("#new_irm_person a.next-step-btn").click(function(){
+        $("#new_irm_person").attr('action', '<%= url_for(:action => "create", :controller => "irm/people", :next_action => "add_system")%>');
+        $("#new_irm_person").submit();
     });
   })
 </script>
