@@ -101,6 +101,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "icm/incident_journals" => ["index", "new"],
               "icm/incident_requests" => ["get_data", "get_external_systems", "get_help_desk_data", "get_slm_services", "index",
                                           "update", "remove_attachment"],
+              "icm/support_groups" => ["get_pass_member_options"]
           },
           :view_all_incident_request => {
               :en => {:name => "View ALL", :description => "View ALL"},
@@ -810,7 +811,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              "icm/incident_journals" => ["edit_pass", "update_pass"]
+              "icm/incident_journals" => ["edit_pass", "update_pass"],
+              "icm/support_groups" => ["get_pass_member_options"]
           },
           :system_pass_anyone => {
               :zh => {:name => "转交任意事故单", :description => "转交任意事故单"},
@@ -819,7 +821,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              "icm/incident_journals" => ["edit_pass", "update_pass"]
+              "icm/incident_journals" => ["edit_pass", "update_pass"],
+              "icm/support_groups" => ["get_pass_member_options"]
           },
           ##状态
           :system_status_mine => {

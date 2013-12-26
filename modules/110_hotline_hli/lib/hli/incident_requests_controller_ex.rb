@@ -293,47 +293,6 @@ module Hli::IncidentRequestsControllerEx
 
       private
 
-      def prepared_for_create(incident_request)
-        incident_request.submitted_by = Irm::Person.current.id
-        incident_request.submitted_date = Time.now
-        incident_request.last_request_date = Time.now
-        incident_request.last_response_date = Time.now
-        incident_request.next_reply_user_license="SUPPORTER"
-
-        #HOTLINE项目中，暂时用不到请求类型和来源类型，先进行默认
-        incident_request.request_type_code = "REQUESTED_TO_PERFORM"
-        incident_request.report_source_code = "CUSTOMER_SUBMIT"
-        if incident_request.incident_status_id.nil?||incident_request.incident_status_id.blank?
-          incident_request.incident_status_id = Icm::IncidentStatus.default_id
-        end
-        if incident_request.request_type_code.nil?||incident_request.request_type_code.blank?
-          incident_request.request_type_code = "REQUESTED_TO_CHANGE"
-        end
-
-        if incident_request.report_source_code.nil?||incident_request.report_source_code.blank?
-          incident_request.report_source_code = "CUSTOMER_SUBMIT"
-        end
-        if incident_request.requested_by.present?
-          incident_request.contact_id = incident_request.requested_by
-        end
-        if incident_request.contact_number.present? && incident_request.contact_number.eql?(I18n.t(:label_icm_incident_request_contact_number_tip_a)) ||
-            incident_request.contact_number.eql?(I18n.t(:label_icm_incident_request_contact_number_tip_b))
-          if incident_request.hotline.eql?(Irm::Constant::SYS_YES)
-            incident_request.contact_number = nil
-          else
-            incident_request.contact_number = "NULL"
-          end
-        end
-        #必须手工填写联系方式
-    #    if !incident_request.contact_number.present?&&incident_request.contact_id.present?
-    #      incident_request.contact_number = Irm::Person.find(incident_request.contact_id).bussiness_phone
-    #    end
-
-        if limit_device?
-          incident_request.summary = "<pre>"+incident_request.summary+"</pre>"
-        end
-      end
-
       def validate_files(ref_request)
         flash[:notice] = nil
         now = 0
@@ -526,6 +485,14 @@ module Hli::IncidentRequestsControllerEx
         end
         if incident_request.requested_by.present?
           incident_request.contact_id = incident_request.requested_by
+        end
+
+        short_name = Irm::ExternalSystem.find(incident_request.external_system_id).external_system_code
+        org = Irm::Organization.where("short_name = ?", short_name)
+        if org.any? && org.first.hotline.eql?(Irm::Constant::SYS_YES)
+          incident_request.hotline = Irm::Constant::SYS_YES
+        else
+          incident_request.hotline = Irm::Constant::SYS_NO
         end
 
         if incident_request.contact_number.present? && incident_request.contact_number.eql?(I18n.t(:label_icm_incident_request_contact_number_tip_a)) ||

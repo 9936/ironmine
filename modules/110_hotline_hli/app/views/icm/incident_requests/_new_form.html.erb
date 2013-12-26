@@ -102,17 +102,7 @@
            <tr>
              <td class="label-col"><%=t(:label_icm_incident_request_hotline)%></td>
              <td class="data-3col" colspan="3">
-               <% if Irm::Person.current.email_address.include?('hand-china')%>
-                   <%= f.radio_button :hotline, Irm::Constant::SYS_YES, :id => "incident_request_hotline_y", :checked => false %>
-                   <label for="incident_request_hotline_y"><%=t(:label_icm_incident_request_hotline_y)%></label>&nbsp;&nbsp;
-                   <%= f.radio_button :hotline, Irm::Constant::SYS_NO, :id => "incident_request_hotline_n", :checked => true %>
-                   <label for="incident_request_hotline_n"><%=t(:label_icm_incident_request_hotline_n)%></label>
-               <% else %>
-                   <%= f.radio_button :hotline, Irm::Constant::SYS_YES, :id => "incident_request_hotline_y", :checked => true %>
-                   <label for="incident_request_hotline_y"><%=t(:label_icm_incident_request_hotline_y)%></label>&nbsp;&nbsp;
-                   <%= f.radio_button :hotline, Irm::Constant::SYS_NO, :id => "incident_request_hotline_n", :checked => false %>
-                   <label for="incident_request_hotline_n"><%=t(:label_icm_incident_request_hotline_n)%></label>
-               <% end %>
+                &nbsp;
              </td>
            </tr>
            <tr>
