@@ -1,0 +1,16 @@
+zh:
+  label_som_sales_opportunity: 销售信息
+  label_irm_sales_opportunity_list: 预销售列表
+  label_irm_sales_opportunity_new: 新建销售信息
+  label_irm_sales_opportunity_charge_person: 负责人
+  label_irm_sales_opportunity_name: 名称
+  label_irm_sales_opportunity_content: 内容
+  label_irm_sales_opportunity_customer: 客户
+  label_irm_sales_opportunity_region: 区域
+  label_irm_sales_opportunity_address: 地点
+  label_irm_sales_opportunity_sales_status: 状态
+  label_irm_sales_opportunity_involved_production_info: 涉及产品
+  label_irm_sales_opportunity_sales_person: 销售人员
+  label_irm_sales_opportunity_sales_previous_flag: 往年延续
+  label_irm_sales_opportunity_sales_possibility: 可能性
+  label_irm_sales_opportunity_sales_progress: 进度
