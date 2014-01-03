@@ -97,25 +97,25 @@ class Som::SalesOpportunitiesController < ApplicationController
 
 
     #对人员进行过滤
-    if params[:sales_role] && !params[:sales_role].include?("ALL")
-      if params[:sales_role].include?("CHARGE") #作为负责人参与
+    if params[:sales_role] && !params[:sales_role].include?("all")
+      if params[:sales_role].include?("charge") #作为负责人参与
         sales_opportunities_scope = sales_opportunities_scope.as_charge_preson
       end
-    elsif params[:sales_role] && params[:sales_role].include?("ALL")
+    elsif params[:sales_role] && params[:sales_role].include?("all")
       sales_opportunities_scope = sales_opportunities_scope.as_charge_preson
     end
 
     #对状态进行过滤
-    if params[:sales_status] && !params[:sales_status].include?("ALL")
-      if params[:sales_status].include?("QUOTE") #报价
+    if params[:sales_status] && !params[:sales_status].include?("all")
+      if params[:sales_status].include?("quote") #报价
         sales_opportunities_scope = sales_opportunities_scope.as_quote_status
-      elsif params[:sales_status].include?("PROJECT") #方案
+      elsif params[:sales_status].include?("project") #方案
         sales_opportunities_scope = sales_opportunities_scope.as_project_status
-      elsif params[:sales_status].include?("BID") #投标
+      elsif params[:sales_status].include?("bid") #投标
         sales_opportunities_scope = sales_opportunities_scope.as_bid_status
-      elsif params[:sales_status].include?("BUSINESS") #商务
+      elsif params[:sales_status].include?("business") #商务
         sales_opportunities_scope = sales_opportunities_scope.as_business_status
-      elsif params[:sales_status].include?("CANCEL") #取消
+      elsif params[:sales_status].include?("cancel") #取消
         sales_opportunities_scope = sales_opportunities_scope.as_cancel_status
 
       end

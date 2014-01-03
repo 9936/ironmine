@@ -200,6 +200,10 @@
               <i class="icon-plus icon-white"></i><%= t(:label_irm_sales_opportunity_sales_new) %>
           <% end %>
         </td>
+        <td class="right-buttons">
+          <%= link_to t(:label_irm_sales_opportunity_sales_manager_customer), {:controller => "som/potential_customers", :action => "index"}, :class => "btn btn-primary" %>
+          <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_excel) %></a>
+        </td>
       </tr>
     </table>
   </div>
@@ -213,7 +217,7 @@
         <div class="filter-item" id="role">
           <h5><%= t(:label_irm_sales_opportunity_sales_people) %>：</h5>
           <% ["ALL", "CHARGE", "PARTICIPATION"].each do |item| %>
-              <input type="checkbox" value="<%= item %>" id="<%= item %>"
+              <input type="checkbox" value="<%= item.downcase %>" id="<%= item %>" name="role"
                      <% if item.eql?("ALL") %> data-all="true"
                      <% end %> data-label-text="<%= t("label_irm_sales_opportunity_sales_people_#{item.downcase}") %>"/>
           <% end %>
@@ -223,7 +227,7 @@
         <div class="filter-item" id="status">
           <h5><%= t(:label_irm_sales_opportunity_sales_status) %>：</h5>
           <% ["ALL", "QUOTE", "PROJECT", "BID", "BUSINESS", "CANCEL"].each do |item| %>
-              <input type="checkbox" value="<%= item %>"  id="<%= item %>"
+              <input type="checkbox" value="<%= item.downcase %>" id="<%= item %>" name="status"
                      <% if item.eql?("ALL") %> data-all="true"
                      <% end %> data-label-text="<%= t("label_irm_sales_opportunity_sales_status_#{item.downcase}") %>"/>
           <% end %>
@@ -249,7 +253,10 @@
                     label = $("<label class='btn'/>");
 
             if ($this.data("all")) {
+                label.attr("id", $this.val() + "_label");
                 label.attr("data-all", true);
+            } else {
+                label.attr("id", $this.val() + "_label")
             }
 
             label.text(labelText);
@@ -258,6 +265,10 @@
             }
 
             container.addClass("custom-checkbox");
+
+            $("input", parent).attr("checked", true);
+            $("label", parent).addClass("btn-danger");
+
             $this.bind("click", function (e) {
                 if ($(this).is(":checked")) {
                     //检查当前是否控制其他checkbox选择的
@@ -265,21 +276,25 @@
                         $("input", parent).removeAttr("checked");
                         $("label", parent).removeClass("btn-danger");
                         label.removeClass("btn-danger");
+                        //不允许全为空
+                        $("#CHARGE").attr("checked", true);
+                        $("#charge_label").addClass("btn-danger");
+                        $("#QUOTE").attr("checked", true);
+                        $("#quote_label").addClass("btn-danger");
                     } else {
                         $("input[data-all]", parent).removeAttr("checked");
                         $("label[data-all]", parent).removeClass("btn-danger");
                         $this.removeAttr("checked");
                         label.removeClass("btn-danger");
-                    }
-                    if ($("#role input[checked]", parent).length == 0) {
-                        alert("aaa");
-                        $("#CHARGE").attr("checked", true);
-                        label.addClass("btn-danger");
-                    }
-                    if ($("#status input[checked]", parent).length == 0) {
-                        alert("bbb");
-                        $("#QUOTE").attr("checked", true);
-                        label.addClass("btn-danger");
+                        //不允许全为空
+                        if ($("input[name='role']:checked").length == 0) {
+                            $this.attr("checked", true);
+                            label.addClass("btn-danger");
+                        }
+                        if ($("input[name='status']:checked").length == 0) {
+                            $this.attr("checked", true);
+                            label.addClass("btn-danger");
+                        }
                     }
                 } else {
                     if ($(this).data("all")) {
