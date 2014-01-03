@@ -9,7 +9,9 @@
     <% end %>
     <% builder.column(:potential_customer, {:title => t(:label_irm_sales_opportunity_customer)})%>
     <% builder.column(:price, {:title => t(:label_irm_sales_opportunity_sales_price)})%>
-    <% builder.column(:start_at, {:title => t(:label_irm_sales_opportunity_sales_start_at)})%>
+    <% builder.column(:start_at, {:title => t(:label_irm_sales_opportunity_sales_start_at)}) do |data|%>
+        <%= data[:start_at].strftime('%Y-%m-%d') unless data[:start_at].nil?%>
+    <% end %>
     <% builder.column(:sales_status, {:title => t(:label_irm_sales_opportunity_sales_status)}) do |data|%>
         <% if data[:sales_status].eql?("QUOTE") %>
             <span class="label label-warning"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>

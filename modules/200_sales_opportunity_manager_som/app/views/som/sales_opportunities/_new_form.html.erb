@@ -64,7 +64,14 @@
             <td class="label-col empty"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_progress)%></label></td>
             <td class="data-col empty"><%= f.select(:progress,available_percent) %></td>
           </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_price)%></label></td>
+            <td class="data-col"><%=f.text_field :price%></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_start_at)%></label></td>
+            <td class="data-col"> <%= f.date_field(:start_at,:id=>"task_plan_start_at",:class=>"date",:size=>12)%></td>
+          </tr>
           </tbody>
+
 
         </table>
     <% end %>
