@@ -1,17 +1,7 @@
 module Som::SalesOpportunitiesHelper
   def available_percent
-    percents=[]
-    (0..10).each do |d|
-     if d==0
-       percents<<d.to_s+"%"
-     else
-       percents<<d.to_s+"0%"
-     end
-    end
-    percents
+    ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]
   end
-
-
 
   def involved_productions
     checkbox="&nbsp;&nbsp;"
@@ -22,5 +12,9 @@ module Som::SalesOpportunitiesHelper
       &nbsp;&nbsp;#{production[0]}&nbsp;&nbsp;&nbsp;&nbsp;"
     end
     checkbox.html_safe
+  end
+
+  def charge_person_name(id)
+    Irm::Person.find(id).full_name
   end
 end

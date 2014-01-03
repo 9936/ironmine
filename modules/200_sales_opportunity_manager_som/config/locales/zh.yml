@@ -11,6 +11,21 @@ zh:
   label_irm_sales_opportunity_sales_status: 状态
   label_irm_sales_opportunity_involved_production_info: 涉及产品
   label_irm_sales_opportunity_sales_person: 销售人员
+  label_irm_sales_opportunity_sales_people: 人员
+  label_irm_sales_opportunity_sales_status: 状态
   label_irm_sales_opportunity_sales_previous_flag: 往年延续
   label_irm_sales_opportunity_sales_possibility: 可能性
   label_irm_sales_opportunity_sales_progress: 进度
+  label_irm_sales_opportunity_sales_communicate: 沟通
+  label_irm_sales_opportunity_sales_price: 金额
+  label_irm_sales_opportunity_sales_start_at: 开始时间
+  label_irm_sales_opportunity_sales_new: 新建销售信息
+  label_irm_sales_opportunity_sales_people_all: 全部
+  label_irm_sales_opportunity_sales_people_charge: 负责
+  label_irm_sales_opportunity_sales_people_participation: 参与
+  label_irm_sales_opportunity_sales_status_all: 全部
+  label_irm_sales_opportunity_sales_status_quote: 报价
+  label_irm_sales_opportunity_sales_status_project: 方案
+  label_irm_sales_opportunity_sales_status_bid: 投标
+  label_irm_sales_opportunity_sales_status_business: 商务
+  label_irm_sales_opportunity_sales_status_cancel: 取消
