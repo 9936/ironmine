@@ -23,7 +23,7 @@
           </tr>
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_customer)%></label></td>
-            <td class="data-col"><%=f.text_field :potential_customer, :required=>true%></td>
+            <td class="data-col"><%= f.blank_select(:potential_customer,available_customers,:required=>true)%></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>

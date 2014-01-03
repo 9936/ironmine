@@ -1,46 +1,126 @@
 <%= common_title %>
-<%= form_for(@sales_opportunity,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
-  <% content_for :form_block_a   do%>
-    <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-              </tbody>
-    </table>
-  <% end %>
-  <% content_for :form_buttons  do %>
-    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
-    <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
-  <% end %>
-  <!--页面结构-->
-  <div class="page-block">
-    <table class="page-block-header"><tr>
-      <td class="page-block-title">
-        <h2 class="block-title"><%=t(:label_irm_sales_opportunity_new)%></h2>
-      </td>
-      <td class="page-block-button">
-        <%= content_for :form_buttons   %>
+<%= form_for(@sales_opportunity, :url => {:action => "update"}, :builder => CustomFormBuilder,:id=>"edit_som_sales_opportunity") do |f| %>
+    <% content_for :form_block_a do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label for="business_object_charge_person"><%=t(:label_irm_sales_opportunity_charge_person)%></label></td>
+            <td class="data-col"><%= f.blank_select(:charge_person,available_people,{},:required=>true) %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_name)%></label></td>
+            <td class="data-col"><%=f.text_field :name, :required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_content)%></label></td>
+            <td class="data-col"><%=f.text_area :content,{:rows=>4,:class=>"input-xlarge"}%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_customer)%></label></td>
+            <td class="data-col"><%= f.blank_select(:potential_customer,available_customers,:required=>true)%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_region)%></label></td>
+            <td class="data-col"><%= f.select(:region,available_lookup_type('SOM_REGION_INFO'),{},:required=>true) %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
 
-      </td>
-    </tr></table>
-    <div class="page-block-body">
-      <%= error_for @sales_opportunity %>
-      <div class="sub-page-block">
-        <div class="sub-page-block-header">
-          <%= form_require_info %>
-          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_address)%></label></td>
+            <td class="data-col"><%=f.text_field :address%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_status)%></label></td>
+            <td class="data-col"><%= f.select(:sales_status,available_lookup_type('SOM_PRODUCTION_STATUS'),{},:required=>true) %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr >
+
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_involved_production_info)%></label></td>
+            <td align="left" colspan="3"><%=involved_productions%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_person)%></label></td>
+            <td class="data-col"><%= f.blank_select(:sales_person,available_people,{},:required=>true) %></td>
+            <td class="label-col empty"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_previous_flag)%></label></td>
+            <td class="data-col empty"><%=f.check_box :previous_flag, :required=>true%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_possibility)%></label></td>
+            <td class="data-col"><%= f.select(:possibility,available_percent) %></td>
+            <td class="label-col empty"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_progress)%></label></td>
+            <td class="data-col empty"><%= f.select(:progress,available_percent) %></td>
+          </tr>
+          </tbody>
+
+        </table>
+    <% end %>
+
+    <% content_for :form_buttons do %>
+        <%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "btn btn-primary submit_button"} %>
+        <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_irm_sales_opportunity_new) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= error_for @sales_opportunity %>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a %>
+          </div>
         </div>
-        <div class="sub-page-block-body">
-          <%= content_for :form_block_a   %>
-        </div>
+
       </div>
 
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title">
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
     </div>
-
-    <table class="page-block-footer"><tr>
-      <td class="page-block-title">
-      </td>
-      <td class="page-block-button">
-        <%= content_for :form_buttons   %>
-      </td>
-    </tr></table>
-  </div>
 <% end %>
+
+
+<script type="text/javascript">
+    $(".submit_button").click(function(){
+        var involved_productions=$('input[name="som_sales_opportunity[involved_production_info]"]:checked').map(function() {
+            return $(this).val();
+        }).get();
+        $("input[name='som_sales_opportunity[involved_production_info]']").val(involved_productions.toString());
+        $(".edit_som_sales_opportunity").attr('action', '<%= url_for(:action => "update", :controller => "som/sales_opportunities")%>');
+        $(".edit_som_sales_opportunity").submit();
+    });
+
+</script>

@@ -32,6 +32,11 @@ zh:
   label_irm_sales_opportunity_sales_manager_customer: 管理客户
 
 
-
   label_som_potential_customer: 客户
   label_irm_potential_customer_list: 客户列表
+  label_irm_potential_customer_new: 新建客户
+  label_som_potential_customer_short_name: 简称
+  label_som_potential_customer_full_name: 全称
+  label_som_potential_customer_industry: 行业
+  label_som_potential_customer_website: 网址
+  label_irm_potential_customer_edit: 编辑客户

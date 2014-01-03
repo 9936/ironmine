@@ -17,4 +17,8 @@ module Som::SalesOpportunitiesHelper
   def charge_person_name(id)
     Irm::Person.find(id).full_name
   end
+
+  def available_customers
+    Som::PotentialCustomer.select_all.collect{|i| i.short_name}
+  end
 end

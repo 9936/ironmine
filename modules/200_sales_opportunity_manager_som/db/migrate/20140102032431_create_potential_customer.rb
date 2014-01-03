@@ -2,7 +2,7 @@ class CreatePotentialCustomer < ActiveRecord::Migration
   def change
     create_table :som_potential_customers, :force => true do |t|
       t.string   "opu_id", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.string   "short_name", :limit => 50
+      t.string   "short_name", :limit => 50,:null => false
       t.string   "full_name", :limit => 80 ,:null => false
       t.string   "industry", :limit => 100
       t.string   "website", :limit => 100

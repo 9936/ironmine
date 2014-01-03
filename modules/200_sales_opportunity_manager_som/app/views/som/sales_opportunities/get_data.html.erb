@@ -10,7 +10,20 @@
     <% builder.column(:potential_customer, {:title => t(:label_irm_sales_opportunity_customer)})%>
     <% builder.column(:price, {:title => t(:label_irm_sales_opportunity_sales_price)})%>
     <% builder.column(:start_at, {:title => t(:label_irm_sales_opportunity_sales_start_at)})%>
-    <% builder.column(:sales_status, {:title => t(:label_irm_sales_opportunity_sales_status)})%>
+    <% builder.column(:sales_status, {:title => t(:label_irm_sales_opportunity_sales_status)}) do |data|%>
+        <% if data[:sales_status].eql?("QUOTE") %>
+            <span class="label label-warning"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
+        <% elsif data[:sales_status].eql?("PROJECT") %>
+            <span class="label label-success"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
+        <% elsif data[:sales_status].eql?("BID") %>
+            <span class="label label-danger"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
+        <% elsif data[:sales_status].eql?("BUSINESS") %>
+            <span class="label label-info"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
+        <% else %>
+            <span class="label label-inverse"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
+        <% end %>
+    <% end %>
+
     <% builder.column(:possibility, {:title => t(:label_irm_sales_opportunity_sales_possibility)})%>
     <% builder.column(:progress, {:title => t(:label_irm_sales_opportunity_sales_progress)})%>
   <% end %>

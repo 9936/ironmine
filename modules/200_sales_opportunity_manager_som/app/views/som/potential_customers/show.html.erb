@@ -1,0 +1,43 @@
+<%= common_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_som_potential_customer) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @potential_customer},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%= t(:label_som_potential_customer_short_name) %></label></td>
+        <td class="data-col"><%= @potential_customer[:short_name] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_som_potential_customer_full_name) %></label></td>
+        <td class="data-col"><%= @potential_customer[:full_name] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_som_potential_customer_industry) %></label></td>
+        <td class="data-col"><%=@potential_customer[:industry] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_som_potential_customer_website) %></label></td>
+        <td class="data-col"><%=@potential_customer[:website] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

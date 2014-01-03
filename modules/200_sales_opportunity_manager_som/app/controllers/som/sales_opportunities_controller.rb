@@ -42,7 +42,6 @@ class Som::SalesOpportunitiesController < ApplicationController
   # POST /som/sales_opportunities.xml
   def create
     @sales_opportunity = Som::SalesOpportunity.new(params[:som_sales_opportunity])
-    binding.pry
     respond_to do |format|
       if @sales_opportunity.save
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
@@ -58,14 +57,13 @@ class Som::SalesOpportunitiesController < ApplicationController
   # PUT /som/sales_opportunities/1.xml
   def update
     @sales_opportunity = Som::SalesOpportunity.find(params[:id])
-
     respond_to do |format|
-      if @som_sales_opportunity.update_attributes(params[:sales_opportunity])
+      if @sales_opportunity.update_attributes(params[:som_sales_opportunity])
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml { render :xml => @som_sales_opportunity.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @sales_opportunity.errors, :status => :unprocessable_entity }
       end
     end
   end
