@@ -46,6 +46,10 @@ class Som::CommunicateInfosController < ApplicationController
   def create
     @communicate_info = Som::CommunicateInfo.new(params[:som_communicate_info])
     #同步预销售表的状态,进度,可能性
+    #if cookies[:our_persons].present?
+    #  params[:our_persons] = cookies[:our_persons]
+    #end
+
     respond_to do |format|
       if @som_communicate_info.save
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }

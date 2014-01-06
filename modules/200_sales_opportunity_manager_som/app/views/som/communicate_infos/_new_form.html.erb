@@ -34,29 +34,29 @@
 
           <tr id="our" style='height: 20px'>
             <td class="label-col"><%= t("label_irm_sales_opportunity_communicate_our") %></td>
-            <td class="data-col"><%=blank_select_tag "our_participation_person", available_people,nil,:id => "our_participation_person" %></td>
-            <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles,nil,:id => "our_participation_role" %></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_person", available_people %></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles %></td>
             <td class="data-col"><i class="icon-plus" id="add_our"></i></td>
           </tr>
 
           <tr id="our_more" style="display: none;">
             <td class="label-col"></td>
-            <td class="data-col"><%=blank_select_tag "our_participation_person", available_people,nil,:id => "our_participation_person"%></td>
-            <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles,nil,:id => "our_participation_role" %></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_person", available_people%></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles %></td>
             <td class="data-col"><i class="icon-trash delete_our"></i></td>
           </tr>
 
           <tr id="client" style='height: 20px'>
             <td class="label-col"><%= t("label_irm_sales_opportunity_communicate_client") %></td>
-            <td class="data-col"><%=text_field_tag "client_person"%></td>
-            <td class="data-col"><%=text_field_tag "client_role"%></td>
+            <td class="data-col"><%=text_field_tag "client_participation_person"%></td>
+            <td class="data-col"><%=text_field_tag "client_participation_role"%></td>
             <td class="data-col"><i class="icon-plus" id="add_client"></i></td>
           </tr>
 
           <tr id="client_more" style="display: none;">
             <td class="label-col"></td>
-            <td class="data-col"><%=text_field_tag "client_person"%></td>
-            <td class="data-col"><%=text_field_tag "client_role"%></td>
+            <td class="data-col"><%=text_field_tag "client_participation_person"%></td>
+            <td class="data-col"><%=text_field_tag "client_participation_role"%></td>
             <td class="data-col"><i class="icon-trash delete_client"></i></td>
           </tr>
 
@@ -81,6 +81,7 @@
 <script type="text/javascript">
     $(function () {
         checkSelect();
+        var our_persons = [], our_roles = [],client_persons=[],client_roles=[];
         $("#add_our").click(function () {
             $("#our").after("<tr style='height: 20px'>" + $("#our_more")[0].innerHTML + "</tr>");
         });
@@ -98,6 +99,34 @@
         });
 
         $(".submit_button").click(function(){
+            $("select[name='our_participation_person']").each(function () {
+                our_persons.push($(this).val());
+            });
+
+            $("select[name='our_participation_role']").each(function () {
+                our_roles.push($(this).val());
+            });
+
+            $("input[name='client_participation_person']").each(function () {
+                client_persons.push($(this).val());
+            });
+
+            $("input[name='client_participation_role']").each(function () {
+                client_roles.push($(this).val());
+            });
+
+
+            var cookie_date = new Date(), minutes = 5;
+            cookie_date.setTime(cookie_date.getTime() + (minutes * 60 * 1000));
+            $.cookie("our_persons", "");
+            $.cookie("our_roles", "");
+            $.cookie("client_persons", "");
+            $.cookie("client_roles", "");
+            $.cookie("our_persons", our_persons);
+            $.cookie("our_roles", our_roles);
+            $.cookie("client_persons",client_persons );
+            $.cookie("client_roles", client_roles);
+
             $("#new_som_communicate_info").attr('action', '<%= url_for(:action => "create")%>');
             $("#new_som_communicate_info").submit();
         });
