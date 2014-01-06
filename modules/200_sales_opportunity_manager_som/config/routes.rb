@@ -5,5 +5,7 @@ Rails.application.routes.draw do
 
     match '/potential_customers/get_data(.:format)' => "potential_customers#get_data"
     resources :potential_customers
+
+    resources :communicate_infos
   end
 end

@@ -12,6 +12,7 @@ zh:
   label_irm_sales_opportunity_involved_production_info: 涉及产品
   label_irm_sales_opportunity_sales_person: 销售人员
   label_irm_sales_opportunity_sales_people: 人员
+  label_irm_sales_opportunity_sales_role: 角色
   label_irm_sales_opportunity_sales_status: 状态
   label_irm_sales_opportunity_sales_previous_flag: 往年延续
   label_irm_sales_opportunity_sales_possibility: 可能性
@@ -40,3 +41,9 @@ zh:
   label_som_potential_customer_industry: 行业
   label_som_potential_customer_website: 网址
   label_irm_potential_customer_edit: 编辑客户
+
+  label_irm_sales_opportunity_communicate_info: 沟通记录
+  label_irm_sales_opportunity_communicate_date: 沟通日期
+  label_irm_sales_opportunity_communicate_content: 沟通内容
+  label_irm_sales_opportunity_communicate_our: 我方参与
+  label_irm_sales_opportunity_communicate_client: 客户参与

@@ -1,0 +1,101 @@
+<style type="text/css">
+    tr {
+        height: 40px;
+    }
+</style>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_irm_sales_opportunity_communicate_info) %></h3>
+</div>
+<%= form_for(@communicate_info, :url => {:action => "create"}, :builder => CustomFormBuilder, :html => {:class => "modal-form"}) do |f| %>
+    <div class="modal-body form-horizontal">
+      <%= error_for @communicate_info %>
+      <div class="control-group">
+        <table class="form-table" >
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%= t("label_irm_sales_opportunity_communicate_date") %></label></td>
+            <td class="data-col"><%= text_field_tag(:communicate_date, Time.now.strftime("%Y-%m-%d"), :readonly => true) %></td>
+            <td><label><%= t("label_irm_sales_opportunity_sales_status") %></label>
+              <%= f.select(:sales_status, available_lookup_type('SOM_PRODUCTION_STATUS'), {}) %></td>
+          <tr>
+            <td class="label-col"><label><%= t("label_irm_sales_opportunity_sales_possibility") %></label></td>
+            <td class="data-col"><%= f.select(:current_possibility, available_percent) %></td>
+            <td><label><%= t("label_irm_sales_opportunity_sales_progress") %></label>
+              <%= f.select(:current_progress, available_percent) %></td>
+          </tr>
+
+          <tr style="height: 20px">
+            <td class="label-col"></td>
+            <td class="data-col" style="text-align: center"><%= t("label_irm_sales_opportunity_sales_people") %></td>
+            <td ><%= t("label_irm_sales_opportunity_sales_role") %></td>
+            <td class="data-col"></td>
+          </tr>
+
+          <tr id="our" style='height: 20px'>
+            <td class="label-col"><%= t("label_irm_sales_opportunity_communicate_our") %></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_person", available_people,nil,:id => "our_participation_person" %></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles,nil,:id => "our_participation_role" %></td>
+            <td class="data-col"><i class="icon-plus" id="add_our"></i></td>
+          </tr>
+
+          <tr id="our_more" style="display: none;">
+            <td class="label-col"></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_person", available_people,nil,:id => "our_participation_person"%></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles,nil,:id => "our_participation_role" %></td>
+            <td class="data-col"><i class="icon-trash delete_our"></i></td>
+          </tr>
+
+          <tr id="client" style='height: 20px'>
+            <td class="label-col"><%= t("label_irm_sales_opportunity_communicate_client") %></td>
+            <td class="data-col"><%=text_field_tag "client_person"%></td>
+            <td class="data-col"><%=text_field_tag "client_role"%></td>
+            <td class="data-col"><i class="icon-plus" id="add_client"></i></td>
+          </tr>
+
+          <tr id="client_more" style="display: none;">
+            <td class="label-col"></td>
+            <td class="data-col"><%=text_field_tag "client_person"%></td>
+            <td class="data-col"><%=text_field_tag "client_role"%></td>
+            <td class="data-col"><i class="icon-trash" id="delete_client"></i></td>
+          </tr>
+
+          <tr>
+            <td class="label-col">
+              <label for="business_object_name"><%= t(:label_irm_sales_opportunity_communicate_content) %></label></td>
+            <td class="data-col" colspan="3"><%= f.text_area :content, :rows => 3, :width => "auto" %></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+    </div>
+
+    <div class="modal-footer">
+      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss" => "modal", "aria-hidden" => "true" %>
+      <%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "btn btn-primary submit_button"} %>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+    $(function () {
+        checkSelect();
+        $("#add_our").click(function () {
+            $("#our").after("<tr style='height: 20px'>" + $("#our_more")[0].innerHTML + "</tr>");
+        });
+
+        $("#add_client").click(function () {
+            $("#client").after("<tr style='height: 20px'>" + $("#client_more")[0].innerHTML + "</tr>");
+        });
+
+        $("#delete_client").click(function () {
+            $("#client").after("<tr style='height: 20px'>" + $("#client_more")[0].innerHTML + "</tr>");
+        });
+
+        $(".submit_button").click(function(){
+            $("#new_som_communicate_info").attr('action', '<%= url_for(:action => "create")%>');
+            $("#new_som_communicate_info").submit();
+        });
+    });
+</script>

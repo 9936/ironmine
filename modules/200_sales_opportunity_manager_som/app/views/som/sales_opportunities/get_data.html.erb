@@ -1,7 +1,7 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
     <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
-    <%= link_to(t(:label_irm_sales_opportunity_sales_communicate),{:action=>"show",:id=>data[:id]}) %>
+    <%= link_to(t(:label_irm_sales_opportunity_sales_communicate),{:controller=>"som/communicate_infos",:action=>"new",:id=>data[:id]},{:rel => "modal"}) %>
   <% end %>
     <% builder.column(:name, {:title => t(:name), :searchable => true}) %>
     <% builder.column(:charge_person, {:title => t(:label_irm_sales_opportunity_charge_person)}) do |data| %>
