@@ -91,7 +91,7 @@ class Som::SalesOpportunitiesController < ApplicationController
     sales_opportunities_scope = Som::SalesOpportunity.list_all
     sales_opportunities_scope = sales_opportunities_scope.match_value("#{Som::SalesOpportunity.table_name}.name", params[:name])
 
-
+    unless params[:sales_role].nil?
     #对人员进行过滤
     unless params[:sales_role].include?("all")
       if params[:sales_role].include?("charge")
@@ -111,10 +111,9 @@ class Som::SalesOpportunitiesController < ApplicationController
         sales_opportunities_scope = sales_opportunities_scope.as_business_status
       elsif params[:sales_status].include?("cancel") #取消
         sales_opportunities_scope = sales_opportunities_scope.as_cancel_status
-
       end
     end
-
+    end
     sales_opportunities, count = paginate(sales_opportunities_scope)
     respond_to do |format|
       format.html {

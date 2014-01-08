@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     match '/potential_customers/get_data(.:format)' => "potential_customers#get_data"
     resources :potential_customers
 
+    match '/communicate_infos/get_data(.:format)' => "communicate_infos#get_data"
     resources :communicate_infos
   end
 end

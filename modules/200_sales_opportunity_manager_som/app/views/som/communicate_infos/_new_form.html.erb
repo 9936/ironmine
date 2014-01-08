@@ -10,6 +10,7 @@
 <%= form_for(@communicate_info, :url => {:action => "create"}, :builder => CustomFormBuilder, :html => {:class => "modal-form"}) do |f| %>
     <div class="modal-body form-horizontal">
       <%= error_for @communicate_info %>
+      <%= f.hidden_field :sales_opportunity_id %>
       <div class="control-group">
         <table class="form-table" >
           <tbody>

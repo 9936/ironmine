@@ -26,6 +26,7 @@ class Som::CommunicateInfosController < ApplicationController
   def new
     @communicate_info = Som::CommunicateInfo.new
     sales_opportunity=Som::SalesOpportunity.find(params[:id])
+    @communicate_info.sales_opportunity_id = sales_opportunity.id
     @communicate_info.sales_status=sales_opportunity.sales_status
     @communicate_info.current_possibility=sales_opportunity.possibility
     @communicate_info.current_progress=sales_opportunity.progress
@@ -46,8 +47,12 @@ class Som::CommunicateInfosController < ApplicationController
   def create
     @communicate_info = Som::CommunicateInfo.new(params[:som_communicate_info])
     #同步预销售表的状态,进度,可能性
+    sales_opportunity=Som::SalesOpportunity.find(@communicate_info.sales_opportunity_id)
+    sales_opportunity.sales_status=@communicate_info.sales_status
+    sales_opportunity.possibility=@communicate_info.current_possibility
+    sales_opportunity.progress=@communicate_info.current_progress
+    sales_opportunity.save
 
-    #sales_status: "Cancel", current_possibility: "60%", current_progress: "70%"
     respond_to do |format|
       if @communicate_info.save
         #保存沟通人员信息
@@ -67,9 +72,11 @@ class Som::CommunicateInfosController < ApplicationController
             Som::ParticipationInfo.create(:name_id=>client_person,:role_id=>client_roles.split(",")[index],:client_flag=>"Y",:communicate_id=>@communicate_info.id)
           end
         end
+        format.js
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @communicate_info, :status => :created, :location => @communicate_info }
       else
+        format.js
         format.html { render :action => "new" }
         format.xml  { render :xml => @som_communicate_info.errors, :status => :unprocessable_entity }
       end
