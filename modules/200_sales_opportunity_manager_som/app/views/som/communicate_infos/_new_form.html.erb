@@ -81,7 +81,6 @@
 <script type="text/javascript">
     $(function () {
         checkSelect();
-        var our_persons = [], our_roles = [],client_persons=[],client_roles=[];
         $("#add_our").click(function () {
             $("#our").after("<tr style='height: 20px'>" + $("#our_more")[0].innerHTML + "</tr>");
         });
@@ -99,10 +98,10 @@
         });
 
         $(".submit_button").click(function(){
+            var our_persons = [], our_roles = [],client_persons=[],client_roles=[];
             $("select[name='our_participation_person']").each(function () {
                 our_persons.push($(this).val());
             });
-
             $("select[name='our_participation_role']").each(function () {
                 our_roles.push($(this).val());
             });

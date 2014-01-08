@@ -2,8 +2,8 @@ class CreateParticipationInfo < ActiveRecord::Migration
   def change
     create_table :som_participation_infos do |t|
       t.string   "opu_id", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.string   "name"
-      t.string   "role"
+      t.string   "name_id" , :limit => 22, :collate => "utf8_bin"
+      t.string   "role_id" , :limit => 22, :collate => "utf8_bin"
       t.string   "client_flag",:limit=>1,:default=>"N"
       t.string   "communicate_id", :limit => 22, :null => false, :collate => "utf8_bin"
       t.string   "status_code", :limit => 30, :default => "ENABLED"
