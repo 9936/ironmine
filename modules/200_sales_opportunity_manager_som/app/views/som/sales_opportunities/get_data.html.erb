@@ -30,6 +30,7 @@
             <span class="label label-info"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
         <% else %>
             <span class="label label-inverse"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
+            <%= link_to(t(:label_som_sales_opportunity_failed_reason_edit),{:action=>"edit_reason",:id=>data[:id]},{:class => "action-link",:rel => "modal"}) %>
         <% end %>
     <% end %>
 

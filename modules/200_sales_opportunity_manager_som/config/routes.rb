@@ -1,10 +1,20 @@
 Rails.application.routes.draw do
   scope :module => "som" do
-    match '/sales_opportunities/get_data(.:format)' => "sales_opportunities#get_data"
-    resources :sales_opportunities
+    resources :sales_opportunities do
+      member do
+        get "edit_reason"
+        put "update_reason"
+      end
+      collection do
+        get "get_data"
+      end
+    end
 
-    match '/potential_customers/get_data(.:format)' => "potential_customers#get_data"
-    resources :potential_customers
+    resources :potential_customers do
+      collection do
+        get "get_data"
+      end
+    end
 
     resources :communicate_infos
   end

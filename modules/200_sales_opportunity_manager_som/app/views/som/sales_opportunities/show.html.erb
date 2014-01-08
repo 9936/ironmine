@@ -3,7 +3,7 @@
 <div class="show-block">
   <table class="page-block-header"><tr>
     <td class="page-block-title">
-      <h2 class="block-title"><%= t(:label_irm_sales_opportunity) %></h2>
+      <h2 class="block-title"><%= t(:label_som_sales_opportunity) %></h2>
     </td>
     <td class="page-block-button">
       <%= link_to t(:edit), {:action => "edit", :id => @sales_opportunity},:class=>"btn"%>
@@ -54,11 +54,11 @@
       </tr>
       <tr >
         <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_involved_production_info)%></label></td>
-        <td align="left" colspan="3"><%=involved_productions_name(@sales_opportunity.involved_production_info).join(",")%></td>
+        <td class="data-3col" colspan="3"><%=involved_productions_name(@sales_opportunity.involved_production_info).join(",")%></td>
       </tr>
       <tr>
         <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_person)%></label></td>
-        <td class="data-col" colspan="3"><%= @sales_opportunity["sales_person_name"] %></td>
+        <td class="data-3col" colspan="3"><%= @sales_opportunity["sales_person_name"] %></td>
 
       </tr>
       <tr>
@@ -88,3 +88,32 @@
     </table>
   </div>
 </div>
+<% if "CANCEL".eql?(@sales_opportunity.sales_status) %>
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_som_sales_opportunity_failed_reason) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:label_som_sales_opportunity_failed_reason_edit), {:action => "edit_reason", :id => @sales_opportunity},{:class => "btn action-link",:rel => "modal"}%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="data-4col" colspan="4"><pre><%= @sales_opportunity.failed_reason %></pre></td>
+      </tr>
+
+
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
+
+<script type="text/javascript">
+  function updatePage(){
+      location.reload()
+  }
+</script>

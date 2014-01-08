@@ -32,6 +32,9 @@ zh:
   label_irm_sales_opportunity_sales_status_business: 商务
   label_irm_sales_opportunity_sales_status_cancel: 取消
   label_irm_sales_opportunity_sales_manager_customer: 管理客户
+  label_som_sales_opportunity_failed: 总结
+  label_som_sales_opportunity_failed_reason: 原因
+  label_som_sales_opportunity_failed_reason_edit: 失败总结
 
 
   label_som_potential_customer: 客户

@@ -93,6 +93,7 @@ class Som::SalesOpportunitiesController < ApplicationController
 
 
     #对人员进行过滤
+    params[:sales_role]||=[]
     unless params[:sales_role].include?("all")
       if params[:sales_role].include?("charge")
           sales_opportunities_scope = sales_opportunities_scope.as_charge_preson
@@ -123,5 +124,16 @@ class Som::SalesOpportunitiesController < ApplicationController
       }
       format.json { render :json => to_jsonp(sales_opportunities.to_grid_json([:name, :description, :status_meaning], count)) }
     end
+  end
+
+
+  def edit_reason
+    @sales_opportunity = Som::SalesOpportunity.find(params[:id])
+
+  end
+
+  def update_reason
+    @sales_opportunity = Som::SalesOpportunity.find(params[:id])
+    @sales_opportunity.update_attributes(params[:som_sales_opportunity])
   end
 end
