@@ -35,4 +35,15 @@ module Som::SalesOpportunitiesHelper
   def show_sales_customer(customer_id)
     Som::PotentialCustomer.find(customer_id).full_name
   end
+
+  def communicate_count(sales_id)
+    sales_opportunity =Som::SalesOpportunity.find(sales_id)
+    sales_opportunity.communicate_infos.size
+  end
+
+  def last_communicate(sales_id)
+    sales_opportunity =Som::SalesOpportunity.find(sales_id)
+    last_communicate = sales_opportunity.communicate_infos.last
+    last_communicate.created_at.strftime('%Y-%m-%d') unless last_communicate.nil?
+  end
 end

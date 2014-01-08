@@ -35,4 +35,10 @@
 
     <% builder.column(:possibility, {:title => t(:label_irm_sales_opportunity_sales_possibility)})%>
     <% builder.column(:progress, {:title => t(:label_irm_sales_opportunity_sales_progress)})%>
+    <% builder.column(:communicate_count, {:title => t(:label_som_sales_opportunity_communicate_count)}) do |data|%>
+        <%=communicate_count(data[:id])%>
+    <% end %>
+    <% builder.column(:last_communicate, {:title => t(:label_som_sales_opportunity_communicate_last)}) do |data|%>
+        <%= last_communicate(data[:id])%>
+    <% end %>
   <% end %>

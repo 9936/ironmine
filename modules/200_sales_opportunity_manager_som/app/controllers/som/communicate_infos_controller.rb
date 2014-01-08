@@ -60,7 +60,7 @@ class Som::CommunicateInfosController < ApplicationController
         if cookies[:our_persons].present?&&cookies[:our_roles].present?
           our_persons = cookies[:our_persons]
           our_roles = cookies[:our_roles]
-          our_persons.split(",").each_with_index do |our_person,index|
+          our_persons.split(",").uniq.each_with_index do |our_person,index|
             Som::ParticipationInfo.create(:name_id=>our_person,:role_id=>our_roles.split(",")[index],:communicate_id=>@communicate_info.id)
           end
         end

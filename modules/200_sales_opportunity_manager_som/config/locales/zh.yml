@@ -48,3 +48,7 @@ zh:
   label_irm_sales_opportunity_communicate_content: 沟通内容
   label_irm_sales_opportunity_communicate_our: 我方参与
   label_irm_sales_opportunity_communicate_client: 客户参与
+
+
+  label_som_sales_opportunity_communicate_count: 沟通次数
+  label_som_sales_opportunity_communicate_last: 最后沟通
