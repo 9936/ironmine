@@ -3,18 +3,16 @@ class Som::SalesOpportunitiesController < ApplicationController
   # GET /som/sales_opportunities
   # GET /som/sales_opportunities.xml
   def index
-    @sales_opportunities = Som::SalesOpportunity.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml { render :xml => @sales_opportunities }
     end
   end
 
   # GET /som/sales_opportunities/1
   # GET /som/sales_opportunities/1.xml
   def show
-    @sales_opportunity = Som::SalesOpportunity.find(params[:id])
+    @sales_opportunity = Som::SalesOpportunity.query(params[:id]).list_all.first
 
     respond_to do |format|
       format.html # show.html.erb
@@ -90,17 +88,15 @@ class Som::SalesOpportunitiesController < ApplicationController
       params[:sales_status] = cookies[:sales_status]
     end
 
-    sales_opportunities_scope = Som::SalesOpportunity
-    sales_opportunities_scope = sales_opportunities_scope.match_value("\#{Rails::Generators::ActiveModel.table_name}.name", params[:name])
+    sales_opportunities_scope = Som::SalesOpportunity.list_all
+    sales_opportunities_scope = sales_opportunities_scope.match_value("#{Som::SalesOpportunity.table_name}.name", params[:name])
 
 
     #对人员进行过滤
-    if params[:sales_role] && !params[:sales_role].include?("all")
-      if params[:sales_role].include?("charge") #作为负责人参与
-        sales_opportunities_scope = sales_opportunities_scope.as_charge_preson
+    unless params[:sales_role].include?("all")
+      if params[:sales_role].include?("charge")
+          sales_opportunities_scope = sales_opportunities_scope.as_charge_preson
       end
-    elsif params[:sales_role] && params[:sales_role].include?("all")
-      sales_opportunities_scope = sales_opportunities_scope.as_charge_preson
     end
 
     #对状态进行过滤

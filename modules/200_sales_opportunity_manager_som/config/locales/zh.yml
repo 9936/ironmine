@@ -20,6 +20,7 @@ zh:
   label_irm_sales_opportunity_sales_communicate: 沟通
   label_irm_sales_opportunity_sales_price: 金额
   label_irm_sales_opportunity_sales_start_at: 开始时间
+  label_irm_sales_opportunity_sales_end_at: 结束时间
   label_irm_sales_opportunity_sales_new: 新建销售信息
   label_irm_sales_opportunity_sales_people_all: 全部
   label_irm_sales_opportunity_sales_people_charge: 负责

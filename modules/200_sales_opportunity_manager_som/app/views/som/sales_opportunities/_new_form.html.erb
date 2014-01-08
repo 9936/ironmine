@@ -5,22 +5,24 @@
           <tbody>
           <tr>
             <td class="label-col"><label for="business_object_charge_person"><%=t(:label_irm_sales_opportunity_charge_person)%></label></td>
-            <td class="data-col"><%= f.blank_select(:charge_person,available_people,{},:required=>true) %></td>
+            <td class="data-col"><%= f.blank_select(:charge_person,available_people,{},:id=>"charge_person",:required=>true) %></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
+
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_name)%></label></td>
-            <td class="data-col"><%=f.text_field :name, :required=>true%></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
+            <td class="data-3col" colspan="3"><%=f.text_field :name,:size=>80, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_title"%></td>
           </tr>
+
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_content)%></label></td>
-            <td class="data-col"><%=f.text_area :content,{:rows=>4,:class=>"input-xlarge"}%></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
+            <td class="data-3col" colspan="3">
+              <%=f.text_area :content,:rows=>8,:cols=>100, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_summary"%>
+            </td>
+
           </tr>
+
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_customer)%></label></td>
             <td class="data-col"><%= f.blank_select(:potential_customer,available_customers,:required=>true)%></td>
@@ -30,16 +32,9 @@
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_region)%></label></td>
             <td class="data-col"><%= f.select(:region,available_lookup_type('SOM_REGION_INFO'),{},:required=>true) %></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
-
-          </tr>
-
-          <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_address)%></label></td>
             <td class="data-col"><%=f.text_field :address%></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
+
           </tr>
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_status)%></label></td>
@@ -48,27 +43,34 @@
             <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr >
-
             <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_involved_production_info)%></label></td>
-            <td align="left" colspan="3"><%=involved_productions%></td>
+            <td align="left" colspan="3"><%=involved_productions(@sales_opportunity.involved_production_info)%></td>
           </tr>
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_person)%></label></td>
-            <td class="data-col"><%= f.blank_select(:sales_person,available_people,{},:required=>true) %></td>
-            <td class="label-col empty"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_previous_flag)%></label></td>
-            <td class="data-col empty"><%=f.check_box :previous_flag, :required=>true%></td>
+            <td class="data-col" colspan="3"><%= f.blank_select(:sales_person,available_people,{},:required=>true) %></td>
+
           </tr>
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_possibility)%></label></td>
             <td class="data-col"><%= f.select(:possibility,available_percent) %></td>
-            <td class="label-col empty"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_progress)%></label></td>
-            <td class="data-col empty"><%= f.select(:progress,available_percent) %></td>
+            <td class="label-col empty"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_previous_flag)%></label></td>
+            <td class="data-col empty"><%=f.check_box :previous_flag, :required=>true%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_start_at)%></label></td>
+            <td class="data-col"> <%= f.date_field(:start_at,:id=>"sales_start_at",:class=>"date sales_date",:size=>12,:required=>true)%></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_end_at)%></label></td>
+            <td class="data-col"> <%= f.date_field(:end_at,:id=>"sales_end_at",:pre=>"sales_start_at",:class=>"date sales_date",:size=>12,:required=>true)%></td>
           </tr>
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_price)%></label></td>
-            <td class="data-col"><%=f.text_field :price%></td>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_start_at)%></label></td>
-            <td class="data-col"> <%= f.date_field(:start_at,:id=>"task_plan_start_at",:class=>"date",:size=>12)%></td>
+            <td class="data-col" colspan="3">
+              <label id="price_year" style="display: none;"><%=@sales_opportunity.price_year%></label>
+              <%=f.text_field :price,:id=>"price",:irm_number_only=>true%>
+              <label id="second_price_year" style="display: none;"><%=@sales_opportunity.second_price_year%></label>
+              <%=f.text_field :second_price,:style=>"display:none;",:id=>"second_price",:irm_number_only=>true%>
+            </td>
           </tr>
           </tbody>
 
@@ -77,7 +79,7 @@
     <% end %>
 
     <% content_for :form_buttons do %>
-        <%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "btn btn-primary submit_button"} %>
+        <%= link_submit t(:save), {:class => "submit_button btn btn-primary"} %>
         <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
     <% end %>
     <!--页面结构-->
@@ -126,8 +128,59 @@
             return $(this).val();
         }).get();
         $("input[name='som_sales_opportunity[involved_production_info]']").val(involved_productions.toString());
-        $("#new_som_sales_opportunity").attr('action', '<%= url_for(:action => "create", :controller => "som/sales_opportunities")%>');
-        $("#new_som_sales_opportunity").submit();
     });
+
+    function checkPrice(){
+
+        if($("#sales_start_at").data("datepicker")&&$("#sales_end_at").data("datepicker")){
+
+          var startDate = $("#sales_start_at").data("datepicker").date ;
+          var endDate = $("#sales_end_at").data("datepicker").date ;
+          if(endDate.getYear()-startDate.getYear()<2)
+          {
+              if(endDate.getYear()-startDate.getYear()>0){
+                  $("#price_year").html(startDate.getFullYear()+":");
+                  $("#price_year").css("display","");
+                  $("#second_price").css("display","");
+                  $("#second_price_year").html(startDate.getFullYear()+1+":");
+                  $("#second_price_year").css("display","");              }
+              else{
+                  $("#price_year").css("display","none");
+                  $("#second_price").css("display","none");
+                  $("#second_price_year").css("display","none");
+              }
+          }
+          else{
+            $("#sales_end_at").data("datepicker").date =  new Date(startDate.getYear()+1,12,31);
+            $("#sales_end_at").data("datepicker").setValue();
+          }
+        } else{
+            $("#sales_start_at").trigger("focus");
+            $("#sales_end_at").trigger("focus");
+            $("#sales_end_at").trigger("blur");
+
+            $("#charge_person").trigger("focus");
+            checkPrice();
+        }
+
+    }
+
+   $("#sales_start_at").on('changeDate', function(ev) {
+       checkPrice();
+    });
+
+    $("#sales_end_at").on('changeDate', function(ev) {
+        checkPrice();
+    });
+
+
+    checkPrice();
+
+
+
+
+
+
+
 
 </script>

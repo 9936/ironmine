@@ -8,7 +8,7 @@ class CreateSalesOpportunity < ActiveRecord::Migration
       t.string   "potential_customer", :limit => 200 ,:null => false
       t.string   "region", :limit => 80
       t.string   "address", :limit => 200
-      t.string   "involved_production_info", :limit => 80
+      t.string   "involved_production_info", :limit => 250
       t.string   "sales_status", :limit => 80,:null => false
       t.string   "sales_person", :limit => 80 ,:null => false
       t.string   "previous_flag",:limit => 1 ,:default=>'N'
