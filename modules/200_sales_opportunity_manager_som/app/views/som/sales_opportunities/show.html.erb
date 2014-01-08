@@ -88,6 +88,22 @@
     </table>
   </div>
 </div>
+
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_som_sales_opportunity_communicate_info) %></h2>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <%= render :partial =>"/som/communicate_infos/list_all_communicates", :locals =>{:communicate_infos=>@sales_opportunity.communicate_infos }%>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <% if "CANCEL".eql?(@sales_opportunity.sales_status) %>
 <div class="show-block">
   <table class="page-block-header"><tr>
@@ -104,8 +120,6 @@
       <tr>
         <td class="data-4col" colspan="4"><pre><%= @sales_opportunity.failed_reason %></pre></td>
       </tr>
-
-
       </tbody>
     </table>
   </div>
