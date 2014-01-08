@@ -2,7 +2,15 @@
     tr {
         height: 40px;
     }
+
+    .modal {
+        width: 70%;
+        left: 5%;
+        margin-left:auto;
+        margin-right:auto;
+    }
 </style>
+<div class="modal">
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
   <h3><%= t(:label_irm_sales_opportunity_communicate_info) %></h3>
@@ -12,11 +20,11 @@
       <%= error_for @communicate_info %>
       <%= f.hidden_field :sales_opportunity_id %>
       <div class="control-group">
-        <table class="form-table" >
+        <table class="form-table"  >
           <tbody>
           <tr>
             <td class="label-col"><label><%= t("label_irm_sales_opportunity_communicate_date") %></label></td>
-            <td class="data-col"><%= text_field_tag(:communicate_date, Time.now.strftime("%Y-%m-%d"), :readonly => true) %></td>
+            <td class="data-col"> <%= f.date_field(:communicate_date,:id=>"communicate_date",:class=>"date sales_date",:size=>12,:required=>true)%></td>
             <td><label><%= t("label_irm_sales_opportunity_sales_status") %></label>
               <%= f.select(:sales_status, available_lookup_type('SOM_PRODUCTION_STATUS'), {}) %></td>
           <tr>
@@ -82,6 +90,7 @@
       <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss" => "modal", "aria-hidden" => "true" %>
       <%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "btn btn-primary submit_button"} %>
     </div>
+  </div>
 <% end %>
 
 <script type="text/javascript">
