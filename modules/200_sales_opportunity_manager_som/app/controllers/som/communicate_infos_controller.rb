@@ -46,12 +46,27 @@ class Som::CommunicateInfosController < ApplicationController
   def create
     @communicate_info = Som::CommunicateInfo.new(params[:som_communicate_info])
     #同步预销售表的状态,进度,可能性
-    #if cookies[:our_persons].present?
-    #  params[:our_persons] = cookies[:our_persons]
-    #end
 
+    #sales_status: "Cancel", current_possibility: "60%", current_progress: "70%"
     respond_to do |format|
-      if @som_communicate_info.save
+      if @communicate_info.save
+        #保存沟通人员信息
+        #我方人员
+        if cookies[:our_persons].present?&&cookies[:our_roles].present?
+          our_persons = cookies[:our_persons]
+          our_roles = cookies[:our_roles]
+          our_persons.split(",").each_with_index do |our_person,index|
+            Som::ParticipationInfo.create(:name_id=>our_person,:role_id=>our_roles.split(",")[index],:communicate_id=>@communicate_info.id)
+          end
+        end
+        #客户人员
+        if cookies[:client_persons].present?&&cookies[:client_roles].present?
+          client_persons = cookies[:client_persons]
+          client_roles = cookies[:client_roles]
+          client_persons.split(",").each_with_index do |client_person,index|
+            Som::ParticipationInfo.create(:name_id=>client_person,:role_id=>client_roles.split(",")[index],:client_flag=>"Y",:communicate_id=>@communicate_info.id)
+          end
+        end
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @communicate_info, :status => :created, :location => @communicate_info }
       else
