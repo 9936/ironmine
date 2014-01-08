@@ -10,6 +10,7 @@
 <%= form_for(@communicate_info, :url => {:action => "create"}, :builder => CustomFormBuilder, :html => {:class => "modal-form"}) do |f| %>
     <div class="modal-body form-horizontal">
       <%= error_for @communicate_info %>
+      <%= f.hidden_field :sales_opportunity_id %>
       <div class="control-group">
         <table class="form-table" >
           <tbody>
@@ -34,17 +35,20 @@
 
           <tr id="our" style='height: 20px'>
             <td class="label-col"><%= t("label_irm_sales_opportunity_communicate_our") %></td>
-            <td class="data-col"><%=blank_select_tag "our_participation_person", available_people %></td>
-            <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles %></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_person", available_people ,{:class=>"our_people"}%></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles,{:class=>"our_role"}%></td>
             <td class="data-col"><i class="icon-plus" id="add_our"></i></td>
           </tr>
 
-          <tr id="our_more" style="display: none;">
+
+          <tbody style="display:none;" id="our_more">
+          <tr class="our_more"  style='height: 20px' id="our_$${num}">
             <td class="label-col"></td>
-            <td class="data-col"><%=blank_select_tag "our_participation_person", available_people%></td>
-            <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles %></td>
-            <td class="data-col"><i class="icon-trash delete_our"></i></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_person_${num}", available_people,nil,{:class=>"our_people",:id=>"our_people_${num}"}%></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles,{:class=>"our_role" }%></td>
+            <td class="data-col"><div class="delete"><i class="icon-trash delete_our" id="icon_${num}"></i></div></td>
           </tr>
+          </tbody>
 
           <tr id="client" style='height: 20px'>
             <td class="label-col"><%= t("label_irm_sales_opportunity_communicate_client") %></td>
@@ -53,12 +57,14 @@
             <td class="data-col"><i class="icon-plus" id="add_client"></i></td>
           </tr>
 
-          <tr id="client_more" style="display: none;">
+          <tbody style="display:none;" id="client_more">
+          <tr class="our_more"  style='height: 20px' id="client_${num}">
             <td class="label-col"></td>
             <td class="data-col"><%=text_field_tag "client_participation_person"%></td>
             <td class="data-col"><%=text_field_tag "client_participation_role"%></td>
-            <td class="data-col"><i class="icon-trash delete_client"></i></td>
+            <td class="data-col"><i class="icon-trash delete_client" id="icon_${num}"></i></td>
           </tr>
+          </tbody>
 
           <tr>
             <td class="label-col">
@@ -80,21 +86,30 @@
 
 <script type="text/javascript">
     $(function () {
-        checkSelect();
+        $("#our_participation_person").chosen({search_contains: true,disable_search_threshold: searchMiniNum});
+        var out_count=0;
         $("#add_our").click(function () {
-            $("#our").after("<tr style='height: 20px'>" + $("#our_more")[0].innerHTML + "</tr>");
+            var count=out_count++;
+            var template = $($.tmpl($("#our_more"), {num: count}));
+            $("#our").after(template);
+            $("#our_people_"+count).chosen({search_contains: true,disable_search_threshold: searchMiniNum});
         });
 
         $("#add_client").click(function () {
-            $("#client").after("<tr style='height: 20px'>" + $("#client_more")[0].innerHTML + "</tr>");
+            var count=out_count++;
+            var template = $($.tmpl($("#client_more"), {num: count}));
+            $("#client").after(template);
         });
 
-        $(".delete_client").click(function () {
-            $(this).parent().parent().remove();
+
+        $(".delete_our").live("click",function () {
+            var id=$(this).attr("id").substring(5);
+            $('#our_'+id).remove();
         });
 
-        $(".delete_our").click(function (){
-            $(this).parent().parent().remove();
+        $(".delete_client").live("click",function () {
+            var id=$(this).attr("id").substring(5);
+            $('#client_'+id).remove();
         });
 
         $(".submit_button").click(function(){
