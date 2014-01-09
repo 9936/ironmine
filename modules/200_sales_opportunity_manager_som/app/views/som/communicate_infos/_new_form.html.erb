@@ -88,7 +88,7 @@
 
     <div class="modal-footer">
       <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss" => "modal", "aria-hidden" => "true" %>
-      <%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "btn btn-primary submit_button"} %>
+      <%= link_submit t(:save), :class => "btn btn-primary submit_button" %>
     </div>
   </div>
 <% end %>
@@ -150,8 +150,6 @@
             $.cookie("client_persons",client_persons );
             $.cookie("client_roles", client_roles);
 
-            $("#new_som_communicate_info").attr('action', '<%= url_for(:action => "create")%>');
-            $("#new_som_communicate_info").submit();
         });
     });
 </script>

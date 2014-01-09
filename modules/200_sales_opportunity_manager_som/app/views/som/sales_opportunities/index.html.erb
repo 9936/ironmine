@@ -216,7 +216,7 @@
 
         <div class="filter-item" id="role">
           <h5><%= t(:label_irm_sales_opportunity_sales_people) %>：</h5>
-          <% ["ALL", "CHARGE", "PARTICIPATION"].each do |item| %>
+          <% ["ALL", "CHARGE", "PARTICIPATION","OTHER"].each do |item| %>
               <input type="checkbox" value="<%= item.downcase %>" id="<%= item %>" name="role"
                      <% if item.eql?("ALL") %> data-all="true"
                      <% end %> data-label-text="<%= t("label_irm_sales_opportunity_sales_people_#{item.downcase}") %>"/>
@@ -265,10 +265,12 @@
             }
 
             container.addClass("custom-checkbox");
-
             $("input", parent).attr("checked", true);
             $("label", parent).addClass("btn-danger");
-
+//             $("input").each(function (){
+//                $(this).attr("checked", true);
+//             });
+//             $("label", parent).addClass("btn-danger");
             $this.bind("click", function (e) {
                 if ($(this).is(":checked")) {
                     //检查当前是否控制其他checkbox选择的

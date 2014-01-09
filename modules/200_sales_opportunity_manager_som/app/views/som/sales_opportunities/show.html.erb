@@ -95,7 +95,7 @@
       <h2 class="block-title"><%= t(:label_som_sales_opportunity_communicate_info) %></h2>
     </td>
   </tr></table>
-  <div class="page-block-body">
+  <div class="page-block-body" id="communicates">
     <table class="show-table">
       <tbody>
       <%= render :partial =>"/som/communicate_infos/list_all_communicates", :locals =>{:communicate_infos=>@sales_opportunity.communicate_infos }%>

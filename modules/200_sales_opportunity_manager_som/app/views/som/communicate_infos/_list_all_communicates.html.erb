@@ -8,7 +8,7 @@
     }
 </style>
 
-<% communicate_infos.each_with_index do |communicate_info, index| %>
+<% communicate_infos.desc.each do |communicate_info| %>
     <div class="reply">
       <div class="reply-header">
         <div style="float:left; padding:0 0 0 5px;">
@@ -17,7 +17,7 @@
          </span>
         </div>
         <div style="float:right; padding: 5px 10px;">
-          <%= link_to t(:edit), {:action => "edit"} %>
+          <%= link_to t(:edit), {:controller=>"som/communicate_infos",:action => "edit",:id=>communicate_info.id},{:rel => "modal"} %>
         </div>
       </div>
     </div>
