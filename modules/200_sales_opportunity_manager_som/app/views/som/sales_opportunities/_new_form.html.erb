@@ -24,7 +24,7 @@
           </tr>
 
           <tr>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_customer)%></label></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_customer)%></label></td>
             <td class="data-col">
               <%= f.blank_select(:potential_customer,available_customers,{:required=>true},{:id=>"potential_customer"})%>
               <div class="data-field" style="display: inline-block;padding: 4px;"><%= link_to(("<i class='icon-pencil'></i>"+t(:new)).html_safe,{:controller=>"som/potential_customers",:action=>"new_modal"},{:class => "action-link",:rel => "modal"}) %></div>

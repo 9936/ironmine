@@ -93,10 +93,26 @@ class Som::SalesOpportunity < ActiveRecord::Base
         select("sales.full_name sales_person_name")
   }
 
+   scope :with_status,lambda{|language|
+     joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} sale_status ON sale_status.lookup_type='SOM_PRODUCTION_STATUS' AND sale_status.lookup_code = #{table_name}.sales_status AND sale_status.language= '#{language}'").
+         select(" sale_status.meaning sales_status_meaning")
+   }
 
+
+   scope :with_region,lambda{|language|
+     joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} region ON region.lookup_type='SOM_REGION_INFO' AND region.lookup_code = #{table_name}.region AND region.language= '#{language}'").
+         select(" region.meaning region_meaning")
+   }
+
+<<<<<<< HEAD
   def self.list_all
     select_all.with_charger.with_customer.with_sales
   end
+=======
+   def self.list_all
+     select_all.with_charger.with_customer.with_sales.with_status(I18n.locale).with_region(I18n.locale)
+   end
+>>>>>>> bbc7d9cc87969271216030bd7756759a5145984e
 
   def validate_before_save
     self.price_year = self.start_at.year
