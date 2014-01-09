@@ -28,7 +28,7 @@ class Som::SalesOpportunity < ActiveRecord::Base
 
    #参与过的预销售
    def self.query_parted_sales
-     communicate_ids=Som::ParticipationInfo.where(:name_id=>Irm::Person.current.id).collect(&:communicate_id)
+     communicate_ids=Som::ParticipationInfo.where(:name=>Irm::Person.current.id).collect(&:communicate_id)
      sales_opportunity_ids=[]
      communicate_ids.each do |id|
        sales_opportunity_ids<<Som::CommunicateInfo.find(id).sales_opportunity_id
