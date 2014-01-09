@@ -6,7 +6,7 @@ class Hli::SupporterWorkloadDetails < Irm::ReportManager::ReportBase
     statis = Icm::IncidentWorkload.
         joins(" LEFT OUTER JOIN #{Irm::LookupValue.view_name} lv ON lv.language = 'zh' AND lv.lookup_type = 'WORKLOAD_TYPE' AND lv.lookup_code = #{Icm::IncidentWorkload.table_name}.workload_type").
         joins(",#{Icm::IncidentRequest.table_name} ir").
-        joins(",#{Irm::Person.table_name} p")
+        joins(",#{Irm::Person.table_name} p").
         joins(",#{Icm::IncidentStatus.view_name} ins").
         where("#{Icm::IncidentWorkload.table_name}.incident_request_id = ir.id").
         where("#{Icm::IncidentWorkload.table_name}.person_id = p.id").
