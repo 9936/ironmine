@@ -53,15 +53,15 @@ module Som::SalesOpportunitiesHelper
 
   def translate_status(status)
     if status.eql?("QUOTE")
-      t("label_irm_sales_opportunity_sales_status_quote")
+      t("label_som_sales_opportunity_sales_status_quote")
     elsif status.eql?("BID")
-      t("label_irm_sales_opportunity_sales_status_bid")
+      t("label_som_sales_opportunity_sales_status_bid")
     elsif status.eql?("PROJECT")
-      t("label_irm_sales_opportunity_sales_status_project")
+      t("label_som_sales_opportunity_sales_status_project")
     elsif status.eql?("BUSINESS")
-      t("label_irm_sales_opportunity_sales_status_bussiness")
+      t("label_som_sales_opportunity_sales_status_bussiness")
     else
-      t("label_irm_sales_opportunity_sales_status_cancel")
+      t("label_som_sales_opportunity_sales_status_cancel")
     end
   end
 end

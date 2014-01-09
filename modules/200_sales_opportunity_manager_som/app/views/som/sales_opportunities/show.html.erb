@@ -14,19 +14,19 @@
     <table class="show-table">
       <tbody>
       <tr>
-        <td class="label-col"><label ><%=t(:label_irm_sales_opportunity_charge_person)%></label></td>
+        <td class="label-col"><label ><%=t(:label_som_sales_opportunity_charge_person)%></label></td>
         <td class="data-col"><%= @sales_opportunity[:charge_person_name] %></td>
         <td class="label-col empty">&nbsp;</td>
         <td class="data-col empty">&nbsp;</td>
       </tr>
 
       <tr>
-        <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_name)%></label></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_name)%></label></td>
         <td class="data-3col" colspan="3"><%= @sales_opportunity[:name] %></td>
       </tr>
 
       <tr>
-        <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_content)%></label></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_content)%></label></td>
         <td class="data-3col" colspan="3">
           <%= @sales_opportunity[:content] %>
         </td>
@@ -34,47 +34,47 @@
       </tr>
 
       <tr>
-        <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_customer)%></label></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_customer)%></label></td>
         <td class="data-col"><%= show_sales_customer(@sales_opportunity.potential_customer) %></td>
         <td class="label-col empty">&nbsp;</td>
         <td class="data-col empty">&nbsp;</td>
       </tr>
       <tr>
-        <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_region)%></label></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_region)%></label></td>
         <td class="data-col"><%= @sales_opportunity["region_meaning"] %></td>
-        <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_address)%></label></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_address)%></label></td>
         <td class="data-col"><%=@sales_opportunity.address%></td>
 
       </tr>
       <tr>
-        <td class="label-col"><label><%=t(:label_irm_sales_opportunity_sales_status)%></label></td>
+        <td class="label-col"><label><%=t(:label_som_sales_opportunity_sales_status)%></label></td>
         <td class="data-col"><%= @sales_opportunity["sales_status_meaning"] %></td>
         <td class="label-col empty">&nbsp;</td>
         <td class="data-col empty">&nbsp;</td>
       </tr>
       <tr >
-        <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_involved_production_info)%></label></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_involved_production_info)%></label></td>
         <td class="data-3col" colspan="3"><%=involved_productions_name(@sales_opportunity.involved_production_info).join(",")%></td>
       </tr>
       <tr>
-        <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_person)%></label></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_person)%></label></td>
         <td class="data-3col" colspan="3"><%= @sales_opportunity["sales_person_name"] %></td>
 
       </tr>
       <tr>
-        <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_possibility)%></label></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_possibility)%></label></td>
         <td class="data-col"><%= @sales_opportunity.possibility %></td>
-        <td class="label-col empty"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_previous_flag)%></label></td>
+        <td class="label-col empty"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_previous_flag)%></label></td>
         <td class="data-col empty"><%=check_img(@sales_opportunity.previous_flag)%></td>
       </tr>
       <tr>
-        <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_start_at)%></label></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_start_at)%></label></td>
         <td class="data-col"> <%= format_date(@sales_opportunity.start_at)%></td>
-        <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_end_at)%></label></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_end_at)%></label></td>
         <td class="data-col"> <%= format_date(@sales_opportunity.end_at)%></td>
       </tr>
       <tr>
-        <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_price)%></label></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_price)%></label></td>
         <td class="data-col" colspan="3">
           <% if @sales_opportunity.price_year&&@sales_opportunity.second_price_year %>
             <label id="price_year"><%=@sales_opportunity.price_year%>: <%=@sales_opportunity.price%></label>
