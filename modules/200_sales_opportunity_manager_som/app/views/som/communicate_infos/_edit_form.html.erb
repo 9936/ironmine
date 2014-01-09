@@ -4,8 +4,8 @@
     }
 
     .modal {
-        width: 70%;
-        left: 5%;
+        width: 60%;
+        left: 20%;
         margin-left: auto;
         margin-right: auto;
     }
@@ -29,13 +29,12 @@
             <tr>
               <td class="label-col"><label><%= t("label_som_sales_opportunity_communicate_date") %></label></td>
               <td class="data-col"> <%= f.date_field(:communicate_date, :id => "communicate_date", :class => "date sales_date", :size => 12, :required => true) %></td>
-              <td><label><%= t("label_som_sales_opportunity_sales_status") %></label>
-                <%= f.select(:sales_status, available_lookup_type('SOM_PRODUCTION_STATUS'), {}) %></td>
+              <td></td>
             <tr>
-              <td class="label-col"><label><%= t("label_som_sales_opportunity_sales_possibility") %></label></td>
-              <td class="data-col"><%= f.select(:current_possibility, available_percent) %></td>
-              <td><label><%= t("label_som_sales_opportunity_sales_progress") %></label>
-                <%= f.select(:current_progress, available_percent) %></td>
+              <td class="label-col"><label><%= t("label_som_sales_opportunity_sales_status") %></label></td>
+              <td class="data-col"><%= f.select(:sales_status, available_lookup_type('SOM_PRODUCTION_STATUS'), {}) %></td>
+              <td><label><%= t("label_som_sales_opportunity_sales_possibility") %></label>&nbsp;&nbsp;
+                <%= f.select(:current_possibility, available_percent) %></td>
             </tr>
 
             <tr style="height: 20px">
