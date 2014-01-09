@@ -58,16 +58,16 @@
             <% else %>
                 <tr id="our" style='height: 20px'>
                   <td class="label-col"><%= t("label_som_sales_opportunity_communicate_our") %></td>
-                  <td class="data-col"><%= blank_select_tag "our_participation_person", available_people, @ours.first.name_id, {:class => "our_people init"} %></td>
-                  <td class="data-col"><%= blank_select_tag "our_participation_role", available_roles, @ours.first.role_id, {:class => "our_role"} %></td>
+                  <td class="data-col"><%= blank_select_tag "our_participation_person", available_people, @ours.first.name, {:class => "our_people init"} %></td>
+                  <td class="data-col"><%= blank_select_tag "our_participation_role", available_roles, @ours.first.role, {:class => "our_role"} %></td>
                   <td class="data-col"><i class="icon-plus" id="add_our"></i></td>
                 </tr>
                 <% if @ours.size>1%>
                     <% (1..@ours.size-1).each do |index|%>
                         <tr class="edit_our" style='height: 20px'>
                           <td class="label-col"><%= t("label_som_sales_opportunity_communicate_our") %></td>
-                          <td class="data-col"><%= blank_select_tag "our_participation_person", available_people, @ours[index].name_id, {:class => "our_people init", :id => "our_people_#{index}"} %></td>
-                          <td class="data-col"><%= blank_select_tag "our_participation_role", available_roles, @ours[index].role_id, {:class => "our_role"} %></td>
+                          <td class="data-col"><%= blank_select_tag "our_participation_person", available_people, @ours[index].name, {:class => "our_people init", :id => "our_people_#{index}"} %></td>
+                          <td class="data-col"><%= blank_select_tag "our_participation_role", available_roles, @ours[index].role, {:class => "our_role"} %></td>
                           <td class="data-col"> <i class="icon-trash delete_our init_delete_our" ></i></td>
                         </tr>
                     <% end %>
@@ -97,16 +97,16 @@
 
                 <tr id="client" style='height: 20px'>
                   <td class="label-col"><%= t("label_som_sales_opportunity_communicate_client") %></td>
-                  <td class="data-col"><%= text_field_tag "client_participation_person" ,@clients.first.name_id%></td>
-                  <td class="data-col"><%= text_field_tag "client_participation_role" ,@clients.first.role_id%></td>
+                  <td class="data-col"><%= text_field_tag "client_participation_person" ,@clients.first.name%></td>
+                  <td class="data-col"><%= text_field_tag "client_participation_role" ,@clients.first.role%></td>
                   <td class="data-col"><i class="icon-plus" id="add_client"></i></td>
                 </tr>
                 <% if @clients.size>1%>
                     <% (1..@clients.size-1).each do |index|%>
                         <tr class="edit_client" style='height: 20px'>
                           <td class="label-col"><%= t("label_som_sales_opportunity_communicate_client") %></td>
-                          <td class="data-col"><%= text_field_tag "client_participation_person" ,@clients[index].name_id%></td>
-                          <td class="data-col"><%= text_field_tag "client_participation_role" ,@clients[index].role_id%></td>
+                          <td class="data-col"><%= text_field_tag "client_participation_person" ,@clients[index].name%></td>
+                          <td class="data-col"><%= text_field_tag "client_participation_role" ,@clients[index].role%></td>
                           <td class="data-col"> <i class="icon-trash delete_client init_delete_client" ></i></td>
                         </tr>
                     <% end %>

@@ -63,7 +63,7 @@ class Som::CommunicateInfosController < ApplicationController
           our_persons = params[:som_communicate_info][:our_persons]
           our_roles = params[:som_communicate_info][:our_roles]
           our_persons.split(",").uniq.each_with_index do |our_person, index|
-            Som::ParticipationInfo.create(:name_id => our_person, :role_id => our_roles.split(",")[index], :communicate_id => @communicate_info.id)
+            Som::ParticipationInfo.create(:name => our_person, :role => our_roles.split(",")[index], :communicate_id => @communicate_info.id)
           end
         end
         #客户人员
@@ -72,7 +72,7 @@ class Som::CommunicateInfosController < ApplicationController
           client_persons = params[:som_communicate_info][:client_persons]
           client_roles = params[:som_communicate_info][:client_roles]
           client_persons.split(",").each_with_index do |client_person, index|
-            Som::ParticipationInfo.create(:name_id => client_person, :role_id => client_roles.split(",")[index], :client_flag => "Y", :communicate_id => @communicate_info.id)
+            Som::ParticipationInfo.create(:name => client_person, :role => client_roles.split(",")[index], :client_flag => "Y", :communicate_id => @communicate_info.id)
           end
         end
         format.js
@@ -105,7 +105,7 @@ class Som::CommunicateInfosController < ApplicationController
           our_persons = params[:som_communicate_info][:our_persons]
           our_roles = params[:som_communicate_info][:our_roles]
           our_persons.split(",").each_with_index do |our_person, index|
-            Som::ParticipationInfo.create(:name_id => our_person, :role_id => our_roles.split(",")[index], :communicate_id => @communicate_info.id)
+            Som::ParticipationInfo.create(:name => our_person, :role => our_roles.split(",")[index], :communicate_id => @communicate_info.id)
           end
         end
         #客户人员
@@ -113,7 +113,7 @@ class Som::CommunicateInfosController < ApplicationController
           client_persons = params[:som_communicate_info][:client_persons]
           client_roles =  params[:som_communicate_info][:client_roles]
           client_persons.split(",").each_with_index do |client_person, index|
-            Som::ParticipationInfo.create(:name_id => client_person, :role_id => client_roles.split(",")[index], :client_flag => "Y", :communicate_id => @communicate_info.id)
+            Som::ParticipationInfo.create(:name => client_person, :role => client_roles.split(",")[index], :client_flag => "Y", :communicate_id => @communicate_info.id)
           end
         end
         @sales_opportunity=sales_opportunity

@@ -53,17 +53,17 @@ class AddSomLookupData < ActiveRecord::Migration
     som_production_infoebs.lookup_values_tls.build(:lookup_value_id=>som_production_infoebs.id,:meaning=>'EBS',:description=>'EBS',:language=>'en',:status_code=>'ENABLED',:source_lang=>'en')
     som_production_infoebs.save
 
-    som_production_infosiebel= Irm::LookupValue.new(:lookup_type=>'SOM_PRODUCTION_INFO',:lookup_code=>'Siebel',:start_date_active=>'2014-01-02',:status_code=>'ENABLED',:not_auto_mult=>true)
+    som_production_infosiebel= Irm::LookupValue.new(:lookup_type=>'SOM_PRODUCTION_INFO',:lookup_code=>'SIEBEL',:start_date_active=>'2014-01-02',:status_code=>'ENABLED',:not_auto_mult=>true)
     som_production_infosiebel.lookup_values_tls.build(:lookup_value_id=>som_production_infosiebel.id,:meaning=>'Siebel',:description=>'Siebel',:language=>'zh',:status_code=>'ENABLED',:source_lang=>'en')
     som_production_infosiebel.lookup_values_tls.build(:lookup_value_id=>som_production_infosiebel.id,:meaning=>'Siebel',:description=>'Siebel',:language=>'en',:status_code=>'ENABLED',:source_lang=>'en')
     som_production_infosiebel.save
 
-    som_production_infohr= Irm::LookupValue.new(:lookup_type=>'SOM_PRODUCTION_INFO',:lookup_code=>'HR/Peoplesoft',:start_date_active=>'2014-01-02',:status_code=>'ENABLED',:not_auto_mult=>true)
+    som_production_infohr= Irm::LookupValue.new(:lookup_type=>'SOM_PRODUCTION_INFO',:lookup_code=>'HR/PEOPLESOFT',:start_date_active=>'2014-01-02',:status_code=>'ENABLED',:not_auto_mult=>true)
     som_production_infohr.lookup_values_tls.build(:lookup_value_id=>som_production_infohr.id,:meaning=>'HR/Peoplesoft',:description=>'HR/Peoplesoft',:language=>'zh',:status_code=>'ENABLED',:source_lang=>'en')
     som_production_infohr.lookup_values_tls.build(:lookup_value_id=>som_production_infohr.id,:meaning=>'HR/Peoplesoft',:description=>'HR/Peoplesoft',:language=>'en',:status_code=>'ENABLED',:source_lang=>'en')
     som_production_infohr.save
 
-    som_production_infohyperion= Irm::LookupValue.new(:lookup_type=>'SOM_PRODUCTION_INFO',:lookup_code=>'Hyperion',:start_date_active=>'2014-01-02',:status_code=>'ENABLED',:not_auto_mult=>true)
+    som_production_infohyperion= Irm::LookupValue.new(:lookup_type=>'SOM_PRODUCTION_INFO',:lookup_code=>'HYPERION',:start_date_active=>'2014-01-02',:status_code=>'ENABLED',:not_auto_mult=>true)
     som_production_infohyperion.lookup_values_tls.build(:lookup_value_id=>som_production_infohyperion.id,:meaning=>'Hyperion',:description=>'Hyperion',:language=>'zh',:status_code=>'ENABLED',:source_lang=>'en')
     som_production_infohyperion.lookup_values_tls.build(:lookup_value_id=>som_production_infohyperion.id,:meaning=>'Hyperion',:description=>'Hyperion',:language=>'en',:status_code=>'ENABLED',:source_lang=>'en')
     som_production_infohyperion.save
