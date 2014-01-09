@@ -12,7 +12,15 @@
     <% builder.column(:potential_customer, {:title => t(:label_som_sales_opportunity_customer)}) do |data|%>
         <%= data[:potential_customer_name] %>
     <% end %>
-    <% builder.column(:price, {:title => t(:label_som_sales_opportunity_sales_price)})%>
+    <% builder.column(:price, {:title => t(:label_som_sales_opportunity_sales_price)}) do |data|%>
+        <%if data[:second_price].present?  %>
+            <%= data[:price].to_i+data[:second_price].to_i%>(
+        <% end %>
+        <%= data[:price] %>
+        <%if data[:second_price].present?  %>
+            +<%= data[:second_price]%>)
+        <% end %>
+    <% end %>
     <% builder.column(:start_at, {:title => t(:label_som_sales_opportunity_sales_start_at)}) do |data|%>
         <%= data[:start_at].strftime('%Y-%m-%d') unless data[:start_at].nil?%>
     <% end %>

@@ -100,12 +100,12 @@ class AddSomLookupData < ActiveRecord::Migration
     som_production_statusbid.lookup_values_tls.build(:lookup_value_id=>som_production_statusbid.id,:meaning=>'Bid',:description=>'Bid',:language=>'en',:status_code=>'ENABLED',:source_lang=>'en')
     som_production_statusbid.save
 
-    som_production_statusbusiness= Irm::LookupValue.new(:lookup_type=>'SOM_PRODUCTION_STATUS',:lookup_code=>'Business',:start_date_active=>'2014-01-02',:status_code=>'ENABLED',:not_auto_mult=>true)
+    som_production_statusbusiness= Irm::LookupValue.new(:lookup_type=>'SOM_PRODUCTION_STATUS',:lookup_code=>'BUSINESS',:start_date_active=>'2014-01-02',:status_code=>'ENABLED',:not_auto_mult=>true)
     som_production_statusbusiness.lookup_values_tls.build(:lookup_value_id=>som_production_statusbusiness.id,:meaning=>'商务',:description=>'商务',:language=>'zh',:status_code=>'ENABLED',:source_lang=>'en')
     som_production_statusbusiness.lookup_values_tls.build(:lookup_value_id=>som_production_statusbusiness.id,:meaning=>'Business',:description=>'Business',:language=>'en',:status_code=>'ENABLED',:source_lang=>'en')
     som_production_statusbusiness.save
 
-    som_production_statuscancel= Irm::LookupValue.new(:lookup_type=>'SOM_PRODUCTION_STATUS',:lookup_code=>'Cancel',:start_date_active=>'2014-01-02',:status_code=>'ENABLED',:not_auto_mult=>true)
+    som_production_statuscancel= Irm::LookupValue.new(:lookup_type=>'SOM_PRODUCTION_STATUS',:lookup_code=>'CANCEL',:start_date_active=>'2014-01-02',:status_code=>'ENABLED',:not_auto_mult=>true)
     som_production_statuscancel.lookup_values_tls.build(:lookup_value_id=>som_production_statuscancel.id,:meaning=>'取消',:description=>'取消',:language=>'zh',:status_code=>'ENABLED',:source_lang=>'en')
     som_production_statuscancel.lookup_values_tls.build(:lookup_value_id=>som_production_statuscancel.id,:meaning=>'Cancel',:description=>'Cancel',:language=>'en',:status_code=>'ENABLED',:source_lang=>'en')
     som_production_statuscancel.save
