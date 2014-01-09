@@ -1,3 +1,4 @@
 $(function(){
     $("#communicates").html("<%= escape_javascript(render :partial=>"/som/communicate_infos/list_all_communicates",:locals => {:communicate_infos=>@sales_opportunity.communicate_infos})%>");
 });
+<%= hand_result(@communicate_info, '/som/communicate_infos/list_all_communicates', 'updateData') %>

@@ -30,7 +30,7 @@ class Som::CommunicateInfosController < ApplicationController
     @communicate_info.sales_status=sales_opportunity.sales_status
     @communicate_info.current_possibility=sales_opportunity.possibility
     @communicate_info.current_progress=sales_opportunity.progress
-
+    @communicate_info.communicate_date=Time.now
     respond_to do |format|
       format.html # new.html.erb
       format.xml { render :xml => @communicate_info }
@@ -59,17 +59,18 @@ class Som::CommunicateInfosController < ApplicationController
       if @communicate_info.save
         #保存沟通人员信息
         #我方人员
-        if cookies[:our_persons].present?&&cookies[:our_roles].present?
-          our_persons = cookies[:our_persons]
-          our_roles = cookies[:our_roles]
+        if params[:som_communicate_info][:our_persons].present?&&params[:som_communicate_info][:our_roles].present?
+          our_persons = params[:som_communicate_info][:our_persons]
+          our_roles = params[:som_communicate_info][:our_roles]
           our_persons.split(",").uniq.each_with_index do |our_person, index|
             Som::ParticipationInfo.create(:name_id => our_person, :role_id => our_roles.split(",")[index], :communicate_id => @communicate_info.id)
           end
         end
         #客户人员
-        if cookies[:client_persons].present?&&cookies[:client_roles].present?
-          client_persons = cookies[:client_persons]
-          client_roles = cookies[:client_roles]
+
+        if params[:som_communicate_info][:client_persons].present?&&params[:som_communicate_info][:client_roles].present?
+          client_persons = params[:som_communicate_info][:client_persons]
+          client_roles = params[:som_communicate_info][:client_roles]
           client_persons.split(",").each_with_index do |client_person, index|
             Som::ParticipationInfo.create(:name_id => client_person, :role_id => client_roles.split(",")[index], :client_flag => "Y", :communicate_id => @communicate_info.id)
           end
@@ -100,24 +101,20 @@ class Som::CommunicateInfosController < ApplicationController
         #保存沟通人员信息
         #我方人员
         Som::ParticipationInfo.destroy_all(:communicate_id => @communicate_info.id)
-        if cookies[:our_persons].present?&&cookies[:our_roles].present?
-          our_persons = cookies[:our_persons]
-          our_roles = cookies[:our_roles]
+        if params[:som_communicate_info][:our_persons].present?&&params[:som_communicate_info][:our_roles].present?
+          our_persons = params[:som_communicate_info][:our_persons]
+          our_roles = params[:som_communicate_info][:our_roles]
           our_persons.split(",").each_with_index do |our_person, index|
             Som::ParticipationInfo.create(:name_id => our_person, :role_id => our_roles.split(",")[index], :communicate_id => @communicate_info.id)
           end
-          cookies[:our_persons]=nil
-          cookies[:our_roles]=nil
         end
         #客户人员
-        if cookies[:client_persons].present?&&cookies[:client_roles].present?
-          client_persons = cookies[:client_persons]
-          client_roles = cookies[:client_roles]
+        if params[:som_communicate_info][:client_persons].present?&& params[:som_communicate_info][:client_roles].present?
+          client_persons = params[:som_communicate_info][:client_persons]
+          client_roles =  params[:som_communicate_info][:client_roles]
           client_persons.split(",").each_with_index do |client_person, index|
             Som::ParticipationInfo.create(:name_id => client_person, :role_id => client_roles.split(",")[index], :client_flag => "Y", :communicate_id => @communicate_info.id)
           end
-          cookies[:client_persons]=nil
-          cookies[:client_roles]=nil
         end
         @sales_opportunity=sales_opportunity
         format.js

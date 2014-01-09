@@ -16,6 +16,10 @@
   <h3><%= t(:label_som_sales_opportunity_communicate_info) %></h3>
 </div>
 <%= form_for(@communicate_info, :url => {:action => "create"}, :builder => CustomFormBuilder, :html => {:class => "modal-form"}) do |f| %>
+      <%= f.hidden_field(:our_persons) %>
+      <%= f.hidden_field(:our_roles) %>
+      <%= f.hidden_field(:client_persons) %>
+      <%= f.hidden_field(:client_roles) %>
     <div class="modal-body form-horizontal">
       <%= error_for @communicate_info %>
       <%= f.hidden_field :sales_opportunity_id %>
@@ -24,7 +28,7 @@
           <tbody>
           <tr>
             <td class="label-col"><label><%= t("label_som_sales_opportunity_communicate_date") %></label></td>
-            <td class="data-col"> <%= f.date_field(:communicate_date,:id=>"communicate_date",:class=>"date sales_date",:size=>12,:required=>true)%></td>
+            <td class="data-col"> <%= f.date_field(:communicate_date,:id=>"communicate_date",:class=>"date sales_date",:required=>true)%></td>
             <td><label><%= t("label_som_sales_opportunity_sales_status") %></label>
               <%= f.select(:sales_status, available_lookup_type('SOM_PRODUCTION_STATUS'), {}) %></td>
           <tr>
@@ -138,18 +142,10 @@
                 client_roles.push($(this).val());
             });
 
-
-            var cookie_date = new Date(), minutes = 5;
-            cookie_date.setTime(cookie_date.getTime() + (minutes * 60 * 1000));
-            $.cookie("our_persons", "");
-            $.cookie("our_roles", "");
-            $.cookie("client_persons", "");
-            $.cookie("client_roles", "");
-            $.cookie("our_persons", our_persons);
-            $.cookie("our_roles", our_roles);
-            $.cookie("client_persons",client_persons );
-            $.cookie("client_roles", client_roles);
-
+            $("#som_communicate_info_our_persons").val(our_persons);
+            $("#som_communicate_info_our_roles").val(our_roles);
+            $("#som_communicate_info_client_persons").val(client_persons);
+            $("#som_communicate_info_client_roles").val(client_roles);
         });
     });
 </script>
