@@ -95,4 +95,21 @@ class Som::PotentialCustomersController < ApplicationController
       format.json {render :json=>to_jsonp(potential_customers.to_grid_json([:name,:description,:status_meaning],count))}
     end
   end
+
+  def new_modal
+    @potential_customer = Som::PotentialCustomer.new
+  end
+
+  def create_modal
+    @potential_customer = Som::PotentialCustomer.new(params[:som_potential_customer])
+    @potential_customer.save
+  end
+
+  def get_options
+    @potential_customers = Som::PotentialCustomer.all
+    @potential_customers = @potential_customers.collect{|i| {:label=>i.full_name,:value=>i.id}}
+    respond_to do |format|
+      format.json {render :json=>@potential_customers.to_grid_json([:label,:value],@potential_customers.length)}
+    end
+  end
 end

@@ -25,7 +25,10 @@
 
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_customer)%></label></td>
-            <td class="data-col"><%= f.blank_select(:potential_customer,available_customers,:required=>true)%></td>
+            <td class="data-col">
+              <%= f.blank_select(:potential_customer,available_customers,{:required=>true},{:id=>"potential_customer"})%>
+              <div class="data-field" style="display: inline-block;padding: 4px;"><%= link_to(("<i class='icon-pencil'></i>"+t(:new)).html_safe,{:controller=>"som/potential_customers",:action=>"new_modal"},{:class => "action-link",:rel => "modal"}) %></div>
+            </td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
@@ -129,7 +132,7 @@
         }).get();
         $("input[name='som_sales_opportunity[involved_production_info]']").val(involved_productions.toString());
     });
-
+    // 检查时间差,从而决定是否显示两个金额
     function checkPrice(){
 
         if($("#sales_start_at").data("datepicker")&&$("#sales_end_at").data("datepicker")){
@@ -176,7 +179,36 @@
 
     checkPrice();
 
+    function syncCustomer(){
+        $.getJSON("<%=url_for(:controller=>'som/potential_customers',:action=>'get_options')%>",function(datas){
+            var target = $("#potential_customer");
+            var OPTIONS_TEMPLATE = "<option value='${value}'>${label}</option>";
+            target.html("");
+            datas = datas["items"];
+            if (!datas)
+                datas = [];
+            if (target.attr("blank") != "") {
+                option = $($.tmpl(OPTIONS_TEMPLATE, {label:target.attr("blank"), value:""}));
+                target.append(option);
+            }
+            $.each(datas, function (index, data) {
+                var option = $('<option/>');
+                for (var v in data) {
+                    if (v == "label")
+                        option.html(data[v]);
+                    else
+                        option.attr(v, data[v]);
+                }
 
+                target.append(option);
+
+            });
+            // 使用 setTimeout防止IE6中 报 [无法设置selected属性。未指明的错误。]的错误.
+            setTimeout(function () {
+                target.trigger("change");
+            }, 1);
+        });
+    }
 
 
 

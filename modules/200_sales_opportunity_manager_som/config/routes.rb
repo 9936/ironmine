@@ -13,6 +13,9 @@ Rails.application.routes.draw do
     resources :potential_customers do
       collection do
         get "get_data"
+        get "new_modal"
+        post "create_modal"
+        get "get_options"
       end
     end
 
