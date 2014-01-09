@@ -1,41 +1,41 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
     <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
-    <%= link_to(t(:label_irm_sales_opportunity_sales_communicate),{:controller=>"som/communicate_infos",:action=>"new",:id=>data[:id]},{:rel => "modal"}) %>
+    <%= link_to(t(:label_som_sales_opportunity_sales_communicate),{:controller=>"som/communicate_infos",:action=>"new",:id=>data[:id]},{:rel => "modal"}) %>
   <% end %>
     <% builder.column(:name, {:title => t(:name), :searchable => true}) do |data|%>
         <%= link_to(data[:name],{:action=>"show",:id=>data[:id]}) %>&nbsp;
     <% end %>
-    <% builder.column(:charge_person, {:title => t(:label_irm_sales_opportunity_charge_person)}) do |data| %>
+    <% builder.column(:charge_person, {:title => t(:label_som_sales_opportunity_charge_person)}) do |data| %>
         <%= data[:charge_person_name] %>
     <% end %>
-    <% builder.column(:potential_customer, {:title => t(:label_irm_sales_opportunity_customer)}) do |data|%>
+    <% builder.column(:potential_customer, {:title => t(:label_som_sales_opportunity_customer)}) do |data|%>
         <%= data[:potential_customer_name] %>
     <% end %>
-    <% builder.column(:price, {:title => t(:label_irm_sales_opportunity_sales_price)})%>
-    <% builder.column(:start_at, {:title => t(:label_irm_sales_opportunity_sales_start_at)}) do |data|%>
+    <% builder.column(:price, {:title => t(:label_som_sales_opportunity_sales_price)})%>
+    <% builder.column(:start_at, {:title => t(:label_som_sales_opportunity_sales_start_at)}) do |data|%>
         <%= data[:start_at].strftime('%Y-%m-%d') unless data[:start_at].nil?%>
     <% end %>
-    <% builder.column(:end_at, {:title => t(:label_irm_sales_opportunity_sales_end_at)}) do |data|%>
+    <% builder.column(:end_at, {:title => t(:label_som_sales_opportunity_sales_end_at)}) do |data|%>
         <%= data[:end_at].strftime('%Y-%m-%d') unless data[:end_at].nil?%>
     <% end %>
-    <% builder.column(:sales_status, {:title => t(:label_irm_sales_opportunity_sales_status)}) do |data|%>
+    <% builder.column(:sales_status, {:title => t(:label_som_sales_opportunity_sales_status)}) do |data|%>
         <% if data[:sales_status].eql?("QUOTE") %>
-            <span class="label label-warning"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
+            <span class="label label-warning"><%= t("label_som_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
         <% elsif data[:sales_status].eql?("PROJECT") %>
-            <span class="label label-success"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
+            <span class="label label-success"><%= t("label_som_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
         <% elsif data[:sales_status].eql?("BID") %>
-            <span class="label label-danger"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
+            <span class="label label-danger"><%= t("label_som_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
         <% elsif data[:sales_status].eql?("BUSINESS") %>
-            <span class="label label-info"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
+            <span class="label label-info"><%= t("label_som_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
         <% else %>
-            <span class="label label-inverse"><%= t("label_irm_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
+            <span class="label label-inverse"><%= t("label_som_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
             <%= link_to(t(:label_som_sales_opportunity_failed_reason_edit),{:action=>"edit_reason",:id=>data[:id]},{:class => "action-link",:rel => "modal"}) %>
         <% end %>
     <% end %>
 
-    <% builder.column(:possibility, {:title => t(:label_irm_sales_opportunity_sales_possibility)})%>
-    <% builder.column(:progress, {:title => t(:label_irm_sales_opportunity_sales_progress)})%>
+    <% builder.column(:possibility, {:title => t(:label_som_sales_opportunity_sales_possibility)})%>
+    <% builder.column(:progress, {:title => t(:label_som_sales_opportunity_sales_progress)})%>
     <% builder.column(:communicate_count, {:title => t(:label_som_sales_opportunity_communicate_count)}) do |data|%>
         <%=communicate_count(data[:id])%>
     <% end %>

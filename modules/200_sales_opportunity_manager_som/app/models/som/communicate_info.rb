@@ -6,4 +6,6 @@ class Som::CommunicateInfo < ActiveRecord::Base
   query_extend
   # 对运维中心数据进行隔离
   default_scope { default_filter }
+
+  scope :desc, order("#{table_name}.created_at DESC")
 end

@@ -19,7 +19,10 @@ Rails.application.routes.draw do
       end
     end
 
-    match '/communicate_infos/get_data(.:format)' => "communicate_infos#get_data"
-    resources :communicate_infos
+    resources :communicate_infos do
+      collection do
+        get "get_data"
+      end
+    end
   end
 end

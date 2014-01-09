@@ -28,6 +28,10 @@ module Som::SalesOpportunitiesHelper
     Irm::Person.find(id).full_name
   end
 
+  def translate_person_role(id)
+     Irm::Role.multilingual.find(id)[:name] if id
+  end
+
   def available_customers
     Som::PotentialCustomer.select_all.collect{|i| [i.short_name,i.id]}
   end
@@ -45,5 +49,19 @@ module Som::SalesOpportunitiesHelper
     sales_opportunity =Som::SalesOpportunity.find(sales_id)
     last_communicate = sales_opportunity.communicate_infos.last
     last_communicate.created_at.strftime('%Y-%m-%d') unless last_communicate.nil?
+  end
+
+  def translate_status(status)
+    if status.eql?("QUOTE")
+      t("label_som_sales_opportunity_sales_status_quote")
+    elsif status.eql?("BID")
+      t("label_som_sales_opportunity_sales_status_bid")
+    elsif status.eql?("PROJECT")
+      t("label_som_sales_opportunity_sales_status_project")
+    elsif status.eql?("BUSINESS")
+      t("label_som_sales_opportunity_sales_status_bussiness")
+    else
+      t("label_som_sales_opportunity_sales_status_cancel")
+    end
   end
 end

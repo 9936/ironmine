@@ -197,11 +197,11 @@
       <tr>
         <td class="left-buttons">
           <%= link_to url_for(:action => "new"), :class => "btn btn-success" do %>
-              <i class="icon-plus icon-white"></i><%= t(:label_irm_sales_opportunity_sales_new) %>
+              <i class="icon-plus icon-white"></i><%= t(:label_som_sales_opportunity_sales_new) %>
           <% end %>
         </td>
         <td class="right-buttons">
-          <%= link_to t(:label_irm_sales_opportunity_sales_manager_customer), {:controller => "som/potential_customers", :action => "index"}, :class => "btn btn-primary" %>
+          <%= link_to t(:label_som_sales_opportunity_sales_manager_customer), {:controller => "som/potential_customers", :action => "index"}, :class => "btn btn-primary" %>
           <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_excel) %></a>
         </td>
       </tr>
@@ -215,21 +215,21 @@
       <div class="panel-title">
 
         <div class="filter-item" id="role">
-          <h5><%= t(:label_irm_sales_opportunity_sales_people) %>：</h5>
-          <% ["ALL", "CHARGE", "PARTICIPATION"].each do |item| %>
+          <h5><%= t(:label_som_sales_opportunity_sales_people) %>：</h5>
+          <% ["ALL", "CHARGE", "PARTICIPATION","OTHER"].each do |item| %>
               <input type="checkbox" value="<%= item.downcase %>" id="<%= item %>" name="role"
                      <% if item.eql?("ALL") %> data-all="true"
-                     <% end %> data-label-text="<%= t("label_irm_sales_opportunity_sales_people_#{item.downcase}") %>"/>
+                     <% end %> data-label-text="<%= t("label_som_sales_opportunity_sales_people_#{item.downcase}") %>"/>
           <% end %>
 
         </div>
 
         <div class="filter-item" id="status">
-          <h5><%= t(:label_irm_sales_opportunity_sales_status) %>：</h5>
+          <h5><%= t(:label_som_sales_opportunity_sales_status) %>：</h5>
           <% ["ALL", "QUOTE", "PROJECT", "BID", "BUSINESS", "CANCEL"].each do |item| %>
               <input type="checkbox" value="<%= item.downcase %>" id="<%= item %>" name="status"
                      <% if item.eql?("ALL") %> data-all="true"
-                     <% end %> data-label-text="<%= t("label_irm_sales_opportunity_sales_status_#{item.downcase}") %>"/>
+                     <% end %> data-label-text="<%= t("label_som_sales_opportunity_sales_status_#{item.downcase}") %>"/>
           <% end %>
         </div>
       </div>
@@ -265,10 +265,12 @@
             }
 
             container.addClass("custom-checkbox");
-
             $("input", parent).attr("checked", true);
             $("label", parent).addClass("btn-danger");
-
+//             $("input").each(function (){
+//                $(this).attr("checked", true);
+//             });
+//             $("label", parent).addClass("btn-danger");
             $this.bind("click", function (e) {
                 if ($(this).is(":checked")) {
                     //检查当前是否控制其他checkbox选择的

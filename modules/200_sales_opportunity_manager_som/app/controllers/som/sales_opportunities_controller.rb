@@ -96,7 +96,11 @@ class Som::SalesOpportunitiesController < ApplicationController
     params[:sales_role]||=[]
     unless params[:sales_role].include?("all")
       if params[:sales_role].include?("charge")
-          sales_opportunities_scope = sales_opportunities_scope.as_charge_preson
+          sales_opportunities_scope = sales_opportunities_scope.as_charge_person
+      elsif params[:sales_role].include?("participation")
+          sales_opportunities_scope = sales_opportunities_scope.as_part_person
+      else
+        sales_opportunities_scope = sales_opportunities_scope.as_other_person
       end
     end
 

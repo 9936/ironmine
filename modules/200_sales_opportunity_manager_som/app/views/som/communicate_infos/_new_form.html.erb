@@ -2,39 +2,47 @@
     tr {
         height: 40px;
     }
+
+    .modal {
+        width: 70%;
+        left: 5%;
+        margin-left:auto;
+        margin-right:auto;
+    }
 </style>
+<div class="modal">
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  <h3><%= t(:label_irm_sales_opportunity_communicate_info) %></h3>
+  <h3><%= t(:label_som_sales_opportunity_communicate_info) %></h3>
 </div>
 <%= form_for(@communicate_info, :url => {:action => "create"}, :builder => CustomFormBuilder, :html => {:class => "modal-form"}) do |f| %>
     <div class="modal-body form-horizontal">
       <%= error_for @communicate_info %>
       <%= f.hidden_field :sales_opportunity_id %>
       <div class="control-group">
-        <table class="form-table" >
+        <table class="form-table"  >
           <tbody>
           <tr>
-            <td class="label-col"><label><%= t("label_irm_sales_opportunity_communicate_date") %></label></td>
-            <td class="data-col"><%= text_field_tag(:communicate_date, Time.now.strftime("%Y-%m-%d"), :readonly => true) %></td>
-            <td><label><%= t("label_irm_sales_opportunity_sales_status") %></label>
+            <td class="label-col"><label><%= t("label_som_sales_opportunity_communicate_date") %></label></td>
+            <td class="data-col"> <%= f.date_field(:communicate_date,:id=>"communicate_date",:class=>"date sales_date",:size=>12,:required=>true)%></td>
+            <td><label><%= t("label_som_sales_opportunity_sales_status") %></label>
               <%= f.select(:sales_status, available_lookup_type('SOM_PRODUCTION_STATUS'), {}) %></td>
           <tr>
-            <td class="label-col"><label><%= t("label_irm_sales_opportunity_sales_possibility") %></label></td>
+            <td class="label-col"><label><%= t("label_som_sales_opportunity_sales_possibility") %></label></td>
             <td class="data-col"><%= f.select(:current_possibility, available_percent) %></td>
-            <td><label><%= t("label_irm_sales_opportunity_sales_progress") %></label>
+            <td><label><%= t("label_som_sales_opportunity_sales_progress") %></label>
               <%= f.select(:current_progress, available_percent) %></td>
           </tr>
 
           <tr style="height: 20px">
             <td class="label-col"></td>
-            <td class="data-col" style="text-align: center"><%= t("label_irm_sales_opportunity_sales_people") %></td>
-            <td ><%= t("label_irm_sales_opportunity_sales_role") %></td>
+            <td class="data-col" style="text-align: center"><%= t("label_som_sales_opportunity_sales_people") %></td>
+            <td ><%= t("label_som_sales_opportunity_sales_role") %></td>
             <td class="data-col"></td>
           </tr>
 
           <tr id="our" style='height: 20px'>
-            <td class="label-col"><%= t("label_irm_sales_opportunity_communicate_our") %></td>
+            <td class="label-col"><%= t("label_som_sales_opportunity_communicate_our") %></td>
             <td class="data-col"><%=blank_select_tag "our_participation_person", available_people ,{:class=>"our_people"}%></td>
             <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles,{:class=>"our_role"}%></td>
             <td class="data-col"><i class="icon-plus" id="add_our"></i></td>
@@ -42,7 +50,7 @@
 
 
           <tbody style="display:none;" id="our_more">
-          <tr class="our_more"  style='height: 20px' id="our_$${num}">
+          <tr class="our_more"  style='height: 20px' id="our_${num}">
             <td class="label-col"></td>
             <td class="data-col"><%=blank_select_tag "our_participation_person_${num}", available_people,nil,{:class=>"our_people",:id=>"our_people_${num}"}%></td>
             <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles,{:class=>"our_role" }%></td>
@@ -51,7 +59,7 @@
           </tbody>
 
           <tr id="client" style='height: 20px'>
-            <td class="label-col"><%= t("label_irm_sales_opportunity_communicate_client") %></td>
+            <td class="label-col"><%= t("label_som_sales_opportunity_communicate_client") %></td>
             <td class="data-col"><%=text_field_tag "client_participation_person"%></td>
             <td class="data-col"><%=text_field_tag "client_participation_role"%></td>
             <td class="data-col"><i class="icon-plus" id="add_client"></i></td>
@@ -68,7 +76,7 @@
 
           <tr>
             <td class="label-col">
-              <label for="business_object_name"><%= t(:label_irm_sales_opportunity_communicate_content) %></label></td>
+              <label for="business_object_name"><%= t(:label_som_sales_opportunity_communicate_content) %></label></td>
             <td class="data-col" colspan="3"><%= f.text_area :content, :rows => 3, :width => "auto" %></td>
           </tr>
           </tbody>
@@ -80,8 +88,9 @@
 
     <div class="modal-footer">
       <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss" => "modal", "aria-hidden" => "true" %>
-      <%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "btn btn-primary submit_button"} %>
+      <%= link_submit t(:save), :class => "btn btn-primary submit_button" %>
     </div>
+  </div>
 <% end %>
 
 <script type="text/javascript">
@@ -141,8 +150,6 @@
             $.cookie("client_persons",client_persons );
             $.cookie("client_roles", client_roles);
 
-            $("#new_som_communicate_info").attr('action', '<%= url_for(:action => "create")%>');
-            $("#new_som_communicate_info").submit();
         });
     });
 </script>

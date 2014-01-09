@@ -4,19 +4,19 @@
         <table class="form-table">
           <tbody>
           <tr>
-            <td class="label-col"><label for="business_object_charge_person"><%=t(:label_irm_sales_opportunity_charge_person)%></label></td>
+            <td class="label-col"><label for="business_object_charge_person"><%=t(:label_som_sales_opportunity_charge_person)%></label></td>
             <td class="data-col"><%= f.blank_select(:charge_person,available_people,{},:id=>"charge_person",:required=>true) %></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
 
           <tr>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_name)%></label></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_name)%></label></td>
             <td class="data-3col" colspan="3"><%=f.text_field :name,:size=>80, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_title"%></td>
           </tr>
 
           <tr>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_content)%></label></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_content)%></label></td>
             <td class="data-3col" colspan="3">
               <%=f.text_area :content,:rows=>8,:cols=>100, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_summary"%>
             </td>
@@ -29,45 +29,46 @@
               <%= f.blank_select(:potential_customer,available_customers,{:required=>true},{:id=>"potential_customer"})%>
               <div class="data-field" style="display: inline-block;padding: 4px;"><%= link_to(("<i class='icon-pencil'></i>"+t(:new)).html_safe,{:controller=>"som/potential_customers",:action=>"new_modal"},{:class => "action-link",:rel => "modal"}) %></div>
             </td>
+
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_region)%></label></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_region)%></label></td>
             <td class="data-col"><%= f.select(:region,available_lookup_type('SOM_REGION_INFO'),{},:required=>true) %></td>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_address)%></label></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_address)%></label></td>
             <td class="data-col"><%=f.text_field :address%></td>
 
           </tr>
           <tr>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_status)%></label></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_status)%></label></td>
             <td class="data-col"><%= f.select(:sales_status,available_lookup_type('SOM_PRODUCTION_STATUS'),{},:required=>true) %></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr >
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_involved_production_info)%></label></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_involved_production_info)%></label></td>
             <td align="left" colspan="3"><%=involved_productions(@sales_opportunity.involved_production_info)%></td>
           </tr>
           <tr>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_person)%></label></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_person)%></label></td>
             <td class="data-col" colspan="3"><%= f.blank_select(:sales_person,available_people,{},:required=>true) %></td>
 
           </tr>
           <tr>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_possibility)%></label></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_possibility)%></label></td>
             <td class="data-col"><%= f.select(:possibility,available_percent) %></td>
-            <td class="label-col empty"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_previous_flag)%></label></td>
+            <td class="label-col empty"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_previous_flag)%></label></td>
             <td class="data-col empty"><%=f.check_box :previous_flag, :required=>true%></td>
           </tr>
           <tr>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_start_at)%></label></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_start_at)%></label></td>
             <td class="data-col"> <%= f.date_field(:start_at,:id=>"sales_start_at",:class=>"date sales_date",:size=>12,:required=>true)%></td>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_end_at)%></label></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_end_at)%></label></td>
             <td class="data-col"> <%= f.date_field(:end_at,:id=>"sales_end_at",:pre=>"sales_start_at",:class=>"date sales_date",:size=>12,:required=>true)%></td>
           </tr>
           <tr>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_irm_sales_opportunity_sales_price)%></label></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_price)%></label></td>
             <td class="data-col" colspan="3">
               <label id="price_year" style="display: none;"><%=@sales_opportunity.price_year%></label>
               <%=f.text_field :price,:id=>"price",:irm_number_only=>true%>
@@ -90,7 +91,7 @@
       <table class="page-block-header">
         <tr>
           <td class="page-block-title">
-            <h2 class="block-title"><%= t(:label_irm_sales_opportunity_new) %></h2>
+            <h2 class="block-title"><%= t(:label_som_sales_opportunity_new) %></h2>
           </td>
           <td class="page-block-button">
             <%= content_for :form_buttons %>
