@@ -9,6 +9,10 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    .content{
+        width: 500px;
+    }
 </style>
 <div class="modal">
   <div class="modal-header">
@@ -90,6 +94,7 @@
                   <td class="data-col"><i class="icon-plus" id="add_client"></i></td>
                 </tr>
             <% else %>
+
                 <tr id="client" style='height: 20px'>
                   <td class="label-col"><%= t("label_som_sales_opportunity_communicate_client") %></td>
                   <td class="data-col"><%= text_field_tag "client_participation_person" ,@clients.first.name_id%></td>
@@ -122,7 +127,7 @@
               <td class="label-col">
                 <label for="business_object_name"><%= t(:label_som_sales_opportunity_communicate_content) %></label>
               </td>
-              <td class="data-col" colspan="3"><%= f.text_area :content, :rows => 3, :width => "auto" %></td>
+              <td class="data-col" colspan="3"><%= f.text_area :content, :rows => 8, :class=>"content" %></td>
             </tr>
             </tbody>
             </table>

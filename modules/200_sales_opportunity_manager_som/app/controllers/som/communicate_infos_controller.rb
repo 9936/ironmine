@@ -41,7 +41,7 @@ class Som::CommunicateInfosController < ApplicationController
   def edit
     @communicate_info = Som::CommunicateInfo.find(params[:id])
     @ours=Som::ParticipationInfo.where(:communicate_id => params[:id], :client_flag => 'N')
-    @client=Som::ParticipationInfo.where(:communicate_id => params[:id], :client_flag => 'Y')
+    @clients=Som::ParticipationInfo.where(:communicate_id => params[:id], :client_flag => 'Y')
   end
 
   # POST /som/communicate_infos
