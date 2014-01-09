@@ -87,37 +87,23 @@ class Som::SalesOpportunitiesController < ApplicationController
     if cookies[:sales_status].present?
       params[:sales_status] = cookies[:sales_status]
     end
-
+    sales_role=""
     sales_opportunities_scope = Som::SalesOpportunity.list_all
     sales_opportunities_scope = sales_opportunities_scope.match_value("#{Som::SalesOpportunity.table_name}.name", params[:name])
 
     unless params[:sales_role].nil?
-    #对人员进行过滤
-    params[:sales_role]||=[]
-    unless params[:sales_role].include?("all")
-      if params[:sales_role].include?("charge")
-          sales_opportunities_scope = sales_opportunities_scope.as_charge_person
-      elsif params[:sales_role].include?("participation")
-          sales_opportunities_scope = sales_opportunities_scope.as_part_person
-      else
-        sales_opportunities_scope = sales_opportunities_scope.as_other_person
+      #对人员进行过滤
+      params[:sales_role]||=[]
+      unless params[:sales_role].include?("all")
+        role_filters=params[:sales_role].split(",")
+        sales_opportunities_scope = sales_opportunities_scope.as_person_role(role_filters)
       end
-    end
 
-    #对状态进行过滤
-    if params[:sales_status] && !params[:sales_status].include?("all")
-      if params[:sales_status].include?("quote") #报价
-        sales_opportunities_scope = sales_opportunities_scope.as_quote_status
-      elsif params[:sales_status].include?("project") #方案
-        sales_opportunities_scope = sales_opportunities_scope.as_project_status
-      elsif params[:sales_status].include?("bid") #投标
-        sales_opportunities_scope = sales_opportunities_scope.as_bid_status
-      elsif params[:sales_status].include?("business") #商务
-        sales_opportunities_scope = sales_opportunities_scope.as_business_status
-      elsif params[:sales_status].include?("cancel") #取消
-        sales_opportunities_scope = sales_opportunities_scope.as_cancel_status
+      #对状态进行过滤
+      if params[:sales_status] && !params[:sales_status].include?("all")
+        status_filters=params[:sales_status]
+        sales_opportunities_scope = sales_opportunities_scope.as_status(status_filters)
       end
-    end
     end
     sales_opportunities, count = paginate(sales_opportunities_scope)
     respond_to do |format|
