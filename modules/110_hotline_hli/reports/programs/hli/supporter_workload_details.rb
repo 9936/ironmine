@@ -57,7 +57,7 @@ class Hli::SupporterWorkloadDetails < Irm::ReportManager::ReportBase
       data[5] = s[:submitted_date].strftime('%F %T')
       data[6] = s[:last_response_date].strftime('%F %T')
       data[7] = s[:title]
-      data[8] = s[:summary]
+      data[8] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
       data[9] = s[:incident_status_name]
       datas << data
     end
