@@ -104,15 +104,11 @@ class Som::SalesOpportunity < ActiveRecord::Base
          select(" region.meaning region_meaning")
    }
 
-<<<<<<< HEAD
-  def self.list_all
-    select_all.with_charger.with_customer.with_sales
-  end
-=======
+
    def self.list_all
      select_all.with_charger.with_customer.with_sales.with_status(I18n.locale).with_region(I18n.locale)
    end
->>>>>>> bbc7d9cc87969271216030bd7756759a5145984e
+
 
   def validate_before_save
     self.price_year = self.start_at.year
