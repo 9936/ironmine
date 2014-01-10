@@ -48,7 +48,7 @@
                 <tr id="our" style='height: 20px'>
                   <td class="label-col"><%= t("label_som_sales_opportunity_communicate_our") %></td>
                   <td class="data-col"><%= blank_select_tag "our_participation_person", available_people,nil, {:class => "our_people init"} %></td>
-                  <td class="data-col"><%= blank_select_tag "our_participation_role", available_roles, nil,{:class => "our_role"} %></td>
+                  <td class="data-col"><%= select_tag("our_participation_role", options_for_select(available_roles), {:class => "our_role"})%></td>
                   <td class="data-col"><i class="icon-plus" id="add_our"></i></td>
                 </tr>
             <% else %>
