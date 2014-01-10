@@ -89,6 +89,7 @@
   </div>
 </div>
 
+<% if @sales_opportunity.communicate_infos.present?%>
 <div class="show-block">
   <table class="page-block-header"><tr>
     <td class="page-block-title">
@@ -103,6 +104,7 @@
     </table>
   </div>
 </div>
+<% end %>
 
 <% if "CANCEL".eql?(@sales_opportunity.sales_status) %>
 <div class="show-block">
