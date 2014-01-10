@@ -2,7 +2,7 @@ class Som::SalesOpportunity < ActiveRecord::Base
   set_table_name 'som_sales_opportunities'
   validates_presence_of :charge_person, :name, :potential_customer, :sales_status, :sales_person, :start_at, :end_at, :price
   validates_numericality_of :price
-  attr_accessor :communicate_count, :last_communicate,:sales_role,:sales_status
+  attr_accessor :communicate_count, :last_communicate
   has_many :communicate_infos
   #加入activerecord的通用方法和scope
   query_extend
