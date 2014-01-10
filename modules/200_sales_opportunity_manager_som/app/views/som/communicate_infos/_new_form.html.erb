@@ -3,7 +3,7 @@
         height: 40px;
     }
 
-    .modal {
+    .dialog {
         width: 60%;
         left: 20%;
         margin-left:auto;
@@ -14,7 +14,7 @@
         width: 500px;
     }
 </style>
-<div class="modal">
+<div class="modal dialog">
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
   <h3><%= t(:label_som_sales_opportunity_communicate_info) %></h3>
@@ -102,6 +102,7 @@
 
 <script type="text/javascript">
     $(function () {
+//        $("#linkModal").removeClass();
         $("#our_participation_person").chosen({search_contains: true,disable_search_threshold: searchMiniNum});
         var out_count=0;
         $("#add_our").click(function () {
