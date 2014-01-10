@@ -51,7 +51,7 @@
           <tr id="our" style='height: 20px'>
             <td class="label-col"><%= t("label_som_sales_opportunity_communicate_our") %></td>
             <td class="data-col"><%=blank_select_tag "our_participation_person", available_people ,{:class=>"our_people"}%></td>
-            <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles,{:class=>"our_role"}%></td>
+            <td class="data-col"><%= select_tag("our_participation_role", options_for_select(available_roles), {:class => "our_role"})%></td>
             <td class="data-col"><i class="icon-plus" id="add_our"></i></td>
           </tr>
 
@@ -60,7 +60,7 @@
           <tr class="our_more"  style='height: 20px' id="our_${num}">
             <td class="label-col"></td>
             <td class="data-col"><%=blank_select_tag "our_participation_person_${num}", available_people,nil,{:class=>"our_people",:id=>"our_people_${num}"}%></td>
-            <td class="data-col"><%=blank_select_tag "our_participation_role", available_roles,{:class=>"our_role" }%></td>
+            <td class="data-col"><%= select_tag("our_participation_role", options_for_select(available_roles), {:class => "our_role"})%></td>
             <td class="data-col"><div class="delete"><i class="icon-trash delete_our" id="icon_${num}"></i></div></td>
           </tr>
           </tbody>
@@ -102,7 +102,6 @@
 
 <script type="text/javascript">
     $(function () {
-//        $("#linkModal").removeClass();
         $("#our_participation_person").chosen({search_contains: true,disable_search_threshold: searchMiniNum});
         var out_count=0;
         $("#add_our").click(function () {
