@@ -55,7 +55,7 @@
                 <tr id="our" style='height: 20px'>
                   <td class="label-col"><%= t("label_som_sales_opportunity_communicate_our") %></td>
                   <td class="data-col"><%= blank_select_tag "our_participation_person", available_people, @ours.first.name, {:class => "our_people init"} %></td>
-                  <td class="data-col"><%= blank_select_tag "our_participation_role", available_roles, @ours.first.role, {:class => "our_role"} %></td>
+                  <td class="data-col"><%= select_tag("our_participation_role", options_for_select(available_roles,@ours.first.role), {:class => "our_role"})%></td>
                   <td class="data-col"><i class="icon-plus" id="add_our"></i></td>
                 </tr>
                 <% if @ours.size>1%>
@@ -63,7 +63,7 @@
                         <tr class="edit_our" style='height: 20px'>
                           <td class="label-col"><%= t("label_som_sales_opportunity_communicate_our") %></td>
                           <td class="data-col"><%= blank_select_tag "our_participation_person", available_people, @ours[index].name, {:class => "our_people init", :id => "our_people_#{index}"} %></td>
-                          <td class="data-col"><%= blank_select_tag "our_participation_role", available_roles, @ours[index].role, {:class => "our_role"} %></td>
+                          <td class="data-col"><%= select_tag("our_participation_role", options_for_select(available_roles,@ours[index].role), {:class => "our_role"})%></td>
                           <td class="data-col"> <i class="icon-trash delete_our init_delete_our" ></i></td>
                         </tr>
                     <% end %>
@@ -74,7 +74,7 @@
             <tr class="our_more" style='height: 20px' id="our_${num}">
               <td class="label-col"></td>
               <td class="data-col"><%= blank_select_tag "our_participation_person", available_people, nil, {:class => "our_people", :id => "our_people_${num}"} %></td>
-              <td class="data-col"><%= blank_select_tag "our_participation_role", available_roles, {:class => "our_role"} %></td>
+              <td class="data-col"><%= select_tag("our_participation_role", options_for_select(available_roles), {:class => "our_role"})%></td>
               <td class="data-col">
                 <div class="delete"><i class="icon-trash delete_our" id="icon_our_${num}"></i></div>
               </td>
