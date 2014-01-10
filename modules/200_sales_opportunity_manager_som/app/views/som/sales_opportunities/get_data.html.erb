@@ -12,7 +12,7 @@
     <% builder.column(:potential_customer, {:title => t(:label_som_sales_opportunity_customer)}) do |data|%>
         <%= data[:potential_customer_name] %>
     <% end %>
-    <% builder.column(:price, {:title => t(:label_som_sales_opportunity_sales_price)}) do |data|%>
+    <% builder.column(:price, {:title => t(:label_som_sales_opportunity_sales_price),:sortable=>true}) do |data|%>
         <%if data[:second_price].present?  %>
             <%= data[:price].to_i+data[:second_price].to_i%>(
         <% end %>
@@ -21,13 +21,13 @@
             +<%= data[:second_price]%>)
         <% end %>
     <% end %>
-    <% builder.column(:start_at, {:title => t(:label_som_sales_opportunity_sales_start_at)}) do |data|%>
+    <% builder.column(:start_at, {:title => t(:label_som_sales_opportunity_sales_start_at),:sortable=>true}) do |data|%>
         <%= data[:start_at].strftime('%Y-%m-%d') unless data[:start_at].nil?%>
     <% end %>
-    <% builder.column(:end_at, {:title => t(:label_som_sales_opportunity_sales_end_at)}) do |data|%>
+    <% builder.column(:end_at, {:title => t(:label_som_sales_opportunity_sales_end_at),:sortable=>true}) do |data|%>
         <%= data[:end_at].strftime('%Y-%m-%d') unless data[:end_at].nil?%>
     <% end %>
-    <% builder.column(:sales_status, {:title => t(:label_som_sales_opportunity_sales_status)}) do |data|%>
+    <% builder.column(:sales_status, {:title => t(:label_som_sales_opportunity_sales_status),:sortable=>true}) do |data|%>
         <% if data[:sales_status].eql?("QUOTE") %>
             <span class="label label-warning"><%= t("label_som_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
         <% elsif data[:sales_status].eql?("PROJECT") %>

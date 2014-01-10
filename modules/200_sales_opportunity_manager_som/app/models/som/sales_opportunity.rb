@@ -111,7 +111,7 @@ class Som::SalesOpportunity < ActiveRecord::Base
       self.second_price_year = self.end_at.year
     elsif self.end_at.year - self.start_at.year < 1
       self.second_price_year = nil
-      self.second_price = nil
+      self.second_price = 0
     end
   end
 

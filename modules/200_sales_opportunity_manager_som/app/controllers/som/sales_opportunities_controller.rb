@@ -107,6 +107,20 @@ class Som::SalesOpportunitiesController < ApplicationController
         sales_opportunities_scope = sales_opportunities_scope.as_status(status_filters)
       end
     end
+
+    if params[:order_name]&&params[:order_value]
+      case params[:order_name]
+        when "start_at"
+          sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.start_at #{params[:order_value]}")
+        when "end_at"
+          sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.end_at #{params[:order_value]}")
+        when "sales_status"
+          sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.sales_status #{params[:order_value]}")
+        when "price"
+          sales_opportunities_scope = sales_opportunities_scope.order("(#{Som::SalesOpportunity.table_name}.price+#{Som::SalesOpportunity.table_name}.second_price) #{params[:order_value]}")
+      end
+
+    end
     sales_opportunities, count = paginate(sales_opportunities_scope)
     respond_to do |format|
       format.html {
