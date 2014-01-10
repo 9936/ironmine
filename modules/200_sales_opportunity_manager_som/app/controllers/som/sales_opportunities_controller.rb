@@ -82,10 +82,12 @@ class Som::SalesOpportunitiesController < ApplicationController
   def get_data
     if cookies[:sales_role].present?
       params[:sales_role] = cookies[:sales_role]
+      cookies[:sales_role]=nil
     end
 
     if cookies[:sales_status].present?
       params[:sales_status] = cookies[:sales_status]
+      cookies[:sales_status]=nil
     end
     sales_role=""
     sales_opportunities_scope = Som::SalesOpportunity.list_all
@@ -96,7 +98,7 @@ class Som::SalesOpportunitiesController < ApplicationController
       params[:sales_role]||=[]
       unless params[:sales_role].include?("all")
         role_filters=params[:sales_role].split(",")
-        sales_opportunities_scope = sales_opportunities_scope.as_person_role(role_filters)
+        sales_opportunities_scope = sales_opportunities_scope.as_person_role(role_filters,Irm::Person.current.id)
       end
 
       #对状态进行过滤

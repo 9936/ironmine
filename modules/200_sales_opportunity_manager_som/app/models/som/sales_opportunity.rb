@@ -2,7 +2,7 @@ class Som::SalesOpportunity < ActiveRecord::Base
   set_table_name 'som_sales_opportunities'
   validates_presence_of :charge_person, :name, :potential_customer, :sales_status, :sales_person, :start_at, :end_at, :price
   validates_numericality_of :price
-  attr_accessor :communicate_count, :last_communicate
+  attr_accessor :communicate_count, :last_communicate,:sales_role,:sales_status
   has_many :communicate_infos
   #加入activerecord的通用方法和scope
   query_extend
@@ -27,28 +27,20 @@ class Som::SalesOpportunity < ActiveRecord::Base
   #}
 
 
-  scope :as_person_role, lambda { |role_filters|
-    where("#{Som::SalesOpportunity.filter_condition(role_filters)}")
+  scope :as_person_role, lambda { |role_filters,current_person_id|
+    where("#{Som::SalesOpportunity.filter_condition(role_filters,current_person_id)}")
   }
 
-  def self.filter_condition(role_filters)
+  def self.filter_condition(role_filters,current_person_id)
     where_or=[]
     role_filters.each do |role_filter|
       case role_filter
         when "charge"
-          where_or << "#{table_name}.charge_person='#{Irm::Person.current.id}'"
+          where_or << "#{table_name}.charge_person='#{current_person_id}'"
         when "participation"
-          if query_parted_sales.blank?
-            where_or << "#{table_name}.id in ('')"
-          else
-            where_or << "#{table_name}.id in (#{query_parted_sales})"
-          end
+            where_or << "#{table_name}.id in (select sales.id from #{Som::ParticipationInfo.table_name} participation LEFT OUTER JOIN #{Som::CommunicateInfo.table_name} communicate ON communicate.id = participation.communicate_id LEFT OUTER JOIN #{table_name} sales ON sales.id = communicate.sales_opportunity_id where participation.name='#{current_person_id}')"
         else
-          if query_parted_sales.blank?
-            where_or << "#{table_name}.charge_person!='#{Irm::Person.current.id}' and #{table_name}.id not in ('')"
-          else
-            where_or << "#{table_name}.charge_person!='#{Irm::Person.current.id}' and #{table_name}.id not in (#{query_parted_sales})"
-          end
+            where_or << "#{table_name}.charge_person!='#{current_person_id}' and #{table_name}.id not in (select sales.id from #{Som::ParticipationInfo.table_name} participation LEFT OUTER JOIN #{Som::CommunicateInfo.table_name} communicate ON communicate.id = participation.communicate_id LEFT OUTER JOIN #{table_name} sales ON sales.id = communicate.sales_opportunity_id where participation.name='#{current_person_id}')"
       end
     end
     where=""
@@ -63,14 +55,14 @@ class Som::SalesOpportunity < ActiveRecord::Base
   end
 
   #参与过的预销售
-  def self.query_parted_sales
-    communicate_ids=Som::ParticipationInfo.where(:name => Irm::Person.current.id).collect(&:communicate_id)
-    sales_opportunity_ids=[]
-    communicate_ids.each do |id|
-      sales_opportunity_ids<<Som::CommunicateInfo.find(id).sales_opportunity_id
-    end
-    sales_opportunity_ids
-  end
+  #def self.query_parted_sales
+  #  communicate_ids=Som::ParticipationInfo.where(:name => Irm::Person.current.id).collect(&:communicate_id)
+  #  sales_opportunity_ids=[]
+  #  communicate_ids.each do |id|
+  #    sales_opportunity_ids<<Som::CommunicateInfo.find(id).sales_opportunity_id
+  #  end
+  #  sales_opportunity_ids
+  #end
 
 
   scope :as_status, lambda { |status_filters|
