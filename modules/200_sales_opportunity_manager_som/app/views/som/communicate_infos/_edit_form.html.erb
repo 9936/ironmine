@@ -1,9 +1,5 @@
 <style type="text/css">
-    tr {
-        height: 40px;
-    }
-
-    .modal {
+    .dialog {
         width: 60%;
         left: 20%;
         margin-left: auto;
@@ -14,7 +10,7 @@
         width: 500px;
     }
 </style>
-<div class="modal">
+<div class="modal dialog">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3><%= t(:label_som_sales_opportunity_communicate_info) %></h3>
@@ -184,7 +180,6 @@
 
         $(".delete_client").live("click", function () {
             var id = $(this).attr("id").substring(12);
-            alert(id);
             $('#client_' + id).remove();
         });
 
