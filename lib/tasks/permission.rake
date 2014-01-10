@@ -23,7 +23,7 @@ namespace :irm do
     controllers.uniq!
 
     key = ENV["C"]
-
+    route_permissions.compact!
     grouped_routes = route_permissions.group_by{|rp| rp[:controller]}
     grouped_routes.delete_if{|k,value| controllers.include?(k)} unless key
     grouped_routes.each do |controller,permissions|
