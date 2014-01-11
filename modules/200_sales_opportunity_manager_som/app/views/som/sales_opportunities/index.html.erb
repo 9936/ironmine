@@ -225,10 +225,11 @@
 
         <div class="filter-item" id="status">
           <h5><%= t(:label_som_sales_opportunity_sales_status) %>：</h5>
-          <% ["ALL", "QUOTE", "PROJECT", "BID", "BUSINESS", "CANCEL"].each do |item| %>
+          <% sales_opportunities_status_map = sales_opportunities_status %>
+          <% sales_opportunities_status_map.keys.each do |item| %>
               <input type="checkbox" value="<%= item.downcase %>" id="<%= item %>" name="status"
                      <% if item.eql?("ALL") %> data-all="true"
-                     <% end %> data-label-text="<%= t("label_som_sales_opportunity_sales_status_#{item.downcase}") %>"/>
+                     <% end %> data-label-text="<%= sales_opportunities_status_map[item] %>"/>
           <% end %>
         </div>
       </div>

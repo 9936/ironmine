@@ -68,12 +68,22 @@
             <td class="data-col"> <%= f.date_field(:end_at,:id=>"sales_end_at",:pre=>"sales_start_at",:class=>"date sales_date",:size=>12,:required=>true)%></td>
           </tr>
           <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_total_price)%></label></td>
+            <td class="data-col">
+              <%=f.text_field :total_price,:id=>"total_price",:irm_number_only=>true%>
+            </td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+
+          <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_price)%></label></td>
-            <td class="data-col" colspan="3">
-              <label id="price_year" style="display: none;"><%=@sales_opportunity.price_year%></label>
+            <td class="data-col">
               <%=f.text_field :price,:id=>"price",:irm_number_only=>true%>
-              <label id="second_price_year" style="display: none;"><%=@sales_opportunity.second_price_year%></label>
-              <%=f.text_field :second_price,:style=>"display:none;",:id=>"second_price",:irm_number_only=>true%>
+            </td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_second_price)%></label></td>
+            <td class="data-col">
+              <%=f.text_field :second_price,:id=>"second_price",:disabled=>""%>
             </td>
           </tr>
           </tbody>
@@ -133,52 +143,23 @@
         }).get();
         $("input[name='som_sales_opportunity[involved_production_info]']").val(involved_productions.toString());
     });
-    // 检查时间差,从而决定是否显示两个金额
-    function checkPrice(){
 
-        if($("#sales_start_at").data("datepicker")&&$("#sales_end_at").data("datepicker")){
-
-          var startDate = $("#sales_start_at").data("datepicker").date ;
-          var endDate = $("#sales_end_at").data("datepicker").date ;
-          if(endDate.getYear()-startDate.getYear()<2)
-          {
-              if(endDate.getYear()-startDate.getYear()>0){
-                  $("#price_year").html(startDate.getFullYear()+":");
-                  $("#price_year").css("display","");
-                  $("#second_price").css("display","");
-                  $("#second_price_year").html(startDate.getFullYear()+1+":");
-                  $("#second_price_year").css("display","");              }
-              else{
-                  $("#price_year").css("display","none");
-                  $("#second_price").css("display","none");
-                  $("#second_price_year").css("display","none");
-              }
-          }
-          else{
-            $("#sales_end_at").data("datepicker").date =  new Date(startDate.getYear()+1,12,31);
-            $("#sales_end_at").data("datepicker").setValue();
-          }
-        } else{
-            $("#sales_start_at").trigger("focus");
-            $("#sales_end_at").trigger("focus");
-            $("#sales_end_at").trigger("blur");
-
-            $("#charge_person").trigger("focus");
-            checkPrice();
+    $("#price").on('change', function(ev) {
+        if($("#total_price").val().length>0&&$("#price").val().length<1){
+          $("#price").val($("#total_price").val());
+        }
+        else if($("#total_price").val().length<1&&$("#price").val().length>0){
+          $("#price").val(0)
+        }
+        else if($("#total_price").val().length>0&&$("#price").val().length>0&&$("#total_price").val()<$("#price").val()){
+            $("#price").val($("#total_price").val());
         }
 
-    }
-
-   $("#sales_start_at").on('changeDate', function(ev) {
-       checkPrice();
+        if($("#total_price").val().length>0&&$("#price").val().length>0&&$("#total_price").val()>=$("#price").val()){
+            $("#second_price").val($("#total_price").val()-$("#price").val());
+        }
     });
 
-    $("#sales_end_at").on('changeDate', function(ev) {
-        checkPrice();
-    });
-
-
-    checkPrice();
 
     function syncCustomer(){
         $.getJSON("<%=url_for(:controller=>'som/potential_customers',:action=>'get_options')%>",function(datas){

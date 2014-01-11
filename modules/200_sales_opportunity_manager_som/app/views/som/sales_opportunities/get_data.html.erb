@@ -12,15 +12,9 @@
     <% builder.column(:potential_customer, {:title => t(:label_som_sales_opportunity_customer)}) do |data|%>
         <%= data[:potential_customer_name] %>
     <% end %>
-    <% builder.column(:price, {:title => t(:label_som_sales_opportunity_sales_price),:sortable=>true}) do |data|%>
-        <%if data[:second_price].present?  %>
-            <%= data[:price].to_i+data[:second_price].to_i%>(
-        <% end %>
-        <%= data[:price] %>
-        <%if data[:second_price].present?  %>
-            +<%= data[:second_price]%>)
-        <% end %>
-    <% end %>
+    <% builder.column(:price, {:title => t(:label_som_sales_opportunity_sales_price),:sortable=>true})%>
+    <% builder.column(:second_price, {:title => t(:label_som_sales_opportunity_sales_second_price),:sortable=>true})%>
+
     <% builder.column(:start_at, {:title => t(:label_som_sales_opportunity_sales_start_at),:sortable=>true}) do |data|%>
         <%= data[:start_at].strftime('%Y-%m-%d') unless data[:start_at].nil?%>
     <% end %>
@@ -28,17 +22,12 @@
         <%= data[:end_at].strftime('%Y-%m-%d') unless data[:end_at].nil?%>
     <% end %>
     <% builder.column(:sales_status, {:title => t(:label_som_sales_opportunity_sales_status),:sortable=>true}) do |data|%>
-        <% if data[:sales_status].eql?("QUOTE") %>
-            <span class="label label-warning"><%= t("label_som_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
-        <% elsif data[:sales_status].eql?("PROJECT") %>
-            <span class="label label-success"><%= t("label_som_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
-        <% elsif data[:sales_status].eql?("BID") %>
-            <span class="label label-danger"><%= t("label_som_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
-        <% elsif data[:sales_status].eql?("BUSINESS") %>
-            <span class="label label-info"><%= t("label_som_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
-        <% else %>
-            <span class="label label-inverse"><%= t("label_som_sales_opportunity_sales_status_#{data[:sales_status].downcase}") %></span>
+        <% if data[:sales_status].eql?("CANCEL") %>
+            <span class="label label-inverse"><%= data[:sales_status_meaning] %></span>
             <%= link_to(t(:label_som_sales_opportunity_failed_reason_edit),{:action=>"edit_reason",:id=>data[:id]},{:class => "action-link",:rel => "modal"}) %>
+        <% else %>
+            <span class="label label-success"><%= data[:sales_status_meaning] %></span>
+
         <% end %>
     <% end %>
 

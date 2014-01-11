@@ -64,4 +64,11 @@ module Som::SalesOpportunitiesHelper
       t("label_som_sales_opportunity_sales_status_cancel")
     end
   end
+
+  def sales_opportunities_status
+    m = {"ALL"=>t(:label_som_sales_opportunity_sales_status_all)}
+    Irm::LookupValue.query_by_lookup_type("SOM_PRODUCTION_STATUS").order_by_sequence.multilingual.each{|i| m[i.lookup_code]=i[:meaning]}
+    m
+  end
+
 end

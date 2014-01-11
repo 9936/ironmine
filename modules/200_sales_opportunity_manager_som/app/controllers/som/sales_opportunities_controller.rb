@@ -102,7 +102,7 @@ class Som::SalesOpportunitiesController < ApplicationController
       end
 
       #对状态进行过滤
-      if params[:sales_status] && !params[:sales_status].include?("all")
+      if params[:sales_status] && !params[:sales_status].include?("ALL")
         status_filters=params[:sales_status]
         sales_opportunities_scope = sales_opportunities_scope.as_status(status_filters)
       end
@@ -117,7 +117,9 @@ class Som::SalesOpportunitiesController < ApplicationController
         when "sales_status"
           sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.sales_status #{params[:order_value]}")
         when "price"
-          sales_opportunities_scope = sales_opportunities_scope.order("(#{Som::SalesOpportunity.table_name}.price+#{Som::SalesOpportunity.table_name}.second_price) #{params[:order_value]}")
+          sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.price #{params[:order_value]}")
+        when "second_price"
+          sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.second_price  #{params[:order_value]}")
       end
 
     end
