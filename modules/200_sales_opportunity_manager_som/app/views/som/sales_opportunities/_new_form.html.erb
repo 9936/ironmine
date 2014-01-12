@@ -70,7 +70,8 @@
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_total_price)%></label></td>
             <td class="data-col">
-              <%=f.text_field :total_price,:id=>"total_price",:irm_number_only=>true%>
+              <%=f.text_field :total_price,:id=>"total_price",:class=>"input-small",:irm_number_only=>true%>
+              <div class="data-field" style="display: inline-block;padding: 4px;"><%= t(:label_som_sales_opportunity_price_ten_thousand) %></div>
             </td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
@@ -79,11 +80,13 @@
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_price)%></label></td>
             <td class="data-col">
-              <%=f.text_field :price,:id=>"price",:irm_number_only=>true%>
+              <%=f.text_field :price,:id=>"price",:class=>"input-small",:irm_number_only=>true%>
+              <div class="data-field" style="display: inline-block;padding: 4px;"><%= t(:label_som_sales_opportunity_price_ten_thousand) %></div>
             </td>
             <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_second_price)%></label></td>
             <td class="data-col">
-              <%=f.text_field :second_price,:id=>"second_price",:disabled=>""%>
+              <%=f.text_field :second_price,:id=>"second_price",:class=>"input-small",:disabled=>""%>
+              <div class="data-field" style="display: inline-block;padding: 4px;"><%= t(:label_som_sales_opportunity_price_ten_thousand) %></div>
             </td>
           </tr>
           </tbody>
@@ -151,11 +154,11 @@
         else if($("#total_price").val().length<1&&$("#price").val().length>0){
           $("#price").val(0)
         }
-        else if($("#total_price").val().length>0&&$("#price").val().length>0&&$("#total_price").val()<$("#price").val()){
+        else if($("#total_price").val().length>0&&$("#price").val().length>0&&parseInt($("#total_price").val())<parseInt($("#price").val())){
             $("#price").val($("#total_price").val());
         }
 
-        if($("#total_price").val().length>0&&$("#price").val().length>0&&$("#total_price").val()>=$("#price").val()){
+        if($("#total_price").val().length>0&&$("#price").val().length>0&&parseInt($("#total_price").val())>=parseInt($("#price").val())){
             $("#second_price").val($("#total_price").val()-$("#price").val());
         }
     });

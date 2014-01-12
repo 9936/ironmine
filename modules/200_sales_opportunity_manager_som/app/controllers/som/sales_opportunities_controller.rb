@@ -70,10 +70,12 @@ class Som::SalesOpportunitiesController < ApplicationController
   # DELETE /som/sales_opportunities/1.xml
   def destroy
     @sales_opportunity = Som::SalesOpportunity.find(params[:id])
-    @som_sales_opportunity.destroy
+    if(current_person?(@sales_opportunity.created_by)||current_person?(@sales_opportunity.charge_person))
+      @sales_opportunity.destroy
+    end
 
     respond_to do |format|
-      format.html { redirect_to(som_sales_opportunities_url) }
+      format.html { redirect_to(:action=>"index") }
       format.xml { head :ok }
     end
   end

@@ -1,7 +1,10 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
     <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
     <%= link_to(t(:label_som_sales_opportunity_sales_communicate),{:controller=>"som/communicate_infos",:action=>"new",:id=>data[:id]},{:rel => "modal"}) %>
+    <% if current_person?(data[:created_by])|| current_person?(data[:charge_person])%>
+        <%= link_to content_tag(:span,t(:delete),:class=>"label label-important"), {:action => "destroy", :id => data[:id]},:method => :delete,:title=>t(:label_som_sales_opportunity_delete_title),:confirm => t(:label_are_you_sure)%>
+    <% end %>
   <% end %>
     <% builder.column(:name, {:title => t(:name), :searchable => true}) do |data|%>
         <%= link_to(data[:name],{:action=>"show",:id=>data[:id]}) %>&nbsp;
@@ -12,8 +15,8 @@
     <% builder.column(:potential_customer, {:title => t(:label_som_sales_opportunity_customer)}) do |data|%>
         <%= data[:potential_customer_name] %>
     <% end %>
-    <% builder.column(:price, {:title => t(:label_som_sales_opportunity_sales_price),:sortable=>true})%>
-    <% builder.column(:second_price, {:title => t(:label_som_sales_opportunity_sales_second_price),:sortable=>true})%>
+    <% builder.column(:price, {:title => "#{t(:label_som_sales_opportunity_sales_price)}(#{t(:label_som_sales_opportunity_price_ten_thousand)})",:sortable=>true})%>
+    <% builder.column(:second_price, {:title => "#{t(:label_som_sales_opportunity_sales_second_price)}(#{t(:label_som_sales_opportunity_price_ten_thousand)})",:sortable=>true})%>
 
     <% builder.column(:start_at, {:title => t(:label_som_sales_opportunity_sales_start_at),:sortable=>true}) do |data|%>
         <%= data[:start_at].strftime('%Y-%m-%d') unless data[:start_at].nil?%>
