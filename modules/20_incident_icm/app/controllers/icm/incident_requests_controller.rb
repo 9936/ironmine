@@ -286,6 +286,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :estimated_date,
                       :reply_flag]
     bo = Irm::BusinessObject.where(:business_object_code => "ICM_INCIDENT_REQUESTS").first
+    bo.use_index = "ICM_INCIDENT_REQUESTS_N5"
     incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_status_id")
     supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "support_person_id")
     request_by_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"requested_by")
