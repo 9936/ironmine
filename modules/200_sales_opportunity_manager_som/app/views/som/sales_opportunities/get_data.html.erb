@@ -34,7 +34,9 @@
         <% end %>
     <% end %>
 
-    <% builder.column(:possibility, {:title => t(:label_som_sales_opportunity_sales_possibility)})%>
+    <% builder.column(:possibility, {:title => t(:label_som_sales_opportunity_sales_possibility)}) do |data|%>
+        <%=data[:possibility] %>%
+    <% end %>
     <% builder.column(:communicate_count, {:title => t(:label_som_sales_opportunity_communicate_count)}) do |data|%>
         <%=communicate_count(data[:id])%>
     <% end %>
