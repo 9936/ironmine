@@ -18,11 +18,11 @@ development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: irm_dev
+  database: irm_prod_rms
   pool: 5
   username: root
-  password: root
-  host: localhost
+  password: handoracle
+  host: 172.20.0.53
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -41,18 +41,18 @@ production:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: irm_prod
+  database: irm_prod_rms
   pool: 5
   username: root
   password: root
-  host: localhost
+  host: 172.20.0.53
 
 macdev:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: irm_dev
+  database: irm_prod_rms
   pool: 5
   username: root
-  password: root
-  host: localhost
+  password: handoracle
+  host: 172.20.0.53

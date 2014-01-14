@@ -98,7 +98,7 @@ class Som::SalesOpportunitiesController < ApplicationController
           else
             where_str << "(#{Som::SalesOpportunity.table_name}.possibility > ? and #{Som::SalesOpportunity.table_name}.possibility <= ?)"
           end
-          where_params << p.split("_").collect{|i| i.to_i*10}
+          where_params << p.split("_").collect{|i| i.to_f*10}
         }
 
         sales_opportunities_scope = sales_opportunities_scope.where(([where_str]+where_params).flatten)
