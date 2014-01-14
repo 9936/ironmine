@@ -212,30 +212,13 @@
 
     <div class="panel-right">
       <div class="panel-title">
-
-        <div class="filter-item" id="role">
-          <h5><%= t(:label_som_sales_opportunity_sales_people) %>：</h5>
-          <% ["ALL", "CHARGE", "PARTICIPATION","OTHER"].each do |item| %>
-              <input type="checkbox" value="<%= item.downcase %>" id="<%= item %>" name="role"
-                     <% if item.eql?("ALL") %> data-all="true"
-                     <% end %> data-label-text="<%= t("label_som_sales_opportunity_sales_people_#{item.downcase}") %>"/>
-          <% end %>
-
-        </div>
-
-        <div class="filter-item" id="status">
-          <h5><%= t(:label_som_sales_opportunity_sales_status) %>：</h5>
-          <% sales_opportunities_status_map = sales_opportunities_status %>
-          <% sales_opportunities_status_map.keys.each do |item| %>
-              <input type="checkbox" value="<%= item.downcase %>" id="<%= item %>" name="status"
-                     <% if item.eql?("ALL") %> data-all="true"
-                     <% end %> data-label-text="<%= sales_opportunities_status_map[item] %>"/>
-          <% end %>
-        </div>
+        <%= custom_filter_items("year",t(:label_som_sales_opportunity_price_year),sales_opportunities_year_check) %>
+        <%= custom_filter_items("possibility",t(:label_som_sales_opportunity_sales_possibility),sales_opportunities_possibility_check) %>
+        <%= custom_filter_items("status",t(:label_som_sales_opportunity_sales_status),sales_opportunities_status) %>
       </div>
 
       <div class="panel-content">
-        <%= datatable("get_sales_opportunities", {:action => "get_data", :format => "json"}, [], {:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
+        <%= datatable("get_sales_opportunities", {:action => "get_data", :format => "json"}, [], {:lazy_load=>true,:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
       </div>
     </div>
   </div>
@@ -243,112 +226,71 @@
 
 
 <script type="text/javascript">
+
+
+
     $(function () {
         var current_target = $("#get_sales_opportunities").data("datatable").target;
-
-        $(".filter-item input").each(function () {
-            var $this = $(this), parent = $this.parent(),
-                    container = $("<div/>"),
-                    labelText = $this.data("label-text"),
-                    label = $("<label class='btn'/>");
-
-            if ($this.data("all")) {
-                label.attr("id", $this.val() + "_label");
-                label.attr("data-all", true);
-            } else {
-                label.attr("id", $this.val() + "_label")
-            }
-
-            label.text(labelText);
-            if ($this.is(":checked")) {
-                label.addClass("btn-danger");
-            }
-
-            container.addClass("custom-checkbox");
-            $("input", parent).attr("checked", true);
-            $("label", parent).addClass("btn-danger");
-            $this.bind("click", function (e) {
-                if ($(this).is(":checked")) {
-                    //检查当前是否控制其他checkbox选择的
-                    if ($(this).data("all")) {
-                        $("input", parent).removeAttr("checked");
-                        $("label", parent).removeClass("btn-danger");
-                        label.removeClass("btn-danger");
-                        //不允许全为空
-                        $("#CHARGE").attr("checked", true);
-                        $("#charge_label").addClass("btn-danger");
-                        $("#QUOTE").attr("checked", true);
-                        $("#quote_label").addClass("btn-danger");
-                    } else {
-                        $("input[data-all]", parent).removeAttr("checked");
-                        $("label[data-all]", parent).removeClass("btn-danger");
-                        $this.removeAttr("checked");
-                        label.removeClass("btn-danger");
-                        //不允许全为空
-                        if ($("input[name='role']:checked").length == 0) {
-                            $this.attr("checked", true);
-                            label.addClass("btn-danger");
-                        }
-                        if ($("input[name='status']:checked").length == 0) {
-                            $this.attr("checked", true);
-                            label.addClass("btn-danger");
-                        }
-                    }
-                } else {
-                    if ($(this).data("all")) {
-                        $("input", parent).attr("checked", true);
-                        $("label", parent).addClass("btn-danger");
-                    } else {
-                        $this.attr("checked", true);
-                        if ($("input", parent).length == $("input[checked]", parent).length + 1) {
-                            $("input[data-all]", parent).attr("checked", true);
-                            $("label[data-all]", parent).addClass("btn-danger");
-                        }
-                    }
-                    label.addClass("btn-danger");
-                }
-                reloadInstance(current_target);
-                return false;
-            });
-
-            label.bind("click", function (e) {
-                $this.trigger("click");
-            });
-
-            container.append($this).append(label);
-            parent.append(container);
-        });
-
-
         function reloadInstance(current_target) {
-            var role = [], status = [];
-
-            //设置cookie过期时间为5分钟
-            var cookie_date = new Date(), minutes = 5;
-            cookie_date.setTime(cookie_date.getTime() + (minutes * 60 * 1000));
-
-            $("#role input:checked").each(function () {
-                role.push($(this).val());
+            var possibility = [], status = [],year=[];
+            $("#possibility label.btn-danger").each(function () {
+                possibility.push($(this).attr("value"));
             });
 
-            $("#status input:checked").each(function () {
-                status.push($(this).val());
+            $("#status label.btn-danger").each(function () {
+                status.push($(this).attr("value"));
             });
 
-            $.cookie("sales_role", "");
-            $.cookie("sales_status", "");
-            $.cookie("sales_role", role);
-            $.cookie("sales_status", status);
-            var params = {'role[]': role, 'status[]': status};
+            $("#year label.btn-danger").each(function () {
+                year.push($(this).attr("value"));
+            });
+
+            var params = {'possibility[]': possibility, 'status[]': status,'year[]':year};
             current_target.data.options.searchOptions = params;
             current_target.loadPage(1);
         }
+        function initCheckGroup(dom_id,values){
+            $me = $("#"+dom_id);
+            if(values.length===0)
+               values = ["all"];
+            if(values.indexOf("all")>-1)
+                $("#"+dom_id+" label.btn").addClass("btn-danger")
+            else{
+                $.each(values,function(index,value){
+                     $("#"+dom_id+" label.btn:[value="+value+"]").addClass("btn-danger")
+                })
+            }
+            $("#"+dom_id+" label.btn").live("click",function(e){
+                if($(this).attr("data-all")){
+                    if($(this).hasClass("btn-danger")){
+                        $("#"+dom_id+" label.btn").removeClass("btn-danger");
+                        $("#"+dom_id+" label.btn:eq(1)").addClass("btn-danger");
+                    }
+                else
+                    $("#"+dom_id+" label.btn").addClass("btn-danger");
+                }else{
+                    if($(this).hasClass("btn-danger")&&$("#"+dom_id+" label.btn-danger:not([data-all])").length==1)
+                        return;
+                    if($(this).hasClass("btn-danger"))
+                        $(this).removeClass("btn-danger");
+                    else
+                        $(this).addClass("btn-danger");
+                }
 
+                if($("#"+dom_id+" label.btn-danger:not([data-all])").length==$("#"+dom_id+" label.btn:not([data-all])").length){
+                    $("#"+dom_id+" label.btn:[data-all]").addClass("btn-danger");
+                }
+                else{
+                    $("#"+dom_id+" label.btn-danger:[data-all]").removeClass("btn-danger");
+                }
+                reloadInstance(current_target);
+            });
+        }
+
+        initCheckGroup("year",<%=session[:year].to_json.html_safe%>||["all"]);
+        initCheckGroup("possibility",<%=session[:possibility].to_json.html_safe%>||["all"]);
+        initCheckGroup("status",<%=session[:status].to_json.html_safe%>||["all"]);
+        reloadInstance(current_target);
     });
 
-    function updatePage(){  }
-    function updateData(){
-        var current_target = $("#get_sales_opportunities").data("datatable").target;
-        current_target.loadPage(1);
-    }
 </script>

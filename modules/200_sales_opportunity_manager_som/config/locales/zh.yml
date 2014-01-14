@@ -41,6 +41,12 @@ zh:
   label_som_sales_opportunity_failed_reason_edit: 失败总结
   label_som_sales_opportunity_delete_title: 只有创建者或者负责人才能使用此功能
   label_som_sales_opportunity_price_ten_thousand: 万元
+  label_som_sales_opportunity_internal_member: 本部门参与人员
+  label_som_sales_opportunity_internal_member_help: 填写多个人员时请以空格分隔
+  label_som_sales_opportunity_external_member: 其他部门参与人员
+  label_som_sales_opportunity_external_member_help: 填写多个人员时请以空格分隔
+  label_som_sales_opportunity_price_year: 年份
+  label_som_sales_opportunity_sales_open_at: 预计开工日期
 
 
   label_som_potential_customer: 客户

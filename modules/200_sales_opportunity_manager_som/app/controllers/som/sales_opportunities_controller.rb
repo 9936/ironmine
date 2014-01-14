@@ -82,33 +82,39 @@ class Som::SalesOpportunitiesController < ApplicationController
 
 
   def get_data
-    if cookies[:sales_role].present?
-      params[:sales_role] = cookies[:sales_role]
-      cookies[:sales_role]=nil
-    end
-
-    if cookies[:sales_status].present?
-      params[:sales_status] = cookies[:sales_status]
-      cookies[:sales_status]=nil
-    end
-    sales_role=""
+    session[:possibility]=params[:possibility]
+    session[:year]=params[:year]
+    session[:status]=params[:status]
     sales_opportunities_scope = Som::SalesOpportunity.list_all
     sales_opportunities_scope = sales_opportunities_scope.match_value("#{Som::SalesOpportunity.table_name}.name", params[:name])
 
-    unless params[:sales_role].nil?
-      #对人员进行过滤
-      params[:sales_role]||=[]
-      unless params[:sales_role].include?("all")
-        role_filters=params[:sales_role].split(",")
-        sales_opportunities_scope = sales_opportunities_scope.as_person_role(role_filters,Irm::Person.current.id)
+      #对可能性进行过渡
+      if params[:possibility].present?&&!params[:possibility].include?("all")
+        where_str = ""
+        where_params = []
+        params[:possibility].each{|p|
+          if where_str.present?
+            where_str << "OR (#{Som::SalesOpportunity.table_name}.possibility > ? and #{Som::SalesOpportunity.table_name}.possibility <= ?)"
+          else
+            where_str << "(#{Som::SalesOpportunity.table_name}.possibility > ? and #{Som::SalesOpportunity.table_name}.possibility <= ?)"
+          end
+          where_params << p.split("_").collect{|i| i.to_i*10}
+        }
+
+        sales_opportunities_scope = sales_opportunities_scope.where(([where_str]+where_params).flatten)
+
       end
 
-      #对状态进行过滤
-      if params[:sales_status] && !params[:sales_status].include?("ALL")
-        status_filters=params[:sales_status]
+      #对年份进行过渡
+      if params[:year].present?&&!params[:year].include?("all")
+        sales_opportunities_scope = sales_opportunities_scope.where("year(#{Som::SalesOpportunity.table_name}.start_at) in (?)",params[:year])
+      end
+
+      #对状态
+      if params[:status].present?&&!params[:status].include?("all")
+        status_filters=params[:status]
         sales_opportunities_scope = sales_opportunities_scope.as_status(status_filters)
       end
-    end
 
     if params[:order_name]&&params[:order_value]
       case params[:order_name]
@@ -120,6 +126,8 @@ class Som::SalesOpportunitiesController < ApplicationController
           sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.sales_status #{params[:order_value]}")
         when "price"
           sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.price #{params[:order_value]}")
+        when "second_price"
+          sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.second_price  #{params[:order_value]}")
         when "second_price"
           sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.second_price  #{params[:order_value]}")
       end

@@ -66,7 +66,7 @@ class Som::SalesOpportunity < ActiveRecord::Base
 
 
   scope :as_status, lambda { |status_filters|
-    where("#{table_name}.sales_status IN (?)" ,status_filters.split(",") )
+    where("#{table_name}.sales_status IN (?)" ,status_filters )
   }
 
   scope :with_charger, lambda {

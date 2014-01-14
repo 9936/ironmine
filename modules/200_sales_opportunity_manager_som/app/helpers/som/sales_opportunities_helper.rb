@@ -1,7 +1,10 @@
 module Som::SalesOpportunitiesHelper
   def available_percent
-    ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]
+    possibility = []
+    (0..100).step(10){|i| possibility<<["#{i}%",i]}
+    possibility
   end
+
 
   def involved_productions(selected="")
     checkbox="&nbsp;&nbsp;"
@@ -66,9 +69,29 @@ module Som::SalesOpportunitiesHelper
   end
 
   def sales_opportunities_status
-    m = {"ALL"=>t(:label_som_sales_opportunity_sales_status_all)}
+    m = {}
     Irm::LookupValue.query_by_lookup_type("SOM_PRODUCTION_STATUS").order_by_sequence.multilingual.each{|i| m[i.lookup_code]=i[:meaning]}
     m
+  end
+
+  def sales_opportunities_year_check
+    m = {}
+    Som::SalesOpportunity.select("year(start_at) start_at_year").group("year(start_at)").order("start_at_year desc").each{|i| m[i["start_at_year"]]= i["start_at_year"]}
+    m
+  end
+
+  def sales_opportunities_possibility_check
+    {"0_3"=>"0%~30%","3_5"=>"30%~50%","5_7"=>"50%~70%","7_10"=>"70%~100%"}
+  end
+
+  def custom_filter_items(field,meaning,items)
+    html = %(<div class="filter-item" id="#{field}"><h5>#{meaning}:</h5>)
+    html << %(<div class="custom-checkbox"><label class="btn" value="all" data-all="true">#{t(:label_som_sales_opportunity_sales_status_all)}</label></div>)
+    items.each do |value,label|
+      html <<  %(<div class="custom-checkbox"><label class="btn" value="#{value}">#{label}</label></div>)
+    end
+    html << "</div>"
+    html.html_safe
   end
 
 end
