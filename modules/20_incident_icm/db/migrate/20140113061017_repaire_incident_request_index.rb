@@ -11,7 +11,6 @@ class RepaireIncidentRequestIndex < ActiveRecord::Migration
     add_index(:icm_incident_requests, :support_group_id, :name => 'ICM_INCIDENT_REQUESTS_N14')
     add_index(:icm_incident_requests, :support_person_id, :name => 'ICM_INCIDENT_REQUESTS_N15')
     remove_index(:icm_close_reasons_tl,:name=>"ICM_CLOSE_REASONS_TL_N1")
-    remove_index(:irm_external_systems_tl,:name=>"IRM_EXTERNAL_SYSTEMS_N1")
     remove_index(:icm_priority_codes_tl,:name=>"ICM_PRIORITY_CODES_TL_N1")
     remove_index(:icm_impact_ranges_tl,:name=>"ICM_IMPACT_RANGES_TL_N1")
     remove_index(:icm_urgence_codes_tl,:name=>"ICM_URGENCE_CODES_TL_N1")
