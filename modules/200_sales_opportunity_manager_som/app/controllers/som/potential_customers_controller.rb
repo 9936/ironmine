@@ -44,6 +44,7 @@ class Som::PotentialCustomersController < ApplicationController
     @potential_customer = Som::PotentialCustomer.new(params[:som_potential_customer])
     respond_to do |format|
       if @potential_customer.save
+
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @potential_customer, :status => :created, :location => @potential_customer }
       else

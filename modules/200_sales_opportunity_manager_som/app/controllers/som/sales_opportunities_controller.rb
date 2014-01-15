@@ -70,41 +70,59 @@ class Som::SalesOpportunitiesController < ApplicationController
   # DELETE /som/sales_opportunities/1.xml
   def destroy
     @sales_opportunity = Som::SalesOpportunity.find(params[:id])
-    @som_sales_opportunity.destroy
+    if(current_person?(@sales_opportunity.created_by)||current_person?(@sales_opportunity.charge_person))
+      @sales_opportunity.destroy
+    end
 
     respond_to do |format|
-      format.html { redirect_to(som_sales_opportunities_url) }
+      format.html { redirect_to(:action=>"index") }
       format.xml { head :ok }
     end
   end
 
 
   def get_data
-    if cookies[:sales_role].present?
-      params[:sales_role] = cookies[:sales_role]
-      cookies[:sales_role]=nil
-    end
-
-    if cookies[:sales_status].present?
-      params[:sales_status] = cookies[:sales_status]
-      cookies[:sales_status]=nil
-    end
-    sales_role=""
+    session[:possibility]=params[:possibility]
+    session[:year]=params[:year]
+    session[:status]=params[:status]
+    session[:role]=params[:role]
     sales_opportunities_scope = Som::SalesOpportunity.list_all
     sales_opportunities_scope = sales_opportunities_scope.match_value("#{Som::SalesOpportunity.table_name}.name", params[:name])
 
-    unless params[:sales_role].nil?
-      #对人员进行过滤
-      params[:sales_role]||=[]
-      unless params[:sales_role].include?("all")
-        role_filters=params[:sales_role].split(",")
-        sales_opportunities_scope = sales_opportunities_scope.as_person_role(role_filters,Irm::Person.current.id)
+      #对可能性进行过渡
+      if params[:possibility].present?&&!params[:possibility].include?("all")
+        where_str = ""
+        where_params = []
+        params[:possibility].each{|p|
+          if where_str.present?
+            where_str << "OR (#{Som::SalesOpportunity.table_name}.possibility > ? and #{Som::SalesOpportunity.table_name}.possibility <= ?)"
+          else
+            where_str << "(#{Som::SalesOpportunity.table_name}.possibility > ? and #{Som::SalesOpportunity.table_name}.possibility <= ?)"
+          end
+          where_params << p.split("_").collect{|i| i.to_f*10}
+        }
+
+        sales_opportunities_scope = sales_opportunities_scope.where(([where_str]+where_params).flatten)
+
       end
 
-      #对状态进行过滤
-      if params[:sales_status] && !params[:sales_status].include?("all")
-        status_filters=params[:sales_status]
+      #对年份进行过渡
+      if params[:year].present?&&!params[:year].include?("all")
+        sales_opportunities_scope = sales_opportunities_scope.where("year(#{Som::SalesOpportunity.table_name}.start_at) in (?)",params[:year])
+      end
+
+      #对状态
+      if params[:status].present?&&!params[:status].include?("all")
+        status_filters=params[:status]
         sales_opportunities_scope = sales_opportunities_scope.as_status(status_filters)
+      end
+
+    #与事故单的关系
+    if params[:role].present?&&!params[:role].include?("all")
+      if(params[:role].include?("CHARGE"))
+        sales_opportunities_scope = sales_opportunities_scope.where(:charge_person=>Irm::Person.current.id)
+      else
+        sales_opportunities_scope = sales_opportunities_scope.where("#{Som::SalesOpportunity.table_name}.charge_person != ?",Irm::Person.current.id)
       end
     end
 
@@ -117,7 +135,11 @@ class Som::SalesOpportunitiesController < ApplicationController
         when "sales_status"
           sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.sales_status #{params[:order_value]}")
         when "price"
-          sales_opportunities_scope = sales_opportunities_scope.order("(#{Som::SalesOpportunity.table_name}.price+#{Som::SalesOpportunity.table_name}.second_price) #{params[:order_value]}")
+          sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.price #{params[:order_value]}")
+        when "second_price"
+          sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.second_price  #{params[:order_value]}")
+        when "second_price"
+          sales_opportunities_scope = sales_opportunities_scope.order("#{Som::SalesOpportunity.table_name}.second_price  #{params[:order_value]}")
       end
 
     end

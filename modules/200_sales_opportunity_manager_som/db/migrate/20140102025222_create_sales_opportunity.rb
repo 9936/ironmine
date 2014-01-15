@@ -14,7 +14,7 @@ class CreateSalesOpportunity < ActiveRecord::Migration
       t.string   "previous_flag",:limit => 1 ,:default=>'N'
       t.string   "possibility", :limit => 10
       t.string   "progress", :limit => 10
-      t.string   "price", :limit => 10
+      t.integer   "price", :limit => 10
       t.datetime "start_at"
       t.datetime "end_at"
       t.string   "status_code", :limit => 30, :default => "ENABLED"

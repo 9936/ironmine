@@ -19,7 +19,9 @@ zh:
   label_som_sales_opportunity_sales_possibility: 可能性
   label_som_sales_opportunity_sales_progress: 进度
   label_som_sales_opportunity_sales_communicate: 沟通
-  label_som_sales_opportunity_sales_price: 金额
+  label_som_sales_opportunity_sales_price: 当年金额
+  label_som_sales_opportunity_sales_total_price: 总金额
+  label_som_sales_opportunity_sales_second_price: 剩余金额
   label_som_sales_opportunity_sales_start_at: 开始时间
   label_som_sales_opportunity_sales_end_at: 结束时间
   label_som_sales_opportunity_sales_new: 新建销售信息
@@ -37,6 +39,16 @@ zh:
   label_som_sales_opportunity_failed: 总结
   label_som_sales_opportunity_failed_reason: 原因
   label_som_sales_opportunity_failed_reason_edit: 失败总结
+  label_som_sales_opportunity_delete_title: 只有创建者或者负责人才能使用此功能
+  label_som_sales_opportunity_price_ten_thousand: 万元
+  label_som_sales_opportunity_internal_member: 本部门参与人员
+  label_som_sales_opportunity_internal_member_help: 填写多个人员时请以空格分隔
+  label_som_sales_opportunity_external_member: 其他部门参与人员
+  label_som_sales_opportunity_external_member_help: 填写多个人员时请以空格分隔
+  label_som_sales_opportunity_price_year: 年份
+  label_som_sales_opportunity_sales_open_at: 预计开工日期
+  label_som_sales_opportunity_sales_people_other: 其他
+  label_som_sales_opportunity_sales_first_communicate_at: 首次沟通时间
 
 
   label_som_potential_customer: 客户

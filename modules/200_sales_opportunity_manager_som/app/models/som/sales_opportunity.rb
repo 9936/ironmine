@@ -1,7 +1,7 @@
 class Som::SalesOpportunity < ActiveRecord::Base
   set_table_name 'som_sales_opportunities'
-  validates_presence_of :charge_person, :name, :potential_customer, :sales_status, :sales_person, :start_at, :end_at, :price
-  validates_numericality_of :price
+  validates_presence_of :charge_person, :name, :potential_customer, :sales_status, :sales_person, :start_at, :end_at
+  validates_numericality_of :total_price,:price
   attr_accessor :communicate_count, :last_communicate
   has_many :communicate_infos
   #加入activerecord的通用方法和scope
@@ -66,7 +66,7 @@ class Som::SalesOpportunity < ActiveRecord::Base
 
 
   scope :as_status, lambda { |status_filters|
-    where("#{table_name}.sales_status IN (?)" ,status_filters.split(",") )
+    where("#{table_name}.sales_status IN (?)" ,status_filters )
   }
 
   scope :with_charger, lambda {
@@ -103,15 +103,13 @@ class Som::SalesOpportunity < ActiveRecord::Base
 
 
   def validate_before_save
-    self.price_year = self.start_at.year
-    if self.end_at.year - self.start_at.year > 1
-      self.end_at = Date.new(self.start_at.year, 12, 31)
-      self.second_price_year = self.end_at.year
-    elsif self.end_at.year - self.start_at.year == 1
-      self.second_price_year = self.end_at.year
-    elsif self.end_at.year - self.start_at.year < 1
-      self.second_price_year = nil
-      self.second_price = 0
+    if self.total_price.present?&&self.price.present?&&self.total_price.to_i>=self.price.to_i
+      self.second_price = self.total_price.to_i-self.price.to_i
+    elsif self.total_price.present?&&self.price.present?&&self.total_price.to_i<self.price.to_i
+      self.price = self.total_price.to_i
+    elsif !self.total_price.present?&&self.price.present?
+      self.total_price = self.price
+      sefl.second_price = 0
     end
   end
 
