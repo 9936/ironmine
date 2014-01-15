@@ -13,7 +13,11 @@ function openModal(href){
     $(".modal-body", modalDialog).html('<div class="loading-circle"></div>');
     modalDialog.modal('show');
     if(href.indexOf('#') == 0){
-        $(href).modal('show');
+        $(href).modal({
+            show: true,
+            keyboard: true,
+            backdrop: 'static'
+        });
     }else{
         href += href.indexOf("?") > 0 ? "&_dom_id=null" : "?_dom_id=null"
         modalDialog.load(href, function(){
@@ -32,7 +36,7 @@ function openModal(href){
 }
 
 function buildModal(){
-    return $('<div class="modal" id="linkModal" tabindex="-1" role="dialog"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h3></h3></div><div class="modal-body"></div><div class="modal-footer"></div></div>');
+    return $('<div class="modal" id="linkModal" tabindex="-1" role="dialog" data-backdrop="static"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h3></h3></div><div class="modal-body"></div><div class="modal-footer"></div></div>');
 }
 
 $(function(){

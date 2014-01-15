@@ -59,7 +59,7 @@ module Som::SalesOpportunitiesHelper
     elsif status.eql?("PROJECT")
       t("label_som_sales_opportunity_sales_status_project")
     elsif status.eql?("BUSINESS")
-      t("label_som_sales_opportunity_sales_status_bussiness")
+      t("label_som_sales_opportunity_sales_status_business")
     else
       t("label_som_sales_opportunity_sales_status_cancel")
     end
