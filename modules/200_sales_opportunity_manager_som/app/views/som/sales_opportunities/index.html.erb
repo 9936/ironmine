@@ -299,4 +299,11 @@
         reloadInstance(current_target);
     });
 
+
+    function updatePage(){  }
+    function updateData(){
+        var current_target = $("#get_sales_opportunities").data("datatable").target;
+        current_target.loadPage(1);
+    }
+
 </script>
