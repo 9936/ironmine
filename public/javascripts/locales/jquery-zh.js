@@ -14,5 +14,11 @@ var irm_labels = {
     image_from_clipboard: "从剪贴板上传图片",
     sort_this_column: "点击此处切换显示顺序",
     select_all:"全选",
-    select_single: "点击选择当前项"
+    select_single: "点击选择当前项",
+    validate_required: "错误:[\"必须输入一个值\"]" ,
+    validate_email: "错误:[\"必须为电子邮件地址\"]",
+    validate_remote: "错误:[\"请修改输入值\"]",
+    validate_url: "错误:[\"必须为URL\"]",
+    validate_date: "错误:[\"必须为日期\"]"
+
 };

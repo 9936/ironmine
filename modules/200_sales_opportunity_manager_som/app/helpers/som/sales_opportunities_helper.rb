@@ -62,7 +62,7 @@ module Som::SalesOpportunitiesHelper
     elsif status.eql?("PROJECT")
       t("label_som_sales_opportunity_sales_status_project")
     elsif status.eql?("BUSINESS")
-      t("label_som_sales_opportunity_sales_status_bussiness")
+      t("label_som_sales_opportunity_sales_status_business")
     else
       t("label_som_sales_opportunity_sales_status_cancel")
     end
@@ -81,7 +81,7 @@ module Som::SalesOpportunitiesHelper
   end
 
   def sales_opportunities_possibility_check
-    {"0_3"=>"0%~30%","3_5"=>"30%~50%","5_7"=>"50%~70%","7_9.9"=>"70%~99%","9.9_10"=>"100%"}
+    {"0_3"=>"0%~30%","3_5"=>"30%~50%","5_7"=>"50%~70%","7_10"=>"70%~100%","9.9_10"=>"100%"}
   end
 
   def custom_filter_items(field,meaning,items)
