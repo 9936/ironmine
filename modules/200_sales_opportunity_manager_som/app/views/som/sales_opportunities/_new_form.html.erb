@@ -67,12 +67,7 @@
             <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_end_at)%></label></td>
             <td class="data-col"> <%= f.date_field(:end_at,:id=>"sales_end_at",:pre=>"sales_start_at",:class=>"date sales_date",:size=>12,:required=>true)%></td>
           </tr>
-          <tr>
-            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_open_at)%></label></td>
-            <td class="data-col"> <%= f.date_field(:open_at,:class=>"date ",:size=>12)%></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
-          </tr>
+
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_total_price)%></label></td>
             <td class="data-col">
@@ -94,6 +89,18 @@
               <%=f.text_field :second_price,:id=>"second_price",:class=>"input-small",:disabled=>""%>
               <div class="data-field" style="display: inline-block;padding: 4px;"><%= t(:label_som_sales_opportunity_price_ten_thousand) %></div>
             </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_open_at)%></label></td>
+            <td class="data-col"> <%= f.date_field(:open_at,:class=>"date ",:size=>12)%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_first_communicate_at)%></label></td>
+            <td class="data-col"> <%= f.date_field(:first_communicate_at,:class=>"date ",:size=>12)%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
 
           <tr>

@@ -85,6 +85,7 @@ class Som::SalesOpportunitiesController < ApplicationController
     session[:possibility]=params[:possibility]
     session[:year]=params[:year]
     session[:status]=params[:status]
+    session[:role]=params[:role]
     sales_opportunities_scope = Som::SalesOpportunity.list_all
     sales_opportunities_scope = sales_opportunities_scope.match_value("#{Som::SalesOpportunity.table_name}.name", params[:name])
 
@@ -115,6 +116,15 @@ class Som::SalesOpportunitiesController < ApplicationController
         status_filters=params[:status]
         sales_opportunities_scope = sales_opportunities_scope.as_status(status_filters)
       end
+
+    #与事故单的关系
+    if params[:role].present?&&!params[:role].include?("all")
+      if(params[:role].include?("CHARGE"))
+        sales_opportunities_scope = sales_opportunities_scope.where(:charge_person=>Irm::Person.current.id)
+      else
+        sales_opportunities_scope = sales_opportunities_scope.where("#{Som::SalesOpportunity.table_name}.charge_person != ?",Irm::Person.current.id)
+      end
+    end
 
     if params[:order_name]&&params[:order_value]
       case params[:order_name]

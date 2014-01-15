@@ -215,6 +215,7 @@
         <%= custom_filter_items("year",t(:label_som_sales_opportunity_price_year),sales_opportunities_year_check) %>
         <%= custom_filter_items("possibility",t(:label_som_sales_opportunity_sales_possibility),sales_opportunities_possibility_check) %>
         <%= custom_filter_items("status",t(:label_som_sales_opportunity_sales_status),sales_opportunities_status) %>
+        <%= custom_filter_items("role",t(:label_som_sales_opportunity_sales_people),{"CHARGE"=>t(:label_som_sales_opportunity_sales_people_charge),"OTHER"=>t(:label_som_sales_opportunity_sales_people_other)}) %>
       </div>
 
       <div class="panel-content">
@@ -232,7 +233,7 @@
     $(function () {
         var current_target = $("#get_sales_opportunities").data("datatable").target;
         function reloadInstance(current_target) {
-            var possibility = [], status = [],year=[];
+            var possibility = [], status = [],year=[],role=[];
             $("#possibility label.btn-danger").each(function () {
                 possibility.push($(this).attr("value"));
             });
@@ -245,7 +246,11 @@
                 year.push($(this).attr("value"));
             });
 
-            var params = {'possibility[]': possibility, 'status[]': status,'year[]':year};
+            $("#role label.btn-danger").each(function () {
+                role.push($(this).attr("value"));
+            });
+
+            var params = {'possibility[]': possibility, 'status[]': status,'year[]':year,'role[]':role};
             current_target.data.options.searchOptions = params;
             current_target.loadPage(1);
         }
@@ -290,6 +295,7 @@
         initCheckGroup("year",<%=session[:year].to_json.html_safe%>||["all"]);
         initCheckGroup("possibility",<%=session[:possibility].to_json.html_safe%>||["all"]);
         initCheckGroup("status",<%=session[:status].to_json.html_safe%>||["all"]);
+        initCheckGroup("role",<%=session[:role].to_json.html_safe%>||["CHARGE"]);
         reloadInstance(current_target);
     });
 

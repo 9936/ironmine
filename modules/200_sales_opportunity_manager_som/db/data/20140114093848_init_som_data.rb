@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 class InitSomData < ActiveRecord::Migration
   def up
+    return unless File.exists?(File.expand_path(File.join(File.dirname(__FILE__), '..', 'files','init_data.xls')))
     require 'spreadsheet'
     Irm::Person.current = Irm::Person.where(:login_name=>"ironmine").first
     I18n.locale = "zh"

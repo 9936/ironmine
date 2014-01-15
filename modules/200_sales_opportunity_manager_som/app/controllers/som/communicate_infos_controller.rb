@@ -75,6 +75,11 @@ class Som::CommunicateInfosController < ApplicationController
             Som::ParticipationInfo.create(:name => client_person, :role => client_roles.split(",")[index], :client_flag => "Y", :communicate_id => @communicate_info.id)
           end
         end
+
+        if Som::CommunicateInfo.where(:sales_opportunity_id=>@communicate_info.sales_opportunity_id).length==1
+          sales_opportunity =  Som::SalesOpportunity.find(@communicate_info.sales_opportunity_id)
+          sales_opportunity.update_attribute(:first_communicate_at,@communicate_info.communicate_date) unless sales_opportunity.first_communicate_at.present?
+        end
         format.js
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
         format.xml { render :xml => @communicate_info, :status => :created, :location => @communicate_info }
