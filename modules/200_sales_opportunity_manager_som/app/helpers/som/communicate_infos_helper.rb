@@ -14,7 +14,8 @@ module Som::CommunicateInfosHelper
     info=""
     clients=Som::ParticipationInfo.where(:communicate_id=>communicate_id,:client_flag=>'Y')
     clients.each do |client|
-      info<<"#{client.name}(#{client.role});&nbsp;&nbsp;&nbsp;&nbsp;"
+      info<<"#{client.name}"
+      info<< "(#{client.role});&nbsp;&nbsp;&nbsp;&nbsp;" if client.role.present?
     end
     info
   end
