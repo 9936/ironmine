@@ -175,6 +175,7 @@ zh:
   label_action_multilingual_edit: 多语言编辑
   label_action_multilingual_update: 多语言编辑
   label_reply_title: "于%{date_format}(%{time_distance}前)回复"
+  label_communicate_title: "于%{date_format}(%{time_distance}前)沟通"
   label_more_info: 更多
   label_less_info: 更少
   #=========paginator==============

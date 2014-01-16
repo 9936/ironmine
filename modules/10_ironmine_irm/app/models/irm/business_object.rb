@@ -2,6 +2,7 @@ class Irm::BusinessObject < ActiveRecord::Base
   set_table_name :irm_business_objects
 
   has_many :object_attributes,:dependent => :destroy
+  attr_accessor :use_index
 
   #多语言关系
   attr_accessor :name,:description
@@ -293,8 +294,12 @@ class Irm::BusinessObject < ActiveRecord::Base
     # 如果为多语言对像，进行多语言过滤
     if self.multilingual_flag.eql?(Irm::Constant::SYS_YES)
       query_str[:where] << "#{self.bo_table_name}.language = '{{env.language}}'"
-      model_query << %(.unscoped.current_opu("#{self.bo_table_name}").from("#{self.bo_table_name}"))
+      model_query << %(.unscoped.current_opu("#{self.bo_table_name}").from("#{self.bo_table_name}#{"USE INDEX(self.use_index)" if use_index.present?}"))
+    elsif self.use_index.present?
+      model_query << %(.from("#{self.bo_table_name} #{"USE INDEX("+self.use_index+")" if use_index.present?}"))
     end
+
+
 
     # select字段
     model_query << %(.select("#{query_str[:select].join(",")}"))

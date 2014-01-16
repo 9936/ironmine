@@ -1,0 +1,72 @@
+zh:
+  label_som_sales_opportunity: 销售信息
+  label_som_sales_opportunity_list: 预销售列表
+  label_som_sales_opportunity_new: 新建销售信息
+  label_som_sales_opportunity_edit: 编辑销售信息
+  label_som_sales_opportunity_charge_person: 负责人
+  label_som_sales_opportunity_name: 名称
+  label_som_sales_opportunity_content: 内容
+  label_som_sales_opportunity_customer: 客户
+  label_som_sales_opportunity_region: 区域
+  label_som_sales_opportunity_address: 地点
+  label_som_sales_opportunity_sales_status: 状态
+  label_som_sales_opportunity_involved_production_info: 涉及产品
+  label_som_sales_opportunity_sales_person: 销售人员
+  label_som_sales_opportunity_sales_people: 人员
+  label_som_sales_opportunity_sales_role: 角色
+  label_som_sales_opportunity_sales_status: 状态
+  label_som_sales_opportunity_sales_previous_flag: 往年延续
+  label_som_sales_opportunity_sales_possibility: 可能性
+  label_som_sales_opportunity_sales_progress: 进度
+  label_som_sales_opportunity_sales_communicate: 沟通
+  label_som_sales_opportunity_sales_price: 当年金额
+  label_som_sales_opportunity_sales_total_price: 总金额
+  label_som_sales_opportunity_sales_second_price: 剩余金额
+  label_som_sales_opportunity_sales_start_at: 开始时间
+  label_som_sales_opportunity_sales_end_at: 结束时间
+  label_som_sales_opportunity_sales_new: 新建销售信息
+  label_som_sales_opportunity_sales_people_all: 全部
+  label_som_sales_opportunity_sales_people_charge: 负责
+  label_som_sales_opportunity_sales_people_participation: 参与
+  label_som_sales_opportunity_sales_people_other: 无关
+  label_som_sales_opportunity_sales_status_all: 全部
+  label_som_sales_opportunity_sales_status_quote: 报价
+  label_som_sales_opportunity_sales_status_project: 方案
+  label_som_sales_opportunity_sales_status_bid: 投标
+  label_som_sales_opportunity_sales_status_business: 商务
+  label_som_sales_opportunity_sales_status_cancel: 取消
+  label_som_sales_opportunity_sales_manager_customer: 管理客户
+  label_som_sales_opportunity_failed: 总结
+  label_som_sales_opportunity_failed_reason: 原因
+  label_som_sales_opportunity_failed_reason_edit: 失败总结
+  label_som_sales_opportunity_delete_title: 只有创建者或者负责人才能使用此功能
+  label_som_sales_opportunity_price_ten_thousand: 万元
+  label_som_sales_opportunity_internal_member: 本部门参与人员
+  label_som_sales_opportunity_internal_member_help: 填写多个人员时请以空格分隔
+  label_som_sales_opportunity_external_member: 其他部门参与人员
+  label_som_sales_opportunity_external_member_help: 填写多个人员时请以空格分隔
+  label_som_sales_opportunity_price_year: 年份
+  label_som_sales_opportunity_sales_open_at: 预计开工日期
+  label_som_sales_opportunity_sales_people_other: 其他
+  label_som_sales_opportunity_sales_first_communicate_at: 首次沟通时间
+
+
+  label_som_potential_customer: 客户
+  label_som_potential_customer_list: 客户列表
+  label_som_potential_customer_new: 新建客户
+  label_som_potential_customer_short_name: 简称
+  label_som_potential_customer_full_name: 全称
+  label_som_potential_customer_industry: 行业
+  label_som_potential_customer_website: 网址
+  label_som_potential_customer_edit: 编辑客户
+
+  label_som_sales_opportunity_communicate_info: 沟通记录
+  label_som_sales_opportunity_communicate_date: 沟通日期
+  label_som_sales_opportunity_communicate_content: 沟通内容
+  label_som_sales_opportunity_communicate_our: 我方参与
+  label_som_sales_opportunity_communicate_client: 客户参与
+
+
+  label_som_sales_opportunity_communicate_count: 沟通次数
+  label_som_sales_opportunity_communicate_last: 最后沟通
+  label_som_sales_opportunity_communicate_info: 沟通信息

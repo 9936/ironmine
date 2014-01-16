@@ -1,0 +1,154 @@
+<style type="text/css">
+    tr {
+        height: 40px;
+    }
+
+    .dialog {
+        width: 60%;
+        left: 20%;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .content{
+        width: 500px;
+    }
+</style>
+<div class="modal dialog">
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_som_sales_opportunity_communicate_info) %></h3>
+</div>
+<%= form_for(@communicate_info, :url => {:action => "create"}, :builder => CustomFormBuilder, :html => {:class => "modal-form"}) do |f| %>
+      <%= f.hidden_field(:our_persons) %>
+      <%= f.hidden_field(:our_roles) %>
+      <%= f.hidden_field(:client_persons) %>
+      <%= f.hidden_field(:client_roles) %>
+    <div class="modal-body form-horizontal">
+      <%= error_for @communicate_info %>
+      <%= f.hidden_field :sales_opportunity_id %>
+      <div class="control-group">
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%= t("label_som_sales_opportunity_communicate_date") %></label></td>
+            <td class="data-col"> <%= f.date_field(:communicate_date, :id => "communicate_date", :class => "date sales_date", :size => 12, :required => true) %></td>
+            <td></td>
+          <tr>
+            <td class="label-col"><label><%= t("label_som_sales_opportunity_sales_status") %></label></td>
+            <td class="data-col"><%= f.select(:sales_status, available_lookup_type('SOM_PRODUCTION_STATUS'), {}) %></td>
+            <td><label><%= t("label_som_sales_opportunity_sales_possibility") %></label>&nbsp;&nbsp;
+              <%= f.select(:current_possibility, available_percent) %></td>
+          </tr>
+
+          <tr style="height: 20px">
+            <td class="label-col"></td>
+            <td class="data-col" style="text-align: center"><%= t("label_som_sales_opportunity_sales_people") %></td>
+            <td><%= t("label_som_sales_opportunity_sales_role") %></td>
+            <td class="data-col"></td>
+          </tr>
+
+          <tr id="our" style='height: 20px'>
+            <td class="label-col"><%= t("label_som_sales_opportunity_communicate_our") %></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_person", available_people ,{:class=>"our_people"}%></td>
+            <td class="data-col"><%= select_tag("our_participation_role", options_for_select(available_roles), {:class => "our_role"})%></td>
+            <td class="data-col"><i class="icon-plus" id="add_our"></i></td>
+          </tr>
+
+
+          <tbody style="display:none;" id="our_more">
+          <tr class="our_more"  style='height: 20px' id="our_${num}">
+            <td class="label-col"></td>
+            <td class="data-col"><%=blank_select_tag "our_participation_person_${num}", available_people,nil,{:class=>"our_people",:id=>"our_people_${num}"}%></td>
+            <td class="data-col"><%= select_tag("our_participation_role", options_for_select(available_roles), {:class => "our_role"})%></td>
+            <td class="data-col"><div class="delete"><i class="icon-trash delete_our" id="icon_${num}"></i></div></td>
+          </tr>
+          </tbody>
+
+          <tr id="client" style='height: 20px'>
+            <td class="label-col"><%= t("label_som_sales_opportunity_communicate_client") %></td>
+            <td class="data-col"><%=text_field_tag "client_participation_person"%></td>
+            <td class="data-col"><%=text_field_tag "client_participation_role"%></td>
+            <td class="data-col"><i class="icon-plus" id="add_client"></i></td>
+          </tr>
+
+          <tbody style="display:none;" id="client_more">
+          <tr class="our_more"  style='height: 20px' id="client_${num}">
+            <td class="label-col"></td>
+            <td class="data-col"><%=text_field_tag "client_participation_person"%></td>
+            <td class="data-col"><%=text_field_tag "client_participation_role"%></td>
+            <td class="data-col"><i class="icon-trash delete_client" id="icon_${num}"></i></td>
+          </tr>
+          </tbody>
+
+          <tr>
+            <td class="label-col">
+              <label for="business_object_name"><%= t(:label_som_sales_opportunity_communicate_content) %></label></td>
+            <td class="data-col" colspan="3"><%= f.text_area :content, :rows => 8, :class=>"content" %></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+    </div>
+
+    <div class="modal-footer">
+      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss" => "modal", "aria-hidden" => "true" %>
+      <%= link_submit t(:save), :class => "btn btn-primary submit_button" %>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+    $(function () {
+        $("#our_participation_person").chosen({search_contains: true,disable_search_threshold: searchMiniNum});
+        var out_count=0;
+        $("#add_our").click(function () {
+            var count=out_count++;
+            var template = $($.tmpl($("#our_more"), {num: count}));
+            $("#our").after(template);
+            $("#our_people_"+count).chosen({search_contains: true,disable_search_threshold: searchMiniNum});
+        });
+
+        $("#add_client").click(function () {
+            var count=out_count++;
+            var template = $($.tmpl($("#client_more"), {num: count}));
+            $("#client").after(template);
+        });
+
+
+        $(".delete_our").live("click",function () {
+            var id=$(this).attr("id").substring(5);
+            $('#our_'+id).remove();
+        });
+
+        $(".delete_client").live("click",function () {
+            var id=$(this).attr("id").substring(5);
+            $('#client_'+id).remove();
+        });
+
+        $(".submit_button").click(function(){
+            var our_persons = [], our_roles = [],client_persons=[],client_roles=[];
+            $("select[name='our_participation_person']").each(function () {
+                our_persons.push($(this).val());
+            });
+            $("select[name='our_participation_role']").each(function () {
+                our_roles.push($(this).val());
+            });
+
+            $("input[name='client_participation_person']").each(function () {
+                client_persons.push($(this).val());
+            });
+
+            $("input[name='client_participation_role']").each(function () {
+                client_roles.push($(this).val());
+            });
+
+            $("#som_communicate_info_our_persons").val(our_persons);
+            $("#som_communicate_info_our_roles").val(our_roles);
+            $("#som_communicate_info_client_persons").val(client_persons);
+            $("#som_communicate_info_client_roles").val(client_roles);
+        });
+    });
+</script>

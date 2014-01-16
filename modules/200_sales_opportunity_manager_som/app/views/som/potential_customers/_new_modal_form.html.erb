@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_som_potential_customer_new) %></h3>
+</div>
+<%= form_for(@potential_customer, :url => {:action => "create_modal"}, :html => {:class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
+    <div class="modal-body form-horizontal">
+      <table class="form-table">
+        <tbody>
+        <tr>
+          <td class="label-col"><label for="business_object_name"><%=t(:label_som_potential_customer_short_name)%></label></td>
+          <td class="data-col"><%=f.text_field :short_name, :required=>true%></td>
+          <td class="label-col empty">&nbsp;</td>
+          <td class="data-col empty">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="label-col"><label for="business_object_name"><%=t(:label_som_potential_customer_full_name)%></label></td>
+          <td class="data-3col" colspan="3"><%=f.text_field :full_name,:size=>80, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_title"%></td>
+
+        </tr>
+
+
+        <tr>
+          <td class="label-col"><label for="business_object_name"><%=t(:label_som_potential_customer_industry)%></label></td>
+          <td class="data-col"><%=f.text_field :industry%></td>
+          <td class="label-col empty">&nbsp;</td>
+          <td class="data-col empty">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="label-col"><label for="business_object_name"><%=t(:label_som_potential_customer_website)%></label></td>
+          <td class="data-3col" colspan="3">
+            <%=f.text_area :website,:rows=>8,:cols=>100, :class=>"input-xxlarge",:id=>"incident_request_summary"%>
+          </td>
+        </tr>
+      </table>
+
+
+
+
+
+
+    </div>
+    <div class="modal-footer">
+      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss"=>"modal", "aria-hidden" => "true" %>
+      <%= link_submit t(:save), :class => "btn btn-primary" %>
+    </div>
+<% end %>

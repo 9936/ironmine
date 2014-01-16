@@ -25,3 +25,4 @@
 //= require css_browser_selector
 //= require bootstrap
 //= require survey
+//= require plugins/jquery-validate

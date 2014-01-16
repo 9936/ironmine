@@ -1,0 +1,233 @@
+<%= common_title %>
+<%= form_for(@sales_opportunity, :url => {:action => "update"}, :builder => CustomFormBuilder,:id=>"edit_som_sales_opportunity") do |f| %>
+    <% content_for :form_block_a do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label for="business_object_charge_person"><%=t(:label_som_sales_opportunity_charge_person)%></label></td>
+            <td class="data-col"><%= f.blank_select(:charge_person,available_people,{},:id=>"charge_person",:required=>true) %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_name)%></label></td>
+            <td class="data-3col" colspan="3"><%=f.text_field :name,:size=>80, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_title"%></td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_content)%></label></td>
+            <td class="data-3col" colspan="3">
+              <%=f.text_area :content,:rows=>8,:cols=>100, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_summary"%>
+            </td>
+
+          </tr>
+
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_customer)%></label></td>
+            <td class="data-col">
+              <%= f.blank_select(:potential_customer,available_customers,{:required=>true},{:id=>"potential_customer"})%>
+              <div class="data-field" style="display: inline-block;padding: 4px;"><%= link_to(("<i class='icon-pencil'></i>"+t(:new)).html_safe,{:controller=>"som/potential_customers",:action=>"new_modal"},{:class => "action-link",:rel => "modal"}) %></div>
+            </td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_region)%></label></td>
+            <td class="data-col"><%= f.select(:region,available_lookup_type('SOM_REGION_INFO'),{},:required=>true) %></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_address)%></label></td>
+            <td class="data-col"><%=f.text_field :address%></td>
+
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_status)%></label></td>
+            <td class="data-col"><%= f.select(:sales_status,available_lookup_type('SOM_PRODUCTION_STATUS'),{},:required=>true) %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr >
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_involved_production_info)%></label></td>
+            <td align="left" colspan="3"><%=involved_productions(@sales_opportunity.involved_production_info)%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_person)%></label></td>
+            <td class="data-col" colspan="3"><%= f.blank_select(:sales_person,available_people,{},:required=>true) %></td>
+
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_possibility)%></label></td>
+            <td class="data-col"><%= f.select(:possibility,available_percent) %></td>
+            <td class="label-col empty"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_previous_flag)%></label></td>
+            <td class="data-col empty"><%=f.check_box :previous_flag, :required=>true%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_start_at)%></label></td>
+            <td class="data-col"> <%= f.date_field(:start_at,:id=>"sales_start_at",:class=>"date sales_date",:size=>12,:required=>true)%></td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_end_at)%></label></td>
+            <td class="data-col"> <%= f.date_field(:end_at,:id=>"sales_end_at",:pre=>"sales_start_at",:class=>"date sales_date",:size=>12,:required=>true)%></td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_total_price)%></label></td>
+            <td class="data-col">
+              <%=f.text_field :total_price,:id=>"total_price",:class=>"input-small",:irm_number_only=>true%>
+              <div class="data-field" style="display: inline-block;padding: 4px;"><%= t(:label_som_sales_opportunity_price_ten_thousand) %></div>
+            </td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_price)%></label></td>
+            <td class="data-col">
+              <%=f.text_field :price,:id=>"price",:class=>"input-small",:irm_number_only=>true%>
+              <div class="data-field" style="display: inline-block;padding: 4px;"><%= t(:label_som_sales_opportunity_price_ten_thousand) %></div>
+            </td>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_second_price)%></label></td>
+            <td class="data-col">
+              <%=f.text_field :second_price,:id=>"second_price",:class=>"input-small",:disabled=>""%>
+              <div class="data-field" style="display: inline-block;padding: 4px;"><%= t(:label_som_sales_opportunity_price_ten_thousand) %></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_open_at)%></label></td>
+            <td class="data-col"> <%= f.date_field(:open_at,:class=>"date ",:size=>12)%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_first_communicate_at)%></label></td>
+            <td class="data-col"> <%= f.date_field(:first_communicate_at,:class=>"date ",:size=>12)%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_internal_member)%></label></td>
+            <td class="data-3col" colspan="3">
+              <%=f.text_field :internal_member,:size=>80,:class=>"input-xxlarge",:id=>"internal_member"%>
+              <span class="help-block"><%=t(:label_som_sales_opportunity_internal_member_help)%></span>
+            </td>
+
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_external_member)%></label></td>
+            <td class="data-3col" colspan="3">
+              <%=f.text_field :external_member,:size=>80,:class=>"input-xxlarge",:id=>"internal_member"%>
+              <span class="help-block"><%=t(:label_som_sales_opportunity_external_member_help)%></span>
+            </td>
+
+          </tr>
+          </tbody>
+
+
+        </table>
+    <% end %>
+
+    <% content_for :form_buttons do %>
+        <%= link_submit t(:save), {:class => "submit_button btn btn-primary"} %>
+        <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_som_sales_opportunity_edit) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= error_for @sales_opportunity %>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a %>
+          </div>
+        </div>
+
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title">
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+
+<script type="text/javascript">
+    $(".submit_button").click(function(){
+        var involved_productions=$('input[name="som_sales_opportunity[involved_production_info]"]:checked').map(function() {
+            return $(this).val();
+        }).get();
+        $("input[name='som_sales_opportunity[involved_production_info]']").val(involved_productions.toString());
+    });
+
+    $("#price").on('change', function(ev) {
+        if($("#total_price").val().length>0&&$("#price").val().length<1){
+            $("#price").val($("#total_price").val());
+        }
+        else if($("#total_price").val().length<1&&$("#price").val().length>0){
+            $("#price").val(0)
+        }
+        else if($("#total_price").val().length>0&&$("#price").val().length>0&&parseInt($("#total_price").val())<parseInt($("#price").val())){
+            $("#price").val($("#total_price").val());
+        }
+
+        if($("#total_price").val().length>0&&$("#price").val().length>0&&parseInt($("#total_price").val())>=parseInt($("#price").val())){
+            $("#second_price").val($("#total_price").val()-$("#price").val());
+        }
+    });
+
+
+
+
+    function syncCustomer(){
+        $.getJSON("<%=url_for(:controller=>'som/potential_customers',:action=>'get_options')%>",function(datas){
+            var target = $("#potential_customer");
+            var OPTIONS_TEMPLATE = "<option value='${value}'>${label}</option>";
+            target.html("");
+            datas = datas["items"];
+            if (!datas)
+                datas = [];
+            if (target.attr("blank") != "") {
+                option = $($.tmpl(OPTIONS_TEMPLATE, {label:target.attr("blank"), value:""}));
+                target.append(option);
+            }
+            $.each(datas, function (index, data) {
+                var option = $('<option/>');
+                for (var v in data) {
+                    if (v == "label")
+                        option.html(data[v]);
+                    else
+                        option.attr(v, data[v]);
+                }
+
+                target.append(option);
+
+            });
+            // 使用 setTimeout防止IE6中 报 [无法设置selected属性。未指明的错误。]的错误.
+            setTimeout(function () {
+                target.trigger("change");
+            }, 1);
+        });
+    }
+
+
+
+
+
+</script>

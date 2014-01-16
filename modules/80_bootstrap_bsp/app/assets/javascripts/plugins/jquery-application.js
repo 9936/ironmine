@@ -148,7 +148,7 @@ $(function(){
     });
 
     $('input[irm_number_only]').live('blur', function(event){
-        var reg = /[^0-9]/g, $this = $(this);
+        var reg = /[^0-9\.]/g, $this = $(this);
         if(reg.test($(this).val())){
             alert($.i18n("number_only"));
             $this.val($this.val().replace(reg, ""));
@@ -241,6 +241,17 @@ $(function(){
             if($(e).attr("nobutton")){
                 options["createButton"] =false;
             }
+            if($(e).attr("id").indexOf("_end_at")==$(e).attr("id").length-7){
+                var pair = $(e).attr("id").replace("_end_at","_start_at") ;
+                if($("#"+pair)){
+                    console.log("find_start_at");
+                    console.log($("#"+pair));
+                    options["createButton"]=function(date){
+                       return date.valueOf() <= $("#"+pair).data("datepicker").date ? 'disabled' : '';
+                    }
+                }
+            }
+
             if($(e).attr("today")){
                 $(e).datePicker(options).val(new Date().asString()).trigger('change');
             }
@@ -248,6 +259,25 @@ $(function(){
             {
                 $(e).datePicker(options);
             }
+
+            if($(e).attr("id").indexOf("_start_at")==$(e).attr("id").length-9){
+                var pair = $(e).attr("id").replace("_start_at","_end_at") ;
+                if($("#"+pair)){
+                    console.log("find_end_at");
+                    console.log($("#"+pair));
+                    $(e).on('changeDate', function(ev) {
+                        if (ev.date.valueOf() >  $("#"+pair).data("datepicker").date) {
+                            var newDate = new Date(ev.date)
+                            newDate.setDate(newDate.getDate() + 1);
+                            $("#"+pair).setValue(newDate);
+                        }
+                        $("#"+pair).focus();
+                    })
+                }
+            }
+
+
+
             $(e).bind("click",function(event){
                 $(this).dpDisplay();
             })
@@ -469,9 +499,42 @@ function setLookupLabelValue(fieldId,labelValue){
 //BEGIN========================datepicker 帮助函数========================================
 function initDateField(dateField){
     var me = $(dateField);
-    me.datepicker({format:"yyyy-mm-dd",weekStart:1});
+    var options =  {format:"yyyy-mm-dd",weekStart:1, onRender: function(date) {
+        var newDate =  new Date();
+        return date.valueOf() <= newDate ? 'disabled' : '';  }
+    };
+
+    //查找看有没有匹配的start_at
+    if(me.attr("id").indexOf("_end_at")==me.attr("id").length-7){
+        var pair = me.attr("id").replace("_end_at","_start_at") ;
+        if($("#"+pair)){
+            options["onRender"]=function(date){
+                alert($("#"+pair).data("datepicker").date);
+                return date.valueOf() <= $("#"+pair).data("datepicker").date ? 'disabled' : '';
+            }
+        }
+    }
+
+    me.datepicker(options);
     me.attr("onfocus","");
     me.trigger("focus");
+    //查找看有没有匹配的end_at
+    if(me.attr("id").indexOf("_start_at")==me.attr("id").length-9){
+        var pair = me.attr("id").replace("_start_at","_end_at") ;
+        if($("#"+pair)){
+            me.on('changeDate', function(ev) {
+                if (!$("#"+pair).data("datepicker")||!$("#"+pair).data("datepicker").date||me.data("datepicker").date >  $("#"+pair).data("datepicker").date) {
+                    $("#"+pair).focus();
+                    var newDate = new Date(ev.date)
+                    newDate.setDate(newDate.getDate() + 1);
+                    $("#"+pair).data('datepicker').setValue(newDate);
+
+                }
+
+            })
+        }
+    }
+
 }
 
 function dateFieldChooseToday(fieldId,fieldValue,timeField,timeValue){

@@ -1,0 +1,163 @@
+<%= common_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_som_sales_opportunity) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @sales_opportunity},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label ><%=t(:label_som_sales_opportunity_charge_person)%></label></td>
+        <td class="data-col"><%= @sales_opportunity[:charge_person_name] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_name)%></label></td>
+        <td class="data-3col" colspan="3"><%= @sales_opportunity[:name] %></td>
+      </tr>
+
+      <tr>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_content)%></label></td>
+        <td class="data-3col" colspan="3">
+          <pre><%= @sales_opportunity[:content] %></pre>
+        </td>
+
+      </tr>
+
+      <tr>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_customer)%></label></td>
+        <td class="data-col"><%= show_sales_customer(@sales_opportunity.potential_customer) %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_region)%></label></td>
+        <td class="data-col"><%= @sales_opportunity["region_meaning"] %></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_address)%></label></td>
+        <td class="data-col"><%=@sales_opportunity.address%></td>
+
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_som_sales_opportunity_sales_status)%></label></td>
+        <td class="data-col"><%= @sales_opportunity["sales_status_meaning"] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr >
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_involved_production_info)%></label></td>
+        <td class="data-3col" colspan="3"><%=involved_productions_name(@sales_opportunity.involved_production_info).join(",")%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_person)%></label></td>
+        <td class="data-3col" colspan="3"><%= @sales_opportunity["sales_person_name"] %></td>
+
+      </tr>
+      <tr>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_possibility)%></label></td>
+        <td class="data-col"><%= @sales_opportunity.possibility %></td>
+        <td class="label-col empty"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_previous_flag)%></label></td>
+        <td class="data-col empty"><%=check_img(@sales_opportunity.previous_flag)%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_start_at)%></label></td>
+        <td class="data-col"> <%= format_date(@sales_opportunity.start_at)%></td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_end_at)%></label></td>
+        <td class="data-col"> <%= format_date(@sales_opportunity.end_at)%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_open_at)%></label></td>
+        <td class="data-col"> <%= format_date(@sales_opportunity.open_at)%></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_total_price)%></label></td>
+        <td class="data-col">
+          <%=@sales_opportunity.total_price%><%= t(:label_som_sales_opportunity_price_ten_thousand) %>
+        </td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_price)%></label></td>
+        <td class="data-col">
+          <%=@sales_opportunity.price%><%= t(:label_som_sales_opportunity_price_ten_thousand) %>
+        </td>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_second_price)%></label></td>
+        <td class="data-col">
+          <%=@sales_opportunity.second_price%><%= t(:label_som_sales_opportunity_price_ten_thousand) %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_internal_member)%></label></td>
+        <td class="data-3col" colspan="3">
+          <%= @sales_opportunity.internal_member %>
+        </td>
+
+      </tr>
+      <tr>
+        <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_external_member)%></label></td>
+        <td class="data-3col" colspan="3">
+          <%= @sales_opportunity.external_member %>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% if @sales_opportunity.communicate_infos.present?%>
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_som_sales_opportunity_communicate_info) %></h2>
+    </td>
+  </tr></table>
+  <div class="page-block-body" id="communicates">
+    <table class="show-table">
+      <tbody>
+      <%= render :partial =>"/som/communicate_infos/list_all_communicates", :locals =>{:communicate_infos=>@sales_opportunity.communicate_infos }%>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
+
+<% if "CANCEL".eql?(@sales_opportunity.sales_status) %>
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_som_sales_opportunity_failed_reason) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:label_som_sales_opportunity_failed_reason_edit), {:action => "edit_reason", :id => @sales_opportunity},{:class => "btn action-link",:rel => "modal"}%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="data-4col" colspan="4"><pre><%= @sales_opportunity.failed_reason %></pre></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
+
+<script type="text/javascript">
+  function updatePage(){
+      location.reload()
+  }
+</script>
