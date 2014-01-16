@@ -81,7 +81,7 @@ module Som::SalesOpportunitiesHelper
   end
 
   def sales_opportunities_possibility_check
-    {"0_3"=>"0%~30%","3_5"=>"30%~50%","5_7"=>"50%~70%","7_9.9"=>"70%~99%","9.9_10"=>"100%"}
+    {"0_3"=>"0%~30%","3_5"=>"30%~50%","5_7"=>"50%~70%","7_10"=>"70%~100%","9.9_10"=>"100%"}
   end
 
   def custom_filter_items(field,meaning,items)
