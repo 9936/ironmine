@@ -41,6 +41,6 @@
         <%=communicate_count(data[:id])%>
     <% end %>
     <% builder.column(:last_communicate, {:title => t(:label_som_sales_opportunity_communicate_last)}) do |data|%>
-        <%= last_communicate(data[:id])%>
+        <%= last_communicate(data[:id])||calendar_date(data[:first_communicate_at])%>
     <% end %>
   <% end %>
