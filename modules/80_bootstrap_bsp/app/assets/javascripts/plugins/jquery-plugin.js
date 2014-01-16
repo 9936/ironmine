@@ -2011,8 +2011,11 @@ jQuery.fn.menubutton = function () {
                 var selectElement = filterBox.find("select.view-filter:first");
                 me.data.options.filterOptions = {_view_filter_id:selectElement.val() || ""};
 
+
                 selectElement.change(function (event) {
+                    $("input.search-box-input:first").val("");
                     me.data.options.filterOptions = {_view_filter_id:$(this).val() || ""};
+                    $("a.search-box-button:first").trigger("click");
                     me.loadPage(1);
                 });
 
