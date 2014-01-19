@@ -116,13 +116,13 @@
   <tr>
     <td class="label-col"><label for="time_trigger_start_at"><%= t(:label_irm_time_trigger_start_at) %></label></td>
     <td class="data-2col">
-      <%= f.date_field(:start_at, :id => "time_trigger_start_at", :class => "date", :required => true, :size => 12) %>
+      <%= f.date_field(:start_at, :id => "#{model}_time_trigger_start_at", :class => "date", :required => true, :size => 12) %>
     </td>
   </tr>
   <tr>
     <td class="label-col"><label for="time_trigger_end_at"><%= t(:label_irm_time_trigger_end_at) %></label></td>
     <td class="data-2col">
-      <%= f.date_field(:end_at, :id => "time_trigger_end_at", :class => "date", :required => true, :size => 12) %>
+      <%= f.date_field(:end_at, :id => "#{model}_time_trigger_end_at", :class => "date", :required => true, :size => 12) %>
     </td>
   </tr>
   <tr>
