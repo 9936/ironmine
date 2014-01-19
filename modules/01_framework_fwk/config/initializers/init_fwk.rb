@@ -91,7 +91,7 @@ end
 
 # 配置基础模块javascript css
 rails_config.fwk.jscss.merge!({
-                                  :default => {:css => ["application"], :js => ["application", "locales/jquery-{locale}"]},
+                                  :default => {:css => ["application"], :js => ["application", "locales/jquery-{locale}","plugins/jquery-validate"]},
                                   :default_ie6 => {:css => ["application-ie6"], :js => ["application", "locales/jquery-{locale}","ie6"]},
                                   :aceditor => {:js => ["plugins/ace"],:css => ["plugins/ace"]},
                                   :xheditor => {:css => ["plugins/xheditor"], :js => ["plugins/xheditor/xheditor-{locale}"]},
