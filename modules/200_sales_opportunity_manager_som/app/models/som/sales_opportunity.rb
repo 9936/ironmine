@@ -1,13 +1,15 @@
 class Som::SalesOpportunity < ActiveRecord::Base
   set_table_name 'som_sales_opportunities'
-  validates_presence_of :charge_person, :name, :potential_customer, :sales_status, :sales_person, :start_at, :end_at
+  validates_presence_of :charge_person, :name, :potential_customer, :sales_status, :sales_person, :start_at, :end_at,:total_price,:price
   validates_numericality_of :total_price,:price
-  attr_accessor :communicate_count, :last_communicate
+  attr_accessor :communicate_count, :last_communicate,:author_people_str
   has_many :communicate_infos
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
   default_scope { default_filter }
+
+  has_many :sales_authorizes
 
   before_save :validate_before_save
 
@@ -111,6 +113,68 @@ class Som::SalesOpportunity < ActiveRecord::Base
       self.total_price = self.price
       sefl.second_price = 0
     end
+  end
+
+  def create_sales_authorize_from_str
+    return unless self.author_people_str
+    str_datas = self.author_people_str.delete_if{|i| !i.present?}
+    exists_datas = Som::SalesAuthorize.where(:sales_opportunity_id=>self.id)
+    exists_datas.each do |data|
+      if str_datas.include?(data.person_id)
+        str_datas.delete(data.person_id)
+      else
+        data.destroy
+      end
+    end
+
+    str_datas.each do |data_str|
+      next unless data_str.strip.present?
+      self.sales_authorizes.build(:person_id=>data_str)
+    end if str_datas.any?
+
+  end
+
+  def get_author_people_str
+    return @get_author_people_str if @get_author_people_str
+    @get_author_people_str = self.sales_authorizes.collect{|i| i.person_id}.join(",")
+    @get_author_people_str
+  end
+
+
+
+  def self.send_summary_data
+    datas = []
+    columns = [{:key => :region_meaning, :label => I18n.t(:label_som_sales_opportunity_region)},
+             {:key => :charge_person_name, :label => I18n.t(:label_som_sales_opportunity_charge_person)},
+             {:key => :name, :label => I18n.t(:label_som_sales_opportunity_alias_name)},
+             {:key => :potential_customer_name, :label => I18n.t(:label_som_sales_opportunity_customer)},
+             {:key => :address, :label => I18n.t(:label_som_sales_opportunity_address)},
+             {:key => :price_year, :label => I18n.t(:label_som_sales_opportunity_price_year)},
+             {:key => :price, :label => I18n.t(:label_som_sales_opportunity_price)},
+             {:key => :total_price, :label => I18n.t(:label_som_sales_opportunity_total_price)},
+             {:key => :possibility, :label => I18n.t(:label_som_sales_opportunity_sales_alias_possibility)},
+             {:key => :sales_person_name, :label => I18n.t(:label_som_sales_opportunity_sales_alias_person)}]
+
+    total_summary = {:region_meaning=>"Total Summary",:price=>0,:total_price=>0}
+    Som::SalesOpportunity.list_all.where("possibility > ?",99).group_by{|i| i["region_meaning"]}.each do |region_meaning,data_array|
+      datas << []
+      summary = {:region_meaning=>"Summary:#{region_meaning}",:price=>0,:total_price=>0}
+      data_array.each_with_index{|sale,index|
+        if index==0
+          datas << sale.attributes
+        else
+          datas << sale.attributes.merge("region_meaning"=>"")
+        end
+        summary[:price] =  summary[:price]+ sale.price||0
+        summary[:total_price] =  summary[:total_price]+ sale.total_price||0
+
+      }
+      datas << summary
+      total_summary[:price] =  summary[:price]+ total_summary[:price]
+      total_summary[:total_price] =  summary[:total_price]+ total_summary[:total_price]
+    end
+    datas << total_summary
+    datas.to_xls(columns)
   end
 
 end

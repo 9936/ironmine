@@ -1249,9 +1249,15 @@ $.format = $.validator.format;
             rules:__rules,
             messages:__messages,
             invalidHandler: function () {  //不通过回调
-                $(".loadmask").remove();
-                $(".loadmask-msg").remove();
-                return false;
+                $(".loadmask").hide();
+                $(".loadmask-msg").hide();
+                return false
+            }
+            ,
+            submitHandler: function(form) {
+                $(".loadmask").show();
+                $(".loadmask-msg").show();
+                form.submit();
             }
         });
         $.extend($.fn.validate.prototype,__setting||{});

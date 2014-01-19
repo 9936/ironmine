@@ -65,6 +65,8 @@ zh:
   label_som_sales_opportunity_sales_open_at: 预计开工日期
   label_som_sales_opportunity_sales_people_other: 其他
   label_som_sales_opportunity_sales_first_communicate_at: 首次沟通时间
+  label_som_sales_opportunity_author_people_str: 授权管理人员
+  label_som_sales_opportunity_author_people_str_help: 可选择多个授权管理人员
 
 
   label_som_potential_customer: 客户
@@ -88,3 +90,12 @@ zh:
   label_som_sales_opportunity_communicate_info: 沟通信息
   label_som_sales_opportunity_flag_Y: 是
   label_som_sales_opportunity_flag_N: 否
+  label_som_send_summary: 设置
+  label_som_send_summary_new: 计划设置
+  label_som_send_summary_trigger_time: 汇总计划时间
+  label_som_send_communicate_trigger_time: 沟通计划时间
+  label_som_send_summary_enable: 是否启用
+  label_som_send_communicate_last_interval: 未沟通
+  label_som_send_communicate_last_interval_day: 天
+  label_action_setting: 信息
+

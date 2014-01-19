@@ -1,4 +1,5 @@
 <%= common_title %>
+<%= @sales_opportunity.author_people_str||=@sales_opportunity.get_author_people_str.split(",") %>
 <%= form_for(@sales_opportunity, :url => {:action => "update"}, :builder => CustomFormBuilder,:id=>"edit_som_sales_opportunity") do |f| %>
     <% content_for :form_block_a do %>
         <table class="form-table">
@@ -70,7 +71,7 @@
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_total_price)%></label></td>
             <td class="data-col">
-              <%=f.text_field :total_price,:id=>"total_price",:class=>"input-small",:irm_number_only=>true%>
+              <%=f.text_field :total_price,:id=>"total_price",:class=>"input-small",:required=>true,:irm_number_only=>true%>
               <div class="data-field" style="display: inline-block;padding: 4px;"><%= t(:label_som_sales_opportunity_price_ten_thousand) %></div>
             </td>
             <td class="label-col empty">&nbsp;</td>
@@ -80,7 +81,7 @@
           <tr>
             <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_price)%></label></td>
             <td class="data-col">
-              <%=f.text_field :price,:id=>"price",:class=>"input-small",:irm_number_only=>true%>
+              <%=f.text_field :price,:id=>"price",:class=>"input-small",:required=>true,:irm_number_only=>true%>
               <div class="data-field" style="display: inline-block;padding: 4px;"><%= t(:label_som_sales_opportunity_price_ten_thousand) %></div>
             </td>
             <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_sales_second_price)%></label></td>
@@ -115,6 +116,14 @@
             <td class="data-3col" colspan="3">
               <%=f.text_field :external_member,:size=>80,:class=>"input-xxlarge",:id=>"internal_member"%>
               <span class="help-block"><%=t(:label_som_sales_opportunity_external_member_help)%></span>
+            </td>
+
+          </tr>
+          <tr>
+            <td class="label-col"><label for="business_object_name"><%=t(:label_som_sales_opportunity_author_people_str)%></label></td>
+            <td class="data-3col" colspan="3">
+              <%= f.blank_select(:author_people_str,available_people,{},:id=>"author_people_str",:multiple=>true,:required=>true,:style=>"width:300px") %>
+              <span class="help-block"><%=t(:label_som_sales_opportunity_author_people_str_help)%></span>
             </td>
 
           </tr>
@@ -169,6 +178,7 @@
 
 
 <script type="text/javascript">
+    $("#author_people_str").chosen();
     $(".submit_button").click(function(){
         var involved_productions=$('input[name="som_sales_opportunity[involved_production_info]"]:checked').map(function() {
             return $(this).val();
