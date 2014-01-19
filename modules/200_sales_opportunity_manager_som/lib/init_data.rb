@@ -27,6 +27,14 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "som/potential_customers" => ["get_data", "new_modal", "create_modal", "get_options", "index", "create", "new", "edit", "show", "update", "destroy"]
+          },
+          :send_setting => {
+              :en => {:name => "Send Setting", :description => "Send Setting"},
+              :zh => {:name => "定时发送设置", :description => "定时发送设置"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "som/send_summaries" => ["setting", "update"]
           }
       }
   }
