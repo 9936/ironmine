@@ -24,5 +24,12 @@ Rails.application.routes.draw do
         get "get_data"
       end
     end
+
+    resources :send_summaries do
+      collection do
+        get "setting"
+        get "save_setting"
+      end
+    end
   end
 end
