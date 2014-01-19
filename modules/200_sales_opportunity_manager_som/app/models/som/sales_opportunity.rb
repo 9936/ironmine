@@ -113,4 +113,40 @@ class Som::SalesOpportunity < ActiveRecord::Base
     end
   end
 
+
+  def self.send_summary_data
+    datas = []
+    columns = [{:key => :region_meaning, :label => I18n.t(:label_som_sales_opportunity_region)},
+             {:key => :charge_person_name, :label => I18n.t(:label_som_sales_opportunity_charge_person)},
+             {:key => :name, :label => I18n.t(:label_som_sales_opportunity_alias_name)},
+             {:key => :potential_customer_name, :label => I18n.t(:label_som_sales_opportunity_customer)},
+             {:key => :address, :label => I18n.t(:label_som_sales_opportunity_address)},
+             {:key => :price_year, :label => I18n.t(:label_som_sales_opportunity_price_year)},
+             {:key => :price, :label => I18n.t(:label_som_sales_opportunity_price)},
+             {:key => :total_price, :label => I18n.t(:label_som_sales_opportunity_total_price)},
+             {:key => :possibility, :label => I18n.t(:label_som_sales_opportunity_sales_alias_possibility)},
+             {:key => :sales_person_name, :label => I18n.t(:label_som_sales_opportunity_sales_alias_person)}]
+
+    total_summary = {:region_meaning=>"Total Summary",:price=>0,:total_price=>0}
+    Som::SalesOpportunity.list_all.where("possibility > ?",99).group_by{|i| i["region_meaning"]}.each do |region_meaning,data_array|
+      datas << []
+      summary = {:region_meaning=>"Summary:#{region_meaning}",:price=>0,:total_price=>0}
+      data_array.each_with_index{|sale,index|
+        if index==0
+          datas << sale.attributes
+        else
+          datas << sale.attributes.merge("region_meaning"=>"")
+        end
+        summary[:price] =  summary[:price]+ sale.price||0
+        summary[:total_price] =  summary[:total_price]+ sale.total_price||0
+
+      }
+      datas << summary
+      total_summary[:price] =  summary[:price]+ total_summary[:price]
+      total_summary[:total_price] =  summary[:total_price]+ total_summary[:total_price]
+    end
+    datas << total_summary
+    datas.to_xls(columns)
+  end
+
 end
