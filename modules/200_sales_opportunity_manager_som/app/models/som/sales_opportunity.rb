@@ -1,13 +1,15 @@
 class Som::SalesOpportunity < ActiveRecord::Base
   set_table_name 'som_sales_opportunities'
-  validates_presence_of :charge_person, :name, :potential_customer, :sales_status, :sales_person, :start_at, :end_at
+  validates_presence_of :charge_person, :name, :potential_customer, :sales_status, :sales_person, :start_at, :end_at,:total_price,:price
   validates_numericality_of :total_price,:price
-  attr_accessor :communicate_count, :last_communicate
+  attr_accessor :communicate_count, :last_communicate,:author_people_str
   has_many :communicate_infos
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
   default_scope { default_filter }
+
+  has_many :sales_authorizes
 
   before_save :validate_before_save
 
@@ -112,6 +114,32 @@ class Som::SalesOpportunity < ActiveRecord::Base
       sefl.second_price = 0
     end
   end
+
+  def create_sales_authorize_from_str
+    return unless self.author_people_str
+    str_datas = self.author_people_str.delete_if{|i| !i.present?}
+    exists_datas = Som::SalesAuthorize.where(:sales_opportunity_id=>self.id)
+    exists_datas.each do |data|
+      if str_datas.include?(data.person_id)
+        str_datas.delete(data.person_id)
+      else
+        data.destroy
+      end
+    end
+
+    str_datas.each do |data_str|
+      next unless data_str.strip.present?
+      self.sales_authorizes.build(:person_id=>data_str)
+    end if str_datas.any?
+
+  end
+
+  def get_author_people_str
+    return @get_author_people_str if @get_author_people_str
+    @get_author_people_str = self.sales_authorizes.collect{|i| i.person_id}.join(",")
+    @get_author_people_str
+  end
+
 
 
   def self.send_summary_data

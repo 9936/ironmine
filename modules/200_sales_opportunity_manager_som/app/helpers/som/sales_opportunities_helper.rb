@@ -94,4 +94,15 @@ module Som::SalesOpportunitiesHelper
     html.html_safe
   end
 
+  def grouped_sales_authorize(sales_opportunities)
+    results = {}
+    Som::SalesAuthorize.where("sales_opportunity_id in (?)",sales_opportunities.collect{|i| i.id}).group_by{|i|
+      i.sales_opportunity_id
+    }.each do |sales_opportunity_id,sales_authorizes|
+      results[sales_opportunity_id] = sales_authorizes.collect{|i| i.person_id}
+    end
+    results
+
+  end
+
 end

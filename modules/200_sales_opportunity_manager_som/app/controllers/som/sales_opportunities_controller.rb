@@ -41,7 +41,9 @@ class Som::SalesOpportunitiesController < ApplicationController
   def create
     @sales_opportunity = Som::SalesOpportunity.new(params[:som_sales_opportunity])
     respond_to do |format|
-      if @sales_opportunity.save
+      if @sales_opportunity.valid?
+         @sales_opportunity.create_sales_authorize_from_str
+         @sales_opportunity.save
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
         format.xml { render :xml => @sales_opportunity, :status => :created, :location => @sales_opportunity }
       else
@@ -56,7 +58,10 @@ class Som::SalesOpportunitiesController < ApplicationController
   def update
     @sales_opportunity = Som::SalesOpportunity.find(params[:id])
     respond_to do |format|
-      if @sales_opportunity.update_attributes(params[:som_sales_opportunity])
+      @sales_opportunity.attributes = params[:som_sales_opportunity]
+      if @sales_opportunity.valid?
+        @sales_opportunity.create_sales_authorize_from_str
+        @sales_opportunity.save
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml { head :ok }
       else

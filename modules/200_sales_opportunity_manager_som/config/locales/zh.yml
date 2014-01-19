@@ -65,6 +65,8 @@ zh:
   label_som_sales_opportunity_sales_open_at: 预计开工日期
   label_som_sales_opportunity_sales_people_other: 其他
   label_som_sales_opportunity_sales_first_communicate_at: 首次沟通时间
+  label_som_sales_opportunity_author_people_str: 授权管理人员
+  label_som_sales_opportunity_author_people_str_help: 可选择多个授权管理人员
 
 
   label_som_potential_customer: 客户
