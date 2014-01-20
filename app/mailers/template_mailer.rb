@@ -13,7 +13,7 @@ class TemplateMailer < ActionMailer::Base
     # 设置邮件类型
     headers.merge!({:content_type=>("html".eql?(email_template.template_type))? "text/html":"text/plain"})
     # 设置邮件发送人
-    headers.merge!({:from=>email_template.from.blank? ? email_template.from : admin_mail_address})
+    headers.merge!({:from=>email_template.from.blank? ? email_template.from : Irm::MailManager.default_email_from})
     # 设置邮件主题
     # 1，如果邮件主题为liquid模板，则使用liquid解释
     # 2，如果为普通文本则直接作为主题
