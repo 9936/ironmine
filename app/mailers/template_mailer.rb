@@ -37,7 +37,7 @@ class TemplateMailer < ActionMailer::Base
     send_options = mail_options
 
     # 设置邮件类型
-    send_options.merge!({:content_type=>("html".eql?(email_template.template_type)) ? "text/html" : "text/plain"})
+    #send_options.merge!({:content_type=>("html".eql?(email_template.template_type)) ? "text/html" : "text/plain"})
     # 设置邮件主题
     # 1，如果邮件主题为liquid模板，则使用liquid解释
     # 2，如果为普通文本则直接作为主题
@@ -53,15 +53,12 @@ class TemplateMailer < ActionMailer::Base
     headers(header_options)
 
     #################记录日志开始#################
-
     send_options[:logger] = logger_options if logger_options
-
     #################日志记录结束#################
-
+    if mail_options[:attachment].present?
+      attachments[mail_options[:attachment]] = File.read("#{Rails.root.to_s}/tmp/som/xls/#{mail_options[:attachment]}")
+    end
     mail(send_options)
-
-
-
   end
 
 

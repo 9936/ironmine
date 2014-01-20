@@ -5,4 +5,10 @@ class Som::SendCommunicate < ActiveRecord::Base
   query_extend
   # 对运维中心数据进行隔离
   default_scope { default_filter }
+
+  def perform
+    puts "===========start SendCommunicate=============="
+    Delayed::Worker.logger.debug("---------------------SendCommunicate-#{Time.now}--------------------")
+    puts "===========end SendCommunicate=============="
+  end
 end

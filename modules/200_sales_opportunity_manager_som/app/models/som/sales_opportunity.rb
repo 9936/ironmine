@@ -142,8 +142,11 @@ class Som::SalesOpportunity < ActiveRecord::Base
 
 
 
+
   def self.send_summary_data
     datas = []
+    #I18n.locale = Irm::Person.current.language_code
+    I18n.locale = :zh
     columns = [{:key => :region_meaning, :label => I18n.t(:label_som_sales_opportunity_region)},
              {:key => :charge_person_name, :label => I18n.t(:label_som_sales_opportunity_charge_person)},
              {:key => :name, :label => I18n.t(:label_som_sales_opportunity_alias_name)},
@@ -157,7 +160,7 @@ class Som::SalesOpportunity < ActiveRecord::Base
 
     total_summary = {:region_meaning=>"Total Summary",:price=>0,:total_price=>0}
     Som::SalesOpportunity.list_all.where("possibility > ?",99).group_by{|i| i["region_meaning"]}.each do |region_meaning,data_array|
-      datas << []
+      datas << Som::SalesOpportunity.new
       summary = {:region_meaning=>"Summary:#{region_meaning}",:price=>0,:total_price=>0}
       data_array.each_with_index{|sale,index|
         if index==0
@@ -165,8 +168,8 @@ class Som::SalesOpportunity < ActiveRecord::Base
         else
           datas << sale.attributes.merge("region_meaning"=>"")
         end
-        summary[:price] =  summary[:price]+ sale.price||0
-        summary[:total_price] =  summary[:total_price]+ sale.total_price||0
+        summary[:price] =  summary[:price]+ sale.price.to_f||0
+        summary[:total_price] =  summary[:total_price]+ sale.total_price.to_f||0
 
       }
       datas << summary
