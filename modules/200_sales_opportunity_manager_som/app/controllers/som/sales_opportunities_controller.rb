@@ -34,6 +34,10 @@ class Som::SalesOpportunitiesController < ApplicationController
   # GET /som/sales_opportunities/1/edit
   def edit
     @sales_opportunity = Som::SalesOpportunity.find(params[:id])
+    unless current_person?(@sales_opportunity.created_by)|| current_person?(@sales_opportunity.charge_person)||(@sales_opportunity.sales_authorizes.collect{|i| i.person_id}).include?(Irm::Person.current.id)
+       redirect_to(:action=>"index")
+    end
+
   end
 
   # POST /som/sales_opportunities
@@ -57,6 +61,9 @@ class Som::SalesOpportunitiesController < ApplicationController
   # PUT /som/sales_opportunities/1.xml
   def update
     @sales_opportunity = Som::SalesOpportunity.find(params[:id])
+    unless current_person?(@sales_opportunity.created_by)|| current_person?(@sales_opportunity.charge_person)||(@sales_opportunity.sales_authorizes.collect{|i| i.person_id}).include?(Irm::Person.current.id)
+      redirect_to(:action=>"index")
+    end
     respond_to do |format|
       @sales_opportunity.attributes = params[:som_sales_opportunity]
       if @sales_opportunity.valid?
