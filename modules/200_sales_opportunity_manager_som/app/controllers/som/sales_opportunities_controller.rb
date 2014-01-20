@@ -88,7 +88,7 @@ class Som::SalesOpportunitiesController < ApplicationController
 
   def get_data
     sales_opportunities_scope = Som::SalesOpportunity.list_all
-    sales_opportunities_scope = sales_opportunities_scope.match_value("#{Som::SalesOpportunity.table_name}.name", params[:name])
+    sales_opportunities_scope = sales_opportunities_scope.match_value("#{Som::SalesOpportunity.table_name}.short_name", params[:short_name])
     #对可能性进行过渡
     if params[:possibility].present?&&!params[:possibility].include?("all")
       where_str = ""
