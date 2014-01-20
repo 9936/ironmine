@@ -87,7 +87,7 @@ class TemplateMailer < ActionMailer::Base
         plain_text_bodies << p.body.to_s.gsub(regex,"").encode("UTF-8", p.charset,:invalid => :replace, :undef => :replace, :replace => "?")
       else
        # plain_text_body = strip_tags(Iconv.iconv("UTF-8",p.charset, p.body.to_s.gsub(regex,"")).first)
-        plain_text_bodies = strip_tags(p.body.to_s.gsub(regex,"").encode("UTF-8", p.charset,:invalid => :replace, :undef => :replace, :replace => "?"))
+        plain_text_body = strip_tags(p.body.to_s.gsub(regex,"").encode("UTF-8", p.charset,:invalid => :replace, :undef => :replace, :replace => "?"))
         plain_text_body.gsub! %r{^<!DOCTYPE .*$}, ''
         plain_text_bodies  << plain_text_body
       end
