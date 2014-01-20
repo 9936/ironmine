@@ -3,8 +3,8 @@
   <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
     <% if current_person?(data[:created_by])|| current_person?(data[:charge_person])||(sales_authorize_map[data[:id]]||[]).include?(Irm::Person.current.id)%>
       <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
-      <%= link_to(t(:label_som_sales_opportunity_sales_communicate),{:controller=>"som/communicate_infos",:action=>"new",:id=>data[:id]},{:rel => "modal"}) %>
     <% end %>
+    <%= link_to(t(:label_som_sales_opportunity_sales_communicate),{:controller=>"som/communicate_infos",:action=>"new",:id=>data[:id]},{:rel => "modal"}) %>
     <% if current_person?(data[:created_by])|| current_person?(data[:charge_person])%>
             <%= link_to content_tag(:span,t(:delete),:class=>"label label-important"), {:action => "destroy", :id => data[:id]},:method => :delete,:title=>t(:label_som_sales_opportunity_delete_title),:confirm => t(:label_are_you_sure)%>
     <% end %>

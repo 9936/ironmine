@@ -251,7 +251,10 @@
             $("#role label.btn-danger").each(function () {
                 role.push($(this).attr("value"));
             });
-
+            $.cookie("sales_opportunity_query_params_year",year.join(","), { expires: 360, path: '/' });
+            $.cookie("sales_opportunity_query_params_possibility",possibility.join(","), { expires: 360, path: '/' });
+            $.cookie("sales_opportunity_query_params_status",status.join(","), { expires: 360, path: '/' });
+            $.cookie("sales_opportunity_query_params_role",role.join(","), { expires: 360, path: '/' });
             var params = {'possibility[]': possibility, 'status[]': status,'year[]':year,'role[]':role};
             current_target.data.options.searchOptions = params;
             current_target.loadPage(1);
@@ -293,11 +296,10 @@
                 reloadInstance(current_target);
             });
         }
-
-        initCheckGroup("year",<%=session[:year].to_json.html_safe%>||["all"]);
-        initCheckGroup("possibility",<%=session[:possibility].to_json.html_safe%>||["all"]);
-        initCheckGroup("status",<%=session[:status].to_json.html_safe%>||["all"]);
-        initCheckGroup("role",<%=session[:role].to_json.html_safe%>||["CHARGE"]);
+        initCheckGroup("year",($.cookie("sales_opportunity_query_params_year")||"all").split(","));
+        initCheckGroup("possibility",($.cookie("sales_opportunity_query_params_possibility")||"all").split(","));
+        initCheckGroup("status",($.cookie("sales_opportunity_query_params_status")||"all").split(","));
+        initCheckGroup("role",($.cookie("sales_opportunity_query_params_role")||"CHARGE").split(","));
         reloadInstance(current_target);
     });
 
