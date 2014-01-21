@@ -7,14 +7,18 @@ class Som::SendSummary < ActiveRecord::Base
   default_scope { default_filter }
 
   def perform
+    #取得所有销售负责人
+    person_ids = Som::SalesOpportunity.select("charge_person").collect{|i| i.charge_person}
+    return unless person_ids.any?
+    #Irm::Person.current = Irm::Person.find(person_ids.first)
     #启用服务
     if self.summary_enable_flag.eql?('Y')||self.summary_enable_flag.eql?('1')
       #生成汇总报表附件
       xls=Som::SalesOpportunity.send_summary_data
       tmp_folder = "#{Rails.root.to_s}/tmp/som/xls"
-      file_name="/#{Time.now.strftime('%Y%m%d%H%M%S')}.xls"
+      file_name="#{Time.now.strftime('%Y%m%d%H%M%S')}.xls"
       FileUtils.mkdir_p(tmp_folder, :mode => 0777) unless File.exist?(tmp_folder)
-      save_path = tmp_folder+file_name
+      save_path = tmp_folder+"/"+file_name
       File.open(save_path, 'wb') do |file|
         file << xls
       end
@@ -24,8 +28,8 @@ class Som::SendSummary < ActiveRecord::Base
       params = {:object_params=>Irm::BusinessObject.liquid_attributes(bo,true)}
 
       # 加入附件信息
-      mail_options = {}
-      mail_options.merge!(:attachment=>file_name)
+      mail_options = {:attachments=>{}}
+      mail_options[:attachments][file_name] = save_path
       params.merge!(:mail_options=>mail_options)
 
       #获取模板
@@ -36,7 +40,7 @@ class Som::SendSummary < ActiveRecord::Base
           :reference_target => "BUSINESS_OBJECT:#{params}",
           :template_code => 'SALES_OPPORTUNITY_SUMMARY'
       }
-      mail_template.deliver_to(params.merge(:to_person_ids => self.person_id,:logger_options => logger_options))
+      mail_template.deliver_to(params.merge(:to_person_ids => person_ids,:logger_options => logger_options))
       #Delayed::Worker.logger.debug("---------------------SendSummary-#{Time.now}--------------------")
     end
   end

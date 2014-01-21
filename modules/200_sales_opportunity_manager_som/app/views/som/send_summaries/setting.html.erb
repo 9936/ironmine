@@ -1,5 +1,5 @@
 <%= common_title %>
-<%= form_for(@send_summary, :url => {:controller => "som/send_summaries", :action => "save_setting"}, :builder => CustomFormBuilder, :html => {:id => "setting_som_send_summary"}) do |f| %>
+<%= form_for(@send_summary, :url => {:controller => "som/send_summaries", :action => "update"}, :builder => CustomFormBuilder, :html => {:id => "setting_som_send_summary"}) do |f| %>
     <% content_for :form_block_summary do %>
         <table class="form-table">
           <tbody>

@@ -35,7 +35,7 @@ class TemplateMailer < ActionMailer::Base
     after_body = mail_options.delete(:after_body)||""
 
     send_options = mail_options
-
+    send_options[:from] = Irm::MailManager.default_email_from if Irm::MailManager.default_email_from.present?
 
     # 设置邮件主题
     # 1，如果邮件主题为liquid模板，则使用liquid解释
@@ -56,8 +56,11 @@ class TemplateMailer < ActionMailer::Base
     #################日志记录结束#################
 
     #邮件中包含附件时,不指定邮件类型
-    if mail_options[:attachment].present?
-      attachments[mail_options[:attachment]] = File.read("#{Rails.root.to_s}/tmp/som/xls/#{mail_options[:attachment]}")
+    if mail_options[:attachments].present?&&mail_options[:attachments].is_a?(Hash)
+      mail_options.delete(:attachments).each do |file_name,file_path|
+        attachments[file_name] = File.read(file_path)
+      end
+
     else
       # 设置邮件类型
       send_options.merge!({:content_type=>("html".eql?(email_template.template_type)) ? "text/html" : "text/plain"})

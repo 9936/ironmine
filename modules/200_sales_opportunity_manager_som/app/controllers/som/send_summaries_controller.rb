@@ -29,7 +29,7 @@ class Som::SendSummariesController < ApplicationController
       @send_communicate.person_id=Irm::Person.current.id
       respond_to do |format|
         if @send_summary.save&&@send_communicate.save
-          format.html { redirect_to({:controller => "som/sales_opportunities", :action => "index"}, :notice => t(:successfully_created)) }
+          format.html { redirect_to({:controller => "som/send_summaries", :action => "setting"}, :notice => t(:successfully_created)) }
           format.xml { render :xml => @send_summary, :status => :created, :location => @send_summary }
         else
           format.html { render :action => "setting" }
@@ -41,7 +41,7 @@ class Som::SendSummariesController < ApplicationController
       @send_communicate = Som::SendCommunicate.where(:person_id => Irm::Person.current.id).first
       respond_to do |format|
         if @send_summary.update_attributes(params[:som_send_summary])&&@send_communicate.update_attributes(params[:som_send_communicate])
-          format.html { redirect_to({:controller => "som/sales_opportunities", :action => "index"}, :notice => t(:successfully_updated)) }
+          format.html { redirect_to({:controller => "som/send_summaries", :action => "setting"}, :notice => t(:successfully_updated)) }
           format.xml { head :ok }
         else
           format.html { render :action => "setting" }

@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     resources :send_summaries do
       collection do
         get "setting"
-        get "save_setting"
+        post "update"
       end
     end
   end

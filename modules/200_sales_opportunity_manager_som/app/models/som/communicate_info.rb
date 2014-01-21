@@ -28,20 +28,20 @@ class Som::CommunicateInfo < ActiveRecord::Base
                {:key => :communicate_count, :label => I18n.t(:label_som_sales_opportunity_communicate_count)},
                {:key => :last_communicate, :label => I18n.t(:label_som_sales_opportunity_communicate_last)},
                {:key => :interval_day, :label => I18n.t(:label_som_sales_opportunity_interval_days)}]
-    Som::SalesOpportunity.list_all.own_charge(current_person_id).each do |data|
-      relative_communicates=Som::SalesOpportunity.find(data.id).communicate_infos
-      if relative_communicates.nil?
-        data[:communicate_count]= 0
-        data[:last_communicate]=data[:created_at]
+    Som::SalesOpportunity.list_all.own_charge(current_person_id).where("possibility>?",0).each do |data|
+      communicate_infos = data.communicate_infos.order("communicate_date desc")
+      if communicate_infos.any?
+        data[:communicate_count]= communicate_infos.length
+        data[:last_communicate]= communicate_infos.first.communicate_date
       else
-        data[:communicate_count]=relative_communicates.size
-        data[:last_communicate]=relative_communicates.last.created_at.strftime('%Y-%m-%d') unless relative_communicates.last.nil?
+        data[:communicate_count] = 0
+        data[:last_communicate]= data.created_at.to_date
+
       end
-      time_interval=(DateTime.parse(Time.now.strftime("%Y-%m-%d"))-DateTime.parse(data[:last_communicate])).to_i
-      if time_interval>last_interval.to_i
-        data[:interval_day]= time_interval
+      data[:interval_day] = (Date.today - data[:last_communicate]).to_i
+      #if data[:interval_day]>last_interval.to_i
         datas<<data
-      end
+      #end
     end
     unless datas.blank?
       [datas.to_xls(columns),datas.size]

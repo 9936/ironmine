@@ -161,10 +161,10 @@ class Som::SalesOpportunity < ActiveRecord::Base
              {:key => :possibility, :label => I18n.t(:label_som_sales_opportunity_sales_alias_possibility)},
              {:key => :sales_person_name, :label => I18n.t(:label_som_sales_opportunity_sales_alias_person)}]
 
-    total_summary = {:region_meaning=>"Total Summary",:price=>0,:total_price=>0}
+    total_summary = {:region_meaning=>I18n.t(:label_som_sales_opportunity_total_summary),:price=>0,:total_price=>0}
     Som::SalesOpportunity.list_all.where("possibility > ?",99).group_by{|i| i["region_meaning"]}.each do |region_meaning,data_array|
-      datas << Som::SalesOpportunity.new
-      summary = {:region_meaning=>"Summary:#{region_meaning}",:price=>0,:total_price=>0}
+      datas << {}
+      summary = {:region_meaning=>"#{I18n.t(:label_som_sales_opportunity_summary)}:#{region_meaning}",:price=>0,:total_price=>0}
       data_array.each_with_index{|sale,index|
         if index==0
           datas << sale.attributes
