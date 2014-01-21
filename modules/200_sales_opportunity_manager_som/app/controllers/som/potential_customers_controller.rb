@@ -86,7 +86,8 @@ class Som::PotentialCustomersController < ApplicationController
 
   def get_data
     potential_customers_scope = Som::PotentialCustomer
-    potential_customers_scope = potential_customers_scope.match_value("#{Som::PotentialCustomer.table_name}.name",params[:name])
+    potential_customers_scope = potential_customers_scope.match_value("#{Som::PotentialCustomer.table_name}.short_name",params[:short_name])
+    potential_customers_scope = potential_customers_scope.match_value("#{Som::PotentialCustomer.table_name}.full_name",params[:full_name])
     potential_customers,count = paginate(potential_customers_scope)
     respond_to do |format|
       format.html  {
