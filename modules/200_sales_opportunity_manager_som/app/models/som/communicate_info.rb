@@ -2,7 +2,7 @@ class Som::CommunicateInfo < ActiveRecord::Base
   set_table_name 'som_communicate_infos'
   belongs_to :sales_opportunity
   has_one :participation_info
-  attr_accessor :our_persons,:our_roles,:client_persons,:client_roles
+  attr_accessor :our_persons, :our_roles, :client_persons, :client_roles
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -10,4 +10,41 @@ class Som::CommunicateInfo < ActiveRecord::Base
   default_scope { default_filter }
 
   scope :desc, order("#{table_name}.created_at DESC")
+
+
+  def self.send_my_communicate(current_person_id, last_interval)
+    datas = []
+    #I18n.locale = Irm::Person.current.language_code
+    I18n.locale = :zh
+    columns = [{:key => :name, :label => I18n.t(:label_som_sales_opportunity_name)},
+               {:key => :charge_person_name, :label => I18n.t(:label_som_sales_opportunity_charge_person)},
+               {:key => :potential_customer_name, :label => I18n.t(:label_som_sales_opportunity_customer)},
+               {:key => :price, :label => I18n.t(:label_som_sales_opportunity_sales_price_with_unit)},
+               {:key => :second, :label => I18n.t(:label_som_sales_opportunity_sales_second_price_with_unit)},
+               {:key => :start_at, :label => I18n.t(:label_som_sales_opportunity_sales_start_at)},
+               {:key => :end_at, :label => I18n.t(:label_som_sales_opportunity_sales_end_at)},
+               {:key => :sales_status_meaning, :label => I18n.t(:label_som_sales_opportunity_sales_status)},
+               {:key => :possibility, :label => I18n.t(:label_som_sales_opportunity_sales_possibility)},
+               {:key => :communicate_count, :label => I18n.t(:label_som_sales_opportunity_communicate_count)},
+               {:key => :last_communicate, :label => I18n.t(:label_som_sales_opportunity_communicate_last)},
+               {:key => :interval_day, :label => I18n.t(:label_som_sales_opportunity_interval_days)}]
+    Som::SalesOpportunity.list_all.own_charge(current_person_id).each do |data|
+      relative_communicates=Som::SalesOpportunity.find(data.id).communicate_infos
+      if relative_communicates.nil?
+        data[:communicate_count]= 0
+        data[:last_communicate]=data[:created_at]
+      else
+        data[:communicate_count]=relative_communicates.size
+        data[:last_communicate]=relative_communicates.last.created_at.strftime('%Y-%m-%d') unless relative_communicates.last.nil?
+      end
+      time_interval=(DateTime.parse(Time.now.strftime("%Y-%m-%d"))-DateTime.parse(data[:last_communicate])).to_i
+      if time_interval>last_interval.to_i
+        data[:interval_day]= time_interval
+        datas<<data
+      end
+    end
+    unless datas.blank?
+      datas.to_xls(columns)
+    end
+  end
 end

@@ -35,8 +35,10 @@ zh:
   label_som_sales_opportunity_sales_progress: 进度
   label_som_sales_opportunity_sales_communicate: 沟通
   label_som_sales_opportunity_sales_price: 当年金额
+  label_som_sales_opportunity_sales_price_with_unit: 当年金额(万元)
   label_som_sales_opportunity_sales_total_price: 总金额
   label_som_sales_opportunity_sales_second_price: 剩余金额
+  label_som_sales_opportunity_sales_second_price_with_unit: 剩余金额(万元)
   label_som_sales_opportunity_sales_start_at: 开始时间
   label_som_sales_opportunity_sales_end_at: 结束时间
   label_som_sales_opportunity_sales_new: 新建销售信息
@@ -87,6 +89,7 @@ zh:
 
   label_som_sales_opportunity_communicate_count: 沟通次数
   label_som_sales_opportunity_communicate_last: 最后沟通
+  label_som_sales_opportunity_interval_days: 未沟通天数
   label_som_sales_opportunity_communicate_info: 沟通信息
   label_som_sales_opportunity_flag_Y: 是
   label_som_sales_opportunity_flag_N: 否

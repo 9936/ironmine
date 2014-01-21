@@ -98,6 +98,9 @@ class Som::SalesOpportunity < ActiveRecord::Base
          select(" region.meaning region_meaning")
    }
 
+  scope :own_charge,lambda{|charge_person|
+    where("#{table_name}.charge_person= ? ",charge_person)
+  }
 
    def self.list_all
      select_all.with_charger.with_customer.with_sales.with_status(I18n.locale).with_region(I18n.locale)
