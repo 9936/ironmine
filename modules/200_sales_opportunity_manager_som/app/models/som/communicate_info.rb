@@ -44,7 +44,7 @@ class Som::CommunicateInfo < ActiveRecord::Base
       end
     end
     unless datas.blank?
-      datas.to_xls(columns)
+      [datas.to_xls(columns),datas.size]
     end
   end
 end
