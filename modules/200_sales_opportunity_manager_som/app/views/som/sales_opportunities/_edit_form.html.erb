@@ -1,5 +1,5 @@
 <%= common_title %>
-<%= @sales_opportunity.author_people_str||=@sales_opportunity.get_author_people_str.split(",") %>
+<% @sales_opportunity.author_people_str||=@sales_opportunity.get_author_people_str.split(",") %>
 <%= form_for(@sales_opportunity, :url => {:action => "update"}, :builder => CustomFormBuilder,:id=>"edit_som_sales_opportunity") do |f| %>
     <% content_for :form_block_a do %>
         <table class="form-table">

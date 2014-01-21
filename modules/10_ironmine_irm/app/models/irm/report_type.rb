@@ -127,7 +127,7 @@ class Irm::ReportType < ActiveRecord::Base
       if(index == 0)
         query_str[:from]<< "(#{eval(bo.generate_query(true)).to_sql}) #{table_names[index]}"
       else
-        relation_attribute = Irm::ObjectAttribute.where(:relation_bo_id=>report_type_objects[index-1].business_object.business_object_id,
+        relation_attribute = Irm::ObjectAttribute.where(:relation_bo_id=>report_type_objects[index-1].business_object.id,
                                                         :business_object_id=>bo.id,:category=>"MASTER_DETAIL_RELATION").first
 
         clause_attribute = Irm::ObjectAttribute.where(:id=>relation_attribute.relation_object_attribute_id).first

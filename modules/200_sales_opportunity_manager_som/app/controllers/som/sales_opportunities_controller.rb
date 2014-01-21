@@ -34,6 +34,10 @@ class Som::SalesOpportunitiesController < ApplicationController
   # GET /som/sales_opportunities/1/edit
   def edit
     @sales_opportunity = Som::SalesOpportunity.find(params[:id])
+    unless current_person?(@sales_opportunity.created_by)|| current_person?(@sales_opportunity.charge_person)||(@sales_opportunity.sales_authorizes.collect{|i| i.person_id}).include?(Irm::Person.current.id)
+       redirect_to(:action=>"index")
+    end
+
   end
 
   # POST /som/sales_opportunities
@@ -57,6 +61,9 @@ class Som::SalesOpportunitiesController < ApplicationController
   # PUT /som/sales_opportunities/1.xml
   def update
     @sales_opportunity = Som::SalesOpportunity.find(params[:id])
+    unless current_person?(@sales_opportunity.created_by)|| current_person?(@sales_opportunity.charge_person)||(@sales_opportunity.sales_authorizes.collect{|i| i.person_id}).include?(Irm::Person.current.id)
+      redirect_to(:action=>"index")
+    end
     respond_to do |format|
       @sales_opportunity.attributes = params[:som_sales_opportunity]
       if @sales_opportunity.valid?
@@ -87,12 +94,8 @@ class Som::SalesOpportunitiesController < ApplicationController
 
 
   def get_data
-    session[:possibility]=params[:possibility]
-    session[:year]=params[:year]
-    session[:status]=params[:status]
-    session[:role]=params[:role]
     sales_opportunities_scope = Som::SalesOpportunity.list_all
-    sales_opportunities_scope = sales_opportunities_scope.match_value("#{Som::SalesOpportunity.table_name}.name", params[:name])
+    sales_opportunities_scope = sales_opportunities_scope.match_value("#{Som::SalesOpportunity.table_name}.short_name", params[:short_name])
     #对可能性进行过渡
     if params[:possibility].present?&&!params[:possibility].include?("all")
       where_str = ""

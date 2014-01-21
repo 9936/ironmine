@@ -13,7 +13,7 @@ class TemplateMailer < ActionMailer::Base
     # 设置邮件类型
     headers.merge!({:content_type=>("html".eql?(email_template.template_type))? "text/html":"text/plain"})
     # 设置邮件发送人
-    headers.merge!({:from=>email_template.from.blank? ? email_template.from : admin_mail_address})
+    headers.merge!({:from=>email_template.from.blank? ? email_template.from : Irm::MailManager.default_email_from})
     # 设置邮件主题
     # 1，如果邮件主题为liquid模板，则使用liquid解释
     # 2，如果为普通文本则直接作为主题
@@ -84,7 +84,7 @@ class TemplateMailer < ActionMailer::Base
         plain_text_bodies << p.body.to_s.gsub(regex,"").encode("UTF-8", p.charset,:invalid => :replace, :undef => :replace, :replace => "?")
       else
        # plain_text_body = strip_tags(Iconv.iconv("UTF-8",p.charset, p.body.to_s.gsub(regex,"")).first)
-        plain_text_bodies = strip_tags(p.body.to_s.gsub(regex,"").encode("UTF-8", p.charset,:invalid => :replace, :undef => :replace, :replace => "?"))
+        plain_text_body = strip_tags(p.body.to_s.gsub(regex,"").encode("UTF-8", p.charset,:invalid => :replace, :undef => :replace, :replace => "?"))
         plain_text_body.gsub! %r{^<!DOCTYPE .*$}, ''
         plain_text_bodies  << plain_text_body
       end

@@ -6,7 +6,10 @@
       <h2 class="block-title"><%= t(:label_som_sales_opportunity) %></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:edit), {:action => "edit", :id => @sales_opportunity},:class=>"btn"%>
+      <% if current_person?(@sales_opportunity[:created_by])|| current_person?(@sales_opportunity[:charge_person])||(@sales_opportunity.sales_authorizes.collect{|i| i.person_id}).include?(Irm::Person.current.id)%>
+          <%= link_to t(:edit), {:action => "edit", :id => @sales_opportunity},:class=>"btn"%>
+      <% end %>
+
       <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
     </td>
   </tr></table>
