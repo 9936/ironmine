@@ -28,12 +28,6 @@ class Som::SendSummary < ActiveRecord::Base
       mail_options.merge!(:attachment=>file_name)
       params.merge!(:mail_options=>mail_options)
 
-      # header options
-      sales=Som::SalesOpportunity.find("005g00092YW2jv8jAIn6eW")
-      header_options = {}
-      mail_message_id = Irm::BusinessObject.mail_message_id(sales)
-      header_options.merge!({"References"=>mail_message_id })
-      params.merge!(:header_options=>header_options)
       #获取模板
       mail_template = Irm::MailTemplate.query_by_template_code('SALES_OPPORTUNITY_SUMMARY').first
 
