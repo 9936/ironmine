@@ -170,15 +170,8 @@ class Som::SalesOpportunitiesController < ApplicationController
                                      {:key => :open_at_alias, :label => t(:label_som_sales_opportunity_sales_open_at)},
                                      {:key => :previous_flag, :label => t(:label_som_sales_opportunity_sales_previous_flag)},
                                      {:key => :sales_status_meaning, :label => t(:label_som_sales_opportunity_sales_alias_status)},
-                                     {:key => :possibility, :label => t(:label_som_sales_opportunity_sales_alias_possibility)},
-                                     {:key => :operation, :label => t(:label_som_sales_opportunity_operations)},
-                                     {:key => :hisms, :label => t(:label_som_sales_opportunity_hisms)},
-                                     {:key => :ebs, :label => t(:label_som_sales_opportunity_ebs)},
-                                     {:key => :siebel, :label => t(:label_som_sales_opportunity_siebel)},
-                                     {:key => "hr/peoplesoft", :label => t(:label_som_sales_opportunity_hr)},
-                                     {:key => :hyperion, :label => t(:label_som_sales_opportunity_hyperion)},
-                                     {:key => :ms, :label => t(:label_som_sales_opportunity_ms)},
-                                     {:key => :java, :label => t(:label_som_sales_opportunity_java)},
+                                     {:key => :possibility, :label => t(:label_som_sales_opportunity_sales_alias_possibility)}
+                                    ]+Irm::LookupValue.query_by_lookup_type("SOM_PRODUCTION_INFO").order_by_sequence.multilingual.collect{|m| {:key => m.lookup_code.downcase, :label => m[:meaning]}}+[
                                      {:key => :sales_person_name, :label => t(:label_som_sales_opportunity_sales_alias_person)},
                                      {:key => :internal_member, :label => t(:label_som_sales_opportunity_internal_member)},
                                      {:key => :external_member, :label => t(:label_som_sales_opportunity_external_member)}
