@@ -15,13 +15,8 @@ class Som::SendSummary < ActiveRecord::Base
     if self.summary_enable_flag.eql?('Y')||self.summary_enable_flag.eql?('1')
       #生成汇总报表附件
       xls=Som::SalesOpportunity.send_summary_data
-      tmp_folder = "#{Rails.root.to_s}/tmp/som/xls"
       file_name="#{Time.now.strftime('%Y%m%d%H%M%S')}.xls"
-      FileUtils.mkdir_p(tmp_folder, :mode => 0777) unless File.exist?(tmp_folder)
-      save_path = tmp_folder+"/"+file_name
-      File.open(save_path, 'wb') do |file|
-        file << xls
-      end
+
       #向邮件模板传送时间
       bo=Som::SalesOpportunity.new
       bo.created_at=Time.now.strftime('%Y-%m-%d')
@@ -29,7 +24,7 @@ class Som::SendSummary < ActiveRecord::Base
 
       # 加入附件信息
       mail_options = {:attachments=>{}}
-      mail_options[:attachments][file_name] = save_path
+      mail_options[:attachments][file_name] =xls
       params.merge!(:mail_options=>mail_options)
 
       #获取模板

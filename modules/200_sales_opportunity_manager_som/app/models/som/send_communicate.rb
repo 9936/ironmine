@@ -17,13 +17,7 @@ class Som::SendCommunicate < ActiveRecord::Base
         xls, count=Som::CommunicateInfo.send_my_communicate(person_id, self.last_interval)
         #没有符合条件的沟通报表,不发送邮件
         unless xls.nil?
-          tmp_folder = "#{Rails.root.to_s}/tmp/som/xls"
           file_name="#{Time.now.strftime('%Y%m%d%H%M%S')}.xls"
-          FileUtils.mkdir_p(tmp_folder, :mode => 0777) unless File.exist?(tmp_folder)
-          save_path = tmp_folder+"/"+file_name
-          File.open(save_path, 'wb') do |file|
-            file << xls
-          end
 
           #向邮件模板传送时间和需要沟通的预销售个数
           bo=Som::SalesOpportunity.new
@@ -32,9 +26,10 @@ class Som::SendCommunicate < ActiveRecord::Base
           params = {:object_params => Irm::BusinessObject.liquid_attributes(bo, true)}
 
           # 加入附件信息
-          mail_options = {:attachments => {}}
-          mail_options[:attachments][file_name] = save_path
-          params.merge!(:mail_options => mail_options)
+          mail_options = {:attachments=>{}}
+          mail_options[:attachments][file_name] =xls
+          params.merge!(:mail_options=>mail_options)
+
           #获取模板
           mail_template = Irm::MailTemplate.query_by_template_code('SALES_OPPORTUNITY_COMMUNICATE').first
 

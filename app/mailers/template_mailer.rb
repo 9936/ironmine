@@ -57,10 +57,9 @@ class TemplateMailer < ActionMailer::Base
 
     #邮件中包含附件时,不指定邮件类型
     if mail_options[:attachments].present?&&mail_options[:attachments].is_a?(Hash)
-      mail_options.delete(:attachments).each do |file_name,file_path|
-        attachments[file_name] = File.read(file_path)
+      mail_options.delete(:attachments).each do |file_name,file_content|
+        attachments[file_name] = file_content
       end
-
     else
       # 设置邮件类型
       send_options.merge!({:content_type=>("html".eql?(email_template.template_type)) ? "text/html" : "text/plain"})
