@@ -104,4 +104,4 @@ zh:
   label_som_send_communicate_last_interval: 未沟通
   label_som_send_communicate_last_interval_day: 天
   label_action_setting: 信息
-
+  error_end_date_before_end_date: 结束时间不能早于开始时间
