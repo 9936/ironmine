@@ -193,12 +193,13 @@
         else if($("#total_price").val().length<1&&$("#price").val().length>0){
           $("#price").val(0)
         }
-        else if($("#total_price").val().length>0&&$("#price").val().length>0&&parseInt($("#total_price").val())<parseInt($("#price").val())){
+        else if($("#total_price").val().length>0&&$("#price").val().length>0&&parseFloat($("#total_price").val())<parseFloat($("#price").val())){
             $("#price").val($("#total_price").val());
         }
 
-        if($("#total_price").val().length>0&&$("#price").val().length>0&&parseInt($("#total_price").val())>=parseInt($("#price").val())){
-            $("#second_price").val($("#total_price").val()-$("#price").val());
+        if($("#total_price").val().length>0&&$("#price").val().length>0&&parseFloat($("#total_price").val())>=parseFloat($("#price").val())){
+            $("#second_price").val($("#total_price").val()-$("#price").val()-0);
+
         }
     });
 
