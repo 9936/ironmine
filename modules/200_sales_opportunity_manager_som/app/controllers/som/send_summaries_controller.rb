@@ -1,24 +1,11 @@
 class Som::SendSummariesController < ApplicationController
   layout "application_full"
 
-  def first_setting?
-    flag=false
-    @send_summary = Som::SendSummary.where(:person_id => Irm::Person.current.id).first
-    @send_communicate = Som::SendCommunicate.where(:person_id => Irm::Person.current.id).first
-    if @send_summary.nil?&&@send_communicate.nil?
-      flag=true
-    end
-    flag
-  end
 
-  def setting
-    if first_setting?
-      @send_summary=Som::SendSummary.new
-      @send_communicate=Som::SendCommunicate.new
-    else
-      @send_summary = Som::SendSummary.where(:person_id => Irm::Person.current.id).first
-      @send_communicate = Som::SendCommunicate.where(:person_id => Irm::Person.current.id).first
-    end
+  def edit
+    @sales_summary_notify = Som::SendSummary.sales_summary_notify
+    @sales_communicate_notify = Som::SendSummary.sales_communicate_notify
+    @sales_opportunity_notify = Som::SendSummary.sales_opportunity_notify
   end
 
   def update

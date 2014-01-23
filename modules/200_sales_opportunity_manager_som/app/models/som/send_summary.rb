@@ -6,6 +6,18 @@ class Som::SendSummary < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope { default_filter }
 
+  def self.sales_summary_notify
+    self.where(:summary_type=>"SOM_SALES_SUMMARY_NOTIFY").first||self.new(:summary_type=>"SOM_SALES_SUMMARY_NOTIFY")
+  end
+
+  def self.sales_communicate_notify
+    self.where(:summary_type=>"SOM_SALES_COMMUNICATE_NOTIFY").first||self.new(:summary_type=>"SOM_SALES_COMMUNICATE_NOTIFY")
+  end
+
+  def self.sales_opportunity_notify
+    self.where(:summary_type=>"SOM_SALES_OPPORTUNITY_NOTIFY").first||self.new(:summary_type=>"SOM_SALES_OPPORTUNITY_NOTIFY")
+  end
+
   def perform
     #取得所有销售负责人
     person_ids = Som::SalesOpportunity.select("charge_person").collect{|i| i.charge_person}
