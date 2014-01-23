@@ -96,10 +96,11 @@ class Array
 
   #将数据转为html table,数据传入方式同to_xls
   def to_html(columns, options={})
-    html_str="<table border='1'>"
+
+    html_str="<table border='1' style='border-collapse:collapse;'>"
     #生成表头
     if columns.any?
-      html_str << "<tr>"
+      html_str << "<tr style='height:17px'>"
       if columns&&columns.is_a?(Array)
         columns.each { |column|
           unless options[:header_hidden]
@@ -111,7 +112,7 @@ class Array
     end
     # 向表格中输出数据信息
     self.each do |item|
-      html_str << "<tr>"
+      html_str << "<tr style='height:17px'>"
       columns.each do |column|
         value= item["#{column[:key]}"] || item[column[:key].to_sym]
         if (value.is_a? Time)

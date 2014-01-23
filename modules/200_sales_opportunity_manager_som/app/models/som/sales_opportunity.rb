@@ -76,6 +76,12 @@ class Som::SalesOpportunity < ActiveRecord::Base
     where("#{table_name}.charge_person= ? ", charge_person)
   }
 
+  #筛选当年销售信息
+  scope :this_year_opportunity, lambda {
+    where("year(#{Som::SalesOpportunity.table_name}.start_at)<=? and year(#{Som::SalesOpportunity.table_name}.end_at)>=?",Time.now.year,Time.now.year)
+
+  }
+
   def self.list_all
     select_all.with_charger.with_customer.with_sales.with_status(I18n.locale).with_region(I18n.locale)
   end
@@ -152,6 +158,38 @@ class Som::SalesOpportunity < ActiveRecord::Base
       total_summary[:total_price] = summary[:total_price]+ total_summary[:total_price]
     end
     datas << total_summary
-    datas.to_xls(columns)
+    #datas.to_xls(columns)
+    datas.to_html(columns)
+  end
+
+  def self.send_opportunity_data
+    datas = []
+    #I18n.locale = Irm::Person.current.language_code
+    I18n.locale = :zh
+    columns = [{:key => :name, :label => I18n.t(:label_som_sales_opportunity_name)},
+               {:key => :charge_person_name, :label => I18n.t(:label_som_sales_opportunity_charge_person)},
+               {:key => :potential_customer_name, :label => I18n.t(:label_som_sales_opportunity_customer)},
+               {:key => :price, :label => I18n.t(:label_som_sales_opportunity_sales_price_with_unit)},
+               {:key => :second, :label => I18n.t(:label_som_sales_opportunity_sales_second_price_with_unit)},
+               {:key => :start_at, :label => I18n.t(:label_som_sales_opportunity_sales_start_at)},
+               {:key => :end_at, :label => I18n.t(:label_som_sales_opportunity_sales_end_at)},
+               {:key => :sales_status_meaning, :label => I18n.t(:label_som_sales_opportunity_sales_status)},
+               {:key => :possibility, :label => I18n.t(:label_som_sales_opportunity_sales_possibility)},
+               {:key => :communicate_count, :label => I18n.t(:label_som_sales_opportunity_communicate_count)},
+               {:key => :last_communicate, :label => I18n.t(:label_som_sales_opportunity_communicate_last)}]
+    Som::SalesOpportunity.list_all.this_year_opportunity.where("possibility>?",0).each do |data|
+      communicate_infos = data.communicate_infos.order("communicate_date desc")
+      if communicate_infos.any?
+        data[:communicate_count]= communicate_infos.length
+        data[:last_communicate]= communicate_infos.first.communicate_date
+      else
+        data[:communicate_count] = 0
+        data[:last_communicate]= data.created_at.to_date
+      end
+        datas<<data
+    end
+    unless datas.blank?
+      [datas.to_html(columns),datas.size]
+    end
   end
 end

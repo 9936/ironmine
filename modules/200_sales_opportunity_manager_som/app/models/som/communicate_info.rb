@@ -12,7 +12,7 @@ class Som::CommunicateInfo < ActiveRecord::Base
   scope :desc, order("#{table_name}.created_at DESC")
 
 
-  def self.send_my_communicate(current_person_id, last_interval)
+  def self.send_my_communicate(current_person_id, communicate_interval)
     datas = []
     #I18n.locale = Irm::Person.current.language_code
     I18n.locale = :zh
@@ -39,12 +39,12 @@ class Som::CommunicateInfo < ActiveRecord::Base
 
       end
       data[:interval_day] = (Date.today - data[:last_communicate]).to_i
-      #if data[:interval_day]>last_interval.to_i
+      if data[:interval_day]>communicate_interval.to_i
         datas<<data
-      #end
+      end
     end
     unless datas.blank?
-      [datas.to_xls(columns),datas.size]
+      [datas.to_html(columns),datas.size]
     end
   end
 end
