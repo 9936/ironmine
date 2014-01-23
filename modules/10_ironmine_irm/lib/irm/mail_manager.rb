@@ -13,7 +13,10 @@ module Irm
       end
 
       def receive_method
-        Ironmine::Application.config.fwk.mail_receive_method
+        imap_setting = Irm::ImapSetting.first
+        protocol = imap_setting.protocol
+        protocol ||= Ironmine::Application.config.fwk.mail_receive_method
+        protocol.to_s.downcase.to_sym
       end
 
       def receive_interval
@@ -21,11 +24,11 @@ module Irm
       end
 
       def pop_receive_options
-        Ironmine::Application.config.fwk.mail_receive_pop
+        current_receive_mail_setting
       end
 
       def imap_receive_options
-        Ironmine::Application.config.fwk.mail_receive_imap
+        current_receive_mail_setting
       end
 
       def default_email_from
@@ -87,6 +90,25 @@ module Irm
         smtp_settings
 
       end
+
+      def current_receive_mail_setting
+        smtp_setting = current_smtp_settings
+        imap_setting = Irm::ImapSetting.first
+        protocol = imap_setting.protocol
+        protocol ||= Ironmine::Application.config.fwk.mail_receive_method
+        receive_mail_setting = {}
+        case protocol.to_s.downcase
+          when "imap"
+            receive_mail_setting =  Ironmine::Application.config.fwk.mail_receive_imap
+            receive_mail_setting.merge!({:username=>smtp_setting[:user_name],:password=>smtp_setting[:password],:host=>smtp_setting[:address],:port=>imap_setting[:port]})
+            receive_mail_setting.merge!({:ssl=>smtp_setting[:tls_flag].eql?(Irm::Constant::SYS_YES)})
+          when "pop"
+            receive_mail_setting =  Ironmine::Application.config.fwk.mail_receive_pop
+            receive_mail_setting.merge!({:username=>smtp_setting[:user_name],:password=>smtp_setting[:password],:host=>smtp_setting[:address],:port=>imap_setting[:port]})
+        end
+        receive_mail_setting
+      end
+
     end
     class Processor
       include Singleton

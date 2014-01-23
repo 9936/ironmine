@@ -291,6 +291,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_person?(person_id)
+    (person_id&&Irm::Person.current.id.to_s.eql?(person_id.to_s))
+  end
+
   private
   def clear_session
     old_session_id = session[:session_id]

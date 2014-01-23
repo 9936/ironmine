@@ -14,6 +14,13 @@ ActiveRecord::Base.send(:include, Irm::EventGenerator)
 #扩展link_to,url_for,增加权限验证
 ActionView::Base.send(:include, Irm::UrlHelper)
 
+#扩展ActionRecord::Base,校验日期关系
+ActiveRecord::Base.class_eval do
+  def self.validates_date_of(*attr_names)
+    validates_with DateValidator, _merge_attributes(attr_names)
+  end
+end
+
 
 #扩展event_calendar
 EventCalendar::ClassMethods.send(:include, EventCalendar::EventCalendarEx)

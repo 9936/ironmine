@@ -117,6 +117,8 @@ class Irm::TimeTrigger < ActiveRecord::Base
       end
       occurrence_datetime = occurrence.dtstart.to_datetime
       occurrence_datetime = occurrence_datetime.change(:hour=>self.start_time.hour,:min=>self.start_time.min,:sec=>self.start_time.sec)
+      distance = Time.now.utc_offset - occurrence_datetime.utc_offset
+      occurrence_datetime = occurrence_datetime.in_time_zone(Time.zone)- distance
       occurrences << occurrence_datetime  if occurrence_datetime>start_date&&occurrence_datetime>DateTime.now
     end
     occurrences

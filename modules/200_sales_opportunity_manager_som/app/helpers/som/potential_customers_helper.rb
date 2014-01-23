@@ -1,0 +1,2 @@
+module Som::PotentialCustomersHelper
+end

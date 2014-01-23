@@ -1,0 +1,70 @@
+<style>
+    .communicate_info {
+        width: 10%;
+    }
+
+    .col {
+        width: 10%;
+    }
+        #communicate_body{
+            margin-left: 100px;
+            width: auto;
+
+        }
+        td.first_col{
+            width: 1%;
+        }
+</style>
+
+<% communicate_infos.desc.each do |communicate_info| %>
+    <div class="reply">
+      <div class="reply-header">
+        <div style="float:left; padding:0 0 0 5px;">
+        <span style="color:#666666;font-style:italic;">
+          <%= t(:label_communicate_title, :time_distance => distance_of_time_in_words(Time.now, communicate_info[:created_at]), :date_format => format_date(communicate_info[:created_at])) %>
+         </span>
+        </div>
+        <div style="float:right; padding: 5px 10px;">
+          <%= link_to t(:edit), {:controller=>"som/communicate_infos",:action => "edit",:id=>communicate_info.id},{:rel => "modal"} %>
+        </div>
+      </div>
+    </div>
+
+    <div class="reply-body">
+      <table class="form-table" id="communicate_body">
+        <tbody>
+        <tr>
+          <td class="communicate_info first_col"><label><%= t("label_som_sales_opportunity_sales_status") %></label>&nbsp;&nbsp;
+            <%= translate_status(communicate_info[:sales_status]) %></td>
+          <td class="communicate_info"><label><%= t("label_som_sales_opportunity_sales_possibility") %></label>&nbsp;&nbsp;
+            <%= communicate_info[:current_possibility] %>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="communicate_info first_col"><label><%= t("label_som_sales_opportunity_communicate_date") %></label></td>
+          <td class="communicate_info"><%= communicate_info[:communicate_date] %></td>
+        </tr>
+
+        <tr>
+          <td class="communicate_info first_col"><label><%= t("label_som_sales_opportunity_communicate_our") %></label></td>
+          <td class="communicate_info">
+            <%= our_participation(communicate_info.id).html_safe %>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="communicate_info first_col"><label><%= t("label_som_sales_opportunity_communicate_client") %></label></td>
+          <td class="communicate_info">
+            <%= client_participation(communicate_info.id).html_safe %>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="communicate_info first_col"><label><%= t("label_som_sales_opportunity_communicate_content") %></label></td>
+          <td class="communicate_info"><pre><%= communicate_info[:content] %></pre></td>
+        </tr>
+
+      </table>
+    </div>
+<% end %>

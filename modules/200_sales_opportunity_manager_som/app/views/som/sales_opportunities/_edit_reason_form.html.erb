@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_som_sales_opportunity_failed) %></h3>
+</div>
+<%= form_for(@sales_opportunity, :url => {:action => "update_reason", :id => @sales_opportunity.id}, :html => {:class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
+    <div class="modal-body form-horizontal">
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_som_sales_opportunity_failed_reason) %>:</label>
+
+        <div class="controls">
+          <%=f.text_area :failed_reason,:rows=>8,:cols=>100, :required=>true ,:class=>"input-xxlarge",:id=>"failed_reason"%>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss"=>"modal", "aria-hidden" => "true" %>
+      <%= link_submit t(:save), :class => "btn btn-primary" %>
+    </div>
+<% end %>

@@ -1,0 +1,117 @@
+<%= common_title %>
+<%= form_for(@send_summary, :url => {:controller => "som/send_summaries", :action => "update"}, :builder => CustomFormBuilder, :html => {:id => "setting_som_send_summary"}) do |f| %>
+    <% content_for :form_block_summary do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col">
+              <label for="report_trigger_time_mode"><%= t(:label_som_send_summary_trigger_time) %></label>
+            </td>
+            <td class="data-3col" colspan="3">
+              <%= time_trigger(f) %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col">
+              <label for="report_trigger_time_mode"><%= t(:label_som_send_summary_enable) %></label>
+            </td>
+            <td class="data-3col" colspan="3">
+              <%= f.check_box :summary_enable_flag, :required => true %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <%= fields_for @send_communicate, :as => "send_communicate", :builder => CustomFormBuilder, :normal => true do |sub_f| %>
+            <table class="form-table">
+              <tbody>
+              <tr>
+                <td class="label-col">
+                  <label for="report_trigger_time_mode"><%= t(:label_som_send_communicate_trigger_time) %></label>
+                </td>
+                <td class="data-3col" colspan="3">
+                  <%= time_trigger(sub_f) %>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col">
+                  <label for="report_trigger_time_mode"><%= t(:label_som_send_summary_enable) %></label>
+                </td>
+                <td class="data-3col" colspan="3">
+                  <%= sub_f.check_box :communicate_enable_flag, :required => true %>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col">
+                  <label for="report_trigger_time_mode"><%= t(:label_som_send_communicate_last_interval) %></label>
+                </td>
+                <td class="data-3col" colspan="3">
+                  <% if @send_summary.nil? %>
+                      <%= sub_f.text_field :last_interval, :id => "last_interval", :class => "input-small", :irm_number_only => true, :required => true, :value => "20" %>
+                  <% else %>
+                      <%= sub_f.text_field :last_interval, :id => "last_interval", :class => "input-small", :irm_number_only => true, :required => true %>
+                  <% end %>
+                  <div class="data-field" style="display: inline-block;padding: 4px;"><%= t(:label_som_send_communicate_last_interval_day) %></div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+        <% end %>
+    <% end %>
+    <% content_for :form_buttons do %>
+        <%= link_submit t(:save), {:class => "btn btn-primary"} %>
+        <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_som_send_summary_new) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= error_for @send_summary %>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_summary %>
+          </div>
+        </div>
+
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title">
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+    $(function () {
+        $("#setting_som_send_summary").form_validate({
+            rules: {
+                "som_send_communicate[last_interval]": {blank_Validate: ""},
+                "som_send_summary[time_trigger][start_at]": {blank_Validate: ""},
+                "som_send_summary[time_trigger][end_at]": {blank_Validate: ""},
+                "som_send_communicate[time_trigger][start_at]": {blank_Validate: ""},
+                "som_send_communicate[time_trigger][end_at]": {blank_Validate: ""}
+            }
+        });
+    })
+</script>
+
+
+

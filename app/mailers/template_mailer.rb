@@ -13,7 +13,7 @@ class TemplateMailer < ActionMailer::Base
     # 设置邮件类型
     headers.merge!({:content_type=>("html".eql?(email_template.template_type))? "text/html":"text/plain"})
     # 设置邮件发送人
-    headers.merge!({:from=>email_template.from.blank? ? email_template.from : admin_mail_address})
+    headers.merge!({:from=>email_template.from.blank? ? email_template.from : Irm::MailManager.default_email_from})
     # 设置邮件主题
     # 1，如果邮件主题为liquid模板，则使用liquid解释
     # 2，如果为普通文本则直接作为主题
@@ -35,9 +35,8 @@ class TemplateMailer < ActionMailer::Base
     after_body = mail_options.delete(:after_body)||""
 
     send_options = mail_options
+    send_options[:from] = Irm::MailManager.default_email_from if Irm::MailManager.default_email_from.present?
 
-    # 设置邮件类型
-    send_options.merge!({:content_type=>("html".eql?(email_template.template_type)) ? "text/html" : "text/plain"})
     # 设置邮件主题
     # 1，如果邮件主题为liquid模板，则使用liquid解释
     # 2，如果为普通文本则直接作为主题
@@ -53,15 +52,19 @@ class TemplateMailer < ActionMailer::Base
     headers(header_options)
 
     #################记录日志开始#################
-
     send_options[:logger] = logger_options if logger_options
-
     #################日志记录结束#################
 
+    #邮件中包含附件时,不指定邮件类型
+    if mail_options[:attachments].present?&&mail_options[:attachments].is_a?(Hash)
+      mail_options.delete(:attachments).each do |file_name,file_content|
+        attachments[file_name] = file_content
+      end
+    else
+      # 设置邮件类型
+      send_options.merge!({:content_type=>("html".eql?(email_template.template_type)) ? "text/html" : "text/plain"})
+    end
     mail(send_options)
-
-
-
   end
 
 
@@ -87,7 +90,7 @@ class TemplateMailer < ActionMailer::Base
         plain_text_bodies << p.body.to_s.gsub(regex,"").encode("UTF-8", p.charset,:invalid => :replace, :undef => :replace, :replace => "?")
       else
        # plain_text_body = strip_tags(Iconv.iconv("UTF-8",p.charset, p.body.to_s.gsub(regex,"")).first)
-        plain_text_bodies = strip_tags(p.body.to_s.gsub(regex,"").encode("UTF-8", p.charset,:invalid => :replace, :undef => :replace, :replace => "?"))
+        plain_text_body = strip_tags(p.body.to_s.gsub(regex,"").encode("UTF-8", p.charset,:invalid => :replace, :undef => :replace, :replace => "?"))
         plain_text_body.gsub! %r{^<!DOCTYPE .*$}, ''
         plain_text_bodies  << plain_text_body
       end

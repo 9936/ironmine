@@ -1,0 +1,313 @@
+<%= common_title %>
+
+<style type="text/css">
+    .widget-box {
+        background: none repeat scroll 0 0 #F9F9F9;
+        border-top: 1px solid #CDCDCD;
+        border-left: 1px solid #CDCDCD;
+        border-right: 1px solid #CDCDCD;
+        clear: both;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        position: relative;
+    }
+
+    .widget-box.widget-calendar, .widget-box.widget-chat {
+        overflow: hidden !important;
+    }
+
+    .accordion .widget-box {
+        margin-top: -2px;
+        margin-bottom: 0;
+        border-radius: 0;
+    }
+
+    .widget-box.widget-plain {
+        background: transparent;
+        border: none;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .widget-title, .table th {
+        background-color: #efefef;
+        background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#fdfdfd), to(#eaeaea));
+        background-image: -webkit-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -moz-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -ms-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -o-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdfdfd', endColorstr='#eaeaea', GradientType=0); /* IE6-9 */
+        border-bottom: 1px solid #CDCDCD;
+        height: 36px;
+    }
+
+    .datatable table th {
+        background: none;
+        background-color: #efefef;
+        background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#fdfdfd), to(#eaeaea));
+        background-image: -webkit-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -moz-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -ms-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -o-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdfdfd', endColorstr='#eaeaea', GradientType=0); /* IE6-9 */
+        border-bottom: 1px solid #CDCDCD;
+        height: 30px;
+        border-right: none;
+    }
+
+    .datatable table th, .datatable table th a {
+        vertical-align: middle;
+    }
+
+    .widget-title table {
+        width: 100%;
+    }
+
+    .widget-title table td {
+        margin: 0;
+    }
+
+    .widget-title h5 {
+        color: #666666;
+        text-shadow: 0 1px 0 #ffffff;
+        float: left;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 12px;
+        line-height: 12px;
+        margin: 0;
+    }
+
+    .widget-title .left-buttons {
+        float: left;
+        margin: 6px 0 0 20px;
+    }
+
+    .widget-title .middle-title {
+        text-align: center;
+        padding: 5px;
+    }
+
+    .widget-title .right-buttons {
+        float: right;
+        margin: 6px 20px 0 0;
+    }
+
+    .widget-content {
+        padding: 0;
+        border-bottom: 1px solid #cdcdcd;
+        height: auto;
+    }
+
+    .widget-box.widget-plain .widget-content {
+        padding: 12px 0 0;
+    }
+
+    .widget-box.collapsible .collapse.in .widget-content {
+        border-bottom: 1px solid #CDCDCD;
+    }
+
+    .panel-left {
+        width: 223px;
+        /*background-color: #f2f2f2;*/
+        position: absolute;
+        left: 0;
+        top: 37px;
+        min-height: 250px;
+    }
+
+    .panel-right {
+        min-height: 250px;
+        border-left: 1px solid #dddddd;
+        /*height: 450px;*/
+    }
+
+    .panel-right .panel-title {
+        width: 100%;
+        background-color: #ececec;
+        /*border-bottom: 1px solid #dddddd;*/
+        padding: 6px 10px 5px;
+    }
+
+    .panel-right .panel-title h5 {
+        font-size: 12px;
+        color: #777777;
+        text-shadow: 0 1px 0 #ffffff;
+        margin: 0;
+        display: inline-block;
+        width: 100px;
+        text-align: right;
+    }
+
+    .panel-right .filter-item {
+        display: block;
+        padding: 3px;
+    }
+
+    .panel-right .filter-item .btn {
+        margin-right: 10px;
+        min-width: 60px;
+    }
+
+    .panel-right .panel-content {
+        padding: 0;
+    }
+
+    .mini-calendar.dropdown-menu {
+        border-color: #cdcdcd;
+        /*border-top: none;*/
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        border-radius: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+    }
+
+    .mini-calendar::before,
+    .mini-calendar::after {
+        border-left: 0;
+        border-right: 0;
+    }
+
+    .modal-open .mini-calendar.dropdown-menu {
+        z-index: 99;
+    }
+
+    .filter-item .custom-checkbox,
+    .filter-item {
+        position: relative;
+        display: inline-block;
+    }
+
+    .filter-item .custom-checkbox input,
+    .filter-item .custom-radio input {
+        position: absolute;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+</style>
+<!--页面结构-->
+<div class="widget-box widget-calendar">
+  <div class="widget-title">
+    <table>
+      <tr>
+        <td class="left-buttons">
+          <%= link_to url_for(:action => "new"), :class => "btn btn-success" do %>
+              <i class="icon-plus icon-white"></i><%= t(:label_som_sales_opportunity_sales_new) %>
+          <% end %>
+        </td>
+        <td class="right-buttons">
+          <%= link_to t(:label_som_sales_opportunity_sales_manager_customer), {:controller => "som/potential_customers", :action => "index"}, :class => "btn btn-primary" %>
+          <a href="javascript:void(0)" id="exportData" class="btn btn-info"><%= t(:export) %></a>
+          <%= link_to t(:label_som_send_summary), {:controller => "som/send_summaries", :action => "setting"}, :class => "btn btn-primary" %>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+  <div class="widget-content nopadding" id="widget-content">
+
+    <div class="panel-right">
+      <div class="panel-title">
+        <%= custom_filter_items("year",t(:label_som_sales_opportunity_price_year),sales_opportunities_year_check) %>
+        <%= custom_filter_items("possibility",t(:label_som_sales_opportunity_sales_possibility),sales_opportunities_possibility_check) %>
+        <%= custom_filter_items("status",t(:label_som_sales_opportunity_sales_status),sales_opportunities_status) %>
+        <%= custom_filter_items("role",t(:label_som_sales_opportunity_sales_people),{"CHARGE"=>t(:label_som_sales_opportunity_sales_people_charge),"OTHER"=>t(:label_som_sales_opportunity_sales_people_other)}) %>
+      </div>
+
+      <div class="panel-content">
+        <%= datatable("get_sales_opportunities", {:action => "get_data", :format => "json"}, [], {:lazy_load=>true,:search_box => "searchTask", :paginator_box => "paginatorTask",:export_data=>"#exportData"}) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+
+    $(function () {
+        var current_target = $("#get_sales_opportunities").data("datatable").target;
+        function reloadInstance(current_target) {
+            var possibility = [], status = [],year=[],role=[];
+            $("#possibility label.btn-danger").each(function () {
+                possibility.push($(this).attr("value"));
+            });
+
+            $("#status label.btn-danger").each(function () {
+                status.push($(this).attr("value"));
+            });
+
+            $("#year label.btn-danger").each(function () {
+                year.push($(this).attr("value"));
+            });
+
+            $("#role label.btn-danger").each(function () {
+                role.push($(this).attr("value"));
+            });
+            $.cookie("sales_opportunity_query_params_year",year.join(","), { expires: 360, path: '/' });
+            $.cookie("sales_opportunity_query_params_possibility",possibility.join(","), { expires: 360, path: '/' });
+            $.cookie("sales_opportunity_query_params_status",status.join(","), { expires: 360, path: '/' });
+            $.cookie("sales_opportunity_query_params_role",role.join(","), { expires: 360, path: '/' });
+            var params = {'possibility[]': possibility, 'status[]': status,'year[]':year,'role[]':role};
+            current_target.data.options.searchOptions = params;
+            current_target.loadPage(1);
+        }
+        function initCheckGroup(dom_id,values){
+            $me = $("#"+dom_id);
+            if(values.length===0)
+               values = ["all"];
+            if(values.indexOf("all")>-1)
+                $("#"+dom_id+" label.btn").addClass("btn-danger")
+            else{
+                $.each(values,function(index,value){
+                     $("#"+dom_id+" label.btn:[value="+value+"]").addClass("btn-danger")
+                })
+            }
+            $("#"+dom_id+" label.btn").live("click",function(e){
+                if($(this).attr("data-all")){
+                    if($(this).hasClass("btn-danger")){
+                        $("#"+dom_id+" label.btn").removeClass("btn-danger");
+                        $("#"+dom_id+" label.btn:eq(1)").addClass("btn-danger");
+                    }
+                else
+                    $("#"+dom_id+" label.btn").addClass("btn-danger");
+                }else{
+                    if($(this).hasClass("btn-danger")&&$("#"+dom_id+" label.btn-danger:not([data-all])").length==1)
+                        return;
+                    if($(this).hasClass("btn-danger"))
+                        $(this).removeClass("btn-danger");
+                    else
+                        $(this).addClass("btn-danger");
+                }
+
+                if($("#"+dom_id+" label.btn-danger:not([data-all])").length==$("#"+dom_id+" label.btn:not([data-all])").length){
+                    $("#"+dom_id+" label.btn:[data-all]").addClass("btn-danger");
+                }
+                else{
+                    $("#"+dom_id+" label.btn-danger:[data-all]").removeClass("btn-danger");
+                }
+                reloadInstance(current_target);
+            });
+        }
+        initCheckGroup("year",($.cookie("sales_opportunity_query_params_year")||"all").split(","));
+        initCheckGroup("possibility",($.cookie("sales_opportunity_query_params_possibility")||"all").split(","));
+        initCheckGroup("status",($.cookie("sales_opportunity_query_params_status")||"all").split(","));
+        initCheckGroup("role",($.cookie("sales_opportunity_query_params_role")||"CHARGE").split(","));
+        reloadInstance(current_target);
+    });
+
+
+    function updatePage(){  }
+    function updateData(){
+        var current_target = $("#get_sales_opportunities").data("datatable").target;
+        current_target.loadPage(1);
+    }
+
+</script>
