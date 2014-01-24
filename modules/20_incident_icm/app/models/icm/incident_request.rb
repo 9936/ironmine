@@ -412,7 +412,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     journals.each do |i|
       #break if i == journals.last
       person = Icm::IncidentJournal.with_replied_by_name.where("#{Icm::IncidentJournal.table_name}.id = ?", i.id).first
-      return_val << person.full_name + "(#{person.login_name})-" + i.created_at.strftime('%Y-%m-%d %H:%M:%S').to_s
+      return_val << person.full_name + "(#{person.login_name})-" + i.created_at.in_time_zone.strftime('%Y-%m-%d %H:%M:%S').to_s
       return_val << "<br>"
       return_val << i.message_body.to_s
       return_val << "<br>"
@@ -433,7 +433,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     journals.each do |i|
       #break if i == journals.last
       person = Icm::IncidentJournal.with_replied_by_name.where("#{Icm::IncidentJournal.table_name}.id = ?", i.id).first
-      return_val << person.full_name + "(#{person.login_name})-" + i.created_at.strftime('%Y-%m-%d %H:%M:%S').to_s
+      return_val << person.full_name + "(#{person.login_name})-" + i.created_at.in_time_zone.strftime('%Y-%m-%d %H:%M:%S').to_s
       return_val << "\n\r"
       return_val << Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(i.message_body.to_s,""))
       return_val << "\n\r"
@@ -448,7 +448,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     journals.each do |i|
       #break if i == journals.last
       person = Icm::IncidentJournal.with_replied_by_name.where("#{Icm::IncidentJournal.table_name}.id = ?", i.id).first
-      return_val << person.full_name + "(#{person.login_name})-" + i.created_at.strftime('%Y-%m-%d %H:%M:%S').to_s
+      return_val << person.full_name + "(#{person.login_name})-" + i.created_at.in_time_zone.strftime('%Y-%m-%d %H:%M:%S').to_s
       return_val << "<br>"
       return_val << i.message_body.to_s
       return_val << "<br>"
@@ -463,7 +463,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     journals.each do |i|
       #break if i == journals.last
       person = Icm::IncidentJournal.with_replied_by_name.where("#{Icm::IncidentJournal.table_name}.id = ?", i.id).first
-      return_val << person.full_name + "(#{person.login_name})-" + i.created_at.strftime('%Y-%m-%d %H:%M:%S').to_s
+      return_val << person.full_name + "(#{person.login_name})-" + i.created_at.in_time_zone.strftime('%Y-%m-%d %H:%M:%S').to_s
       return_val << "<br>"
       return_val << i.message_body.to_s
       return_val << "<br>"
