@@ -1237,7 +1237,7 @@ $.format = $.validator.format;
 
 ;(function($){
     var __validate = $.fn.validate;
-    $.fn.form_validate = function(setting) {
+    $.fn.formValidate = function(setting) {
         var __rules = $.extend({
         },setting?(setting.rules||{}):{});
         var __messages = $.extend({
@@ -1268,7 +1268,7 @@ $.format = $.validator.format;
 
 //**********************jQuery Validate扩展验证方法***********************************
 $(function(){
-    jQuery.validator.addMethod("blank_Validate", function (value, element, arg) {
+    jQuery.validator.addMethod("blank_validate", function (value, element, arg) {
         return arg != value;
     }, $.i18n("validate_required"));
 });
