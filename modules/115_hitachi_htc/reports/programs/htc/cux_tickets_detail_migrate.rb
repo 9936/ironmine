@@ -156,7 +156,14 @@ class Htc::CuxTicketsDetailMigrate < Irm::ReportManager::ReportBase
       g.uniq!
       data[18] = g.join(" | ")
       data[19] = s[:attribute1]
-      data[20] = Irm::AttachmentVersion.where("source_id = ?", s[:id]).size > 0 ? "True" : "False"
+      att_flag = Irm::AttachmentVersion.where("source_id = ?", s[:id]).size > 0 ? True : False
+      if !att_flag && Irm::AttachmentVersion.where("source_id IN (?)", Icm::IncidentRequest.find(s[:id]).incident_journals.collect{&:id}).size > 0
+        att_flag = att_flag || true
+      else
+        att_flag = att_flag || false
+      end
+      att_flag = att_flag.to_s
+      data[20] = att_flag
       aph = Irm::WfStepInstance.
           select("#{Irm::WfStepInstance.table_name}.end_at end_at").
           select("ip.full_name approved_by").
