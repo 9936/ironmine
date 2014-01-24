@@ -50,8 +50,8 @@ module Som::SalesOpportunitiesHelper
 
   def last_communicate(sales_id)
     sales_opportunity =Som::SalesOpportunity.find(sales_id)
-    last_communicate = sales_opportunity.communicate_infos.last
-    last_communicate.created_at.strftime('%Y-%m-%d') unless last_communicate.nil?
+    last_communicate = sales_opportunity.communicate_infos.order("communicate_date desc").first
+    last_communicate.communicate_date.strftime('%Y-%m-%d') unless last_communicate.nil?
   end
 
   def translate_status(status)

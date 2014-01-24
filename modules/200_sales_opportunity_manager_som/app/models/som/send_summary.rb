@@ -64,7 +64,7 @@ class Som::SendSummary < ActiveRecord::Base
     #取得所有销售负责人
     person_ids = Som::SalesOpportunity.select("charge_person").collect { |i| i.charge_person }
     return unless person_ids.any?
-    person_ids.each do |person_id|
+    person_ids.uniq.each do |person_id|
       #启用服务
       if self.summary_enable_flag.eql?('Y')
         #生成沟通报表附件
