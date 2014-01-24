@@ -52,7 +52,7 @@ class Som::SendSummary < ActiveRecord::Base
       #记录到邮件发送日志表
       logger_options = {
           :reference_target => "BUSINESS_OBJECT:#{params}",
-          :template_code => 'SALES_OPPORTUNITY_SUMMARY'
+          :template_code => 'SOM_SALES_SUMMARY_NOTIFY'
       }
       mail_template.deliver_to(params.merge(:to_person_ids => person_ids, :logger_options => logger_options))
       #Delayed::Worker.logger.debug("---------------------SendSummary-#{Time.now}--------------------")
@@ -81,12 +81,12 @@ class Som::SendSummary < ActiveRecord::Base
           params = {:object_params => Irm::BusinessObject.liquid_attributes(bo, true)}
 
           #获取模板
-          mail_template = Irm::MailTemplate.query_by_template_code('SALES_OPPORTUNITY_COMMUNICATE').first
+          mail_template = Irm::MailTemplate.query_by_template_code('SOM_SALES_COMMUNICATE_NOTIFY').first
 
           #记录到邮件发送日志表
           logger_options = {
               :reference_target => "BUSINESS_OBJECT:#{params}",
-              :template_code => 'SALES_OPPORTUNITY_COMMUNICATE'
+              :template_code => 'SOM_SALES_COMMUNICATE_NOTIFY'
           }
           mail_template.deliver_to(params.merge(:to_person_ids => person_id, :logger_options => logger_options))
         end
@@ -120,7 +120,7 @@ class Som::SendSummary < ActiveRecord::Base
       #记录到邮件发送日志表
       logger_options = {
           :reference_target => "BUSINESS_OBJECT:#{params}",
-          :template_code => 'SALES_OPPORTUNITY'
+          :template_code => 'SOM_SALES_OPPORTUNITY_NOTIFY'
       }
       mail_template.deliver_to(params.merge(:to_person_ids => person_ids, :logger_options => logger_options))
       #Delayed::Worker.logger.debug("---------------------SendSummary-#{Time.now}--------------------")

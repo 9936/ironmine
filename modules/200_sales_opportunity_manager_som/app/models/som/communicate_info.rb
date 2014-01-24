@@ -39,9 +39,9 @@ class Som::CommunicateInfo < ActiveRecord::Base
 
       end
       data[:interval_day] = (Date.today - data[:last_communicate]).to_i
-      #if data[:interval_day]>communicate_interval.to_i
+      if data[:interval_day]>communicate_interval.to_i
         datas<<data
-      #end
+      end
     end
     unless datas.blank?
       [datas.to_html(columns),datas.size]
