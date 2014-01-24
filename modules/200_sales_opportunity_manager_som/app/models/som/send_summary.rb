@@ -42,12 +42,12 @@ class Som::SendSummary < ActiveRecord::Base
 
       #向邮件模板传送时间和html格式的报表内容
       bo=Som::SalesOpportunity.new
-      bo.created_at=Time.now.strftime('%Y-%m-%d')
+      bo.name=Time.now.strftime('%Y-%m-%d')
       bo.content=html
       params = {:object_params => Irm::BusinessObject.liquid_attributes(bo, true)}
 
       #获取模板
-      mail_template = Irm::MailTemplate.query_by_template_code('SALES_OPPORTUNITY_SUMMARY').first
+      mail_template = Irm::MailTemplate.query_by_template_code('SOM_SALES_SUMMARY_NOTIFY').first
 
       #记录到邮件发送日志表
       logger_options = {
@@ -74,7 +74,8 @@ class Som::SendSummary < ActiveRecord::Base
 
           #向邮件模板传送时间和需要沟通的预销售个数
           bo=Som::SalesOpportunity.new
-          bo.created_at=Time.now.strftime('%Y-%m-%d')
+          bo.name=Time.now.strftime('%Y-%m-%d')
+          bo.charge_person = Irm::Person.find(person_id).full_name
           bo.region= count
           bo.content= html
           params = {:object_params => Irm::BusinessObject.liquid_attributes(bo, true)}
@@ -101,16 +102,20 @@ class Som::SendSummary < ActiveRecord::Base
     #启用服务
     if self.summary_enable_flag.eql?('Y')
       #生成报表信息
-      html=Som::SalesOpportunity.send_opportunity_data
+      xls,size = Som::SalesOpportunity.send_opportunity_data
 
       #向邮件模板传送时间和html格式的报表内容
       bo=Som::SalesOpportunity.new
-      bo.created_at=Time.now.strftime('%Y-%m-%d')
-      bo.content=html
+      bo.name = Time.now.strftime('%Y-%m-%d')
       params = {:object_params => Irm::BusinessObject.liquid_attributes(bo, true)}
 
+      # 加入附件信息
+      mail_options = {:attachments=>{}}
+      mail_options[:attachments]["SalesOpportunity#{bo.name}.xls"] =xls
+      params.merge!(:mail_options=>mail_options)
+
       #获取模板
-      mail_template = Irm::MailTemplate.query_by_template_code('SALES_OPPORTUNITY').first
+      mail_template = Irm::MailTemplate.query_by_template_code('SOM_SALES_OPPORTUNITY_NOTIFY').first
 
       #记录到邮件发送日志表
       logger_options = {

@@ -4,7 +4,7 @@ class Som::SalesOpportunity < ActiveRecord::Base
   validates_numericality_of :total_price, :price
   attr_accessor :communicate_count, :last_communicate, :author_people_str
   has_many :communicate_infos
-  validates_date_of :end_at ,:after=> :start_at,:after_message => I18n.t(:error_end_date_before_end_date)
+  validates_date_of :end_at, :after => :start_at, :after_message => I18n.t(:error_end_date_before_end_date)
 
 #加入activerecord的通用方法和scope
   query_extend
@@ -78,7 +78,7 @@ class Som::SalesOpportunity < ActiveRecord::Base
 
   #筛选当年销售信息
   scope :this_year_opportunity, lambda {
-    where("year(#{Som::SalesOpportunity.table_name}.start_at)<=? and year(#{Som::SalesOpportunity.table_name}.end_at)>=?",Time.now.year,Time.now.year)
+    where("year(#{Som::SalesOpportunity.table_name}.start_at)<=? and year(#{Som::SalesOpportunity.table_name}.end_at)>=?", Time.now.year, Time.now.year)
 
   }
 
@@ -166,18 +166,25 @@ class Som::SalesOpportunity < ActiveRecord::Base
     datas = []
     #I18n.locale = Irm::Person.current.language_code
     I18n.locale = :zh
-    columns = [{:key => :name, :label => I18n.t(:label_som_sales_opportunity_name)},
-               {:key => :charge_person_name, :label => I18n.t(:label_som_sales_opportunity_charge_person)},
+    columns = [{:key => :charge_person_name, :label => I18n.t(:label_som_sales_opportunity_charge_person)},
+               {:key => :name, :label => I18n.t(:label_som_sales_opportunity_alias_name)},
+               {:key => :content, :label => I18n.t(:label_som_sales_opportunity_alias_content)},
                {:key => :potential_customer_name, :label => I18n.t(:label_som_sales_opportunity_customer)},
-               {:key => :price, :label => I18n.t(:label_som_sales_opportunity_sales_price_with_unit)},
-               {:key => :second, :label => I18n.t(:label_som_sales_opportunity_sales_second_price_with_unit)},
-               {:key => :start_at, :label => I18n.t(:label_som_sales_opportunity_sales_start_at)},
-               {:key => :end_at, :label => I18n.t(:label_som_sales_opportunity_sales_end_at)},
-               {:key => :sales_status_meaning, :label => I18n.t(:label_som_sales_opportunity_sales_status)},
-               {:key => :possibility, :label => I18n.t(:label_som_sales_opportunity_sales_possibility)},
-               {:key => :communicate_count, :label => I18n.t(:label_som_sales_opportunity_communicate_count)},
-               {:key => :last_communicate, :label => I18n.t(:label_som_sales_opportunity_communicate_last)}]
-    Som::SalesOpportunity.list_all.this_year_opportunity.where("possibility>?",0).each do |data|
+               {:key => :region_meaning, :label => I18n.t(:label_som_sales_opportunity_region)},
+               {:key => :address, :label => I18n.t(:label_som_sales_opportunity_address)},
+               {:key => :price_year, :label => I18n.t(:label_som_sales_opportunity_price_year)},
+               {:key => :price, :label => I18n.t(:label_som_sales_opportunity_price)},
+               {:key => :total_price, :label => I18n.t(:label_som_sales_opportunity_total_price)},
+               {:key => :open_at_alias, :label => I18n.t(:label_som_sales_opportunity_sales_open_at)},
+               {:key => :previous_flag, :label => I18n.t(:label_som_sales_opportunity_sales_previous_flag)},
+               {:key => :sales_status_meaning, :label => I18n.t(:label_som_sales_opportunity_sales_alias_status)},
+               {:key => :possibility, :label => I18n.t(:label_som_sales_opportunity_sales_alias_possibility)}
+    ]+Irm::LookupValue.query_by_lookup_type("SOM_PRODUCTION_INFO").order_by_sequence.multilingual.collect { |m| {:key => m.lookup_code.downcase, :label => m[:meaning]} }+[
+        {:key => :sales_person_name, :label => I18n.t(:label_som_sales_opportunity_sales_alias_person)},
+        {:key => :internal_member, :label => I18n.t(:label_som_sales_opportunity_internal_member)},
+        {:key => :external_member, :label => I18n.t(:label_som_sales_opportunity_external_member)}
+    ]
+    Som::SalesOpportunity.list_all.this_year_opportunity.each do |data|
       communicate_infos = data.communicate_infos.order("communicate_date desc")
       if communicate_infos.any?
         data[:communicate_count]= communicate_infos.length
@@ -186,10 +193,23 @@ class Som::SalesOpportunity < ActiveRecord::Base
         data[:communicate_count] = 0
         data[:last_communicate]= data.created_at.to_date
       end
-        datas<<data
+      involved_production_info=data.involved_production_info
+      unless involved_production_info.nil?
+        involved_production_infos=involved_production_info.split(",")
+        involved_production_infos.each do |d|
+          data["#{d.downcase}"]=I18n.t("label_som_sales_opportunity_flag_Y")
+        end
+      end
+      if data.previous_flag.eql?("Y")
+        data[:previous_flag]=I18n.t("label_som_sales_opportunity_flag_Y")
+      else
+        data[:previous_flag]=I18n.t("label_som_sales_opportunity_flag_N")
+      end
+      data[:open_at_alias]=data[:open_at].strftime('%Y-%m-%d') unless data[:open_at].nil?
+      datas<<data
     end
     unless datas.blank?
-      [datas.to_html(columns),datas.size]
+      [datas.to_xls(columns), datas.size]
     end
   end
 end

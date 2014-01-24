@@ -28,7 +28,7 @@ class Som::CommunicateInfo < ActiveRecord::Base
                {:key => :communicate_count, :label => I18n.t(:label_som_sales_opportunity_communicate_count)},
                {:key => :last_communicate, :label => I18n.t(:label_som_sales_opportunity_communicate_last)},
                {:key => :interval_day, :label => I18n.t(:label_som_sales_opportunity_interval_days)}]
-    Som::SalesOpportunity.list_all.own_charge(current_person_id).where("possibility>?",0).each do |data|
+    Som::SalesOpportunity.list_all.own_charge(current_person_id).where("possibility>?",0).where("possibility<?",100).each do |data|
       communicate_infos = data.communicate_infos.order("communicate_date desc")
       if communicate_infos.any?
         data[:communicate_count]= communicate_infos.length
@@ -39,9 +39,9 @@ class Som::CommunicateInfo < ActiveRecord::Base
 
       end
       data[:interval_day] = (Date.today - data[:last_communicate]).to_i
-      if data[:interval_day]>communicate_interval.to_i
+      #if data[:interval_day]>communicate_interval.to_i
         datas<<data
-      end
+      #end
     end
     unless datas.blank?
       [datas.to_html(columns),datas.size]
