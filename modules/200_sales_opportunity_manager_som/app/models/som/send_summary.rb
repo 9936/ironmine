@@ -102,7 +102,7 @@ class Som::SendSummary < ActiveRecord::Base
     #启用服务
     if self.summary_enable_flag.eql?('Y')
       #生成报表信息
-      xls,size = Som::SalesOpportunity.send_opportunity_data
+      xls = Som::SalesOpportunity.send_opportunity_data
 
       #向邮件模板传送时间和html格式的报表内容
       bo=Som::SalesOpportunity.new

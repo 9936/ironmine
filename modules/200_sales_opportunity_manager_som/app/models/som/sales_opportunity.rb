@@ -172,6 +172,8 @@ class Som::SalesOpportunity < ActiveRecord::Base
                {:key => :potential_customer_name, :label => I18n.t(:label_som_sales_opportunity_customer)},
                {:key => :region_meaning, :label => I18n.t(:label_som_sales_opportunity_region)},
                {:key => :address, :label => I18n.t(:label_som_sales_opportunity_address)},
+               {:key => :start_at_alias, :label => I18n.t(:label_som_sales_opportunity_sales_start_at)},
+               {:key => :end_at_alias, :label => I18n.t(:label_som_sales_opportunity_sales_end_at)},
                {:key => :price_year, :label => I18n.t(:label_som_sales_opportunity_price_year)},
                {:key => :price, :label => I18n.t(:label_som_sales_opportunity_price)},
                {:key => :total_price, :label => I18n.t(:label_som_sales_opportunity_total_price)},
@@ -206,10 +208,12 @@ class Som::SalesOpportunity < ActiveRecord::Base
         data[:previous_flag]=I18n.t("label_som_sales_opportunity_flag_N")
       end
       data[:open_at_alias]=data[:open_at].strftime('%Y-%m-%d') unless data[:open_at].nil?
+      data[:start_at_alias]=data[:start_at].strftime('%Y-%m-%d') unless data[:start_at].nil?
+      data[:end_at_alias]=data[:end_at].strftime('%Y-%m-%d') unless data[:end_at].nil?
       datas<<data
     end
     unless datas.blank?
-      [datas.to_xls(columns), datas.size]
+      datas.to_xls(columns)
     end
   end
 end
