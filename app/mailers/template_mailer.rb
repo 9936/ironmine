@@ -28,7 +28,8 @@ class TemplateMailer < ActionMailer::Base
   end
 
 
-  def template_email(mail_options, email_template, template_params={}, header_options={},logger_options ={})
+  def template_email(mail_options_origin, email_template, template_params={}, header_options={},logger_options ={})
+    mail_options =  mail_options_origin.dup
     before_subject = mail_options.delete(:before_subject)||""
     before_body = mail_options.delete(:before_body)||""
     after_subject = mail_options.delete(:after_subject)||""

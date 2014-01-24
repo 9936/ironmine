@@ -17,6 +17,11 @@ class Hli::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
       statis = statis.where("date_format(icm_incident_requests.submitted_date, '%Y-%m-%d') <= ?", Date.strptime("#{params[:end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d"))
     end
 
+    if params[:close_start_date].present? && params[:close_end_date].present?
+      statis = statis.where("date_format(icm_incident_requests.last_response_date, '%Y-%m-%d') >= ?", Date.strptime("#{params[:close_start_date]}", '%Y-%m-%d').strftime("%Y-%m-%d"))
+      statis = statis.where("date_format(icm_incident_requests.last_response_date, '%Y-%m-%d') <= ?", Date.strptime("#{params[:close_end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d"))
+    end
+
     if params[:hotline].present?
       statis = statis.where("icm_incident_requests.hotline = ?", params[:hotline])
     end
