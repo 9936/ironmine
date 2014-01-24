@@ -156,7 +156,7 @@ class Htc::CuxTicketsDetailMigrate < Irm::ReportManager::ReportBase
       g.uniq!
       data[18] = g.join(" | ")
       data[19] = s[:attribute1]
-      att_flag = Irm::AttachmentVersion.where("source_id = ?", s[:id]).size > 0 ? True : False
+      att_flag = Irm::AttachmentVersion.where("source_id = ?", s[:id]).size > 0 ? true : false
       if !att_flag && Irm::AttachmentVersion.where("source_id IN (?)", Icm::IncidentRequest.find(s[:id]).incident_journals.collect(&:id)).size > 0
         att_flag = att_flag || true
       else
