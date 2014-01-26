@@ -84,6 +84,8 @@ class Irm::WfMailAlert < ActiveRecord::Base
   def perform(bo)
     recipient_ids = self.all_recipients(bo)
     # template params
+    current_locale = I18n.locale
+    current_time_zone = Time.zone
     params = {:object_params=>Irm::BusinessObject.liquid_attributes(bo,true)}
     # mail options
     mail_options = {}
@@ -105,6 +107,7 @@ class Irm::WfMailAlert < ActiveRecord::Base
     bo_update_by = bo.respond_to?(:updated_by)? bo.created_by : "nocreatedby" # do not send to creater
 
     recipient_ids.delete_if{|i| i.eql?(bo_update_by)}
+    return unless recipient_ids.any?
 
     #记录到邮件发送日志表
     logger_options = {
@@ -114,6 +117,13 @@ class Irm::WfMailAlert < ActiveRecord::Base
 
     #检查是否需要进行合并发送
     if self.all_flag.eql?(Irm::Constant::SYS_YES)
+      # 按第一个收件者的语言,时区设定标准 语言,时区
+      person = Irm::Person.query(recipient_ids.first||"empty").first
+      unless person.language_code.to_s.eql?(I18n.locale.to_s)&&person.time_zone.eql?(Time.zone)
+        I18n.locale =  person.language_code
+        Time.zone = person.time_zone
+        params[:object_params] = Irm::BusinessObject.liquid_attributes(bo,true)
+      end
       #合并发送中是否设置了模板语言
       if self.language_code
         mail_template.deliver_to(params.merge(:to_person_ids => recipient_ids,:template_lang => self.language_code, :logger_options => logger_options ))
@@ -122,9 +132,19 @@ class Irm::WfMailAlert < ActiveRecord::Base
       end
     else
       recipient_ids.each do |pid|
+        person = Irm::Person.find(pid)
+        unless person.language_code.to_s.eql?(I18n.locale.to_s)&&person.time_zone.eql?(Time.zone)
+          I18n.locale =  person.language_code
+          Time.zone = person.time_zone
+          params[:object_params] = Irm::BusinessObject.liquid_attributes(bo,true)
+        end
         mail_template.deliver_to(params.merge(:to_person_ids => [pid], :logger_options => logger_options))
       end
     end
+
+
+    I18n.locale =  current_locale
+    Time.zone = current_time_zone
   end
 
 

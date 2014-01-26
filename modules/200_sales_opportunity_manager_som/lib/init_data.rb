@@ -34,7 +34,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "som/send_summaries" => ["setting", "update"]
+              "som/send_summaries" => ["new", "create"]
           }
       }
   }

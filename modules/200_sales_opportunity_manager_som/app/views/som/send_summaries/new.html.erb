@@ -1,0 +1,179 @@
+<style type="text/css">
+    table.form-table td.data-col {
+        width: 5%;
+        padding: 2px 2px 2px 2px;
+    }
+</style>
+<%= common_title %>
+<%= form_for(@sales_summary_notify, :url => {:controller => "som/send_summaries", :action => "create"}, :builder => CustomFormBuilder, :html => {:id => "setting_som_send_summary"}) do |f| %>
+    <% content_for :form_block_summary do %>
+        <table class="form-table">
+          <tr>
+            <td class="label-col">
+              <label for="report_trigger_time_mode"><%= t(:label_som_send_summary_enable) %></label>
+            </td>
+            <td class="data-3col" colspan="3">
+              <%= f.check_box :summary_enable_flag, :required => true, :class => "summary_notify" %>
+            </td>
+          </tr>
+          <tbody class="summary_notify e">
+          <tr>
+            <td class="label-col">
+              <label for="report_trigger_time_mode"><%= t(:label_som_trigger_time) %></label>
+            </td>
+            <td class="data-3col" colspan="3">
+              <%= time_trigger(f) %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+
+    <% content_for :form_block_communicate do %>
+        <%= fields_for :som_send_communicate,@sales_communicate_notify,:builder => CustomFormBuilder, :normal => true do |sub_f_a| %>
+            <table class="form-table">
+              <tr>
+                <td class="label-col">
+                  <label for="report_trigger_time_mode"><%= t(:label_som_send_summary_enable) %></label>
+                </td>
+                <td class="data-3col" colspan="3">
+                  <%= sub_f_a.check_box :summary_enable_flag, :required => true, :class => "communicate_notify" %>
+                </td>
+              </tr>
+              <tbody class="communicate_notify e">
+              <tr>
+                <td class="label-col">
+                  <label for="report_trigger_time_mode"><%= t(:label_som_trigger_time) %></label>
+                </td>
+                <td class="data-3col" colspan="3">
+                  <%= time_trigger(sub_f_a) %>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col">
+                  <label for="report_trigger_time_mode"><%= t(:label_som_send_communicate_last_interval) %></label>
+                </td>
+                <td class="data-3col" colspan="3">
+                  <%= sub_f_a.text_field :communicate_interval, :id => "last_interval", :class => "input-small", :irm_number_only => true, :required => true %>
+                  <div class="data-field" style="display: inline-block;padding: 4px;"><%= t(:label_som_send_communicate_last_interval_day) %></div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+        <% end %>
+    <% end %>
+
+
+    <% content_for :form_block_opportunity do %>
+        <%= fields_for :som_send_opportunity,@sales_opportunity_notify,:builder => CustomFormBuilder, :normal => true do |sub_f_b| %>
+            <table class="form-table">
+              <tr>
+                <td class="label-col">
+                  <label for="report_trigger_time_mode"><%= t(:label_som_send_summary_enable) %></label>
+                </td>
+                <td class="data-3col" colspan="3">
+                  <%= sub_f_b.check_box :summary_enable_flag, :required => true, :class => "opportunity_notify" %>
+                </td>
+              </tr>
+              <tbody class="opportunity_notify e">
+              <tr>
+                <td class="label-col">
+                  <label for="report_trigger_time_mode"><%= t(:label_som_trigger_time) %></label>
+                </td>
+                <td class="data-3col" colspan="3">
+                  <%= time_trigger(sub_f_b) %>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+        <% end %>
+    <% end %>
+
+    <% content_for :form_buttons do %>
+        <%= link_submit t(:save), {:class => "btn btn-primary"} %>
+        <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_som_send_summary_new) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= error_for @sales_summary_notify %>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_som_summary_notify) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_summary %>
+          </div>
+
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%= t(:label_som_communicate_notify) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_communicate %>
+          </div>
+
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%= t(:label_som_opportunity_notify) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_opportunity %>
+          </div>
+
+        </div>
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title">
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+    $(function () {
+        $("#setting_som_send_summary").formValidate({
+            rules: {
+                "som_send_communicate[last_interval]": {blank_validate: ""},
+                "som_send_summary[time_trigger][start_at]": {blank_validate: ""},
+                "som_send_summary[time_trigger][end_at]": {blank_validate: ""},
+                "som_send_communicate[time_trigger][start_at]": {blank_validate: ""},
+                "som_send_communicate[time_trigger][end_at]": {blank_validate: ""}
+            }
+        });
+
+        $("input[type=checkbox]").each(function(){
+            if ($(this).attr("checked") == "checked") {
+                $("tbody." + $(this).attr("class")).show();
+            }else{
+                $("tbody." + $(this).attr("class")).hide();
+            }
+        });
+
+        $("input[type=checkbox]").click(function () {
+            if ($(this).attr("checked") == "checked") {
+                $("tbody." + $(this).attr("class")).show();
+            }else{
+                $("tbody." + $(this).attr("class")).hide();
+            }
+        });
+    })
+</script>
+
+
+
