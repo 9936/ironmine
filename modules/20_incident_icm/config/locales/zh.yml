@@ -88,6 +88,7 @@ zh:
   label_icm_incident_status_show: 事故单状态
   label_icm_incident_close_flag: 关闭状态
   label_icm_incident_permanent_close_flag: 永久关闭状态
+  label_icm_incident_elapse_flag: 统计耗时
   label_icm_incident_status_edit_transform: 事故单状态转移
   label_irm_incident_status_transform_event_error: 错误 在同一行中一种事件只能使用一次
   label_icm_incident_status_next_status: 下一状态
