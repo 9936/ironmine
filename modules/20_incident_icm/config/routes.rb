@@ -231,5 +231,8 @@ Ironmine::Application.routes.draw do
 
     #Incident Request API
     match '/api_incident_requests/add' => "api_incident_requests#add", :via => :post
+    match '/incident_work_calendars/:sid/new(.:format)' => "incident_work_calendars#new",:via => :get
+    match '/incident_work_calendars/:sid/create(.:format)' => "incident_work_calendars#create",:via => :put
+    match '/incident_work_calendars/:sid/:id/show(.:format)' => "incident_work_calendars#show", :via => :get
  end
 end
