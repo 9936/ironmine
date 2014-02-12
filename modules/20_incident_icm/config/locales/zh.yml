@@ -334,3 +334,8 @@ zh:
 
   label_icm_incident_request_update_workload: 登记工时
   label_icm_incident_request_update_workload_group: 登记工时
+
+  label_icm_incident_work_calendar: 工作排班
+  label_icm_incident_work_calendar_new: 编辑工作排班
+  label_icm_service_agreement_calendar: 工作日历
+  label_icm_service_agreement_time_zone: 时区
