@@ -7,7 +7,7 @@ class Icm::IncidentWorkCalendar < ActiveRecord::Base
 
   #计算两个时间的间隔
   def working_time(start_time,end_time)
-    calendar = Slm::Calendar.find(self.id)
+    calendar = Slm::Calendar.find(self.calendar_id)
     time_zone = self.time_zone
     calendar.working_time_with_zone(time_zone,start_time,end_time)
   end
