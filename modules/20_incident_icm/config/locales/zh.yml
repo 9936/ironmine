@@ -339,5 +339,5 @@ zh:
   label_icm_incident_work_calendar_new: 编辑工作排班
   label_icm_service_agreement_calendar: 工作日历
   label_icm_service_agreement_time_zone: 时区
-  label_icm_incident_work_calendar_recalculate: 重算本系统耗时
-  label_icm_incident_work_calendar_recalculate_confirm: 需要较长时间,是否继续
+  label_icm_incident_elapsed_recalculate: 重算本系统耗时
+  label_icm_incident_elapsed_recalculate_confirm: 需要较长时间,是否继续
