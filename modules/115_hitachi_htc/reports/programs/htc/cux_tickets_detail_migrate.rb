@@ -60,7 +60,9 @@ class Htc::CuxTicketsDetailMigrate < Irm::ReportManager::ReportBase
                "Attached",
                "Approval History",
                "ApprovedBy",
-               "History"
+               "History",
+               "URL",
+               "Reuqester LDAP"
                ]
 
     ex_attributes.each do |ea|
@@ -78,7 +80,7 @@ class Htc::CuxTicketsDetailMigrate < Irm::ReportManager::ReportBase
     end
 
     statis.each do |s|
-      data = Array.new(24 + ex_attributes.size)
+      data = Array.new(26 + ex_attributes.size)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
@@ -183,7 +185,9 @@ class Htc::CuxTicketsDetailMigrate < Irm::ReportManager::ReportBase
 
       data[23] = s.concat_journals_with_text
 
-      nc = 24
+      data[24] = "http://hisms.gscmh.buil.hitachi.co.jp/incident_requests/#{s[:id]}/journals/new"
+      data[25] = s[:requester_login_name]
+      nc = 26
       ex_attributes.each do |ea|
         data[nc] = s[ea[:attribute_name].to_sym]
         nc = nc + 1
