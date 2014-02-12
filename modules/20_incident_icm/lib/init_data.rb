@@ -758,6 +758,15 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "icm/incident_work_calendars" => ["new","create","show"]
+          },
+          :icm_elapsed_recalculate => {
+              :zh => {:name => "重算本系统耗时", :description => "重算本系统耗时"},
+              :en => {:name => "Recalculate Elapsed", :description => "Recalculate Elapsed"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              "icm/incident_work_calendars" => ["recalculate"]
           }
       }
   }
