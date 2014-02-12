@@ -27,4 +27,8 @@ class Icm::IncidentWorkCalendarsController < ApplicationController
     end
   end
 
+  def recalculate
+
+  end
+
 end
