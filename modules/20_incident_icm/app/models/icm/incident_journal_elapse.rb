@@ -28,7 +28,7 @@ class Icm::IncidentJournalElapse < ActiveRecord::Base
 
      work_calendar = Icm::IncidentWorkCalendar.where(:external_system_id=>self.incident_journal.incident_request.external_system_id).first
      if work_calendar.present?
-       self.real_distance = work_calendar.work_time(self.start_at,self.end_at)
+       self.real_distance = work_calendar.working_time(self.start_at,self.end_at)*60
      else
        self.real_distance = self.distance
      end
@@ -37,7 +37,10 @@ class Icm::IncidentJournalElapse < ActiveRecord::Base
 
 
   def self.recalculate_distance_by_system(external_system_id)
-    self.by_system(external_system_id).each{|i| i.calculate_distance}
+    self.select("#{self.table_name}.*").by_system(external_system_id).each{|i|
+      i.calculate_distance
+      i.save
+    }
   end
 
   ##为所有的事故单耗时添加support_person_id字段,重新计算
