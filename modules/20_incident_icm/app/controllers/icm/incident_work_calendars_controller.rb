@@ -28,6 +28,8 @@ class Icm::IncidentWorkCalendarsController < ApplicationController
   end
 
   def recalculate
+    Icm::IncidentJournalElapse.recalculate_distance_by_system(params[:sid])
+    redirect_to({:action=>"new"})
 
   end
 
