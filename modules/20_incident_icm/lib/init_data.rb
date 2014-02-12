@@ -685,7 +685,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :entry => {
                   :sequence => 130,
                   :en => {:name => "Work Calendar", :description => "Work Calendar"},
-                  :zh => {:name => "工作日历", :description => "工作日历"}
+                  :zh => {:name => "工作排班", :description => "工作排班"}
               }
           }
 
@@ -741,7 +741,7 @@ Fwk::MenuAndFunctionManager.map do |map|
 
   map.function_group :icm_work_calendar, {
       :en => {:name => "Work Calendar", :description => "Work Calendar"},
-      :zh => {:name => "工作日历", :description => "工作日历"},
+      :zh => {:name => "工作排班", :description => "工作排班"},
       :system_flag => 'Y'
   }
   map.function_group :icm_work_calendar, {
@@ -753,7 +753,7 @@ Fwk::MenuAndFunctionManager.map do |map|
       :children => {
           :icm_work_calendar => {
               :en => {:name => "Work Calendar", :description => "Work Calendar"},
-              :zh => {:name => "工作日历", :description => "工作日历"},
+              :zh => {:name => "工作排班", :description => "工作排班"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",

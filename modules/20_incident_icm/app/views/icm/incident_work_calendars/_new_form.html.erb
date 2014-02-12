@@ -1,5 +1,5 @@
-<%= common_title %>
-<%= form_for(@incident_work_calendar, :url => {:action => "create"}, :builder => CustomFormBuilder) do |f| %>
+<%= common_title(:show_data=>t('edit')) %>
+<%= form_for(@incident_work_calendar, :url => {:action => "create"}, :builder => CustomFormBuilder,:html=>{:id=>"edit_icm_incident_work_calendar"}) do |f| %>
     <%=f.hidden_field :external_system_id,:value=>params[:sid] %>
     <% content_for :form_block_a do %>
         <table class="form-table">
@@ -68,7 +68,7 @@
 
 <script type="text/javascript">
     $(function () {
-        $("#new_icm_incident_work_calendar").formValidate({
+        $("#edit_icm_incident_work_calendar").formValidate({
             rules: {
                 "icm_incident_work_calendar[calendar_id]": {blank_validate: ""}
             }
