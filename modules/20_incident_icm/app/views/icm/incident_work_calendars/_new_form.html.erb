@@ -1,3 +1,8 @@
+<style type="text/css">
+  .recalculate_button{
+      padding-left: 480px;
+  }
+</style>
 <%= common_title(:show_data=>t('edit')) %>
 <%= form_for(@incident_work_calendar, :url => {:action => "create"}, :builder => CustomFormBuilder,:html=>{:id=>"edit_icm_incident_work_calendar"}) do |f| %>
     <%=f.hidden_field :external_system_id,:value=>params[:sid] %>
@@ -20,6 +25,7 @@
               <%= f.time_zone_select :time_zone, nil %>
             </td>
           </tr>
+
           </tbody>
         </table>
     <% end %>
@@ -36,7 +42,9 @@
           </td>
           <td class="page-block-button">
             <%= content_for :form_buttons %>
-
+          </td>
+          <td class="recalculate_button">
+          <%= link_to t("label_icm_incident_work_calendar_recalculate"),{:action => "recalculate"},{:confirm => t(:label_icm_incident_work_calendar_recalculate_confirm),:class => "btn btn-danger"}%>
           </td>
         </tr>
       </table>
