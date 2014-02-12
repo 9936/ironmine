@@ -234,7 +234,7 @@ Ironmine::Application.routes.draw do
 
     #Incident Work Calendars
     match '/incident_work_calendars/:sid/new(.:format)' => "incident_work_calendars#new",:via => :get
-    match '/incident_work_calendars/:sid/create(.:format)' => "incident_work_calendars#create",:via => :put
+    match '/incident_work_calendars/:sid/create(.:format)' => "incident_work_calendars#create",:via => [:put,:post]
     match '/incident_work_calendars/:sid/:id/show(.:format)' => "incident_work_calendars#show", :via => :get
     match '/incident_work_calendars/:sid/recalculate(.:format)' => "incident_work_calendars#recalculate", :via => :get
 
