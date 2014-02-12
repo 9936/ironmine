@@ -151,7 +151,7 @@ class Icm::IncidentJournal < ActiveRecord::Base
 
     incident_histories = Icm::IncidentHistory.where(:journal_id=>self.id)
 
-    elapse_options = {:incident_status_id=>incident_request.incident_status_id,:support_group_id=>incident_request.support_group_id}
+    elapse_options = {:incident_status_id=>incident_request.incident_status_id,:support_group_id=>incident_request.support_group_id,:support_person_id=>incident_request.support_person_id}
 
     status_change_history = incident_histories.detect{|i| i.property_key.eql?("incident_status_id")}
 
@@ -163,6 +163,12 @@ class Icm::IncidentJournal < ActiveRecord::Base
 
     if support_group_change_history
       elapse_options.merge!({:support_group_id=>support_group_change_history.old_value})
+    end
+
+    support_person_change_history = incident_histories.detect{|i| i.property_key.eql?("support_person_id")}
+
+    if support_person_change_history
+      elapse_options.merge!({:support_person_id=>support_person_change_history.old_value})
     end
 
     if last_journal
