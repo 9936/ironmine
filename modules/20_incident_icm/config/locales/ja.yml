@@ -345,3 +345,19 @@ ja:
   label_icm_incident_request_update_workload_group: Edit Workload
 
   label_icm_incident_journal_close_date: Close Date
+
+  label_icm_incident_work_calendar: 工作排班
+  label_icm_incident_work_calendar_new: 编辑工作排班
+  label_icm_service_agreement_calendar: 工作日历
+  label_icm_service_agreement_time_zone: 时区
+  label_icm_incident_elapsed_recalculate: 重算本系统耗时
+  label_icm_incident_elapsed_recalculate_confirm: 需要较长时间,是否继续
+  label_icm_report_create_time_range: 创建时间
+  label_icm_report_update_time_range: 最后更新时间
+  label_icm_incident_request_request_number_alias: Ticket No
+  label_icm_incident_request_submitted_date: Ticket创建时间
+  label_icm_incident_request_last_response_date: Ticket最后更新时间
+  label_icm_incident_request_status: Status
+  label_icm_incident_request_support_person: Supporter
+  label_icm_incident_request_real_distance: 个人处理时间（小时)
+  label_icm_incident_request_support_group_name: 所属组

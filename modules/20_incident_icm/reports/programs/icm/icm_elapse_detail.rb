@@ -21,11 +21,11 @@ class Icm::IcmElapseDetail < Irm::ReportManager::ReportBase
     #    with_elapse_support_group(:zh).
     #    order("request_number","status")
 
-    elapse_info_sub_sql=%Q(SELECT t1.incident_status_id incident_status_id, t1.support_person_id support_person_id,
-    t1.support_group_id support_group_id,t2.incident_request_id incident_request_id,SUM(t1.real_distance) real_distance
+    elapse_info_sub_sql=%Q(SELECT t2.incident_request_id,t1.incident_status_id incident_status_id, t1.support_person_id support_person_id,
+    t1.support_group_id support_group_id,SUM(t1.real_distance) real_distance
     FROM #{Icm::IncidentJournalElapse.table_name} t1
-       LEFT JOIN #{Icm::IncidentJournal.table_name} t2 ON t1.incident_journal_id = t2.id
-    GROUP BY t1.support_person_id , t1.incident_status_id , t1.support_group_id)
+    JOIN #{Icm::IncidentJournal.table_name} t2 ON t1.incident_journal_id = t2.id
+    GROUP BY t2.incident_request_id,t1.support_person_id , t1.incident_status_id , t1.support_group_id)
 
 
     ##组拼sql语句
