@@ -38,8 +38,10 @@ class Icm::IncidentJournalElapse < ActiveRecord::Base
 
   def self.recalculate_distance_by_system(external_system_id)
     self.select("#{self.table_name}.*").by_system(external_system_id).each { |i|
-      i.calculate_distance
-      i.save
+      Icm::IncidentJournalElapse.transaction do
+        i.calculate_distance
+        i.save
+      end
     }
   end
 
