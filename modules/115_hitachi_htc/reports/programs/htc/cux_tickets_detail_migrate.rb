@@ -103,11 +103,11 @@ class Htc::CuxTicketsDetailMigrate < Irm::ReportManager::ReportBase
       if last_close_journal.any?
         data[13] = last_close_journal.first[:created_at]
         # (CloseDate is Null or CloseDate >= A)
-        next unless s.close? &&
-            Date.strptime("#{data[13]}", '%Y-%m-%d') >= Date.strptime("#{start_date}", '%Y-%m-%d') &&
-            Date.strptime("#{data[13]}", '%Y-%m-%d') <= Date.strptime("#{end_date}", '%Y-%m-%d')
+        #next unless s.close? &&
+        #    Date.strptime("#{data[13]}", '%Y-%m-%d') >= Date.strptime("#{start_date}", '%Y-%m-%d') &&
+        #    Date.strptime("#{data[13]}", '%Y-%m-%d') <= Date.strptime("#{end_date}", '%Y-%m-%d')
       else
-        next
+        data[13] = ""
       end
 
       data[14] = s[:cux_response_hours]
