@@ -1,0 +1,33 @@
+<div id="reportChart"></div>
+
+<!--  irm datatable      -->
+<%= I18n.t(:label_total_data_size, :m => datas[:datas].size)%>
+<div class="irm-datatable">
+  <div>
+
+    <table count="<%=datas[:datas].size%>">
+      <tr>
+        <% 0.upto(datas[:headers].length-1) do |index| %>
+            <th style="width: 5%">
+              <div><%= datas[:headers][index] %></div>
+            </th>
+        <% end %>
+      </tr>
+      </thead>
+      <tbody>
+      <% datas[:datas].each do |data| %>
+          <tr>
+            <% 0.upto(datas[:headers].length-1) do |index| %>
+                <td>
+                  <div>
+                    <%= data[index] %>
+                  </div>
+                </td>
+            <% end %>
+          </tr>
+      <% end -%>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--  end irm datatable      -->

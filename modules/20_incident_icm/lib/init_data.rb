@@ -679,6 +679,14 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :en => {:name => "Priorities", :description => "Priorities"},
                   :zh => {:name => "优先级", :description => "优先级"}
               }
+          } ,
+          :icm_work_calendar => {
+              :type => "function",
+              :entry => {
+                  :sequence => 130,
+                  :en => {:name => "Work Calendar", :description => "Work Calendar"},
+                  :zh => {:name => "工作排班", :description => "工作排班"}
+              }
           }
 
       }
@@ -726,6 +734,39 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "icm/system_priorities" => ["index","edit_transform","update_transform","get_data"]
+          }
+      }
+  }
+
+
+  map.function_group :icm_work_calendar, {
+      :en => {:name => "Work Calendar", :description => "Work Calendar"},
+      :zh => {:name => "工作排班", :description => "工作排班"},
+      :system_flag => 'Y'
+  }
+  map.function_group :icm_work_calendar, {
+      :zone_code => "INCIDENT_SETTING",
+      :controller => "icm/incident_work_calendars",
+  :action => "new"
+  }
+  map.function_group :icm_work_calendar, {
+      :children => {
+          :icm_work_calendar => {
+              :en => {:name => "Work Calendar", :description => "Work Calendar"},
+              :zh => {:name => "工作排班", :description => "工作排班"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_work_calendars" => ["new","create","show"]
+          },
+          :icm_elapsed_recalculate => {
+              :zh => {:name => "重算本系统耗时", :description => "重算本系统耗时"},
+              :en => {:name => "Recalculate Elapsed", :description => "Recalculate Elapsed"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              "icm/incident_work_calendars" => ["recalculate"]
           }
       }
   }
