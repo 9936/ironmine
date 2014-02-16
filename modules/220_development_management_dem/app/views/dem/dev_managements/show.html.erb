@@ -360,7 +360,7 @@
       </td>
       <td class="page-block-button">
         <%= link_to t(:edit),
-                    {:controller=>"dem/dev_managements", :action => "edit", :id => @dev_managements.id},
+                    {:controller=>"dem/dev_managements", :action => "edit", :id => @dev_management.id},
                     {:class=>"btn",:back => true} %>
         <% if @return_url%>
           <%= link_to t(:cancel), @return_url,{:class=>"btn cancel"}%>
