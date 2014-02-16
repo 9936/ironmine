@@ -1,7 +1,7 @@
 class Dem::DevManagementsController < ApplicationController
   def index
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render :layout => "application_full"}
     end
   end
 
@@ -9,7 +9,7 @@ class Dem::DevManagementsController < ApplicationController
     @dev_management = Dem::DevManagement.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render :layout => "application_full"}
     end
   end
 
@@ -17,12 +17,15 @@ class Dem::DevManagementsController < ApplicationController
     @dev_management = Dem::DevManagement.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render :layout => "application_full"}
     end
   end
 
   def edit
     @dev_management = Dem::DevManagement.find(params[:id])
+    respond_to do |format|
+      format.html { render :layout => "application_full"}
+    end
   end
 
   def create
