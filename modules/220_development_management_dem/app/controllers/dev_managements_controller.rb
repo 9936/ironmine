@@ -6,7 +6,7 @@ class Dem::DevManagementsController < ApplicationController
   end
 
   def show
-    @dev = Dem::DevManagement.find(params[:id])
+    @dev_management = Dem::DevManagement.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -14,7 +14,7 @@ class Dem::DevManagementsController < ApplicationController
   end
 
   def new
-    @dev = Dem::DevManagement.new
+    @dev_management = Dem::DevManagement.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -22,14 +22,14 @@ class Dem::DevManagementsController < ApplicationController
   end
 
   def edit
-    @dev = Dem::DevManagement.find(params[:id])
+    @dev_management = Dem::DevManagement.find(params[:id])
   end
 
   def create
-    @dev = Dem::DevManagement.new(params[:dem_dev_management])
+    @dev_management = Dem::DevManagement.new(params[:dem_dev_management])
 
     respond_to do |format|
-      if @dev.save
+      if @dev_management.save
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
       else
         format.html { render :action => "new" }
@@ -38,10 +38,10 @@ class Dem::DevManagementsController < ApplicationController
   end
 
   def update
-    @dev = Dem::DevManagement.find(params[:id])
+    @dev_management = Dem::DevManagement.find(params[:id])
 
     respond_to do |format|
-      if @dev.update_attributes(params[:dem_dev_management])
+      if @dev_management.update_attributes(params[:dem_dev_management])
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
       else
         format.html { render :action => "edit" }
@@ -50,8 +50,8 @@ class Dem::DevManagementsController < ApplicationController
   end
 
   def destroy
-    @dev = Dem::DevManagement.find(params[:id])
-    @dev.destroy
+    @dev_management = Dem::DevManagement.find(params[:id])
+    @dev_management.destroy
 
     respond_to do |format|
       format.html { redirect_to(dem_dev_management_url) }
