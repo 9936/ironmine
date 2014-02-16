@@ -1,5 +1,5 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-    <% builder.column(:project,{:title=> "Project", :width => "60px"})%>
+    <% builder.column(:project,{:title=> "Project", :width => "80px"})%>
     <% builder.column(:gap_no,{:title=>"Gap No.",:width => "80px"})%>
     <% builder.column(:name,{:title=>"Name"})%>
     <% builder.column(:company,{:title=>"Company", :width => "60px"})%>
@@ -13,8 +13,4 @@
     <% builder.column(:dev_difficulty,{:title=>"Difficulty", :width => "80px"})%>
     <% builder.column(:gt_local,{:title=>"GT/Local", :width => "80px"})%>
     <% builder.column(:dev_status,{:title=>"Status", :width => "60px"})%>
-    <% builder.column(:completed_phase,{:title=>"Completed Phase", :width => "100px"})%>
-    <% builder.row do |data|%>
-          style="background-color:<%=data[:display_color]%>;color:<%=get_contrast_yiq(data[:display_color])%>;"
-    <% end %>
 <% end %>
