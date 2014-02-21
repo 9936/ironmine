@@ -60,7 +60,9 @@ class Htc::CuxTicketsDetailMigrate < Irm::ReportManager::ReportBase
                "Attached",
                "Approval History",
                "ApprovedBy",
-               "History"
+               "History",
+               "URL",
+               "Reuqester LDAP"
                ]
 
     ex_attributes.each do |ea|
@@ -78,7 +80,7 @@ class Htc::CuxTicketsDetailMigrate < Irm::ReportManager::ReportBase
     end
 
     statis.each do |s|
-      data = Array.new(24 + ex_attributes.size)
+      data = Array.new(26 + ex_attributes.size)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
@@ -101,11 +103,11 @@ class Htc::CuxTicketsDetailMigrate < Irm::ReportManager::ReportBase
       if last_close_journal.any?
         data[13] = last_close_journal.first[:created_at]
         # (CloseDate is Null or CloseDate >= A)
-        next unless s.close? &&
-            Date.strptime("#{data[13]}", '%Y-%m-%d') >= Date.strptime("#{start_date}", '%Y-%m-%d') &&
-            Date.strptime("#{data[13]}", '%Y-%m-%d') <= Date.strptime("#{end_date}", '%Y-%m-%d')
+        #next unless s.close? &&
+        #    Date.strptime("#{data[13]}", '%Y-%m-%d') >= Date.strptime("#{start_date}", '%Y-%m-%d') &&
+        #    Date.strptime("#{data[13]}", '%Y-%m-%d') <= Date.strptime("#{end_date}", '%Y-%m-%d')
       else
-        next
+        data[13] = ""
       end
 
       data[14] = s[:cux_response_hours]
@@ -156,7 +158,14 @@ class Htc::CuxTicketsDetailMigrate < Irm::ReportManager::ReportBase
       g.uniq!
       data[18] = g.join(" | ")
       data[19] = s[:attribute1]
-      data[20] = Irm::AttachmentVersion.where("source_id = ?", s[:id]).size > 0 ? "True" : "False"
+      att_flag = Irm::AttachmentVersion.where("source_id = ?", s[:id]).size > 0 ? true : false
+      if !att_flag && Irm::AttachmentVersion.where("source_id IN (?)", Icm::IncidentRequest.find(s[:id]).incident_journals.collect(&:id)).size > 0
+        att_flag = true
+      else
+        att_flag = false
+      end
+      att_flag = att_flag.to_s
+      data[20] = att_flag
       aph = Irm::WfStepInstance.
           select("#{Irm::WfStepInstance.table_name}.end_at end_at").
           select("ip.full_name approved_by").
@@ -176,7 +185,9 @@ class Htc::CuxTicketsDetailMigrate < Irm::ReportManager::ReportBase
 
       data[23] = s.concat_journals_with_text
 
-      nc = 24
+      data[24] = "http://hisms.gscmh.buil.hitachi.co.jp/incident_requests/#{s[:id]}/journals/new"
+      data[25] = s[:requester_login_name]
+      nc = 26
       ex_attributes.each do |ea|
         data[nc] = s[ea[:attribute_name].to_sym]
         nc = nc + 1

@@ -1,0 +1,20 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:project,{:title=> "Project", :width => "80px"}) do |data|%>
+        <%= link_to(data[:project],{:controller=>"dem/dev_managements",:action=>"show",:id=>data[:id]}) %>
+    <% end %>
+    <% builder.column(:gap_no,{:title=> "Gap No.", :width => "80px"}) do |data|%>
+        <%= link_to(data[:gap_no],{:controller=>"dem/dev_managements",:action=>"show",:id=>data[:id]}) %>
+    <% end %>
+    <% builder.column(:name,{:title=>"Name"})%>
+    <% builder.column(:company,{:title=>"Company", :width => "60px"})%>
+    <% builder.column(:category,{:title=>"Category", :width => "60px"})%>
+    <% builder.column(:system,{:title=>"System", :width => "60px"})%>
+    <% builder.column(:priority2,{:title=>"Priority2", :width => "60px"})%>
+    <% builder.column(:designated_module,{:title=>"Designated Module", :width => "80px"})%>
+    <% builder.column(:owner,{:title=>"Owner", :width => "60px"})%>
+    <% builder.column(:classification,{:title=>"Classification", :width => "80px"})%>
+    <% builder.column(:dev_type,{:title=>"Type", :width => "60px"})%>
+    <% builder.column(:dev_difficulty,{:title=>"Difficulty", :width => "80px"})%>
+    <% builder.column(:gt_local,{:title=>"GT/Local", :width => "80px"})%>
+    <% builder.column(:dev_status,{:title=>"Status", :width => "60px"})%>
+<% end %>
