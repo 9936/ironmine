@@ -89,7 +89,7 @@ module Irm::FiltersHelper
 
   private
   def view_filter_columns(bo_code,ticket_flag)
-    filter_columns=Irm::ObjectAttribute.selectable_column.query_by_status_code("ENABLED").multilingual.filterable(false).query_by_business_object_code(bo_code).collect{|i|[i[:name],i.attribute_name,{:attribute_id=>i.id}]}
+    filter_columns=Irm::ObjectAttribute.selectable_column.query_by_status_code("ENABLED").multilingual.filterable.query_by_business_object_code(bo_code).collect{|i|[i[:name],i.attribute_name,{:attribute_id=>i.id}]}
     if ticket_flag
       (1..10).each do |i|
         filter_columns<< ["attribute#{i}","attribute#{i}"]
