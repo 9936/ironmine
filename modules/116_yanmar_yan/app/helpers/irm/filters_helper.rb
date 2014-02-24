@@ -12,9 +12,9 @@ module Irm::FiltersHelper
     t("label_"+bo.bo_model_name.underscore.gsub("/","_")+"_view_filter_data_range_main",:default=>:label_irm_view_filter_data_range_main)+Irm::BusinessObject.class_name_to_meaning(bo.bo_model_name)
   end
 
-
-  def available_view_column(source_code)
-    view_filter_columns(source_code)
+  #编辑和新建事故单视图时,自定义属性可作为过滤条件
+  def available_view_column(source_code,ticket_flag=false)
+    view_filter_columns(source_code,ticket_flag)
   end
 
   def available_view_operator
@@ -88,8 +88,17 @@ module Irm::FiltersHelper
   end
 
   private
-  def view_filter_columns(bo_code)
-    Irm::ObjectAttribute.selectable_column.query_by_status_code("ENABLED").multilingual.filterable.query_by_business_object_code(bo_code).collect{|i|[i[:name],i.attribute_name,{:attribute_id=>i.id}]}
+  def view_filter_columns(bo_code,ticket_flag)
+    filter_columns=Irm::ObjectAttribute.selectable_column.query_by_status_code("ENABLED").multilingual.filterable(false).query_by_business_object_code(bo_code).collect{|i|[i[:name],i.attribute_name,{:attribute_id=>i.id}]}
+    if ticket_flag
+      (1..10).each do |i|
+        filter_columns<< ["attribute#{i}","attribute#{i}"]
+      end
+      (1..50).each do |i|
+        filter_columns<< ["sattribute#{i}","sattribute#{i}"]
+      end
+    end
+    filter_columns
   end
 
   def view_filters(source_code)
