@@ -12,9 +12,9 @@ module Irm::FiltersHelper
     t("label_"+bo.bo_model_name.underscore.gsub("/","_")+"_view_filter_data_range_main",:default=>:label_irm_view_filter_data_range_main)+Irm::BusinessObject.class_name_to_meaning(bo.bo_model_name)
   end
 
-  #cux_flag为true时将用户自定义字段也可作为过滤条件
-  def available_view_column(source_code,cux_flag=false)
-    view_filter_columns(source_code,cux_flag)
+
+  def available_view_column(source_code)
+    view_filter_columns(source_code)
   end
 
   def available_view_operator
@@ -88,8 +88,8 @@ module Irm::FiltersHelper
   end
 
   private
-  def view_filter_columns(bo_code,cux_flag)
-    Irm::ObjectAttribute.selectable_column.query_by_status_code("ENABLED").multilingual.filterable(cux_flag).query_by_business_object_code(bo_code).collect{|i|[i[:name],i.attribute_name,{:attribute_id=>i.id}]}
+  def view_filter_columns(bo_code)
+    Irm::ObjectAttribute.selectable_column.query_by_status_code("ENABLED").multilingual.filterable.query_by_business_object_code(bo_code).collect{|i|[i[:name],i.attribute_name,{:attribute_id=>i.id}]}
   end
 
   def view_filters(source_code)

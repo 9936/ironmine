@@ -134,12 +134,8 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     where("#{table_name}.update_flag=?",Irm::Constant::SYS_YES)
   }
 
-  scope :filterable,lambda{ |cux_flag|
-    if cux_flag
-      where("#{table_name}.filter_flag=? OR #{table_name}.field_type=?",Irm::Constant::SYS_YES,'GLOBAL_CUX_FIELD')
-    else
+  scope :filterable,lambda{
       where(:filter_flag=>Irm::Constant::SYS_YES)
-    end
   }
 
   scope :query_by_model_name,lambda{|model_name|
