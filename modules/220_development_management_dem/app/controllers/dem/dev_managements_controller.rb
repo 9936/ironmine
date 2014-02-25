@@ -7,6 +7,7 @@ class Dem::DevManagementsController < ApplicationController
 
   def show
     @dev_management = Dem::DevManagement.find(params[:id])
+    @dev_phases = Dem::DevPhase.with_template.where("dev_management_id = ?", @dev_management.id)
 
     respond_to do |format|
       format.html { render :layout => "application_full"}
@@ -23,6 +24,8 @@ class Dem::DevManagementsController < ApplicationController
 
   def edit
     @dev_management = Dem::DevManagement.find(params[:id])
+    @dev_phases = Dem::DevPhase.with_template.where("dev_management_id = ?", @dev_management.id).order("display_sequence ASC, created_at ASC")
+
     respond_to do |format|
       format.html { render :layout => "application_full"}
     end
@@ -42,9 +45,13 @@ class Dem::DevManagementsController < ApplicationController
 
   def update
     @dev_management = Dem::DevManagement.find(params[:id])
+    dev_phases = params[:dev_phase]
 
     respond_to do |format|
       if @dev_management.update_attributes(params[:dem_dev_management])
+        dev_phases.each do |dp|
+          Dem::DevPhase.find(dp[0]).update_attributes(dp[1])
+        end
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
       else
         format.html { render :action => "edit" }
@@ -57,7 +64,7 @@ class Dem::DevManagementsController < ApplicationController
     @dev_management.destroy
 
     respond_to do |format|
-      format.html { redirect_to(dem_dev_management_url) }
+      format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
       format.xml { head :ok }
     end
   end
@@ -72,6 +79,19 @@ class Dem::DevManagementsController < ApplicationController
         @count = count
       }
       format.json { render :json => to_jsonp(dev_managements.to_grid_json([:name, :description, :status], count)) }
+    end
+  end
+
+  def create_phase
+    dp = Dem::DevPhase.new({:dev_management_id => params[:dev_management_id],
+                       :dev_phase_template_id => params[:dev_phase_template_id],
+                       :display_sequence => 10})
+    respond_to do |format|
+      if dp.save
+        format.html { redirect_to({:action => "edit", :id => params[:dev_management_id]}, :notice => t(:successfully_created)) }
+      else
+        format.html { redirect_to({:action => "edit", :id => params[:dev_management_id]}) }
+      end
     end
   end
 end
