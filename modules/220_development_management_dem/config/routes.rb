@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       collection do
         get "get_data"
         post "create_phase"
+        post "index"
       end
     end
 
@@ -16,6 +17,12 @@ Rails.application.routes.draw do
     resources :dev_phases do
       collection do
 
+      end
+    end
+
+    resources :projects do
+      collection do
+        get "get_data"
       end
     end
   end

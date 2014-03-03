@@ -122,6 +122,13 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :sequence => 10,
                   :en => {:name => "Phase Templates", :description => "Phase Templates"},
                   :zh => {:name => "阶段模板", :description => "阶段模板"},
+              }},
+          :dem_project => {
+              :type => "function",
+              :entry => {
+                  :sequence => 20,
+                  :en => {:name => "Projects", :description => "Projects"},
+                  :zh => {:name => "开发项目", :description => "开发项目"},
               }}
       }
   }
@@ -143,6 +150,27 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "dem/dev_phase_templates" => ["index", "new", "create", "edit", "update", "show", "get_data", "destroy"]
+          }
+      }
+  }
+
+  map.function_group :dem_project, {
+      :en => {:name => "Projects", :description => "Projects"},
+      :zh => {:name => "开发项目", :description => "开发项目"}
+  }
+  map.function_group :dem_project, {
+      :zone_code => "DEV_MAN",
+      :controller => "dem/projects",
+      :action => "index"}
+  map.function_group :dem_project, {
+      :children => {
+          :dem_project => {
+              :en => {:name => "Projects", :description => "Projects"},
+              :zh => {:name => "阶段模板", :description => "阶段模板"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "dem/projects" => ["index", "new", "create", "edit", "update", "show", "get_data", "destroy"]
           }
       }
   }

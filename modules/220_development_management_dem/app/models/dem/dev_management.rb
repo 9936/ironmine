@@ -2,10 +2,10 @@ class Dem::DevManagement< ActiveRecord::Base
   set_table_name 'dem_dev_managements'
   #加入activerecord的通用方法和scope
   query_extend
-
+  belongs_to :project
   has_many :dev_phases, :dependent => :destroy
 
-  validates_presence_of :project, :gap_no
+  validates_presence_of :project_id, :gap_no
 
   # 对运维中心数据进行隔离
   default_scope { default_filter }
@@ -17,5 +17,17 @@ class Dem::DevManagement< ActiveRecord::Base
         joins("LEFT OUTER JOIN #{Dem::DevPhaseTemplate.table_name} dpt ON dp.dev_phase_template_id = dpt.id").
         select("dpt.owner_1_label, dpt.owner_2_label, dpt.owner_3_label, dpt.owner_4_label, dpt.owner_5_label, dpt.owner_6_label ").
         select("dpt.status_label, dpt.plan_start_label, dpt.plan_end_label, dpt.real_start_label, dpt.real_end_label")
+  }
+
+  scope :with_project, lambda{
+    joins(",#{Dem::Project.table_name} p").
+        where("p.status_code = ?", "ENABLED").
+        where("p.id = #{table_name}.project_id").
+        select("p.name project, p.description project_description")
+  }
+
+  scope :with_related_project, lambda{
+    joins("LEFT OUTER JOIN #{Dem::Project.table_name} rp ON rp.status_code = 'ENABLED' AND rp.id = #{table_name}.related_project_id").
+        select("rp.name related_project")
   }
 end

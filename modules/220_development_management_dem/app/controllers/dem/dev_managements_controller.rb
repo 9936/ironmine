@@ -1,12 +1,14 @@
 class Dem::DevManagementsController < ApplicationController
   def index
+    @project_params = params[:project_params] if params[:project_params]
+
     respond_to do |format|
       format.html { render :layout => "application_full"}
     end
   end
 
   def show
-    @dev_management = Dem::DevManagement.find(params[:id])
+    @dev_management = Dem::DevManagement.select_all.with_related_project.with_project.find(params[:id])
     @dev_phases = Dem::DevPhase.with_template.where("dev_management_id = ?", @dev_management.id)
 
     respond_to do |format|
@@ -51,7 +53,7 @@ class Dem::DevManagementsController < ApplicationController
       if @dev_management.update_attributes(params[:dem_dev_management])
         dev_phases.each do |dp|
           Dem::DevPhase.find(dp[0]).update_attributes(dp[1])
-        end
+        end if dev_phases
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
       else
         format.html { render :action => "edit" }
@@ -71,7 +73,8 @@ class Dem::DevManagementsController < ApplicationController
 
 
   def get_data
-    dev_management_scope = Dem::DevManagement.where("1=1").select("*").order("created_at DESC")
+    dev_management_scope = Dem::DevManagement.with_project.select_all.order("created_at DESC")
+    dev_management_scope = dev_management_scope.where("#{Dem::DevManagement.table_name}.project_id IN (?)", params[:project_params][:project_id]) if params[:project_params] && params[:project_params][:project_id].first.present?
     dev_managements, count = paginate(dev_management_scope)
     respond_to do |format|
       format.html {

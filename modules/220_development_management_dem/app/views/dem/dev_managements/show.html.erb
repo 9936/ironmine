@@ -3,114 +3,88 @@
   <%= hidden_field_tag :return_url,@return_url %>
 
   <% content_for :dev_management do %>
-    <table class="form-table">
-      <tbody>
-      <tr>
-        <td class="label-col"><label>Project</label></td>
-        <td class="data-col">
-          <%= @dev_management[:project]%>
-        </td>
-        <td class="label-col"><label>Gap No.</label></td>
-        <td class="data-col">
-          <%= @dev_management[:gap_no]%>
-        </td>
-      </tr>
-      <tr>
-        <td class="label-col"><label>Related Project</label></td>
-        <td class="data-col">
-          <%= @dev_management[:related_project]%>
-        </td>
-        <td class="label-col"><label>Related Project Gap No.</label></td>
-        <td class="data-col">
-          <%= @dev_management[:related_project_gap_no]%>
-        </td>
-      </tr>
-      <tr>
-        <td class="label-col"><label>Name</label></td>
-        <td class="data-col">
-          <%= @dev_management[:name]%>
-        </td>
-      </tr>
-      <tr>
-        <td class="label-col"><label>Description</label></td>
-        <td class="data-col"  colspan="3" style="width:100%">
-          <%= @dev_management[:description]%>
-        </td>
-      </tr>
-      <tr>
-        <td class="label-col"><label>Investigation Result</label></td>
-        <td class="data-col"  colspan="3" style="width:100%">
-          <%= @dev_management[:investigation_result]%>
-        </td>
-      </tr>
-      <tr>
-        <td class="label-col"><label>Company</label></td>
-        <td class="data-col">
-          <%= @dev_management[:company]%>
-        </td>
-        <td class="label-col"><label>Category</label></td>
-        <td class="data-col">
-          <%= @dev_management[:category]%>
-        </td>
-      </tr>
-      <tr>
-         <td class="label-col"><label>System</label></td>
-         <td class="data-col">
-           <%= @dev_management[:system]%>
-         </td>
-         <td class="label-col"><label>Priority2</label></td>
-         <td class="data-col">
-           <%= @dev_management[:priority2]%>
-         </td>
-      </tr>
-      <tr>
-         <td class="label-col"><label>Designated Module</label></td>
-         <td class="data-col">
-           <%= @dev_management[:designated_module]%>
-         </td>
-         <td class="label-col"><label>Owner</label></td>
-         <td class="data-col">
-           <%= @dev_management[:owner]%>
-         </td>
-      </tr>
-      <tr>
-         <td class="label-col"><label>Classification(开发方式)</label></td>
-         <td class="data-col">
-           <%= @dev_management[:classification]%>
-         </td>
-         <td class="label-col"><label>类型(Type)</label></td>
-         <td class="data-col">
-           <%= @dev_management[:dev_type]%>
-         </td>
-      </tr>
-      <tr>
-         <td class="label-col"><label>难度</label></td>
-         <td class="data-col">
-           <%= @dev_management[:dev_difficulty]%>
-         </td>
-         <td class="label-col"><label>GT/Local</label></td>
-         <td class="data-col">
-           <%= @dev_management[:gt_local]%>
-         </td>
-      </tr>
-      <tr>
-         <td class="label-col"><label>Status</label></td>
-         <td class="data-col">
-           <%= @dev_management[:dev_status]%>
-         </td>
-         <td class="label-col"><label>完成阶段</label></td>
-         <td class="data-col">
-           <%= @dev_management[:completed_phase]%>
-         </td>
-      </tr>
-      <tr>
-         <td class="label-col"><label>Addon Priority</label></td>
-         <td class="data-col">
-           <%= @dev_management[:addon_priority]%>
-         </td>
-      </tr>
-      </tbody>
-    </table>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label>Project</label></td>
+            <td class="data-col">
+              <%= @dev_management[:project]%>
+            </td>
+            <td class="label-col"><label>Gap No.</label></td>
+            <td class="data-col">
+              <%= @dev_management[:gap_no]%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Develop ID</label></td>
+            <td class="data-col">
+              <%= @dev_management[:develop_id]%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Related Project</label></td>
+            <td class="data-col">
+              <%= @dev_management[:related_project]%>
+            </td>
+            <td class="label-col"><label>Related Project Gap No.</label></td>
+            <td class="data-col">
+              <%= @dev_management[:related_project_gap_no]%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Name</label></td>
+            <td class="data-col">
+              <%= @dev_management[:name]%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Description</label></td>
+            <td class="data-col" colspan="3">
+              <%= @dev_management[:description]%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>System Name</label></td>
+            <td class="data-col">
+              <%= @dev_management[:system]%>
+            </td>
+            <td class="label-col"><label>Module</label></td>
+            <td class="data-col">
+              <%= @dev_management[:category]%>
+            </td>
+          </tr>
+          <tr>
+             <td class="label-col"><label>Owner</label></td>
+             <td class="data-col">
+               <%= @dev_management[:owner]%>
+             </td>
+             <td class="label-col"><label>Classification</label></td>
+             <td class="data-col">
+               <%= @dev_management[:classification]%>
+             </td>
+          </tr>
+          <tr>
+             <td class="label-col"><label>Difficulty</label></td>
+             <td class="data-col">
+               <%= @dev_management[:dev_difficulty]%>
+             </td>
+             <td class="label-col"><label>Status</label></td>
+             <td class="data-col">
+               <%= @dev_management[:dev_status]%>
+             </td>
+          </tr>
+          <tr>
+             <td class="label-col"><label>Require Date</label></td>
+             <td class="data-col">
+               <%= @dev_management[:require_date]%>
+             </td>
+             <td class="label-col"><label>Risk Class</label></td>
+             <td class="data-col">
+               <%= @dev_management[:risk_class]%>
+             </td>
+          </tr>
+          </tbody>
+        </table>
   <% end%>
 
   <!--页面结构-->
