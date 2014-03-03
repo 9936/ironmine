@@ -193,7 +193,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "dem/dev_managements" => ["index", "new", "create", "edit", "update",
+              "dem/dev_managements" => ["sindex", "index", "new", "create", "edit", "update",
                                         "show", "get_data", "destroy", "create_phase"],
               "dem/dev_phases" => ["destroy"]
 

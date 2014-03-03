@@ -7,6 +7,15 @@ class Dem::DevManagementsController < ApplicationController
     end
   end
 
+  def sindex
+    @project_params = params[:project_params] if params[:project_params]
+
+    respond_to do |format|
+      #format.html { render :layout => "application_full"}
+      format.html { redirect_to({:action => "index", :project_params => @project_params}) }
+    end
+  end
+
   def show
     @dev_management = Dem::DevManagement.select_all.with_related_project.with_project.find(params[:id])
     @dev_phases = Dem::DevPhase.with_template.where("dev_management_id = ?", @dev_management.id)

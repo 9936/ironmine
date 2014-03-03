@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       collection do
         get "get_data"
         post "create_phase"
-        post "index"
+        post "sindex"
       end
     end
 
