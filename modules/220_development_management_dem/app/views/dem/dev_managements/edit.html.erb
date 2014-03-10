@@ -42,13 +42,13 @@
           <tr>
             <td class="label-col"><label>Name</label></td>
             <td class="data-col">
-              <%= f.text_field :name%>
+              <%= f.text_field :name, :style => "width: 300px;"%>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Description</label></td>
             <td class="data-col" colspan="3">
-              <%= f.text_area :description, :style => "width:100%", :rows => "5", :cols=>"200"%>
+              <%= f.text_area :description, :style => "width:85%", :rows => "10", :cols=>"200"%>
             </td>
           </tr>
           <tr>
@@ -66,7 +66,7 @@
              <td class="data-col">
                <%= f.text_field :owner%>
              </td>
-             <td class="label-col"><label>Classification</label></td>
+             <td class="label-col"><label>Develop Method</label></td>
              <td class="data-col">
                <%= f.text_field :classification%>
              </td>
@@ -103,7 +103,8 @@
         <h2 class="block-title">Edit Development Management</h2>
       </td>
       <td class="page-block-button">
-        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+        <%= f.submit "Save and Back", :class=>"btn btn-primary", :name => "save_back"%>
+        <%= f.submit "Save and Continue", :class=>"btn btn-primary", :name => "save_continue"%>
         <% if @return_url%>
           <%= link_to t(:cancel), @return_url,{:class=>"btn cancel"}%>
         <% else %>
@@ -133,7 +134,8 @@
       <td class="page-block-title">
       </td>
       <td class="page-block-button">
-        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+        <%= f.submit "Save and Back", :class=>"btn btn-primary", :name => "save_back"%>
+        <%= f.submit "Save and Continue",:class=>"btn btn-primary", :name => "save_continue"%>
         <% if @return_url%>
           <%= link_to t(:cancel), @return_url,{:class=>"btn cancel"}%>
         <% else %>

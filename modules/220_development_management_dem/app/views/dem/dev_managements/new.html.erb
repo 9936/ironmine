@@ -269,7 +269,8 @@
         <h2 class="block-title">New Development Management</h2>
       </td>
       <td class="page-block-button">
-        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+        <%= f.submit "Save and Back", :class=>"btn btn-primary", :name => "save_back"%>
+        <%= f.submit "Save and Continue",:class=>"btn btn-primary", :name => "save_continue"%>
         <% if @return_url%>
           <%= link_to t(:cancel), @return_url,{:class=>"btn cancel"}%>
         <% else %>
@@ -294,7 +295,8 @@
       <td class="page-block-title">
       </td>
       <td class="page-block-button">
-        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+        <%= f.submit "Save and Back", :class=>"btn btn-primary", :name => "save_back"%>
+        <%= f.submit "Save and Continue",:class=>"btn btn-primary", :name => "save_continue"%>
         <% if @return_url%>
           <%= link_to t(:cancel), @return_url,{:class=>"btn cancel"}%>
         <% else %>

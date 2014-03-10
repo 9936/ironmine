@@ -12,14 +12,77 @@
       <div class="sub-page-block">
         <div class="sub-page-block-body">
           <%= form_tag({:action=> "sindex"},{:id=>"search_index",:name=>"search_index"}) do%>
-          <%= select_tag_multiple(
-                      "project_params[project_id][]",
-                      options_for_select(get_project_list, @project_params.present? ? @project_params[:project_id] : nil),
-                      "project_params[project_mul]",
-                      @project_params.present? && @project_params[:project_mul] ? @project_params[:project_mul] : 'N',
-                      {:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
-                       :blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---"} )%>
-          <%= link_submit("Search",{:class => "btn btn-primary"}) %>
+          <table style = "width:100%">
+            <tr>
+              <td>
+                Project
+              </td>
+              <td>
+                System Name
+              </td>
+              <td>
+                Module
+              </td>
+              <td>
+                Status
+              </td>
+            </tr>
+            <tr>
+              <td>
+              <%= select_tag_multiple(
+                          "project_params[project_id][]",
+                          options_for_select(get_project_list, @project_params.present? ? @project_params[:project_id] : nil),
+                          "project_params[project_mul]",
+                          @project_params.present? && @project_params[:project_mul] ? @project_params[:project_mul] : 'N',
+                          {:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
+                           :blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---"} )%>
+              </td>
+              <td>
+                <%= text_field_tag "project_params[system]", @project_params.present?&&@project_params[:system].present? ? @project_params[:system] : nil%>
+              </td>
+              <td>
+                <%= text_field_tag "project_params[module]", @project_params.present?&&@project_params[:module].present? ? @project_params[:module] : nil%>
+              </td>
+              <td>
+                <%= text_field_tag "project_params[dev_status]", @project_params.present?&&@project_params[:dev_status].present? ? @project_params[:dev_status] : nil%>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Owner
+              </td>
+              <td>
+                Risk Class
+              </td>
+              <td>
+                Require Date from
+              </td>
+              <td>
+                Require Date to
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <%= text_field_tag "project_params[owner]", @project_params.present?&&@project_params[:owner].present? ? @project_params[:owner] : nil%>
+              </td>
+              <td>
+                <%= text_field_tag "project_params[risk_class]", @project_params.present?&&@project_params[:risk_class].present? ? @project_params[:risk_class] : nil%>
+              </td>
+              <td>
+                <%= date_field_tag "project_params[date_from]",
+                                   :value => @project_params.present?&&@project_params[:date_from].present? ? @project_params[:date_from] : nil%>
+              </td>
+              <td>
+                <%= date_field_tag "project_params[date_to]",
+                                   :value => @project_params.present?&&@project_params[:date_to].present? ? @project_params[:date_to] : nil%>
+              </td>
+            </tr>
+            <tr>
+              <td colspan = 4>
+                <%= link_submit("Search",{:class => "btn btn-primary"}) %>
+              </td>
+            </tr>
+          </table>
           <% end %>
         </div>
       </div>

@@ -12,7 +12,7 @@ class Dem::DevManagementsController < ApplicationController
 
     respond_to do |format|
       #format.html { render :layout => "application_full"}
-      format.html { redirect_to({:action => "index", :project_params => @project_params}) }
+      format.html { render :action => "index",  :layout => "application_full"}
     end
   end
 
@@ -47,7 +47,11 @@ class Dem::DevManagementsController < ApplicationController
 
     respond_to do |format|
       if @dev_management.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        if params[:save_back]
+          format.html { redirect_to({:action => "show", :id => @dev_management.id}, :notice => t(:successfully_updated)) }
+        else params[:save_continue]
+          format.html { redirect_to({:action => "edit", :id => @dev_management.id}, :notice => t(:successfully_updated)) }
+        end
       else
         format.html { render :action => "new" }
       end
@@ -63,7 +67,11 @@ class Dem::DevManagementsController < ApplicationController
         dev_phases.each do |dp|
           Dem::DevPhase.find(dp[0]).update_attributes(dp[1])
         end if dev_phases
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        if params[:save_back]
+          format.html { redirect_to({:action => "show", :id => params[:id]}, :notice => t(:successfully_updated)) }
+        else params[:save_continue]
+          format.html { redirect_to({:action => "edit", :id => params[:id]}, :notice => t(:successfully_updated)) }
+        end
       else
         format.html { render :action => "edit" }
       end
@@ -83,7 +91,45 @@ class Dem::DevManagementsController < ApplicationController
 
   def get_data
     dev_management_scope = Dem::DevManagement.with_project.select_all.order("created_at DESC")
-    dev_management_scope = dev_management_scope.where("#{Dem::DevManagement.table_name}.project_id IN (?)", params[:project_params][:project_id]) if params[:project_params] && params[:project_params][:project_id].first.present?
+    dev_management_scope = dev_management_scope.
+        where("#{Dem::DevManagement.table_name}.project_id IN (?)",
+              params[:project_params][:project_id]) if params[:project_params] && params[:project_params][:project_id].first.present?
+    dev_management_scope = dev_management_scope.
+        where("#{Dem::DevManagement.table_name}.project_id IN (?)",
+              params[:project_params][:system]) if params[:project_params] && params[:project_params][:system].present?
+
+    dev_management_scope = dev_management_scope.
+        where("#{Dem::DevManagement.table_name}.module LIKE ?",
+              '%' + params[:project_params][:module] + '%') if params[:project_params] && params[:project_params][:module].present?
+
+    dev_management_scope = dev_management_scope.
+        where("#{Dem::DevManagement.table_name}.dev_status LIKE ?",
+              '%' + params[:project_params][:dev_status] + '%') if params[:project_params] && params[:project_params][:dev_status].present?
+
+    dev_management_scope = dev_management_scope.
+        where("#{Dem::DevManagement.table_name}.owner LIKE ?",
+              '%' + params[:project_params][:owner] + '%') if params[:project_params] && params[:project_params][:owner].present?
+
+    dev_management_scope = dev_management_scope.
+        where("#{Dem::DevManagement.table_name}.owner LIKE ?",
+              '%' + params[:project_params][:risk_class] + '%') if params[:project_params] && params[:project_params][:risk_class].present?
+
+    begin
+    dev_management_scope = dev_management_scope.
+        where("date_format(#{Dem::DevManagement.table_name}.require_date, '%Y-%m-%d') >= ?",
+              Date.strptime("#{params[:project_params][:date_from]}", '%Y-%m-%d').strftime("%Y-%m-%d")) if params[:project_params] && params[:project_params][:date_from].present?
+    rescue
+      nil
+    end
+
+    begin
+    dev_management_scope = dev_management_scope.
+        where("date_format(#{Dem::DevManagement.table_name}.require_date, '%Y-%m-%d') <= ?",
+              Date.strptime("#{params[:project_params][:date_to]}", '%Y-%m-%d').strftime("%Y-%m-%d")) if params[:project_params] && params[:project_params][:date_to].present?
+    rescue
+      nil
+    end
+
     dev_managements, count = paginate(dev_management_scope)
     respond_to do |format|
       format.html {

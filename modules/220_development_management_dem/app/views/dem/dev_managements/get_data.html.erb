@@ -6,9 +6,10 @@
         <%= link_to(data[:gap_no],{:controller=>"dem/dev_managements",:action=>"show",:id=>data[:id]}) %>
     <% end %>
     <% builder.column(:name,{:title=>"Name"})%>
-    <% builder.column(:module,{:title=>"Category", :width => "150px"})%>
-    <% builder.column(:system,{:title=>"System", :width => "150px"})%>
+    <% builder.column(:system,{:title=>"System Name", :width => "150px"})%>
+    <% builder.column(:module,{:title=>"Module", :width => "150px"})%>
     <% builder.column(:require_date,{:title=>"Require Date", :width => "120px"})%>
     <% builder.column(:dev_status,{:title=>"Status", :width => "120px"})%>
+    <% builder.column(:owner,{:title=>"Owner", :width => "120px"})%>
     <% builder.column(:risk_class,{:title=>"Risk Class", :width => "100px"})%>
 <% end %>
