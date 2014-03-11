@@ -58,7 +58,7 @@ class Dem::DevManagement< ActiveRecord::Base
         where("dev_management_id = ?", self.id).
         order("display_sequence ASC, created_at ASC")
 
-    status = ""
+    status = "Waiting for MD050"
 
     begin
       status = completed_phases.first.dev_phase_template.name
