@@ -90,13 +90,14 @@ class Dem::DevManagementsController < ApplicationController
 
 
   def get_data
-    dev_management_scope = Dem::DevManagement.with_project.select_all.order("created_at DESC")
+    dev_management_scope = Dem::DevManagement.with_project.select_all.order("(develop_id + 0) ASC")
     dev_management_scope = dev_management_scope.
         where("#{Dem::DevManagement.table_name}.project_id IN (?)",
               params[:project_params][:project_id]) if params[:project_params] && params[:project_params][:project_id].first.present?
+
     dev_management_scope = dev_management_scope.
-        where("#{Dem::DevManagement.table_name}.project_id IN (?)",
-              params[:project_params][:system]) if params[:project_params] && params[:project_params][:system].present?
+        where("#{Dem::DevManagement.table_name}.system LIKE ?",
+              '%' + params[:project_params][:system] + '%') if params[:project_params] && params[:project_params][:system].present?
 
     dev_management_scope = dev_management_scope.
         where("#{Dem::DevManagement.table_name}.module LIKE ?",

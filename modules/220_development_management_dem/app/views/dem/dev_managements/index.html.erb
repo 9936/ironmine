@@ -35,7 +35,7 @@
                           "project_params[project_mul]",
                           @project_params.present? && @project_params[:project_mul] ? @project_params[:project_mul] : 'N',
                           {:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
-                           :blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---"} )%>
+                           :blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---", :style => "width:210px;"} )%>
               </td>
               <td>
                 <%= text_field_tag "project_params[system]", @project_params.present?&&@project_params[:system].present? ? @project_params[:system] : nil%>
@@ -70,11 +70,15 @@
               </td>
               <td>
                 <%= date_field_tag "project_params[date_from]",
-                                   :value => @project_params.present?&&@project_params[:date_from].present? ? @project_params[:date_from] : nil%>
+                                   :value => @project_params.present?&&@project_params[:date_from].present? ? @project_params[:date_from] : nil,
+                                   :id => "data_from",
+                                   :style => "width:130px;"%>
               </td>
               <td>
                 <%= date_field_tag "project_params[date_to]",
-                                   :value => @project_params.present?&&@project_params[:date_to].present? ? @project_params[:date_to] : nil%>
+                                   :value => @project_params.present?&&@project_params[:date_to].present? ? @project_params[:date_to] : nil,
+                                   :id => "data_to",
+                                   :style => "width:130px;"%>
               </td>
             </tr>
             <tr>
