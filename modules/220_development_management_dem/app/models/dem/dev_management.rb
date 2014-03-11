@@ -30,4 +30,58 @@ class Dem::DevManagement< ActiveRecord::Base
     joins("LEFT OUTER JOIN #{Dem::Project.table_name} rp ON rp.status_code = 'ENABLED' AND rp.id = #{table_name}.related_project_id").
         select("rp.name related_project")
   }
+
+  scope :with_method, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} vmethod ON vmethod.lookup_type = 'DEM_DEVELOP_METHOD' AND vmethod.lookup_code = #{table_name}.classification AND vmethod.language = '#{language}'").
+        select("vmethod.meaning classification_name")
+  }
+
+  scope :with_module, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} vmodule ON vmodule.lookup_type = 'DEM_MODULE' AND vmodule.lookup_code = #{table_name}.category AND vmodule.language = '#{language}'").
+        select("vmodule.meaning category_name")
+  }
+
+  scope :with_dev_difficulty, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} vdifficulty ON vdifficulty.lookup_type = 'DEM_DIFFICULTY' AND vdifficulty.lookup_code = #{table_name}.dev_difficulty AND vdifficulty.language = '#{language}'").
+        select("vdifficulty.meaning dev_difficulty_name")
+  }
+
+  def update_trigger
+    #update status
+    #Max([Phase].status = completed).name
+    completed_phases = Dem::DevPhase.
+        where("dev_management_id = ?", self.id).
+        where("status = ?", "DEM_PHASE_COMPLETED").
+        order("display_sequence DESC, created_at DESC")
+
+    phases = Dem::DevPhase.
+        where("dev_management_id = ?", self.id).
+        order("display_sequence ASC, created_at ASC")
+
+    status = self.dev_status
+
+    begin
+      status = phases.last.dev_phase_template.name
+    rescue
+      nil
+    end
+
+    #update owner
+    #Max([Phase].status = completed).owners
+    owner = self.owner
+    #begin
+      if completed_phases.size == 0
+        owner = phases.first.owners
+      elsif phases.size == 1 || (phases.size > 1 && completed_phases.size == phases.size)
+        owner = phases.last.owners
+      elsif phases.size > 1 && completed_phases.any?
+        index = phases.index(completed_phases.first)
+        owner = phases[index + 1].owners if index + 1 < phases.size
+      end
+    #rescue
+    #  nil
+    #end
+
+    self.update_attributes(:dev_status => status, :owner => owner)
+  end
 end

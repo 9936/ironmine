@@ -44,27 +44,19 @@
         </td>
         <td class="label-col"><label>Module</label></td>
         <td class="data-col">
-          <%= f.text_field :category%>
+          <%= f.select :category, nullable_options_for_select(dem_get_module_list, nil)%>
         </td>
       </tr>
       <tr>
-         <td class="label-col"><label>Owner</label></td>
+         <td class="label-col"><label>Develop Method</label></td>
          <td class="data-col">
-           <%= f.text_field :owner%>
-         </td>
-         <td class="label-col"><label>Classification</label></td>
-         <td class="data-col">
-           <%= f.text_field :classification%>
+           <%= f.select :classification, nullable_options_for_select(dem_get_method_list, nil)%>
          </td>
       </tr>
       <tr>
          <td class="label-col"><label>Difficulty</label></td>
          <td class="data-col">
-           <%= f.text_field :dev_difficulty%>
-         </td>
-         <td class="label-col"><label>Status</label></td>
-         <td class="data-col">
-           <%= f.text_field :dev_status%>
+           <%= f.select :dev_difficulty, options_for_select(dem_get_difficulty_list, "DEM_EASY")%>
          </td>
       </tr>
       <tr>
@@ -86,182 +78,6 @@
       </tbody>
     </table>
   <% end%>
-
-
-  <% content_for :fun_des do %>
-    <table class="form-table">
-       <tbody>
-           <tr>
-              <td class="label-col"><label>Owner</label></td>
-              <td class="data-col">
-                <%= f.text_field :fun_des_owner%>
-              </td>
-             <td class="label-col"><label>Status</label></td>
-             <td class="data-col">
-               <%= f.text_field :fun_des_status%>
-             </td>
-           </tr>
-           <tr>
-              <td class="label-col"><label>计划开始时间</label></td>
-              <td class="data-col">
-                <%= f.date_field :fun_des_plan_start, :class=>"date"%>
-              </td>
-             <td class="label-col"><label>计划结束时间</label></td>
-             <td class="data-col">
-               <%= f.date_field :fun_des_plan_end, :class=>"date"%>
-             </td>
-           </tr>
-           <tr>
-              <td class="label-col"><label>开始时间</label></td>
-              <td class="data-col">
-                <%= f.date_field :fun_des_real_start, :class=>"date"%>
-              </td>
-             <td class="label-col"><label>结束时间</label></td>
-             <td class="data-col">
-               <%= f.date_field :fun_des_real_end, :class=>"date"%>
-             </td>
-           </tr>
-       </tbody>
-    </table>
-  <% end %>
-
-    <% content_for :tec_dev do %>
-      <table class="form-table">
-         <tbody>
-             <tr>
-                <td class="label-col"><label>Owner</label></td>
-                <td class="data-col">
-                  <%= f.text_field :tec_dev_owner%>
-                </td>
-               <td class="label-col"><label>Status</label></td>
-               <td class="data-col">
-                 <%= f.text_field :tec_dev_status%>
-               </td>
-             </tr>
-             <tr>
-                <td class="label-col"><label>计划开始时间</label></td>
-                <td class="data-col">
-                  <%= f.date_field :tec_dev_plan_start, :class=>"date"%>
-                </td>
-               <td class="label-col"><label>计划结束时间</label></td>
-               <td class="data-col">
-                 <%= f.date_field :tec_dev_plan_end, :class=>"date"%>
-               </td>
-             </tr>
-             <tr>
-                <td class="label-col"><label>开始时间</label></td>
-                <td class="data-col">
-                  <%= f.date_field :tec_dev_real_start, :class=>"date"%>
-                </td>
-               <td class="label-col"><label>结束时间</label></td>
-               <td class="data-col">
-                 <%= f.date_field :tec_dev_real_end, :class=>"date"%>
-               </td>
-             </tr>
-         </tbody>
-      </table>
-    <% end %>
-
-    <% content_for :fun_tes do %>
-      <table class="form-table">
-         <tbody>
-             <tr>
-                <td class="label-col"><label>Owner 1</label></td>
-                <td class="data-col">
-                  <%= f.text_field :fun_tes_owner%>
-                </td>
-               <td class="label-col"><label>Owner 2</label></td>
-               <td class="data-col">
-                 <%= f.text_field :fun_tes_owner2%>
-               </td>
-             </tr>
-             <tr>
-                <td class="label-col"><label>Owner 3</label></td>
-                <td class="data-col">
-                  <%= f.text_field :fun_tes_owner3%>
-                </td>
-               <td class="label-col"><label>Status</label></td>
-               <td class="data-col">
-                 <%= f.text_field :fun_tes_status%>
-               </td>
-             </tr>
-             <tr>
-                <td class="label-col"><label>计划开始时间</label></td>
-                <td class="data-col">
-                  <%= f.date_field :fun_tes_plan_start, :class=>"date"%>
-                </td>
-               <td class="label-col"><label>计划结束时间</label></td>
-               <td class="data-col">
-                 <%= f.date_field :fun_tes_plan_end, :class=>"date"%>
-               </td>
-             </tr>
-             <tr>
-                <td class="label-col"><label>开始时间</label></td>
-                <td class="data-col">
-                  <%= f.date_field :fun_tes_real_start, :class=>"date"%>
-                </td>
-               <td class="label-col"><label>结束时间</label></td>
-               <td class="data-col">
-                 <%= f.date_field :fun_tes_real_end, :class=>"date"%>
-               </td>
-             </tr>
-         </tbody>
-      </table>
-    <% end %>
-
-    <% content_for :review do %>
-      <table class="form-table">
-         <tbody>
-             <tr>
-                <td class="label-col"><label>Owner 1</label></td>
-                <td class="data-col">
-                  <%= f.text_field :review_owner%>
-                </td>
-               <td class="label-col"><label>Owner 2</label></td>
-               <td class="data-col">
-                 <%= f.text_field :review_owner2%>
-               </td>
-             </tr>
-             <tr>
-                <td class="label-col"><label>Owner 3</label></td>
-                <td class="data-col">
-                  <%= f.text_field :review_owner3%>
-                </td>
-               <td class="label-col"><label>Owner 4</label></td>
-               <td class="data-col">
-                 <%= f.text_field :review_owner4%>
-               </td>
-             </tr>
-             <tr>
-               <td class="label-col"><label>Status</label></td>
-               <td class="data-col">
-                 <%= f.text_field :review_status%>
-               </td>
-             </tr>
-             <tr>
-                <td class="label-col"><label>计划开始时间</label></td>
-                <td class="data-col">
-                  <%= f.date_field :review_plan_start, :class=>"date"%>
-                </td>
-               <td class="label-col"><label>计划结束时间</label></td>
-               <td class="data-col">
-                 <%= f.date_field :review_plan_end, :class=>"date"%>
-               </td>
-             </tr>
-             <tr>
-                <td class="label-col"><label>开始时间</label></td>
-                <td class="data-col">
-                  <%= f.date_field :review_real_start, :class=>"date"%>
-                </td>
-               <td class="label-col"><label>结束时间</label></td>
-               <td class="data-col">
-                 <%= f.date_field :review_real_end, :class=>"date"%>
-               </td>
-             </tr>
-         </tbody>
-      </table>
-    <% end %>
-
   <!--页面结构-->
   <div class="page-block">
     <table class="page-block-header"><tr>
@@ -271,11 +87,7 @@
       <td class="page-block-button">
         <%= f.submit "Save and Back", :class=>"btn btn-primary", :name => "save_back"%>
         <%= f.submit "Save and Continue",:class=>"btn btn-primary", :name => "save_continue"%>
-        <% if @return_url%>
-          <%= link_to t(:cancel), @return_url,{:class=>"btn cancel"}%>
-        <% else %>
-          <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
-        <% end %>
+        <%= link_back t(:cancel),{:action => "index"},{:class=>"btn cancel"}%>
       </td>
     </tr></table>
     <%= error_for @dev_management %>
@@ -297,11 +109,7 @@
       <td class="page-block-button">
         <%= f.submit "Save and Back", :class=>"btn btn-primary", :name => "save_back"%>
         <%= f.submit "Save and Continue",:class=>"btn btn-primary", :name => "save_continue"%>
-        <% if @return_url%>
-          <%= link_to t(:cancel), @return_url,{:class=>"btn cancel"}%>
-        <% else %>
-          <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
-        <% end %>
+        <%= link_back t(:cancel),{:action => "index"},{:class=>"btn cancel"}%>
       </td>
     </tr></table>
   </div>

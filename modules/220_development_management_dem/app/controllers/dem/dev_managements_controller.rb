@@ -17,8 +17,13 @@ class Dem::DevManagementsController < ApplicationController
   end
 
   def show
-    @dev_management = Dem::DevManagement.select_all.with_related_project.with_project.find(params[:id])
-    @dev_phases = Dem::DevPhase.with_template.where("dev_management_id = ?", @dev_management.id)
+    language = I18n.locale
+    @dev_management = Dem::DevManagement.
+        with_method(language).
+        with_module(language).
+        with_dev_difficulty(language).
+        select_all.with_related_project.with_project.find(params[:id])
+    @dev_phases = Dem::DevPhase.with_phase_status(language).with_template.where("dev_management_id = ?", @dev_management.id)
 
     respond_to do |format|
       format.html { render :layout => "application_full"}
@@ -67,6 +72,7 @@ class Dem::DevManagementsController < ApplicationController
         dev_phases.each do |dp|
           Dem::DevPhase.find(dp[0]).update_attributes(dp[1])
         end if dev_phases
+        @dev_management.update_trigger
         if params[:save_back]
           format.html { redirect_to({:action => "show", :id => params[:id]}, :notice => t(:successfully_updated)) }
         else params[:save_continue]
@@ -90,7 +96,11 @@ class Dem::DevManagementsController < ApplicationController
 
 
   def get_data
-    dev_management_scope = Dem::DevManagement.with_project.select_all.order("(develop_id + 0) ASC")
+    language = I18n.locale
+    dev_management_scope = Dem::DevManagement.
+        with_method(language).
+        with_module(language).
+        with_project.select_all.order("(develop_id + 0) ASC")
     dev_management_scope = dev_management_scope.
         where("#{Dem::DevManagement.table_name}.project_id IN (?)",
               params[:project_params][:project_id]) if params[:project_params] && params[:project_params][:project_id].first.present?
@@ -147,6 +157,7 @@ class Dem::DevManagementsController < ApplicationController
                        :display_sequence => 10})
     respond_to do |format|
       if dp.save
+        dp.dev_management.update_trigger
         format.html { redirect_to({:action => "edit", :id => params[:dev_management_id]}, :notice => t(:successfully_created)) }
       else
         format.html { redirect_to({:action => "edit", :id => params[:dev_management_id]}) }

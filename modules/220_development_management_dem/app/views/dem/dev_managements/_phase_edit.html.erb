@@ -64,7 +64,7 @@
          <tr>
             <td class="label-col"><label><%= phase[:status_label]%></label></td>
             <td class="data-col">
-              <%= p.text_field :status%>
+              <%= p.select :status, options_for_select(dem_get_phase_status_list, phase[:status].present? ? phase[:status] : "DEM_PHASE_OPEN")%>
             </td>
          </tr>
          <% end %>

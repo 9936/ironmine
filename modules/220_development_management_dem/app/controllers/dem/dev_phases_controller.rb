@@ -27,7 +27,7 @@ class Dem::DevPhasesController < ApplicationController
     @dev_phase = Dem::DevPhase.find(params[:id])
     tid = @dev_phase.dev_management_id
     @dev_phase.destroy
-
+    Dem::DevManagement.find(tid).update_trigger
     respond_to do |format|
       format.html { redirect_to({:controller => "dem/dev_managements",
                                  :action => "edit", :id => tid},
