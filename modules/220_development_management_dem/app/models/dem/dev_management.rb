@@ -69,7 +69,7 @@ class Dem::DevManagement< ActiveRecord::Base
     #update owner
     #Max([Phase].status = completed).owners
     owner = self.owner
-    #begin
+    begin
       if completed_phases.size == 0
         owner = phases.first.owners
       elsif phases.size == 1 || (phases.size > 1 && completed_phases.size == phases.size)
@@ -78,9 +78,9 @@ class Dem::DevManagement< ActiveRecord::Base
         index = phases.index(completed_phases.first)
         owner = phases[index + 1].owners if index + 1 < phases.size
       end
-    #rescue
-    #  nil
-    #end
+    rescue
+      nil
+    end
 
     self.update_attributes(:dev_status => status, :owner => owner)
   end
