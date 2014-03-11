@@ -52,6 +52,7 @@ class Dem::DevManagementsController < ApplicationController
 
     respond_to do |format|
       if @dev_management.save
+        @dev_management.update_trigger
         if params[:save_back]
           format.html { redirect_to({:action => "show", :id => @dev_management.id}, :notice => t(:successfully_updated)) }
         else params[:save_continue]
