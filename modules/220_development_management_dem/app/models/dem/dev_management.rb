@@ -58,10 +58,10 @@ class Dem::DevManagement< ActiveRecord::Base
         where("dev_management_id = ?", self.id).
         order("display_sequence ASC, created_at ASC")
 
-    status = self.dev_status
+    status = ""
 
     begin
-      status = phases.last.dev_phase_template.name
+      status = completed_phases.first.dev_phase_template.name
     rescue
       nil
     end
