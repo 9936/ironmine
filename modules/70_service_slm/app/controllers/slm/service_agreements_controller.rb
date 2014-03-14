@@ -368,9 +368,9 @@ class Slm::ServiceAgreementsController < ApplicationController
     sla_instances = Slm::SlaInstance.with_detail(I18n.locale).where(:bo_type=>params[:bo_type],:bo_id=>params[:bo_id])
     sla_instances.each do |slai|
       if "START".eql?(slai.last_phase_type)
-        slai.current_duration = slai.current_duration.to_i+slai.working_time(slai.service_agreement,slai.last_phase_start_date,Time.now)
+        slai.current_duration = slai.current_duration.to_i+slai.working_time(slai.service_agreement,slai.last_phase_start_date,Time.zone.now)
         if  slai.current_duration < slai.max_duration
-          slai.end_at = slai.next_working_time(slai.service_agreement,Time.now,slai.max_duration-slai.current_duration)
+          slai.end_at = slai.next_working_time(slai.service_agreement,Time.zone.now,slai.max_duration-slai.current_duration)
           slai.display_color = "green"
         else
           slai.display_color = "red"
