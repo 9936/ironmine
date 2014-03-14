@@ -513,7 +513,7 @@ namespace :irm do
             permission = Irm::Permission.new(:system_flag => route_permission[:system_flag],:api_flag => function_api_flag,:code=>Irm::Permission.url_key(controller,action).upcase,:function_code=>function_code.to_s.upcase,:controller=>controller,:action=>action.to_s,:params_count=>route_permission[:params_count],:direct_get_flag=>route_permission[:direct_get_flag])
             permission.save
             if permission.errors.any?
-              puts "#{BOLD}#{RED}Add [#{function_code}]#{controller}/#{action} errors:#{permission.errors}#{CLEAR}"
+              puts "#{BOLD}#{RED}Add [#{function_code}]#{controller}/#{action} errors:#{permission.errors.to_json}#{CLEAR}"
             else
               puts "Add [#{function_code}]#{controller}/#{action} to permissions successful"
             end

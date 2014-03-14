@@ -1,0 +1,99 @@
+<div class="sub-page-block">
+  <div class="sub-page-block-header">
+    <h3 class="sub-page-block-title"><%= phase[:name]%></h3>
+  </div>
+  <div class="sub-page-block-body">
+  <table class="form-table">
+     <tbody>
+         <% if phase[:owner_1_label].present? || phase[:owner_2_label].present? %>
+         <tr>
+            <% if phase[:owner_1_label].present? %>
+            <td class="label-col"><label><%= phase[:owner_1_label]%></label></td>
+            <td class="data-col">
+              <%= phase[:owner_1]%>
+            </td>
+            <% end %>
+           <% if phase[:owner_2_label].present? %>
+           <td class="label-col"><label><%= phase[:owner_2_label]%></label></td>
+           <td class="data-col">
+             <%= phase[:owner_2]%>
+           </td>
+           <% end %>
+         </tr>
+         <% end %>
+         <% if phase[:owner_3_label].present? || phase[:owner_4_label].present? %>
+         <tr>
+            <% if phase[:owner_3_label].present? %>
+            <td class="label-col"><label><%= phase[:owner_3_label]%></label></td>
+            <td class="data-col">
+              <%= phase[:owner_3]%>
+            </td>
+            <% end %>
+           <% if phase[:owner_4_label].present? %>
+           <td class="label-col"><label><%= phase[:owner_4_label]%></label></td>
+           <td class="data-col">
+             <%= phase[:owner_4]%>
+           </td>
+           <% end %>
+         </tr>
+         <% end %>
+         <% if phase[:owner_5_label].present? || phase[:owner_6_label].present? %>
+         <tr>
+            <% if phase[:owner_5_label].present? %>
+            <td class="label-col"><label><%= phase[:owner_5_label]%></label></td>
+            <td class="data-col">
+              <%= phase[:owner_5]%>
+            </td>
+            <% end %>
+           <% if phase[:owner_6_label].present? %>
+           <td class="label-col"><label><%= phase[:owner_6_label]%></label></td>
+           <td class="data-col">
+             <%= phase[:owner_6]%>
+           </td>
+           <% end %>
+         </tr>
+         <% end %>
+         <% if phase[:status_label].present?%>
+         <tr>
+            <td class="label-col"><label><%= phase[:status_label]%></label></td>
+            <td class="data-col">
+              <%= phase[:phase_status_name]%>
+            </td>
+         </tr>
+         <% end %>
+         <% if phase[:plan_start_label].present? || phase[:plan_end_label].present? %>
+         <tr>
+            <% if phase[:plan_start_label].present? %>
+            <td class="label-col"><label><%= phase[:plan_start_label]%></label></td>
+            <td class="data-col">
+              <%= phase[:plan_start]%>
+            </td>
+            <% end %>
+           <% if phase[:plan_end_label].present? %>
+           <td class="label-col"><label><%= phase[:plan_end_label]%></label></td>
+           <td class="data-col">
+             <%= phase[:plan_end]%>
+           </td>
+           <% end %>
+         </tr>
+         <% end %>
+         <% if phase[:real_start_label].present? || phase[:real_end_label].present? %>
+         <tr>
+            <% if phase[:real_start_label].present? %>
+            <td class="label-col"><label><%= phase[:real_start_label]%></label></td>
+            <td class="data-col">
+              <%= phase[:real_start] %>
+            </td>
+            <% end %>
+           <% if phase[:real_end_label].present? %>
+           <td class="label-col"><label><%= phase[:real_end_label]%></label></td>
+           <td class="data-col">
+             <%= phase[:real_end] %>
+           </td>
+           <% end %>
+         </tr>
+         <% end %>
+     </tbody>
+  </table>
+  </div>
+</div>

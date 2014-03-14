@@ -20,7 +20,7 @@ class Irm::Sequence < ActiveRecord::Base
   end
 
   def self.nextval(in_object_name, opu_id = Irm::Person.current.opu_id)
-    seq = Irm::Sequence.where(:opu_id => opu_id).where(:object_name => in_object_name)
+    seq = Irm::Sequence.where(:object_name => in_object_name)
     return -1 unless seq.any?
     seq = seq.first
     increment_counter(:seq_next,seq.id)
