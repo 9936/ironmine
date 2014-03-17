@@ -72,7 +72,7 @@ class Dem::DevManagement< ActiveRecord::Base
       begin
         status = completed_phases.last.current_status
       rescue
-        status = phases.first.current_status
+        nil
       end
     end
 
