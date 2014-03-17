@@ -70,7 +70,7 @@ class Dem::DevManagement< ActiveRecord::Base
       status = "Waiting For MD050"
 
       begin
-        status = "Waiting For " + completed_phases.last.current_status
+        status = completed_phases.last.current_status
       rescue
         status = phases.first.current_status
       end
