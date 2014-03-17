@@ -97,6 +97,9 @@
         <%= link_to t(:edit),
                     {:controller=>"dem/dev_managements", :action => "edit", :id => @dev_management.id},
                     {:class=>"btn",:back => true} %>
+        <%= link_to "Phase Sequence",
+                    {:controller=>"dem/dev_managements", :action => "edit_phase_sequence", :id => @dev_management.id},
+                    {:class=>"btn",:back => true} %>
         <%= link_to t(:delete),
                     {:controller=>"dem/dev_managements", :action => "destroy", :id => @dev_management.id},
                     {:class=>"btn",:back => true, :method => :delete} %>
@@ -126,6 +129,9 @@
       <td class="page-block-button">
         <%= link_to t(:edit),
                     {:controller=>"dem/dev_managements", :action => "edit", :id => @dev_management.id},
+                    {:class=>"btn",:back => true} %>
+        <%= link_to "Phase Sequence",
+                    {:controller=>"dem/dev_managements", :action => "edit_phase_sequence", :id => @dev_management.id},
                     {:class=>"btn",:back => true} %>
         <%= link_to t(:delete),
                     {:controller=>"dem/dev_managements", :action => "destroy", :id => @dev_management.id},

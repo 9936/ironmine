@@ -197,7 +197,19 @@ Fwk::MenuAndFunctionManager.map do |map|
                                         "show", "get_data", "destroy", "create_phase"],
               "dem/dev_phases" => ["destroy"]
 
+          },
+          :dev_phase_sequence => {
+              :en => {:name => "Dev Phase Sequence", :description => "Dev Phase Sequence"},
+              :zh => {:name => "阶段顺序管理", :description => "阶段顺序管理"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "dem/dev_managements" => ["sindex", "index", "new", "create", "edit", "update",
+                                        "show", "get_data", "destroy", "create_phase", "edit_phase_sequence", "update_phase_sequence"],
+              "dem/dev_phases" => ["destroy"]
+
           }
+
       }
   }
   #=================================END:Sales=================================
