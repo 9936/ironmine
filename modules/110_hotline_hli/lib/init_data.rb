@@ -67,4 +67,18 @@ map.function_group :hotline_project, {
           }
       }
   }
+
+  map.function_group :work_calendar, {
+      :children => {
+          :synch_work_calendar => {
+              :en => {:name => "Synch Work Calendar", :description => "Synch Work Calendar"},
+              :zh => {:name => "工作日历复制", :description => "工作日历复制"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "slm/calendars" => ["synch"]
+          }
+
+      }
+  }
 end

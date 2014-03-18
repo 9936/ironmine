@@ -98,3 +98,7 @@ zh:
   label_report_share: 占有率
 
   label_hil_include_journal_history: 包含回复历史
+  label_slm_calendar_code: 编码
+  label_slm_calendar_master_code: MASTER CODE
+  label_slm_calendar_master_synch: 同步
+  label_slm_calendar_master_synch_success: 同步成功,%{size}条工作日历被同步

@@ -1,0 +1,533 @@
+<% require_jscss([:fullcalendar]) %>
+<%= common_title %>
+
+<style type="text/css">
+    .widget-box {
+        background: none repeat scroll 0 0 #F9F9F9;
+        border-top: 1px solid #CDCDCD;
+        border-left: 1px solid #CDCDCD;
+        border-right: 1px solid #CDCDCD;
+        clear: both;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        position: relative;
+    }
+
+    .widget-box.widget-calendar, .widget-box.widget-chat {
+        overflow: hidden !important;
+    }
+
+    .accordion .widget-box {
+        margin-top: -2px;
+        margin-bottom: 0;
+        border-radius: 0;
+    }
+
+    .widget-box.widget-plain {
+        background: transparent;
+        border: none;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .widget-title, .table th, div.dataTables_wrapper .ui-widget-header {
+        background-color: #efefef;
+        background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#fdfdfd), to(#eaeaea));
+        background-image: -webkit-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -moz-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -ms-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -o-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fdfdfd', endColorstr = '#eaeaea', GradientType = 0); /* IE6-9 */
+        border-bottom: 1px solid #CDCDCD;
+        height: 36px;
+    }
+
+    .widget-title .nav-tabs {
+        border-bottom: 0 none;
+    }
+
+    .widget-title .nav-tabs li a {
+        border-bottom: medium none !important;
+        border-left: 1px solid #DDDDDD;
+        border-radius: 0 0 0 0;
+        border-right: 1px solid #DDDDDD;
+        border-top: medium none;
+        color: #999999;
+        margin: 0;
+        outline: medium none;
+        padding: 9px 10px 8px;
+        font-weight: bold;
+        text-shadow: 0 1px 0 #FFFFFF;
+    }
+
+    .widget-title .nav-tabs li:first-child a {
+        border-left: medium none !important;
+    }
+
+    .widget-title .nav-tabs li a:hover {
+        background-color: transparent !important;
+        border-color: #D6D6D6;
+        border-width: 0 1px;
+        color: #666666;
+    }
+
+    .widget-title .nav-tabs li.active a {
+        background-color: #F9F9F9 !important;
+        color: #444444;
+    }
+
+    .widget-title span.icon {
+        border-right: 1px solid #cdcdcd;
+        padding: 9px 10px 7px 11px;
+        float: left;
+        opacity: .7;
+        line-height: 20px;
+    }
+
+    .widget-title h5 {
+        color: #666666;
+        text-shadow: 0 1px 0 #ffffff;
+        float: left;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 12px;
+        line-height: 12px;
+        margin: 0;
+    }
+
+    .widget-title .buttons {
+        float: right;
+        margin: 8px 10px 0 0;
+    }
+
+    .widget-title .label {
+        padding: 3px 5px 2px;
+        float: right;
+        margin: 9px 15px 0 0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset, 0 1px 0 #ffffff;
+    }
+
+    .widget-calendar .widget-title .label {
+        margin-right: 190px;
+    }
+
+    .widget-content {
+        padding: 0;
+        border-bottom: 1px solid #cdcdcd;
+    }
+
+    .widget-box.widget-plain .widget-content {
+        padding: 12px 0 0;
+    }
+
+    .widget-box.collapsible .collapse.in .widget-content {
+        border-bottom: 1px solid #CDCDCD;
+    }
+
+    .panel-left {
+        margin-right: 150px;
+    }
+
+    .panel-right {
+        width: 149px;
+        background-color: #f2f2f2;
+        border-left: 1px solid #dddddd;
+        position: absolute;
+        right: 0;
+        top: 37px;
+        height: 2500px;
+    }
+
+    .panel-right .panel-title {
+        width: 100%;
+        background-color: #ececec;
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .panel-right .panel-title h5 {
+        font-size: 12px;
+        color: #777777;
+        text-shadow: 0 1px 0 #ffffff;
+        padding: 6px 10px 5px;
+        margin: 0;
+        display: block;
+    }
+
+    .panel-right .panel-content {
+        padding: 10px;
+    }
+
+    .fc-event-skin,
+    .external-event.label-inverse {
+        background-color: #3366CC !important;
+        background-image: -moz-linear-gradient(top, #3366CC 0%, #3366CC 100%);
+    }
+
+    .week-container {
+        /*display: none;*/
+        margin: 10px 5px 5px 5px;
+    }
+
+    .week-container .checkbox {
+        display: inline-block;
+        padding-right: 5px;
+    }
+
+    .week-container .checkbox input[type="checkbox"] {
+        margin-top: 2px;
+    }
+
+    .modal-error-tip {
+        border-radius: 5px;
+        top: 50px;
+        font-size: 14px;
+        left: 50%;
+        margin-left: -80px;
+        position: absolute;
+        width: auto;
+        background-color: #f00;
+        text-align: center;
+        padding: 5px;
+        color: #ffffff;
+    }
+
+</style>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_calendar) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:edit), {:action => "edit", :id => @calendar}, :class => "btn btn-info" %>
+        <% if @calendar.code.present?&&allow_to_function?(:synch_work_calendar)%>
+        <%= link_to t(:label_slm_calendar_master_synch), {:action => "synch", :id => @calendar}, :class => "btn btn-primary" %>
+        <% end %>
+        <%= link_to t(:back), {:action => "index"}, :class => "btn" %>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%= t(:name) %></label></td>
+        <td class="data-col"><%= @calendar[:name] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_slm_calendar_code) %></label></td>
+        <td class="data-col">
+          <div><%= @calendar[:code] %></div>
+        </td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_slm_calendar_master_code) %></label></td>
+        <td class="data-col">
+          <div><%= @calendar[:master_code] %></div>
+        </td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:description) %></label></td>
+        <td class="data-col">
+          <div><%= @calendar[:description] %></div>
+        </td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <% if params[:notice].present? %>
+          <div class="alert alert-success" style="width: 250px;">
+            <%= params[:notice] %>
+          </div>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--页面结构-->
+<div class="widget-box widget-calendar">
+  <%= link_to "", {:action => "schedule_events", "_dom_id" => "fullcalendar", :format => "json"}, :style => "display:none", :id => "schedulesUrl" %>
+  <%= link_to "", {:controller => "slm/calendar_items",:action => "destroy", :calendar_id => @calendar.id , :id=> "${calendar_item_id}", "_dom_id" => "fullcalendar", :format => "json"}, :style => "display:none", :id => "scheduleRemoveUrl" %>
+  <div class="widget-title">
+    <span class="icon"><i class="icon-calendar"></i></span>
+    <div class="buttons">
+      <a id="add-event" data-toggle="modal" href="#modal-add-event" class="btn btn-success"><i class="icon-plus icon-white"></i><%= t(:label_slm_calendar_item_scedule_new) %></a>
+      <div class="modal hide fade" id="addEventToDay">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3><%= t(:label_slm_calendar_item_scedule_new) %></h3>
+        </div>
+        <div class="modal-body form-horizontal">
+          <%= form_for(@calendar_item, :url => {:controller => "slm/calendar_items", :action => "update", :calendar_id => @calendar.id, :sid => params[:sid]}, :html => {:id => "scheduleUpdateForm", :class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
+          <div class="control-group">
+            <label class="control-label"><%= t(:label_slm_calendar_item_scedule_date) %>:</label>
+            <div class="controls">
+              <%= text_field_tag "calendar_date", "", :disabled => true, :class => "input-mini", :id => "calendarDate", :style => "width:100px;" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label"><%= t(:label_slm_calendar_item_scedule_select) %>:</label>
+            <div class="controls">
+              <%= blank_select_tag("calendar_item_id", available_schedules(@calendar).collect{|i| ["#{i.start_at} ~ #{i.end_at}",i.id]},nil, :id => "calendarSchedules") %>
+            </div>
+          </div>
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <a href="javascript:void(0);" class="btn" data-dismiss="modal"><%=t(:cancel) %></a>
+          <a href="javascript:void(0);" class="btn btn-primary" id="update-event-submit"><%= t(:save) %></a>
+        </div>
+      </div>
+
+      <div class="modal hide fade" id="modal-add-event">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <h3><%= t(:label_slm_calendar_item_scedule_new) %></h3>
+        </div>
+        <div class="modal-body form-horizontal">
+          <%= form_for(@calendar_item, :url => {:controller => "slm/calendar_items", :action => "create", :calendar_id => @calendar.id, :sid => params[:sid]}, :html => {:id => "scheduleForm", :class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
+              <%= f.hidden_field :calendar_id %>
+              <div class="control-group">
+                <label class="control-label"><%= t(:label_slm_calendar_item_start_at) %>:</label>
+
+                <div class="controls">
+                  <%= f.text_field :start_at, :id => "start_at", :check_format => true, :required => true, :placeholder => "08:00" %>
+                  <span class="help-inline"></span>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label"><%= t(:label_slm_calendar_item_end_at) %>:</label>
+                <div class="controls">
+                  <%= f.text_field :end_at, :id => "end_at", :required => true, :placeholder => "12:00" %>
+                  <span class="help-inline"></span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label"><%= t(:label_slm_calendar_item_applay_time) %>:</label>
+                <div class="controls">
+                  <%= f.text_field :start_time, :id => "start_time", :class => "input-mini", :style => "width: 90px;", :placeholder => "2013-01-01" %>
+                  ～
+                  <%= f.text_field :end_time, :id => "end_time", :class => "input-mini", :style => "width: 90px;", :placeholder => "2013-12-31" %>
+                  <div class="week-container">
+                    <label class="checkbox"><input type="checkbox" name="week_str[]" value="1"><%= (t "date.day_names")[1] %></label>
+                    <label class="checkbox"><input type="checkbox" name="week_str[]" value="2"><%= (t "date.day_names")[2] %></label>
+                    <label class="checkbox"><input type="checkbox" name="week_str[]" value="3"><%= (t "date.day_names")[3] %></label>
+                    <label class="checkbox"><input type="checkbox" name="week_str[]" value="4"><%= (t "date.day_names")[4] %></label>
+                    <label class="checkbox"><input type="checkbox" name="week_str[]" value="5"><%= (t "date.day_names")[5] %></label><br/>
+                    <label class="checkbox"><input type="checkbox" name="week_str[]" value="6"><%= (t "date.day_names")[6] %></label>
+                    <label class="checkbox"><input type="checkbox" name="week_str[]" value="0"><%= (t "date.day_names")[0] %></label>
+                  </div>
+
+                </div>
+              </div>
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <a href="javascript:vod(0);" class="btn" data-dismiss="modal"><%=t(:cancel) %></a>
+          <a href="javascript:vod(0);" id="add-event-submit" class="btn btn-primary"><%= t(:save) %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="widget-content nopadding">
+    <div class="panel-left">
+      <div id="fullcalendar"></div>
+    </div>
+    <div id="external-events" class="panel-right">
+      <div class="panel-title"><h5><%= t(:label_slm_calendar_item_scedules) %></h5></div>
+      <div class="panel-content">
+        <% available_schedules(@calendar).each do |schedule| %>
+            <div id="<%= schedule.id %>" class="external-event label label-inverse"  style="padding: 4px 5px;">
+              <%= link_to raw('&times;'), {:controller => "slm/calendar_items", :action => "remove", :calendar_id => @calendar.id, :id => schedule.id}, :class => "close", :style =>"line-height: 15px;" %>
+              <span><%= schedule.start_at %> ~ <%= schedule.end_at %></span>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        calendar.init();
+        $('#add-event-submit').click(function () {
+            calendar.add_event();
+        });
+
+        $('#update-event-submit').click(function () {
+            calendar.update_event()
+        });
+
+        $("#external-events .close").live('click', function(e){
+            if (!confirm("<%= t(:label_slm_calendar_item_tips_scedule_delete_confirm) %>?")){
+                return false;
+            }
+            var schedule = $(this).parent(), scheduleId = schedule.attr('id');
+
+            //运用ajax去后台执行删除操作
+
+            $.post($(this).attr("href"), function(data){
+                $('#fullcalendar').fullCalendar('removeEvents', scheduleId);
+                schedule.remove();
+            },"json");
+            e.preventDefault();
+        });
+    });
+    calendar = {
+        init:function () {
+            // Prepare the dates
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+
+            var allOptions = $("#calendarSchedules option");
+
+            $('#fullcalendar').fullCalendar({
+                header:{
+                    left:'prev,next',
+                    center:'title',
+                    right:'month,basicWeek,basicDay'
+                },
+                monthNames: full_calendar_labels['monthNames'],
+                monthNamesShort: full_calendar_labels['monthNames'],
+                dayNames: full_calendar_labels['dayNames'],
+                dayNamesShort: full_calendar_labels['dayNames'],
+                buttonText: full_calendar_labels['buttonText'],
+
+                dayClick: function(date) {
+                    $("#calendarSchedules").html("");
+                    var date_month = date.getMonth() + 1, date_day = date.getDate();
+                    if(date_month < 10) date_month = "0" + date_month;
+                    if(date_day < 10) date_day = "0" + date_day;
+
+                    $("#calendarDate").val(date.getFullYear()+"-"+ date_month +"-"+date_day);
+
+                    var date2 = new Date(date.getFullYear(), date.getMonth(), date.getDate()+1);
+                    var todayEvents = $('#fullcalendar').fullCalendar('clientEvents', function(event) {
+                        return event.start >= date && event.start < date2;
+                    });
+                    if (todayEvents.length == allOptions.length -1) {
+                        alert("<%= t(:label_slm_calendar_item_tips_scedule_no) %>");
+                    }else{
+                        for(i=0; i<allOptions.length; i++){
+                            var existsFlag = false;
+                            for(j=0; j<todayEvents.length; j++){
+                                if($(allOptions[i]).attr("value") ===  todayEvents[j].id) {
+                                   existsFlag = true;
+                                   break;
+                                }
+                            }
+                            if (!existsFlag){
+                                $("#calendarSchedules").append("<option value="+ $(allOptions[i]).attr("value") +">"+ $(allOptions[i]).text() +"</option>")
+                            }
+                        }
+                        $("#addEventToDay").modal("show");
+                    }
+                },
+
+                editable: false,
+                events:$("#schedulesUrl").attr("href"),
+                eventClick:function (event, jsEvent, view) {
+                    var start = event.start,
+                        year = start.getFullYear(),
+                        month = start.getMonth() + 1,
+                        date = start.getDate();
+
+                    if (!confirm("<%= t(:label_slm_calendar_item_tips_scedule_delete_confirm) %>:"+ year + '-' + month + '-' + date + '  ' + event.title+'?')){
+                      return false;
+                    }
+
+                    $.ajax({
+                        url: $.tmpl(decodeURIComponent($("#scheduleRemoveUrl").attr("href")), {calendar_item_id: event.id}).text(),
+                        data: {
+                            year: year,month: month,date: date
+                        },
+                        success:function () {
+                           $('#fullcalendar').fullCalendar('refetchEvents');
+                        }
+                    });
+
+                },
+                eventMouseover:function (calEvent, domEvent) {
+                    var layer = "<div id='events-layer' style='position:absolute; width:100%; height:100%; top: 0; right: 5px; color: #fff; z-index:100'><a class='close'  href='#'>&times;</a></div>";
+                    $(this).append(layer);
+                },
+                eventMouseout:function (calEvent, domEvent) {
+                    $("#events-layer").remove();
+                },
+                droppable: false
+            });
+
+        },
+
+        update_event:function(){
+           if($("#calendarDate").val() != '' && $("#calendarSchedules").val() != ''){
+               $("#calendarDate").removeAttr("disabled");
+               $("#scheduleUpdateForm").submit();
+               $('#addEventToDay').modal('hide');
+           }else{
+               this.show_error("<%= t(:label_slm_calendar_item_tips_scedule) %>", 'addEventToDay');
+           }
+        },
+
+        // === Adds an event if name is provided === //
+        add_event:function () {
+            if ($('#start_at').val() != '' && $("#end_at").val() != '') {
+                var start_at = $('#start_at').val(), end_at = $('#end_at').val();
+                //检查参数的合法性
+                var at_reg = /^(0\d{1}|1\d{1}|2[0-3]):[0-5]\d{1}$/, time_reg = /^(\d{4})-(0\d{1}|1[0-2])-(0\d{1}|[12]\d{1}|3[01])$/;
+                if (!at_reg.test(start_at) || !at_reg.test(end_at)) {
+                    this.show_error("<%= t(:label_slm_calendar_item_tips_scedule_at_format) %>", 'modal-add-event');
+                    return false;
+                }
+                //判断当前班次是否存在
+
+                //判断是否指定了时间区间和星期
+                if ($('#start_time').val()) {
+                    var start_time = $('#start_time').val(), end_time = start_time;
+                    if ($('#end_at').val() != '') {
+                        end_time = $('#end_time').val();
+                    }
+
+                    if (!time_reg.test(start_time) || !time_reg.test(end_time)) {
+                        this.show_error("<%= t(:label_slm_calendar_item_tips_scedule_time_format) %>", 'modal-add-event');
+                        return false;
+                    }
+
+                    $("#scheduleForm").submit();
+                    $('#external-events .panel-content').append('<div class="external-event ui-draggable label label-inverse">' + start_at + ' ~ ' + end_at + '</div>');
+
+                    $('#modal-add-event').modal('hide');
+                } else {
+                    this.show_error("<%= t(:label_slm_calendar_item_tips_scedule_time_blank) %>", 'modal-add-event');
+                }
+            } else {
+                this.show_error("<%= t(:label_slm_calendar_item_tips_scedule_at_blank) %>", 'modal-add-event');
+            }
+        },
+
+        // === Show error if no event name is provided === //
+        show_error:function (error_info, modal_id) {
+            $('#modal-error').remove();
+            $('<div class="modal-error-tip" id="modal-error">' + error_info + '</div>').appendTo('#'+ modal_id +' .modal-body');
+            $('#modal-error').delay('2000').fadeOut(700, function () {
+                $(this).remove();
+            });
+        }
+    };
+
+</script>
+
+<%= render :partial => "multilingual/show", :locals => {:main_data => @calendar} %>

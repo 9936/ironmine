@@ -38,4 +38,20 @@ Ironmine::Application.routes.draw do
     match '/projects/:project_code/get_available_project_supporter_data(.:format)' => "projects#get_available_project_supporter_data"
     match '/projects/:project_code/get_available_project_customer_data(.:format)' => "projects#get_available_project_customer_data"
  end
+
+ #service catalog and service level agreement(slm)
+ scope :module => "slm" do
+   #calendars
+   match '/calendars/:sid(/index)(.:format)' => "calendars#index", :via => :get
+   match '/calendars/:sid/get_data(.:format)' => "calendars#get_data"
+   match '/calendars/:sid/:id/edit(.:format)' => "calendars#edit", :via => :get
+   match '/calendars/:sid/:id/synch(.:format)' => "calendars#synch", :via => :get
+   match '/calendars/:sid/:id(.:format)' => "calendars#update", :via => :put
+   match '/calendars/:sid/new(.:format)' => "calendars#new", :via => :get
+   match '/calendars/:sid/:id(.:format)' => "calendars#show", :via => :get
+   match '/calendars/:sid/:id/schedule_events(.:format)' => "calendars#schedule_events", :via => :get
+   match '/calendars/:sid/create(.:format)' => "calendars#create", :via => :post
+   match '/calendars/:sid/:id/multilingual_edit(.:format)' => "calendars#multilingual_edit", :via => :get
+   match '/calendars/:sid/:id/multilingual_update(.:format)' => "calendars#multilingual_update", :via => :put
+ end
 end
