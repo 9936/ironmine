@@ -47,23 +47,33 @@ class Dem::DevManagement< ActiveRecord::Base
   }
 
   def update_trigger
-    #update status
-    #Max([Phase].status = completed).name
-    completed_phases = Dem::DevPhase.
-        where("dev_management_id = ?", self.id).
-        where("status = ?", "DEM_PHASE_COMPLETED").
-        order("display_sequence DESC, created_at DESC")
+    if self.dev_phases.any?
+      #update status
+      #Max([Phase].status = completed).name
+      completed_phases = Dem::DevPhase.
+          joins(",#{Dem::DevPhaseTemplate.table_name} dt").
+          select("#{Dem::DevPhase.table_name}.*").
+          select("dt.current_status current_status").
+          where("dt.id = #{Dem::DevPhase.table_name}.dev_phase_template_id").
+          where("dev_management_id = ?", self.id).
+          where("status = ?", "DEM_PHASE_COMPLETED").
+          order("display_sequence DESC, created_at DESC")
 
-    phases = Dem::DevPhase.
-        where("dev_management_id = ?", self.id).
-        order("display_sequence ASC, created_at ASC")
+      phases = Dem::DevPhase.
+          joins(",#{Dem::DevPhaseTemplate.table_name} dt").
+          select("#{Dem::DevPhase.table_name}.*").
+          select("dt.current_status current_status").
+          where("dt.id = #{Dem::DevPhase.table_name}.dev_phase_template_id").
+          where("dev_management_id = ?", self.id).
+          order("display_sequence ASC, created_at ASC")
 
-    status = "Waiting for MD050"
+      status = "Waiting For MD050"
 
-    begin
-      status = completed_phases.first.dev_phase_template.name
-    rescue
-      nil
+      begin
+        status = completed_phases.last.current_status
+      rescue
+        nil
+      end
     end
 
     #update owner

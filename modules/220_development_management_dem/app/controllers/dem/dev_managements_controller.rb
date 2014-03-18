@@ -23,7 +23,9 @@ class Dem::DevManagementsController < ApplicationController
         with_module(language).
         with_dev_difficulty(language).
         select_all.with_related_project.with_project.find(params[:id])
-    @dev_phases = Dem::DevPhase.with_phase_status(language).with_template.where("dev_management_id = ?", @dev_management.id)
+    @dev_phases = Dem::DevPhase.with_phase_status(language).with_template.
+        where("dev_management_id = ?", @dev_management.id).
+        order("display_sequence ASC, created_at ASC")
 
     respond_to do |format|
       format.html { render :layout => "application_full"}
@@ -40,7 +42,9 @@ class Dem::DevManagementsController < ApplicationController
 
   def edit
     @dev_management = Dem::DevManagement.find(params[:id])
-    @dev_phases = Dem::DevPhase.with_template.where("dev_management_id = ?", @dev_management.id).order("display_sequence ASC, created_at ASC")
+    @dev_phases = Dem::DevPhase.with_template.
+        where("dev_management_id = ?", @dev_management.id).
+        order("display_sequence ASC, created_at ASC")
 
     respond_to do |format|
       format.html { render :layout => "application_full"}
@@ -163,6 +167,28 @@ class Dem::DevManagementsController < ApplicationController
       else
         format.html { redirect_to({:action => "edit", :id => params[:dev_management_id]}) }
       end
+    end
+  end
+
+  def edit_phase_sequence
+    @dev_management = Dem::DevManagement.find(params[:id])
+    @dev_phases = Dem::DevPhase.with_template.where("dev_management_id = ?", @dev_management.id).order("display_sequence ASC, created_at ASC")
+
+    respond_to do |format|
+      format.html { render :layout => "application_full"}
+    end
+  end
+
+  def update_phase_sequence
+    @dev_management = Dem::DevManagement.find(params[:id])
+    dev_phases = params[:dev_phase]
+
+    respond_to do |format|
+      dev_phases.each do |dp|
+        Dem::DevPhase.find(dp[0]).update_attributes(dp[1])
+      end if dev_phases
+      @dev_management.update_trigger
+      format.html { redirect_to({:action => "show", :id => params[:id]}, :notice => t(:successfully_updated)) }
     end
   end
 end
