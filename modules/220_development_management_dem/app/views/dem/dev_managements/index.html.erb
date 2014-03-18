@@ -24,7 +24,7 @@
                 Module
               </td>
               <td>
-                Status
+                Require Date from
               </td>
             </tr>
             <tr>
@@ -44,7 +44,10 @@
                 <%= text_field_tag "project_params[module]", @project_params.present?&&@project_params[:module].present? ? @project_params[:module] : nil%>
               </td>
               <td>
-                <%= text_field_tag "project_params[dev_status]", @project_params.present?&&@project_params[:dev_status].present? ? @project_params[:dev_status] : nil%>
+                <%= date_field_tag "project_params[date_from]",
+                                   :value => @project_params.present?&&@project_params[:date_from].present? ? @project_params[:date_from] : nil,
+                                   :id => "data_from",
+                                   :style => "width:130px;"%>
               </td>
             </tr>
             <tr>
@@ -55,7 +58,7 @@
                 Risk Class
               </td>
               <td>
-                Require Date from
+                Status
               </td>
               <td>
                 Require Date to
@@ -69,10 +72,7 @@
                 <%= text_field_tag "project_params[risk_class]", @project_params.present?&&@project_params[:risk_class].present? ? @project_params[:risk_class] : nil%>
               </td>
               <td>
-                <%= date_field_tag "project_params[date_from]",
-                                   :value => @project_params.present?&&@project_params[:date_from].present? ? @project_params[:date_from] : nil,
-                                   :id => "data_from",
-                                   :style => "width:130px;"%>
+                <%= text_field_tag "project_params[dev_status]", @project_params.present?&&@project_params[:dev_status].present? ? @project_params[:dev_status] : nil%>
               </td>
               <td>
                 <%= date_field_tag "project_params[date_to]",
@@ -109,7 +109,9 @@
     <%= datatable("dev_managements",{:action=>"get_data", :project_params => @project_params.present? ? @project_params : nil},[],
                   {
                       :search_box=>"searchBox",
-                      :paginator_box=>'paginatorBox'
+                      :paginator_box=>'paginatorBox',
+                      :view_filter => true,
+                      :scroll => "xy"
                   })%>
   </div>
 </div>
