@@ -98,3 +98,8 @@ en:
   label_report_share: Rate
 
   label_hil_include_journal_history: Include Journal History
+
+  label_slm_calendar_code: 编码
+  label_slm_calendar_master_code: MASTER CODE
+  label_slm_calendar_master_synch: 同步
+  label_slm_calendar_master_synch_success: 同步成功,%{size}条工作日历被同步
