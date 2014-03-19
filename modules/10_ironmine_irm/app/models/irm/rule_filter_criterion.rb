@@ -19,7 +19,7 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
   validates_presence_of :filter_value, :if => Proc.new { |i| i.attribute_name.present?&&i.operator_code.present?&&!"NIL".eql?(i.operator_code)&&!"NNIL".eql?(i.operator_code) }
 
   #validates_uniqueness_of :filter_type,:scope=>[:view_code], :if => Proc.new { |i| !i.filter_type.blank?&&!i.view_code.blank? }
-  validate :validate_data_type_filter_value, :if => Proc.new { |i| !i.attribute_name.blank? }
+  #validate :validate_data_type_filter_value, :if => Proc.new { |i| !i.attribute_name.blank? }
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离

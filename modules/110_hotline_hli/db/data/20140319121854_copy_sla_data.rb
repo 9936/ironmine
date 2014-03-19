@@ -52,10 +52,12 @@ class CopySlaData < ActiveRecord::Migration
           sa_attributes.delete("id")
           sa_attributes.delete("created_at")
           sa_attributes.delete("updated_at")
+
+          puts("+++++++++ sa:" + sa.to_json)
+          puts("+++++++++ sa_attributes:" + sa_attributes.to_json)
           ts = Slm::ServiceAgreement.new(sa_attributes.merge({:not_auto_mult=>true}))
           ts.external_system_id = hp.id
           ts.calendar_id = t.id
-          ts.duration = sa.duration
           sa.service_agreements_tls.each do |sat|
             sat_attributes = sat.attributes
             sat_attributes.delete("id")
@@ -64,8 +66,9 @@ class CopySlaData < ActiveRecord::Migration
             sat_attributes.delete("service_agreement_id")
             ts.service_agreements_tls.build(sat_attributes)
           end
+          ts.duration_minute = sa.duration.to_i
           ts.save
-
+          puts("+++++++++ ts:" + ts.to_json)
           Irm::RuleFilter.where("source_id = ?", sa.id).each do |rf|
             rf_attributes = rf.attributes
             rf_attributes.delete("id")
@@ -81,7 +84,19 @@ class CopySlaData < ActiveRecord::Migration
               rft_attributes.delete("updated_at")
               new_rf.rule_filters_tls.build(rft_attributes)
             end
+            rf.rule_filter_criterions.each do |rfc|
+              rfc_attributes = rfc.attributes
+              rfc_attributes.delete("id")
+              rfc_attributes.delete("rule_filter_id")
+              rfc_attributes.delete("created_at")
+              rfc_attributes.delete("updated_at")
+              new_rf.rule_filter_criterions.build(rfc_attributes)
+            end
+            puts("++++++++++++++++++ new rf: " + new_rf.to_json)
             new_rf.save
+            if new_rf.errors.any?
+              puts("+++++++++new rf errors" + new_rf.errors.to_json)
+            end
           end
 
           sa.time_triggers.each do |tt|
