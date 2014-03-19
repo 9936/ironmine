@@ -24,7 +24,7 @@ class CopySlaData < ActiveRecord::Migration
         t_sc = sc.attributes
         t_sc.delete("id")
         t = Slm::Calendar.new(t_sc.merge({:not_auto_mult=>true}))
-        t.external_system_id = source_project.id
+        t.external_system_id = hp.id
         sc.calendars_tls.each do |sct|
           sct_attributes = sct.attributes
           sct_attributes.delete("id")
@@ -46,7 +46,7 @@ class CopySlaData < ActiveRecord::Migration
         sa_attributes = sa.attributes
         sa_attributes.delete("id")
         t = Slm::ServiceAgreement.new(sa_attributes.merge({:not_auto_mult=>true}))
-        t.external_system_id = source_project.id
+        t.external_system_id = hp.id
         sa.service_agreements_tls.each do |sat|
           sat_attributes = sat.attributes
           sat_attributes.delete("id")
