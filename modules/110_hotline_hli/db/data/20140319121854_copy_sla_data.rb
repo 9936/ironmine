@@ -23,6 +23,8 @@ class CopySlaData < ActiveRecord::Migration
       source_calendars.each do |sc|
         t_sc = sc.attributes
         t_sc.delete("id")
+        t_sc.delete("created_at")
+        t_sc.delete("updated_at")
         t = Slm::Calendar.new(t_sc.merge({:not_auto_mult=>true}))
         t.external_system_id = hp.id
         sc.calendars_tls.each do |sct|
