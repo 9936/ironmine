@@ -59,6 +59,8 @@ class CopySlaData < ActiveRecord::Migration
           sa.service_agreements_tls.each do |sat|
             sat_attributes = sat.attributes
             sat_attributes.delete("id")
+            sat_attributes.delete("created_at")
+            sat_attributes.delete("updated_at")
             sat_attributes.delete("service_agreement_id")
             ts.service_agreements_tls.build(sat_attributes)
           end
