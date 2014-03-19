@@ -53,6 +53,7 @@ class CopySlaData < ActiveRecord::Migration
           ts = Slm::ServiceAgreement.new(sa_attributes.merge({:not_auto_mult=>true}))
           ts.external_system_id = hp.id
           ts.calendar_id = t.id
+          ts.duration = sa.duration
           sa.service_agreements_tls.each do |sat|
             sat_attributes = sat.attributes
             sat_attributes.delete("id")
@@ -60,6 +61,25 @@ class CopySlaData < ActiveRecord::Migration
             ts.service_agreements_tls.build(sat_attributes)
           end
           ts.save
+
+          Irm::RuleFilter.where("source_id = ?", sa.id).each do |rf|
+            rf_attributes = rf.attributes
+            rf_attributes.delete("id")
+            rf_attributes.delete("created_at")
+            rf_attributes.delete("updated_at")
+            new_rf = Irm::RuleFilter.new(rf_attributes.merge({:not_auto_mult => true}))
+            new_rf.source_id = ts.id
+            rf.rule_filters_tls.each do |rft|
+              rft_attributes = rft.attributes
+              rft_attributes.delete("id")
+              rft_attributes.delete("rule_filter_id")
+              rft_attributes.delete("created_at")
+              rft_attributes.delete("updated_at")
+              t.rule_filters_tls.build(rft_attributes)
+            end
+            new_rf.save
+          end
+
           sa.time_triggers.each do |tt|
             tt_attributes = tt.attributes
             tt_attributes.delete("id")
