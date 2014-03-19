@@ -66,7 +66,7 @@ class CopySlaData < ActiveRecord::Migration
             tt_attributes.delete("created_at")
             tt_attributes.delete("updated_at")
             new_tt = Slm::TimeTrigger.new(tt_attributes)
-            new_tt.service_agreement_id = t.id
+            new_tt.service_agreement_id = ts.id
             new_tt.save
             tt.time_trigger_actions.each do |tta|
               tta_attributes = tta.attributes
