@@ -79,7 +79,7 @@ class CopySlaData < ActiveRecord::Migration
               rft_attributes.delete("rule_filter_id")
               rft_attributes.delete("created_at")
               rft_attributes.delete("updated_at")
-              t.rule_filters_tls.build(rft_attributes)
+              new_rf.rule_filters_tls.build(rft_attributes)
             end
             new_rf.save
           end
