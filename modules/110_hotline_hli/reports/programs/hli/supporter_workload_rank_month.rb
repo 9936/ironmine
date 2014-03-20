@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 class Hli::SupporterWorkloadRankMonth < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
@@ -18,7 +19,7 @@ class Hli::SupporterWorkloadRankMonth < Irm::ReportManager::ReportBase
     statis = statis.
         select(%Q(
                 (SELECT
-                      count(1) current_person_time
+                      SUM(iw1.real_processing_time)
                   FROM
                       icm_incident_workloads iw1
                   WHERE
@@ -27,7 +28,7 @@ class Hli::SupporterWorkloadRankMonth < Irm::ReportManager::ReportBase
                )).
         select(%Q(
                 (SELECT
-                      count(1) total_time
+                      SUM(iw2.real_processing_time)
                   FROM
                       icm_incident_workloads iw2
                   WHERE iw2.person_id <> '#{hotline_time.id}' AND
@@ -41,9 +42,20 @@ class Hli::SupporterWorkloadRankMonth < Irm::ReportManager::ReportBase
         where("date_format(#{Icm::IncidentRequest.table_name}.last_response_date, '%Y-%m-%d') >= ?", Date.strptime("#{params[:from_year][:year]}-#{params[:from_year][:month]}", '%Y-%m'))
 
     sum_statis = Icm::IncidentRequest.enabled.
+        joins(",icm_incident_workloads iw").
+        select("SUM(iw.real_processing_time) sum_statis").
+        where("iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id").
         where("hotline = ?", Irm::Constant::SYS_YES).
         where("incident_status_id = ?", close_status.id).
-        select("count(1) sum_statis").
+        #select("count(1) sum_statis").
+        where("date_format(#{Icm::IncidentRequest.table_name}.last_response_date, '%Y-%m-%d') < ?", Date.strptime("#{params[:to_year][:year]}-#{params[:to_year][:month]}", '%Y-%m') + 1.month).
+        where("date_format(#{Icm::IncidentRequest.table_name}.last_response_date, '%Y-%m-%d') >= ?", Date.strptime("#{params[:from_year][:year]}-#{params[:from_year][:month]}", '%Y-%m'))
+
+    sum_ticket_statis = Icm::IncidentRequest.enabled.
+        select("COUNT(1) sum_tickets").
+        where("hotline = ?", Irm::Constant::SYS_YES).
+        where("incident_status_id = ?", close_status.id).
+        #select("count(1) sum_statis").
         where("date_format(#{Icm::IncidentRequest.table_name}.last_response_date, '%Y-%m-%d') < ?", Date.strptime("#{params[:to_year][:year]}-#{params[:to_year][:month]}", '%Y-%m') + 1.month).
         where("date_format(#{Icm::IncidentRequest.table_name}.last_response_date, '%Y-%m-%d') >= ?", Date.strptime("#{params[:from_year][:year]}-#{params[:from_year][:month]}", '%Y-%m'))
 
@@ -71,23 +83,40 @@ class Hli::SupporterWorkloadRankMonth < Irm::ReportManager::ReportBase
     datas = []
     headers = [I18n.t(:label_report_rank),
                I18n.t(:label_irm_person_name),
-               I18n.t(:label_amount),
-               I18n.t(:label_report_share)]
+               "工时总数(小时)",
+               "工时" + I18n.t(:label_report_share),
+               I18n.t(:label_amount) + "(每单按工时比例分割)",
+               "按工时比例平均每单耗时(小时)", "最后支持关闭单数", "按最后关闭平均每单耗时(小时)"]
 
     #total_size = statis.size
     sum_statis = sum_statis.first
     supporters.each do |sp|
-      data = Array.new(4)
+      data = Array.new(8)
+      data[4] = 0
       data[2] = 0
       data[3] = "0%"
+      st_total_time = 0
       statis.where("iw.person_id = ?", sp.id).each do |st|
         data[1] = sp[:first_name]
-        data[2] = data[2] + (st[:current_person_time].to_f/st[:total_time].to_f).round(2)
+        data[4] = data[4] + (st[:current_person_time].to_f/st[:total_time].to_f).round(2)
+        st_total_time = st_total_time +  st[:current_person_time]
       end
-      data[2] = data[2].round(2)
+      data[4] = data[4].round(2)
       #data[3] = ((data[2].to_f/sum_statis[:sum_statis].to_f * 100 * 100).round / 100.0).to_f.to_s + "%" unless sum_statis[:sum_statis] == 0
-
-      data[3] = (data[2].to_f/sum_statis[:sum_statis].to_f * 100).round(2).to_s + "%" unless sum_statis[:sum_statis] == 0
+      data[2] = st_total_time.round(2)
+      data[3] = (st_total_time.to_f/sum_statis[:sum_statis].to_f * 100).round(2).to_s + "%" unless sum_statis[:sum_statis] == 0
+      data[5] = (data[2]/data[4]).round(2)
+      begin
+        sum_tickets = sum_ticket_statis.where("support_person_id = ?", sp.id).first[:sum_tickets]
+      rescue
+        sum_tickets = 0
+      end
+      data[6] = sum_tickets
+      if data[6] == 0
+        data[7] = "X"
+      else
+        data[7] = (data[2]/data[6].to_f).round(2)
+      end
       next if data[1].blank?
       datas << data
     end
