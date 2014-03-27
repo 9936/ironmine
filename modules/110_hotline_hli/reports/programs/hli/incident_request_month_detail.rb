@@ -37,6 +37,7 @@ class Hli::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
                I18n.t(:label_project),
                I18n.t(:label_reporter),
                I18n.t(:label_report_incident_request_support),
+               I18n.t(:label_icm_incident_request_urgence_code),
                I18n.t(:label_icm_incident_request_priority),
                I18n.t(:label_icm_incident_request_incident_category),
                I18n.t(:label_icm_incident_request_incident_sub_category),
@@ -51,31 +52,32 @@ class Hli::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
                I18n.t(:label_report_request_workload)
                ]
     headers << I18n.t(:label_report_incident_request_journal) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
-
+    array_size = 17
+    array_size = array_size + 1 if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
     statis.each do |s|
-      data = Array.new(16)
-      data = Array.new(17) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
+      data = Array.new(array_size)
       data[0] = s[:request_number]
       data[1] = s[:external_system_name]
       data[2] = s[:requested_name]
       data[3] = s[:supporter_name]
-      data[4] = s[:priority_name]
-      data[5] = s[:incident_category_name]
-      data[6] = s[:incident_sub_category_name]
-      data[7] = s[:submitted_date].strftime('%F %T')
-      data[8] = s[:last_response_date].strftime('%F %T')
-      data[9] = s[:title]
-      data[10] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
-      data[11] = s[:contact_name]
-      data[12] = s[:contact_number]
-      data[13] = s[:client_info]
-      data[14] = s[:incident_status_name]
-      data[15] = s[:total_processing_time]
+      data[4] = s[:urgence_name]
+      data[5] = s[:priority_name]
+      data[6] = s[:incident_category_name]
+      data[7] = s[:incident_sub_category_name]
+      data[8] = s[:submitted_date].strftime('%F %T')
+      data[9] = s[:last_response_date].strftime('%F %T')
+      data[10] = s[:title]
+      data[11] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
+      data[12] = s[:contact_name]
+      data[13] = s[:contact_number]
+      data[14] = s[:client_info]
+      data[15] = s[:incident_status_name]
+      data[16] = s[:total_processing_time]
       if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
         messages = ''
         messages << s.concat_journals_with_text
         messages = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(messages,""))
-        data[16] = messages
+        data[17] = messages
       end
       datas << data
     end
