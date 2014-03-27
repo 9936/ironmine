@@ -81,4 +81,17 @@ map.function_group :hotline_project, {
 
       }
   }
+
+  map.function_group :incident_request, {
+      :children => {
+          :change_urgence_in_submit => {
+              :en => {:name => "Change Urgence during Submit", :description => "Change Urgence during Submit"},
+              :zh => {:name => "Change Urgence during Submit", :description => "Change Urgence during Submit"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_requests" => ["get_data"],
+          }
+      }
+  }
 end
