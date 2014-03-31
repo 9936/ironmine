@@ -1,0 +1,51 @@
+<% if model_object.custom_attributes.any? %>
+    <div class="sub-page-block" id="customFieldsContainer">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title"><%= t(:label_irm_system_custom_field) %></h3>
+        <% if model_object.custom_attributes.size > 10 and model_object.custom_attributes.size > model_object.required_custom_attributes.size %>
+        <span>
+          【<a href="javascript:void(0);"  class="more-or-less <%= params[:only_required].eql?('false')? 'show-all': 'show-less' %>">
+            <span class="expand"><%= t(:label_irm_custom_attribute_show_all) %></span>
+            <span class="collapse"><%= t(:label_irm_custom_attribute_show_required) %></span>
+          </a>】
+        </span>
+        <script type="text/javascript">
+            $(function(){
+                var only_required = '<%= params[:only_required] %>',
+                        container = $("#customFieldsContainer");
+                setCustomFields(container, only_required);
+
+                $(".more-or-less").bind("click",function(){
+                    if($(this).hasClass("show-less")) {
+                        $(this).removeClass("show-less").addClass("show-all");
+                        $("#custom_field_only_required").val("false");
+                        setCustomFields(container, "false");
+                    }else{
+                        $(this).removeClass("show-all").addClass("show-less");
+                        $("#custom_field_only_required").val("true");
+                        setCustomFields(container, "true");
+                    }
+                });
+
+                function setCustomFields(container, only_required){
+                    $(".form-table td[data-required='N']", container).each(function(){
+                        if(only_required && only_required == "false"){
+                            $(this).show();
+                        }else{
+                            $(this).hide();
+                        }
+                    });
+                }
+            });
+        </script>
+        <% end %>
+      </div>
+      <div class="sub-page-block-body">
+        <table class="form-table">
+          <tbody>
+          <%= show_input_custom_fields_2(model_object) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+<% end %>
