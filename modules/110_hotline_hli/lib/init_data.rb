@@ -91,6 +91,15 @@ map.function_group :hotline_project, {
               :login_flag => "N",
               :public_flag => "N",
               "icm/incident_requests" => ["get_data"],
+          },
+          :quick_edit_status => {
+              :zh => {:name => "Quick Status Edition", :description => "Quick Status Edition"},
+              :en => {:name => "Quick Status Edition", :description => "Quick Status Edition"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              "icm/incident_journals" => ["update_status"]
           }
       }
   }

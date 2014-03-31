@@ -122,6 +122,19 @@
 <% end %>
 <% end %>
 
+<% content_for :block_status_controll_bar do %>
+    <%= form_for(@incident_request,
+                 :url=>{:controller => "icm/incident_journals", :action=>"update_status", :id => @incident_request.id, :sid => @incident_request.external_system_id},
+                 :builder => CustomFormBuilder, :html => {:class => "form-inline", :nomask => true}) do |f| %>
+        <label for="label_icm_incident_request_status_code"><%=t(:label_icm_incident_request_incident_status)%></label>
+        <%= fields_for @incident_request.incident_journals.build(), :as=>"incident_journal",:builder =>CustomFormBuilder,:normal=>true do |sub_f|%>
+            <%= sub_f.hidden_field(:incident_request_id) %>
+        <% end%>
+        <%=f.blank_select :incident_status_id,available_request_status_code,{},{:id=>"incident_request_incident_status_code", :required => true}%>
+        <%= link_submit(t(:update), :class=>"btn btn-primary",:id=>"updateStatusFormSubmit") %>
+    <% end %>
+<% end %>
+
 <!--页面头部内容-->
 <% content_for :block_header_content do %>
     <div id="incidentDetail">
@@ -549,6 +562,22 @@
       </tbody>
     </table>
     <% end %>
+    <% if (allow_to_function?(:quick_edit_status, @incident_request.external_system_id)) &&
+            !@incident_request.close? %>
+        <table class="page-block-header">
+          <tbody>
+          <tr>
+            <td class="page-block-title">
+              <h2 class="block-title"><%= I18n.t(:label_icm_incident_request_incident_status) %></h2>
+            </td>
+            <td class="page-block-button">
+              <%= content_for :block_status_controll_bar  %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+
 
 
   </div>
