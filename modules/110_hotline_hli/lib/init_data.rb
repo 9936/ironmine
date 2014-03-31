@@ -108,7 +108,7 @@ map.function_group :hotline_project, {
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              "icm/incident_journals" => ["new"]
+              "icm/incident_requests" => ["edit", "update"]
           },
           :additional_info_area1 => {
               :zh => {:name => "附加信息1区", :description => "附加信息1区"},
@@ -117,7 +117,7 @@ map.function_group :hotline_project, {
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              "icm/incident_journals" => ["new"]
+              "icm/incident_requests" => ["edit", "update"]
           },
           ##状态
           :additional_info_area2 => {
@@ -127,7 +127,7 @@ map.function_group :hotline_project, {
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              "icm/incident_journals" => ["new"]
+              "icm/incident_requests" => ["edit", "update"]
           },
           :additional_info_area3 => {
               :zh => {:name => "附加信息3区", :description => "附加信息3区"},
@@ -136,7 +136,7 @@ map.function_group :hotline_project, {
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              "icm/incident_journals" => ["new"]
+              "icm/incident_requests" => ["edit", "update"]
           },
       }
   }
