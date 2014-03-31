@@ -38,7 +38,7 @@ module Hli::IncidentJournalsControllerEx
           @incident_journal.reply_type = "OTHER_REPLY"
         end
         #如果服务台人员手动修改状态，则使用手工修改的状态，如果状态为空则使用状态转移逻辑
-        unless @incident_reply.incident_status_id.present?
+        unless (params[:keep_next_status] && params[:keep_next_status].eql?("Y")) || @incident_reply.incident_status_id.present?
           @incident_reply.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
         end
 

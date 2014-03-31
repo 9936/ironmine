@@ -102,3 +102,5 @@ zh:
   label_slm_calendar_master_code: MASTER CODE
   label_slm_calendar_master_synch: 同步
   label_slm_calendar_master_synch_success: 同步成功,%{size}条工作日历被同步
+
+  label_icm_incident_request_keep_next_status: 保持状态

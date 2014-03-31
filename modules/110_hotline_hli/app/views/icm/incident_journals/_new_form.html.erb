@@ -299,6 +299,10 @@
 
             </td>
             <td class="page-block-help" style="width: auto;">
+              <div>
+                <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_request_keep_next_status)%></label>
+                <%= check_box_tag :keep_next_status, 'Y'%>
+              </div>
             </td>
           </tr></table>
           <div class="page-block-body">
