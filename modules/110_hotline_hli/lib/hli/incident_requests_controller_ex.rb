@@ -488,7 +488,7 @@ module Hli::IncidentRequestsControllerEx
         end
 
         external_system = Irm::ExternalSystem.where("id = ?", incident_request.external_system_id)
-        if external_system.any? && external_system.first.hotline.eql?(Irm::Constant::SYS_YES)
+        if external_system.any? && external_system.first.hotline_flag.eql?(Irm::Constant::SYS_YES)
           incident_request.hotline = Irm::Constant::SYS_YES
         else
           incident_request.hotline = Irm::Constant::SYS_NO
