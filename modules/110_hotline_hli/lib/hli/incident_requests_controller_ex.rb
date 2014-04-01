@@ -487,6 +487,24 @@ module Hli::IncidentRequestsControllerEx
           incident_request.contact_id = incident_request.requested_by
         end
 
+        if incident_request.urgence_id.nil?
+          begin
+            default_urgence = Icm::UrgenceCode.where("default_flag = ?", "Y").first
+            incident_request.urgence_id = default_urgence.id
+          rescue
+            nil
+          end
+        end
+
+        if incident_request.impact_range_id.nil?
+          begin
+            default_impact_range = Icm::ImpactRange.where("default_flag = ?", "Y").first
+            incident_request.impact_range_id = default_impact_range.id
+          rescue
+            nil
+          end
+        end
+
         external_system = Irm::ExternalSystem.where("id = ?", incident_request.external_system_id)
         if external_system.any? && external_system.first.hotline_flag.eql?(Irm::Constant::SYS_YES)
           incident_request.hotline = Irm::Constant::SYS_YES
