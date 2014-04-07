@@ -12,7 +12,8 @@ class Irm::GroupMember < ActiveRecord::Base
   scope :with_person,lambda{|language|
     joins("JOIN #{Irm::Person.table_name} ON #{Irm::Person.table_name}.id = #{table_name}.person_id").
     joins("JOIN #{Irm::Organization.view_name} ON #{Irm::Organization.view_name}.id = #{Irm::Person.table_name}.organization_id AND #{Irm::Organization.view_name}.language = '#{language}'").
-    select("#{Irm::Person.table_name}.full_name person_name,#{Irm::Person.table_name}.email_address,#{Irm::Organization.view_name}.name organization_name")
+    select("#{Irm::Person.table_name}.full_name person_name,#{Irm::Person.table_name}.email_address,#{Irm::Organization.view_name}.name organization_name").
+    select("#{Irm::Person.table_name}.login_name login_name")
   }
 
   scope :with_group,lambda{|language|
