@@ -375,9 +375,10 @@ class Irm::Person < ActiveRecord::Base
 
   # 刷新关系表
   def self.refresh_relation_table
+    nil
     #ActiveRecord::Base.connection.execute(%Q(LOCK TABLE irm_person_relations_tmp WRITE))
-    ActiveRecord::Base.connection.execute(%Q(DELETE FROM irm_person_relations_tmp))
-    ActiveRecord::Base.connection.execute(%Q(INSERT INTO irm_person_relations_tmp SELECT * FROM irm_person_relations_v2))
+    #ActiveRecord::Base.connection.execute(%Q(DELETE FROM irm_person_relations_tmp))
+    #ActiveRecord::Base.connection.execute(%Q(INSERT INTO irm_person_relations_tmp SELECT * FROM irm_person_relations_v2))
   end
 
   # 用户所能访问的功能

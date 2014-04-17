@@ -81,4 +81,63 @@ map.function_group :hotline_project, {
 
       }
   }
+
+  map.function_group :incident_request, {
+      :children => {
+          :change_urgence_in_submit => {
+              :en => {:name => "Change Urgence during Submit", :description => "Change Urgence during Submit"},
+              :zh => {:name => "Change Urgence during Submit", :description => "Change Urgence during Submit"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_requests" => ["get_data"],
+          },
+          :quick_edit_status => {
+              :zh => {:name => "Quick Status Edition", :description => "Quick Status Edition"},
+              :en => {:name => "Quick Status Edition", :description => "Quick Status Edition"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              "icm/incident_journals" => ["update_status"]
+          },
+          :edit_additional_info => {
+              :zh => {:name => "附加信息维护", :description => "附加信息维护"},
+              :en => {:name => "Edit Additional Info.", :description => "Edit Additional Info."},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              "icm/incident_requests" => ["edit", "update"]
+          },
+          :additional_info_area1 => {
+              :zh => {:name => "附加信息1区", :description => "附加信息1区"},
+              :en => {:name => "Additional Info. 1", :description => "Additional Info. 1"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              "icm/incident_requests" => ["edit", "update"]
+          },
+          ##状态
+          :additional_info_area2 => {
+              :zh => {:name => "附加信息2区", :description => "附加信息2区"},
+              :en => {:name => "Additional Info. 2", :description => "Additional Info. 2"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              "icm/incident_requests" => ["edit", "update"]
+          },
+          :additional_info_area3 => {
+              :zh => {:name => "附加信息3区", :description => "附加信息3区"},
+              :en => {:name => "Additional Info. 3", :description => "Additional Info. 3"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              "icm/incident_requests" => ["edit", "update"]
+          },
+      }
+  }
 end

@@ -1,3 +1,9 @@
+<style>
+  .data-col div{
+      margin-top: 5px;
+      margin-bottom: 3px;
+  }
+</style>
 <%= form_for(@dev_management,:url=>{:action=>"create"},:builder => CustomFormBuilder,:html => { :multipart => true }) do |f| %>
 
   <%= hidden_field_tag :return_url,@return_url %>
@@ -7,80 +13,83 @@
           <tbody>
           <tr>
             <td class="label-col"><label>Project</label></td>
-            <td class="data-col">
+            <td class="data-col"><div>
               <%= @dev_management[:project]%>
+            </div>
             </td>
             <td class="label-col"><label>Gap No.</label></td>
             <td class="data-col">
+              <div>
               <%= @dev_management[:gap_no]%>
+                </div>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Develop ID</label></td>
-            <td class="data-col">
-              <%= @dev_management[:develop_id]%>
+            <td class="data-col"><div>
+              <%= @dev_management[:develop_id]%></div>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Related Project</label></td>
-            <td class="data-col">
-              <%= @dev_management[:related_project]%>
+            <td class="data-col">  <div>
+              <%= @dev_management[:related_project]%></div>
             </td>
             <td class="label-col"><label>Related Project Gap No.</label></td>
-            <td class="data-col">
-              <%= @dev_management[:related_project_gap_no]%>
+            <td class="data-col"><div>
+              <%= @dev_management[:related_project_gap_no]%></div>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Name</label></td>
             <td class="data-col">
-              <%= @dev_management[:name]%>
+              <div><%= @dev_management[:name]%></div>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Description</label></td>
             <td class="data-col" colspan="3">
-              <%= @dev_management[:description]%>
+              <div><%= @dev_management[:description]%></div>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>System Name</label></td>
             <td class="data-col">
-              <%= @dev_management[:system]%>
+              <div><%= @dev_management[:system]%></div>
             </td>
             <td class="label-col"><label>Module</label></td>
             <td class="data-col">
-              <%= @dev_management[:category_name]%>
+              <div><%= @dev_management[:category_name]%></div>
             </td>
           </tr>
           <tr>
              <td class="label-col"><label>Owner</label></td>
              <td class="data-col">
-               <%= @dev_management[:owner]%>
+               <div><%= @dev_management[:owner]%></div>
              </td>
              <td class="label-col"><label>Develop Method</label></td>
              <td class="data-col">
-               <%= @dev_management[:classification_name]%>
+               <div><%= @dev_management[:classification_name]%></div>
              </td>
           </tr>
           <tr>
              <td class="label-col"><label>Difficulty</label></td>
              <td class="data-col">
-               <%= @dev_management[:dev_difficulty_name]%>
+               <div><%= @dev_management[:dev_difficulty_name]%></div>
              </td>
              <td class="label-col"><label>Status</label></td>
              <td class="data-col">
-               <%= @dev_management[:dev_status]%>
+               <div><%= @dev_management[:dev_status]%></div>
              </td>
           </tr>
           <tr>
              <td class="label-col"><label>Require Date</label></td>
              <td class="data-col">
-               <%= @dev_management[:require_date]%>
+               <div><%= @dev_management[:require_date]%></div>
              </td>
              <td class="label-col"><label>Risk Class</label></td>
              <td class="data-col">
-               <%= @dev_management[:risk_class]%>
+               <div><%= @dev_management[:risk_class]%></div>
              </td>
           </tr>
           </tbody>
