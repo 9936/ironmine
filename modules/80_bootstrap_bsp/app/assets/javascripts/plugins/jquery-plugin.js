@@ -2217,6 +2217,10 @@ jQuery.fn.menubutton = function () {
             }
             me.$element.find(".datatable-scroll .include-header:first").scroll(function (e) {
                 me.$element.find(".datatable-scroll .scroll-header:first").scrollLeft($(this).scrollLeft());
+                // 当列实际宽度超出窗口宽度时，横向滚动窗口
+                if (totalWidth > $(window).width()){
+                    $(window).scrollLeft($(this).scrollLeft());
+                }
             })
 
         }
