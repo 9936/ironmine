@@ -2208,17 +2208,18 @@ jQuery.fn.menubutton = function () {
 
             });
             var currentWidth = me.$element.find(".datatable-scroll .include-header table:first").outerWidth(true);
-            //如果表格宽度大于窗口剩余宽度，使用百分比重置page-block块
-            if (this.sideBarWidth==null){
-                pagePercent = Math.ceil(($(window).width()- 30)*100/currentWidth);
-            }else{
-                pagePercent = Math.ceil(($(window).width()- this.sideBarWidth)*100/currentWidth);
-            }
+
             // 如果列的实际所需宽度大于表格宽度,则使用百分比重置表格宽度
             if (totalWidth > currentWidth) {
                 var percentWidth = Math.ceil(totalWidth * 100 / currentWidth)
                 me.$element.find(".datatable-scroll .include-header table:first").css("width", percentWidth + "%");
                 me.$element.find(".datatable-scroll .scroll-header table:first").css("width", percentWidth + "%");
+                //如果表格宽度大于窗口剩余宽度，使用百分比重置page-block块
+                if (this.sideBarWidth==null){
+                    pagePercent = Math.ceil(($(window).width()- 35)*100/$("div.page-block").width());
+                }else{
+                    pagePercent = Math.ceil(($(window).width()- this.sideBarWidth-35)*100/$("div.page-block").width());
+                }
                 // 当pagePercent小于90%时，不重置宽度，避免表格变形
                 if (pagePercent > 90){
                     $("div.page-block").css("width",pagePercent+"%");
