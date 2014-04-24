@@ -2222,14 +2222,15 @@ jQuery.fn.menubutton = function () {
                 }
                 // 当pagePercent小于90%时，不重置宽度，避免表格变形
                 if (pagePercent > 90){
-                    $("div.page-block").css("width",pagePercent+"%");
+                    $("div.page-block").width($(window).width()-35)
                 }
             }
             me.$element.find(".datatable-scroll .include-header:first").scroll(function (e) {
                 me.$element.find(".datatable-scroll .scroll-header:first").scrollLeft($(this).scrollLeft());
                 // 当pagePercent小于90%时，横向滚动窗口，避免datatable变形
                 if (pagePercent < 90){
-                   $(window).scrollLeft($(this).scrollLeft());
+                    diff = $(this).scrollLeft() - ($(window).width()/2);
+                    $("html, body").stop().animate({ scrollLeft: diff+"px"},500);
                 }
             })
 
