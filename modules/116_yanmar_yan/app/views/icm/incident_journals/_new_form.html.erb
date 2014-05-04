@@ -128,7 +128,7 @@
         <tr>
           <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>
           <td class="data-col" colspan="5" style="word-wrap: break-all;">
-            <% prepare_request_files(@incident_request) %>
+            <% sprepare_request_files(@incident_request) %>
             <div class="reply-body">
               <div class="message-body">
                 <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}")  %></h3>
@@ -171,7 +171,8 @@
                   </div>
               <% end %>
             </td>
-            <td class="page-block-button"></td>
+            <td class="page-block-button">
+            </td>
             <td class="page-block-help" style="width: auto;">
               <% if allow_to_function?(:incident_request_edit_status)%>
                   <div>
@@ -251,6 +252,12 @@
                   <%= render :partial=>"helper/upload_file", :locals=>{:upload_file_id=>"new_incident_request_journal_file"} %>
                 </td>
                 <td style="float: right; width: 450px; text-align: right; vertical-align: top;padding-right: 10px;">
+                  <% if allow_to_function?(:submit_private_reply, @incident_request.external_system_id)%>
+                      <div>
+                        <label for="if_private_reply" style="display:inline;"><%= I18n.t(:label_icm_incident_journal_if_private)%></label>
+                        <%= check_box_tag(:if_private_reply, 'Y', false)%>
+                      </div>
+                  <% end %>
                   <span style="color:#ccc;"><%= t(:label_shortcuts_submit_form).html_safe %></span>
                   <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary",:style => "padding:4px 10px;font-size:12px;"}%>
                 </td>

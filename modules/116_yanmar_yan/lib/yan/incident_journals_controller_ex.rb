@@ -92,6 +92,96 @@ module Yan::IncidentJournalsControllerEx
           end
         end
       end
+
+      # POST /incident_journals
+      # POST /incident_journals.xml
+      def create
+        @incident_reply = Icm::IncidentReply.new(params[:icm_incident_reply])
+        @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+        # 设置回复类型
+        # 1,客户回复
+        # 2,服务台回复
+        # 3,其他人员回复
+        if Irm::Person.current.id.eql?(@incident_request.requested_by)
+          @incident_journal.reply_type = "CUSTOMER_REPLY"
+        elsif Irm::Person.current.id.eql?(@incident_request.support_person_id)
+          @incident_journal.reply_type = "SUPPORTER_REPLY"
+        else
+          @incident_journal.reply_type = "OTHER_REPLY"
+        end
+        #如果服务台人员手动修改状态，则使用手工修改的状态，如果状态为空则使用状态转移逻辑
+        #unless @incident_reply.incident_status_id.present?
+        if params[:new_incident_status_id] && !params[:new_incident_status_id].blank? && !params[:new_incident_status_id].eql?(@incident_request.incident_status_id)
+          @incident_reply.incident_status_id = params[:new_incident_status_id]
+        else
+          @incident_reply.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
+        end
+
+        perform_create
+        respond_to do |format|
+          flag, now = validate_files(@incident_journal)
+          if !flag
+            if now.is_a?(Integer)
+              flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+            else
+              flash[:notice] = now
+            end
+            format.js do
+              responds_to_parent do
+                render :create_journal do |page|
+                end
+              end
+            end
+            format.html { render :action => "new", :layout=>"application_right"}
+            format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+            format.json { render :json => @incident_journal.errors }
+          elsif @incident_reply.valid? && @incident_journal.valid? && @incident_request.update_attributes(@incident_reply.attributes)
+            process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
+            process_files(@incident_journal, (params[:if_private_reply] && params[:if_private_reply].eql?('Y')) ? 'Y' : 'N' )
+            @incident_journal.create_elapse
+
+            Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
+                                         :journal_id=> @incident_journal.id,
+                                         :property_key=> "new_reply",
+                                         :old_value=>"",
+                                         :new_value=>@incident_journal.journal_number})
+
+            format.js do
+              @current_journals = Icm::IncidentJournal.list_all(@incident_request.id).includes(:incident_histories).where("#{Icm::IncidentJournal.table_name}.id = ?", @incident_journal.id)
+              responds_to_parent do
+                render :create_journal do |page|
+                end
+              end
+            end
+          else
+            format.js do
+              responds_to_parent do
+                render :create do |page|
+                end
+              end
+            end
+          end
+        end
+      end
+
+      def process_files(ref_journal, private_flag = 'N')
+        @files = []
+        params[:files].each do |key,value|
+          file = Irm::AttachmentVersion.create({:source_id=>ref_journal.id,
+                                                :source_type=>ref_journal.class.name,
+                                                :private_flag => private_flag,
+                                                :data=>value[:file],
+                                                :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
+          if file
+            Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,
+                                         :journal_id=> ref_journal.id,
+                                         :property_key=> "attachment",
+                                         :old_value=>file.name,
+                                         :new_value=>""})
+            @files << file
+          end
+        end if params[:files]
+      end
     end
   end
 end
