@@ -1,0 +1,107 @@
+<div class="sub-page-block">
+  <div class="sub-page-block-header">
+    <h3 class="sub-page-block-title"><%= phase[:name]%></h3>
+    <span class="required-help-info">
+      <%= link_to t(:delete),
+                  {:controller => "ndm/dev_phases", :action => "destroy", :id => phase[:id]},
+                  {:method => :delete, :confirm => "#{t(:label_are_you_sure)} [#{phase[:name]}]"}%>
+    </span>
+  </div>
+  <div class="sub-page-block-body">
+  <table class="form-table">
+     <tbody>
+         <%= fields_for "dev_phase[]", phase, :builder => CustomFormBuilder do |p|%>
+         <%= p.hidden_field :id%>
+         <% if phase[:owner_1_label].present? || phase[:owner_2_label].present? %>
+         <tr>
+            <% if phase[:owner_1_label].present? %>
+            <td class="label-col"><label><%= phase[:owner_1_label]%></label></td>
+            <td class="data-col">
+              <%= p.text_field :owner_1%>
+            </td>
+            <% end %>
+           <% if phase[:owner_2_label].present? %>
+           <td class="label-col"><label><%= phase[:owner_2_label]%></label></td>
+           <td class="data-col">
+             <%= p.text_field :owner_2%>
+           </td>
+           <% end %>
+         </tr>
+         <% end %>
+         <% if phase[:owner_3_label].present? || phase[:owner_4_label].present? %>
+         <tr>
+            <% if phase[:owner_3_label].present? %>
+            <td class="label-col"><label><%= phase[:owner_3_label]%></label></td>
+            <td class="data-col">
+              <%= p.text_field :owner_3%>
+            </td>
+            <% end %>
+           <% if phase[:owner_4_label].present? %>
+           <td class="label-col"><label><%= phase[:owner_4_label]%></label></td>
+           <td class="data-col">
+             <%= p.text_field :owner_4%>
+           </td>
+           <% end %>
+         </tr>
+         <% end %>
+         <% if phase[:owner_5_label].present? || phase[:owner_6_label].present? %>
+         <tr>
+            <% if phase[:owner_5_label].present? %>
+            <td class="label-col"><label><%= phase[:owner_5_label]%></label></td>
+            <td class="data-col">
+              <%= p.text_field :owner_5%>
+            </td>
+            <% end %>
+           <% if phase[:owner_6_label].present? %>
+           <td class="label-col"><label><%= phase[:owner_6_label]%></label></td>
+           <td class="data-col">
+             <%= p.text_field :owner_6%>
+           </td>
+           <% end %>
+         </tr>
+         <% end %>
+         <% if phase[:status_label].present?%>
+         <tr>
+            <td class="label-col"><label><%= phase[:status_label]%></label></td>
+            <td class="data-col">
+              <%= p.select :status, options_for_select(dem_get_phase_status_list, phase[:status].present? ? phase[:status] : "DEM_PHASE_OPEN")%>
+            </td>
+         </tr>
+         <% end %>
+         <% if phase[:plan_start_label].present? || phase[:plan_end_label].present? %>
+         <tr>
+            <% if phase[:plan_start_label].present? %>
+            <td class="label-col"><label><%= phase[:plan_start_label]%></label></td>
+            <td class="data-col">
+              <%= p.date_field :plan_start, :class=>"date", :id => "plan_start_#{phase[:id]}"  %>
+            </td>
+            <% end %>
+           <% if phase[:plan_end_label].present? %>
+           <td class="label-col"><label><%= phase[:plan_end_label]%></label></td>
+           <td class="data-col">
+             <%= p.date_field :plan_end, :class=>"date", :id => "plan_end_#{phase[:id]}"  %>
+           </td>
+           <% end %>
+         </tr>
+         <% end %>
+         <% if phase[:real_start_label].present? || phase[:real_end_label].present? %>
+         <tr>
+            <% if phase[:real_start_label].present? %>
+            <td class="label-col"><label><%= phase[:real_start_label]%></label></td>
+            <td class="data-col">
+              <%= p.date_field :real_start, :class=>"date", :id => "real_start_#{phase[:id]}"  %>
+            </td>
+            <% end %>
+           <% if phase[:real_end_label].present? %>
+           <td class="label-col"><label><%= phase[:real_end_label]%></label></td>
+           <td class="data-col">
+             <%= p.date_field :real_end, :class=>"date", :id => "real_end_#{phase[:id]}" %>
+           </td>
+           <% end %>
+         </tr>
+         <% end %>
+         <% end %>
+     </tbody>
+  </table>
+  </div>
+</div>

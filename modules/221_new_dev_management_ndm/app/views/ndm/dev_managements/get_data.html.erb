@@ -1,0 +1,51 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:module,{:title=>"Module", :width => "150px"})%>
+    <% builder.column(:no,{:title=> "Gap No.", :width => "80px"}) do |data|%>
+        <%= link_to(data[:no],{:controller=>"ndm/dev_managements",:action=>"show",:id=>data[:id]}) %>
+    <% end %>
+    <% builder.column(:name,{:title=>"Name"})%>
+    <% builder.column(:priority_name,{:title=>"Priority"})%>
+    <% builder.column(:current_status,{:title=>"Current Status", :width => "200px"})%>
+    <% builder.column(:dev_type_name,{:title=>"Type", :width => "150px", :phase => "123"})%>
+    <% builder.column(:method_name, {:title=>"Method", :width => "200px"})%>
+    <% builder.column(:dev_difficulty_name,{:title=>"Difficulty", :width => "200px"})%>
+
+    <% builder.column(:gd_owner,{:title=>"General Design Owner", :width => "200px"})%>
+    <% builder.column(:gd_status,{:title=>"General Design Status", :width => "200px"})%>
+    <% builder.column(:gd_plan_start,{:title=>"General Design Plan Start", :width => "200px"})%>
+    <% builder.column(:gd_plan_end,{:title=>"General Design Plan End", :width => "200px"})%>
+
+    <% builder.column(:fd_owner,{:title=>"Functional Design Owner", :width => "200px"})%>
+    <% builder.column(:fd_status,{:title=>"Functional Design Status", :width => "200px"})%>
+    <% builder.column(:fd_plan_end,{:title=>"Functional Design Plan End", :width => "200px"})%>
+
+    <% builder.column(:fdr_owner,{:title=>"Functional Design Review Owner", :width => "200px"})%>
+    <% builder.column(:fdr_status,{:title=>"Functional Design Review Status", :width => "200px"})%>
+    <% builder.column(:fdr_plan_end,{:title=>"Functional Design Review Plan End", :width => "200px"})%>
+
+
+    <% builder.column(:td_owner,{:title=>"Technical Design Owner", :width => "200px"})%>
+    <% builder.column(:td_status,{:title=>"Technical Design Status", :width => "200px"})%>
+    <% builder.column(:td_plan_end,{:title=>"Technical Design Plan End", :width => "200px"})%>
+
+    <% builder.column(:co_owner,{:title=>"Coding Owner", :width => "200px"})%>
+    <% builder.column(:co_status,{:title=>"Coding Status", :width => "200px"})%>
+    <% builder.column(:co_plan_end,{:title=>"Coding Plan End", :width => "200px"})%>
+
+    <% builder.column(:te_owner,{:title=>"Testing Owner", :width => "200px"})%>
+    <% builder.column(:te_status,{:title=>"Testing Status", :width => "200px"})%>
+    <% builder.column(:te_plan_end,{:title=>"Testing Plan End", :width => "200px"})%>
+
+    <% builder.column(:si_owner,{:title=>"Setups&Installation Owner", :width => "200px"})%>
+    <% builder.column(:si_status,{:title=>"Setups&Installation Status", :width => "200px"})%>
+    <% builder.column(:si_plan_end,{:title=>"Setups&Installation Plan End", :width => "200px"})%>
+
+    <% builder.column(:at_owner,{:title=>"Acceptance Testing Owner", :width => "200px"})%>
+    <% builder.column(:at_status,{:title=>"Acceptance Testing Status", :width => "200px"})%>
+    <% builder.column(:at_plan_end,{:title=>"Acceptance Testing Plan End", :width => "200px"})%>
+
+    <% builder.column(:go_owner,{:title=>"Golive Owner", :width => "200px"})%>
+    <% builder.column(:go_status,{:title=>"Golive Status", :width => "200px"})%>
+    <% builder.column(:go_plan_end,{:title=>"Golive Plan End"})%>
+
+<% end %>

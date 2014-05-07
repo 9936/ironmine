@@ -1,0 +1,9 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:code,{:title=>"Code", :width => "50px"}) do |data| %>
+        <%= link_to(data[:code],{:controller=>"ndm/projects",:action=>"edit",:id=>data[:id]}) %>
+    <% end %>
+    <% builder.column(:name,{:title=>"Name", :width => "250px"}) do |data| %>
+        <%= link_to(data[:name],{:controller=>"ndm/projects",:action=>"edit",:id=>data[:id]}) %>
+    <% end %>
+    <% builder.column(:description,{:title=>"Description"})%>
+<% end %>

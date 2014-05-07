@@ -1,0 +1,411 @@
+<%= form_for(@dev_management,:url=>{:action=>"update"},:builder => CustomFormBuilder,:html => { :multipart => true }) do |f| %>
+
+  <%= hidden_field_tag :return_url,@return_url %>
+  <% content_for :dev_management do %>
+    <table class="form-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label>No.</label></td>
+        <td class="data-col">
+          <%= @dev_management.no %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label>Module</label></td>
+        <td class="data-col">
+          <%= f.select :module, nullable_options_for_select(ndm_get_module_list, @dev_management.module)%>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label>Name</label></td>
+        <td class="data-col">
+          <%= f.text_field :name, :style => "width: 300px;"%>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label>Priority</label></td>
+        <td class="data-col">
+          <%= f.select :priority, nullable_options_for_select(ndm_get_priority_list, nil)%>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label>Type</label></td>
+        <td class="data-col">
+          <%= f.select :dev_type, nullable_options_for_select(ndm_get_dev_type_list, nil)%>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label>Difficulty</label></td>
+        <td class="data-col">
+          <%= f.select :dev_difficulty, options_for_select(ndm_get_difficulty_list, "DEM_EASY")%>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label>Description</label></td>
+        <td class="data-col">
+          <%= f.text_area :description, :style => "width:300px", :rows => "10", :cols=>"200"%>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  <% end%>
+
+    <% content_for :gd do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label>Owner</label></td>
+            <td class="data-col">
+              <%= @dev_management.gd_owner %>
+            </td>
+            <td class="label-col"><label>Status</label></td>
+            <td class="data-col">
+              <%= @dev_management.gd_status %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Plan Start</label></td>
+            <td class="data-col">
+              <%= @dev_management.gd_plan_start %>
+            </td>
+            <td class="label-col"><label>Plan Start</label></td>
+            <td class="data-col">
+              <%= @dev_management.gd_plan_end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end%>
+
+    <% content_for :fd do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label>Owner</label></td>
+            <td class="data-col">
+              <%= @dev_management.fd_owner %>
+            </td>
+            <td class="label-col"><label>Status</label></td>
+            <td class="data-col">
+              <%= @dev_management.fd_status %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Plan End</label></td>
+            <td class="data-col">
+              <%= @dev_management.fd_plan_end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end%>
+
+    <% content_for :fdr do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label>Owner</label></td>
+            <td class="data-col">
+              <%= @dev_management.fdr_owner %>
+            </td>
+            <td class="label-col"><label>Status</label></td>
+            <td class="data-col">
+              <%= @dev_management.fdr_status %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Plan End</label></td>
+            <td class="data-col">
+              <%= @dev_management.fdr_plan_end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end%>
+
+    <% content_for :td do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label>Owner</label></td>
+            <td class="data-col">
+              <%= @dev_management.td_owner %>
+            </td>
+            <td class="label-col"><label>Status</label></td>
+            <td class="data-col">
+              <%= @dev_management.td_status %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Plan End</label></td>
+            <td class="data-col">
+              <%= @dev_management.td_plan_end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end%>
+
+    <% content_for :co do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label>Owner</label></td>
+            <td class="data-col">
+              <%= @dev_management.co_owner %>
+            </td>
+            <td class="label-col"><label>Status</label></td>
+            <td class="data-col">
+              <%= @dev_management.co_status %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Plan End</label></td>
+            <td class="data-col">
+              <%= @dev_management.co_plan_end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end%>
+
+    <% content_for :te do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label>Owner</label></td>
+            <td class="data-col">
+              <%= @dev_management.te_owner %>
+            </td>
+            <td class="label-col"><label>Status</label></td>
+            <td class="data-col">
+              <%= @dev_management.te_status %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Plan End</label></td>
+            <td class="data-col">
+              <%= @dev_management.te_plan_end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end%>
+
+    <% content_for :si do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label>Owner</label></td>
+            <td class="data-col">
+              <%= @dev_management.si_owner %>
+            </td>
+            <td class="label-col"><label>Status</label></td>
+            <td class="data-col">
+              <%= @dev_management.si_status %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Plan End</label></td>
+            <td class="data-col">
+              <%= @dev_management.si_plan_end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end%>
+
+    <% content_for :at do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label>Owner</label></td>
+            <td class="data-col">
+              <%= @dev_management.at_owner %>
+            </td>
+            <td class="label-col"><label>Status</label></td>
+            <td class="data-col">
+              <%= @dev_management.at_status %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Plan End</label></td>
+            <td class="data-col">
+              <%= @dev_management.at_plan_end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end%>
+
+    <% content_for :go do %>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label>Owner</label></td>
+            <td class="data-col">
+              <%= @dev_management.go_owner %>
+            </td>
+            <td class="label-col"><label>Status</label></td>
+            <td class="data-col">
+              <%= @dev_management.go_status %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Plan End</label></td>
+            <td class="data-col">
+              <%= @dev_management.go_plan_end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end%>
+  <!--页面结构-->
+  <div class="page-block">
+    <div class="page-block-body">
+    <table class="page-block-header"><tr>
+      <td class="page-block-title">
+        <h2 class="block-title">Edit Development Management</h2>
+      </td>
+      <td class="page-block-button">
+        <%= f.submit "Save and Back", :class=>"btn btn-primary", :name => "save_back"%>
+        <%= f.submit "Save and Continue", :class=>"btn btn-primary", :name => "save_continue"%>
+        <%= link_back t(:cancel),{:action => "show", :id => @dev_management.id},{:class=>"btn cancel"}%>
+      </td>
+    </tr></table>
+    <%= error_for @dev_management %>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title">Basic Info.</h3>
+          <span class="required-help-info"> = <%=t(:label_is_required)%></span>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :dev_management %>
+        </div>
+      </div>
+    </div>
+
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title">General Design</h3>
+            <span class="required-help-info"> = <%=t(:label_is_required)%></span>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :gd %>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title">Functional Design</h3>
+            <span class="required-help-info"> = <%=t(:label_is_required)%></span>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :fd %>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title">Functional Design Review</h3>
+            <span class="required-help-info"> = <%=t(:label_is_required)%></span>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :fdr %>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title">Technical Design</h3>
+            <span class="required-help-info"> = <%=t(:label_is_required)%></span>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :td %>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title">Coding</h3>
+            <span class="required-help-info"> = <%=t(:label_is_required)%></span>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :co %>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title">Testing</h3>
+            <span class="required-help-info"> = <%=t(:label_is_required)%></span>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :te %>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title">Setups&Installation</h3>
+            <span class="required-help-info"> = <%=t(:label_is_required)%></span>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :si %>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title">Acceptance Testing</h3>
+            <span class="required-help-info"> = <%=t(:label_is_required)%></span>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :at %>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title">Golive</h3>
+            <span class="required-help-info"> = <%=t(:label_is_required)%></span>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :go %>
+          </div>
+        </div>
+      </div>
+
+    <table class="page-block-footer">
+      <tr>
+          <td class="page-block-title">
+          </td>
+          <td class="page-block-button">
+            <%= f.submit "Save and Back", :class=>"btn btn-primary", :name => "save_back"%>
+            <%= f.submit "Save and Continue",:class=>"btn btn-primary", :name => "save_continue"%>
+            <%= link_back t(:cancel),{:action => "show", :id => @dev_management.id},{:class=>"btn cancel"}%>
+
+          </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<% end %>

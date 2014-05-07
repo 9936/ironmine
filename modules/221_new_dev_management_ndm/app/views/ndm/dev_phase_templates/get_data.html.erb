@@ -1,0 +1,17 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:code,{:title=>"Code", :width => "50px"}) do |data| %>
+        <%= link_to(data[:code],{:controller=>"ndm/dev_phase_templates",:action=>"show",:id=>data[:id]}) %>
+    <% end %>
+    <% builder.column(:name,{:title=>"Name"}) do |data| %>
+        <%= link_to(data[:name],{:controller=>"ndm/dev_phase_templates",:action=>"show",:id=>data[:id]}) %>
+    <% end %>
+    <% builder.column(:owner_1_label,{:title=>"Owner1", :width => "80px"})%>
+    <% builder.column(:owner_2_label,{:title=>"Owner2", :width => "80px"})%>
+    <% builder.column(:owner_3_label,{:title=>"Owner3", :width => "80px"})%>
+    <% builder.column(:owner_4_label,{:title=>"Owner4", :width => "80px"})%>
+    <% builder.column(:status_label,{:title=>"PhaseStatus", :width => "80px"})%>
+    <% builder.column(:plan_start_label,{:title=>"PlanStart", :width => "100px"})%>
+    <% builder.column(:plan_end_label,{:title=>"PlanEnd", :width => "100px"})%>
+    <% builder.column(:real_start_label,{:title=>"RealStart", :width => "100px"})%>
+    <% builder.column(:real_end_label,{:title=>"RealEnd", :width => "100px"})%>
+<% end %>

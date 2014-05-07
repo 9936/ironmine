@@ -86,6 +86,22 @@
                 <%= link_submit("Search",{:class => "btn btn-primary"}) %>
               </td>
             </tr>
+            <tr>
+              <td colspan = 4>
+                <div class="btn-toolbar" >
+                <div class="btn-group">
+                  <%= link_to "General Design", {} ,{:class=>"btn active showorhide", :key => "general_design"}%>
+                  <%= link_to "Functional Design", {} ,{:class=>"btn showorhide", :key => "functional_design"}%>
+                  <%= link_to "Functional Design Review", {} ,{:class=>"btn showorhide", :key => "functional_design_review"}%>
+                  <%= link_to "Technical Design", {} ,{:class=>"btn showorhide", :key => "technical_design"}%>
+                  <%= link_to "Coding", {} ,{:class=>"btn showorhide", :key => "coding"}%>
+                  <%= link_to "Testing", {} ,{:class=>"btn showorhide", :key => "testing"}%>
+                  <%= link_to "Setups&Installation", {} ,{:class=>"btn showorhide", :key => "setups_installation"}%>
+                  <%= link_to "Acceptance Testing", {} ,{:class=>"btn showorhide", :key => "acceptance_testing"}%>
+                  <%= link_to "Golive", {} ,{:class=>"btn showorhide", :key => "golive"}%>
+                </div></div>
+              </td>
+            </tr>
           </table>
           <% end %>
         </div>
@@ -99,7 +115,7 @@
       <h2 class="block-title">Development Management</h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:new), {:action => "new"},{:class=>"btn btn-primary"}%>
+            <%= link_to t(:new), {:action => "new"},{:class=>"btn btn-primary"}%>
     </td>
     <td class="page-block-help">
       <div id="searchBox"></div>
@@ -115,3 +131,17 @@
                   })%>
   </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".showorhide").bind("click", function(){
+            if ($(this).hasClass("active"))
+            {
+                $(this).removeClass("active")
+            }
+            else
+            {
+                $(this).addClass("active")
+            }
+        });
+    });
+</script>
