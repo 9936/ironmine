@@ -27,12 +27,15 @@ module Icm::IncidentJournalsHelper
         current_person?(incident_request.requested_by) )) &&
         !allow_to_function?(:view_project_private_reply, sid)
       @request_files = Irm::AttachmentVersion.query_all.where("private_flag <> 'Y' OR private_flag IS NULL").query_by_incident_request(incident_request.id).group_by{|a| a.source_id}
+
+      files_belong_to_request = Irm::AttachmentVersion.where("private_flag <> 'Y' OR private_flag IS NULL").query_incident_request_file((incident_request.id))
     else
       @request_files = Irm::AttachmentVersion.query_all.query_by_incident_request(incident_request.id).group_by{|a| a.source_id}
+
+      files_belong_to_request = Irm::AttachmentVersion.query_incident_request_file((incident_request.id))
     end
 
     # file belongs to request
-    files_belong_to_request = Irm::AttachmentVersion.query_incident_request_file((incident_request.id))
 
     @request_files.merge!({0=>files_belong_to_request}) if files_belong_to_request.size > 0 #防止事故单没有附件的时候, 产生一个空的数组
   end
@@ -53,6 +56,16 @@ module Icm::IncidentJournalsHelper
     file_lists = ""
     @request_files[0].each do |f|
       file_lists << show_file(f,true,request.external_system_id)
+    end
+    content_tag(:div,file_lists.html_safe,{:class=>"file-list"})
+  end
+
+  def slist_request_file(request)
+
+    return if @request_files[0].nil?||@request_files[0].size<1
+    file_lists = ""
+    @request_files[0].each do |f|
+      file_lists << sshow_file(f,true,request.external_system_id)
     end
     content_tag(:div,file_lists.html_safe,{:class=>"file-list"})
   end
@@ -126,9 +139,9 @@ module Icm::IncidentJournalsHelper
   # show file
   def sshow_file(f, with_image = true, sid = "")
     return '' if f.private_flag.eql?('Y') &&
-        (!(allow_to_function?(:view_my_private_reply, sid) && (current_person?(incident_request.submitted_by) ||
-            current_person?(incident_request.support_person_id) ||
-            current_person?(incident_request.requested_by) )) &&
+        (!(allow_to_function?(:view_my_private_reply, sid) && (current_person?(@incident_request.submitted_by) ||
+            current_person?(@incident_request.support_person_id) ||
+            current_person?(@incident_request.requested_by) )) &&
             !allow_to_function?(:view_project_private_reply, sid))
     image_path = nil
     image_path = f.data.url(:thumb) if f.image?
