@@ -24,12 +24,12 @@ class Icm::IcmElapseDetail < Irm::ReportManager::ReportBase
     end
 
     if params[:last_response_start_date].present?
-      where_str += " AND EXISTS( SELECT 1 FROM icm_incident_journals ijt1 WHERE ijt1.incident_request_id = ir.id AND ijt1.reply_type = 'CLOSE' AND date_format(ijt1.created_at, '%Y-%m-%d') >= '#{Date.strptime("#{params[:last_response_start_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}'"
+      where_str += " AND EXISTS( SELECT 1 FROM icm_incident_journals ijt1 WHERE ijt1.incident_request_id = ir.id AND ijt1.reply_type = 'CLOSE' AND date_format(ijt1.created_at, '%Y-%m-%d') >= '#{Date.strptime("#{params[:last_response_start_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}')"
       #where_str += " and date_format(iir.last_response_date, '%Y-%m-%d') >= '#{Date.strptime("#{params[:last_response_start_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}'"
     end
 
     if params[:last_response_end_date].present?
-      where_str += " AND EXISTS( SELECT 1 FROM icm_incident_journals ijt2 WHERE ijt2.incident_request_id = ir.id AND ijt2.reply_type = 'CLOSE' AND date_format(ijt2.created_at, '%Y-%m-%d') <= '#{Date.strptime("#{params[:last_response_end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}'"
+      where_str += " AND EXISTS( SELECT 1 FROM icm_incident_journals ijt2 WHERE ijt2.incident_request_id = ir.id AND ijt2.reply_type = 'CLOSE' AND date_format(ijt2.created_at, '%Y-%m-%d') <= '#{Date.strptime("#{params[:last_response_end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}')"
       #where_str += " and date_format(iir.last_response_date, '%Y-%m-%d') <= '#{Date.strptime("#{params[:last_response_end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}'"
     end
 
