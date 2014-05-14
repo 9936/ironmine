@@ -11,6 +11,8 @@ module Hli::IncidentJournalsControllerEx
                         where("ip.assignment_availability_flag = ?", Irm::Constant::SYS_YES)
 
         @incident_reply = Icm::IncidentReply.new()
+        @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
+
         respond_to do |format|
           format.html { render :layout=>"application_right"}
           format.xml  { render :xml => @incident_journal }
@@ -44,9 +46,11 @@ module Hli::IncidentJournalsControllerEx
 
         perform_create
 
+        if params[:workload]
+          @incident_journal.workload = params[:workload]
+        end
 
         respond_to do |format|
-
           flag, now = validate_files(@incident_journal)
           if !flag
             flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
@@ -63,6 +67,11 @@ module Hli::IncidentJournalsControllerEx
             process_files(@incident_journal)
             @incident_journal.create_elapse
             @incident_request.save
+            Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
+                                         :incident_journal_id => @incident_journal.id,
+                                         :real_processing_time => @incident_journal.workload,
+                                         :person_id => @incident_journal.replied_by,
+                                         :workload_type => 'REMOTE'})
             Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
                                          :journal_id=> @incident_journal.id,
                                          :property_key=> "new_reply",
@@ -315,7 +324,17 @@ module Hli::IncidentJournalsControllerEx
         respond_to do |format|
           if @incident_journal.update_attributes(params[:icm_incident_journal]) &&
               @incident_journal.update_attribute(:journal_number, @incident_journal.generate_journal_number)
-
+            wl = Icm::IncidentWorkload.where("incident_journal_id = ?", params[:id])
+            if wl.any?
+              wl = wl.first
+              wl.update_attribute(:real_processing_time, @incident_journal.workload)
+            else
+              Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
+                                            :incident_journal_id => @incident_journal.id,
+                                            :real_processing_time => @incident_journal.workload,
+                                            :person_id => @incident_journal.replied_by,
+                                            :workload_type => 'REMOTE'})
+            end
             hi = Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
                                          :journal_id=> @incident_journal.id,
                                          :property_key=> "update_journal",

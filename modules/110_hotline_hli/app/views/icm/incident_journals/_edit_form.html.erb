@@ -4,6 +4,12 @@
     <table class="form-table">
       <tbody>
         <tr>
+          <td colspan="4">
+            <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_journal_edit_workload)%></label>
+            <%= f.text_field :workload, :style => "width:80px;", :irm_number_only => true%>
+          </td>
+        </tr>
+        <tr>
             <td class="label-col"><label><%=t(:label_icm_incident_journal_new)%></label></td>
             <td class="data-3col" colspan="3">
               <%=f.text_area :message_body ,:id=>"msgEditor",:cols=>150,:rows=>8,:required=>true,:class=>"input-xlarge"%>

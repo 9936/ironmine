@@ -67,13 +67,14 @@
            <% end %>
          </div>
     <% end %>
-    <div class="btn-group">
-      <% if @incident_request.status_code.eql?("ENABLED") %>
-          <%= link_to t(:label_icm_incident_journal_edit_workload),
-                      {:controller=>"icm/incident_journals",:action => "edit_workload"}, {:class=>"btn"}%>
-      <% end %>
-    </div>
-
+    <% unless @external_system.strict_workload.eql?('Y')%>
+        <div class="btn-group">
+          <% if @incident_request.status_code.eql?("ENABLED") %>
+              <%= link_to t(:label_icm_incident_journal_edit_workload),
+                          {:controller=>"icm/incident_journals",:action => "edit_workload"}, {:class=>"btn"}%>
+          <% end %>
+        </div>
+    <% end %>
     <div class="btn-group">
       <% if @incident_request.status_code.eql?("ENABLED") %>
           <% if @incident_request.kb_flag==Irm::Constant::SYS_NO %>

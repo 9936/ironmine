@@ -247,13 +247,13 @@
           <td class="data-col" colspan="5"><pre><div><%= @incident_request[:project_info] %></div></pre></td>
         </tr>
         <% end %>
-        <% if @incident_request.incident_workloads.any? %>
+        <% workload = @incident_request.grouped_workload%>
+        <% if workload.any? %>
         <tr>
           <td class="label-col"><label for="incident_request_close_reason_code"><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
           <td class="data-col" colspan="5"><label>
-            <% @incident_request.incident_workloads.each do |iw| %>
-                <% next if iw.person.nil? %>
-                <%= iw.person[:full_name]%>:<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time]}"%>&nbsp;<%= ", " unless iw == @incident_request.incident_workloads.last %>
+            <% workload.each do |iw| %>
+                <%= iw[:person_name]%>:<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time_g]}"%>&nbsp;<%= ", " unless iw == workload.last %>
             <% end %>
             </label></td>
         </tr>
@@ -296,7 +296,12 @@
               <% end %>
             </td>
             <td class="page-block-button">
-
+              <% if @external_system.strict_workload.eql?('Y') %>
+              <div>
+                <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_journal_edit_workload)%></label>
+                <%= text_field_tag :workload, nil, :style => "width:80px;", :irm_number_only => true%>
+              </div>
+              <% end %>
             </td>
             <td class="page-block-help" style="width: auto;">
               <div>

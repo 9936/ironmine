@@ -24,14 +24,22 @@
             <td class="label-col"><label><%=(t :label_irm_external_system_status_meaning)%></label></td>
             <td class="data-col"><%=f.select :status_code,options_from_collection_for_select(available_status,:lookup_code,:wrap_meaning,@external_system.status_code)%></td>
           </tr>
-
            <tr>
-             <td class="label-col empty">&nbsp;</td>
+             <td class="label-col empty">Hotline</td>
              <td class="data-col">
                <%= f.radio_button :hotline_flag, Irm::Constant::SYS_YES%>
                <label for="hotline_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
                <%= f.radio_button :hotline_flag, Irm::Constant::SYS_NO%>
                <label for="hotline_n">N</label>
+             </td>
+           </tr>
+           <tr>
+             <td class="label-col empty">Strict Workload</td>
+             <td class="data-col">
+               <%= f.radio_button :strict_workload, Irm::Constant::SYS_YES%>
+               <label for="strict_workload_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
+               <%= f.radio_button :strict_workload, Irm::Constant::SYS_NO%>
+               <label for="strict_workload_n">N</label>
              </td>
            </tr>
       </tbody>
