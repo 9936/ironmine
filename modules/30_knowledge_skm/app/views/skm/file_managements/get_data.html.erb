@@ -1,6 +1,6 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
     <% builder.column(:id,{:title=>t(:operation), :width => "220px"}) do |data|%>
-      <% if data[:created_by].eql?(Irm::Person.current.id) %>
+      <% if (data[:created_by].eql?(Irm::Person.current.id) && allow_to_function?(:sell_files_management)) || allow_to_function?(:files_management) %>
         <%= link_to(t(:edit),{:controller => "skm/file_managements", :action => "edit", :id => data[:id]}, :class => "action-link") %>&nbsp;|
         <%= link_to(t(:remove),{:controller => "skm/file_managements", :action=>"destroy",:id=> data[:id]}, :class => "action-link",:confirm => t(:label_are_you_sure)) %>&nbsp;|
       <% end %>
