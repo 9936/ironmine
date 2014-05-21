@@ -116,14 +116,14 @@ Fwk::MenuAndFunctionManager.map do |map|
       :en => {:name => "Development Management", :description => "Development Management"},
       :zh => {:name => "开发管理", :description => "开发管理"},
       :children => {
-          :dem_dev_phase_template => {
+          :ndm_dev_phase_template => {
               :type => "function",
               :entry => {
                   :sequence => 10,
                   :en => {:name => "Phase Templates", :description => "Phase Templates"},
                   :zh => {:name => "阶段模板", :description => "阶段模板"},
               }},
-          :dem_project => {
+          :ndm_project => {
               :type => "function",
               :entry => {
                   :sequence => 20,
@@ -154,15 +154,15 @@ Fwk::MenuAndFunctionManager.map do |map|
   #    }
   #}
 
-  map.function_group :dem_project, {
+  map.function_group :ndm_project, {
       :en => {:name => "Projects", :description => "Projects"},
       :zh => {:name => "开发项目", :description => "开发项目"}
   }
-  map.function_group :dem_project, {
+  map.function_group :ndm_project, {
       :zone_code => "DEV_MAN",
       :controller => "ndm/projects",
       :action => "index"}
-  map.function_group :dem_project, {
+  map.function_group :ndm_project, {
       :children => {
           :dem_project => {
               :en => {:name => "Projects", :description => "Projects"},
@@ -197,6 +197,30 @@ Fwk::MenuAndFunctionManager.map do |map|
                                         "show", "get_data", "destroy", "create_phase"],
               "ndm/dev_phases" => ["destroy"]
 
+          },
+          :dev_management_edit_self => {
+              :en => {:name => "Dev Management Edit Self", :description => "Dev Management Edit Self"},
+              :zh => {:name => "Dev Management Edit Self", :description => "Dev Management Edit Self"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "ndm/dev_managements" => ["index"]
+          },
+          :dev_management_edit_all => {
+              :en => {:name => "Dev Management Edit All", :description => "Dev Management Edit All"},
+              :zh => {:name => "Dev Management Edit All", :description => "Dev Management Edit All"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "ndm/dev_managements" => ["index"]
+          },
+          :dev_management_remove => {
+              :en => {:name => "Dev Management Remove", :description => "Dev Management Remove"},
+              :zh => {:name => "Dev Management Remove", :description => "Dev Management Remove"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "ndm/dev_managements" => ["index"]
           },
           :dev_phase_sequence => {
               :en => {:name => "Dev Phase Sequence", :description => "Dev Phase Sequence"},

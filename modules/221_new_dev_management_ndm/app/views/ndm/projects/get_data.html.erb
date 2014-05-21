@@ -1,9 +1,13 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-    <% builder.column(:code,{:title=>"Code", :width => "50px"}) do |data| %>
-        <%= link_to(data[:code],{:controller=>"ndm/projects",:action=>"edit",:id=>data[:id]}) %>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+        <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:class => "action-link"}) %>
     <% end %>
     <% builder.column(:name,{:title=>"Name", :width => "250px"}) do |data| %>
-        <%= link_to(data[:name],{:controller=>"ndm/projects",:action=>"edit",:id=>data[:id]}) %>
+        <% puts("++++++++++++++++++++++++++++++++++++++++" + data.to_json)%>
+        <%= link_to(data[:name],{:controller=>"ndm/projects",:action=>"show",:id=>data[:id]}) %>
     <% end %>
     <% builder.column(:description,{:title=>"Description"})%>
+    <% builder.column(:status_code,{:title=>t(:active),:width => "40px"}) do |data|%>
+        <%= check_img(data[:status_code]) %>
+    <% end %>
 <% end %>

@@ -25,7 +25,7 @@
           </tr>
         </table>
     <% end %>
-    <% builder.column(:gd_owner, {:title => "Owner", :width => "80px"}) do |data| %>
+    <% builder.column(:gd_owner, {:title => "Owner", :width => "60px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="expends expand <%= data[:id]%>"><%= ndm_build_owner_collapse(data) %></td>
@@ -39,28 +39,28 @@
           </tr>
         </table>
     <% end %>
-    <% builder.column(:gd_plan_start, {:title => "Plan Start", :width => "90px"}) do |data| %>
+    <% builder.column(:gd_plan_start, {:title => "Plan Start", :width => "80px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="expends expand <%= data[:id]%>"><%= ndm_build_ps_collapse(data) %></td>
           </tr>
         </table>
     <% end %>
-    <% builder.column(:gd_plan_end, {:title => "Plan End", :width => "90px"}) do |data| %>
+    <% builder.column(:gd_plan_end, {:title => "Plan End", :width => "80px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="expends expand <%= data[:id]%>"><%= ndm_build_pe_collapse(data) %></td>
           </tr>
         </table>
     <% end %>
-    <% builder.column(:gd_real_start, {:title => "Real Start", :width => "90px"}) do |data| %>
+    <% builder.column(:gd_real_start, {:title => "Real Start", :width => "80px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="expends expand <%= data[:id]%>"><%= ndm_build_rs_collapse(data) %></td>
           </tr>
         </table>
     <% end %>
-    <% builder.column(:gd_real_end, {:title => "Real End", :width => "90px"}) do |data| %>
+    <% builder.column(:gd_real_end, {:title => "Real End", :width => "80px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="expends expand <%= data[:id]%>"><%= ndm_build_re_collapse(data) %></td>

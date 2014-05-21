@@ -12,7 +12,7 @@ class Ndm::ProjectsController < ApplicationController
   end
 
   def new
-    @project = Dem::Project.new
+    @project = Ndm::Project.new
 
     respond_to do |format|
       format.html  
@@ -20,15 +20,14 @@ class Ndm::ProjectsController < ApplicationController
   end
 
   def edit
-    @project = Dem::Project.find(params[:id])
+    @project = Ndm::Project.find(params[:id])
     respond_to do |format|
       format.html  
     end
   end
 
   def create
-    @project = Dem::Project.new(params[:dem_project])
-    @project.code = Irm::Sequence.nextval(Dem::Project.name, Irm::Person.current.opu_id)
+    @project = Ndm::Project.new(params[:ndm_project])
 
     respond_to do |format|
       if @project.save
@@ -40,10 +39,10 @@ class Ndm::ProjectsController < ApplicationController
   end
 
   def update
-    @project = Dem::Project.find(params[:id])
+    @project = Ndm::Project.find(params[:id])
 
     respond_to do |format|
-      if @project.update_attributes(params[:dem_project])
+      if @project.update_attributes(params[:ndm_project])
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
       else
         format.html { render :action => "edit" }
@@ -52,7 +51,7 @@ class Ndm::ProjectsController < ApplicationController
   end
 
   def destroy
-    @project = Dem::Project.find(params[:id])
+    @project = Ndm::Project.find(params[:id])
     @project.destroy
 
     respond_to do |format|
@@ -63,7 +62,7 @@ class Ndm::ProjectsController < ApplicationController
 
 
   def get_data
-    project_scope = Dem::Project.where("1=1").select("*").order("created_at DESC")
+    project_scope = Ndm::Project.select_all.order("created_at DESC")
     projects, count = paginate(project_scope)
     respond_to do |format|
       format.html {
