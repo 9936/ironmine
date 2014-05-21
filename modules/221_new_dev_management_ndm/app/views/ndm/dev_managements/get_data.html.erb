@@ -12,7 +12,7 @@
     <% builder.column(:type_name,{:title=>"Type", :width => "80px", :phase => "123"})%>
     <% builder.column(:method_name, {:title=>"Method", :width => "80px"})%>
     <% builder.column(:dev_difficulty_name,{:title=>"Difficulty", :width => "80px"})%>
-    <% builder.column(:id, {:title => "Phase", :width => "200px"}) do |data| %>
+    <% builder.column(:id, {:title => "Phase", :width => "240px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="vt" style="vertical-align: top;">
@@ -25,42 +25,42 @@
           </tr>
         </table>
     <% end %>
-    <% builder.column(:gd_owner, {:title => "Owner", :width => "100px"}) do |data| %>
+    <% builder.column(:gd_owner, {:title => "Owner", :width => "80px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="expends expand <%= data[:id]%>"><%= ndm_build_owner_collapse(data) %></td>
           </tr>
         </table>
     <% end %>
-    <% builder.column(:gd_status, {:title => "Status", :width => "100px"}) do |data| %>
+    <% builder.column(:gd_status, {:title => "Status", :width => "90px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="expends expand <%= data[:id]%>"><%= ndm_build_status_collapse(data) %></td>
           </tr>
         </table>
     <% end %>
-    <% builder.column(:gd_plan_start, {:title => "Plan Start", :width => "100px"}) do |data| %>
+    <% builder.column(:gd_plan_start, {:title => "Plan Start", :width => "90px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="expends expand <%= data[:id]%>"><%= ndm_build_ps_collapse(data) %></td>
           </tr>
         </table>
     <% end %>
-    <% builder.column(:gd_plan_end, {:title => "Plan End", :width => "100px"}) do |data| %>
+    <% builder.column(:gd_plan_end, {:title => "Plan End", :width => "90px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="expends expand <%= data[:id]%>"><%= ndm_build_pe_collapse(data) %></td>
           </tr>
         </table>
     <% end %>
-    <% builder.column(:gd_real_start, {:title => "Real Start", :width => "100px"}) do |data| %>
+    <% builder.column(:gd_real_start, {:title => "Real Start", :width => "90px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="expends expand <%= data[:id]%>"><%= ndm_build_rs_collapse(data) %></td>
           </tr>
         </table>
     <% end %>
-    <% builder.column(:gd_real_end, {:title => "Real End", :width => "120px"}) do |data| %>
+    <% builder.column(:gd_real_end, {:title => "Real End", :width => "90px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="expends expand <%= data[:id]%>"><%= ndm_build_re_collapse(data) %></td>
