@@ -18,6 +18,6 @@ class AddRDateToNdm < ActiveRecord::Migration
 
     add_column :ndm_dev_managements, :at_real_end, :date, :after => :at_plan_end
 
-    add_column :ndm_dev_managements, :si_real_end, :date, :after => :go_plan_end
+    add_column :ndm_dev_managements, :go_real_end, :date, :after => :go_plan_end
   end
 end
