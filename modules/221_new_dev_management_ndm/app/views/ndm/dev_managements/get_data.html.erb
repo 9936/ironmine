@@ -1,51 +1,71 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-    <% builder.column(:module,{:title=>"Module", :width => "150px"})%>
-    <% builder.column(:no,{:title=> "Gap No.", :width => "80px"}) do |data|%>
+    <% builder.column(:module,{:title=>"Module", :width => "60px"})%>
+    <% builder.column(:no,{:title=> "Gap No.", :width => "60px"}) do |data|%>
         <%= link_to(data[:no],{:controller=>"ndm/dev_managements",:action=>"show",:id=>data[:id]}) %>
     <% end %>
-    <% builder.column(:name,{:title=>"Name"})%>
-    <% builder.column(:priority_name,{:title=>"Priority"})%>
-    <% builder.column(:current_status,{:title=>"Current Status", :width => "200px"})%>
-    <% builder.column(:dev_type_name,{:title=>"Type", :width => "150px", :phase => "123"})%>
-    <% builder.column(:method_name, {:title=>"Method", :width => "200px"})%>
-    <% builder.column(:dev_difficulty_name,{:title=>"Difficulty", :width => "200px"})%>
-
-    <% builder.column(:gd_owner,{:title=>"General Design Owner", :width => "200px"})%>
-    <% builder.column(:gd_status,{:title=>"General Design Status", :width => "200px"})%>
-    <% builder.column(:gd_plan_start,{:title=>"General Design Plan Start", :width => "200px"})%>
-    <% builder.column(:gd_plan_end,{:title=>"General Design Plan End", :width => "200px"})%>
-
-    <% builder.column(:fd_owner,{:title=>"Functional Design Owner", :width => "200px"})%>
-    <% builder.column(:fd_status,{:title=>"Functional Design Status", :width => "200px"})%>
-    <% builder.column(:fd_plan_end,{:title=>"Functional Design Plan End", :width => "200px"})%>
-
-    <% builder.column(:fdr_owner,{:title=>"Functional Design Review Owner", :width => "200px"})%>
-    <% builder.column(:fdr_status,{:title=>"Functional Design Review Status", :width => "200px"})%>
-    <% builder.column(:fdr_plan_end,{:title=>"Functional Design Review Plan End", :width => "200px"})%>
-
-
-    <% builder.column(:td_owner,{:title=>"Technical Design Owner", :width => "200px"})%>
-    <% builder.column(:td_status,{:title=>"Technical Design Status", :width => "200px"})%>
-    <% builder.column(:td_plan_end,{:title=>"Technical Design Plan End", :width => "200px"})%>
-
-    <% builder.column(:co_owner,{:title=>"Coding Owner", :width => "200px"})%>
-    <% builder.column(:co_status,{:title=>"Coding Status", :width => "200px"})%>
-    <% builder.column(:co_plan_end,{:title=>"Coding Plan End", :width => "200px"})%>
-
-    <% builder.column(:te_owner,{:title=>"Testing Owner", :width => "200px"})%>
-    <% builder.column(:te_status,{:title=>"Testing Status", :width => "200px"})%>
-    <% builder.column(:te_plan_end,{:title=>"Testing Plan End", :width => "200px"})%>
-
-    <% builder.column(:si_owner,{:title=>"Setups&Installation Owner", :width => "200px"})%>
-    <% builder.column(:si_status,{:title=>"Setups&Installation Status", :width => "200px"})%>
-    <% builder.column(:si_plan_end,{:title=>"Setups&Installation Plan End", :width => "200px"})%>
-
-    <% builder.column(:at_owner,{:title=>"Acceptance Testing Owner", :width => "200px"})%>
-    <% builder.column(:at_status,{:title=>"Acceptance Testing Status", :width => "200px"})%>
-    <% builder.column(:at_plan_end,{:title=>"Acceptance Testing Plan End", :width => "200px"})%>
-
-    <% builder.column(:go_owner,{:title=>"Golive Owner", :width => "200px"})%>
-    <% builder.column(:go_status,{:title=>"Golive Status", :width => "200px"})%>
-    <% builder.column(:go_plan_end,{:title=>"Golive Plan End"})%>
-
+    <% builder.column(:name,{:title=> "Name", :width => "120px"}) do |data|%>
+        <%= link_to(data[:name],{:controller=>"ndm/dev_managements",:action=>"show",:id=>data[:id]}) %>
+    <% end %>
+    <% builder.column(:description,{:title=>"Description"})%>
+    <% builder.column(:priority_name,{:title=>"Priority", :width => "50px"})%>
+    <% builder.column(:current_status,{:title=>"Current Status", :width => "150px"})%>
+    <% builder.column(:type_name,{:title=>"Type", :width => "80px", :phase => "123"})%>
+    <% builder.column(:method_name, {:title=>"Method", :width => "80px"})%>
+    <% builder.column(:dev_difficulty_name,{:title=>"Difficulty", :width => "80px"})%>
+    <% builder.column(:id, {:title => "Phase", :width => "200px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="vt" style="vertical-align: top;">
+               <span>
+                 <a class="expand-icon" href="javascript:void(0);" title="expand" name="<%= data[:id]%>">expand</a>
+                 <a class="collapse-icon" href="javascript:void(0);" title="collapse" name="<%= data[:id]%>">collapse</a>
+               </span>
+            </td>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_stage_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:gd_owner, {:title => "Owner", :width => "100px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_owner_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:gd_status, {:title => "Status", :width => "100px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_status_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:gd_plan_start, {:title => "Plan Start", :width => "100px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_ps_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:gd_plan_end, {:title => "Plan End", :width => "100px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_pe_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:gd_real_start, {:title => "Real Start", :width => "100px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_rs_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:gd_real_end, {:title => "Real End", :width => "120px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_re_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+<!-- gd fd fdr td co te si at go -->
 <% end %>

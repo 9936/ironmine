@@ -1,3 +1,179 @@
+<style type="text/css">
+    .icm-incident-requests .page-block{
+        width: 100%;
+    }
+    .datatable table tbody table.table-icon {
+        background-color: transparent;
+        text-align: left;
+    }
+
+    .datatable table tbody table.table-icon tr {
+        background-color: transparent;
+    }
+
+    .datatable table tbody table.table-icon tr td {
+        background-color: transparent;
+        border: none;
+    }
+
+
+    .datatable table tbody table.table-icon tr td.div {
+        padding: 0px;
+        border: none;
+    }
+
+    .datatable table tbody table.table-icon tr td.vt {
+        width: 21px;
+    }
+    .datatable table td {
+        padding: 0;
+    }
+
+    .table-icon a.expand-icon {
+        background: url('../images/filter_hide.gifx') no-repeat 0 0 transparent;
+        width: 16px;
+        height: 16px;
+        text-indent: -9999px;
+        display: none;
+    }
+
+    .table-icon a.collapse-icon {
+        background: url('../images/filter_reveal.gifx') no-repeat 0 0 transparent;
+        width: 16px;
+        height: 16px;
+        text-indent: -9999px;
+        display: block;
+    }
+
+    .table-icon .workflow {
+        width: 18px;
+        height: 18px;
+    }
+
+    .table-icon .slim {
+        width: 1px;
+    }
+
+    .table-icon .requested {
+        background: url('../images/workflow_requested.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .active {
+        background: url('../images/workflow_active.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .pending {
+        background: url('../images/workflow_pending.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .complete {
+        background: url('../images/workflow_complete.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .closed {
+        background: url('../images/workflow_approval_rejected.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .processing {
+        background: url('../images/workflow_processing.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .delayed {
+        background: url('../images/workflow_delayed.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .space {
+        background: url('../images/workflow_space.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon td {
+        background: transparent;
+        border: none;
+    }
+
+    .table-icon td.expends div {
+        float: left;
+        display: inline-block;
+        padding: 0;
+        border: none;
+    }
+
+    .table-icon td.expand div {
+        display: block;
+        float: none;
+    }
+
+    .table-icon td.expends div.name {
+        display: none;
+    }
+
+    .table-icon td.expand div.name  {
+        *height: 20px;
+        display: block;
+    }
+
+    .table-icon .expand {
+        min-width: 80px;
+        display: block;
+    }
+
+    .table-icon .name {
+        display: none;
+        padding: 3px;
+
+    }
+
+    .table-icon .header-name {
+        background: transparent;
+        padding: 2px 3px !important;
+        display: block;
+        min-width: 50px;
+    }
+
+    .expand .name {
+        display: inline-block;
+        min-width: 60px;
+        clear: left;
+    }
+
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".expand-icon").live('click', function () {
+            var name = $(this).attr('name');
+            var parent_table = $(this).parent();
+            parent_table.find(".collapse-icon").show();
+            $(this).hide();
+            $("." + name).addClass("expand");
+//            parent_table.parent().parent().find(".expends").addClass("expand");
+//            $("#requests").datatable("adjustScroll");
+        });
+        $(".collapse-icon").live('click', function () {
+            var name = $(this).attr('name');
+            var parent_table = $(this).parent();
+            parent_table.find(".expand-icon").css("display", "block");
+            $(this).hide();
+            $("." + name).removeClass("expand");
+//            parent_table.parent().parent().find(".expends").removeClass("expand");
+//            $("#requests").datatable("adjustScroll");
+        });
+        $(".switch_show").live('click', function () {
+            $(this).hide();
+            $(".collapse-icon").show();
+            $(".expand-icon").hide();
+            $(".switch_hide").show();
+            $(".expends").addClass("expand");
+        });
+
+        $(".switch_hide").live('click', function () {
+            $(this).hide();
+            $(".collapse-icon").hide();
+            $(".expand-icon").css("display", "block");
+            $(".switch_show").show();
+            $(".expends").removeClass("expand");
+        });
+    });
+</script>
 <%= common_title %>
 
 <div class="page-block">
@@ -6,14 +182,16 @@
       <h2 class="block-title">Development Management</h2>
     </td>
     <td class="page-block-button">
-            <%= link_to t(:new), {:action => "new"},{:class=>"btn btn-primary"}%>
+      <%= link_to t(:new), {:action => "new"},{:class=>"btn btn-primary"}%>
+      <a class="btn btn-primary switch_show" style="display: none" href="javascript:void(0)">Show All</a>
+      <a class="btn btn-primary switch_hide" style="display: inline-block" href="javascript:void(0)">Hide All</a>
     </td>
     <td class="page-block-help">
       <div id="searchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("dev_managements",{:action=>"get_data"},[],{:search_box => "searchBox", :view_filter => true,:paginator_box=>"paginatorBox",:scroll=>"xy"})%>
+    <%= datatable("dev_managements",{:action=>"get_data"},[],{:search_box => "searchBox", :view_filter => true,:paginator_box=>"paginatorBox",:scroll=>"x"})%>
   </div>
 </div>
 <script type="text/javascript">

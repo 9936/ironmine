@@ -18,13 +18,23 @@ class Ndm::DevManagement< ActiveRecord::Base
         select("vmodule.meaning module_name")
   }
 
+  scope :with_dev_type, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} vtype ON vtype.lookup_type = 'NDM_TYPE' AND vtype.lookup_code = #{table_name}.dev_type AND vtype.language = '#{language}'").
+        select("vtype.meaning type_name")
+  }
+
+  scope :with_priority, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} vpriority ON vpriority.lookup_type = 'NDM_PRIORITY' AND vpriority.lookup_code = #{table_name}.priority AND vpriority.language = '#{language}'").
+        select("vpriority.meaning priority_name")
+  }
+
   scope :with_dev_difficulty, lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} vdifficulty ON vdifficulty.lookup_type = 'NDM_DIFFICULTY' AND vdifficulty.lookup_code = #{table_name}.dev_difficulty AND vdifficulty.language = '#{language}'").
         select("vdifficulty.meaning dev_difficulty_name")
   }
 
   scope :with_status, lambda{|language, status|
-    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} v#{status} ON v#{status}.lookup_type = 'NDM_STATUS' AND v#{status}.lookup_code = #{table_name}.#{status} AND v#{status}.language = '#{language}'").
+    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} v#{status} ON v#{status}.lookup_type = 'NDM_PHASE_STATUS' AND v#{status}.lookup_code = #{table_name}.#{status} AND v#{status}.language = '#{language}'").
         select("v#{status}.meaning #{status}_name")
   }
 

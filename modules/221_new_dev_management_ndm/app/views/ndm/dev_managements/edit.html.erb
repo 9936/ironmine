@@ -35,6 +35,12 @@
         </td>
       </tr>
       <tr>
+        <td class="label-col"><label>Method</label></td>
+        <td class="data-col">
+          <%= f.select :method, nullable_options_for_select(ndm_get_method_list, nil)%>
+        </td>
+      </tr>
+      <tr>
         <td class="label-col"><label>Difficulty</label></td>
         <td class="data-col">
           <%= f.select :dev_difficulty, options_for_select(ndm_get_difficulty_list, "DEM_EASY")%>
@@ -56,21 +62,31 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= @dev_management.gd_owner %>
+              <%= f.text_field :gd_owner, :style => "width: 300px;" %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
-              <%= @dev_management.gd_status %>
+              <%= f.select :gd_status, nullable_options_for_select(ndm_get_phase_status_list, @dev_management.gd_status)%>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Plan Start</label></td>
             <td class="data-col">
-              <%= @dev_management.gd_plan_start %>
+              <%= f.date_field :gd_plan_start, :class=>"date"%>
             </td>
-            <td class="label-col"><label>Plan Start</label></td>
+            <td class="label-col"><label>Plan End</label></td>
             <td class="data-col">
-              <%= @dev_management.gd_plan_end %>
+              <%= f.date_field :gd_plan_end, :class=>"date"%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Real Start</label></td>
+            <td class="data-col">
+              <%= f.date_field :gd_real_start, :class=>"date"%>
+            </td>
+            <td class="label-col"><label>Real End</label></td>
+            <td class="data-col">
+              <%= f.date_field :gd_real_end, :class=>"date"%>
             </td>
           </tr>
           </tbody>
@@ -83,17 +99,31 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= @dev_management.fd_owner %>
+              <%= f.text_field :fd_owner, :style => "width: 300px;" %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
-              <%= @dev_management.fd_status %>
+              <%= f.select :fd_status, nullable_options_for_select(ndm_get_phase_status_list, @dev_management.fd_status)%>
             </td>
           </tr>
           <tr>
+            <td class="label-col"><label>Plan Start</label></td>
+            <td class="data-col">
+              <%= f.date_field :fd_plan_start, :class=>"date"%>
+            </td>
             <td class="label-col"><label>Plan End</label></td>
             <td class="data-col">
-              <%= @dev_management.fd_plan_end %>
+              <%= f.date_field :fd_plan_end, :class=>"date"%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Real Start</label></td>
+            <td class="data-col">
+              <%= f.date_field :fd_real_start, :class=>"date"%>
+            </td>
+            <td class="label-col"><label>Real End</label></td>
+            <td class="data-col">
+              <%= f.date_field :fd_real_end, :class=>"date"%>
             </td>
           </tr>
           </tbody>
@@ -106,17 +136,23 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= @dev_management.fdr_owner %>
+              <%= f.text_field :fdr_owner, :style => "width: 300px;" %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
-              <%= @dev_management.fdr_status %>
+              <%= f.select :fdr_status, nullable_options_for_select(ndm_get_phase_status_list, @dev_management.fdr_status)%>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Plan End</label></td>
             <td class="data-col">
-              <%= @dev_management.fdr_plan_end %>
+              <%= f.date_field :fdr_plan_end, :class=>"date"%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Real End</label></td>
+            <td class="data-col">
+              <%= f.date_field :fdr_real_end, :class=>"date"%>
             </td>
           </tr>
           </tbody>
@@ -129,17 +165,23 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= @dev_management.td_owner %>
+              <%= f.text_field :td_owner, :style => "width: 300px;" %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
-              <%= @dev_management.td_status %>
+              <%= f.select :td_status, nullable_options_for_select(ndm_get_phase_status_list, @dev_management.td_status)%>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Plan End</label></td>
             <td class="data-col">
-              <%= @dev_management.td_plan_end %>
+              <%= f.date_field :td_plan_end, :class=>"date"%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Real End</label></td>
+            <td class="data-col">
+              <%= f.date_field :td_real_end, :class=>"date"%>
             </td>
           </tr>
           </tbody>
@@ -152,17 +194,23 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= @dev_management.co_owner %>
+              <%= f.text_field :co_owner, :style => "width: 300px;" %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
-              <%= @dev_management.co_status %>
+              <%= f.select :co_status, nullable_options_for_select(ndm_get_phase_status_list, @dev_management.co_status)%>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Plan End</label></td>
             <td class="data-col">
-              <%= @dev_management.co_plan_end %>
+              <%= f.date_field :co_plan_end, :class=>"date"%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Real End</label></td>
+            <td class="data-col">
+              <%= f.date_field :co_real_end, :class=>"date"%>
             </td>
           </tr>
           </tbody>
@@ -175,17 +223,23 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= @dev_management.te_owner %>
+              <%= f.text_field :te_owner, :style => "width: 300px;" %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
-              <%= @dev_management.te_status %>
+              <%= f.select :te_status, nullable_options_for_select(ndm_get_phase_status_list, @dev_management.te_status)%>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Plan End</label></td>
             <td class="data-col">
-              <%= @dev_management.te_plan_end %>
+              <%= f.date_field :te_plan_end, :class=>"date"%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Real End</label></td>
+            <td class="data-col">
+              <%= f.date_field :te_real_end, :class=>"date"%>
             </td>
           </tr>
           </tbody>
@@ -198,17 +252,23 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= @dev_management.si_owner %>
+              <%= f.text_field :si_owner, :style => "width: 300px;" %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
-              <%= @dev_management.si_status %>
+              <%= f.select :si_status, nullable_options_for_select(ndm_get_phase_status_list, @dev_management.si_status)%>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Plan End</label></td>
             <td class="data-col">
-              <%= @dev_management.si_plan_end %>
+              <%= f.date_field :si_plan_end, :class=>"date"%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Real End</label></td>
+            <td class="data-col">
+              <%= f.date_field :si_real_end, :class=>"date"%>
             </td>
           </tr>
           </tbody>
@@ -221,17 +281,23 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= @dev_management.at_owner %>
+              <%= f.text_field :at_owner, :style => "width: 300px;" %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
-              <%= @dev_management.at_status %>
+              <%= f.select :at_status, nullable_options_for_select(ndm_get_phase_status_list, @dev_management.at_status)%>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Plan End</label></td>
             <td class="data-col">
-              <%= @dev_management.at_plan_end %>
+              <%= f.date_field :at_plan_end, :class=>"date"%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Real End</label></td>
+            <td class="data-col">
+              <%= f.date_field :at_real_end, :class=>"date"%>
             </td>
           </tr>
           </tbody>
@@ -244,17 +310,23 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= @dev_management.go_owner %>
+              <%= f.text_field :go_owner, :style => "width: 300px;" %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
-              <%= @dev_management.go_status %>
+              <%= f.select :go_status, nullable_options_for_select(ndm_get_phase_status_list, @dev_management.go_status)%>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label>Plan End</label></td>
             <td class="data-col">
-              <%= @dev_management.go_plan_end %>
+              <%= f.date_field :go_plan_end, :class=>"date"%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>Real End</label></td>
+            <td class="data-col">
+              <%= f.date_field :go_real_end, :class=>"date"%>
             </td>
           </tr>
           </tbody>

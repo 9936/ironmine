@@ -99,6 +99,10 @@ class Ndm::DevManagementsController < ApplicationController
   def get_data
     language = I18n.locale
     dev_management_scope = Ndm::DevManagement.
+        with_method(language).
+        with_dev_difficulty(language).
+        with_dev_type(language).
+        with_priority(language).
         with_status(language, "gd_status").
         with_status(language, "fd_status").
         with_status(language, "fdr_status").
