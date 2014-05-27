@@ -36,6 +36,12 @@
         </td>
       </tr>
       <tr>
+        <td class="label-col"><label>Method</label></td>
+        <td class="data-col">
+          <%= f.select :method, nullable_options_for_select(ndm_get_method_list, @dev_management.method)%>
+        </td>
+      </tr>
+      <tr>
          <td class="label-col"><label>Difficulty</label></td>
          <td class="data-col">
            <%= f.select :dev_difficulty, options_for_select(ndm_get_difficulty_list, "DEM_EASY")%>
