@@ -8,7 +8,7 @@ class FixNdmProjectMemberColumns < ActiveRecord::Migration
     add_column :ndm_project_people, :im, :string, :limit => 1, :default => 'N', :null => false, :after => :opu_id
 
     #project display sequence
-    add_column :ndm_porjects, :display_sequence, :integer, :default => 500, :after => :opu_id
+    add_column :ndm_projects, :display_sequence, :integer, :default => 500, :after => :opu_id
   end
 
   def down
