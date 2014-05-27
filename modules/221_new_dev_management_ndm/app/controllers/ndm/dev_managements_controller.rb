@@ -52,9 +52,10 @@ class Ndm::DevManagementsController < ApplicationController
     @dev_management.no = Irm::Sequence.nextval(Ndm::DevManagement.name)
     respond_to do |format|
       if @dev_management.save
+        @dev_management.update_dev_status
         #@dev_management.update_trigger
         if params[:save_back]
-          format.html { redirect_to({:action => "show", :id => @dev_management.id}, :notice => t(:successfully_updated)) }
+          format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         else params[:save_continue]
           format.html { redirect_to({:action => "edit", :id => @dev_management.id}, :notice => t(:successfully_updated)) }
         end
@@ -70,12 +71,13 @@ class Ndm::DevManagementsController < ApplicationController
 
     respond_to do |format|
       if @dev_management.update_attributes(params[:ndm_dev_management])
+        @dev_management.update_dev_status
         #dev_phases.each do |dp|
         #  Ndm::DevPhase.find(dp[0]).update_attributes(dp[1])
         #end if dev_phases
         #@dev_management.update_trigger
         if params[:save_back]
-          format.html { redirect_to({:action => "show", :id => params[:id]}, :notice => t(:successfully_updated)) }
+          format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         else params[:save_continue]
           format.html { redirect_to({:action => "edit", :id => params[:id]}, :notice => t(:successfully_updated)) }
         end
@@ -86,7 +88,7 @@ class Ndm::DevManagementsController < ApplicationController
   end
 
   def destroy
-    @dev_management = Dem::DevManagement.find(params[:id])
+    @dev_management = Ndm::DevManagement.find(params[:id])
     @dev_management.destroy
 
     respond_to do |format|
@@ -100,6 +102,7 @@ class Ndm::DevManagementsController < ApplicationController
     language = I18n.locale
     dev_management_scope = Ndm::DevManagement.
         with_method(language).
+        with_project_relation(Irm::Person.current.id).
         with_dev_difficulty(language).
         with_dev_type(language).
         with_priority(language).
@@ -113,30 +116,37 @@ class Ndm::DevManagementsController < ApplicationController
         with_status(language, "at_status").
         with_status(language, "go_status").
         select_all.order("(no + 0) ASC")
+    dev_management_scope = dev_management_scope.
+        where("#{Ndm::DevManagement.table_name}.project IN (?)",
+              params[:project_params][:project_id]) if params[:project_params] && params[:project_params][:project_id].first.present?
 
     dev_management_scope = dev_management_scope.
-        where("#{Ndm::DevManagement.table_name}.project_id IN (?)",
-              params[:project_params][:project_id]) if params[:project_params] && params[:project_params][:project_id].first.present?
+        where("#{Ndm::DevManagement.table_name}.no LIKE ?",
+              '%' + params[:project_params][:no] + '%') if params[:project_params] && params[:project_params][:no].present?
 
     dev_management_scope = dev_management_scope.
         where("#{Ndm::DevManagement.table_name}.name LIKE ?",
               '%' + params[:project_params][:name] + '%') if params[:project_params] && params[:project_params][:name].present?
 
     dev_management_scope = dev_management_scope.
-        where("#{Ndm::DevManagement.table_name}.module LIKE ?",
-              '%' + params[:project_params][:module] + '%') if params[:project_params] && params[:project_params][:module].present?
+        where("#{Ndm::DevManagement.table_name}.dev_status LIKE ?",
+              '%' + params[:project_params][:dev_status] + '%') if params[:project_params] && params[:project_params][:dev_status].present?
 
     dev_management_scope = dev_management_scope.
-        where("#{Ndm::DevManagement.table_name}.current_status LIKE ?",
-              '%' + params[:project_params][:current_status] + '%') if params[:project_params] && params[:project_params][:current_status].present?
+        where("vtype.meaning LIKE ?",
+              '%' + params[:project_params][:dev_type] + '%') if params[:project_params] && params[:project_params][:dev_type].present?
 
     dev_management_scope = dev_management_scope.
-        where("#{Ndm::DevManagement.table_name}.owner LIKE ?",
-              '%' + params[:project_params][:owner] + '%') if params[:project_params] && params[:project_params][:owner].present?
+        where("vpriority.meaning LIKE ?",
+              '%' + params[:project_params][:priority] + '%') if params[:project_params] && params[:project_params][:priority].present?
 
     dev_management_scope = dev_management_scope.
-        where("#{Ndm::DevManagement.table_name}.owner LIKE ?",
-              '%' + params[:project_params][:risk_class] + '%') if params[:project_params] && params[:project_params][:risk_class].present?
+        where("vmethod.meaning LIKE ?",
+              '%' + params[:project_params][:method] + '%') if params[:project_params] && params[:project_params][:method].present?
+
+    dev_management_scope = dev_management_scope.
+        where("vdifficulty.meaning LIKE ?",
+              '%' + params[:project_params][:dev_difficulty] + '%') if params[:project_params] && params[:project_params][:dev_difficulty].present?
 
     begin
     dev_management_scope = dev_management_scope.
@@ -197,6 +207,34 @@ class Ndm::DevManagementsController < ApplicationController
       end if dev_phases
       @dev_management.update_trigger
       format.html { redirect_to({:action => "show", :id => params[:id]}, :notice => t(:successfully_updated)) }
+    end
+  end
+
+  def phase_edit
+    language = I18n.locale
+    @phase_code = params[:phase_code]
+    @dev_management = Ndm::DevManagement.select_all.
+        with_method(language).
+        with_project_relation(Irm::Person.current.id).
+        with_dev_difficulty(language).
+        with_dev_type(language).
+        with_priority(language).find(params[:dev_management_id])
+
+    respond_to do |format|
+      format.html { render :layout => "application_full"}
+    end
+  end
+
+  def phase_update
+    @dev_management = Ndm::DevManagement.find(params[:id])
+
+    respond_to do |format|
+      if @dev_management.update_attributes(params[:ndm_dev_management])
+        @dev_management.update_dev_status
+        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+      else
+        format.html { render :action => "phase_edit" }
+      end
     end
   end
 end

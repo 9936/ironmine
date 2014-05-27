@@ -11,6 +11,12 @@
         </td>
       </tr>
       <tr>
+        <td class="label-col"><label>Project</label></td>
+        <td class="data-col">
+          <%= f.select :project, nullable_options_for_select(get_project_list, @dev_management.project)%>
+        </td>
+      </tr>
+      <tr>
         <td class="label-col"><label>Module</label></td>
         <td class="data-col">
           <%= f.select :module, nullable_options_for_select(ndm_get_module_list, @dev_management.module)%>
@@ -25,25 +31,25 @@
       <tr>
         <td class="label-col"><label>Priority</label></td>
         <td class="data-col">
-          <%= f.select :priority, nullable_options_for_select(ndm_get_priority_list, nil)%>
+          <%= f.select :priority, nullable_options_for_select(ndm_get_priority_list, @dev_management.priority)%>
         </td>
       </tr>
       <tr>
         <td class="label-col"><label>Type</label></td>
         <td class="data-col">
-          <%= f.select :dev_type, nullable_options_for_select(ndm_get_dev_type_list, nil)%>
+          <%= f.select :dev_type, nullable_options_for_select(ndm_get_dev_type_list, @dev_management.dev_type)%>
         </td>
       </tr>
       <tr>
         <td class="label-col"><label>Method</label></td>
         <td class="data-col">
-          <%= f.select :method, nullable_options_for_select(ndm_get_method_list, nil)%>
+          <%= f.select :method, nullable_options_for_select(ndm_get_method_list, @dev_management.method)%>
         </td>
       </tr>
       <tr>
         <td class="label-col"><label>Difficulty</label></td>
         <td class="data-col">
-          <%= f.select :dev_difficulty, options_for_select(ndm_get_difficulty_list, "DEM_EASY")%>
+          <%= f.select :dev_difficulty, options_for_select(ndm_get_difficulty_list, @dev_management.dev_difficulty)%>
         </td>
       </tr>
       <tr>
@@ -342,7 +348,7 @@
       <td class="page-block-button">
         <%= f.submit "Save and Back", :class=>"btn btn-primary", :name => "save_back"%>
         <%= f.submit "Save and Continue", :class=>"btn btn-primary", :name => "save_continue"%>
-        <%= link_back t(:cancel),{:action => "show", :id => @dev_management.id},{:class=>"btn cancel"}%>
+        <%= link_back t(:cancel),{:action => "index"},{:class=>"btn cancel"}%>
       </td>
     </tr></table>
     <%= error_for @dev_management %>
@@ -473,7 +479,7 @@
           <td class="page-block-button">
             <%= f.submit "Save and Back", :class=>"btn btn-primary", :name => "save_back"%>
             <%= f.submit "Save and Continue",:class=>"btn btn-primary", :name => "save_continue"%>
-            <%= link_back t(:cancel),{:action => "show", :id => @dev_management.id},{:class=>"btn cancel"}%>
+            <%= link_back t(:cancel),{:action => "index"},{:class=>"btn cancel"}%>
 
           </td>
       </tr>

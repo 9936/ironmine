@@ -1,18 +1,34 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-    <% builder.column(:module,{:title=>"Module", :width => "60px"})%>
-    <% builder.column(:no,{:title=> "Gap No.", :width => "60px"}) do |data|%>
-        <%= link_to(data[:no],{:controller=>"ndm/dev_managements",:action=>"show",:id=>data[:id]}) %>
+    <% builder.column(:id, {:title => "OP.", :width => "30"}) do |data|%>
+        <% if data[:ed].eql?("Y")%>
+            <%= bootstrap_icons("icon-trash",t(:remove),{:controller=>"ndm/dev_managements",:action=>"destroy",:id=> data[:id]},:confirm => t(:label_are_you_sure) ,:method => :delete) %>
+        <% end %>
+    <% end %>
+    <% builder.column(:module,{:title=>"Mod.", :width => "40px"})%>
+    <% builder.column(:project_name, {:title => "Project", :width => "120px"})%>
+    <% builder.column(:no,{:title=> "No.", :width => "50px"}) do |data|%>
+        <% if data[:ed].eql?('Y')%>
+            <%= link_to(data[:no],{:controller=>"ndm/dev_managements",:action=>"edit",:id=>data[:id]}) %>
+        <% else %>
+            <%= data[:no] %>
+        <% end %>
     <% end %>
     <% builder.column(:name,{:title=> "Name", :width => "120px"}) do |data|%>
-        <%= link_to(data[:name],{:controller=>"ndm/dev_managements",:action=>"show",:id=>data[:id]}) %>
+        <% if data[:ed].eql?('Y')%>
+            <%= link_to(data[:name],{:controller=>"ndm/dev_managements",:action=>"edit",:id=>data[:id]}) %>
+        <% else %>
+            <%= data[:name] %>
+        <% end %>
     <% end %>
     <% builder.column(:description,{:title=>"Description"})%>
     <% builder.column(:priority_name,{:title=>"Priority", :width => "50px"})%>
-    <% builder.column(:current_status,{:title=>"Current Status", :width => "150px"})%>
-    <% builder.column(:type_name,{:title=>"Type", :width => "80px", :phase => "123"})%>
-    <% builder.column(:method_name, {:title=>"Method", :width => "80px"})%>
-    <% builder.column(:dev_difficulty_name,{:title=>"Difficulty", :width => "80px"})%>
-    <% builder.column(:id, {:title => "Phase", :width => "240px"}) do |data| %>
+    <% builder.column(:dev_status,{:title=>"Status", :width => "120px"})%>
+    <% builder.column(:type_name,{:title=>"M./T./D.", :width => "80px"}) do |data|%>
+        <%= data[:method_name]%><br>
+        <%= data[:type_name]%><br>
+        <%= data[:dev_difficulty_name]%>
+    <% end %>
+    <% builder.column(:status_code, {:title => "Phase", :width => "240px"}) do |data| %>
         <table class="table-icon" style="vertical-align: top;">
           <tr>
             <td class="vt" style="vertical-align: top;">

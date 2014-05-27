@@ -7,6 +7,8 @@ Rails.application.routes.draw do
         get "edit_phase_sequence"
         put "update_phase_sequence"
         post "sindex"
+        get "phase_edit"
+        put "phase_update"
       end
     end
 
@@ -25,6 +27,11 @@ Rails.application.routes.draw do
     resources :projects do
       collection do
         get "get_data"
+        get "get_available_people_data"
+        post "add_people"
+        get "get_member_data"
+        post "delete_people"
+        get "get_owned_members_data"
       end
     end
   end

@@ -3,7 +3,6 @@
         <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:class => "action-link"}) %>
     <% end %>
     <% builder.column(:name,{:title=>"Name", :width => "250px"}) do |data| %>
-        <% puts("++++++++++++++++++++++++++++++++++++++++" + data.to_json)%>
         <%= link_to(data[:name],{:controller=>"ndm/projects",:action=>"show",:id=>data[:id]}) %>
     <% end %>
     <% builder.column(:description,{:title=>"Description"})%>

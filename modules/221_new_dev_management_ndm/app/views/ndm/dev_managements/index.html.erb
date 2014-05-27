@@ -179,6 +179,93 @@
 <div class="page-block">
   <table class="page-block-header"><tr>
     <td class="page-block-title">
+      <h2 class="block-title">Project</h2>
+    </td>
+    <td class="page-block-button">
+
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="sub-page-block">
+      <div class="sub-page-block-body">
+        <%= form_tag({:action=> "sindex"},{:id=>"search_index",:name=>"search_index"}) do%>
+            <table style = "width:100%">
+              <tr>
+                <td>
+                  Project
+                </td>
+                <td>
+                  No.
+                </td>
+                <td>
+                  Name
+                </td>
+                <td>
+                  Type
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <%= select_tag_multiple(
+                              "project_params[project_id][]",
+                              options_for_select(get_project_list, @project_params.present? ? @project_params[:project_id] : nil),
+                              "project_params[project_mul]",
+                              @project_params.present? && @project_params[:project_mul] ? @project_params[:project_mul] : 'N',
+                              {:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
+                               :blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---", :style => "width:210px;"} )%>
+                </td>
+                <td>
+                  <%= text_field_tag "project_params[no]", @project_params.present?&&@project_params[:no].present? ? @project_params[:no] : nil%>
+                </td>
+                <td>
+                  <%= text_field_tag "project_params[name]", @project_params.present?&&@project_params[:name].present? ? @project_params[:name] : nil%>
+                </td>
+                <td>
+                  <%= text_field_tag "project_params[dev_type]", @project_params.present?&&@project_params[:dev_type].present? ? @project_params[:dev_type] : nil%>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Priority
+                </td>
+                <td>
+                  Status
+                </td>
+                <td>
+                  Method
+                </td>
+                <td>
+                  Difficulty
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <%= text_field_tag "project_params[priority]", @project_params.present?&&@project_params[:priority].present? ? @project_params[:priority] : nil%>
+                </td>
+                <td>
+                  <%= text_field_tag "project_params[dev_status]", @project_params.present?&&@project_params[:dev_status].present? ? @project_params[:dev_status] : nil%>
+                </td>
+                <td>
+                  <%= text_field_tag "project_params[method]", @project_params.present?&&@project_params[:method].present? ? @project_params[:method] : nil%>
+                </td>
+                <td>
+                  <%= text_field_tag "project_params[dev_difficulty]", @project_params.present?&&@project_params[:dev_difficulty].present? ? @project_params[:dev_difficulty] : nil%>
+                </td>
+              </tr>
+              <tr>
+                <td colspan = 4>
+                  <%= link_submit("Search",{:class => "btn btn-primary"}) %>
+                </td>
+              </tr>
+            </table>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
       <h2 class="block-title">Development Management</h2>
     </td>
     <td class="page-block-button">
@@ -191,20 +278,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("dev_managements",{:action=>"get_data"},[],{:search_box => "searchBox", :view_filter => true,:paginator_box=>"paginatorBox",:scroll=>"x"})%>
+    <%= datatable("dev_managements",{:action=>"get_data", :project_params => @project_params.present? ? @project_params : nil},[],{:search_box => "searchBox", :view_filter => true,:paginator_box=>"paginatorBox",:scroll=>"x"})%>
   </div>
 </div>
-<script type="text/javascript">
-//    $(document).ready(function(){
-//        $(".showorhide").bind("click", function(){
-//            if ($(this).hasClass("active"))
-//            {
-//                $(this).removeClass("active")
-//            }
-//            else
-//            {
-//                $(this).addClass("active")
-//            }
-//        });
-//    });
-</script>

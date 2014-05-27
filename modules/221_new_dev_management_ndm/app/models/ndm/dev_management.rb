@@ -38,6 +38,24 @@ class Ndm::DevManagement< ActiveRecord::Base
         select("v#{status}.meaning #{status}_name")
   }
 
+  scope :with_project_relation, lambda{|current_person_id|
+    joins("LEFT OUTER JOIN #{Ndm::ProjectPerson.table_name} npp ON npp.project_id = #{table_name}.project AND npp.person_id = '#{current_person_id}'").
+    joins("LEFT OUTER JOIN #{Ndm::Project.table_name} np ON np.id = #{table_name}.project").
+        select("npp.vi vi, npp.ed ed, npp.ad ad, npp.re re, npp.im im").
+        select("np.name project_name")
+  }
 
+  def update_dev_status
+    dev_status = "W MD020"
+    dev_status_array =     [["gd", "W MD050"],["fd", "W MD050 Review"],["fdr", "W MD070"],
+                            ["td", "W Coding"],["co", "W Testing"],["te", "W MD120"],["si", "W Inspect"],
+                            ["at", "Accepted"],["go", "Golive"]]
+
+    dev_status_array.each do |s|
+      dev_status = s[1] if self[(s[0] + "_status").to_sym].eql?("NDM_PHASE_STATUS_COMPLETED")
+    end
+
+    self.update_attribute(:dev_status, dev_status)
+  end
 
 end

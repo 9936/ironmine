@@ -7,4 +7,7 @@ class Ndm::ProjectPerson< ActiveRecord::Base
 
   belongs_to :person, :class_name => "Irm::Person"
   belongs_to :project, :class_name => "Ndm::Project"
+
+  attr_accessor :temp_id_string
+
 end
