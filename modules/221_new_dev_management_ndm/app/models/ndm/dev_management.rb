@@ -45,6 +45,9 @@ class Ndm::DevManagement< ActiveRecord::Base
         select("np.name project_name")
   }
 
+  scope :with_member, lambda{|current_person_id|
+    joins(",#{Ndm::ProjectPerson.table_name} npp2").where("npp2.person_id = ?", current_person_id).where("npp2.project_id = #{table_name}.project")
+  }
   def update_dev_status
     dev_status = "W MD020"
     dev_status_array =     [["gd", "W MD050"],["fd", "W MD050 Review"],["fdr", "W MD070"],

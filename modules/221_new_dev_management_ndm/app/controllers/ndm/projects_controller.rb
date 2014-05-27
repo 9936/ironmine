@@ -141,6 +141,7 @@ class Ndm::ProjectsController < ApplicationController
         joins(",#{Irm::Person.table_name} ip").
         where("pp.person_id = ip.id").
         where("pp.project_id = #{Ndm::Project.table_name}.id").
+        where("pp.project_id = ?", params[:project_id]).
         select("pp.vi vi, pp.ed ed, pp.re re,  pp.ad ad, pp.im im").
         select("ip.id id,ip.full_name person_name, ip.email_address email_address")
 

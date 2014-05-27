@@ -114,8 +114,9 @@ class Ndm::DevManagementsController < ApplicationController
         with_status(language, "te_status").
         with_status(language, "si_status").
         with_status(language, "at_status").
-        with_status(language, "go_status").
-        select_all.order("(no + 0) ASC")
+        with_status(language, "go_status").with_member(Irm::Person.current.id).
+        select_all.
+        order("(no + 0) ASC")
     dev_management_scope = dev_management_scope.
         where("#{Ndm::DevManagement.table_name}.project IN (?)",
               params[:project_params][:project_id]) if params[:project_params] && params[:project_params][:project_id].first.present?
