@@ -1,6 +1,6 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
     <% builder.column(:id, {:title => "OP.", :width => "30"}) do |data|%>
-        <% if data[:ed].eql?("Y")%>
+        <% if data[:re].eql?("Y")%>
             <%= bootstrap_icons("icon-trash",t(:remove),{:controller=>"ndm/dev_managements",:action=>"destroy",:id=> data[:id]},:confirm => t(:label_are_you_sure) ,:method => :delete) %>
         <% end %>
     <% end %>
