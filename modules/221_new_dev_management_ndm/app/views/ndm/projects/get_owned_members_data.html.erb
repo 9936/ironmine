@@ -1,6 +1,7 @@
 <%=datatable_view({:columns=>[:id, :vi, :ed, :re, :ad, :im,:person_name,:email_address,:organization_name],:count=>@count,:datas=>@datas}) do |builder|%>
     <% builder.column(:id,{:title =>t(:operation), :width => "120px"}) do |data|%>
-        <%= link_to "Edit Permission", "javascript:void(0);", :class => "action-link", :onclick => "showProfileDialog('#{data[:system_profile_id]}', '#{data[:system_member_id]}', '#{params[:external_system_id]}');" %>
+        <%= link_to "Edit Permission", "javascript:void(0);", :class => "action-link",
+                    :onclick => "showProfileDialog('#{data[:vi]}', '#{data[:ed]}', '#{data[:re]}', '#{data[:ad]}', '#{data[:im]}','#{data[:ppid]}');" %>
     <% end %>
     <% builder.column(:vi,{:title=> "View", :width => "50px"}) do |data|%>
         <%= check_img(data[:vi]) %>

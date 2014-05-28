@@ -166,11 +166,13 @@ Fwk::MenuAndFunctionManager.map do |map|
       :children => {
           :dem_project => {
               :en => {:name => "Projects", :description => "Projects"},
-              :zh => {:name => "阶段模板", :description => "阶段模板"},
+              :zh => {:name => "Projects", :description => "Projects"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "ndm/projects" => ["index", "new", "create", "edit", "update", "show", "get_data", "destroy"]
+              "ndm/projects" => ["index", "new", "create", "edit", "update", "show", "get_available_people_data",
+                                 "add_people","get_member_data","delete_people",
+                                 "get_data", "destroy", "update_project_people", "get_owned_members_data", ]
           }
       }
   }

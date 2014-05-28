@@ -143,6 +143,7 @@ class Ndm::ProjectsController < ApplicationController
         where("pp.project_id = #{Ndm::Project.table_name}.id").
         where("pp.project_id = ?", params[:project_id]).
         select("pp.vi vi, pp.ed ed, pp.re re,  pp.ad ad, pp.im im").
+        select("pp.id ppid").
         select("ip.id id,ip.full_name person_name, ip.email_address email_address")
 
     members, count = paginate(member_scope)
@@ -154,4 +155,15 @@ class Ndm::ProjectsController < ApplicationController
     end
   end
 
+  def update_project_people
+    project_person = Ndm::ProjectPerson.find(params[:id])
+    project_person.vi = params[:vi] ? 'Y' : 'N'
+    project_person.ed = params[:ed] ? 'Y' : 'N'
+    project_person.ad = params[:ad] ? 'Y' : 'N'
+    project_person.re = params[:re] ? 'Y' : 'N'
+    project_person.im = params[:im] ? 'Y' : 'N'
+    project_person.save
+
+    redirect_to params[:redirect_to] if params[:redirect_to]
+  end
 end

@@ -32,6 +32,7 @@ Rails.application.routes.draw do
         get "get_member_data"
         post "delete_people"
         get "get_owned_members_data"
+        post "update_project_people"
       end
     end
   end
