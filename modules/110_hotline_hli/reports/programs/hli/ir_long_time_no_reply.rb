@@ -4,7 +4,7 @@ class Hli::IrLongTimeNoReply < Irm::ReportManager::ReportBase
     params||={}
 
     statis = Icm::IncidentRequest.
-        select_all.enabled.with_workloads.
+        select_all.enabled.
         with_requested_by(I18n.locale).
         with_incident_status(I18n.locale).
         with_supporter(I18n.locale).
@@ -38,7 +38,7 @@ class Hli::IrLongTimeNoReply < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_title),
                I18n.t(:label_icm_incident_request_summary),
                I18n.t(:label_icm_incident_request_incident_status_code),
-               I18n.t(:label_report_request_workload)
+               "持续时间"
                #I18n.t(:label_report_incident_request_journal)
                ]
 
@@ -55,7 +55,8 @@ class Hli::IrLongTimeNoReply < Irm::ReportManager::ReportBase
       data[8] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
       #data[8] = ""
       data[9] = s[:incident_status_name]
-      data[10] = s[:total_processing_time]
+      #data[10] = s[:total_processing_time]
+      data[10] = (Time.now - DateTime.parse(s[:last_response_date])).days
       #s.concat_journals
 #      journals = Icm::IncidentJournal.
 #          select("ps.full_name reply_name, #{Icm::IncidentJournal.table_name}.message_body").
