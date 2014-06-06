@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Hli::IrLongTimeNoReply < Irm::ReportManager::ReportBase
   def data(params={})
     close_status = Icm::IncidentStatus.where("close_flag = ?", "Y").collect(&:id)
@@ -8,7 +9,7 @@ class Hli::IrLongTimeNoReply < Irm::ReportManager::ReportBase
         with_requested_by(I18n.locale).
         with_incident_status(I18n.locale).
         with_supporter(I18n.locale).
-        with_priority(I18n.locale).
+        with_urgence(I18n.locale).
         where("#{Icm::IncidentRequest.table_name}.incident_status_id NOT IN (?)", close_status).
         with_external_system(I18n.locale).order("(#{Icm::IncidentRequest.table_name}.last_response_date + 0) DESC")
 
@@ -32,7 +33,7 @@ class Hli::IrLongTimeNoReply < Irm::ReportManager::ReportBase
                I18n.t(:label_project),
                I18n.t(:label_reporter),
                I18n.t(:label_report_incident_request_support),
-               I18n.t(:label_icm_incident_request_priority),
+               I18n.t(:label_icm_incident_request_urgence),
                I18n.t(:label_report_request_submit_date),
                I18n.t(:label_report_request_last_updated),
                I18n.t(:label_icm_incident_request_title),
@@ -48,7 +49,7 @@ class Hli::IrLongTimeNoReply < Irm::ReportManager::ReportBase
       data[1] = s[:external_system_name]
       data[2] = s[:requested_name]
       data[3] = s[:supporter_name]
-      data[4] = s[:priority_name]
+      data[4] = s[:urgence_name]
       data[5] = s[:submitted_date].strftime('%F %T')
       data[6] = s[:last_response_date].strftime('%F %T')
       data[7] = s[:title]
@@ -56,7 +57,7 @@ class Hli::IrLongTimeNoReply < Irm::ReportManager::ReportBase
       #data[8] = ""
       data[9] = s[:incident_status_name]
       #data[10] = s[:total_processing_time]
-      data[10] = (Time.now - DateTime.parse(s[:last_response_date])).days
+      data[10] = ((Time.now - s[:last_response_date])/(24*60*60)).round(1)
       #s.concat_journals
 #      journals = Icm::IncidentJournal.
 #          select("ps.full_name reply_name, #{Icm::IncidentJournal.table_name}.message_body").
