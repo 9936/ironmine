@@ -7,7 +7,7 @@ class Hli::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
         with_category(I18n.locale).
         with_requested_by(I18n.locale).
         with_incident_status(I18n.locale).
-        with_contact.
+        with_contact.with_close_reason(I18n.locale).with_close_reply.
         with_supporter(I18n.locale).
         with_priority(I18n.locale).
         with_external_system(I18n.locale).order("(#{Icm::IncidentRequest.table_name}.request_number + 0) ASC")
@@ -49,10 +49,10 @@ class Hli::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_contact_way),
                I18n.t(:label_icm_incident_request_client_info),
                I18n.t(:label_icm_incident_request_incident_status_code),
-               I18n.t(:label_report_request_workload)
+               I18n.t(:label_report_request_workload), "Close Reason", "Close Message"
                ]
     headers << I18n.t(:label_report_incident_request_journal) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
-    array_size = 17
+    array_size = 19
     array_size = array_size + 1 if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
     statis.each do |s|
       data = Array.new(array_size)
@@ -73,11 +73,15 @@ class Hli::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
       data[14] = s[:client_info]
       data[15] = s[:incident_status_name]
       data[16] = s[:total_processing_time]
+
+      data[17] = s[:close_reason_name]
+      data[18] = s[:close_message]
+
       if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
         messages = ''
         messages << s.concat_journals_with_text
         messages = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(messages,""))
-        data[17] = messages
+        data[19] = messages
       end
       datas << data
     end

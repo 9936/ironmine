@@ -270,6 +270,11 @@ class Icm::IncidentRequest < ActiveRecord::Base
         select(" #{Icm::CloseReason.view_name}.name close_reason_name, #{Icm::CloseReason.view_name}.description close_reason_description")
   }
 
+  scope :with_close_reply, lambda{
+    joins(" LEFT OUTER JOIN #{Icm::IncidentJournal.table_name} icj ON icj.reply_type = 'CLOSE' AND icj.incident_request_id = #{table_name}.id").
+        select(" icj.message_body close_message")
+  }
+
   acts_as_watchable
   def self.list_all
     select_all.
