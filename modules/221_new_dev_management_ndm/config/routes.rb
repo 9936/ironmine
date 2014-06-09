@@ -9,6 +9,8 @@ Rails.application.routes.draw do
         post "sindex"
         get "phase_edit"
         put "phase_update"
+        get "import_excel"
+        post "import_excel_create"
       end
     end
 

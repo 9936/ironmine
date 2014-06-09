@@ -234,8 +234,15 @@ Fwk::MenuAndFunctionManager.map do |map|
                                         "show", "get_data", "destroy", "create_phase", "edit_phase_sequence", "update_phase_sequence"],
               "ndm/dev_phases" => ["destroy"]
 
+          },
+          :dev_management_excel => {
+              :en => {:name => "Import Excel", :description => "Import Excel"},
+              :zh => {:name => "Import Excel", :description => "Import Excel"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "ndm/dev_managements" => ["import_excel", "import_excel_create"]
           }
-
       }
   }
   #=================================END:Sales=================================
