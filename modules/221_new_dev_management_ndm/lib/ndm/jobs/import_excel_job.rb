@@ -39,14 +39,14 @@ module Ndm
               where("lt.lookup_value_id = #{Irm::LookupValue.table_name}.id").
               where("lt.language = ?", "zh").
               query_by_lookup_type("NDM_TYPE").
-              where("lt.meaning = ?", i.method).
+              where("lt.meaning = ?", i.dev_type).
               select("lt.meaning")
           dev_difficulty_lookup = Irm::LookupValue.select_all.
               joins(",#{Irm::LookupValuesTl.table_name} lt").
               where("lt.lookup_value_id = #{Irm::LookupValue.table_name}.id").
               where("lt.language = ?", "zh").
               query_by_lookup_type("NDM_DIFFICULTY").
-              where("lt.meaning = ?", i.method).
+              where("lt.meaning = ?", i.dev_defficulty).
               select("lt.meaning")
           #See if management exists
           ex_list = Ndm::DevManagement.where("branch = ?", branch_lookup.first.lookup_code).where("no = ?", i.no)
