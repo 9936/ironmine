@@ -13,6 +13,13 @@ module Ndm::DevManagementsHelper
         collect{|lv| [lv[:meaning], lv[:lookup_code]]}
   end
 
+  def ndm_get_branch_list
+    Irm::LookupValue.
+        get_lookup_value("NDM_BRANCH").
+        enabled.
+        collect{|lv| [lv[:meaning], lv[:lookup_code]]}
+  end
+
   def ndm_get_phase_list
     [["gd", "General Design"],["fd", "Functional Design"],["fdr", "Functional Design Review"],
      ["td", "Technical Design"],["co", "Coding"],["te", "Testing"],["si", "Setups&Installation"],

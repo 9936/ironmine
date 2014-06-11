@@ -37,7 +37,7 @@ class Ndm::DevManagementsController < ApplicationController
   end
 
   def edit
-    @dev_management = Ndm::DevManagement.find(params[:id])
+    @dev_management = Ndm::DevManagement.with_branch(I18n.locale).select_all.find(params[:id])
     #@dev_phases = Ndm::DevPhase.with_template.
     #    where("dev_management_id = ?", @dev_management.id).
     #    order("display_sequence ASC, created_at ASC")
@@ -49,7 +49,7 @@ class Ndm::DevManagementsController < ApplicationController
 
   def create
     @dev_management = Ndm::DevManagement.new(params[:ndm_dev_management])
-    @dev_management.no = Irm::Sequence.nextval(Ndm::DevManagement.name)
+    @dev_management.no = Irm::Sequence.nextval(@dev_management.branch)
     respond_to do |format|
       if @dev_management.save
         @dev_management.update_dev_status
@@ -60,7 +60,7 @@ class Ndm::DevManagementsController < ApplicationController
           format.html { redirect_to({:action => "edit", :id => @dev_management.id}, :notice => t(:successfully_updated)) }
         end
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new",:layout => "application_full" }
       end
     end
   end
@@ -82,7 +82,7 @@ class Ndm::DevManagementsController < ApplicationController
           format.html { redirect_to({:action => "edit", :id => params[:id]}, :notice => t(:successfully_updated)) }
         end
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => "edit",:layout => "application_full" }
       end
     end
   end
@@ -105,7 +105,7 @@ class Ndm::DevManagementsController < ApplicationController
         with_project_relation(Irm::Person.current.id).
         with_dev_difficulty(language).
         with_dev_type(language).
-        with_priority(language).
+        with_priority(language).with_branch(language).
         with_status(language, "gd_status").
         with_status(language, "fd_status").
         with_status(language, "fdr_status").
@@ -122,7 +122,7 @@ class Ndm::DevManagementsController < ApplicationController
               params[:project_params][:project_id]) if params[:project_params] && params[:project_params][:project_id].first.present?
 
     dev_management_scope = dev_management_scope.
-        where("#{Ndm::DevManagement.table_name}.no LIKE ?",
+        where("CONCAT(vbranch.meaning, '-', #{Ndm::DevManagement.table_name}.no) LIKE ?",
               '%' + params[:project_params][:no] + '%') if params[:project_params] && params[:project_params][:no].present?
 
     dev_management_scope = dev_management_scope.
@@ -240,168 +240,232 @@ class Ndm::DevManagementsController < ApplicationController
   end
 
   def import_excel
+    @dev_management = Ndm::DevManagement.new
 
+    respond_to do |format|
+      format.html { render :layout => "application_full"}
+    end
   end
 
   def import_excel_create
     #从xls导入数据
     #if params[:files]&&params[:files].any?
+
+    @project = Ndm::Project.find(params[:ndm_dev_management][:project])
+
     files=[]
-    params[:files].values.each do |file_value|
-      if file_value[:file].present?
-        files << Irm::AttachmentVersion.create({:source_id => 0,
-                                                :source_type => self.class.name,
-                                                :data => file_value[:file],
-                                                :description => file_value[:description]})
-      end
+    if params[:file].present?
+      files << Irm::AttachmentVersion.create({:source_id => @project.id,
+                                              :source_type => Ndm::Project.name,
+                                              :data => params[:file],
+                                              :description => nil})
     end
-    error_log=parse_from_xls(files)
+    error_log=parse_from_xls(files, @project.id)
     respond_to do |format|
       if error_log.blank?
-        format.html { redirect_to :controller => "yin/agr_coops", :action => "gl_journal_imp", :tab => "tab6", :error => 6,:notice => t(:label_yin_export_from_xls_success) }
+        if params[:save_back]
+          format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        elsif params[:save_continue]
+          format.html { redirect_to({:action => "import_excel"}, :notice => t(:successfully_updated)) }
+        end
       else
         #不符合凭证模板
         if error_log.keys.include?("mismatch")
           show_log=error_log.values.join("")
         else #存在为空的必输项
-          show_log=t("label_yin_export_from_xls_failed_first")
-          show_log<<error_log.keys.join(",")
-          show_log<<t("label_yin_export_from_xls_failed_second")
+          show_log= "ERROR 1"
+          show_log << error_log.keys.join(",")
+          show_log<< "ERROR 2"
         end
-        format.html { redirect_to :controller => "yin/agr_coops", :action => "gl_journal_imp", :tab => "tab6", :error => 6, :notice => show_log }
+        puts("+++++++++++++++++++++++++++ error log" + error_log.to_json)
+        @dev_management = Ndm::DevManagement.new
+        format.html { render :action => "import_excel",:layout => "application_full" }
       end
     end
   end
 
   private
-  def parse_from_xls(files)
+  def parse_from_xls(files, project_id)
     error_log={}
+    ndm_project = Ndm::Project.where("id = ?", project_id)
+    return error_log["project_error"] = "Project Error" unless ndm_project.any?
+
     #读取xls内容
-    files.each do |file|
-      attachment = Irm::AttachmentVersion.find(file.id)
-      xls_file_path = attachment.data.path
-      return unless File.exists?(xls_file_path)
-      require 'spreadsheet'
-      book = Spreadsheet::open(xls_file_path)
-      sheet1 = book.worksheet 0
-      title_seq={}
-      error_journal_number=""
-      sheet1.each_with_index do |row,row_num|
-        #获取表头顺序
-        if row_num==0
-          row.each_with_index do |d, index|
-            if d.eql?(t("label_yin_gl_sob"))||d.eql?(t("label_yin_gl_sob_alias"))
-              title_seq["set_of_book"]=index
-            elsif d.eql?(t("label_yin_gl_journal_no"))
-              title_seq["journal_number"]=index
-            elsif d.eql?(t("label_yin_gl_balance_method"))
-              title_seq["balance_method"]=index
-            elsif d.eql?(t("label_yin_gl_project"))
-              title_seq["project"]=index
-            elsif d.eql?(t("label_yin_gl_who_made"))
-              title_seq["who_made"]=index
-            elsif d.eql?(t("label_yin_gl_accountant"))
-              title_seq["accountant"]=index
-            elsif d.eql?(t("label_yin_gl_business_date"))
-              title_seq["business_date"]=index
-            elsif d.eql?(t("label_yin_gl_made_date"))
-              title_seq["made_date"]=index
-            elsif d.eql?(t("label_yin_gl_employee"))
-              title_seq["employee"]=index
-            elsif d.eql?(t("label_yin_exchange_journal_group_id"))
-              title_seq["coop_id"]=index
-            elsif d.eql?(t("label_yin_exchange_journal_company"))
-              title_seq["company"]=index
-            elsif d.eql?(t("label_yin_gl_approval"))
-              title_seq["who_approval"]=index
-            elsif d.eql?(t("label_yin_gl_line_description"))
-              title_seq["description"]=index
-            elsif d.eql?(t("label_yin_gl_line_department"))
-              title_seq["department"]=index
-            elsif d.eql?(t("label_yin_gl_line_amount_cr"))
-              title_seq["amount_cr"]=index
-            elsif d.eql?(t("label_yin_gl_line_amount_dr"))
-              title_seq["amount_dr"]=index
-            end
-          end
-          #不符合要求模板不予导入
-          if title_seq.size!=16
-            error_log["mismatch"]=t("label_yin_export_from_xls_failed_mismatch")
-            return error_log
-          end
-          #创建Yin::GlJournalHeader与Yin::GlJournalLine
-        else
-          #若有保存失败凭证行,绕过该凭证所有行
-          next if error_journal_number.eql?(row[title_seq["journal_number"]])
-          #凭证字号唯一
-          journal_header=Yin::GlJournalHeader.where(:journal_number => row[title_seq["journal_number"]]).first
-          if journal_header
-            if row[title_seq["amount_cr"]] || row[title_seq["amount_dr"]]
-              gl_journal_line = Yin::GlJournalLine.new
-              gl_journal_line.line_no=journal_header.gl_journal_lines.size+1
-              gl_journal_line.gl_header_id=journal_header.id
-              gl_journal_line["description"]=row[title_seq["description"]]
-              gl_journal_line["department"]=row[title_seq["department"]]
-              gl_journal_line["amount_cr"]=row[title_seq["amount_cr"]].to_f.round(2) unless row[title_seq["amount_cr"]].nil?
-              gl_journal_line["amount_dr"]=row[title_seq["amount_dr"]].to_f.round(2) unless row[title_seq["amount_dr"]].nil?
-              unless gl_journal_line.save
-                error_journal_number=journal_header.journal_number
-                journal_header.destroy
-                Yin::GlJournalLine.where("gl_header_id" => journal_header.id).destroy_all
-                error_log[error_journal_number]=gl_journal_line.errors.messages
-              end
-            end
-          else
-            gl_journal_header=Yin::GlJournalHeader.new
-            if Irm::LookupValue.get_lookup_value("GL_SET_OF_BOOKS").query_by_lookup_meaning(row[title_seq["set_of_book"]]).blank?
-              gl_journal_header["set_of_book"]= row[title_seq["set_of_book"]]
-            else
-              gl_journal_header["set_of_book"]= Irm::LookupValue.get_lookup_value("GL_SET_OF_BOOKS").query_by_lookup_meaning(row[title_seq["set_of_book"]]).first.lookup_code
-            end
+    attachment = Irm::AttachmentVersion.find(files.first.id)
+    xls_file_path = attachment.data.path
+    return unless File.exists?(xls_file_path)
+    puts("++++++++++++++++++++++++++++++++++++++++++" + xls_file_path)
+    require 'spreadsheet'
+    book = Spreadsheet::open(xls_file_path)
+    sheet1 = book.worksheet 0
+    title_seq={}
+    sheet1.each_with_index do |row,row_num|
+      #获取表头顺序
+      if row_num==3
+        row.each_with_index do |d, index|
+          if d.eql?("Branch")
+            title_seq["branch"]=index
+          elsif d.eql?("Module")
+            title_seq["module"]=index
+          elsif d.eql?("No")
+            title_seq["no"]=index
+          elsif d.eql?("Gap No.")
+            title_seq["gap_no"]=index
+          elsif d.eql?("Name")
+            title_seq["name"]=index
+          elsif d.eql?("Description")
+            title_seq["description"]=index
+          elsif d.eql?("Priority")
+            title_seq["priority"]=index
+          elsif d.eql?("Current Status")
+            title_seq["current_status"]=index
+          elsif d.eql?("Type")
+            title_seq["type"]=index
+          elsif d.eql?("Method")
+            title_seq["method"]=index
+          elsif d.eql?("Difficulty")
+            title_seq["difficulty"]=index
 
-            gl_journal_header["journal_number"]=row[title_seq["journal_number"]]
+          elsif d.eql?("GD Owner")
+            title_seq["gd_owner"]=index
+          elsif d.eql?("GD Status")
+            title_seq["gd_status"]=index
+          elsif d.eql?("GD Plan Start Date")
+            title_seq["gd_plan_start"]=index
+          elsif d.eql?("GD Plan End Date")
+            title_seq["gd_plan_end"]=index
 
-            if Irm::LookupValue.get_lookup_value("BALANCE_METHOD").query_by_lookup_meaning(row[title_seq["balance_method"]]).blank?
-              gl_journal_header["balance_method"]=row[title_seq["balance_method"]]
-            else
-              gl_journal_header["balance_method"]= Irm::LookupValue.get_lookup_value("BALANCE_METHOD").query_by_lookup_meaning(row[title_seq["balance_method"]]).first.lookup_code
-            end
-            gl_journal_header["project"]=row[title_seq["project"]]
-            gl_journal_header["who_made"]=row[title_seq["who_made"]]
-            gl_journal_header["accountant"]=row[title_seq["accountant"]]
-            gl_journal_header["business_date"]=row[title_seq["business_date"]]
-            gl_journal_header["made_date"]=row[title_seq["made_date"]]
-            gl_journal_header["employee"]=row[title_seq["employee"]]
-            #转为合作社id
-            gl_journal_header["coop_id"]=
-                Irm::Group.multilingual.query_by_name(row[title_seq["coop_id"]]).enabled.first.id unless row[title_seq["coop_id"]].nil?
-            gl_journal_header["company"]=row[title_seq["company"]]
-            gl_journal_header["who_approval"]=row[title_seq["who_approval"]]
-            #凭证头保存成功,添加凭证行
-            if gl_journal_header.save
-              if row[title_seq["amount_cr"]] || row[title_seq["amount_dr"]]
-                gl_journal_line = Yin::GlJournalLine.new
-                gl_journal_line.line_no=gl_journal_header.gl_journal_lines.size+1
-                gl_journal_line.gl_header_id=gl_journal_header.id
-                gl_journal_line["description"]=row[title_seq["description"]]
-                gl_journal_line["department"]=row[title_seq["department"]]
-                gl_journal_line["amount_cr"]=row[title_seq["amount_cr"]].to_f.round(2) unless row[title_seq["amount_cr"]].nil?
-                gl_journal_line["amount_dr"]=row[title_seq["amount_dr"]].to_f.round(2) unless row[title_seq["amount_dr"]].nil?
-                #行保存失败,删除该凭证头和其他行
-                unless gl_journal_line.save
-                  error_journal_number=gl_journal_header.journal_number
-                  gl_journal_header.destroy
-                  Yin::GlJournalLine.where("gl_header_id" => gl_journal_header.id).destroy_all
-                  error_log[error_journal_number]=gl_journal_line.errors.messages
-                end
-              else
-                error_log[error_journal_number]=gl_journal_line.errors.messages
-              end
-            end
+          elsif d.eql?("FD Owner")
+            title_seq["fd_owner"]=index
+          elsif d.eql?("FD Status")
+            title_seq["fd_status"]=index
+          elsif d.eql?("FD Plan Start Date")
+            title_seq["fd_plan_start"]=index
+          elsif d.eql?("FD Plan End Date")
+            title_seq["fd_plan_end"]=index
+
+          elsif d.eql?("FDR Owner")
+            title_seq["fdr_owner"]=index
+          elsif d.eql?("FDR Status")
+            title_seq["fdr_status"]=index
+          elsif d.eql?("FDR Plan End Date")
+            title_seq["fdr_plan_end"]=index
+
+          elsif d.eql?("TD Owner")
+            title_seq["td_owner"]=index
+          elsif d.eql?("TD Status")
+            title_seq["td_status"]=index
+          elsif d.eql?("TD Plan End Date")
+          title_seq["td_plan_end"]=index
+
+          elsif d.eql?("CO Owner")
+            title_seq["co_owner"]=index
+          elsif d.eql?("CO Status")
+            title_seq["co_status"]=index
+          elsif d.eql?("CO Plan End Date")
+            title_seq["co_plan_end"]=index
+
+          elsif d.eql?("TE Owner")
+            title_seq["te_owner"]=index
+          elsif d.eql?("TE Status")
+            title_seq["te_status"]=index
+          elsif d.eql?("TE Plan End Date")
+            title_seq["te_plan_end"]=index
+
+          elsif d.eql?("SI Owner")
+            title_seq["si_owner"]=index
+          elsif d.eql?("SI Status")
+            title_seq["si_status"]=index
+          elsif d.eql?("SI Plan End Date")
+            title_seq["si_plan_end"]=index
+
+          elsif d.eql?("AT Owner")
+            title_seq["at_owner"]=index
+          elsif d.eql?("AT Status")
+            title_seq["at_status"]=index
+          elsif d.eql?("AT Plan End Date")
+            title_seq["at_plan_end"]=index
+
+          elsif d.eql?("GO Owner")
+            title_seq["go_owner"]=index
+          elsif d.eql?("GO Status")
+            title_seq["go_status"]=index
+          elsif d.eql?("GO Plan End Date")
+            title_seq["go_plan_end"]=index
           end
+          puts("++++++++++++++++++++++++++++++++++++++++++ title seq" + title_seq.to_json)
         end
+        #不符合要求模板不予导入
+        if title_seq.size != 40
+          puts("++++++++++++++++++++++++++++++++++++++++++ title size" + title_seq.size.to_s)
+          error_log["mismatch"] = "Excel Template Mismatch"
+          return error_log
+        end
+      elsif row_num > 3
+        puts("+++++++++++++++++++++++++++++=1")
+        #import data to tmp table
+        break if row[title_seq["module"]].eql?("END")
+        puts("+++++++++++++++++++++++++++++=2")
+        next if row[title_seq["gap_no"]].blank?
+        puts("+++++++++++++++++++++++++++++=3")
+        tdm = Ndm::TmpDevManagement.new({
+                                     :project => project_id,
+                                     :no => row[title_seq["gap_no"]].to_i,
+                                     :name => row[title_seq["name"]],
+                                     :branch => row[title_seq["branch"]],
+                                     :description => row[title_seq["description"]],
+                                     :priority => row[title_seq["priority"]],
+                                     :dev_status => row[title_seq["current_status"]],
+                                     :dev_type => row[title_seq["type"]],
+                                     :method => row[title_seq["method"]],
+                                     :module => row[title_seq["module"]],
+                                     :dev_difficulty => row[title_seq["difficulty"]],
+
+                                     :gd_owner => row[title_seq["gd_owner"]],
+                                     :gd_status => row[title_seq["gd_status"]],
+                                     :gd_plan_start => row[title_seq["gd_plan_start"]],
+                                     :gd_plan_end => row[title_seq["gd_plan_end"]],
+
+                                     :fd_owner => row[title_seq["fd_owner"]],
+                                     :fd_status => row[title_seq["fd_status"]],
+                                     :fd_plan_start => row[title_seq["fd_plan_start"]],
+                                     :fd_plan_end => row[title_seq["fd_plan_end"]],
+
+                                     :fdr_owner => row[title_seq["fdr_owner"]],
+                                     :fdr_status => row[title_seq["fdr_status"]],
+                                     :fdr_plan_end => row[title_seq["fdr_plan_end"]],
+
+                                     :td_owner => row[title_seq["td_owner"]],
+                                     :td_status => row[title_seq["td_status"]],
+                                     :td_plan_end => row[title_seq["td_plan_end"]],
+
+                                     :co_owner => row[title_seq["co_owner"]],
+                                     :co_status => row[title_seq["co_status"]],
+                                     :co_plan_end => row[title_seq["co_plan_end"]],
+
+                                     :te_owner => row[title_seq["te_owner"]],
+                                     :te_status => row[title_seq["te_status"]],
+                                     :te_plan_end => row[title_seq["te_plan_end"]],
+
+                                     :si_owner => row[title_seq["si_owner"]],
+                                     :si_status => row[title_seq["si_status"]],
+                                     :si_plan_end => row[title_seq["si_plan_end"]],
+
+                                     :at_owner => row[title_seq["at_owner"]],
+                                     :at_status => row[title_seq["at_status"]],
+                                     :at_plan_end => row[title_seq["at_plan_end"]],
+
+                                     :go_owner => row[title_seq["go_owner"]],
+                                     :go_status => row[title_seq["go_status"]],
+                                     :go_plan_end => row[title_seq["go_plan_end"]],
+
+                                     :source_id => attachment.id,
+                                     :import_status => 'N'
+                                  })
+        tdm.save
       end
     end
+    Delayed::Job.enqueue(Ndm::Jobs::ImportExcelJob.new(attachment.id))
     error_log
   end
 end

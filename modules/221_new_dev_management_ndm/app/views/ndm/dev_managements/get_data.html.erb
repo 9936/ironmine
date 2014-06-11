@@ -4,15 +4,16 @@
             <%= bootstrap_icons("icon-trash",t(:remove),{:controller=>"ndm/dev_managements",:action=>"destroy",:id=> data[:id]},:confirm => t(:label_are_you_sure) ,:method => :delete) %>
         <% end %>
     <% end %>
-    <% builder.column(:module,{:title=>"Mod.", :width => "40px"})%>
-    <% builder.column(:project_name, {:title => "Project", :width => "120px"})%>
-    <% builder.column(:no,{:title=> "No.", :width => "50px"}) do |data|%>
+    <% builder.column(:no,{:title=> "No.", :width => "70px"}) do |data|%>
         <% if data[:ed].eql?('Y')%>
-            <%= link_to(data[:no],{:controller=>"ndm/dev_managements",:action=>"edit",:id=>data[:id]}) %>
+            <%= link_to("#{data[:branch_name]}-#{data[:no]}",{:controller=>"ndm/dev_managements",:action=>"edit",:id=>data[:id]}) %>
         <% else %>
-            <%= data[:no] %>
+            <%= data[:branch_name]%>-<%= data[:no] %>
         <% end %>
     <% end %>
+    <% builder.column(:module,{:title=>"Mod.", :width => "40px"})%>
+    <% builder.column(:project_name, {:title => "Project", :width => "120px"})%>
+
     <% builder.column(:name,{:title=> "Name", :width => "120px"}) do |data|%>
         <% if data[:ed].eql?('Y')%>
             <%= link_to(data[:name],{:controller=>"ndm/dev_managements",:action=>"edit",:id=>data[:id]}) %>

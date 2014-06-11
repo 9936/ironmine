@@ -7,25 +7,25 @@
       <tr>
         <td class="label-col"><label>No.</label></td>
         <td class="data-col">
-          <%= @dev_management.no %>
+          <%= "#{@dev_management.branch_name}-#{@dev_management.no}" %>
         </td>
       </tr>
       <tr>
         <td class="label-col"><label>Project</label></td>
         <td class="data-col">
-          <%= f.select :project, nullable_options_for_select(get_project_list, @dev_management.project)%>
+          <%= f.select :project, nullable_options_for_select(get_project_list, @dev_management.project), :required => true%>
         </td>
       </tr>
       <tr>
         <td class="label-col"><label>Module</label></td>
         <td class="data-col">
-          <%= f.select :module, nullable_options_for_select(ndm_get_module_list, @dev_management.module)%>
+          <%= f.select :module, nullable_options_for_select(ndm_get_module_list, @dev_management.module), :required => true%>
         </td>
       </tr>
       <tr>
         <td class="label-col"><label>Name</label></td>
         <td class="data-col">
-          <%= f.text_field :name, :style => "width: 300px;"%>
+          <%= f.text_field :name, :style => "width: 300px;", :required => true%>
         </td>
       </tr>
       <tr>

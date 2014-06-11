@@ -8,19 +8,25 @@
       <tr>
         <td class="label-col"><label>Project</label></td>
         <td class="data-col">
-          <%= f.select :project, nullable_options_for_select(get_project_list, nil)%>
+          <%= f.select :project, nullable_options_for_select(get_project_list, nil), :required => true%>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label>Branch</label></td>
+        <td class="data-col">
+          <%= f.select :branch, nullable_options_for_select(ndm_get_branch_list, nil), :required => true%>
         </td>
       </tr>
       <tr>
         <td class="label-col"><label>Module</label></td>
         <td class="data-col">
-          <%= f.select :module, nullable_options_for_select(ndm_get_module_list, nil)%>
+          <%= f.select :module, nullable_options_for_select(ndm_get_module_list, nil), :required => true%>
         </td>
       </tr>
       <tr>
         <td class="label-col"><label>Name</label></td>
         <td class="data-col">
-          <%= f.text_field :name, :style => "width: 300px;"%>
+          <%= f.text_field :name, :style => "width: 300px;", :required => true%>
         </td>
       </tr>
       <tr>

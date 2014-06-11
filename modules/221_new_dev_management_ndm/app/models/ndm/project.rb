@@ -11,4 +11,11 @@ class Ndm::Project < ActiveRecord::Base
   scope :with_member, lambda{|current_person_id|
     joins(",#{Ndm::ProjectPerson.table_name} npp2").where("npp2.person_id = ?", current_person_id).where("npp2.project_id = #{table_name}.id")
   }
+
+  scope :with_importable_member, lambda{|current_person_id|
+    joins(",#{Ndm::ProjectPerson.table_name} npp2").
+        where("npp2.person_id = ?", current_person_id).
+        where("npp2.project_id = #{table_name}.id").
+        where("npp2.im = ?", 'Y')
+  }
 end
