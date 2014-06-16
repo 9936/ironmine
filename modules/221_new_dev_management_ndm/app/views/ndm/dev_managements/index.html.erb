@@ -172,11 +172,23 @@
             $(".switch_show").show();
             $(".expends").removeClass("expand");
         });
+
+        $("#search_form").hide();
+        $(".switch_show_search").live('click', function () {
+            $(this).hide();
+            $("#search_form").show();
+            $(".switch_hide_search").show();
+        });
+
+        $(".switch_hide_search").live('click', function () {
+            $(this).hide();
+            $("#search_form").hide();
+            $(".switch_show_search").show();
+        });
     });
 </script>
-<%= common_title %>
 
-<div class="page-block">
+<div class="page-block" id="search_form">
   <table class="page-block-header"><tr>
     <td class="page-block-title">
       <h2 class="block-title">Project</h2>
@@ -272,6 +284,8 @@
       <%= link_to t(:new), {:action => "new"},{:class=>"btn btn-primary"}%>
       <a class="btn btn-primary switch_show" style="display: none" href="javascript:void(0)">Show All</a>
       <a class="btn btn-primary switch_hide" style="display: inline-block" href="javascript:void(0)">Hide All</a>
+      <a class="btn btn-primary switch_show_search" style="display: inline-block" href="javascript:void(0)">Show Search</a>
+      <a class="btn btn-primary switch_hide_search" style="display: none" href="javascript:void(0)">Hide Search</a>
       <%= link_to "Import Excel", {:action => "import_excel"},{:class=>"btn btn-primary"}%>
     </td>
     <td class="page-block-help">
