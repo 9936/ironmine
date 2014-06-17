@@ -41,12 +41,12 @@ module Hli::IncidentJournalModelEx
         end
 
         #Check if strict workload
-        rq = Icm::IncidentRequest.find(self.incident_request_id)
-        es = Irm::ExternalSystem.find(rq.external_system_id)
-        pr = Irm::Person.find(self.replied_by)
-        if es.strict_workload.eql?('Y') && !self.workload.present? && pr.email_address.end_with?("hand-china.com")
-          self.errors.add(:message_body, 'Workload can not be blank')
-        end
+        #rq = Icm::IncidentRequest.find(self.incident_request_id)
+        #es = Irm::ExternalSystem.find(rq.external_system_id)
+        #pr = Irm::Person.find(self.replied_by)
+        #if es.strict_workload.eql?('Y') && !self.workload.present? && pr.email_address.end_with?("hand-china.com")
+        #  self.errors.add(:message_body, 'Workload can not be blank')
+        #end
       end
     end
   end
