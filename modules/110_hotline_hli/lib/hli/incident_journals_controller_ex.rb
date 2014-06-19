@@ -65,13 +65,16 @@ module Hli::IncidentJournalsControllerEx
           elsif @incident_reply.valid? && @incident_journal.valid? && @incident_request.update_attributes(@incident_reply.attributes)
             process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
             process_files(@incident_journal)
+            es = Irm::ExternalSystem.find(@incident_request.external_system_id)
             @incident_journal.create_elapse
             @incident_request.save
-            Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
-                                         :incident_journal_id => @incident_journal.id,
-                                         :real_processing_time => @incident_journal.workload,
-                                         :person_id => @incident_journal.replied_by,
-                                         :workload_type => 'REMOTE'})
+            if es.strict_workload.eql?('Y') && @incident_journal.workload.present? && Irm::Person.current.email_address.end_with?("hand-china.com")
+              Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
+                                            :incident_journal_id => @incident_journal.id,
+                                            :real_processing_time => @incident_journal.workload,
+                                            :person_id => @incident_journal.replied_by,
+                                            :workload_type => 'REMOTE'})
+            end
             Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
                                          :journal_id=> @incident_journal.id,
                                          :property_key=> "new_reply",
