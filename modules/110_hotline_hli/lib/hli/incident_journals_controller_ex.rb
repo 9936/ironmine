@@ -132,13 +132,13 @@ module Hli::IncidentJournalsControllerEx
 
         respond_to do |format|
           if @incident_request.hotline.eql?("Y") &&
-              (@incident_request.incident_category_id.blank? || @incident_request.incident_sub_category_id.blank?) &&
-              (@incident_request.attribute3.blank? || @incident_request.attribute4.blank?)
+              (!params[:icm_incident_request][:incident_category_id].present? || !params[:icm_incident_request][:incident_sub_category_id].present?) &&
+              (!params[:icm_incident_request][:attribute3].present? || !params[:icm_incident_request][:attribute4].present?)
 
-              @incident_request.errors.add(:incident_category_id, I18n.t(:error_invalid_data)) if @incident_request.incident_category_id.blank?
-              @incident_request.errors.add(:incident_sub_category_id, I18n.t(:error_invalid_data)) if @incident_request.incident_sub_category_id.blank?
-              @incident_request.errors.add(:attribute3, I18n.t(:error_invalid_data)) if @incident_request.attribute3.blank?
-              @incident_request.errors.add(:attribute4, I18n.t(:error_invalid_data)) if @incident_request.attribute4.blank?
+              @incident_request.errors.add(:incident_category_id, I18n.t(:error_invalid_data)) unless params[:icm_incident_request][:incident_category_id].present?
+              @incident_request.errors.add(:incident_sub_category_id, I18n.t(:error_invalid_data)) unless params[:icm_incident_request][:incident_sub_category_id].present?
+              @incident_request.errors.add(:attribute3, I18n.t(:error_invalid_data)) unless params[:icm_incident_request][:attribute3].present?
+              @incident_request.errors.add(:attribute4, I18n.t(:error_invalid_data)) unless params[:icm_incident_request][:attribute4].present?
 
               @incident_journal = @incident_request.incident_journals.build()
 
