@@ -49,7 +49,7 @@ class Ndm::DevManagementsController < ApplicationController
 
   def create
     @dev_management = Ndm::DevManagement.new(params[:ndm_dev_management])
-    @dev_management.no = Irm::Sequence.nextval(@dev_management.branch)
+    #@dev_management.no = Irm::Sequence.nextval(@dev_management.branch)
     respond_to do |format|
       if @dev_management.save
         @dev_management.update_dev_status
@@ -100,12 +100,14 @@ class Ndm::DevManagementsController < ApplicationController
 
   def get_data
     language = I18n.locale
+
     dev_management_scope = Ndm::DevManagement.
         with_method(language).
         with_project_relation(Irm::Person.current.id).
         with_dev_difficulty(language).
         with_dev_type(language).
-        with_priority(language).with_branch(language).
+        with_priority(language).
+        with_branch(language).
         with_status(language, "gd_status").
         with_status(language, "fd_status").
         with_status(language, "fdr_status").
@@ -114,9 +116,29 @@ class Ndm::DevManagementsController < ApplicationController
         with_status(language, "te_status").
         with_status(language, "si_status").
         with_status(language, "at_status").
-        with_status(language, "go_status").with_member(Irm::Person.current.id).
+        with_status(language, "go_status").
+        joins("LEFT OUTER JOIN #{Irm::Person.table_name} gd_p ON gd_p.id = #{Ndm::DevManagement.table_name}.gd_owner").
+        select("gd_p.full_name gd_owner_name").
+        joins("LEFT OUTER JOIN #{Irm::Person.table_name} fd_p ON fd_p.id = #{Ndm::DevManagement.table_name}.fd_owner").
+        select("fd_p.full_name fd_owner_name").
+        joins("LEFT OUTER JOIN #{Irm::Person.table_name} fdr_p ON fdr_p.id = #{Ndm::DevManagement.table_name}.fdr_owner").
+        select("fdr_p.full_name fdr_owner_name").
+        joins("LEFT OUTER JOIN #{Irm::Person.table_name} td_p ON td_p.id = #{Ndm::DevManagement.table_name}.td_owner").
+        select("td_p.full_name td_owner_name").
+        joins("LEFT OUTER JOIN #{Irm::Person.table_name} co_p ON co_p.id = #{Ndm::DevManagement.table_name}.co_owner").
+        select("co_p.full_name co_owner_name").
+        joins("LEFT OUTER JOIN #{Irm::Person.table_name} te_p ON te_p.id = #{Ndm::DevManagement.table_name}.te_owner").
+        select("te_p.full_name te_owner_name").
+        joins("LEFT OUTER JOIN #{Irm::Person.table_name} si_p ON si_p.id = #{Ndm::DevManagement.table_name}.si_owner").
+        select("si_p.full_name si_owner_name").
+        joins("LEFT OUTER JOIN #{Irm::Person.table_name} at_p ON at_p.id = #{Ndm::DevManagement.table_name}.at_owner").
+        select("at_p.full_name at_owner_name").
+        joins("LEFT OUTER JOIN #{Irm::Person.table_name} go_p ON go_p.id = #{Ndm::DevManagement.table_name}.go_owner").
+        select("go_p.full_name go_owner_name").
+        with_member(Irm::Person.current.id).
         select_all.
-        order("(no + 0) ASC")
+        order("branch ASC, (no + 0) ASC")
+
     dev_management_scope = dev_management_scope.
         where("#{Ndm::DevManagement.table_name}.project IN (?)",
               params[:project_params][:project_id]) if params[:project_params] && params[:project_params][:project_id].first.present?

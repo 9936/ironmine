@@ -3,7 +3,7 @@ class Ndm::DevManagement< ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
 
-  validates_presence_of :name, :branch, :project
+  validates_presence_of :name, :branch, :project, :no
 
   # 对运维中心数据进行隔离
   default_scope { default_filter }
@@ -36,6 +36,11 @@ class Ndm::DevManagement< ActiveRecord::Base
   scope :with_status, lambda{|language, status|
     joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} v#{status} ON v#{status}.lookup_type = 'NDM_PHASE_STATUS' AND v#{status}.lookup_code = #{table_name}.#{status} AND v#{status}.language = '#{language}'").
         select("v#{status}.meaning #{status}_name")
+  }
+
+  scope :with_phase_owner, lambda{|phase_code|
+    joins("LEFT OUTER JOIN #{Irm::Person.table_name} #{phase_code}_p ON #{phase_code}_p.id = #{table_name}.#{phase_code}_owner").
+        select("#{phase_code}_p.full_name #{phase_code}_owner_name")
   }
 
   scope :with_branch, lambda{|language|

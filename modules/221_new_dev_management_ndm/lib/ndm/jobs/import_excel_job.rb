@@ -108,7 +108,15 @@ module Ndm
           n.name = i.name
           n.description = i.description
 
-          n.gd_owner = i.gd_owner
+          begin
+            n.gd_owner = Irm::Person.where("full_name = ?", "#{i.gd_owner}").first.id
+          rescue
+            i.import_status = 'E'
+            i.message = "Can not find owner in hisms"
+            i.save
+            next
+          end
+
           begin
             n.gd_status = p_status_lookup.where("lt.meaning = ?", i.gd_status).first.lookup_code
           rescue
@@ -117,7 +125,15 @@ module Ndm
           n.gd_plan_start = i.gd_plan_start
           n.gd_plan_end = i.gd_plan_end
 
-          n.fd_owner = i.fd_owner
+          begin
+            n.fd_owner = Irm::Person.where("full_name = ?", "#{i.fd_owner}").first.id
+          rescue
+            i.import_status = 'E'
+            i.message = "Can not find owner in hisms"
+            i.save
+            next
+          end
+
           begin
             n.fd_status = p_status_lookup.where("lt.meaning = ?", i.fd_status).first.lookup_code
           rescue
@@ -126,7 +142,15 @@ module Ndm
           n.fd_plan_start = i.fd_plan_start
           n.fd_plan_end = i.fd_plan_end
 
-          n.fdr_owner = i.fdr_owner
+          begin
+            n.fdr_owner = Irm::Person.where("full_name = ?", "#{i.fdr_owner}").first.id
+          rescue
+            i.import_status = 'E'
+            i.message = "Can not find owner in hisms"
+            i.save
+            next
+          end
+
           begin
             n.fdr_status = p_status_lookup.where("lt.meaning = ?", i.fdr_status).first.lookup_code
           rescue
@@ -135,6 +159,16 @@ module Ndm
           n.fdr_plan_end = i.fdr_plan_end
 
           n.td_owner = i.td_owner
+
+          begin
+            n.td_owner = Irm::Person.where("full_name = ?", "#{i.td_owner}").first.id
+          rescue
+            i.import_status = 'E'
+            i.message = "Can not find owner in hisms"
+            i.save
+            next
+          end
+
           begin
             n.td_status = p_status_lookup.where("lt.meaning = ?", i.td_status).first.lookup_code
           rescue
@@ -142,7 +176,15 @@ module Ndm
           end
           n.td_plan_end = i.td_plan_end
 
-          n.co_owner = i.co_owner
+          begin
+            n.co_owner = Irm::Person.where("full_name = ?", "#{i.co_owner}").first.id
+          rescue
+            i.import_status = 'E'
+            i.message = "Can not find owner in hisms"
+            i.save
+            next
+          end
+
           n.co_status = i.co_status
           begin
             n.co_status = p_status_lookup.where("lt.meaning = ?", i.co_status).first.lookup_code
@@ -151,7 +193,14 @@ module Ndm
           end
           n.co_plan_end = i.co_plan_end
 
-          n.te_owner = i.te_owner
+          begin
+            n.te_owner = Irm::Person.where("full_name = ?", "#{i.te_owner}").first.id
+          rescue
+            i.import_status = 'E'
+            i.message = "Can not find owner in hisms"
+            i.save
+            next
+          end
           begin
             n.te_status = p_status_lookup.where("lt.meaning = ?", i.te_status).first.lookup_code
           rescue
@@ -159,7 +208,14 @@ module Ndm
           end
           n.te_plan_end = i.te_plan_end
 
-          n.si_owner = i.si_owner
+          begin
+            n.si_owner = Irm::Person.where("full_name = ?", "#{i.si_owner}").first.id
+          rescue
+            i.import_status = 'E'
+            i.message = "Can not find owner in hisms"
+            i.save
+            next
+          end
           begin
             n.si_status = p_status_lookup.where("lt.meaning = ?", i.si_status).first.lookup_code
           rescue
@@ -167,7 +223,14 @@ module Ndm
           end
           n.si_plan_end = i.si_plan_end
 
-          n.at_owner = i.at_owner
+          begin
+            n.at_owner = Irm::Person.where("full_name = ?", "#{i.at_owner}").first.id
+          rescue
+            i.import_status = 'E'
+            i.message = "Can not find owner in hisms"
+            i.save
+            next
+          end
           begin
             n.at_status = p_status_lookup.where("lt.meaning = ?", i.at_status).first.lookup_code
           rescue
@@ -175,7 +238,14 @@ module Ndm
           end
           n.at_plan_end = i.at_plan_end
 
-          n.go_owner = i.go_owner
+          begin
+            n.go_owner = Irm::Person.where("full_name = ?", "#{i.go_owner}").first.id
+          rescue
+            i.import_status = 'E'
+            i.message = "Can not find owner in hisms"
+            i.save
+            next
+          end
           begin
             n.go_status = p_status_lookup.where("lt.meaning = ?", i.go_status).first.lookup_code
           rescue

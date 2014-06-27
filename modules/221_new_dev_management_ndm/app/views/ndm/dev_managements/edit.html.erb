@@ -5,15 +5,21 @@
     <table class="form-table">
       <tbody>
       <tr>
-        <td class="label-col"><label>No.</label></td>
+        <td class="label-col"><label>No</label></td>
         <td class="data-col">
-          <%= "#{@dev_management.branch_name}-#{@dev_management.no}" %>
+          <%= f.text_field :no, :style => "width: 80px;", :required => true%>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label>Branch</label></td>
+        <td class="data-col">
+          <%= f.select :branch, nullable_options_for_select(ndm_get_branch_list, @dev_management.branch), :required => true%>
         </td>
       </tr>
       <tr>
         <td class="label-col"><label>Project</label></td>
         <td class="data-col">
-          <%= f.select :project, nullable_options_for_select(get_project_list, @dev_management.project), :required => true%>
+          <%= f.select :project, nullable_options_for_select(get_project_newable_list, @dev_management.project), :required => true%>
         </td>
       </tr>
       <tr>
@@ -68,7 +74,7 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= f.text_field :gd_owner, :style => "width: 300px;" %>
+              <%= f.blank_select :gd_owner, available_owner_list(@dev_management.project) %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
@@ -105,7 +111,7 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= f.text_field :fd_owner, :style => "width: 300px;" %>
+              <%= f.blank_select :fd_owner, available_owner_list(@dev_management.project) %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
@@ -142,7 +148,7 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= f.text_field :fdr_owner, :style => "width: 300px;" %>
+              <%= f.blank_select :fdr_owner, available_owner_list(@dev_management.project) %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
@@ -171,7 +177,7 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= f.text_field :td_owner, :style => "width: 300px;" %>
+              <%= f.blank_select :td_owner, available_owner_list(@dev_management.project) %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
@@ -200,7 +206,7 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= f.text_field :co_owner, :style => "width: 300px;" %>
+              <%= f.blank_select :co_owner, available_owner_list(@dev_management.project) %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
@@ -229,7 +235,7 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= f.text_field :te_owner, :style => "width: 300px;" %>
+              <%= f.blank_select :te_owner, available_owner_list(@dev_management.project) %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
@@ -258,7 +264,7 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= f.text_field :si_owner, :style => "width: 300px;" %>
+              <%= f.blank_select :si_owner, available_owner_list(@dev_management.project) %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
@@ -287,7 +293,7 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= f.text_field :at_owner, :style => "width: 300px;" %>
+              <%= f.blank_select :at_owner, available_owner_list(@dev_management.project) %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">
@@ -316,7 +322,7 @@
           <tr>
             <td class="label-col"><label>Owner</label></td>
             <td class="data-col">
-              <%= f.text_field :go_owner, :style => "width: 300px;" %>
+              <%= f.blank_select :go_owner, available_owner_list(@dev_management.project) %>
             </td>
             <td class="label-col"><label>Status</label></td>
             <td class="data-col">

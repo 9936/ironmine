@@ -233,7 +233,12 @@
                   <%= text_field_tag "project_params[name]", @project_params.present?&&@project_params[:name].present? ? @project_params[:name] : nil%>
                 </td>
                 <td>
-                  <%= text_field_tag "project_params[dev_type]", @project_params.present?&&@project_params[:dev_type].present? ? @project_params[:dev_type] : nil%>
+                  <%= blank_select_tag "project_params[dev_type]",
+                                       Irm::LookupValue.
+                                          get_lookup_value("NDM_TYPE").
+                                          enabled.
+                                          collect{|lv| [lv[:meaning], lv[:meaning]]},
+                                       @project_params.present?&&@project_params[:dev_type].present? ? @project_params[:dev_type] : nil%>
                 </td>
               </tr>
               <tr>
@@ -252,16 +257,30 @@
               </tr>
               <tr>
                 <td>
-                  <%= text_field_tag "project_params[priority]", @project_params.present?&&@project_params[:priority].present? ? @project_params[:priority] : nil%>
+                  <%= blank_select_tag "project_params[priority]",
+                                       Irm::LookupValue.get_lookup_value("NDM_PRIORITY").enabled.collect{|lv| [lv[:meaning], lv[:meaning]]},
+                                       @project_params.present?&&@project_params[:priority].present? ? @project_params[:priority] : nil%>
                 </td>
                 <td>
-                  <%= text_field_tag "project_params[dev_status]", @project_params.present?&&@project_params[:dev_status].present? ? @project_params[:dev_status] : nil%>
+                  <%= blank_select_tag "project_params[dev_status]",
+                                       ndm_get_dev_status_name_list,
+                                       @project_params.present?&&@project_params[:dev_status].present? ? @project_params[:dev_status] : nil%>
                 </td>
                 <td>
-                  <%= text_field_tag "project_params[method]", @project_params.present?&&@project_params[:method].present? ? @project_params[:method] : nil%>
+                  <%= blank_select_tag "project_params[method]",
+                                       Irm::LookupValue.
+                                          get_lookup_value("NDM_METHOD").
+                                          enabled.
+                                          collect{|lv| [lv[:meaning], lv[:meaning]]},
+                                       @project_params.present?&&@project_params[:method].present? ? @project_params[:method] : nil%>
                 </td>
                 <td>
-                  <%= text_field_tag "project_params[dev_difficulty]", @project_params.present?&&@project_params[:dev_difficulty].present? ? @project_params[:dev_difficulty] : nil%>
+                  <%= blank_select_tag "project_params[dev_difficulty]",
+                                       Irm::LookupValue.
+                                           get_lookup_value("NDM_DIFFICULTY").
+                                           enabled.
+                                           collect{|lv| [lv[:meaning], lv[:meaning]]},
+                                       @project_params.present?&&@project_params[:dev_difficulty].present? ? @project_params[:dev_difficulty] : nil%>
                 </td>
               </tr>
               <tr>
@@ -281,14 +300,15 @@
       <h2 class="block-title">Development Management</h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:new), {:action => "new"},{:class=>"btn btn-primary"}%>
-      <a class="btn btn-primary switch_show" style="display: none" href="javascript:void(0)">Show All</a>
-      <a class="btn btn-primary switch_hide" style="display: inline-block" href="javascript:void(0)">Hide All</a>
       <a class="btn btn-primary switch_show_search" style="display: inline-block" href="javascript:void(0)">Show Search</a>
       <a class="btn btn-primary switch_hide_search" style="display: none" href="javascript:void(0)">Hide Search</a>
-      <%= link_to "Import Excel", {:action => "import_excel"},{:class=>"btn btn-primary"}%>
+      <a class="btn btn-primary switch_show" style="display: none" href="javascript:void(0)">Show All</a>
+      <a class="btn btn-primary switch_hide" style="display: inline-block" href="javascript:void(0)">Hide All</a>
+      <%= link_to t(:new), {:action => "new"},{:class=>"btn btn-primary"}%>
     </td>
     <td class="page-block-help">
+
+      <%= link_to "Import Excel", {:action => "import_excel"},{:class=>"btn btn-primary"}%>
       <div id="searchBox"></div>
     </td>
   </tr></table>

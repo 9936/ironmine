@@ -44,7 +44,7 @@ production:
   database: irm_dev_yanmar
   pool: 5
   username: root
-  password: handoracle
+  password: root
   host: localhost
 
 macdev:

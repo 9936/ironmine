@@ -8,7 +8,13 @@
       <tr>
         <td class="label-col"><label>Project</label></td>
         <td class="data-col">
-          <%= f.select :project, nullable_options_for_select(get_project_list, nil), :required => true%>
+          <%= f.select :project, nullable_options_for_select(get_project_newable_list, nil), :required => true%>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label>No</label></td>
+        <td class="data-col">
+          <%= f.text_field :no, :style => "width: 80px;", :required => true%>
         </td>
       </tr>
       <tr>
