@@ -2,13 +2,11 @@
   <tbody>
     <tr>
       <td>
-        <label for="loginPerson_label"><%= t(:label_irm_external_system) %></label>
+        <label>Group</label>
         <div style="white-space:nowrap">
-          <%= select_tag_multiple(
-                      "program_params[external_system_id][]",
-                      nullable_options_for_select(current_person_assessible_external_system_full, program_params[:external_system_id]),
-                      "program_params[external_system_mul]",
-                      program_params[:external_system_mul] ? program_params[:external_system_mul] : 'N')%>
+          <%= blank_select_tag(:group,
+                      options_for_select(Irm::Group.enabled.multilingual.collect{|g| [g[:name], g[:id]]}, program_params[:group]),
+                      program_params[:group], :name => "program_params[group]")%>
         </div>
       </td>
       <td>
@@ -31,23 +29,7 @@
           </table>
         </fieldset>
       </td>
-      <td>
-        <label><%= t(:label_icm_incident_request_incident_category) %></label>
-        <div style="white-space:nowrap">
-          <%=select_tag_alias "program_params[incident_category_id][]",[],program_params[:incident_category_id],
-              {:id=>"program_params_incident_category_id_",
-               :depend=>"program_params_external_system_id_",
-               :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-               :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
-                              :external_system_id=>"${program_params_external_system_id_}")}%>
-        </div>
-      </td>
       <td width="60%"></td>
     </tr>
   </tbody>
 </table>
-<script type="text/javascript">
-    if($("#program_params_external_system_id_")){
-       $("#program_params_external_system_id_").cascade(["#program_params_incident_category_id_"]);
-    }
-</script>
