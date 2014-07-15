@@ -37,11 +37,11 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
                 AND ir1.support_person_id = #{Irm::Person.table_name}.id
                 ) c_close)).
         select(%Q((SELECT
-            group_concat(ir1.request_number)
+            group_concat(concat(ir1.request_number, '-', uv.name))
         FROM
-            icm_incident_requests ir1
+            icm_incident_requests ir1, icm_urgence_codes_vl uv
         WHERE
-            ir1.hotline = 'Y' AND
+            ir1.hotline = 'Y' AND uv.language = 'zh' AND uv.id = ir1.urgence_id AND
             EXISTS( SELECT
                     1
                 FROM
@@ -68,11 +68,11 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
                     iss.id = ir2.incident_status_id
                         AND iss.close_flag <> 'Y')) c_untreated)).
         select(%Q(    (SELECT
-            group_concat(ir2.request_number)
+            group_concat(concat(ir2.request_number, '-', uv.name))
         FROM
-            icm_incident_requests ir2
+            icm_incident_requests ir2, icm_urgence_codes_vl uv
         WHERE
-            ir2.hotline = 'Y' AND
+            ir2.hotline = 'Y' AND uv.language = 'zh' AND uv.id = ir2.urgence_id AND
             ir2.support_person_id = #{Irm::Person.table_name}.id
                 AND EXISTS( SELECT
                     1
