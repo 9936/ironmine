@@ -1,4 +1,4 @@
-module Hli::IncidentHistoryModelEx
+module Ccc::IncidentHistoryModelEx
   def self.included(base)
     base.class_eval do
       scope :select_all, lambda{

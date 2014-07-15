@@ -1,4 +1,4 @@
-module Hli::CustomFieldHelperEx
+module Ccc::CustomFieldHelperEx
   def self.included(base)
 
     #参数only_block的值可为true | false.默认为false

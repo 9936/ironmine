@@ -1,4 +1,4 @@
-module Hli::IncidentJournalsHelperEx
+module Ccc::IncidentJournalsHelperEx
   def self.included(base)
     base.class_eval do
       def list_journals(incident_request)

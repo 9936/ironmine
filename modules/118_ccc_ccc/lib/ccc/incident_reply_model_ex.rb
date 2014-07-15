@@ -1,4 +1,4 @@
-module Hli::IncidentReplyModelEx
+module Ccc::IncidentReplyModelEx
   def self.included(base)
     base.class_eval do
       attr_accessor :support_group_id, :support_person_id, :external_system_id,:incident_category_id,:incident_sub_category_id,

@@ -1,4 +1,4 @@
-module Hli::ReportsControllerEx
+module Ccc::ReportsControllerEx
   def self.included(base)
     base.class_eval do
       def new_template

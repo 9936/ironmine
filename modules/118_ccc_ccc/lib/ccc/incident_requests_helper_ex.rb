@@ -1,4 +1,4 @@
-module Hli::IncidentRequestsHelperEx
+module Ccc::IncidentRequestsHelperEx
   def self.included(base)
     base.class_eval do
     #  def available_support_group(source_org_id = nil, untree = false, source_external_system_id = nil)

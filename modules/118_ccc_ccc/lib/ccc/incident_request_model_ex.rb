@@ -1,4 +1,4 @@
-module Hli::IncidentRequestModelEx
+module Ccc::IncidentRequestModelEx
   def self.included(base)
     base.class_eval do
       has_many :incident_workloads

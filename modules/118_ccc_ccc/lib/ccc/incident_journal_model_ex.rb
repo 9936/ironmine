@@ -1,4 +1,4 @@
-module Hli::IncidentJournalModelEx
+module Ccc::IncidentJournalModelEx
   def self.included(base)
     base.class_eval do
       after_create :count_reply

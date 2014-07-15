@@ -1,4 +1,4 @@
-module Hli::WatchersControllerEx
+module Ccc::WatchersControllerEx
   def self.included(base)
     base.class_eval do
       def add_watcher

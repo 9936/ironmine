@@ -1,4 +1,4 @@
-module Hli::IncidentRequestsControllerEx
+module Ccc::IncidentRequestsControllerEx
   def self.included(base)
     base.class_eval do
       before_filter :setup_up_incident_request, :only => [:update]
