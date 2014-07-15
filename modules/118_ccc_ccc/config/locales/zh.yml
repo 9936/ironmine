@@ -1,0 +1,106 @@
+zh:
+  label_icm_incident_request_hotline: Hotline
+  label_icm_incident_request_hotline_y: Report
+  label_icm_incident_request_hotline_n: Not Report
+  label_icm_incident_request_client_info: 提交人客户端信息
+  label_icm_incident_request_client_info: 提交人客户端信息
+  label_icm_incident_request_real_processing_time: 实际耗费时间(小时)
+  label_icm_incident_request_cancel_confirm: 你确定要取消该问题吗？
+  label_icm_incident_request_enable_confirm: 你确定要重新启用该问题吗？
+  label_icm_incident_request_cancel_request: 取消问题
+  label_icm_incident_request_enable_request: 启用问题
+  label_icm_incident_journal_edit_workload: 登记工时
+  label_icm_incident_journal_workload_type: 工时类型
+
+  label_icm_incident_journal_history: 问题历史
+  label_icm_incident_journal_created_by: 账号
+  label_icm_incident_journal_event: 事件
+  label_icm_incident_journal_new_value: 修订
+  label_icm_incident_journal_date: 日期
+
+  label_report_incident_request_update_priority: 更改紧急度和影响度
+
+  label_icm_incident_request_impact_range: 影响度
+  label_icm_incident_request_urgence: 紧急度
+  label_icm_incident_request_new_reply: 回复问题
+  label_icm_incident_request_add_watcher: 添加跟踪者
+  label_icm_incident_request_remove_watcher: 移除跟踪者
+  label_icm_incident_request_add_relation: 添加关联
+  label_icm_incident_request_remove_relation: 移除关联
+  label_icm_incident_request_incident_request: 创建问题
+  label_icm_incident_request_attachment: 上传附件
+  label_icm_incident_request_remove_attachment: 移除附件
+  label_icm_incident_request_contact_way: 联系人与联系电话
+  label_icm_incident_request_remove_journal: 删除回复
+  label_icm_incident_request_contact_number_tip_a: 请务必输入联系人名字！
+  label_icm_incident_request_contact_number_tip_b: 请务必输入实际联系人名字, 否则有可能影响问题处理进度
+
+  #========================= hotline project ====================================
+  label_irm_project_new: 创建新项目
+  label_irm_project_name: 项目名称
+  label_irm_project_description: 项目描述
+  label_irm_project_code: 项目编码
+  label_irm_project_info: 项目信息
+  label_irm_project_customer_list: 客户账户
+  label_irm_project_support_group: 支持组
+  label_irm_project: Hotline项目
+  label_irm_project_add_person: 添加客户成员
+  label_action_add_person: 添加客户账号
+  label_irm_project_add_supporter: 添加运维人员
+  #========================== end hotline project  ===============================
+
+
+  #======================= Report incident request month summary ============
+  label_report_incident_request_last_month_unclose: 上月未解决数量
+  label_report_incident_request_this_month_submit: 本月接单数量
+  label_report_incident_request_this_month_close: 本月解决数量
+  label_report_incident_request_this_month_unclose: 本月未解决数量
+  label_report_date_month: 统计月份
+  #======================= Report incident request month summary end=========
+
+  #======================= Report incident request month processing time ============
+  label_report_submitted_date_and_priority: 报告日期/优先级
+  #================================================================================
+
+  #========================= incident_amount_by_month_cate report ====================================
+  label_report_icm_incident_category: 类别
+  label_report_icm_incident_months: 一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月,合计
+  label_report_icm_incident_total:  合计
+  label_report_icm_incident_params_year:  年份
+  label_report_icm_incident_params_ym_s:  月份从
+  label_report_icm_incident_params_ym_e:  月份至
+  label_report_icm_incident_params_month:  月份
+  label_report_icm_incident_report_date:  报告日期
+  label_report_icm_incident_prior:  优先级
+  #========================== end incident_amount_by_month_cate report  ===============================
+
+  #========================== template report  ===================================
+  message_report_template_subject: "您%{m}的时候在HISMS系统中提交的模板报表请求已经执行完成"
+#  message_report_template_content: 您%{m}的时候在HISMS系统中提交的模板报表请求已经执行完成。本次递交模板:%{n}，执行参数: "%{o}。执行结果请查阅附件。"
+  message_report_template_running: 您提交的请求正在执行，执行完毕后，结果会发到您的联系邮箱。您现在可以关闭本页面。
+  #========================== end template report  ===============================
+
+  #报表相关
+  label_percentage: 比例
+  label_amount: 数量
+  label_total_data_size: "共 %{m} 条数据"
+  label_project: 项目
+  label_reporter: 报告员(请求人)
+  label_report_number: 编号
+  label_report_request_submit_date: 报告日期
+  label_report_request_last_updated: 最后更新
+  label_report_request_workload: 工时
+  label_action_show_template: 模版报表运行中
+
+  label_icm_incident_request_update_workload: 登记工时
+  label_icm_incident_request_update_workload_group: 登记工时
+  label_report_rank: 排名
+  label_report_share: 占有率
+
+  label_hil_include_journal_history: 包含回复历史
+  label_slm_calendar_code: 编码
+  label_slm_calendar_master_code: MASTER CODE
+  label_slm_calendar_master_synch: 同步
+  label_slm_calendar_master_synch_success: 同步成功,%{size}条工作日历被同步
+
+  label_icm_incident_request_keep_next_status: 保持状态

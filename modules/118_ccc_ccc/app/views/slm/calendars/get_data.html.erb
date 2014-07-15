@@ -1,0 +1,11 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "80px"}) do |data| %>
+        <%= link_to(t(:edit), {:action => "edit", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:show), {:action => "show", :id => data[:id]}, {:class => "action-link"}) %>
+    <% end %>
+    <% builder.column(:name, {:title => t(:name), :width => "25%", :searchable => true}) %>
+    <% builder.column(:code, {:title => t(:label_slm_calendar_code),:width => "10%"}) %>
+    <% builder.column(:master_code, {:title => t(:label_slm_calendar_master_code),:width => "10%"}) %>
+    <% builder.column(:description, {:title => t(:description),:width => "28%"}) %>
+    <% builder.column(:updated_at, {:title => t(:slm_calendar_last_updated)}) %>
+<% end %>
