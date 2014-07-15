@@ -82,11 +82,11 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
                     iss.id = ir2.incident_status_id
                         AND iss.close_flag <> 'Y')) d_untreated)).
         select(%Q(    (SELECT
-            group_concat(ir3.request_number)
+            group_concat(concat(ir3.request_number, '-', uv.name))
         FROM
-            icm_incident_histories iih, icm_incident_requests ir3
+            icm_incident_histories iih, icm_incident_requests ir3, icm_urgence_codes_vl uv
         where
-            ir3.hotline = 'Y' AND ir3.id = iih.request_id AND
+            ir3.hotline = 'Y' AND ir3.id = iih.request_id AND uv.language = 'zh' AND uv.id = ir3.urgence_id AND
             iih.property_key = 'support_person_id' AND
             date_format(iih.created_at, '%Y-%m-%d') <= '#{Date.strptime("#{end_date}", '%Y-%m-%d').strftime("%Y-%m-%d")}' AND
             date_format(iih.created_at, '%Y-%m-%d') >= '#{Date.strptime("#{start_date}", '%Y-%m-%d').strftime("%Y-%m-%d")}'
