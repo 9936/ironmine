@@ -91,7 +91,7 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
             iih.property_key = 'new_reply' AND
             date_format(iih.created_at, '%Y-%m-%d') <= '#{Date.strptime("#{end_date}", '%Y-%m-%d').strftime("%Y-%m-%d")}' AND
             date_format(iih.created_at, '%Y-%m-%d') >= '#{Date.strptime("#{start_date}", '%Y-%m-%d').strftime("%Y-%m-%d")}'
-                AND iih.new_value = #{Irm::Person.table_name}.id)) d_received)).
+                )) d_received)).
         select(%Q(    (SELECT
             COUNT(1)
         FROM
@@ -102,7 +102,7 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
             iih.property_key = 'new_reply' AND
             date_format(iih.created_at, '%Y-%m-%d') <= '#{Date.strptime("#{end_date}", '%Y-%m-%d').strftime("%Y-%m-%d")}' AND
             date_format(iih.created_at, '%Y-%m-%d') >= '#{Date.strptime("#{start_date}", '%Y-%m-%d').strftime("%Y-%m-%d")}'
-                AND iih.new_value = #{Irm::Person.table_name}.id)) c_received))
+                )) c_received))
 
     #statis = Icm::IncidentRequest.select_all.enabled
 
