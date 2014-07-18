@@ -84,23 +84,25 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
         select(%Q(    (SELECT
             group_concat(concat(ir3.request_number, '-', uv.name))
         FROM
-            icm_incident_histories iih, icm_incident_requests ir3, icm_urgence_codes_vl uv
+            icm_incident_requests ir3, icm_urgence_codes_vl uv
         where
-            ir3.hotline = 'Y' AND ir3.id = iih.request_id AND uv.language = 'zh' AND uv.id = ir3.urgence_id AND
-            iih.property_key = 'support_person_id' AND
+            ir3.hotline = 'Y' AND uv.language = 'zh' AND uv.id = ir3.urgence_id AND
+            EXISTS(SELECT * FROM icm_incident_histories iih WHERE ir3.id = iih.request_id AND
+            iih.property_key = 'new_reply' AND
             date_format(iih.created_at, '%Y-%m-%d') <= '#{Date.strptime("#{end_date}", '%Y-%m-%d').strftime("%Y-%m-%d")}' AND
             date_format(iih.created_at, '%Y-%m-%d') >= '#{Date.strptime("#{start_date}", '%Y-%m-%d').strftime("%Y-%m-%d")}'
-                AND iih.new_value = #{Irm::Person.table_name}.id) d_received)).
+                AND iih.new_value = #{Irm::Person.table_name}.id)) d_received)).
         select(%Q(    (SELECT
             COUNT(1)
         FROM
-            icm_incident_histories iih, icm_incident_requests ir3
+            icm_incident_requests ir3
         where
-            ir3.hotline = 'Y' AND ir3.id = iih.request_id AND
-            iih.property_key = 'support_person_id' AND
+            ir3.hotline = 'Y' AND
+            EXISTS(SELECT * FROM icm_incident_histories iih WHERE ir3.id = iih.request_id AND
+            iih.property_key = 'new_reply' AND
             date_format(iih.created_at, '%Y-%m-%d') <= '#{Date.strptime("#{end_date}", '%Y-%m-%d').strftime("%Y-%m-%d")}' AND
             date_format(iih.created_at, '%Y-%m-%d') >= '#{Date.strptime("#{start_date}", '%Y-%m-%d').strftime("%Y-%m-%d")}'
-                AND iih.new_value = #{Irm::Person.table_name}.id) c_received))
+                AND iih.new_value = #{Irm::Person.table_name}.id)) c_received))
 
     #statis = Icm::IncidentRequest.select_all.enabled
 
@@ -108,9 +110,9 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
     headers = [
         "工号",
         "姓名",
-        "关闭数量",
+        "选定时间关闭数量",
         "Detail",
-        "未解决问题",
+        "当前未解决问题",
         "Detail",
         "选定时间内接单数",
         "Detail"
