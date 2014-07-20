@@ -131,33 +131,7 @@ module Ccc::IncidentJournalsControllerEx
         @incident_request.attributes = params[:icm_incident_request]
 
         respond_to do |format|
-          if @incident_request.hotline.eql?("Y") &&
-              (!params[:icm_incident_request][:incident_category_id].present? || !params[:icm_incident_request][:incident_sub_category_id].present?) &&
-              (!params[:icm_incident_request][:attribute3].present? || !params[:icm_incident_request][:attribute4].present?)
-
-              @incident_request.errors.add(:incident_category_id, I18n.t(:error_invalid_data)) unless params[:icm_incident_request][:incident_category_id].present?
-              @incident_request.errors.add(:incident_sub_category_id, I18n.t(:error_invalid_data)) unless params[:icm_incident_request][:incident_sub_category_id].present?
-              @incident_request.errors.add(:attribute3, I18n.t(:error_invalid_data)) unless params[:icm_incident_request][:attribute3].present?
-              @incident_request.errors.add(:attribute4, I18n.t(:error_invalid_data)) unless params[:icm_incident_request][:attribute4].present?
-
-              @incident_journal = @incident_request.incident_journals.build()
-
-              @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").joins(",#{Irm::LookupValue.view_name} lv").
-                          where("lv.language = ?", I18n.locale).where("lv.lookup_type = ?", "WORKLOAD_TYPE").
-                          where("lv.lookup_code = #{Icm::IncidentWorkload.table_name}.workload_type").
-                          select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, #{Icm::IncidentWorkload.table_name}.real_processing_time real_processing_time, #{Icm::IncidentWorkload.table_name}.workload_type workload_type, lv.meaning workload_type_label").
-                          where("#{Icm::IncidentWorkload.table_name}.incident_request_id = ? AND #{Icm::IncidentWorkload.table_name}.person_id = ip.id", @incident_request.id).
-                          where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0")
-
-              @supporters = Icm::IncidentJournal.where("1=1").
-                      joins(",#{Irm::Person.table_name} ip").
-                      select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, (SELECT iw.real_processing_time FROM #{Icm::IncidentWorkload.table_name} iw WHERE iw.incident_request_id = #{Icm::IncidentJournal.table_name}.incident_request_id AND iw.person_id = ip.id) real_processing_time").
-                      where("ip.id = #{Icm::IncidentJournal.table_name}.replied_by").
-                      where("ip.assignment_availability_flag = ?", Irm::Constant::SYS_YES).
-                      where("#{Icm::IncidentJournal.table_name}.incident_request_id = ?", @incident_request.id) unless @supporters.any?
-
-              format.html { render :action => "edit_workload", :layout => "application_full" }
-          else
+          if
             ir.update_attributes(params[:icm_incident_request])
 
             Icm::IncidentWorkload.where("incident_request_id = ?", ir.id).each do |t|
@@ -261,29 +235,7 @@ module Ccc::IncidentJournalsControllerEx
         @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
         perform_create
         respond_to do |format|
-          if @incident_request.hotline.eql?("Y") &&
-              (@incident_request.incident_category_id.blank? || @incident_request.incident_sub_category_id.blank?) &&
-              (@incident_request.attribute3.blank? || @incident_request.attribute4.blank?)
-
-              @incident_request.errors.add(:incident_category_id, I18n.t(:error_invalid_data)) if @incident_request.incident_category_id.blank?
-              @incident_request.errors.add(:incident_sub_category_id, I18n.t(:error_invalid_data)) if @incident_request.incident_sub_category_id.blank?
-              @incident_request.errors.add(:attribute3, I18n.t(:error_invalid_data)) if @incident_request.attribute3.blank?
-              @incident_request.errors.add(:attribute4, I18n.t(:error_invalid_data)) if @incident_request.attribute4.blank?
-              @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").joins(",#{Irm::LookupValue.view_name} lv").
-                          where("lv.language = ?", I18n.locale).where("lv.lookup_type = ?", "WORKLOAD_TYPE").
-                          where("lv.lookup_code = #{Icm::IncidentWorkload.table_name}.workload_type").
-                          select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, #{Icm::IncidentWorkload.table_name}.real_processing_time real_processing_time, #{Icm::IncidentWorkload.table_name}.workload_type workload_type, lv.meaning workload_type_label").
-                          where("#{Icm::IncidentWorkload.table_name}.incident_request_id = ? AND #{Icm::IncidentWorkload.table_name}.person_id = ip.id", @incident_request.id).
-                          where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0")
-
-              @supporters = Icm::IncidentJournal.where("1=1").
-                      joins(",#{Irm::Person.table_name} ip").
-                      select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, (SELECT iw.real_processing_time FROM #{Icm::IncidentWorkload.table_name} iw WHERE iw.incident_request_id = #{Icm::IncidentJournal.table_name}.incident_request_id AND iw.person_id = ip.id) real_processing_time").
-                      where("ip.id = #{Icm::IncidentJournal.table_name}.replied_by").
-                      where("ip.assignment_availability_flag = ?", Irm::Constant::SYS_YES).
-                      where("#{Icm::IncidentJournal.table_name}.incident_request_id = ?", @incident_request.id) unless @supporters.any?
-              format.html { render :action => "edit_close", :layout => "application_full" }
-          elsif @incident_request.save
+          if @incident_request.save
             Icm::IncidentWorkload.where("incident_request_id = ?", @incident_request.id).each do |t|
               t.destroy
             end

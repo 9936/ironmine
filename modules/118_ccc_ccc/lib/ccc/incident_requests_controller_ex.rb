@@ -505,22 +505,6 @@ module Ccc::IncidentRequestsControllerEx
           end
         end
 
-        external_system = Irm::ExternalSystem.where("id = ?", incident_request.external_system_id)
-        if external_system.any? && external_system.first.hotline_flag.eql?(Irm::Constant::SYS_YES)
-          incident_request.hotline = Irm::Constant::SYS_YES
-        else
-          incident_request.hotline = Irm::Constant::SYS_NO
-        end
-
-        if incident_request.contact_number.present? && incident_request.contact_number.eql?(I18n.t(:label_icm_incident_request_contact_number_tip_a)) ||
-            incident_request.contact_number.eql?(I18n.t(:label_icm_incident_request_contact_number_tip_b))
-          if incident_request.hotline.eql?(Irm::Constant::SYS_YES)
-            incident_request.contact_number = nil
-          else
-            incident_request.contact_number = "NULL"
-          end
-        end
-
         if !incident_request.contact_number.present?&&incident_request.contact_id.present?
           incident_request.contact_number = Irm::Person.find(incident_request.contact_id).bussiness_phone
         end

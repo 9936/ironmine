@@ -58,9 +58,9 @@ class MoveMantisDataToTmpTables < ActiveRecord::Migration
         profile_id = "001z00024DLIQpNqWEiUOO"
       end
 
-      execute(%Q(INSERT INTO tmp_irm_people (id, opu_id, organization_id, first_name, hashed_password, bussiness_phone, profile_id,
+      execute(%Q(INSERT INTO tmp_irm_people (id, opu_id, organization_id, first_name, hashed_password, bussiness_phone, profile_id, last_name,
                   full_name, email_address, status_code, created_by, updated_by, created_at, updated_at, login_name, identity_id)
-                  VALUES ('#{user_id}', '#{opu}', '001q000922rYQQ3HDRwrOy', '#{u[2]}', 'd1fe845de344506ec09e284bf3fc704c67e68862', '123456', '#{profile_id}',
+                  VALUES ('#{user_id}', '#{opu}', '001q000922rYQQ3HDRwrOy', '#{u[2]}', 'd1fe845de344506ec09e284bf3fc704c67e68862', '123456', '#{profile_id}', '',
                           '#{u[2]}', '#{u[3]}', '#{u[5]}', '#{u[6]}', '#{u[7]}', '#{u[8]}', '#{u[9]}', '#{u[1]}', '#{u[0]}')))
     end
 
@@ -145,7 +145,7 @@ class MoveMantisDataToTmpTables < ActiveRecord::Migration
         pick_list_options = ""
         data_extra_info = cux[0]
         cux_field_id = Fwk::IdGenerator.instance.generate("irm_object_attributes")
-        case cux[2]
+        case cux[2].to_s
           when "0"
             cux_category = "TEXT"
           when "1"
@@ -331,9 +331,9 @@ class MoveMantisDataToTmpTables < ActiveRecord::Migration
             pt = -1
           end
 
-          execute(%Q(INSERT INTO tmp_icm_incident_workloads (id, incident_request_id, person_id, real_processing_time,
+          execute(%Q(INSERT INTO tmp_icm_incident_workloads (id, incident_request_id, person_id, real_processing_time, workload_type,
                         status_code, created_by, updated_by, created_at, updated_at)
-                        VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_workloads")}', '#{ir_id}', '#{r[16]}', '#{pt}',
+                        VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_workloads")}', '#{ir_id}', '#{r[16]}', '#{pt}', 'REMOTE',
                         'ENABLED', '#{r[20]}','#{r[21]}','#{r[22]}','#{r[23]}')
                         )) if pt.to_f > 0
         else
@@ -354,9 +354,9 @@ class MoveMantisDataToTmpTables < ActiveRecord::Migration
                 else
                   pt = -1
                 end
-                execute(%Q(INSERT INTO tmp_icm_incident_workloads (id, opu_id, incident_request_id, person_id, real_processing_time,
+                execute(%Q(INSERT INTO tmp_icm_incident_workloads (id, opu_id, incident_request_id, person_id, real_processing_time,workload_type,
                               status_code, created_by, updated_by, created_at, updated_at)
-                              VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_workloads")}', '#{opu}', '#{r[0]}', '#{person.first[0]}', '#{pt}',
+                              VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_workloads")}', '#{opu}', '#{r[0]}', '#{person.first[0]}', '#{pt}', 'REMOTE',
                               'ENABLED', '#{r[20]}','#{r[21]}','#{r[22]}','#{r[23]}')
                               )) if pt.to_f > 0
               end
@@ -372,10 +372,20 @@ class MoveMantisDataToTmpTables < ActiveRecord::Migration
       end unless r[14].nil?
 
       #move cux field value
-      cux_fields = execute(%Q(SELECT mcfs.field_id '0', mcfs.bug_id '1', mcfs.value '2', ioa.attribute_name '3' FROM mantis_custom_field_string_table mcfs, irm_object_attributes ioa
-                              WHERE mcfs.bug_id = '#{r[0]}' AND mcfs.field_id = ioa.data_extra_info AND ioa.external_system_id = '#{r[17]}'))
+      cux_fields = execute(%Q(SELECT mcfs.field_id '0', mcfs.bug_id '1', mcfs.value '2', ioa.attribute_name '3', mcf.type '4'
+                              FROM mantis_custom_field_string_table mcfs, tmp_irm_object_attributes ioa, mantis_custom_field_table mcf
+                              WHERE mcfs.bug_id = '#{r[0]}' AND mcfs.field_id = ioa.data_extra_info AND ioa.external_system_id = '#{r[17]}'
+                                    AND mcf.id = mcfs.field_id))
       cux_fields.each do |cf|
-        execute(%Q(UPDATE tmp_icm_incident_requests SET #{cf[3]} = '#{cf[2]}' WHERE request_number = #{r[0]}))
+        value = cf[2]
+        if cf[4] == '8'
+          cux_fields_ex = execute(%Q(SELECT mcfs.field_id '0', mcfs.bug_id '1', date_add('1970-01-01 08:00:00', interval mcfs.value second) '2', ioa.attribute_name '3', mcf.type '4'
+                          FROM mantis_custom_field_string_table mcfs, tmp_irm_object_attributes ioa, mantis_custom_field_table mcf
+                          WHERE mcfs.bug_id = '#{r[0]}' AND mcfs.field_id = ioa.data_extra_info AND ioa.external_system_id = '#{r[17]}'
+                                AND mcf.id = mcfs.field_id))
+          value = cux_fields_ex.first[2]
+        end
+        execute(%Q(UPDATE tmp_icm_incident_requests SET #{cf[3]} = '#{value}' WHERE request_number = '#{r[0].to_s}'))
       end
 
       #create close journal, journal elapse, journal history, journal
