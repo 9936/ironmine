@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 class Ccc::UmcExport < Irm::ReportManager::ReportBase
   def data(params={})
-    project_id = ""
     params||={}
 
     statis = Icm::IncidentRequest.
