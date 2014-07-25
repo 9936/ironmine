@@ -54,13 +54,19 @@ class MoveMantisDataToTmpTables < ActiveRecord::Migration
       user_id = Fwk::IdGenerator.instance.generate("irm_people")
       if u[3].end_with?("hand-china.com")
         profile_id = "001z00012i8IyyjJaqK4AK"
+        notification_flag = "Y"
+        assignment_availability_flag = "Y"
       else
         profile_id = "001z00024DLIQpNqWEiUOO"
+        notification_flag = "Y"
+        assignment_availability_flag = "N"
       end
 
       execute(%Q(INSERT INTO tmp_irm_people (id, opu_id, organization_id, first_name, hashed_password, bussiness_phone, profile_id, last_name,
+                  notification_flag, assignment_availability_flag,
                   full_name, email_address, status_code, created_by, updated_by, created_at, updated_at, login_name, identity_id)
                   VALUES ('#{user_id}', '#{opu}', '001q000922rYQQ3HDRwrOy', '#{u[2]}', 'd1fe845de344506ec09e284bf3fc704c67e68862', '123456', '#{profile_id}', '',
+                          '#{notification_flag}','#{assignment_availability_flag}',
                           '#{u[2]}', '#{u[3]}', '#{u[5]}', '#{u[6]}', '#{u[7]}', '#{u[8]}', '#{u[9]}', '#{u[1]}', '#{u[0]}')))
     end
 
@@ -379,15 +385,16 @@ class MoveMantisDataToTmpTables < ActiveRecord::Migration
                                     AND mcf.id = mcfs.field_id))
       cux_fields.each do |cf|
         value = cf[2]
-        if cf[4] == '8'
-          cux_fields_ex = execute(%Q(SELECT mcfs.field_id '0', mcfs.bug_id '1', date_add('1970-01-01 08:00:00', interval mcfs.value second) '2', ioa.attribute_name '3', mcf.type '4'
+        if cf[4].to_s == '8'
+          cux_fields_ex = execute(%Q(SELECT mcfs.field_id '0', mcfs.bug_id '1', DATE_ADD(str_to_date('1970-01-01 08:00:00', '%Y-%m-%d %H:%i:%s'), INTERVAL mcfs.value SECOND) '2', ioa.attribute_name '3', mcf.type '4'
                           FROM mantis_custom_field_string_table mcfs, tmp_irm_object_attributes ioa, mantis_custom_field_table mcf
-                          WHERE mcfs.bug_id = '#{r[0]}' AND mcfs.field_id = ioa.data_extra_info AND ioa.external_system_id = '#{r[17]}'
+                          WHERE mcfs.bug_id = '#{r[0]}' AND mcfs.field_id = ioa.data_extra_info AND ioa.external_system_id = '#{r[17]}' AND mcfs.field_id = '#{cf[0]}'
                                 AND mcf.id = mcfs.field_id))
-          value = cux_fields_ex.first[2]
+          value = cux_fields_ex.first[2].to_s
         end
         execute(%Q(UPDATE tmp_icm_incident_requests SET #{cf[3]} = '#{value}' WHERE request_number = '#{r[0].to_s}'))
       end
+
 
       #create close journal, journal elapse, journal history, journal
 
