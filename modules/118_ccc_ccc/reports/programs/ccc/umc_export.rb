@@ -75,7 +75,7 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
       data[6] = s[:supporter_name]
       data[7] = s[:external_system_name]
       data[8] = s[:submitted_name]
-      watchers = s.watchers
+      watchers = s.person_watchers
       if !watchers.nil? && watchers.any?
         data[9] = s.watchers.collect(&:full_name).join(',')
       else
