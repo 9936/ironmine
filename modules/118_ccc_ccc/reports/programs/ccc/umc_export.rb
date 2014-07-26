@@ -77,7 +77,7 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
       data[8] = s[:submitted_name]
       watchers = s.person_watchers
       if !watchers.nil? && watchers.any?
-        data[9] = s.watchers.collect(&:full_name).join(',')
+        data[9] = watchers.collect(&:full_name).join(',')
       else
         data[9] = ""
       end
