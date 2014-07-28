@@ -593,6 +593,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
         joins(",#{Irm::GroupMember.table_name} gm").
         joins(",#{Icm::SupportGroup.table_name} sg").
         joins(",#{Icm::ExternalSystemGroup.table_name} esg").
+        where("#{Irm::Person.table_name}.assignment_availability_flag = 'Y'").
         where("esg.support_group_id = sg.id").
         where("gm.group_id = sg.group_id").
         where("gm.person_id = #{Irm::Person.table_name}.id").
