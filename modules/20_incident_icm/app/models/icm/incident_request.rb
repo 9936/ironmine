@@ -586,6 +586,20 @@ class Icm::IncidentRequest < ActiveRecord::Base
         enabled.collect(&:id)
   end
 
+  def system_support_group_member_ids
+    return @system_group_member_ids if @system_group_member_ids
+    return nil if self.support_group_id.nil?
+    @system_group_member_ids = Irm::Person.
+        joins(",#{Irm::GroupMember.table_name} gm").
+        joins(",#{Icm::SupportGroup.table_name} sg").
+        joins(",#{Icm::ExternalSystemGroup.table_name} esg").
+        where("esg.support_group_id = sg.id").
+        where("gm.group_id = sg.group_id").
+        where("gm.person_id = #{Irm::Person.table_name}.id").
+        where("esg.external_system_id = ?", self.external_system_id).
+        enabled.collect(&:id)
+  end
+
   def watcher?(person_id)
     self.watcher_person_ids.include?(person_id)
   end
