@@ -36,6 +36,10 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
       statis = statis.where("external_system.id IN (?)", current_acc_systems + []) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).any?
     end
 
+    if params[:status_id].present? && params[:status_id].size > 0 && params[:status_id][0].present?
+      statis = statis.where("incident_status_id IN (?)", params[:status_id] + [''])else
+    end
+
     datas = []
 
 
@@ -58,14 +62,14 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
     statis.each do |s|
       data = Array.new(12)
       data[0] = s[:request_number]
-      data[1] = s[:submitted_date]
+      data[1] = s[:submitted_date].strftime("%F %T")
       last_close_journal = Icm::IncidentJournal.
           where("incident_request_id = ?", s.id).
           where("reply_type = ?", "CLOSE").
           select("created_at").
           order("created_at DESC").limit(1)
       if last_close_journal.any?
-        data[2] = last_close_journal.first[:created_at]
+        data[2] = last_close_journal.first[:created_at].strftime("%F %T")
       else
         data[2] = ""
       end
@@ -81,7 +85,7 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
       else
         data[9] = ""
       end
-      data[10] = s[:last_response_date]
+      data[10] = s[:last_response_date].strftime("%F %T")
       data[11] = s[:incident_category_name]
 
       datas << data

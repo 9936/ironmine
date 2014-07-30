@@ -53,7 +53,7 @@ class Ccc::MitsubishiExport < Irm::ReportManager::ReportBase
       data[0] = s[:request_number]
       data[1] = s[:incident_category_name]
       data[2] = s[:sattribute7]
-      data[3] = s[:submitted_date]
+      data[3] = s[:submitted_date].strftime("%F %T")
       data[4] = s[:sattribute8]
       data[5] = s[:sattribute11]
       data[6] = s[:sattribute9]

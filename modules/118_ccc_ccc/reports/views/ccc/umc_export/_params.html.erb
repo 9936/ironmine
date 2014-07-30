@@ -12,6 +12,16 @@
         </div>
       </td>
       <td>
+        <label for="loginPerson_label">Status</label>
+        <div style="white-space:nowrap">
+          <%= select_tag_multiple(
+                      "program_params[status_id][]",
+                      nullable_options_for_select(available_request_status_code, program_params[:status_id]),
+                      "program_params[status_mul]",
+                      program_params[:status_mul] ? program_params[:status_id] : 'N')%>
+        </div>
+      </td>
+      <td>
         <fieldset>
           <legend>
             <%= t(:label_irm_report_time_range) %>
