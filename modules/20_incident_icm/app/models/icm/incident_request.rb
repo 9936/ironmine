@@ -586,7 +586,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
         enabled.collect(&:id)
   end
 
-  def system_support_group_member_ids
+  def system_sg_member_ids
     return @system_group_member_ids if @system_group_member_ids
     return nil if self.support_group_id.nil?
     @system_group_member_ids = Irm::Person.
