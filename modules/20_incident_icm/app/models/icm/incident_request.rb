@@ -588,7 +588,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   def system_sg_member_ids
     return @system_group_member_ids if @system_group_member_ids
-    return nil if self.support_group_id.nil?
+    return nil if self.external_system_id.nil?
     @system_group_member_ids = Irm::Person.
         joins(",#{Irm::GroupMember.table_name} gm").
         joins(",#{Icm::SupportGroup.table_name} sg").
