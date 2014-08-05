@@ -395,4 +395,5 @@ module Hli::IncidentJournalsControllerEx
       end
     end
   end
+  end
 end
