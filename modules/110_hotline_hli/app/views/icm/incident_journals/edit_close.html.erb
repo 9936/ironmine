@@ -46,7 +46,6 @@
                                                           :incident_category_id=>"${incident_category_id}")}%>
             </td>
           </tr>
-          <% unless Irm::ExternalSystem.find(@incident_request.external_system_id).strict_workload.eql?('Y') %>
           <tr>
             <td class="label-col"></td>
             <td class="data-col"><label for="incident_request_close_reason_code"><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
@@ -71,7 +70,6 @@
               <%= select_tag("add_workload_select", options_for_select(available_people), {:id => "workload_select"})%><%= link_to I18n.t(:add), {}, {:id => "add_workload", :href => "javascript:void(0)"}%>
             </td>
           </tr>
-          <% end %>
           <tr>
             <%= fields_for @incident_journal,:as=>"incident_journal",:builder => LabellingFormBuilder,:normal=>true do |sub_f|%>
               <%= sub_f.hidden_field(:incident_request_id) %>
