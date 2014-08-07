@@ -253,7 +253,7 @@
           <td class="label-col"><label for="incident_request_close_reason_code"><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
           <td class="data-col" colspan="5"><label>
             <% workload.each do |iw| %>
-                <%= iw[:person_name]%>:<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time_g]}"%>&nbsp;<%= ", " unless iw == workload.last %>
+                <%= iw[:person_name]%>:<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time_g].round(2)}"%>&nbsp;<%= ", " unless iw == workload.last %>
             <% end %>
             </label></td>
         </tr>
