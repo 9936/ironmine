@@ -556,7 +556,6 @@
     </table>
     <% end %>
     <% if (allow_to_function?(:edit_incident_request_priority) ||
-            Irm::Person.current.id == @incident_request.requested_by ||
             Irm::Person.current.id == @incident_request.support_person_id) &&
             !@incident_request.close? %>
     <table class="page-block-header">
