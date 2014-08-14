@@ -95,10 +95,10 @@ class Hli::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                             select("created_at").
                             order("created_at DESC").limit(1)
       if last_close_journal.any?
-        data[14] = last_close_journal.first[:created_at]
+        data[14] = last_close_journal.first[:created_at].strftime("%F %T")
       else
         if s.close?
-          data[14] = s[:last_response_date]
+          data[14] = s[:last_response_date].strftime("%F %T")
         else
           data[14] = ""
         end
@@ -111,7 +111,7 @@ class Hli::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                               select("created_at").
                               order("created_at ASC").limit(1)
       if first_assign_journal.any?
-        data[16] = first_assign_journal.first[:created_at]
+        data[16] = first_assign_journal.first[:created_at].strftime("%F %T")
       else
         data[16] = ""
       end
