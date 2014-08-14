@@ -51,6 +51,7 @@
                 <label><%=t(:label_icm_incident_request_contact_way)%><%= required_icon %></label>
                 <%=f.text_field :contact_number,:id=>"incident_request_contact_number", :value=> I18n.t(:label_icm_incident_request_contact_number_tip_a), :class => "grayTips", :style => "width:175px;"%>
               </div>
+            <% if allow_to_function?(:change_urgence_in_submit) %>
             <div class="quick-create-field">
               <table>
                 <tr>
@@ -71,6 +72,7 @@
                 </tr>
               </table>
             </div>
+            <% end %>
 
             <!-- 自定义字段信息 -->
             <div id="customBlock" style="display: none;" href= <%= get_custom_block_url("Icm::IncidentRequest",{:external_system_id => "${external_system_id}"},"new_icm_incident_request")%>></div>
