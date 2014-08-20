@@ -271,7 +271,15 @@ class Icm::IncidentRequest < ActiveRecord::Base
   }
 
   scope :with_close_reply, lambda{
-    joins(" LEFT OUTER JOIN #{Icm::IncidentJournal.table_name} icj ON icj.reply_type = 'CLOSE' AND icj.incident_request_id = #{table_name}.id").
+    joins(" LEFT OUTER JOIN #{Icm::IncidentJournal.table_name} icj ON icj.reply_type = 'CLOSE' AND icj.incident_request_id = #{table_name}.id AND icj.id = (SELECT
+            ij1.id
+        FROM
+            icm_incident_journals ij1
+        WHERE
+            ij1.reply_type = 'CLOSE'
+                AND #{table_name}.id = ij1.incident_request_id
+        ORDER BY ij1.created_at DESC
+        LIMIT 1)").
         select(" icj.message_body close_message")
   }
 
