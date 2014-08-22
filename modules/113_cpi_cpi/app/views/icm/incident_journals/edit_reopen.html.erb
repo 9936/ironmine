@@ -1,0 +1,63 @@
+<%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:reopen)) %>
+<%= form_for(@incident_request,:url=>{:action=>"update_reopen"},:builder => CustomFormBuilder,:html => { :multipart => true }) do |f| %>
+  <% content_for :form_block_common   do%>
+    <table class="form-table" style="width: 100%;">
+      <tbody>
+          <tr>
+            <%= fields_for @incident_journal,:as=>"incident_journal",:builder => CustomFormBuilder,:normal=>true do |sub_f|%>
+              <%= sub_f.hidden_field(:incident_request_id) %>
+            <td class="label-col"><%= t(:label_icm_incident_journal_reopen) %></td>
+            <td class="data-3col" colspan="5">
+              <%= sub_f.text_area :message_body ,:id=>"msgEditor",:cols=>150,:rows=>8,:required=>true%>
+              <%= xheditor("msgEditor",true) %>
+            </td>
+            <% end%>
+          </tr>
+          <tr>
+            <td class="label-col"><%= t(:label_icm_incident_journal_attachment) %></td>
+            <td class="data-3col" colspan="5">
+              <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"pass_incident_request_file"} %>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:cancel), {:action => "new"}, {:class => "btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_icm_incident_journal_reopen)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <%= error_for @incident_request %>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+
+
