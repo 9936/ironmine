@@ -15,11 +15,6 @@
                               {:action => "edit_status", :sid => @incident_request.external_system_id},
                               {:class=>"btn"}  %>
               <% end %>
-              <% if false && current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
-                  <%= link_to t(:label_icm_incident_request_upgrade),
-                              {:action => "edit_upgrade", :sid => @incident_request.external_system_id},
-                              {:class=>"btn"}%>
-              <% end %>
           <% end%>
         </div>
 
@@ -75,16 +70,6 @@
           <% end %>
         </div>
     <% end %>
-    <div class="btn-group">
-      <% if @incident_request.status_code.eql?("ENABLED") %>
-          <% if @incident_request.kb_flag==Irm::Constant::SYS_NO %>
-              <%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers", :action => "new_from_icm_request", :request_id => @incident_request.id},{:class=>"btn"} %>
-          <% end %>
-          <% unless @incident_request.change_request_id.present? %>
-              <%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests", :action => "incident_new", :request_id => @incident_request.id}, {:back=>true,:class=>"btn"} %>
-          <% end %>
-      <% end %>
-    </div>
     <% if false%>
     <div class="btn-group">
       <%= link_to t(:export_pdf), {:controller=>"icm/incident_journals",:action=>"new",:request_id=> @incident_request.id,:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>

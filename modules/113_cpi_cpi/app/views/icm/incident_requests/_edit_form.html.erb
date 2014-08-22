@@ -93,15 +93,6 @@
             </td>
           </tr>
           <tr>
-            <td class="label-col"><%=t(:label_icm_incident_request_hotline)%></td>
-            <td class="data-3col" colspan="3">
-              <%= f.radio_button :hotline, Irm::Constant::SYS_YES, :id => "incident_request_hotline_y", :checked => @incident_request.hotline.eql?("Y") %>
-              <label for="incident_request_hotline_y"><%=t(:label_icm_incident_request_hotline_y)%></label>&nbsp;&nbsp;
-              <%= f.radio_button :hotline, Irm::Constant::SYS_NO, :id => "incident_request_hotline_n", :checked => @incident_request.hotline.eql?("N") %>
-              <label for="incident_request_hotline_n"><%=t(:label_icm_incident_request_hotline_n)%></label>
-            </td>
-          </tr>
-          <tr>
             <td class="label-col"><label for="incident_estimated_date"><%=t(:label_icm_incident_request_estimated_date)%></label></td>
             <td class="data-3col">
               <%= f.date_field(:estimated_date,:size=>12,:class=>"date",:id=>"incident_estimated_date")%>
