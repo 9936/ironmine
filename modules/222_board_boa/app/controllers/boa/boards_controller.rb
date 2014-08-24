@@ -13,13 +13,13 @@ class Boa::BoardsController < ApplicationController
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
         where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
-        group("#{Icm::IncidentRequest.table_name}.incident_category_id").collect{|i| [i[:category_name], i[:amount]]}
+        group("#{Icm::IncidentRequest.table_name}.incident_category_id").collect{|i| [i[:category_name], i[:amount].to_i]}
 
     @table_a_incident_by_category_total = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").
         select("ic.name category_name, SUM(1) amount").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
-        group("#{Icm::IncidentRequest.table_name}.incident_category_id").collect{|i| [i[:category_name], i[:amount]]}
+        group("#{Icm::IncidentRequest.table_name}.incident_category_id").collect{|i| [i[:category_name], i[:amount].to_i]}
 
     ir_submited_result = Icm::IncidentRequest.enabled.
         select("DATE_FORMAT(submitted_date, '%Y-%m-%d') submitted_date_formatted, SUM(1) submitted_amount").
