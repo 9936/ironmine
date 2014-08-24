@@ -1,0 +1,161 @@
+<% require_jscss(:newhighcharts) %>
+<table style="width:100%">
+  <tr>
+    <td style="width:70%">
+      <div id="daily_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    </td>
+    <td style="width:30%">
+      <div id="open_pie_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    </td>
+  </tr>
+  </table>
+<script type="text/javascript">
+
+    $(function () {
+
+        $('#open_pie_chart').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Incidents by Category (<%= Time.now.strftime("%F")%>)'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}: {point.y}'
+                    },
+                    showInLegend: true
+                }
+            },
+            legend: {
+//                layout: 'vertical',
+//                align: 'left', //水平方向位置
+//                verticalAlign: 'top', //垂直方向位置
+//                x: 50, //距离x轴的距离
+//                y: 50 //距离Y轴的距离
+            },
+            series: [{
+                type: 'pie',
+                name: 'Category',
+                data: <%= raw @table_a_incident_by_category_open%>
+            }]
+        });
+
+        $('#daily_chart').highcharts({
+            title: {
+                text: 'Amount of incident(historical)',
+                x: -20 //center
+            },
+            subtitle: {
+                x: -20
+            },
+            xAxis: {
+                categories: ['<%= @table_a_date.join("','")%>'],
+                labels: {
+                    style: {
+                        fontSize: '10px'
+                    }
+                }
+            },
+            yAxis: [{
+                title: {
+                    text: 'Daily & Daily Close'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }],
+                min:0
+            },{
+                title: {
+                    text: 'Accum Open & Accum Close'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }],
+                min:0,
+                opposite: true
+            }],
+
+            tooltip: {
+//                valueSuffix: '°C'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                type: 'column',
+                name: 'Daily',
+                data: [<%= @table_a_submitted_amount.join(',')%>],
+                dataLabels: {
+                    enabled: true,
+                    rotation: -90,
+                    color: '#ffffff',
+                    align: 'right',
+                    x: 4,
+                    y: 10,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }, {
+                type: 'column',
+                name: 'Daily Close',
+                data: [<%= @table_a_closed_amount.join(',')%>],
+                dataLabels: {
+                    enabled: true,
+                    rotation: -90,
+                    color: '#ffffff',
+                    align: 'right',
+                    x: 4,
+                    y: 10,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            },{
+                type: 'line',
+                yAxis: 1,
+                name: 'Accum Open',
+                data: [<%= @table_a_accum_open_amount.join(',')%>]
+            },{
+                type: 'line',
+                yAxis: 1,
+                name: 'Accum Close',
+                data: [<%= @table_a_accum_close_amount.join(',')%>]
+            } ]
+        });
+    });
+</script>
+<script language="JavaScript">
+    function myrefresh()
+    {
+        window.location.reload();
+    }
+    setTimeout('myrefresh()',120000); //指定1秒刷新一次
+</script>
+
