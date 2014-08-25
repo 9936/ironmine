@@ -52,7 +52,7 @@
              <td class="data-3col"><%=f.select :incident_category_id,
                                            nullable_options_for_select([],@incident_request.incident_category_id),
                                            {},
-                                           {:id=>"incident_category_id",
+                                           {:id=>"incident_category_id",:required=>true,
                                             :origin_value=>@incident_request.incident_category_id,
                                             :depend=>"ass_external_system",
                                             :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
