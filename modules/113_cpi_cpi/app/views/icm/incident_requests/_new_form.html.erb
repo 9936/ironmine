@@ -127,9 +127,7 @@
         <tr>
           <td class="label-col"><label for="incident_request_contact_number"><%=t(:label_icm_incident_request_contact_way)%></label></td>
           <td class="data-col" colspan=3>
-            <%=f.text_field :contact_number,:style => "width:500px", :id=>"incident_request_contact_number",
-                           :value=> I18n.t(:label_icm_incident_request_contact_number_tip_b),
-                           :class => "grayTips", :required=>true%>
+            <%=f.text_field :contact_number,:style => "width:500px", :id=>"incident_request_contact_number", :required=>true%>
           </td>
         </tr>
         <% if allow_to_function?(:change_urgence_in_submit) %>
@@ -251,13 +249,13 @@
          })
          setLookupValue("incident_request_contact_id",requester.val())
      }
-//     if($("#incident_request_contact_id")){
-//         $("#incident_request_contact_id").change(function(event){
-//           if($(event.target).val()&&$(event.target).data("lov")&&$(event.target).data("lov").bussiness_phone){
-//             $("#incident_request_contact_number").val($(event.target).data("lov").bussiness_phone);
-//           }
-//         })
-//     }
+     if($("#incident_request_contact_id")){
+         $("#incident_request_contact_id").change(function(event){
+           if($(event.target).val()&&$(event.target).data("lov")&&$(event.target).data("lov").bussiness_phone){
+             $("#incident_request_contact_number").val($(event.target).data("lov").bussiness_phone);
+           }
+         })
+     }
      if($("#incident_request_support_group_id")){
          $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
      }
