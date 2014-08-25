@@ -529,19 +529,7 @@
         </td>
     </tr>
   </table>
-    <% if  allow_to_function?(:assign_incident_request) &&
-            !@incident_request.close?%>
-    <table class="page-block-header" >
-      <tr>
-          <td class="page-block-title">
-            <h2 class="block-title"><%=t(:label_report_incident_request_support)%></h2>
-          </td>
-          <td class="page-block-button">
-            <%= content_for :block_assign_controll_bar  %>
-          </td>
-      </tr>
-    </table>
-    <% end %>
+
     <% if (allow_to_function?(:edit_incident_request_priority) ||
             Irm::Person.current.id == @incident_request.support_person_id) &&
             !@incident_request.close? %>
