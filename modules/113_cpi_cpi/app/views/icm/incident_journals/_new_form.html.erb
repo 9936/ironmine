@@ -86,10 +86,7 @@
         <%= hidden_field_tag(:incident_request_ids, @incident_request.id, :id=>"incident_request_ids")  %>
         <%= hidden_field_tag(:from_incident_request, "true", :id=>"from_incident_request")  %>
         <label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label>
-        <%= blank_select_tag :support_group_id,available_support_group(@incident_request.external_system_id, @incident_request),
-                                                              {},{:id=>"incident_request_support_group_id"}%>
-        <label for="person_role_id"><%=t(:label_irm_role)%></label>
-        <%= blank_select_tag :role_id, available_roles(true),{},{:id=>"person_role_id"}%>
+        <%= blank_select_tag :support_group_id,available_support_group(@incident_request.external_system_id, @incident_request), @incident_request.support_group_id,{:id=>"incident_request_support_group_id"}%>
         <label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_support_person)%></label>
         <%= blank_select_tag(:support_person_id,[],{},
                                             {
