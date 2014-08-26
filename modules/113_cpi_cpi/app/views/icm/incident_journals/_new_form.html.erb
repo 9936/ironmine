@@ -86,7 +86,8 @@
         <%= hidden_field_tag(:incident_request_ids, @incident_request.id, :id=>"incident_request_ids")  %>
         <%= hidden_field_tag(:from_incident_request, "true", :id=>"from_incident_request")  %>
         <label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label>
-        <%= blank_select_tag :support_group_id,available_support_group(@incident_request.external_system_id, @incident_request), @incident_request.support_group_id,{:id=>"incident_request_support_group_id"}%>
+        <%= blank_select_tag :support_group_id,available_support_group(@incident_request.external_system_id, @incident_request),
+                             @incident_request.support_group_id,{:id=>"incident_request_support_group_id"}%>
         <label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_support_person)%></label>
         <%= blank_select_tag(:support_person_id,[],{},
                                             {
@@ -529,7 +530,19 @@
         </td>
     </tr>
   </table>
-
+    <% if  allow_to_function?(:assign_incident_request) &&
+            !@incident_request.close?%>
+    <table class="page-block-header" >
+      <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%=t(:label_report_incident_request_support)%></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :block_assign_controll_bar  %>
+          </td>
+      </tr>
+    </table>
+    <% end %>
     <% if (allow_to_function?(:edit_incident_request_priority) ||
             Irm::Person.current.id == @incident_request.support_person_id) &&
             !@incident_request.close? %>
@@ -592,6 +605,7 @@
       </div>
       <div class="sub-page-block-body">
         <%= content_for :block_header_content %>
+        <%= content_for :change_request_tab %>
       </div>
     </div>
   </div>
