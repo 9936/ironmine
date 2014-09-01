@@ -22,7 +22,13 @@
             <td rowspan="2">
               <div style="display: inline-block; background-color: #ccffff; height: 40px;">
                 <div style="display: inline-block; float: left; margin: 15px 5px 0px 5px;font-weight: bold; "><%= ir[0]%></div>
-                <div style="display: inline-block;float: left; margin: 13px 5px 0px 5px; " class="redpoint"></div>
+                <% if ir[1].to_i == 0 && ir[2].to_i == 0%>
+                <div style="display: inline-block;float: left; margin: 13px 5px 0px 5px; " class="greenpoint"></div>
+                <% elsif ir[1].to_i == 0 && ir[2].to_i > 0%>
+                    <div style="display: inline-block;float: left; margin: 13px 5px 0px 5px; " class="yellowpoint"></div>
+                <% elsif ir[1].to_i > 0%>
+                    <div style="display: inline-block;float: left; margin: 13px 5px 0px 5px; " class="redpoint"></div>
+                <% end %>
               </div>
             </td>
             <td>
@@ -49,7 +55,11 @@
                 <td>
                   <div style="display: inline-block; background-color: #ccffff; height: 40px;">
                     <div style="display: inline-block; float: left; margin: 15px 5px 0px 5px;font-weight: bold; "><%= ir[0]%></div>
-                    <div style="display: inline-block;float: left; margin: 13px 5px 0px 5px; " class="redpoint"></div>
+                    <% if ir[2].to_i > 0%>
+                        <div style="display: inline-block;float: left; margin: 13px 5px 0px 5px; " class="yellowpoint"></div>
+                    <% else%>
+                        <div style="display: inline-block;float: left; margin: 13px 5px 0px 5px; " class="greenpoint"></div>
+                    <% end %>
                   </div>
                 </td>
                 <td>

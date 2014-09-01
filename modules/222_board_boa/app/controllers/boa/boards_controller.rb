@@ -50,12 +50,37 @@ class Boa::BoardsController < ApplicationController
                 AND ir.incident_category_id = ic.id))).
           where("ic.name = ?", ira).
           group("ic.name")
+      incident_realtime_priority_result = Icm::IncidentCategory.
+          select("count(*) issue_realtime_amount, ic.name issue_type").
+          joins(",#{Icm::IncidentCategory.view_name} ic").
+          where("ic.id = #{Icm::IncidentCategory.table_name}.id").
+          where("ic.language = 'en'").
+          where(%Q(EXISTS( SELECT
+            *
+        FROM
+            icm_incident_requests ir,
+            icm_incident_statuses iis,
+            icm_priority_codes ipc
+        WHERE
+            ipc.id = ir.priority_id
+            AND ipc.weight_values > 3
+            AND iis.id = ir.incident_status_id
+            AND iis.close_flag = 'N'
+            AND ir.status_code = 'ENABLED'
+            AND ir.incident_category_id = ic.id))).
+          where("ic.name = ?", ira).
+          group("ic.name")
       if incident_realtime_result.any?
         incident_realtime_result = incident_realtime_result.first[:issue_realtime_amount]
       else
         incident_realtime_result = '0'
       end
-      cell_array = [ira, incident_realtime_result]
+      if incident_realtime_priority_result.any?
+        incident_realtime_priority_result = incident_realtime_priority_result.first[:issue_realtime_amount]
+      else
+        incident_realtime_priority_result = '0'
+      end
+      cell_array = [ira, incident_realtime_result, incident_realtime_priority_result]
       @incident_realtime_result_array << cell_array
     end
 
