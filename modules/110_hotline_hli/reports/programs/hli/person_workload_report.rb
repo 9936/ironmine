@@ -16,7 +16,7 @@ class Hli::PersonWorkloadReport < Irm::ReportManager::ReportBase
         joins(" LEFT OUTER JOIN #{Irm::LookupValue.view_name} lv ON lv.lookup_type = 'WORKLOAD_TYPE' AND lv.lookup_code = iw.workload_type AND lv.language = '#{I18n.locale}'").
         joins(", #{Irm::Person.table_name} ip1").
         where("ip1.id = iw.person_id").
-        select("ip1.full_name supporter_name, ip1.id real_support_person_id").
+        select("ip1.full_name supporter_name, ip1.id real_support_person_id, ip1.role_id role_id").
         where("iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id").
         select("lv.meaning workload_type_name, iw.real_processing_time real_processing_time").
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
@@ -33,6 +33,10 @@ class Hli::PersonWorkloadReport < Irm::ReportManager::ReportBase
     if params[:supporter_id].present? && params[:supporter_id].size > 0 && params[:supporter_id][0].present?
       statis = statis.where(%Q"iw.person_id IN (?)",
                             params[:supporter_id] + [])
+    end
+
+    if params[:role_id].present?
+      statis = statis.where("ip1.role_id = ?", params[:role_id])
     end
 
     if params[:hotline].present?
@@ -57,14 +61,15 @@ class Hli::PersonWorkloadReport < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_last_date),
                I18n.t(:label_icm_incident_request_incident_status_code),
                I18n.t(:label_icm_incident_journal_workload_type),
-               I18n.t(:label_report_request_workload)
+               I18n.t(:label_report_request_workload),
+               "Role"
                ]
 
     headers << I18n.t(:label_report_incident_request_journal) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
 
     statis.each do |s|
-      data = Array.new(12)
-      data = Array.new(13) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
+      data = Array.new(13)
+      data = Array.new(14) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
 
       data[0] = s[:request_number]
       data[1] = s[:external_system_name]
@@ -78,12 +83,17 @@ class Hli::PersonWorkloadReport < Irm::ReportManager::ReportBase
       data[9] = s[:incident_status_name]
       data[10] = s[:workload_type_name]
       data[11] = s[:real_processing_time]
-
+      role = Irm::Role.select("rt.name name").joins(",#{Irm::RolesTl.table_name} rt").where("rt.language = ?", "zh").where("rt.role_id = #{Irm::Role.table_name}.id").where("rt.role_id = ?", s[:role_id])
+      if role.any?
+        data[12] = role.first[:name]
+      else
+        data[12] = ""
+      end
       if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
         messages = ''
         messages << s.concat_journals_with_text(s[:real_support_person_id])
         messages = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(messages,""))
-        data[12] = messages
+        data[13] = messages
       end
 
       datas << data

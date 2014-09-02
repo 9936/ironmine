@@ -12,6 +12,15 @@
         </div>
       </td>
       <td>
+        <label for="loginPerson_label">Role</label>
+        <div style="white-space:nowrap">
+          <%= blank_select_tag(
+                      "program_params[role_id][]",
+                      nullable_options_for_select(available_roles(true), program_params[:role_id]),
+                      program_params[:role_id])%>
+        </div>
+      </td>
+      <td>
         <fieldset>
           <legend>
             <%= t(:label_irm_report_time_range) %>
