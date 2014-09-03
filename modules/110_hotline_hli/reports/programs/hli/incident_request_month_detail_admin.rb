@@ -49,8 +49,8 @@ class Hli::IncidentRequestMonthDetailAdmin < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_contact_way),
                I18n.t(:label_icm_incident_request_client_info),
                I18n.t(:label_icm_incident_request_incident_status_code),
-               I18n.t(:label_report_request_workload),"远程工时","现场工时","Out of SLA",
-               "First Assign"
+               I18n.t(:label_report_request_workload),"远程工时","现场工时",
+               "First Assign","Out of SLA"
                ]
     headers << I18n.t(:label_report_incident_request_journal) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
 
