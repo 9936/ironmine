@@ -83,9 +83,9 @@ class Hli::PersonWorkloadReport < Irm::ReportManager::ReportBase
       data[9] = s[:incident_status_name]
       data[10] = s[:workload_type_name]
       data[11] = s[:real_processing_time]
-      role = Irm::Role.select("rt.name name").joins(",#{Irm::RolesTl.table_name} rt").where("rt.language = ?", "zh").where("rt.role_id = #{Irm::Role.table_name}.id").where("rt.role_id = ?", s[:role_id])
+      role = Irm::Role.select("rt.name role_name").joins(",#{Irm::RolesTl.table_name} rt").where("rt.language = ?", "zh").where("rt.role_id = #{Irm::Role.table_name}.id").where("rt.role_id = ?", s[:role_id])
       if role.any?
-        data[12] = role.first[:name]
+        data[12] = role.first[:role_name]
       else
         data[12] = ""
       end
