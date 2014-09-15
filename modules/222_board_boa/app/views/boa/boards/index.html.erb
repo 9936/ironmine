@@ -86,7 +86,7 @@
                 plotShadow: false
             },
             title: {
-                text: 'Incidents by Category (Open thru <%= Time.now.strftime("%F")%>)'
+                text: 'Incidents by Category (Open thru today)'
             },
             plotOptions: {
                 pie: {
@@ -108,6 +108,7 @@
                 color
             %>],
             legend: {
+                  enabled: false
 //                layout: 'vertical',
 //                align: 'left', //水平方向位置
 //                verticalAlign: 'top', //垂直方向位置
@@ -127,7 +128,7 @@
                 plotShadow: false
             },
             title: {
-                text: 'Incidents by Status (Open thru <%= Time.now.strftime("%F")%>)'
+                text: 'Incidents by Status (Open thru today)'
             },
             colors: [<%=
                 color = ''
@@ -149,6 +150,7 @@
                 }
             },
             legend: {
+                  enabled: false
 //                layout: 'vertical',
 //                align: 'left', //水平方向位置
 //                verticalAlign: 'top', //垂直方向位置

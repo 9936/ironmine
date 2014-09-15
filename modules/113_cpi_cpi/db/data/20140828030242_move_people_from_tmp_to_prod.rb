@@ -81,13 +81,14 @@ class MovePeopleFromTmpToProd < ActiveRecord::Migration
         t = Irm::Person.create(:opu_id => opu_id,
                                :organization_id => organization_id,
                                :first_name => rs[1],
+                               :last_name => '',
                                :hashed_password => '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d',
                                :bussiness_phone => rs[3],
                                :profile_id => profile_id,
                                :notification_flag => notification_flag,
                                :assignment_availability_flag => assignment_availability_flag,
                                :email_address => email_address,
-                               :login_name => rs[6],
+                               :login_name => rs[6].downcase,
                                :identity_id => Time.now.strftime('%Y-%m-%d').to_s)
         puts("++++++++++++++++++++++++++++++++++++++++++++++++" + t.to_json)
       rescue

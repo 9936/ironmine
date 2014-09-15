@@ -33,7 +33,7 @@ class Boa::BoardsController < ApplicationController
         group("#{Icm::IncidentRequest.table_name}.incident_category_id").order("ic.code + 0 ASC").collect{|i| [i[:category_name], i[:amount].to_i, '']}
 
     @table_a_incident_by_category_open.each do |c|
-      c[2] = '#FF7385' if c[0].eql?("Failure")
+      c[2] = '#FF0900' if c[0].eql?("Failure")
       c[2] = '#E8AB5D' if c[0].eql?("Inquiry")
       c[2] = '#FFFEC7' if c[0].eql?("Change Request")
       c[2] = '#66D6FF' if c[0].eql?("Regular Maintenance")
