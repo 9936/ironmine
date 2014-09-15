@@ -1,25 +1,28 @@
 <% require_jscss(:newhighcharts) %>
 <table style="width:100%">
   <tr>
-    <td style="width:70%">
+    <td style="width:40%">
       <div id="daily_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </td>
     <td style="width:30%">
       <div id="open_pie_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </td>
+    <td style="width:30%">
+      <div id="open_pie_chart_by_service_desk" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    </td>
   </tr>
   <tr style="height: 40px;font-weight: bold;font-size: 18px;">
-    <td colspan="2">
-        Critical Issue Real-time monitoring
+    <td colspan="3">
+        <div style="background-color: #c6c6c6; width: 30%; padding: 10px 10px"><I>Critical Issue Real-time monitoring</I></div>
     </td>
   </tr>
   <tr>
-    <td colspan="2">
+    <td colspan="3">
       <% @issue_realtime_result_array.each do |ir| %>
       <div style="display: inline-block; margin: 0 10px;">
         <table>
           <tr>
-            <td rowspan="2">
+            <td rowspan="3">
               <div style="display: inline-block; background-color: #ccffff; height: 40px;">
                 <div style="display: inline-block; float: left; margin: 15px 5px 0px 5px;font-weight: bold; "><%= ir[0]%></div>
                 <% if ir[1].to_i == 0 && ir[2].to_i == 0%>
@@ -42,12 +45,12 @@
     </td>
   </tr>
   <tr style="height: 40px;font-weight: bold;font-size: 18px;">
-    <td colspan="2">
-      Critical Incidents Real-time monitoring
+    <td colspan="3">
+      <div style="background-color: #c6c6c6; width: 30%; padding: 10px 10px"><I>Critical Incidents Real-time monitoring</I></div>
     </td>
   </tr>
   <tr>
-    <td colspan="2">
+    <td colspan="3">
       <% @incident_realtime_result_array.each do |ir| %>
           <div style="display: inline-block; margin: 0 10px;">
             <table>
@@ -83,8 +86,57 @@
                 plotShadow: false
             },
             title: {
-                text: 'Incidents by Category (<%= Time.now.strftime("%F")%>)'
+                text: 'Incidents by Category (Open thru <%= Time.now.strftime("%F")%>)'
             },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}: {point.y}'
+                    },
+                    showInLegend: true
+                }
+            },
+            colors: [<%=
+                color = ''
+                @table_a_incident_by_category_open.each do |c|
+                    color = color + "'#{c[2]}'"
+                    color = color + ',' if c != @table_a_incident_by_category_open.last
+                end
+                color
+            %>],
+            legend: {
+//                layout: 'vertical',
+//                align: 'left', //水平方向位置
+//                verticalAlign: 'top', //垂直方向位置
+//                x: 50, //距离x轴的距离
+//                y: 50 //距离Y轴的距离
+            },
+            series: [{
+                type: 'pie',
+                name: 'Category',
+                data: <%= raw @table_a_incident_by_category_open%>
+            }]
+        });
+        $('#open_pie_chart_by_service_desk').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Incidents by Status (Open thru <%= Time.now.strftime("%F")%>)'
+            },
+            colors: [<%=
+                color = ''
+                @table_a_open_by_service_desk.each do |c|
+                    color = color + "'#{c[2]}'"
+                    color = color + ',' if c != @table_a_open_by_service_desk.last
+                end
+                color
+            %>],
             plotOptions: {
                 pie: {
                     allowPointSelect: false,
@@ -105,11 +157,10 @@
             },
             series: [{
                 type: 'pie',
-                name: 'Category',
-                data: <%= raw @table_a_incident_by_category_open%>
+                name: 'Status',
+                data: <%= raw @table_a_open_by_service_desk%>
             }]
         });
-
         $('#daily_chart').highcharts({
             title: {
                 text: 'Amount of incident(historical)',
