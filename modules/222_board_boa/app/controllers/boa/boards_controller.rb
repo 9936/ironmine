@@ -10,6 +10,12 @@ class Boa::BoardsController < ApplicationController
     @table_a_open_by_service_desk = []
     @count_new = Icm::IncidentRequest.enabled.
         joins(",#{Icm::IncidentStatus.table_name} iis").
+        joins(",icm_support_groups_vl isg").
+        where("isg.language = 'zh'").
+        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
+        where("isg.name = 'Service Desk'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").
         where("iis.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
         where("iis.incident_status_code IN ('NEW', 'NOT_STARTED')").size
 
