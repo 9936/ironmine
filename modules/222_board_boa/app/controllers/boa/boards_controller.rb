@@ -58,12 +58,12 @@ class Boa::BoardsController < ApplicationController
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("isg.name = 'Service Desk'").
         select("DATE_FORMAT(submitted_date, '%Y-%m-%d') submitted_date_formatted, SUM(1) submitted_amount").
-        where("submitted_date >= ?", (Time.now - 30.days).strftime('%Y-%m-%d')).
+        where("submitted_date >= ?", (Time.now - 44.days).strftime('%Y-%m-%d')).
         group("DATE_FORMAT(submitted_date, '%Y-%m-%d')").collect{|a| [a[:submitted_date_formatted], a[:submitted_amount]]}
 
     ir_close_result = Icm::IncidentRequest.enabled.
         select("DATE_FORMAT(last_response_date, '%Y-%m-%d') close_date_formatted, SUM(1) close_amount").
-        where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND ij.created_at >= ?)", (Time.now - 30.days).strftime('%Y-%m-%d')).
+        where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND ij.created_at >= ?)", (Time.now - 44.days).strftime('%Y-%m-%d')).
         group("DATE_FORMAT(last_response_date, '%Y-%m-%d')").collect{|a| [a[:close_date_formatted], a[:close_amount]]}
     incident_realtime_array = ['Master Maintenance', 'Change Request', 'Regular Maintenance', 'Non-Regular Maintenance']
     @incident_realtime_result_array = []
@@ -180,7 +180,7 @@ class Boa::BoardsController < ApplicationController
       @issue_realtime_result_array << cell_array
     end
 
-    for today in (Time.now - 7.days).strftime('%Y-%m-%d').to_datetime..Time.now.strftime('%Y-%m-%d').to_datetime do
+    for today in (Time.now - 44.days).strftime('%Y-%m-%d').to_datetime..(Time.now - 30.days).strftime('%Y-%m-%d').to_datetime do
       ir_submitted = ir_submited_result.select{|i| i[0] == today.strftime('%Y-%m-%d')}
       ir_closed = ir_close_result.select{|i| i[0] == today.strftime('%Y-%m-%d')}
       @table_a_date << today.strftime('%m/%d')

@@ -1,23 +1,25 @@
 <% require_jscss(:newhighcharts) %>
 <table style="width:100%">
   <tr>
-    <td style="width:40%">
+    <td style="width:66%">
       <div id="daily_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </td>
-    <td style="width:30%">
+    <td style="width:33%">
       <div id="open_pie_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </td>
-    <td style="width:30%">
+  <tr>
+  </tr>
+  </tr>
+  <tr style="font-weight: bold;font-size: 18px;">
+    <td style="width:66%">
+        <div style="background-color: #c6c6c6; width: 30%; padding: 10px 10px"><I>Critical Issue Real-time monitoring</I></div>
+    </td>
+    <td style="width:33%" rowspan="4">
       <div id="open_pie_chart_by_service_desk" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </td>
   </tr>
-  <tr style="height: 40px;font-weight: bold;font-size: 18px;">
-    <td colspan="3">
-        <div style="background-color: #c6c6c6; width: 30%; padding: 10px 10px"><I>Critical Issue Real-time monitoring</I></div>
-    </td>
-  </tr>
   <tr>
-    <td colspan="3">
+    <td >
       <% @issue_realtime_result_array.each do |ir| %>
       <div style="display: inline-block; margin: 0 10px;">
         <table>
@@ -45,12 +47,12 @@
     </td>
   </tr>
   <tr style="height: 40px;font-weight: bold;font-size: 18px;">
-    <td colspan="3">
+    <td >
       <div style="background-color: #c6c6c6; width: 30%; padding: 10px 10px"><I>Critical Incidents Real-time monitoring</I></div>
     </td>
   </tr>
   <tr>
-    <td colspan="3">
+    <td>
       <% @incident_realtime_result_array.each do |ir| %>
           <div style="display: inline-block; margin: 0 10px;">
             <table>
