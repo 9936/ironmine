@@ -8,6 +8,10 @@ class Boa::BoardsController < ApplicationController
     @table_a_incident_by_category_open = []
     @table_a_incident_by_category_total = []
     @table_a_open_by_service_desk = []
+    @count_new = Icm::IncidentRequest.enabled.
+        joins(",#{Icm::IncidentStatus.table_name} iis").
+        where("iis.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
+        where("iis.incident_status_code IN ('NEW', 'NOT_STARTED')").size
 
     @table_a_open_by_service_desk = Icm::IncidentRequest.enabled.
         joins(",#{Icm::IncidentStatus.view_name} isv").

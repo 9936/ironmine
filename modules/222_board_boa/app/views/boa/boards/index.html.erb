@@ -1,7 +1,7 @@
 <% require_jscss(:newhighcharts) %>
 <table style="width:100%">
   <tr>
-    <td style="width:66%">
+    <td style="width:66%" colspan="2">
       <div id="daily_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </td>
     <td style="width:33%">
@@ -10,9 +10,26 @@
   <tr>
   </tr>
   </tr>
-  <tr style="font-weight: bold;font-size: 18px;">
-    <td style="width:66%">
-        <div style="background-color: #c6c6c6; width: 30%; padding: 10px 10px"><I>Critical Issue Real-time monitoring</I></div>
+  <tr style="font-size: 18px;">
+    <td style="width:47%;font-weight: bold;">
+        <div style="background-color: #c6c6c6; width: 50%; padding: 10px 10px"><I>Critical Issue Real-time Monitoring</I></div>
+    </td>
+    <td style="width:20%;" rowspan="4">
+        <% if @count_new == 0 %>
+          <div style="width: 100%;height: 250px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
+            &nbsp;
+          </div>
+        <% elsif @count_new == 1%>
+          <div style="width: 100%;height: 250px;border: solid 1px #cccccc;text-align:center;font-size: 50px;background-color: #ffa0a0">
+            <div style="height: 200px;line-height: 200px; font-size: 50px;"><%= @count_new.to_s%></div>
+            <div style="height: 50px;line-height: 50px; font-size: 25px;">New Incident</div>
+          </div>
+        <% else%>
+          <div style="width: 100%;height: 250px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
+            <div style="height: 200px;line-height: 200px; font-size: 100px;"><%= @count_new.to_s%></div>
+            <div style="height: 50px;line-height: 50px; font-size: 25px;">New Incidents</div>
+          </div>
+        <% end %>
     </td>
     <td style="width:33%" rowspan="4">
       <div id="open_pie_chart_by_service_desk" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
@@ -46,9 +63,9 @@
       <% end %>
     </td>
   </tr>
-  <tr style="height: 40px;font-weight: bold;font-size: 18px;">
-    <td >
-      <div style="background-color: #c6c6c6; width: 30%; padding: 10px 10px"><I>Critical Incidents Real-time monitoring</I></div>
+  <tr style="font-weight: bold;font-size: 18px;">
+    <td>
+      <div style="background-color: #c6c6c6; width: 50%; padding: 10px 10px"><I>Critical Incidents Real-time Monitoring</I></div>
     </td>
   </tr>
   <tr>
