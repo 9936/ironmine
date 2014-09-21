@@ -63,12 +63,12 @@ class Icm::IcmElapseDetail < Irm::ReportManager::ReportBase
     datas = []
 
     headers = [
-        I18n.t(:label_icm_incident_request_request_number_alias),
-        I18n.t(:label_icm_incident_request_submitted_date),
-        I18n.t(:label_icm_incident_request_last_response_date),
+        "No.",
+        "Ticket Create Date",
+        "Last Response Date",
         I18n.t(:label_icm_incident_request_status),
         I18n.t(:label_icm_incident_request_support_person),
-        I18n.t(:label_icm_incident_request_real_distance),
+        "Real Distance(hour)",
         I18n.t(:label_icm_incident_request_support_group_name)
     ]
     results.each do |s|
