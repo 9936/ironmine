@@ -64,6 +64,7 @@ class Boa::BoardsController < ApplicationController
 
     ir_submited_result = Icm::IncidentRequest.enabled.
         joins(",icm_support_groups_vl isg").
+        where("isg.name = 'Service Desk'").
         where("isg.language = 'zh'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("isg.name = 'Service Desk'").
@@ -72,6 +73,11 @@ class Boa::BoardsController < ApplicationController
         group("DATE_FORMAT(submitted_date, '%Y-%m-%d')").collect{|a| [a[:submitted_date_formatted], a[:submitted_amount]]}
 
     ir_close_result = Icm::IncidentRequest.enabled.
+        joins(",icm_support_groups_vl isg").
+        where("isg.name = 'Service Desk'").
+        where("isg.language = 'zh'").
+        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
+        where("isg.name = 'Service Desk'").
         select("DATE_FORMAT(last_response_date, '%Y-%m-%d') close_date_formatted, SUM(1) close_amount").
         where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND ij.created_at >= ?)", (Time.now - 14.days).strftime('%Y-%m-%d')).
         group("DATE_FORMAT(last_response_date, '%Y-%m-%d')").collect{|a| [a[:close_date_formatted], a[:close_amount]]}
