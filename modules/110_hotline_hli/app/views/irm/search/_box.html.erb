@@ -1,3 +1,4 @@
+<% if Irm::Person.current.email_address.end_with?("hand-china.com")%>
 <% if ie6? %>
   <%=form_tag({:controller=>"irm/search",:action=>"index"},{:nomask=>true,:id=>"phSearchForm"})  do |f| %>
     <%= hidden_field_tag :search_option_str, "ALL Skm::EntryHeader Chm::ChangeRequest Icm::IncidentRequest Irm::Bulletin ALL Chm::ChangeRequest Icm::IncidentRequest Skm::EntryHeader Irm::Bulletin Irm::AttachmentVersion ", {:id => "searchOptionStr"} %>
@@ -187,4 +188,5 @@ function inputTipText(){
     })
 }
 </script>
+<% end %>
 <% end %>

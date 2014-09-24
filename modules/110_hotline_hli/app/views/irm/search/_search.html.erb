@@ -1,0 +1,113 @@
+<% require_jscss(:search) %>
+<div class="search-page-block">
+<table class="split-table" cellpadding="0" cellspacing="0">
+  <tbody><tr>
+    <td class="side-bar">
+      <div class='<%= ie6?? "left-sidebar" : "left-sidebar except-ie6"%>'>
+        <span class="record-toggle toggle-on"><%= t(:label_search_options_setting) %></span>
+        <ul class="tabs" id="entryList">
+          <%= init_search_options %>
+        </ul>
+        <span class="record-toggle toggle-on"><%= t(:label_search_options_time) %></span>
+        <ul class="tabs" id="timeList">
+          <%= init_time_limit(params[:time_option]) %>
+        </ul>
+      </div>
+    </td>
+    <td class="side-content">
+      <div id="header">
+        <%=form_tag({:controller=>"irm/search",:action=>"index"},{:nomask=>true,:id=>"searchForm"})  do %>
+          <%= hidden_field_tag :page, "1", {:id => "resultPage"} %>
+          <%= hidden_field_tag :start_page, params[:start_page] %>
+          <%= hidden_field_tag :search_option_str, "#{params[:search_option_str]}", {:id => "entries"} %>
+          <%= hidden_field_tag :time_option, "#{params[:time_option]}", {:id => "timeOption"} %>
+          <div class="form-inline">
+            <div class="input-append">
+              <input class="search-query" name="q" value="<%= params[:q] %>" type="text" style="width: 500px;"/>
+              <%= link_to t(:search), 'javascript:void(0);',:class => "btn",:type=> 'submit', :style => "margin-left: -5px;" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div id="main" style="margin-left: auto;">
+        <div>
+          <div class="result">
+            <span id="result-items">
+              <ul>
+                <%= show_search_result(params[:q], params[:search_option_str], params[:time_option]) %>
+              </ul>
+            </span>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</div>
+<script type="text/javascript">
+  //处理搜索设置以及初始化搜选项
+  $(function(){
+    $("#entryList").find('li').each(function(){
+      var li = $(this);
+      var checkbox = $(this).find('input')[0];
+      if ($(checkbox).is(":checked")) {
+        li.addClass('current');
+      }
+      $(this).bind('click', function(){
+        var checkbox = $(this).find('input')[0];
+        if ($(checkbox).is(":checked")) {
+          li.addClass('current');
+        }else if(li.hasClass('current')) {
+          li.removeClass('current');
+        }
+      });      
+    });
+    $(".search-page-block #searchAll").click(function(e){
+      $(".search-page-block .searchOptions").each(function(){
+        if($(this).attr("id") != "searchAll" && $("#searchAll:checked").val() !== undefined) {
+          $("#entryList").find("li").addClass('current');
+          $(this).attr("checked", true);
+        }
+        else if($(this).attr("id") != "searchAll" && $("#searchAll:checked").val() === undefined){
+          $("#entryList").find("li").removeClass('current');
+          $(this).attr("checked", false);
+        }
+      });
+    });
+    $(".search-page-block .searchOptions").click(function(e){
+      $(".search-page-block #entries").val("");
+      if(!this.checked){
+        $(".search-page-block #searchAll").attr("checked", false);
+        $(".search-page-block #searchAll").parents('li').removeClass('current');
+      }
+      $(".search-page-block .searchOptions").each(function(){
+        if(this.checked){
+          $("#entries").val($("#entries").val() + this.value + " ");
+        }
+      })
+    });
+    $("#timeList").find('input').each(function(){
+      var radio = $(this),li = radio.parents('li');
+      $(this).bind('click', function(){
+        if(radio.is(":checked")) {
+          $("#timeList").find('li').each(function(){
+            if ($(this).hasClass('current')){
+              $(this).removeClass('current')
+            }
+          });
+          $("#timeOption").val(radio.val());
+          li.addClass('current');
+        }
+      });
+    });
+    //页码响应函数处理
+    $(".search-page-block #pager, .search-page-block #pagerTop").find('a').each(function(e){
+      $(this).bind('click',function(){
+        var page = $(this).attr('page');
+        $("#resultPage").val(page);
+        $("#searchForm").submit();
+      });
+    });
+  });
+</script>
