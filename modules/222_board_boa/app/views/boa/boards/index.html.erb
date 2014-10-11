@@ -1,94 +1,120 @@
 <% require_jscss(:newhighcharts) %>
-<table style="width:100%">
+<table style="width:100%;table-layout:fixed" >
   <tr>
-    <td style="width:66%" colspan="2">
+    <th style="width:33%">
+    </th>
+    <th style="width:33%">
+    </th>
+    <th style="width:33%">
+    </th>
+  <tr>
+  <tr>
+    <td colspan="2">
       <div id="daily_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </td>
-    <td style="width:33%">
+    <td>
       <div id="open_pie_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </td>
-  <tr>
-  </tr>
   </tr>
   <tr style="font-size: 18px;">
-    <td style="width:47%;font-weight: bold;">
-        <div style="background-color: #c6c6c6; width: 50%; padding: 10px 10px"><I>Critical Issue Real-time Monitoring</I></div>
+    <td style="font-weight: bold;">
+        <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px"><I>Daily Created</I></div>
     </td>
-    <td style="width:20%;" rowspan="4">
-        <% if @count_new == 0 %>
-          <div style="width: 100%;height: 250px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
-            &nbsp;
+    <td rowspan="6">
+        <% if @count_new.size == 0 %>
+          <div style="margin-left: 100px;display:block; width: 400px;height: 400px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
+            <div style="height: 50px;line-height: 50px; font-size: 25px;">No New Incident</div>
+            <div style="height: 250px;line-height: 250px; font-size: 120px;"><%= @count_new.size.to_s%></div>
           </div>
-        <% elsif @count_new == 1%>
-          <div style="width: 100%;height: 250px;border: solid 1px #cccccc;text-align:center;font-size: 50px;background-color: #ffa0a0">
-            <div style="height: 200px;line-height: 200px; font-size: 50px;"><%= @count_new.to_s%></div>
+        <% elsif @count_new.size == 1%>
+          <div style="margin-left: 100px;width: 400px;height: 400px;border: solid 1px #cccccc;text-align:center;font-size: 50px;background-color: #ffa0a0">
             <div style="height: 50px;line-height: 50px; font-size: 25px;">New Incident</div>
+            <div style="height: 250px;line-height: 250px; font-size: 120px;"><%= @count_new.size.to_s%></div>
+            <div style="height: 100px;line-height: 100px; font-size: 25px;">
+              <div style="float: left; margin-left: 15px; font-size: 20px;"><%= @count_new.first[:request_number]%></div>
+              <div style="float: right; margin-right: 15px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
+            </div>
+            <bgsound src="4846.wav"/>
           </div>
         <% else%>
-          <div style="width: 100%;height: 250px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
-            <div style="height: 200px;line-height: 200px; font-size: 100px;"><%= @count_new.to_s%></div>
+          <div style="margin-left: 100px;width: 400px;height: 400px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
             <div style="height: 50px;line-height: 50px; font-size: 25px;">New Incidents</div>
+            <div style="height: 250px;line-height: 250px; font-size: 120px;"><%= @count_new.size.to_s%></div>
+            <div style="height: 100px;line-height: 100px; font-size: 25px;">
+              <div style="float: left; margin-left: 15px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
+              <div style="float: right; margin-right: 15px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
+            </div>
+            <bgsound src="4846.wav"/>
           </div>
         <% end %>
     </td>
-    <td style="width:33%" rowspan="4">
+    <td rowspan="6">
       <div id="open_pie_chart_by_service_desk" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </td>
   </tr>
   <tr>
     <td >
-      <% @issue_realtime_result_array.each do |ir| %>
-      <div style="display: inline-block; margin: 0 10px;">
-        <table>
-          <tr>
-            <td rowspan="3">
-              <div style="display: inline-block; background-color: #ccffff; height: 40px;">
-                <div style="display: inline-block; float: left; margin: 15px 5px 0px 5px;font-weight: bold; "><%= ir[0]%></div>
-                <% if ir[1].to_i == 0 && ir[2].to_i == 0%>
-                <div style="display: inline-block;float: left; margin: 13px 5px 0px 5px; " class="greenpoint"></div>
-                <% elsif ir[1].to_i == 0 && ir[2].to_i > 0%>
-                    <div style="display: inline-block;float: left; margin: 13px 5px 0px 5px; " class="yellowpoint"></div>
-                <% elsif ir[1].to_i > 0%>
-                    <div style="display: inline-block;float: left; margin: 13px 5px 0px 5px; " class="redpoint"></div>
-                <% end %>
+      <% @today_created.each do |tc| %>
+          <% if tc[2].end_with?("Critical")%>
+              <div style="display: inline-block; margin: 10px 5px;font-size: 20px; color:#FF0000">
+                <%= tc[0].to_s%>
               </div>
-            </td>
-            <td>
-              <div>Failure&nbsp;&nbsp;&nbsp;<%= ir[1]%></div>
-            </td>
-          </tr>
-          <tr><td><div>Inquiry&nbsp;&nbsp;&nbsp;<%= ir[2]%></div></td></tr>
-        </table>
-      </div>
+          <% elsif tc[1].end_with?("Maintenance")%>
+              <div style="display: inline-block; margin: 10px 5px;font-size: 20px; color:#0000ff">
+                <%= tc[0].to_s%>
+              </div>
+          <% else %>
+              <div style="display: inline-block; margin: 10px 5px;font-size: 20px">
+                <%= tc[0].to_s%>
+              </div>
+          <% end %>
       <% end %>
     </td>
+    <td></td>
+    <td></td>
   </tr>
   <tr style="font-weight: bold;font-size: 18px;">
     <td>
-      <div style="background-color: #c6c6c6; width: 50%; padding: 10px 10px"><I>Critical Incidents Real-time Monitoring</I></div>
+      <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px"><I>Daily Closed</I></div>
+    </td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>
+      <% @today_closed.each do |tc| %>
+          <% if tc[2].end_with?("Critical")%>
+              <div style="display: inline-block; margin: 10px 5px;font-size: 20px; color:#FF0000">
+                <%= tc[0].to_s%>
+              </div>
+          <% elsif tc[1].end_with?("Maintenance")%>
+              <div style="display: inline-block; margin: 10px 5px;font-size: 20px; color:#0000ff">
+                <%= tc[0].to_s%>
+              </div>
+          <% else %>
+              <div style="display: inline-block; margin: 10px 5px;font-size: 20px">
+                <%= tc[0].to_s%>
+              </div>
+          <% end %>
+      <% end %>
+    </td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr style="font-weight: bold;font-size: 18px;">
+    <td>
+      <% if @processing_list.first[2] > (Time.now - 30.minutes)%>
+          <div style="background-color: #ffa0a0; width: 80%; padding: 10px 10px"><I>Processing List</I></div>
+      <% else %>
+          <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px"><I>Processing List</I></div>
+      <% end %>
     </td>
   </tr>
   <tr>
     <td>
-      <% @incident_realtime_result_array.each do |ir| %>
-          <div style="display: inline-block; margin: 0 10px;">
-            <table>
-              <tr>
-                <td>
-                  <div style="display: inline-block; background-color: #ccffff; height: 40px;">
-                    <div style="display: inline-block; float: left; margin: 15px 5px 0px 5px;font-weight: bold; "><%= ir[0]%></div>
-                    <% if ir[2].to_i > 0%>
-                        <div style="display: inline-block;float: left; margin: 13px 5px 0px 5px; " class="yellowpoint"></div>
-                    <% else%>
-                        <div style="display: inline-block;float: left; margin: 13px 5px 0px 5px; " class="greenpoint"></div>
-                    <% end %>
-                  </div>
-                </td>
-                <td>
-                  <div>&nbsp;&nbsp;&nbsp;<%= ir[1]%></div>
-                </td>
-              </tr>
-            </table>
+      <% @processing_list.each do |tc| %>
+          <div style="display: inline-block; margin: 10px 5px;font-size: 20px">
+            <%= tc[0].to_s%>
           </div>
       <% end %>
     </td>
@@ -104,9 +130,6 @@
                 plotBorderWidth: null,
                 plotShadow: false
             },
-            title: {
-                text: 'Incidents by Category (Open thru today)'
-            },
             plotOptions: {
                 pie: {
                     allowPointSelect: false,
@@ -120,12 +143,17 @@
             },
             colors: [<%=
                 color = ''
+                count = 0
                 @table_a_incident_by_category_open.each do |c|
                     color = color + "'#{c[2]}'"
                     color = color + ',' if c != @table_a_incident_by_category_open.last
+                    count = count + c[1]
                 end
                 color
             %>],
+            title: {
+                text: 'Incidents by Category (<%= count.to_s%>)'
+            },
             legend: {
                   enabled: false
 //                layout: 'vertical',
@@ -146,17 +174,19 @@
                 plotBorderWidth: null,
                 plotShadow: false
             },
-            title: {
-                text: 'Incidents by Status (Open thru today)'
-            },
             colors: [<%=
                 color = ''
+                count = 0
                 @table_a_open_by_service_desk.each do |c|
                     color = color + "'#{c[2]}'"
                     color = color + ',' if c != @table_a_open_by_service_desk.last
+                    count = count + c[1]
                 end
                 color
             %>],
+            title: {
+                text: 'Incidents by Status (<%= count.to_s%>)'
+            },
             plotOptions: {
                 pie: {
                     allowPointSelect: false,
@@ -229,12 +259,46 @@
             },
             series: [{
                 type: 'column',
-                name: 'Daily',
-                data: [<%= @table_a_submitted_amount.join(',')%>],
+                name: 'Daily Created',
+                data: [<%= @daily_open.join(',')%>],
                 dataLabels: {
                     enabled: true,
+                    rotation: 0,
+                    color: '#000000',
+                    align: 'right',
+                    x: 4,
+                    y: -10,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }, {
+                type: 'column',
+                name: 'Daily Closed',
+                data: [<%= @daily_close.join(',')%>],
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#000000',
+                    align: 'right',
+                    x: 4,
+                    y: -10,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }, {
+                type: 'line',
+                name: '7 Days Avg Created',
+                data: [<%= @daily_avg_open.join(',')%>],
+                dataLabels: {
+                    enabled: false,
                     rotation: -90,
-                    color: '#ffffff',
+                    color: '#000000',
                     align: 'right',
                     x: 4,
                     y: 10,
@@ -245,13 +309,13 @@
                     }
                 }
             }, {
-                type: 'column',
-                name: 'Daily Close',
-                data: [<%= @table_a_closed_amount.join(',')%>],
+                type: 'line',
+                name: '7 Days Avg Closed',
+                data: [<%= @daily_avg_close.join(',')%>],
                 dataLabels: {
-                    enabled: true,
+                    enabled: false,
                     rotation: -90,
-                    color: '#ffffff',
+                    color: '#000000',
                     align: 'right',
                     x: 4,
                     y: 10,

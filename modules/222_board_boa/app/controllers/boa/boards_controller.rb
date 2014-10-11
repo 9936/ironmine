@@ -9,15 +9,19 @@ class Boa::BoardsController < ApplicationController
     @table_a_incident_by_category_total = []
     @table_a_open_by_service_desk = []
     @count_new = Icm::IncidentRequest.enabled.
+        select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
+        joins(",#{Icm::IncidentCategory.view_name} ic").
         joins(",#{Icm::IncidentStatus.table_name} iis").
         joins(",icm_support_groups_vl isg").
         where("isg.language = 'zh'").
+        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
+        where("ic.language = 'en'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("isg.name = 'Service Desk'").
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").
         where("iis.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
-        where("iis.incident_status_code IN ('NEW', 'NOT_STARTED')").size
+        where("iis.incident_status_code IN ('NEW', 'NOT_STARTED')")
 
     @table_a_open_by_service_desk = Icm::IncidentRequest.enabled.
         joins(",#{Icm::IncidentStatus.view_name} isv").
@@ -52,178 +56,174 @@ class Boa::BoardsController < ApplicationController
       c[2] = '#A9E2E8' if c[0].eql?("EBS")
     end
 
-    @table_a_incident_by_category_total = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").
+    @today_created = []
+    @today_created = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").
+        select("ic.name category_name, #{Icm::IncidentRequest.table_name}.request_number request_number").
+        select("ipv.name priority_name").
         joins(",icm_support_groups_vl isg").
+        joins(",icm_priority_codes_vl ipv").
+        where("ipv.id = #{Icm::IncidentRequest.table_name}.priority_id").
+        where("ipv.language = 'en'").
         where("isg.language = 'zh'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("isg.name = 'Service Desk'").
-        select("ic.name category_name, SUM(1) amount").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
-        group("#{Icm::IncidentRequest.table_name}.incident_category_id").collect{|i| [i[:category_name], i[:amount].to_i]}
-
-    ir_submited_result = Icm::IncidentRequest.enabled.
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", (Time.now).strftime('%Y-%m-%d')).
+        order("#{Icm::IncidentRequest.table_name}.submitted_date ASC").
+        collect{|a| [a[:request_number], a[:category_name], a[:priority_name]]}
+    @today_closed = []
+    @today_closed = Icm::IncidentRequest.enabled.
+        select("ic.name category_name, #{Icm::IncidentRequest.table_name}.request_number request_number").
+        select("ipv.name priority_name").
+        joins(",#{Icm::IncidentCategory.view_name} ic").
         joins(",icm_support_groups_vl isg").
+        joins(",icm_priority_codes_vl ipv").
+        where("ipv.id = #{Icm::IncidentRequest.table_name}.priority_id").
+        where("ipv.language = 'en'").
         where("isg.name = 'Service Desk'").
+        where("isg.language = 'zh'").
+        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
+        where("ic.language = 'en'").
+        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
+        where("isg.name = 'Service Desk'").
+        where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
+              (Time.now).strftime('%Y-%m-%d')).
+        order("#{Icm::IncidentRequest.table_name}.submitted_date ASC").
+        collect{|a| [a[:request_number], a[:category_name], a[:priority_name]]}
+    @processing_list = []
+    @processing_list = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").
+        select("ic.name category_name, #{Icm::IncidentRequest.table_name}.request_number request_number, #{Icm::IncidentRequest.table_name}.last_response_date last_response_date").
+        joins(",icm_support_groups_vl isg").
         where("isg.language = 'zh'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("isg.name = 'Service Desk'").
-        select("DATE_FORMAT(submitted_date, '%Y-%m-%d') submitted_date_formatted, SUM(1) submitted_amount").
-        where("submitted_date >= ?", (Time.now - 14.days).strftime('%Y-%m-%d')).
-        group("DATE_FORMAT(submitted_date, '%Y-%m-%d')").collect{|a| [a[:submitted_date_formatted], a[:submitted_amount]]}
+        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
+        where("ic.language = 'en'").
+        where("#{Icm::IncidentRequest.table_name}.incident_status_id IN (?)", ["000K00091nRTl3hfwbJuHg","000K00091oEOpAuVx0QTVQ"]).
+        order("#{Icm::IncidentRequest.table_name}.last_response_date DESC").
+        collect{|a| [a[:request_number], a[:category_name], a[:last_response_date]]}
+    @daily_open = []
+    @daily_close = []
+    @daily_avg_open = []
+    @daily_avg_close = []
 
-    ir_close_result = Icm::IncidentRequest.enabled.
-        joins(",icm_support_groups_vl isg").
-        where("isg.name = 'Service Desk'").
-        where("isg.language = 'zh'").
-        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-        where("isg.name = 'Service Desk'").
-        select("DATE_FORMAT(last_response_date, '%Y-%m-%d') close_date_formatted, SUM(1) close_amount").
-        where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND ij.created_at >= ?)", (Time.now - 14.days).strftime('%Y-%m-%d')).
-        group("DATE_FORMAT(last_response_date, '%Y-%m-%d')").collect{|a| [a[:close_date_formatted], a[:close_amount]]}
-    incident_realtime_array = ['Master Maintenance', 'Change Request', 'Regular Maintenance', 'Non-Regular Maintenance']
-    @incident_realtime_result_array = []
-    incident_realtime_array.each do |ira|
-      incident_realtime_result = Icm::IncidentCategory.
-          select("count(*) issue_realtime_amount, ic.name issue_type").
-          joins(",#{Icm::IncidentCategory.view_name} ic").
-          where("ic.id = #{Icm::IncidentCategory.table_name}.id").
-          where("ic.language = 'en'").
-          where(%Q(EXISTS( SELECT
-            *
-        FROM
-            icm_incident_requests ir,
-            icm_incident_statuses iis
-        WHERE
-            iis.id = ir.incident_status_id
-                AND iis.close_flag = 'N'
-                AND ir.status_code = 'ENABLED'
-                AND ir.incident_category_id = ic.id))).
-          where("ic.name = ?", ira).
-          group("ic.name")
-      incident_realtime_priority_result = Icm::IncidentCategory.
-          select("count(*) issue_realtime_amount, ic.name issue_type").
-          joins(",#{Icm::IncidentCategory.view_name} ic").
-          where("ic.id = #{Icm::IncidentCategory.table_name}.id").
-          where("ic.language = 'en'").
-          where(%Q(EXISTS( SELECT
-            *
-        FROM
-            icm_incident_requests ir,
-            icm_incident_statuses iis,
-            icm_priority_codes ipc
-        WHERE
-            ipc.id = ir.priority_id
-            AND ipc.weight_values > 3
-            AND iis.id = ir.incident_status_id
-            AND iis.close_flag = 'N'
-            AND ir.status_code = 'ENABLED'
-            AND ir.incident_category_id = ic.id))).
-          where("ic.name = ?", ira).
-          group("ic.name")
-      if incident_realtime_result.any?
-        incident_realtime_result = incident_realtime_result.first[:issue_realtime_amount]
+    for today in (Time.now - 21.days).strftime('%Y-%m-%d').to_datetime..(Time.now - 1.day).strftime('%Y-%m-%d').to_datetime do
+      logs = ActiveRecord::Base.connection.execute("SELECT today_create `0`, today_close `1`, today_avg_create `2`, today_avg_close `3`, created_date `4` FROM icm_prime_board_logs WHERE created_date = '#{today.strftime('%Y%m%d')}'")
+      if logs.any?
+        nil
       else
-        incident_realtime_result = '0'
-      end
-      if incident_realtime_priority_result.any?
-        incident_realtime_priority_result = incident_realtime_priority_result.first[:issue_realtime_amount]
-      else
-        incident_realtime_priority_result = '0'
-      end
-      cell_array = [ira, incident_realtime_result, incident_realtime_priority_result]
-      @incident_realtime_result_array << cell_array
-    end
+        today_create = Icm::IncidentRequest.
+                        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", today.strftime('%Y-%m-%d')).
+                        joins(",icm_support_groups_vl isg").
+                        where("isg.language = 'zh'").
+                        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
+                        where("isg.name = 'Service Desk'").
+                        where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
+                        where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
+        today_close = Icm::IncidentRequest.enabled.
+            joins(",#{Icm::IncidentCategory.view_name} ic").
+            joins(",icm_support_groups_vl isg").
+            where("isg.name = 'Service Desk'").
+            where("isg.language = 'zh'").
+            where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
+            where("ic.language = 'en'").
+            where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
+            where("isg.name = 'Service Desk'").
+            where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
+                  today.strftime('%Y-%m-%d')).size
+        today_avg_create = Icm::IncidentRequest.
+            where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') >= ?", (today - 6.day).strftime('%Y-%m-%d')).
+            where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') <= ?", today.strftime('%Y-%m-%d')).
+            joins(",icm_support_groups_vl isg").
+            where("isg.language = 'zh'").
+            where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
+            where("isg.name = 'Service Desk'").
+            where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
+            where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
 
-    issue_realtime_array = ['SCM' , 'MFG', 'PRC', 'FIN', 'HR', 'Service', 'Master', 'BI', 'JOB', 'Infra', 'About Login']
-    @issue_realtime_result_array = []
-    issue_realtime_array.each do |ira|
-      failure_realtime_result = Icm::IncidentCategory.
-          select("count(*) issue_realtime_amount, ic.name issue_type").
-          joins(",#{Icm::IncidentSubCategory.view_name} isc").
-          joins(",#{Icm::IncidentCategory.view_name} ic").
-          where("ic.id = #{Icm::IncidentCategory.table_name}.id").
-          where("ic.id = isc.incident_category_id").
-          where("ic.language = 'en'").
-          where("isc.language = 'en'").
-          where(%Q(EXISTS( SELECT
-            *
-        FROM
-            icm_incident_requests ir,
-            icm_incident_statuses iis
-        WHERE
-            iis.id = ir.incident_status_id
-                AND iis.close_flag = 'N'
-                AND ir.status_code = 'ENABLED'
-                AND ir.incident_sub_category_id = isc.id
-                AND ir.incident_category_id = ic.id))).
-          where(" isc.name = ?", ira).
-          where("ic.name = 'Failure'").
-          group("ic.name")
-      inquiry_realtime_result = Icm::IncidentCategory.
-          select("count(*) issue_realtime_amount, ic.name issue_type").
-          joins(",#{Icm::IncidentSubCategory.view_name} isc").
-          joins(",#{Icm::IncidentCategory.view_name} ic").
-          where("ic.id = #{Icm::IncidentCategory.table_name}.id").
-          where("ic.id = isc.incident_category_id").
-          where("ic.language = 'en'").
-          where("isc.language = 'en'").
-          where(%Q(EXISTS( SELECT
-            *
-        FROM
-            icm_incident_requests ir,
-            icm_incident_statuses iis
-        WHERE
-            iis.id = ir.incident_status_id
-                AND iis.close_flag = 'N'
-                AND ir.status_code = 'ENABLED'
-                AND ir.incident_sub_category_id = isc.id
-                AND ir.incident_category_id = ic.id))).
-          where(" isc.name = ?", ira).
-          where("ic.name = 'Inquiry'").
-          group("ic.name")
-      if failure_realtime_result.any?
-        failure_realtime_result = failure_realtime_result.first[:issue_realtime_amount]
-      else
-        failure_realtime_result = '0'
-      end
-      if inquiry_realtime_result.any?
-        inquiry_realtime_result = inquiry_realtime_result.first[:issue_realtime_amount]
-      else
-        inquiry_realtime_result = '0'
-      end
-      cell_array = [ira, failure_realtime_result, inquiry_realtime_result]
-      @issue_realtime_result_array << cell_array
-    end
+        today_avg_create = (today_avg_create.to_f/7).round(2)
 
-    for today in (Time.now - 14.days).strftime('%Y-%m-%d').to_datetime..Time.now.strftime('%Y-%m-%d').to_datetime do
-      ir_submitted = ir_submited_result.select{|i| i[0] == today.strftime('%Y-%m-%d')}
-      ir_closed = ir_close_result.select{|i| i[0] == today.strftime('%Y-%m-%d')}
+        today_avg_close = Icm::IncidentRequest.enabled.
+            joins(",#{Icm::IncidentCategory.view_name} ic").
+            joins(",icm_support_groups_vl isg").
+            where("isg.name = 'Service Desk'").
+            where("isg.language = 'zh'").
+            where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
+            where("ic.language = 'en'").
+            where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
+            where("isg.name = 'Service Desk'").
+            where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') >= ?)",
+                  (today - 6.day).strftime('%Y-%m-%d')).
+            where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') <= ?)",
+                  today.strftime('%Y-%m-%d')).size
+
+        today_avg_close = (today_avg_close.to_f/7).round(2)
+
+        ActiveRecord::Base.connection.execute(%Q(INSERT INTO icm_prime_board_logs (today_create, today_close, today_avg_create, today_avg_close, created_date) VALUES
+                  ('#{today_create}', '#{today_close}', '#{today_avg_create}', '#{today_avg_close}', '#{today.strftime('%Y%m%d')}')
+                ))
+
+        logs = ActiveRecord::Base.connection.execute("SELECT today_create `0`, today_close `1`, today_avg_create `2`, today_avg_close `3`, created_date `4` FROM icm_prime_board_logs WHERE created_date = '#{today.strftime('%Y%m%d')}'")
+      end
+      @daily_open << logs.first[0]
+      @daily_close << logs.first[1]
+      @daily_avg_open << logs.first[2]
+      @daily_avg_close << logs.first[3]
+
       @table_a_date << today.strftime('%m/%d')
-      if ir_submitted.size > 0
-        @table_a_submitted_amount << ir_submitted[0][1]
-      else
-        @table_a_submitted_amount << 0
-      end
-      if ir_closed.size > 0
-        @table_a_closed_amount << ir_closed[0][1]
-      else
-        @table_a_closed_amount << 0
-      end
-
-      #accum_open_amount = Icm::IncidentRequest.enabled.
-      #    where("(EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND ij.created_at > ?)
-      #         OR NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)) AND #{Icm::IncidentRequest.table_name}.created_at < ?",
-      #          today.strftime('%Y-%m-%d'), (today + 1.day).strftime('%Y-%m-%d'))
-      #
-      #accum_close_amount = Icm::IncidentRequest.enabled.
-      #    where("(EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND ij.created_at <= ?)
-      #         OR NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)) AND #{Icm::IncidentRequest.table_name}.created_at < ?",
-      #          today.strftime('%Y-%m-%d'), (today + 1.day).strftime('%Y-%m-%d'))
-      #
-      #@table_a_accum_open_amount << accum_open_amount.size
-      #@table_a_accum_close_amount << accum_close_amount.size
     end
+
+    today_create = Icm::IncidentRequest.
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", Time.now.strftime('%Y-%m-%d')).
+        joins(",icm_support_groups_vl isg").
+        where("isg.language = 'zh'").
+        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
+        where("isg.name = 'Service Desk'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
+    today_close = Icm::IncidentRequest.enabled.
+        joins(",#{Icm::IncidentCategory.view_name} ic").
+        joins(",icm_support_groups_vl isg").
+        where("isg.name = 'Service Desk'").
+        where("isg.language = 'zh'").
+        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
+        where("ic.language = 'en'").
+        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
+        where("isg.name = 'Service Desk'").
+        where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
+              Time.now.strftime('%Y-%m-%d')).size
+    today_avg_create = Icm::IncidentRequest.
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') >= ?", (Time.now - 7.day).strftime('%Y-%m-%d')).
+        joins(",icm_support_groups_vl isg").
+        where("isg.language = 'zh'").
+        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
+        where("isg.name = 'Service Desk'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
+
+    today_avg_create = (today_avg_create.to_f/7).round(2)
+
+    today_avg_close = Icm::IncidentRequest.enabled.
+        joins(",#{Icm::IncidentCategory.view_name} ic").
+        joins(",icm_support_groups_vl isg").
+        where("isg.name = 'Service Desk'").
+        where("isg.language = 'zh'").
+        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
+        where("ic.language = 'en'").
+        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
+        where("isg.name = 'Service Desk'").
+        where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') >= ?)",
+              (Time.now - 7.day).strftime('%Y-%m-%d')).size
+
+    today_avg_close = (today_avg_close.to_f/7).round(2)
+
+    @daily_open << today_create
+    @daily_close << today_close
+    @daily_avg_open << today_avg_create
+    @daily_avg_close << today_avg_close
+    @table_a_date << Time.now.strftime('%m/%d')
+
     respond_to do |format|
       format.html { render :layout => "application_full"}
     end
