@@ -16,9 +16,9 @@
       <div id="open_pie_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </td>
   </tr>
-  <tr style="font-size: 18px;">
-    <td style="font-weight: bold;">
-        <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px"><I>Daily Created</I></div>
+  <tr style="">
+    <td style="">
+        <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px">Daily Created</div>
     </td>
     <td rowspan="6">
         <% if @count_new.size == 0 %>
@@ -73,9 +73,9 @@
     <td></td>
     <td></td>
   </tr>
-  <tr style="font-weight: bold;font-size: 18px;">
+  <tr style="">
     <td>
-      <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px"><I>Daily Closed</I></div>
+      <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px">Daily Closed</div>
     </td>
     <td></td>
     <td></td>
@@ -101,12 +101,12 @@
     <td></td>
     <td></td>
   </tr>
-  <tr style="font-weight: bold;font-size: 18px;">
+  <tr style="">
     <td>
       <% if @processing_list.first[2] > (Time.now - 30.minutes)%>
-          <div style="background-color: #ffa0a0; width: 80%; padding: 10px 10px"><I>Processing List</I></div>
+          <div style="background-color: #ffa0a0; width: 80%; padding: 10px 10px">Processing List</div>
       <% else %>
-          <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px"><I>Processing List</I></div>
+          <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px">Processing List</div>
       <% end %>
     </td>
   </tr>
