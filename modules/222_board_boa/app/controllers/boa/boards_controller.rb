@@ -21,7 +21,8 @@ class Boa::BoardsController < ApplicationController
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").
         where("iis.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
-        where("iis.incident_status_code IN ('NEW', 'NOT_STARTED')")
+        where("iis.incident_status_code IN ('NEW', 'NOT_STARTED')").
+        order("#{Icm::IncidentRequest.table_name}.created_at DESC")
 
     @table_a_open_by_service_desk = Icm::IncidentRequest.enabled.
         joins(",#{Icm::IncidentStatus.view_name} isv").
