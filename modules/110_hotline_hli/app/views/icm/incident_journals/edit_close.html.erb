@@ -57,7 +57,7 @@
                         <td class="label-col"></td>
                         <td class="data-col">
                           <%= w.select :workload_type, options_for_select(available_icm_workload_type, sp[:workload_type])%>
-                          <%= w.text_field :real_processing_time, :value => sp[:real_processing_time].blank? ? '0' : sp[:real_processing_time], :irm_pos_real_number => true, :size => 5, :style => "width:30px"%>&nbsp;<%= sp[:login_name]%>(<%= sp[:supporter_name]%>)
+                          <%= w.text_field :real_processing_time, :value => sp[:real_processing_time].blank? ? '0' : sp[:real_processing_time].round(1), :irm_pos_real_number => true, :size => 5, :style => "width:30px"%>&nbsp;<%= sp[:login_name]%>(<%= sp[:supporter_name]%>)
                           <%= w.hidden_field :person_id, :value => sp[:supporter_id]%>
                           <%= link_to I18n.t(:remove), {}, {:class => "remove_workload", :href => "javascript:void(0)"}%>
                         </td>
