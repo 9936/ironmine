@@ -10,11 +10,11 @@ class Boa::BoardsController < ApplicationController
     @table_a_open_by_service_desk = []
     @count_new = Icm::IncidentRequest.enabled.
         select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
-        joins(",#{Icm::IncidentCategory.view_name} ic").
+        joins(",#{Icm::IncidentSubCategory.view_name} ic").
         joins(",#{Icm::IncidentStatus.table_name} iis").
         joins(",icm_support_groups_vl isg").
         where("isg.language = 'zh'").
-        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
+        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_sub_category_id").
         where("ic.language = 'en'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("isg.name = 'Service Desk'").
@@ -101,7 +101,7 @@ class Boa::BoardsController < ApplicationController
         where("isg.name = 'Service Desk'").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
-        where("#{Icm::IncidentRequest.table_name}.incident_status_id IN (?)", ["000K00091nRTl3hfwbJuHg","000K00091oEOpAuVx0QTVQ"]).
+        where("#{Icm::IncidentRequest.table_name}.incident_status_id IN (?)", ["000K00091nRTl3hfwbJuHg","000K00091oEOpAuVx0QTVQ", "000K00091nRTl3hfuk332W"]).
         order("#{Icm::IncidentRequest.table_name}.last_response_date DESC").
         collect{|a| [a[:request_number], a[:category_name], a[:last_response_date]]}
     @daily_open = []
@@ -109,11 +109,17 @@ class Boa::BoardsController < ApplicationController
     @daily_avg_open = []
     @daily_avg_close = []
 
+    update_flag = false
+
+    logs = ActiveRecord::Base.connection.execute("SELECT today_create `0`, today_close `1`, today_avg_create `2`, today_avg_close `3`, created_date `4` FROM icm_prime_board_logs WHERE created_date = '#{(Time.now - 1.day).strftime('%Y%m%d')}'")
+    if logs.any?
+      update_flag = false
+    else
+      update_flag = true
+    end
+
     for today in (Time.now - 21.days).strftime('%Y-%m-%d').to_datetime..(Time.now - 1.day).strftime('%Y-%m-%d').to_datetime do
-      logs = ActiveRecord::Base.connection.execute("SELECT today_create `0`, today_close `1`, today_avg_create `2`, today_avg_close `3`, created_date `4` FROM icm_prime_board_logs WHERE created_date = '#{today.strftime('%Y%m%d')}'")
-      if logs.any?
-        nil
-      else
+      if update_flag
         today_create = Icm::IncidentRequest.
                         where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", today.strftime('%Y-%m-%d')).
                         joins(",icm_support_groups_vl isg").
@@ -161,12 +167,21 @@ class Boa::BoardsController < ApplicationController
 
         today_avg_close = (today_avg_close.to_f/7).round(2)
 
-        ActiveRecord::Base.connection.execute(%Q(INSERT INTO icm_prime_board_logs (today_create, today_close, today_avg_create, today_avg_close, created_date) VALUES
-                  ('#{today_create}', '#{today_close}', '#{today_avg_create}', '#{today_avg_close}', '#{today.strftime('%Y%m%d')}')
-                ))
-
         logs = ActiveRecord::Base.connection.execute("SELECT today_create `0`, today_close `1`, today_avg_create `2`, today_avg_close `3`, created_date `4` FROM icm_prime_board_logs WHERE created_date = '#{today.strftime('%Y%m%d')}'")
+
+        if logs.any?
+          ActiveRecord::Base.connection.execute(%Q(UPDATE icm_prime_board_logs SET today_create = '#{today_create}', today_close = '#{today_close}',
+                                                today_avg_create = '#{today_avg_create}', today_avg_close = '#{today_avg_close}' WHERE created_date  = '#{today.strftime('%Y%m%d')}'
+                  ))
+        else
+          ActiveRecord::Base.connection.execute(%Q(INSERT INTO icm_prime_board_logs (today_create, today_close, today_avg_create, today_avg_close, created_date) VALUES
+                    ('#{today_create}', '#{today_close}', '#{today_avg_create}', '#{today_avg_close}', '#{today.strftime('%Y%m%d')}')
+                  ))
+        end
       end
+
+      logs = ActiveRecord::Base.connection.execute("SELECT today_create `0`, today_close `1`, today_avg_create `2`, today_avg_close `3`, created_date `4` FROM icm_prime_board_logs WHERE created_date = '#{today.strftime('%Y%m%d')}'")
+
       @daily_open << logs.first[0]
       @daily_close << logs.first[1]
       @daily_avg_open << logs.first[2]
