@@ -31,7 +31,7 @@
             <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
             <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s%></div>
             <div style="height: 75px;line-height: 75px; font-size: 25px;">
-              <div style="float: left; margin-left: 25px; font-size: 20px;"><%= @count_new.last[:request_number]%></div>
+              <div style="float: left; margin-left: 25px; font-size: 20px;"><%= @count_new.first[:request_number]%></div>
               <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
             </div>
             <bgsound src="4846.wav"/>
@@ -41,7 +41,7 @@
             <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incidents</I></div>
             <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s%></div>
             <div style="height: 75px;line-height: 75px; font-size: 25px;">
-              <div style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_new.last[:request_number]%></div>
+              <div style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
               <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
             </div>
             <bgsound src="4846.wav"/>
