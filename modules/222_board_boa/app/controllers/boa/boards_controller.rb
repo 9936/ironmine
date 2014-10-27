@@ -174,9 +174,13 @@ class Boa::BoardsController < ApplicationController
                                                 today_avg_create = '#{today_avg_create}', today_avg_close = '#{today_avg_close}' WHERE created_date  = '#{today.strftime('%Y%m%d')}'
                   ))
         else
-          ActiveRecord::Base.connection.execute(%Q(INSERT INTO icm_prime_board_logs (today_create, today_close, today_avg_create, today_avg_close, created_date) VALUES
-                    ('#{today_create}', '#{today_close}', '#{today_avg_create}', '#{today_avg_close}', '#{today.strftime('%Y%m%d')}')
-                  ))
+          begin
+            ActiveRecord::Base.connection.execute(%Q(INSERT INTO icm_prime_board_logs (today_create, today_close, today_avg_create, today_avg_close, created_date) VALUES
+                      ('#{today_create}', '#{today_close}', '#{today_avg_create}', '#{today_avg_close}', '#{today.strftime('%Y%m%d')}')
+                    ))
+          rescue
+            nil
+          end
         end
       end
 
