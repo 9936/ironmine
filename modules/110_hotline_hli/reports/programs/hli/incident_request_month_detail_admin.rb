@@ -93,10 +93,12 @@ class Hli::IncidentRequestMonthDetailAdmin < Irm::ReportManager::ReportBase
         data[19] = 'N'
       end
       #Rating
-      ratings = Irm::Rating.select("rcg.name name").
+      ratings = Irm::Rating.
+          select("rcg.name name").
           joins(",#{Irm::RatingConfigGrade.table_name} rcg").
           where("rcg.grade = #{Irm::Rating.table_name}.grade").
-          where("#{Irm::Rating.table_name}.rating_object_id = ?", s.id).order("created_at DESC")
+          where("#{Irm::Rating.table_name}.rating_object_id = ?", s.id).
+          order("#{Irm::Rating.table_name}.created_at DESC")
       if ratings.any?
         data[20] = ratings.first[:name]
       else
