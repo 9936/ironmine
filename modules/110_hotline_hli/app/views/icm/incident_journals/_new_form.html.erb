@@ -276,6 +276,11 @@
         <%= show_custom_field_info(@incident_request) %>
         </tbody>
     </table>
+      <% if @incident_request.close? && @incident_request.status_code.eql?('ENABLED')%>
+          <div class="digg-zone" id="diggZone" style="padding: 20px;">
+            <%= show_rating("ICM_INCIDENT_REQUEST", @incident_request, 'Y') %>
+          </div>
+      <% end %>
     </div>
 <% end %>
 
