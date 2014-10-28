@@ -50,13 +50,13 @@ class Hli::IncidentRequestMonthDetailAdmin < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_client_info),
                I18n.t(:label_icm_incident_request_incident_status_code),
                I18n.t(:label_report_request_workload),"远程工时","现场工时",
-               "First Assign","Out of SLA"
+               "First Assign","Out of SLA","用户打分"
                ]
     headers << I18n.t(:label_report_incident_request_journal) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
 
     statis.each do |s|
-      data = Array.new(20)
-      data = Array.new(21) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
+      data = Array.new(21)
+      data = Array.new(22) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
       data[0] = s[:request_number]
       data[1] = s[:external_system_name]
       data[2] = s[:requested_name]
@@ -92,11 +92,23 @@ class Hli::IncidentRequestMonthDetailAdmin < Irm::ReportManager::ReportBase
       else
         data[19] = 'N'
       end
+      #Rating
+      ratings = Irm::Rating.select("rcg.name name").
+          joins(",#{Irm::RatingConfigGrade.table_name} rcg").
+          where("rcg.grade = #{Irm::Rating.table_name}.grade").
+          where("#{Irm::Rating.table_name}.rating_object_id = ?", s.id).order("created_at DESC")
+      if ratings.any?
+        data[20] = ratings.first[:name]
+      else
+        data[20] = ""
+      end
+
+
       if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
         messages = ''
         messages << s.concat_journals_with_text
         messages = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(messages,""))
-        data[20] = messages
+        data[21] = messages
       end
       datas << data
     end
