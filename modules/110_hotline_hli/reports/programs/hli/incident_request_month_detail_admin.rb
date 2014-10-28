@@ -94,7 +94,7 @@ class Hli::IncidentRequestMonthDetailAdmin < Irm::ReportManager::ReportBase
       end
       #Rating
       ratings = Irm::Rating.
-          select("rcg.name name").
+          select("rcg.name").
           joins(",#{Irm::RatingConfigGrade.table_name} rcg").
           where("rcg.grade = #{Irm::Rating.table_name}.grade").
           where("#{Irm::Rating.table_name}.rating_object_id = ?", s.id).
