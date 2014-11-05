@@ -88,4 +88,9 @@ module Icm::SupportGroupsHelper
     groups.collect{|i|[i[:name],i.id]}
   end
 
+  def support_groups_list()
+    groups = Icm::SupportGroup.joins(", icm_support_groups_vl isgv").where("isgv.id = #{Icm::SupportGroup.table_name}.id").where("isgv.language = 'en'").select("isgv.name, isgv.id")
+    groups.collect{|i|[i[:name],i.id]}
+  end
+
 end
