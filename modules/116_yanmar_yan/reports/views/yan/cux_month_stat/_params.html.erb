@@ -11,6 +11,15 @@
         </div>
       </td>
       <td>
+        <label for="loginPerson_label">Group</label>
+        <div style="white-space:nowrap">
+          <%= select_tag_alias(
+                      "program_params[support_group_id]",
+                      options_for_select(support_groups_with_person(Irm::Person.current.id), program_params[:external_system_id]),
+                      nil)%>
+        </div>
+      </td>
+      <td>
         <fieldset>
           <legend>
             <%= t(:label_irm_report_time_range) %>
