@@ -1,7 +1,7 @@
 include ActionView::Helpers::SanitizeHelper
 
-class Mam::Master < ActiveRecord::Base
-  set_table_name :mam_masters
+class Mam::System < ActiveRecord::Base
+  set_table_name :mam_systems
   query_extend
 
   # 对运维中心数据进行隔离
