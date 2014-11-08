@@ -24,7 +24,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "mam/masters" => ["new", "create", "new_item", "new_scs", "new_urs"]
+              "mam/masters" => ["new", "create", "new_item", "new_scs", "new_urs",
+                                "get_item_data", "delete_item", "add_item", "create_sc"]
           },
           :edit_master => {
               :en => {:name => "Edit", :description => "Edit"},
@@ -32,7 +33,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "mam/masters" => ["edit", "update"]
+              "mam/masters" => ["edit", "update", "delete_item", "add_item"]
           }
 
       }
@@ -81,8 +82,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "mam/systems" => ["index", "get_data", "new", "create", "edit", "update"],
-              "mam/system_people" => ["add_people", "get_available_people_data"]
+              "mam/systems" => ["index", "get_data", "new", "create", "edit", "update","show","add_people_create",
+                                "add_people", "get_owned_members_data", "delete_person", "get_memberable_data"]
           }
       }
   }

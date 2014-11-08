@@ -1,6 +1,6 @@
 <%= common_title %>
 
-<%= form_for(@system,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+<%= form_for(@system,:url=>{:action=>"update", :id => @system.id},:builder => CustomFormBuilder) do |f| %>
     <% content_for :form_block_common   do%>
         <table class="form-table">
           <tbody>
@@ -10,7 +10,7 @@
             <td class="label-col"></td>
             <td class="data-col"></td>
           </tr>
-                  </tbody>
+          </tbody>
         </table>
     <% end %>
 

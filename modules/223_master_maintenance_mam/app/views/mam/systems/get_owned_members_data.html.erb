@@ -1,0 +1,7 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "20px"}) do |data|%>
+        <%= bootstrap_icons("icon-trash",t(:remove),{:action=>"delete_person",:id=> data[:id],:system_id=>@system.id},:confirm => t(:label_are_you_sure) ,:method => :delete) %>
+    <% end %>
+    <% builder.column(:person_name,{:title=>t(:label_irm_group_person_name), :searchable => true, :width => "25%"})%>
+    <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address), :searchable => true})%>
+<% end %>
