@@ -31,14 +31,14 @@ class Yan::CuxMonthStat < Irm::ReportManager::ReportBase
           where("date_format(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?",
                 today.strftime('%Y-%m-%d')).
           where("#{Icm::IncidentRequest.table_name}.external_system_id = ?", params[:external_system_id])
-      n = n.where("#{Icm::IncidentRequest.table_name}.support_group_id = ?", params[:support_group_id]) if params[:support_group_id]
+      n = n.where("#{Icm::IncidentRequest.table_name}.support_group_id = ?", params[:support_group_id]) unless params[:support_group_id].blank?
       data[2] = n.size.to_s
 
       c = Icm::IncidentRequest.
           where("EXISTS(SELECT 1 FROM icm_incident_journals ij WHERE ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND ij.reply_type = 'CLOSE' AND  DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
                 today.strftime('%Y-%m-%d')).
           where("#{Icm::IncidentRequest.table_name}.external_system_id = ?", params[:external_system_id])
-      c = c.where("#{Icm::IncidentRequest.table_name}.support_group_id = ?", params[:support_group_id]) if params[:support_group_id]
+      c = c.where("#{Icm::IncidentRequest.table_name}.support_group_id = ?", params[:support_group_id]) unless params[:support_group_id].blank?
       data[3] = c.size.to_s
 
       e = Icm::IncidentRequest.
@@ -47,7 +47,7 @@ class Yan::CuxMonthStat < Irm::ReportManager::ReportBase
           where("#{Icm::IncidentRequest.table_name}.external_system_id = ?", params[:external_system_id]).
           where("NOT EXISTS(SELECT 1 FROM icm_incident_journals ij WHERE ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND ij.reply_type = 'CLOSE' AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') <= ?)",
                 today.strftime('%Y-%m-%d'))
-      e = e.where("#{Icm::IncidentRequest.table_name}.support_group_id = ?", params[:support_group_id]) if params[:support_group_id]
+      e = e.where("#{Icm::IncidentRequest.table_name}.support_group_id = ?", params[:support_group_id]) unless params[:support_group_id].blank?
       data[4] = e.size.to_s
       datas << data
     end
