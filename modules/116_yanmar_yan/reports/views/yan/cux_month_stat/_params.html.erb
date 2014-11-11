@@ -13,7 +13,7 @@
       <td>
         <label for="loginPerson_label">Group</label>
         <div style="white-space:nowrap">
-          <%= select_tag_alias(
+          <%= blank_select_tag(
                       "program_params[support_group_id]",
                       options_for_select(support_groups_list, program_params[:support_group_id]),
                       nil)%>
