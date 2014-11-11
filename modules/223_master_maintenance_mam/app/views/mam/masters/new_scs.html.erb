@@ -1,7 +1,9 @@
 <%= common_title(:action_meaning=> t(:new)) %>
 
 <% temp_master_id = @temp_master_id%>
-
+<style>
+  textarea {height:50px;}
+</style>
 <!--页面结构-->
 <div class="page-block">
 
@@ -44,96 +46,98 @@
                   <%=f.select :category, available_lookup_type("MAM_ITEM_CATEGORY"),{:value=>@master.category}%>
                 </td>
               </tr>
+              <%= fields_for("master_sc[]", @master.master_scs.build()) do |sub_f|%>
               <tr>
                 <td class="label-col"><label>Party Name(English)</label></td>
                 <td class="data-col">
-                  <%=f.text_area :party_name_e%>
+                  <%= sub_f.text_area :party_name_e%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>Party Name(Local)</label></td>
                 <td class="data-col">
-                  <%=f.text_area :party_name_l%>
+                  <%= sub_f.text_area :party_name_l%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>DNUS Number</label></td>
                 <td class="data-col">
-                  <%=f.text_field :duns_number%>
+                  <%= sub_f.text_field :duns_number%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>Type</label></td>
                 <td class="data-col">
-                  <%=f.select :type, available_lookup_type("MAM_SC_TYPE")%>
+                  <%= sub_f.select :scs_type, available_lookup_type("MAM_SC_TYPE")%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>Country</label></td>
                 <td class="data-col">
-                  <%=f.text_field :country%>
+                  <%= sub_f.text_field :country%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>State</label></td>
                 <td class="data-col">
-                  <%=f.text_field :state%>
+                  <%= sub_f.text_field :state%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>Postal Code</label></td>
                 <td class="data-col">
-                  <%=f.text_field :postal_code%>
+                  <%= sub_f.text_field :postal_code%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>City</label></td>
                 <td class="data-col">
-                  <%=f.text_field :city%>
+                  <%= sub_f.text_field :city%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>Address Line 1</label></td>
                 <td class="data-col">
-                  <%=f.text_area :address_line_1%>
+                  <%= sub_f.text_area :address_line_1%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>Address Line 2</label></td>
                 <td class="data-col">
-                  <%=f.text_area :address_line_2%>
+                  <%= sub_f.text_area :address_line_2%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>Address Line 3</label></td>
                 <td class="data-col">
-                  <%=f.text_area :address_line_3%>
+                  <%= sub_f.text_area :address_line_3%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>Account Type</label></td>
                 <td class="data-col">
-                  <%=f.select :account_type, available_lookup_type("MAM_SC_ACCOUNT_TYPE")%>
+                  <%= sub_f.select :account_type, available_lookup_type("MAM_SC_ACCOUNT_TYPE")%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>Classification</label></td>
                 <td class="data-col">
-                  <%=f.select :classification, available_lookup_type("MAM_SC_CLASSIFICATION")%>
+                  <%= sub_f.select :classification, available_lookup_type("MAM_SC_CLASSIFICATION")%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>Credit Limit</label></td>
                 <td class="data-col">
-                  <%=f.text_field :credit_limit%>
+                  <%= sub_f.text_field :credit_limit%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>Currency</label></td>
                 <td class="data-col">
-                  <%=f.select :currency, available_lookup_type("MAM_SC_CURRENCY")%>
+                  <%= sub_f.select :currency, available_lookup_type("MAM_SC_CURRENCY")%>
                 </td>
               </tr>
+              <% end%>
               </tbody>
             </table>
           </div>

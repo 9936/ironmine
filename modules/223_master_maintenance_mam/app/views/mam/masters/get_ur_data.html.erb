@@ -1,0 +1,17 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "20px"}) do |data|%>
+        <%= bootstrap_icons("icon-trash",t(:remove),{:action=>"delete_item",:id=> data[:id],:master_id=>@master_id, :format => "js"},
+                            :confirm => t(:label_are_you_sure) ,:method => :delete, :remote => true) %>
+    <% end %>
+    <% builder.column(:item_code,{:title=>"Responsibility",:width => "30px"})%>
+    <% builder.column(:item_description,{:title=>"Action"})%>
+    <% builder.column(:organization,{:title=>"Organization",:width => "30px"})%>
+    <% builder.column(:template,{:title=>"Template", :width => "30px"})%>
+    <% builder.column(:reference_item,{:title=>"Reference Item", :width => "30px"})%>
+    <% builder.column(:primary_unit,{:title=>"Primary Unit of Measure", :width => "30px"})%>
+    <% builder.column(:department,{:title=>"Department", :width => "30px"})%>
+    <% builder.column(:business_unit,{:title=>"Business Unit", :width => "30px"})%>
+    <% builder.column(:inventory_account,{:title=>"Inventory Account", :width => "30px"})%>
+    <% builder.column(:inventory_sub_account,{:title=>"Inventory Sub-Account", :width => "30px"})%>
+    <% builder.column(:sn_generation,{:title=>"Serial Number Generation", :width => "30px"})%>
+<% end %>

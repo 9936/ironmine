@@ -41,7 +41,6 @@ class Mam::MastersController < ApplicationController
     @return_url=request.env['HTTP_REFERER']
     respond_to do |format|
       format.html { render :layout => "application_full" } # new.html.erb
-      format.xml { render :xml => @incident_request }
     end
   end
 
@@ -67,7 +66,9 @@ class Mam::MastersController < ApplicationController
 
   def new_scs
     @master = Mam::Master.new()
-    @master_scs = Mam::MasterScs.new()
+    respond_to do |format|
+      format.html { render :layout => "application_full" } # new.html.erb
+    end
   end
 
   def create_scs
