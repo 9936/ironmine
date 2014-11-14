@@ -1,4 +1,4 @@
-<%= common_title(:action_meaning=> t(:new)) %>
+<%= common_title(:action_meaning=> t(:edit)) %>
 <% require_jscss(:maxlength) %>
 <% temp_master_id = @temp_master_id%>
 <style type="text/css">
@@ -146,12 +146,6 @@
                 </td>
               </tr>
               <tr>
-                <td class="label-col"><label>Remark</label></td>
-                <td class="data-col">
-                  <%= f.text_area :remark%>
-                </td>
-              </tr>
-              <tr>
                 <td class="label-col"></td>
                 <td class="label-col"><%= link_submit "Add",{:class=>"btn btn-primary"}%></td>
               </tr>
@@ -163,8 +157,8 @@
 <!--页面结构-->
 <div class="page-block">
 
-  <%= form_for(@master,:url=>{:action=>"create_urs"},:builder => CustomFormBuilder,
-               :html => { :multipart => true , :onsubmit => "return checkForm(required_set_1, 'new_mam_master');"}) do |f| %>
+  <%= form_for(@master,:url=>{:action=>"update_urs", :id => @master.id},:builder => CustomFormBuilder,
+               :html => { :multipart => true , :onsubmit => "return checkForm(required_set_1, 'edit_mam_master_#{@master.id}');"}) do |f| %>
       <table class="page-block-header"><tr>
         <td class="page-block-title">
           <h2 class="block-title">New User-Responsibility</h2>
@@ -188,7 +182,7 @@
               <tr>
                 <td class="label-col"><label>Requester</label></td>
                 <td class="data-col">
-                  <%= Irm::Person.current.full_name%>
+                  <%= @master.submitted_by_name%>
                 </td>
               </tr>
               <tr>
@@ -201,24 +195,6 @@
                 <td class="label-col"><label>Category</label></td>
                 <td class="data-col">
                   <%=f.select :category, available_lookup_type("MAM_UR_CATEGORY"),{:value=>@master.category}%>
-                </td>
-              </tr>
-              <tr>
-                <td class="label-col"><label>Remark</label></td>
-                <td class="data-col">
-                  <%= f.text_area :remark%>
-                </td>
-              </tr>
-              <tr>
-                <td class="label-col"><label>Contact</label></td>
-                <td class="data-col">
-                  <%= f.text_field :contact, :value => Irm::Person.current.full_name%>
-                </td>
-              </tr>
-              <tr>
-                <td class="label-col"><label>Contact Number</label></td>
-                <td class="data-col">
-                  <%= f.text_field :contact_number%>
                 </td>
               </tr>
               </tbody>
@@ -299,7 +275,7 @@
         <h3 class="sub-page-block-title">Responsibility Added</h3>
       </div>
       <div class="sub-page-block-body">
-        <%= datatable("master_ur",{:action=>"get_ur_data",:master_id => temp_master_id},[],{:paginator_box=>"masterUrPaginator"})%>
+        <%= datatable("master_ur",{:action=>"get_ur_data",:master_id => temp_master_id, :real_master_id => @master.id},[],{:paginator_box=>"masterUrPaginator"})%>
       </div>
     </div>
   </div>

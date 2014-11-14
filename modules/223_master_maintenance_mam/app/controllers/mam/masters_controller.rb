@@ -1,7 +1,6 @@
 class Mam::MastersController < ApplicationController
   layout 'application'
-  # GET /incident_requests
-  # GET /incident_requests.xml
+
   def index
     session[:_view_filter_id] = params[:filter_id] if params[:filter_id]
     respond_to do |format|
@@ -9,29 +8,27 @@ class Mam::MastersController < ApplicationController
     end
   end
 
-  # GET /incident_requests/1
-  # GET /incident_requests/1.xml
   def show
-
-
+    @master = Mam::Master.
+        with_support_group.
+        with_supporter.
+        with_submitted_by.
+        with_master_status.
+        with_category.
+        with_system.
+        select_all.
+        find(params[:id])
+    @show_form = true
+    @master_replies = @master.master_replies.select_all.with_reply_br.with_reply_person
+    @master_reply = Mam::MasterReply.new()
     respond_to do |format|
-      format.html # show.html.erb
+      format.html{ render :layout=>"application_full"}# show.html.erb
       format.xml { render :xml => @master }
     end
   end
 
-  # GET /incident_requests/new
-  # GET /incident_requests/new.xml
   def new
-    @incident_request = Icm::IncidentRequest.new(({:requested_by => Irm::Person.current.id}).merge(params[:icm_incident_request]||{}))
-    if params[:source_id].present? and params[:relation_type].present?
-      @source_incident_request = Icm::IncidentRequest.list_all.find(params[:source_id])
-    end
-    @return_url=request.env['HTTP_REFERER']
-    respond_to do |format|
-      format.html { render :layout => "application_full" } # new.html.erb
-      format.xml { render :xml => @incident_request }
-    end
+
   end
 
   def new_item
@@ -44,18 +41,41 @@ class Mam::MastersController < ApplicationController
     end
   end
 
+  def edit_item
+    @master = Mam::Master.select_all.with_submitted_by.find(params[:id])
+    @master_item = Mam::MasterItem.new()
+    @temp_master_id = Fwk::IdGenerator.instance.generate(Mam::Master.table_name)
+    @return_url=request.env['HTTP_REFERER']
+    respond_to do |format|
+      format.html { render :layout => "application_full" } # new.html.erb
+    end
+  end
+
+  def update_item
+    @master = Mam::Master.find(params[:id])
+
+    respond_to do |format|
+      Mam::MasterItem.where("master_id = ?", params[:temp_master_id]).each do |t|
+        t.update_attribute(:master_id, @master.id)
+      end
+      format.html { redirect_to({:action=>"show", :id => @master.id}, :notice =>t(:successfully_created)) }
+      format.xml  { render :xml => @master, :status => :created, :location => @master }
+    end
+  end
+
   def create_item
     @master = Mam::Master.new(params[:mam_master])
+    @master.master_type="Item"
+    @master.submitted_by=Irm::Person.current.id
+    @master.master_number = Irm::Sequence.nextval("MAM::MasterNumber")
+    @master.master_status = "MAM_NEW"
     @master.save
-    Mam::MasterItem.where("master_id = ?", params[:temp_master_id]).each do |t|
-      t.update_attribute(:master_id, @master.id)
-    end
     respond_to do |format|
       if @master.save
         Mam::MasterItem.where("master_id = ?", params[:temp_master_id]).each do |t|
           t.update_attribute(:master_id, @master.id)
         end
-        format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
+        format.html { redirect_to({:action=>"show", :id => @master.id}, :notice =>t(:successfully_created)) }
         format.xml  { render :xml => @master, :status => :created, :location => @master }
       else
         format.html { render :action => "new" }
@@ -72,33 +92,171 @@ class Mam::MastersController < ApplicationController
   end
 
   def create_scs
-
+    @master = Mam::Master.new(params[:mam_master])
+    @master.master_type="Supplier&Customer"
+    @master.submitted_by=Irm::Person.current.id
+    @master.master_number = Irm::Sequence.nextval("MAM::MasterNumber")
+    @master.master_status = "MAM_NEW"
+    @master.master_scs.build(params[:mam_master_sc])
+    @master.save
+    respond_to do |format|
+      if @master.save
+        format.html { redirect_to({:action=>"show", :id => @master.id}, :notice =>t(:successfully_created)) }
+        format.xml  { render :xml => @master, :status => :created, :location => @master }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @master.errors, :status => :unprocessable_entity }
+      end
+    end
   end
 
-  def add_item
-    m = Mam::MasterItem.new({:item_code => params[:item_code], :item_description => params[:item_description],
-                         :organization => params[:organization],:template => params[:template],
-                         :reference_item => params[:reference_item],:primary_unit => params[:primary_unit],:department => params[:department],
-                         :business_unit => params[:business_unit], :inventory_account => params[:inventory_account],
-                         :inventory_sub_account => params[:inventory_sub_account],:sn_generation => params[:sn_generation],
-                         :master_id => params[:master_id]})
+  def edit_scs
+    @master = Mam::Master.find(params[:id])
+    @return_url=request.env['HTTP_REFERER']
+    respond_to do |format|
+      format.html { render :layout => "application_full" } # new.html.erb
+    end
+  end
+
+  def update_scs
+    @master = Mam::Master.find(params[:id])
+    @master_sc = @master.master_scs.first
+    @master.update_attributes(params[:mam_master])
+    @master_sc.update_attributes(params[:master_sc])
+
+    respond_to do |format|
+        format.html { redirect_to({:action=>"show", :id => @master.id}, :notice =>t(:successfully_created)) }
+    end
+  end
+
+  def new_urs
+    @master = Mam::Master.new()
+    @master_ur = Mam::MasterUr.new()
+    @temp_master_id = Fwk::IdGenerator.instance.generate(Mam::Master.table_name)
+    @return_url=request.env['HTTP_REFERER']
+    respond_to do |format|
+      format.html { render :layout => "application_full" } # new.html.erb
+    end
+  end
+
+  def edit_urs
+    @master = Mam::Master.select_all.with_submitted_by.find(params[:id])
+    @master_ur = Mam::MasterUr.new()
+    @temp_master_id = Fwk::IdGenerator.instance.generate(Mam::Master.table_name)
+    @return_url=request.env['HTTP_REFERER']
+    respond_to do |format|
+      format.html { render :layout => "application_full" } # new.html.erb
+    end
+  end
+
+  def update_urs
+    @master = Mam::Master.find(params[:id])
+    @master.update_attributes(params[:mam_master])
+    respond_to do |format|
+      Mam::MasterUr.where("master_id = ?", params[:temp_master_id]).each do |t|
+        t.update_attribute(:master_id, @master.id)
+      end
+      format.html { redirect_to({:action=>"show", :id => @master.id}, :notice =>t(:successfully_created)) }
+      format.xml  { render :xml => @master, :status => :created, :location => @master }
+    end
+  end
+
+  def create_urs
+    @master = Mam::Master.new(params[:mam_master])
+    #build master
+    @master.master_type="User&Responsibility"
+    @master.submitted_by=Irm::Person.current.id
+    @master.master_number = Irm::Sequence.nextval("MAM::MasterNumber")
+    @master.master_status = "MAM_NEW"
+    @master.save
+    respond_to do |format|
+      if @master.save
+        Mam::MasterUr.where("master_id = ?", params[:temp_master_id]).each do |t|
+          t.update_attribute(:master_id, @master.id)
+        end
+        format.html { redirect_to({:action=>"show", :id => @master.id}, :notice =>t(:successfully_created)) }
+        format.xml  { render :xml => @master, :status => :created, :location => @master }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @master.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  def add_ur
+    m = Mam::MasterUr.new({:master_id => params[:master_id], :responsibility => params[:responsibility],
+                           :action => params[:mam_master_ur][:action],
+                             :start_date => params[:start_date],:end_date => params[:end_date],
+                             :remark => params[:mam_master_ur][:remark]})
     m.save
     respond_to do |format|
       format.js do
         responds_to_parent do
           @master_id = params[:master_id]
-          render :add_item_js do |page|
+            render :add_ur_js do |page|
           end
         end
       end
     end
   end
 
+  def delete_ur
+    master_ur = Mam::MasterUr.find(params[:id])
+    master_ur.destroy
+
+    respond_to do |format|
+      @master_id = params[:master_id]
+      format.js {render :delete_ur_js}
+    end
+  end
+
+  def add_item
+    m = Mam::MasterItem.new(params[:mam_master_item])
+    m.master_id = params[:master_id]
+    m.save
+    respond_to do |format|
+      format.js do
+        responds_to_parent do
+          @master_id = params[:master_id]
+            render :add_item_js do |page|
+          end
+        end
+      end
+    end
+  end
+
+  def create_reply
+    master_reply = Mam::MasterReply.new(params[:mam_master_reply])
+    master = Mam::Master.find(params[:master_id])
+    if master.support_person_id == Irm::Person.current.id
+      master_reply.reply_type = 'SUPPORTER_REPLY'
+    elsif master.submitted_by == Irm::Person.current.id
+      master_reply.reply_type = 'CUSTOMER_REPLY'
+    else
+      master_reply.reply_type = 'OTHER_REPLY'
+    end
+    master_reply.master_id = params[:master_id]
+    master_reply.reply_number = Irm::Sequence.nextval("MAM::ReplyNumber")
+
+    respond_to do |format|
+      if master_reply.save
+        format.html { redirect_to({:action=>"show", :id => params[:master_id]}, :notice =>t(:successfully_created)) }
+      else
+        format.html { redirect_to({:action=>"show", :id => params[:master_id]}, :notice =>t(:successfully_created)) }
+      end
+    end
+  end
+
   def get_item_data
-    master_items_scope = Mam::MasterItem.select_all.with_template.where("master_id = ?", params[:master_id])
+    if params[:real_master_id]
+      master_items_scope = Mam::MasterItem.select_all.with_template.with_replace_br.where("master_id = ? OR master_id = ?", params[:master_id], params[:real_master_id])
+    else
+      master_items_scope = Mam::MasterItem.select_all.with_template.with_replace_br.where("master_id = ?", params[:master_id])
+    end
     master_items_scope,count = paginate(master_items_scope)
     respond_to do |format|
       format.html  {
+        @show_form = true if params[:show_form]
         @master_id = params[:master_id]
         @datas = master_items_scope
         @count = count
@@ -116,27 +274,29 @@ class Mam::MastersController < ApplicationController
     end
   end
 
-  def create_scs
-
-  end
-
-  def new_urs
-
-  end
-
-  def create_urs
-
+  def get_ur_data
+    if params[:real_master_id]
+      master_urs_scope = Mam::MasterUr.select_all.with_action.where("master_id = ? OR master_id = ?", params[:master_id], params[:real_master_id])
+    else
+      master_urs_scope = Mam::MasterUr.select_all.with_action.where("master_id = ?", params[:master_id])
+    end
+    master_urs_scope,count = paginate(master_urs_scope)
+    respond_to do |format|
+      format.html  {
+        @show_form = true if params[:show_form]
+        @master_id = params[:master_id]
+        @datas = master_urs_scope
+        @count = count
+      }
+    end
   end
 
   # GET /incident_rsolr_searchequests/1/edit
   def edit
-    @incident_request = Icm::IncidentRequest.list_all.query(params[:id])
-    @incident_request = check_incident_request_permission(@incident_request)
-    respond_to do |format|
-      format.html { render :layout => "application_full" } # new.html.erb
-      format.xml { render :xml => @incident_request }
-    end
+
   end
+
+
 
   def get_data
     return_columns = [:master_number,
@@ -149,6 +309,8 @@ class Mam::MastersController < ApplicationController
                       :support_group_id,
                       :support_group_id_label,
                       :support_person_id,
+                      :master_status_label,
+                      :master_status,
                       :support_person_id_label]
     bo = Irm::BusinessObject.where(:business_object_code => "MAM_MASTERS").first
 
@@ -172,4 +334,45 @@ class Mam::MastersController < ApplicationController
     end
   end
 
+  def update_assign
+    master = Mam::Master.find(params[:master_id])
+    if params[:next_person].present?
+      master.update_attribute(:support_person_id, Irm::Person.current.id)
+      master_reply = Mam::MasterReply.new(params[:mam_master_reply])
+      master_reply.reply_type = 'ASSIGN'
+      master_reply.reply_content = 'Receive'
+      master_reply.master_id = params[:master_id]
+      master_reply.reply_number = Irm::Sequence.nextval("MAM::ReplyNumber")
+      master_reply.save
+    else
+      if params[:support_group_id].present?
+        master.update_attribute(:support_group_id, params[:support_group_id])
+        master.update_attribute(:support_person_id, params[:support_person_id])
+      end
+      master_reply = Mam::MasterReply.new(params[:mam_master_reply])
+      master_reply.reply_type = 'ASSIGN'
+      master_reply.reply_content = 'Assign'
+      master_reply.master_id = params[:master_id]
+      master_reply.reply_number = Irm::Sequence.nextval("MAM::ReplyNumber")
+      master_reply.save
+    end
+
+    master.update_attribute(:master_status, "MAM_PROCESSING") if master.master_replies.where("reply_type = ?", 'ASSIGN').size == 0
+
+    respond_to do |format|
+        format.html { redirect_to({:action=>"show", :id => params[:master_id]}, :notice =>t(:successfully_created)) }
+    end
+  end
+
+  def update_status
+    master = Mam::Master.find(params[:mam_master_reply][:master_id]) if params[:mam_master_reply]
+    master = Mam::Master.find(params[:master_id]) if params[:master_id]
+
+    master.update_attribute(:master_status, params[:mam_master][:master_status]) if params[:mam_master].present?
+    master.update_attribute(:master_status, params[:next_status]) if params[:next_status].present?
+
+    respond_to do |format|
+      format.html { redirect_to({:action=>"show", :id => params[:master_id]}, :notice =>t(:successfully_created)) }
+    end
+  end
 end

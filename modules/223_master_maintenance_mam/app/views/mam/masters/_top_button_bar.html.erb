@@ -1,0 +1,45 @@
+<% content_for :block_header_buttons do %>
+  <div class="btn-toolbar" >
+    <% if !@master.close? %>
+        <div class="btn-group">
+          <!-- 检查是否具有关闭权限 -->
+          <% if mam_can_close?(@master) %>
+              <%= link_to t(:close),
+                          {:action => "update_status", :master_id => @master.id,
+                           :next_status => "MAM_CLOSE"},{:class=>"btn"} %>
+          <% end %>
+
+          <!-- 检查是否具有编辑权限 -->
+          <% if mam_can_edit?(@master) %>
+              <% if @master.master_type.eql?("Item")%>
+                  <%= link_to t(:edit),
+                              {:action => "edit_item", :id => @master.id},
+                              {:class=>"btn",:back => true} %>
+              <% elsif @master.master_type.eql?("Supplier&Customer")%>
+                  <%= link_to t(:edit),
+                              {:action => "edit_scs", :id => @master.id},
+                              {:class=>"btn",:back => true} %>
+              <% elsif @master.master_type.eql?("User&Responsibility")%>
+                  <%= link_to t(:edit),
+                              {:action => "edit_urs", :id => @master.id},
+                              {:class=>"btn",:back => true} %>
+              <% end %>
+          <% end %>
+        </div>
+        <div class="btn-group">
+          <% if mam_can_receive?(@master) && @master.assignable_to_person?(Irm::Person.current.id)%>
+              <%= link_to "Receive",
+                          {:action => "update_assign",
+                           :next_person => Irm::Person.current.id,
+                           :master_id=>@master.id},
+                          {:class=>"btn"} %>
+          <% end %>
+        </div>
+    <% else %>
+
+    <% end %>
+    <div class="btn-group">
+      <%= link_to "Back to list", {:action => "index"} ,{:class=>"btn"}%>
+    </div>
+  </div>
+<% end %>

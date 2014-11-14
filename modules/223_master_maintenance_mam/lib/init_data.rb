@@ -16,7 +16,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "mam/masters" => ["index", "get_data"]
+              "mam/masters" => ["index", "get_data", "show"]
           },
           :new_master => {
               :en => {:name => "New", :description => "New"},
@@ -24,8 +24,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "mam/masters" => ["new", "create", "new_item", "new_scs", "new_urs",
-                                "get_item_data", "delete_item", "add_item", "create_sc"]
+              "mam/masters" => ["new", "create", "new_item", "new_scs", "new_urs","get_ur_data",
+                                "get_item_data", "delete_item", "add_item", "create_sc", "delete_ur"]
           },
           :edit_master => {
               :en => {:name => "Edit", :description => "Edit"},
@@ -33,7 +33,49 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "mam/masters" => ["edit", "update", "delete_item", "add_item"]
+              "mam/masters" => ["new_item", "new_scs", "new_urs","get_ur_data","edit_item","edit_scs", "edit_urs", "update",
+                                "get_item_data", "delete_item", "add_item", "create_sc", "delete_ur"]
+          },
+          :create_reply => {
+              :en => {:name => "New Reply", :description => "New Reply"},
+              :zh => {:name => "New Reply", :description => "New Reply"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "mam/masters" => ["create_reply"]
+          },
+          :update_assign =>{
+              :en => {:name => "Assign", :description => "Assign"},
+              :zh => {:name => "Assign", :description => "Assign"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "mam/masters" => ["update_assign"],
+              "icm/support_groups" => ["get_member_options"]
+          },
+          :update_receive =>{
+              :en => {:name => "Receive", :description => "Receive"},
+              :zh => {:name => "Receive", :description => "Receive"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "mam/masters" => ["update_assign"]
+          },
+          :update_status =>{
+              :en => {:name => "Update Status", :description => "Update Status"},
+              :zh => {:name => "Update Status", :description => "Update Status"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "mam/masters" => ["update_status"]
+          },
+          :update_close =>{
+              :en => {:name => "Close", :description => "Close"},
+              :zh => {:name => "Close", :description => "Close"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "mam/masters" => ["update_status"]
           }
 
       }
@@ -83,7 +125,9 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "mam/systems" => ["index", "get_data", "new", "create", "edit", "update","show","add_people_create",
-                                "add_people", "get_owned_members_data", "delete_person", "get_memberable_data"]
+                                "add_people", "get_owned_members_data", "delete_person", "get_memberable_data",
+                                "add_support_group_create",
+                                "add_support_groups", "get_owned_groups_data", "delete_support_group", "get_groupable_data"]
           }
       }
   }

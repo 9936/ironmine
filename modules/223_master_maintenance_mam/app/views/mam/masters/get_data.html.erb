@@ -3,8 +3,8 @@
         <%= link_to(data[:master_number],{:controller=>"mam/masters",:action=>"show",:id=>data[:id]}) %>
     <% end %>
     <% builder.column(:master_type,{:title=>"Master Type",:searchable=>true,:width => "100px"})%>
-    <% builder.column(:system_name,{:title=>"System",:searchable=>true,:width => "240px"})%>
-    <% builder.column(:requester_name,{:title=> "Requester", :searchable=>true, :width => "100px"})%>
-    <% builder.column(:supporter_name,{:title=> "Supporter", :searchable=>true, :width => "100px"})%>
-    <% builder.column(:status,{:title=> "Status", :searchable=>true, :width => "60px"})%>
+    <% builder.column(:system_id_label,{:title=>"System",:searchable=>true,:width => "240px"})%>
+    <% builder.column(:submitted_by_label,{:title=> "Requester", :searchable=>true, :width => "100px"})%>
+    <% builder.column(:support_person_id_label,{:title=> "Supporter", :searchable=>true, :width => "100px"})%>
+    <% builder.column(:master_status_label,{:title=> "Status", :searchable=>true, :width => "60px"})%>
 <% end %>

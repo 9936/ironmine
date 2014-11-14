@@ -1,5 +1,5 @@
 <%= common_title %>
-<%= view_filter("MAM_MASTERS","MAM_MASTERSZAI ","masters") %>
+<%= view_filter("MAM_MASTERS","MAM_MASTERS ","masters") %>
 
 
 <div class="page-block">
@@ -21,9 +21,6 @@
           <li><%= link_to("New User&Responsibility",{:action => "new_urs"}) %></li>
         </ul>
       </div>
-      <div class="btn-group" style="float: left;display: inline-block;">
-        <a href="javascript:void(0)" id="exportData" class="btn btn-info"><%= t(:export) %></a>
-      </div>
     </td>
     <td class="page-block-help">
       <div id="mam_SearchBox"></div>
@@ -31,9 +28,8 @@
   </tr></table>
   <div class="page-block-body">
     <%= datatable("masters",{:action=>"get_data"},[],{:export_data=>"#masterExport",
-                                                                          :search_box=>"mam_SearchBox",
-                                                                          :paginator_box=>'mamPaginatorBox',
-                                                                          :view_filter=>true,
-                                                                          :export_data=>"#exportData"})%>
+                                                                  :paginator_box=>'mamPaginatorBox',
+                                                                  :view_filter=>true,
+                                                                  :export_data=>"#exportData"})%>
   </div>
 </div>

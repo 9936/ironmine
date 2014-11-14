@@ -1,0 +1,4 @@
+<%=datatable_view({:columns=>[:support_group_name], :count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id)%>
+  <% builder.column(:support_group_name,{:title=> "Support Group",:searchable=>true})%>
+<% end %>
