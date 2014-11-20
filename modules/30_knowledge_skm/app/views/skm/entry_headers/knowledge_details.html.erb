@@ -1,4 +1,18 @@
 <%= app_title %>
+
+<% require_jscss(:markdown) %>
+
+<style type="text/css">
+    .markdown-body img {border: none;}
+    .digg-zone span,
+    .markdown-body table span {
+        margin-left: 0;
+    }
+    .markdown-body p{
+        text-indent: 0;
+    }
+
+</style>
 <!--页面结构-->
 <div class="page-block">
   <table class="page-block-header"><tr>
@@ -61,7 +75,96 @@
     <%- end -%>
   </div>
 </div>
+<div class="show-block">
+<div class="page-block-body">
+  <div class="markdown-body" style="width: 551pt;text-align: left;margin: 0 auto;">
 
+        <h1><%= t(:label_skm_entry_header_approval_record) %></h1>
+        <div style="margin-left: 50px;">
+          <table class="page-block-header" style="margin-left: 0;">
+            <tr>
+              <td class="page-block-help form-inline" style="width: 100%; border: none;">
+                <!-- 有拒绝的审批状态显示重新申请审核 -->
+                <%- if has_approval_deny?(@entry_header.id) %>
+                    <%= form_tag({:controller => "skm/entry_headers",:action => "reset_approve"},:style => "padding:0; margin:0; display:inline-block;") do %>
+                        <%= hidden_field_tag :entry_header_id, @entry_header.id %>
+                        <%= link_to t(:label_skm_entry_header_approval_reset),'reset_approve', :class => 'btn btn-primary submit', :style => "color: #fff;" %>
+                    <%- end -%>
+                <%- end %>
+                <strong><%= t(:label_skm_entry_header_approval_status_note) %>:</strong>
+                <span class="badge badge-success">
+                  <i class="icon-ok-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_y) %>
+                </span>
+                <span class="badge badge-important">
+                  <i class="icon-remove-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_r) %>
+                </span>
+                <span class="badge badge-info">
+                  <i class="icon-user icon-white"></i><%= t(:label_skm_entry_header_approval_status_c) %>
+                </span>
+                <span class="badge">
+                  <i class="icon-question-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_n) %>
+                </span>
+              </td>
+            </tr>
+          </table>
+          <table style="margin-left: 0px;">
+            <tbody>
+            <tr>
+              <th style="width: 60px;"><%= t(:label_skm_entry_header_approval_status) %></th>
+              <th><%= t(:label_skm_entry_header_approval_person) %></th>
+              <th><%= t(:label_skm_entry_header_approval_date) %></th>
+              <th><%= t(:label_skm_entry_header_approval_note) %></th>
+            </tr>
+            <% @entry_header.entry_approval_people.each do |data| %>
+                <tr>
+                  <td>
+                    <% if data[:approval_flag].eql?(Irm::Constant::SYS_YES) %>
+                    <span class="badge badge-success">
+                      <i class="icon-ok-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_y) %>
+                    </span>
+                    <% elsif data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
+                      <span class="badge">
+                        <i class="icon-question-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_n) %>
+                      </span>
+                    <% elsif data[:approval_flag].eql?(Skm::EntryStatus::SYS_CHANGE) %>
+                      <span class="badge badge-info">
+                        <i class="icon-user icon-white"></i><%= t(:label_skm_entry_header_approval_status_c) %>
+                      </span>
+                    <% else %>
+                      <span class="badge badge-important">
+                        <i class="icon-remove-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_r) %>
+                    </span>
+                    <% end %>
+                  </td>
+                  <td>
+                    <%= Irm::Person.query_person_name(data[:person_id]).first[:person_name] if Irm::Person.query_person_name(data[:person_id]).first %>
+                  </td>
+                  <td>
+                    <% if data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
+                        <%= '' %>
+                    <% else %>
+                        <%= format_date data[:updated_at] %>
+                    <% end %>
+                  </td>
+                  <td>
+                    <% if data[:approval_flag].eql?(Irm::Constant::SYS_YES) %>
+                        <span style="color:#468847"><%= data[:note] %></span>
+                    <% elsif data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
+                        <span><%= data[:note] %></span>
+                    <% elsif data[:approval_flag].eql?(Skm::EntryStatus::SYS_CHANGE) %>
+                        <span style="color:#3A87AD"><%= data[:note] %></span>
+                    <% else %>
+                        <span style="color: #B94A48"><%= data[:note] %></span>
+                    <% end %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+  </div>
+</div>
+</div>
 <!-- 审核 -->
 <div class="page-block">
   <table class="page-block-header">
