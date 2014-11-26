@@ -20,7 +20,7 @@
     function checkForm(required_set, id) {
         pass = true;
         if ($("#mam_master_category").val()=="SC_UPDATE"){
-            required_set = new Array();
+            required_set = ["master_sc__party_name_e"];
         }
         $.each(required_set, function(){
                     if(typeof($("#" + this).val()) == "undefined" || $("#"+this).val() == ''){
@@ -78,6 +78,7 @@
     function checkCategory(){
         if($("#mam_master_category").val()=="SC_UPDATE"){
             reset_required();
+            $("#master_sc__party_name_e").parent().parent().addClass("form-field-required");
         }
         else{
             checkType();
@@ -197,7 +198,8 @@
                   <div class="form-field-wrapped form-field-required">
                     <span class="form-field-required-flag"></span>
                     <span class="form-field">
-                  <%= sub_f.select :scs_type, available_lookup_type("MAM_SC_TYPE"), :required => true%>
+                  <%= sub_f.select :scs_type, available_lookup_type("MAM_SC_TYPE"), {:required => true, :prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
+                                                                                                       :blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---"}%>
                     </span>
                   </div>
                 </td>
@@ -303,7 +305,8 @@
               <tr>
                 <td class="label-col"><label>Currency</label></td>
                 <td class="data-col">
-                  <%= sub_f.select :currency, available_lookup_type("MAM_SC_CURRENCY")%>
+                  <%= sub_f.select :currency, available_lookup_type("MAM_SC_CURRENCY"),{:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
+                                                                                        :blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---"}%>
                 </td>
               </tr>
               <% end%>

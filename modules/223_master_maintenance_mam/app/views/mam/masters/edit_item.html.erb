@@ -46,6 +46,12 @@
         )
     }
 
+    function resetDetailForm(){
+        $.each(all_set, function(){
+            $("#"+this).val('');
+        })
+    }
+
     function checkCategory(){
         if($("#mam_master_category").val()=="IT_NEW"){
             checkEnabled(enable_set, true);
@@ -161,7 +167,11 @@
               <tr>
                 <td class="label-col"><label>Serial Number Generation</label></td>
                 <td class="data-col">
-                  <%= f.text_field :sn_generation, :required => true%>
+                  <%= f.select :sn_generation,
+                               Irm::LookupValue.query_by_lookup_type("MAM_SNG").
+                                       order_by_sequence.multilingual.
+                                       collect{|m| ["#{m[:meaning]}", m.lookup_code]},
+                               :required => true%>
                 </td>
               </tr>
               <tr>

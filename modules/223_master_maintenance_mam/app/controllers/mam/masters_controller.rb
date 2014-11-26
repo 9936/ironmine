@@ -249,9 +249,9 @@ class Mam::MastersController < ApplicationController
 
   def get_item_data
     if params[:real_master_id]
-      master_items_scope = Mam::MasterItem.select_all.with_template.with_replace_br.where("master_id = ? OR master_id = ?", params[:master_id], params[:real_master_id])
+      master_items_scope = Mam::MasterItem.select_all.with_sng.with_template.with_replace_br.where("master_id = ? OR master_id = ?", params[:master_id], params[:real_master_id])
     else
-      master_items_scope = Mam::MasterItem.select_all.with_template.with_replace_br.where("master_id = ?", params[:master_id])
+      master_items_scope = Mam::MasterItem.select_all.with_sng.with_template.with_replace_br.where("master_id = ?", params[:master_id])
     end
     master_items_scope,count = paginate(master_items_scope)
     respond_to do |format|
@@ -301,6 +301,7 @@ class Mam::MastersController < ApplicationController
   def get_data
     return_columns = [:master_number,
                       :master_type,
+                      :title,
                       :master_type_label,
                       :system_id,
                       :system_id_label,
@@ -314,8 +315,21 @@ class Mam::MastersController < ApplicationController
                       :support_person_id_label]
     bo = Irm::BusinessObject.where(:business_object_code => "MAM_MASTERS").first
 
+    system_id_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "system_id")
+    master_type_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "master_type")
+    submitted_by_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "submitted_by")
+    supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "support_person_id")
+    status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "master_status")
     masters_scope = eval(bo.generate_query_by_attributes(return_columns, true))
 
+    #masters_scope = masters_scope.match_value("#{Mam::Master.table_name}.title", params[:title])
+    masters_scope = masters_scope.match_value("#{Mam::Master.table_name}.master_number", params[:master_number])
+    masters_scope = masters_scope.match_value("#{master_type_table_alias}.meaning", params[:master_type_label])
+    masters_scope = masters_scope.match_value("#{system_id_table_alias}.system_name", params[:system_id_label])
+    masters_scope = masters_scope.match_value("#{submitted_by_table_alias}.full_name",params[:submitted_by_label])
+    masters_scope = masters_scope.match_value("#{supporter_table_alias}.full_name", params[:support_person_id_label])
+    masters_scope = masters_scope.match_value("#{status_table_alias}.meaning", params[:master_status_label])
+    
     if params[:order_name]
       order_value = params[:order_value] ? params[:order_value] : "DESC"
       masters_scope = masters_scope.order("#{params[:order_name]} #{order_value}")
@@ -331,11 +345,23 @@ class Mam::MastersController < ApplicationController
       format.html {
         @datas, @count = paginate(masters_scope)
       }
+      format.xls {
+        masters = data_filter(masters_scope)
+        send_data(data_to_xls(masters,
+                              [{:key => "master_number", :label => "No."},
+                               {:key => "master_type", :label => "Master Type"},
+                               {:key => "system_id_label", :label => "System"},
+                               {:key => "submitted_by_label", :label => "Requester"},
+                               {:key => "support_person_id_label", :label => "Supporter"},
+                               {:key => "master_status_label", :label => "Status"}]
+                  ))
+      }
     end
   end
 
   def update_assign
     master = Mam::Master.find(params[:master_id])
+
     if params[:next_person].present?
       master.update_attribute(:support_person_id, Irm::Person.current.id)
       master_reply = Mam::MasterReply.new(params[:mam_master_reply])
@@ -357,7 +383,7 @@ class Mam::MastersController < ApplicationController
       master_reply.save
     end
 
-    master.update_attribute(:master_status, "MAM_PROCESSING") if master.master_replies.where("reply_type = ?", 'ASSIGN').size == 0
+    master.update_attribute(:master_status, "MAM_PROCESSING") if master.master_replies.where("reply_type = ?", 'ASSIGN').size <= 1
 
     respond_to do |format|
         format.html { redirect_to({:action=>"show", :id => params[:master_id]}, :notice =>t(:successfully_created)) }

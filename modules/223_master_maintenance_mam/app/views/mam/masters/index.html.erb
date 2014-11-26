@@ -14,12 +14,15 @@
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-          <li><%= link_to("New Item",{:action => "new_item"}) %></li>
+          <li><%= link_to("Item",{:action => "new_item"}) %></li>
           <li class="divider"></li>
-          <li><%= link_to("New Supplier&Customer",{:action => "new_scs"}) %></li>
+          <li><%= link_to("Supplier&Customer",{:action => "new_scs"}) %></li>
           <li class="divider"></li>
-          <li><%= link_to("New User&Responsibility",{:action => "new_urs"}) %></li>
+          <li><%= link_to("User&Responsibility",{:action => "new_urs"}) %></li>
         </ul>
+      </div>
+      <div class="btn-group" style="float: left;display: inline-block;">
+        <a href="javascript:void(0)" id="exportData" class="btn btn-info"><%= t(:export) %></a>
       </div>
     </td>
     <td class="page-block-help">

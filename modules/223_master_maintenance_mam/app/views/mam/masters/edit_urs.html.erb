@@ -18,7 +18,7 @@
     function checkForm(required_set, id) {
         pass = true;
         if ($("#mam_master_category").val()=="UR_UPDATE"){
-            required_set = new Array();
+            required_set = ["mam_master_urs_user_name"];
         }
         $.each(required_set, function(){
                 if(typeof($("#" + this).val()) == "undefined" || $("#"+this).val() == ''){
@@ -89,12 +89,17 @@
     function checkCategory(){
         if($("#mam_master_category").val()=="UR_UPDATE"){
             reset_required();
+            $("#mam_master_urs_user_name").parent().parent().parent().addClass("form-field-required");
         }
         else{
             checkResponsibilityActive();
         }
     }
-
+    function resetDetailForm(){
+        $.each(all_set, function(){
+            $("#"+this).val('');
+        })
+    }
     $(document).ready(function () {
         checkCategory();
         $("#mam_master_ur_action").bind("change", function(){

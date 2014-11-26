@@ -20,7 +20,7 @@
     function checkForm(required_set, id) {
         pass = true;
         if ($("#mam_master_category").val()=="SC_UPDATE"){
-            required_set = new Array();
+            required_set = ["master_sc_party_name_e"];
         }
         $.each(required_set, function(){
                     if(typeof($("#" + this).val()) == "undefined" || $("#"+this).val() == ''){
@@ -78,6 +78,7 @@
     function checkCategory(){
         if($("#mam_master_category").val()=="SC_UPDATE"){
             reset_required();
+            $("#master_sc_party_name_e").parent().parent().addClass("form-field-required");
         }
         else{
             checkType();

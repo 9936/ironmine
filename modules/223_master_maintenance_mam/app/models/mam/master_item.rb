@@ -12,6 +12,11 @@ class Mam::MasterItem < ActiveRecord::Base
     joins("LEFT OUTER JOIN irm_lookup_values_vl lvt ON lvt.language = 'en' AND lvt.lookup_type = 'MAM_TEMPLATE' AND lvt.lookup_code = #{table_name}.template")
   }
 
+  scope :with_sng, lambda{
+    select("lvt.meaning sng_name, lvt.lookup_code sng_code").
+        joins("LEFT OUTER JOIN irm_lookup_values_vl lvt ON lvt.language = 'en' AND lvt.lookup_type = 'MAM_SNG' AND lvt.lookup_code = #{table_name}.sn_generation")
+  }
+
   scope :with_replace_br, lambda{
     select("REPLACE(item_description, '\r\n', '<BR>') item_description_br").
         select("REPLACE(department, '\r\n', '<BR>') department_br").
