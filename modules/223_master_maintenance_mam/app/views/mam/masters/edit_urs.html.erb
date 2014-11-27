@@ -20,17 +20,41 @@
         if ($("#mam_master_category").val()=="UR_UPDATE"){
             required_set = ["mam_master_urs_user_name"];
         }
+        else
+        {
+            required_set = required_set_3
+        }
         $.each(required_set, function(){
-                if(typeof($("#" + this).val()) == "undefined" || $("#"+this).val() == ''){
-                    alert("Required fields can not be blank");
-                    $("#"+this).focus();
-                    if(id != ''){
-                        $("#"+id).unmask();
+                    if(typeof($("#" + this).val()) == "undefined" || $("#"+this).val() == ''){
+                        alert("Required fields can not be blank");
+                        $("#"+this).focus();
+                        if(id != ''){
+                            $("#"+id).unmask();
+                        }
+                        pass = false;
+                        return false;
                     }
-                    pass = false;
-                    return false;
                 }
-            }
+        )
+        return pass;
+    }
+
+    function checkDetailForm(required_set, id) {
+        pass = true;
+        if ($("#mam_master_category").val()=="UR_UPDATE"){
+            required_set = ["mam_master_urs_user_name"];
+        }
+        $.each(required_set, function(){
+                    if(typeof($("#" + this).val()) == "undefined" || $("#"+this).val() == ''){
+                        alert("Required fields can not be blank");
+                        $("#"+this).focus();
+                        if(id != ''){
+                            $("#"+id).unmask();
+                        }
+                        pass = false;
+                        return false;
+                    }
+                }
         )
         return pass;
     }
@@ -126,7 +150,7 @@
     <%= form_for(@master_ur, :url=>{:action=>"add_ur", :master_id => temp_master_id, :format => "js"},
                  :builder => CustomFormBuilder,
                  :html => {:multipart => true, :target => "frame",
-                           :onsubmit => "return checkForm(current_required_set, 'new_mam_master_ur');"}) do |f| %>
+                           :onsubmit => "return checkDetailForm(current_required_set, 'new_mam_master_ur');"}) do |f| %>
 
         <iframe id='frame' name="frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
         <table class="form-table">
