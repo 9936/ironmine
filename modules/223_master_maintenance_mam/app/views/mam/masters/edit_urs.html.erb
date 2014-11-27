@@ -96,7 +96,8 @@
         }
     }
     function resetDetailForm(){
-        $.each(all_set, function(){
+        $.each(["responsibility", "mam_master_ur_remark",
+            "start_date","end_date","mam_master_ur_action"], function(){
             $("#"+this).val('');
         })
     }
