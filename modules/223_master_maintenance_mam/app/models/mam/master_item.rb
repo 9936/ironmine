@@ -13,8 +13,8 @@ class Mam::MasterItem < ActiveRecord::Base
   }
 
   scope :with_sng, lambda{
-    select("lvt.meaning sng_name, lvt.lookup_code sng_code").
-        joins("LEFT OUTER JOIN irm_lookup_values_vl lvt ON lvt.language = 'en' AND lvt.lookup_type = 'MAM_SNG' AND lvt.lookup_code = #{table_name}.sn_generation")
+    select("lvt2.meaning sng_name, lvt2.lookup_code sng_code").
+        joins("LEFT OUTER JOIN irm_lookup_values_vl lvt2 ON lvt2.language = 'en' AND lvt2.lookup_type = 'MAM_SNG' AND lvt2.lookup_code = #{table_name}.sn_generation")
   }
 
   scope :with_replace_br, lambda{
