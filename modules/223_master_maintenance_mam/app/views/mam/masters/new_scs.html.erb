@@ -9,7 +9,7 @@
 <script type="text/javascript">
     var required_set_1=new Array("mam_master_system_id","mam_master_category","master_sc__party_name_e", "master_sc__party_name_l",
             "master_sc__scs_type", "master_sc__duns_number","master_sc__country","master_sc__postal_code","master_sc__address_line_1",
-            "master_sc__account_type","master_sc__classification");
+            "master_sc__account_type","master_sc__classification", "master_sc__state");
     var required_set_2=new Array("mam_master_system_id","mam_master_category","master_sc__party_name_e", "master_sc__party_name_l",
             "master_sc__scs_type", "master_sc__duns_number","master_sc__country","master_sc__postal_code","master_sc__address_line_1");
     var all_set=new Array("mam_master_system_id","mam_master_category","master_sc__party_name_e", "master_sc__party_name_l", "master_sc__city",
@@ -92,10 +92,10 @@
             checkType();
             checkCategory();
         })
-        $("#master_sc__country").bind("keyup", function(){
-            checkCountry();
-            checkCategory();
-        })
+//        $("#master_sc__country").bind("keyup", function(){
+//            checkCountry();
+//            checkCategory();
+//        })
         $("#mam_master_category").bind("change", function(){
             checkCategory();
         })

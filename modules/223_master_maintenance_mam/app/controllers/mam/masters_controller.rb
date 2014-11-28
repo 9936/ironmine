@@ -97,7 +97,7 @@ class Mam::MastersController < ApplicationController
     @master.submitted_by=Irm::Person.current.id
     @master.master_number = Irm::Sequence.nextval("MAM::MasterNumber")
     @master.master_status = "MAM_NEW"
-    @master.master_scs.build(params[:mam_master_sc])
+    @master.master_scs.build(params[:master_sc])
     @master.save
     respond_to do |format|
       if @master.save
