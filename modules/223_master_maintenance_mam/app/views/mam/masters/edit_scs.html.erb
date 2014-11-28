@@ -9,7 +9,7 @@
 <script type="text/javascript">
     var required_set_1=new Array("mam_master_system_id","mam_master_category","master_sc_party_name_e", "master_sc_party_name_l",
             "master_sc_scs_type", "master_sc_duns_number","master_sc_country","master_sc_postal_code","master_sc_address_line_1",
-            "master_sc_account_type","master_sc_classification", "master_sc_state");
+            "master_sc_account_type","master_sc_classification");
     var required_set_2=new Array("mam_master_system_id","mam_master_category","master_sc_party_name_e", "master_sc_party_name_l",
             "master_sc_scs_type", "master_sc_duns_number","master_sc_country","master_sc_postal_code","master_sc_address_line_1");
     var all_set=new Array("mam_master_system_id","mam_master_category","master_sc_party_name_e", "master_sc_party_name_l", "master_sc_city",
@@ -40,14 +40,14 @@
     function checkType(){
         if($("#master_sc_scs_type").val()=="CU"){
             reset_required();
-            current_required_set = required_set_1;
+            current_required_set = required_set_1.clone3();
             $.each(current_required_set, function(){
                 $("#" + this).parent().parent().addClass("form-field-required");
             })
         }
         else{
             reset_required();
-            current_required_set = required_set_2;
+            current_required_set = required_set_2.clone3();
             $.each(current_required_set, function(){
                 $("#" + this).parent().parent().addClass("form-field-required");
             })
@@ -65,7 +65,9 @@
             checkType()
         }
     }
-
+    Array.prototype.clone3 = function(){
+        return this.slice(0);
+    }
     function reset_required(){
         $.each(required_set_1, function(){
             $("#" + this).parent().parent().removeClass("form-field-required");
@@ -92,10 +94,10 @@
             checkType();
             checkCategory();
         })
-//        $("#master_sc_country").bind("keyup", function(){
-//            checkCountry();
-//            checkCategory();
-//        })
+        $("#master_sc_country").bind("keyup", function(){
+            checkCountry();
+            checkCategory();
+        })
         $("#mam_master_category").bind("change", function(){
             checkCategory();
         })

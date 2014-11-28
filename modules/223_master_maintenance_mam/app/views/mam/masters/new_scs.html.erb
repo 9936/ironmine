@@ -9,12 +9,13 @@
 <script type="text/javascript">
     var required_set_1=new Array("mam_master_system_id","mam_master_category","master_sc__party_name_e", "master_sc__party_name_l",
             "master_sc__scs_type", "master_sc__duns_number","master_sc__country","master_sc__postal_code","master_sc__address_line_1",
-            "master_sc__account_type","master_sc__classification", "master_sc__state");
+            "master_sc__account_type","master_sc__classification");
     var required_set_2=new Array("mam_master_system_id","mam_master_category","master_sc__party_name_e", "master_sc__party_name_l",
             "master_sc__scs_type", "master_sc__duns_number","master_sc__country","master_sc__postal_code","master_sc__address_line_1");
     var all_set=new Array("mam_master_system_id","mam_master_category","master_sc__party_name_e", "master_sc__party_name_l", "master_sc__city",
             "master_sc__scs_type", "master_sc__duns_number","master_sc__country","master_sc__postal_code","master_sc__address_line_1","master_sc__address_line_2","master_sc__address_line_3",
             "master_sc__account_type","master_sc__classification")
+    var status_set = new Array("master_sc__state")
     var required_set_3=new Array("master_sc__state")
     var current_required_set = required_set_1;
     function checkForm(required_set, id) {
@@ -40,18 +41,22 @@
     function checkType(){
         if($("#master_sc__scs_type").val()=="CU"){
             reset_required();
-            current_required_set = required_set_1;
+            current_required_set = required_set_1.clone3();
             $.each(current_required_set, function(){
                 $("#" + this).parent().parent().addClass("form-field-required");
             })
         }
         else{
             reset_required();
-            current_required_set = required_set_2;
+            current_required_set = required_set_2.clone3();
             $.each(current_required_set, function(){
                 $("#" + this).parent().parent().addClass("form-field-required");
             })
         }
+    }
+
+    Array.prototype.clone3 = function(){
+        return this.slice(0);
     }
 
     function checkCountry(){
@@ -92,10 +97,10 @@
             checkType();
             checkCategory();
         })
-//        $("#master_sc__country").bind("keyup", function(){
-//            checkCountry();
-//            checkCategory();
-//        })
+        $("#master_sc__country").bind("keyup", function(){
+            checkCountry();
+            checkCategory();
+        })
         $("#mam_master_category").bind("change", function(){
             checkCategory();
         })
