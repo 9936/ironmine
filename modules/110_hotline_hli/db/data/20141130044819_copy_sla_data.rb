@@ -9,7 +9,7 @@ class CopySlaData < ActiveRecord::Migration
       return false
     end
 
-    hotline_projects = Irm::ExternalSystem.where("id IN '000q000402oPdrTG9mq7o8',
+    hotline_projects = Irm::ExternalSystem.where("id IN ('000q000402oPdrTG9mq7o8',
                                                   '000q000404JI4XmwYTMu4O',
                                                   '000q00040NVgggHK9PnBJo',
                                                   '000q00040OIbknQSk5dL4C',
@@ -79,7 +79,7 @@ class CopySlaData < ActiveRecord::Migration
                                                   '000q00075fJztN5Sm2w1wm',
                                                   '000q00075jMyqDtScPNnNY',
                                                   '000q00075qSuSZuKFqlZaa',
-                                                  '000q00075yqbINm0DFyH7w'").where("id <> ?", source_project.id)
+                                                  '000q00075yqbINm0DFyH7w')").where("id <> ?", source_project.id)
 
     #source calendar
     source_calendars = Slm::Calendar.where("external_system_id = ?", source_project.id)
