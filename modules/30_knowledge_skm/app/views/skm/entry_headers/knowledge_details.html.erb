@@ -63,6 +63,12 @@
           </div>
       <% end %>
     </div>
+    <% if @entry_header.attachments.any? %>
+        <h1><%= t(:label_irm_attachment)%></h1>
+        <div id="exist_attachments_list">
+          <%= render :partial=> "skm/entry_headers/exits_attachment_list",:locals=>{:datas=> @entry_header.attachments }%>
+        </div>
+    <% end %>
     <!-- 未发布的知识不能进行表态 -->
     <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
         <div class="sub-page-block">
