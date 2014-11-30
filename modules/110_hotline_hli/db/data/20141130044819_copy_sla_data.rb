@@ -1,7 +1,7 @@
 class CopySlaData < ActiveRecord::Migration
   def up
     #source project
-    source_project = Irm::ExternalSystem.where("external_system_code = ?", 10538)
+    source_project = Irm::ExternalSystem.where("external_system_code = ?", '10538')
     if source_project.any?
       source_project = source_project.first
     else
@@ -97,6 +97,7 @@ class CopySlaData < ActiveRecord::Migration
         t_sc.delete("updated_at")
         t = Slm::Calendar.new(t_sc.merge({:not_auto_mult=>true}))
         t.external_system_id = hp.id
+        t.code = hp.external_system_code
         sc.calendars_tls.each do |sct|
           sct_attributes = sct.attributes
           sct_attributes.delete("id")
@@ -106,6 +107,9 @@ class CopySlaData < ActiveRecord::Migration
           t.calendars_tls.build(sct_attributes)
         end
         t.save
+        if t.errors.any?
+          puts("+++++++++new t errors" + t.errors.to_json)
+        end
         sc.calendar_items.each do |ci|
           ci_attributes = ci.attributes
           ci_attributes.delete("id")
@@ -138,6 +142,9 @@ class CopySlaData < ActiveRecord::Migration
           end
           ts.duration_minute = sa.duration.to_i
           ts.save
+          if ts.errors.any?
+            puts("+++++++++new ts errors" + ts.errors.to_json)
+          end
           puts("+++++++++ ts:" + ts.to_json)
           Irm::RuleFilter.where("source_id = ?", sa.id).each do |rf|
             rf_attributes = rf.attributes

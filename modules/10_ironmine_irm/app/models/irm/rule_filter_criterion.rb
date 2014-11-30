@@ -19,7 +19,7 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
   validates_presence_of :filter_value, :if => Proc.new { |i| i.attribute_name.present?&&i.operator_code.present?&&!"NIL".eql?(i.operator_code)&&!"NNIL".eql?(i.operator_code) }
 
   #validates_uniqueness_of :filter_type,:scope=>[:view_code], :if => Proc.new { |i| !i.filter_type.blank?&&!i.view_code.blank? }
-  validate :validate_data_type_filter_value, :if => Proc.new { |i| !i.attribute_name.blank? }
+  #validate :validate_data_type_filter_value, :if => Proc.new { |i| !i.attribute_name.blank? } #comment this line before running copy sla migration
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
@@ -55,6 +55,8 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
     if self.bo_code.present?
       return Irm::ObjectAttribute.query_by_business_object_code(self.bo_code).where(:attribute_name=>self.attribute_name).first
     else
+      puts("+++++++++++++++++++++++++++++++++ self: " + self.to_json)
+      puts("+++++++++++++++++++++++++++++++++ self: " + self.rule_filter.to_json)
       return self.rule_filter.business_object.object_attributes.detect{|oa| oa.attribute_name.eql?(self.attribute_name)}
     end
   end
