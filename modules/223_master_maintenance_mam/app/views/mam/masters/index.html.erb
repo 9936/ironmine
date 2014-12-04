@@ -32,7 +32,7 @@
   <div class="page-block-body">
     <%= datatable("masters",{:action=>"get_data"},[],{:export_data=>"#masterExport",
                                                                   :paginator_box=>'mamPaginatorBox',
-                                                                  :view_filter=>true,
+                                                                  :view_filter=>true,:search_box => "mam_SearchBox",
                                                                   :export_data=>"#exportData"})%>
   </div>
 </div>
