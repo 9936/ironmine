@@ -19,7 +19,7 @@ class Mam::MastersController < ApplicationController
         select_all.
         find(params[:id])
     @show_form = true
-    @master_replies = @master.master_replies.select_all.with_reply_br.with_reply_person.order("#{Mam::MasterRepliy.table_name}.created_at ASC")
+    @master_replies = @master.master_replies.select_all.with_reply_br.with_reply_person.order("#{Mam::MasterReply.table_name}.created_at ASC")
     @master_reply = Mam::MasterReply.new()
     respond_to do |format|
       format.html{ render :layout=>"application_full"}# show.html.erb
