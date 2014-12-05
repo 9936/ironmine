@@ -101,6 +101,8 @@ rails_config.fwk.jscss.merge!({
                                   :highcharts => {:css => [], :js => ["highcharts"]},
                                   :highcharts_more => {:css => [], :js => ["highcharts-more"]},
                                   :highcharts_exporting => {:css => [], :js => ["exporting"]},
+                                  :newhighcharts => {:css => [], :js => ["newhighchart/highcharts"]},
+                                  :newhighcharts_more => {:css => [], :js => ["newhighchart/highcharts-more"]},
                                   :survey => {:css => [], :js => ["survey"]},
                                   :login => {:css => ["login"], :js => []},
                                   :login_ie6 => {:css => ["login-ie6"]},
@@ -110,6 +112,9 @@ rails_config.fwk.jscss.merge!({
                                   :search => {:css => ["search"], :js => []},
                                   :dragsort => {:js => ["plugins/jquery-dragsort"]},
                                   :pdf => {:css => ["pdf"],:js => ["pdf"]},
+                                  :maxlength => {:css => ["plugins/jquery-maxlength"],
+                                                 :js => ["plugins/jquery-plugin-n",
+                                                         "plugins/jquery-maxlength"]},
                                   :fullcalendar => {:css =>["plugins/fullcalendar"], :js => ["plugins/fullcalendar"]},
                                   :raphael => {:css =>[], :js => ["plugins/raphael","plugins/raphael-extend"]},
                                   :orgchart => {:css => ["plugins/jquery-orgchart"], :js => ["plugins/jquery-orgchart"]}

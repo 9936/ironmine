@@ -64,6 +64,15 @@ Fwk::MenuAndFunctionManager.map do |map|
       :action => "index"}
   map.function_group :files_management, {
       :children => {
+        :self_files_management => {
+            :en => {:name => "Self Files Management", :description => "Self Files Management"},
+            :zh => {:name => "Self文件管理", :description => "Self文件管理"},
+            :default_flag => "N",
+            :login_flag => "N",
+            :public_flag => "N",
+            "skm/file_managements" => ["batch_create", "create", "destroy", "edit", "get_data", "get_version_files",
+                                       "version_details", "download_data", "remove_version_file","index", "new", "show", "update", "download"]
+        },
         :files_management => {
             :en => {:name => "Files Management", :description => "Files Management"},
             :zh => {:name => "文件管理", :description => "文件管理"},

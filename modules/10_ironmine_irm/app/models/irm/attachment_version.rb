@@ -4,8 +4,6 @@ class Irm::AttachmentVersion < ActiveRecord::Base
 
   belongs_to :attachment
 
-  acts_as_searchable
-
   has_attached_file :data,:whiny => false, :styles => {:thumb=> "60x60>",:small => "100x100>" }, :url=>Irm::Constant::ATTACHMENT_URL
   validates_attachment_presence :data
   validates_attachment_size :data, :less_than => Irm::SystemParametersManager.upload_file_limit.kilobytes
@@ -71,17 +69,6 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     end
   end
 
-  searchable do
-    string :source_id
-    string :source_type
-    #string :external_system_id do
-    #  get_external_system_id
-    #end
-    string :attachment_id
-    text :data_file_name,:stored => true
-    attachment :data_path
-    time :updated_at
-  end
 
   #def get_external_system_id
   #  if source_type.eql?('Icm::IncidentRequest')

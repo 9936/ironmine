@@ -1,0 +1,27 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:master_number,{:title=>"No.", :width => "55px",:searchable=>true,:sortable=>true}) do |data|%>
+        <%= link_to(data[:master_number],{:controller=>"mam/masters",:action=>"show",:id=>data[:id]}) %>
+    <% end %>
+
+    <% builder.column(:title,{:title=>"Title",:width => "100px"}) do |data|%>
+        <%
+           master = Mam::Master.
+                   with_category.
+                   select_all.
+                   find(data[:id])
+        %>
+        <%= link_to(
+                    if data[:master_type].eql?("Item")
+                         "(#{data[:master_status_label]})[#{data[:master_number]}]#{data[:master_type]} #{master.category_name} #{master.master_items.collect(&:item_code).first.to_s}"
+                    elsif data[:master_type].eql?("Supplier&Customer")
+                        "(#{data[:master_status_label]})[#{data[:master_number]}]#{data[:master_type]} #{master.category_name} #{master.master_scs.first.party_name_e}"
+                    elsif data[:master_type].eql?("User&Responsibility")
+                        "(#{data[:master_status_label]})[#{data[:master_number]}]#{data[:master_type]} #{master.category_name} #{master.urs_user_name}"
+                    end ,
+                    {:controller=>"mam/masters",:action=>"show",:id=>data[:id]}) %>
+    <% end %>
+    <% builder.column(:system_id_label,{:title=>"System",:searchable=>true,:width => "240px"})%>
+    <% builder.column(:submitted_by_label,{:title=> "Requester", :searchable=>true, :width => "100px"})%>
+    <% builder.column(:support_person_id_label,{:title=> "Supporter", :searchable=>true, :width => "100px"})%>
+    <% builder.column(:master_status_label,{:title=> "Status", :searchable=>true, :width => "60px"})%>
+<% end %>

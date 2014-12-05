@@ -138,6 +138,7 @@
                            :class => "grayTips", :required=>true%>
           </td>
         </tr>
+        <% if allow_to_function?(:change_urgence_in_submit) %>
         <tr>
           <td class="label-col"><label for="incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label></td>
           <td class="data-col">
@@ -150,6 +151,7 @@
                                                 {},{:required=>true,:id=>"incident_request_impact_range_code"}%>
           </td>
         </tr>
+        <% end %>
       <% if false && allow_to_function?(:assign_incident_request) %>
         <tr>
           <td class="label-col"><label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label></td>

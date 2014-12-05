@@ -12,6 +12,7 @@ module Irm::FiltersHelper
     t("label_"+bo.bo_model_name.underscore.gsub("/","_")+"_view_filter_data_range_main",:default=>:label_irm_view_filter_data_range_main)+Irm::BusinessObject.class_name_to_meaning(bo.bo_model_name)
   end
 
+
   def available_view_column(source_code)
     view_filter_columns(source_code)
   end

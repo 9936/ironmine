@@ -63,7 +63,8 @@ class Hli::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_last_date),
                I18n.t(:label_icm_incident_request_estimated_date),
                I18n.t(:label_icm_incident_journal_close_date),
-               I18n.t(:label_icm_close_reason)
+               I18n.t(:label_icm_close_reason),
+               "First Assign"
                ]
 
     ex_attributes.each do |ea|
@@ -72,7 +73,7 @@ class Hli::CuxTicketsDetailList < Irm::ReportManager::ReportBase
 
    
     statis.each do |s|
-      data = Array.new(16 + ex_attributes.size)
+      data = Array.new(17 + ex_attributes.size)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
@@ -94,17 +95,27 @@ class Hli::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                             select("created_at").
                             order("created_at DESC").limit(1)
       if last_close_journal.any?
-        data[14] = last_close_journal.first[:created_at]
+        data[14] = last_close_journal.first[:created_at].strftime("%F %T")
       else
         if s.close?
-          data[14] = s[:last_response_date]
+          data[14] = s[:last_response_date].strftime("%F %T")
         else
           data[14] = ""
         end
       end
       data[15] = s[:close_reason_name]
-
-      nc = 16
+      #get first assign
+      first_assign_journal = Icm::IncidentJournal.
+                              where("incident_request_id = ?", s.id).
+                              where("reply_type = ?", "ASSIGN").
+                              select("created_at").
+                              order("created_at ASC").limit(1)
+      if first_assign_journal.any?
+        data[16] = first_assign_journal.first[:created_at].strftime("%F %T")
+      else
+        data[16] = ""
+      end
+      nc = 17
       ex_attributes.each do |ea|
         data[nc] = s[ea[:attribute_name].to_sym]
         nc = nc + 1

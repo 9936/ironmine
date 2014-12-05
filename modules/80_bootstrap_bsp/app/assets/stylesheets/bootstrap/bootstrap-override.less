@@ -6,6 +6,9 @@
 @iconSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings.png');
 @iconWhiteSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings-white.png');
 @loadingCirclePath: asset-path('twitter/bootstrap/loading-circle.gif');
+@redpointPath: asset-path('redpoint.png');
+@greenpointPath: asset-path('greenpoint.png');
+@yellowpointPath: asset-path('yellowpoint.png');
 // Your custom LESS stylesheets goes here
 //
 // Since bootstrap was imported above you have access to its mixins which
@@ -93,6 +96,22 @@ input[type="checkbox"] {
     background: url(@loadingCirclePath);
     width: 32px;
     height: 32px;
+}
+
+.yellowpoint {
+  background: url(@yellowpointPath);
+  width: 16px;
+  height: 16px;
+}
+.redpoint {
+  background: url(@redpointPath);
+  width: 16px;
+  height: 16px;
+}
+.greenpoint {
+  background: url(@greenpointPath);
+  width: 16px;
+  height: 16px;
 }
 
 h3.popover-title{

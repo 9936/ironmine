@@ -1,0 +1,77 @@
+<%= common_title() %>
+
+<%= form_tag(url_for(:controller => "irm/projects",:action=>"update", :project_code => @project[:short_name]),
+             :id => "irm_project_edit", :builder => LabellingFormBuilder) do %>
+  <% content_for :form_block_common   do%>
+    <table class="form-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%=t(:label_irm_project_name)%></label></td>
+        <td class="data-col"><%= text_field_tag(:project_name, @project[:name], :jrequired => true) %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=(t :label_irm_project_description)%></label></td>
+        <td class="data-col"><%= text_area_tag :project_description, @project[:description], :cols => 40, :rows => 4%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label>Hotline</label></td>
+        <td class="data-col">
+          <%= radio_button_tag :hotline, Irm::Constant::SYS_YES, @project[:hotline].present? && @project[:hotline].eql?('Y'), {:id => "hotline_y"}%>
+          <label for="hotline_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <%= radio_button_tag :hotline, Irm::Constant::SYS_NO, !(@project[:hotline].present? && @project[:hotline].eql?('Y')), {:id => "hotline_n"}%>
+          <label for="hotline_n">N</label>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "edit_project_button btn btn-primary"} %>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_irm_project_edit)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <%= error_for @group %>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+
+
+<script type="text/javascript">
+  $(function(){
+    $(".edit_project_button").click(function(){
+        $("#irm_project_edit").attr('action', '<%= url_for(:action => "update", :controller => "irm/projects", :project_code => @project[:short_name])%>');
+        $("#irm_project_edit").submit();
+    });
+  })
+</script>

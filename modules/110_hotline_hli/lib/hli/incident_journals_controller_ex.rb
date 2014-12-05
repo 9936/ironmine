@@ -1,4 +1,5 @@
 module Hli::IncidentJournalsControllerEx
+module Hli::IncidentJournalsControllerEx
   def self.included(base)
     base.class_eval do
       def new
@@ -11,6 +12,8 @@ module Hli::IncidentJournalsControllerEx
                         where("ip.assignment_availability_flag = ?", Irm::Constant::SYS_YES)
 
         @incident_reply = Icm::IncidentReply.new()
+        @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
+
         respond_to do |format|
           format.html { render :layout=>"application_right"}
           format.xml  { render :xml => @incident_journal }
@@ -38,15 +41,17 @@ module Hli::IncidentJournalsControllerEx
           @incident_journal.reply_type = "OTHER_REPLY"
         end
         #如果服务台人员手动修改状态，则使用手工修改的状态，如果状态为空则使用状态转移逻辑
-        unless @incident_reply.incident_status_id.present?
+        unless (params[:keep_next_status] && params[:keep_next_status].eql?("Y")) || @incident_reply.incident_status_id.present?
           @incident_reply.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
         end
 
         perform_create
 
+        if params[:workload]
+          @incident_journal.workload = params[:workload]
+        end
 
         respond_to do |format|
-
           flag, now = validate_files(@incident_journal)
           if !flag
             flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
@@ -61,8 +66,16 @@ module Hli::IncidentJournalsControllerEx
           elsif @incident_reply.valid? && @incident_journal.valid? && @incident_request.update_attributes(@incident_reply.attributes)
             process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
             process_files(@incident_journal)
+            es = Irm::ExternalSystem.find(@incident_request.external_system_id)
             @incident_journal.create_elapse
             @incident_request.save
+            if @incident_journal.workload.present? && Irm::Person.current.email_address.end_with?("hand-china.com")
+              Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
+                                            :incident_journal_id => @incident_journal.id,
+                                            :real_processing_time => @incident_journal.workload,
+                                            :person_id => @incident_journal.replied_by,
+                                            :workload_type => 'REMOTE'})
+            end
             Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
                                          :journal_id=> @incident_journal.id,
                                          :property_key=> "new_reply",
@@ -120,13 +133,13 @@ module Hli::IncidentJournalsControllerEx
 
         respond_to do |format|
           if @incident_request.hotline.eql?("Y") &&
-              (@incident_request.incident_category_id.blank? || @incident_request.incident_sub_category_id.blank?) &&
-              (@incident_request.attribute3.blank? || @incident_request.attribute4.blank?)
+              (!params[:icm_incident_request][:incident_category_id].present? || !params[:icm_incident_request][:incident_sub_category_id].present?) &&
+              (!params[:icm_incident_request][:attribute3].present? || !params[:icm_incident_request][:attribute4].present?)
 
-              @incident_request.errors.add(:incident_category_id, I18n.t(:error_invalid_data)) if @incident_request.incident_category_id.blank?
-              @incident_request.errors.add(:incident_sub_category_id, I18n.t(:error_invalid_data)) if @incident_request.incident_sub_category_id.blank?
-              @incident_request.errors.add(:attribute3, I18n.t(:error_invalid_data)) if @incident_request.attribute3.blank?
-              @incident_request.errors.add(:attribute4, I18n.t(:error_invalid_data)) if @incident_request.attribute4.blank?
+              @incident_request.errors.add(:incident_category_id, I18n.t(:error_invalid_data)) unless params[:icm_incident_request][:incident_category_id].present?
+              @incident_request.errors.add(:incident_sub_category_id, I18n.t(:error_invalid_data)) unless params[:icm_incident_request][:incident_sub_category_id].present?
+              @incident_request.errors.add(:attribute3, I18n.t(:error_invalid_data)) unless params[:icm_incident_request][:attribute3].present?
+              @incident_request.errors.add(:attribute4, I18n.t(:error_invalid_data)) unless params[:icm_incident_request][:attribute4].present?
 
               @incident_journal = @incident_request.incident_journals.build()
 
@@ -217,10 +230,10 @@ module Hli::IncidentJournalsControllerEx
         @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").joins(",#{Irm::LookupValue.view_name} lv").
                     where("lv.language = ?", I18n.locale).where("lv.lookup_type = ?", "WORKLOAD_TYPE").
                     where("lv.lookup_code = #{Icm::IncidentWorkload.table_name}.workload_type").
-                    select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, #{Icm::IncidentWorkload.table_name}.real_processing_time real_processing_time, #{Icm::IncidentWorkload.table_name}.workload_type workload_type, lv.meaning workload_type_label").
+                    select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, SUM(#{Icm::IncidentWorkload.table_name}.real_processing_time) real_processing_time, #{Icm::IncidentWorkload.table_name}.workload_type workload_type, lv.meaning workload_type_label").
                     where("#{Icm::IncidentWorkload.table_name}.incident_request_id = ? AND #{Icm::IncidentWorkload.table_name}.person_id = ip.id", @incident_request.id).
-                    where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0")
-
+                    where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0").
+                    group("#{Icm::IncidentWorkload.table_name}.person_id, #{Icm::IncidentWorkload.table_name}.workload_type")
         @supporters = Icm::IncidentJournal.where("1=1").
                 joins(",#{Irm::Person.table_name} ip").
                 select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, (SELECT iw.real_processing_time FROM #{Icm::IncidentWorkload.table_name} iw WHERE iw.incident_request_id = #{Icm::IncidentJournal.table_name}.incident_request_id AND iw.person_id = ip.id) real_processing_time").
@@ -315,7 +328,17 @@ module Hli::IncidentJournalsControllerEx
         respond_to do |format|
           if @incident_journal.update_attributes(params[:icm_incident_journal]) &&
               @incident_journal.update_attribute(:journal_number, @incident_journal.generate_journal_number)
-
+            wl = Icm::IncidentWorkload.where("incident_journal_id = ?", params[:id])
+            if wl.any?
+              wl = wl.first
+              wl.update_attribute(:real_processing_time, @incident_journal.workload)
+            else
+              Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
+                                            :incident_journal_id => @incident_journal.id,
+                                            :real_processing_time => @incident_journal.workload,
+                                            :person_id => @incident_journal.replied_by,
+                                            :workload_type => 'REMOTE'})
+            end
             hi = Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
                                          :journal_id=> @incident_journal.id,
                                          :property_key=> "update_journal",
@@ -371,5 +394,6 @@ module Hli::IncidentJournalsControllerEx
         return false, now
       end
     end
+  end
   end
 end

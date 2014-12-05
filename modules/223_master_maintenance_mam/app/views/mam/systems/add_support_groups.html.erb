@@ -1,0 +1,46 @@
+<%= common_title%>
+
+<% content_for :form_buttons do %>
+  <%= link_submit t(:save),{:class=>"btn btn-info btn-submit",:disabled => true}%>
+  <%= link_to(t(:back),{:action=>"show",:id=>@system.id},:class=>"btn")%>
+<% end %>
+<!--页面结构-->
+<%= form_for(@system_group,:url=>{:action=>"add_support_group_create", :system_id => @system.id},:builder => LabellingFormBuilder) do |f| %>
+<%= f.hidden_field(:status_code) %>
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= content_for :form_buttons   %>
+    </td>
+    <td class="page-block-help">
+      <div id="selectableGroupSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+      <%= datatable("systemGroups",{:action=>"get_groupable_data",:system_id=>@system.id},[],{:paginator_box=>"groupPaginator",:search_box=>"selectableGroupSearchBox",:select=>"multiple"})%>
+  </div>
+  <table class="page-block-footer">
+    <tr>
+      <td class="page-block-title"></td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons %>
+      </td>
+    </tr>
+  </table>
+</div>
+<% end %>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#systemGroups").bind('selectionchange',function(event,ids){
+            $("#mam_system_group_status_code").val(ids.join(","));
+            if (ids.length > 0){
+                $(".btn-submit").removeClass("disabled");
+            }else{
+                $(".btn-submit").addClass("disabled");
+            }
+        });
+    });
+</script>

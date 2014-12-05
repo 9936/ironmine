@@ -50,7 +50,33 @@ Fwk::MenuAndFunctionManager.map do |map|
               :system_flag => "Y",
               "icm/incident_journals" => ["edit_worklaod", "update_worklaod"]
           },
-
+          :submit_private_reply => {
+              :zh => {:name => "提交私有附件", :description => "提交私有附件"},
+              :en => {:name => "Submit Private File", :description => "Submit Private File"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              "icm/incident_journals" => ["update_additional_info"]
+          },
+          :view_my_private_reply => {
+              :zh => {:name => "查看自己的私有附件", :description => "查看自己的私有附件"},
+              :en => {:name => "View My Private File", :description => "View My Private File"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              "icm/incident_journals" => ["update_additional_info"]
+          },
+          :view_project_private_reply => {
+              :zh => {:name => "查看项目私有附件", :description => "查看项目私有附件"},
+              :en => {:name => "View Project Private File", :description => "View Project Private File"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              "icm/incident_journals" => ["update_additional_info"]
+          },
       }
   }
 end

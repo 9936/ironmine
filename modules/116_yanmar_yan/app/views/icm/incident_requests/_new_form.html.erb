@@ -111,6 +111,15 @@
              </td>
 
            </tr>
+           <tr>
+             <td class="label-col"><label for="incident_request_summary"><%= I18n.t(:label_icm_incident_journal_if_private)%></label></td>
+             <td class="data-3col" colspan="3">
+                   <div>
+                     <label for="if_private_reply" style="display:inline;"></label>
+                     <%= f.check_box(:if_private_reply, {}, 'Y', 'N')%>
+                   </div>
+             </td>
+           </tr>
 
            <tr>
              <td class="label-col"></td>

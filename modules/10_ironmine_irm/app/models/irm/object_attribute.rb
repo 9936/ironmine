@@ -135,7 +135,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   }
 
   scope :filterable,lambda{
-    where(:filter_flag=>Irm::Constant::SYS_YES)
+      where(:filter_flag=>Irm::Constant::SYS_YES)
   }
 
   scope :query_by_model_name,lambda{|model_name|

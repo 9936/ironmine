@@ -1,0 +1,15 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:develop_id,{:title=> "Develop ID", :width => "80px"}) do |data|%>
+        <%= link_to(data[:develop_id],{:controller=>"dem/dev_managements",:action=>"show",:id=>data[:id]}) %>
+    <% end %>
+    <% builder.column(:gap_no,{:title=> "Gap No.", :width => "80px"}) do |data|%>
+        <%= link_to(data[:gap_no],{:controller=>"dem/dev_managements",:action=>"show",:id=>data[:id]}) %>
+    <% end %>
+    <% builder.column(:name,{:title=>"Name"})%>
+    <% builder.column(:system,{:title=>"System Name", :width => "150px", :phase => "123"})%>
+    <% builder.column(:category_name,{:title=>"Module", :width => "150px"})%>
+    <% builder.column(:require_date,{:title=>"Require Date", :width => "120px", :another => "test"})%>
+    <% builder.column(:dev_status,{:title=>"Status", :width => "120px"})%>
+    <% builder.column(:owner,{:title=>"Owner", :width => "120px"})%>
+    <% builder.column(:risk_class,{:title=>"Risk Class", :width => "100px"})%>
+<% end %>

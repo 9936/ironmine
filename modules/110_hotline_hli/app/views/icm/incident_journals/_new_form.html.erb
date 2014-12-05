@@ -122,6 +122,19 @@
 <% end %>
 <% end %>
 
+<% content_for :block_status_controll_bar do %>
+    <%= form_for(@incident_request,
+                 :url=>{:controller => "icm/incident_journals", :action=>"update_status", :id => @incident_request.id, :sid => @incident_request.external_system_id},
+                 :builder => CustomFormBuilder, :html => {:class => "form-inline", :nomask => true}) do |f| %>
+        <label for="label_icm_incident_request_status_code"><%=t(:label_icm_incident_request_incident_status)%></label>
+        <%= fields_for @incident_request.incident_journals.build(), :as=>"incident_journal",:builder =>CustomFormBuilder,:normal=>true do |sub_f|%>
+            <%= sub_f.hidden_field(:incident_request_id) %>
+        <% end%>
+        <%=f.blank_select :incident_status_id,available_request_status_code,{},{:id=>"incident_request_incident_status_code", :required => true}%>
+        <%= link_submit(t(:update), :class=>"btn btn-primary",:id=>"updateStatusFormSubmit") %>
+    <% end %>
+<% end %>
+
 <!--页面头部内容-->
 <% content_for :block_header_content do %>
     <div id="incidentDetail">
@@ -205,7 +218,7 @@
           <td class="label-col"><label ><%=t(:label_icm_incident_request_hotline)%></label></td>
           <td class="data-col"><div><%= @incident_request[:hotline].eql?(Irm::Constant::SYS_YES) ? t(:label_icm_incident_request_hotline_y) : t(:label_icm_incident_request_hotline_n)%></div></td>
           <td class="label-col"><label ><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
-          <td class="data-col"><div><%= @incident_request[:total_processing_time]%></div></td>
+          <td class="data-col"><div><%= @incident_request[:total_processing_time].round(2) if @incident_request[:total_processing_time]%></div></td>
         </tr>
         <tr>
           <td class="label-col"><label><%= t(:label_icm_incident_request_support_group) %></label></td>
@@ -234,13 +247,13 @@
           <td class="data-col" colspan="5"><pre><div><%= @incident_request[:project_info] %></div></pre></td>
         </tr>
         <% end %>
-        <% if @incident_request.incident_workloads.any? %>
+        <% workload = @incident_request.grouped_workload%>
+        <% if workload.any? %>
         <tr>
           <td class="label-col"><label for="incident_request_close_reason_code"><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
           <td class="data-col" colspan="5"><label>
-            <% @incident_request.incident_workloads.each do |iw| %>
-                <% next if iw.person.nil? %>
-                <%= iw.person[:full_name]%>:<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time]}"%>&nbsp;<%= ", " unless iw == @incident_request.incident_workloads.last %>
+            <% workload.each do |iw| %>
+                <%= iw[:person_name]%>:<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time_g].round(2)}"%>&nbsp;<%= ", " unless iw == workload.last %>
             <% end %>
             </label></td>
         </tr>
@@ -263,6 +276,11 @@
         <%= show_custom_field_info(@incident_request) %>
         </tbody>
     </table>
+      <% if @incident_request.close? && @incident_request.status_code.eql?('ENABLED')%>
+          <div class="digg-zone" id="diggZone" style="padding: 20px;">
+            <%= show_rating("ICM_INCIDENT_REQUEST", @incident_request, 'Y') %>
+          </div>
+      <% end %>
     </div>
 <% end %>
 
@@ -283,9 +301,18 @@
               <% end %>
             </td>
             <td class="page-block-button">
-
+              <% if @external_system.strict_workload.eql?('Y') %>
+              <div>
+                <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_journal_edit_workload)%></label>
+                <%= text_field_tag :workload, nil, :style => "width:80px;", :irm_number_only => true%>
+              </div>
+              <% end %>
             </td>
             <td class="page-block-help" style="width: auto;">
+              <div>
+                <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_request_keep_next_status)%></label>
+                <%= check_box_tag :keep_next_status, 'Y'%>
+              </div>
             </td>
           </tr></table>
           <div class="page-block-body">
@@ -342,6 +369,7 @@
               <tbody>
               <tr>
                 <%= fields_for @incident_journal, :as=>"incident_journal", :builder => CustomFormBuilder, :normal=>true do |sub_f| %>
+                    <%= sub_f.hidden_field(:replied_by, :value => Irm::Person.current.id)%>
                     <%= sub_f.hidden_field(:incident_request_id) %>
                     <% if ie6? -%>
                         <td class="data-2col" id="msgEditorParent" colspan="4" style="padding: 2px 20px 2px 10px;">
@@ -533,7 +561,6 @@
     </table>
     <% end %>
     <% if (allow_to_function?(:edit_incident_request_priority) ||
-            Irm::Person.current.id == @incident_request.requested_by ||
             Irm::Person.current.id == @incident_request.support_person_id) &&
             !@incident_request.close? %>
     <table class="page-block-header">
@@ -549,6 +576,22 @@
       </tbody>
     </table>
     <% end %>
+    <% if (allow_to_function?(:quick_edit_status, @incident_request.external_system_id)) &&
+            !@incident_request.close? %>
+        <table class="page-block-header">
+          <tbody>
+          <tr>
+            <td class="page-block-title">
+              <h2 class="block-title"><%= I18n.t(:label_icm_incident_request_incident_status) %></h2>
+            </td>
+            <td class="page-block-button">
+              <%= content_for :block_status_controll_bar  %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+
 
 
   </div>

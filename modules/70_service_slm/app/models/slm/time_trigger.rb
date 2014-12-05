@@ -1,6 +1,8 @@
 class Slm::TimeTrigger < ActiveRecord::Base
   set_table_name :slm_time_triggers
 
+  has_many :time_trigger_actions
+
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离

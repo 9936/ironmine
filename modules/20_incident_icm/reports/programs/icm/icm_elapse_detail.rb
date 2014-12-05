@@ -12,19 +12,32 @@ class Icm::IcmElapseDetail < Irm::ReportManager::ReportBase
       external_system_ids<<",'"+d+"'"
     end
 
-    #statis = Icm::IncidentRequest.
-    #    filter_system_ids(params[:external_system_id]).
-    #    select_elapse.
-    #    with_statuses(:zh).
-    #    with_support_person.
-    #    with_real_distance.
-    #    with_elapse_support_group(:zh).
-    #    order("request_number","status")
+    where_str =" where iir.external_system_id IN (#{external_system_ids})"
+
+
+    if params[:submitted_start_date].present?
+      where_str += " and date_format(iir.submitted_date, '%Y-%m-%d') >= '#{Date.strptime("#{params[:submitted_start_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}'"
+    end
+
+    if params[:submitted_ent_date].present?
+      where_str += " and date_format(iir.submitted_date, '%Y-%m-%d') <= '#{Date.strptime("#{params[:submitted_ent_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}'"
+    end
+
+    if params[:last_response_start_date].present?
+      where_str += " AND EXISTS( SELECT 1 FROM icm_incident_journals ijt1 WHERE ijt1.incident_request_id = iir.id AND ijt1.reply_type = 'CLOSE' AND date_format(ijt1.created_at, '%Y-%m-%d') >= '#{Date.strptime("#{params[:last_response_start_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}')"
+      #where_str += " and date_format(iir.last_response_date, '%Y-%m-%d') >= '#{Date.strptime("#{params[:last_response_start_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}'"
+    end
+
+    if params[:last_response_end_date].present?
+      where_str += " AND EXISTS( SELECT 1 FROM icm_incident_journals ijt2 WHERE ijt2.incident_request_id = iir.id AND ijt2.reply_type = 'CLOSE' AND date_format(ijt2.created_at, '%Y-%m-%d') <= '#{Date.strptime("#{params[:last_response_end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}')"
+      #where_str += " and date_format(iir.last_response_date, '%Y-%m-%d') <= '#{Date.strptime("#{params[:last_response_end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}'"
+    end
 
     elapse_info_sub_sql=%Q(SELECT t2.incident_request_id,t1.incident_status_id incident_status_id, t1.support_person_id support_person_id,
     t1.support_group_id support_group_id,SUM(t1.real_distance) real_distance
     FROM #{Icm::IncidentJournalElapse.table_name} t1
     JOIN #{Icm::IncidentJournal.table_name} t2 ON t1.incident_journal_id = t2.id
+    JOIN #{Icm::IncidentRequest.table_name} iir on iir.id=t2.incident_request_id #{where_str}
     GROUP BY t2.incident_request_id,t1.support_person_id , t1.incident_status_id , t1.support_group_id)
 
 
@@ -41,40 +54,21 @@ class Icm::IcmElapseDetail < Irm::ReportManager::ReportBase
         LEFT OUTER JOIN
     #{Irm::Group.view_name} igv ON isg.group_id = igv.id AND igv.language = '#{I18n.locale}'
         LEFT OUTER JOIN
+    #{Icm::IncidentStatus.table_name} iss ON iss.id = elapse_info.incident_status_id
+        LEFT OUTER JOIN
     #{Icm::IncidentRequest.table_name} irq ON irq.id = elapse_info.incident_request_id"
 
-
-    sql_str+=" where irq.external_system_id IN (#{external_system_ids})"
-
-
-    if params[:submitted_start_date].present?
-      sql_str += " and date_format(irq.submitted_date, '%Y-%m-%d') >= '#{Date.strptime("#{params[:submitted_start_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}'"
-    end
-
-    if params[:submitted_ent_date].present?
-      sql_str += " and date_format(irq.submitted_date, '%Y-%m-%d') <= '#{Date.strptime("#{params[:submitted_ent_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}'"
-    end
-
-    if params[:last_response_start_date].present?
-      sql_str += " and date_format(irq.last_response_date, '%Y-%m-%d') >= '#{Date.strptime("#{params[:last_response_start_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}'"
-    end
-
-    if params[:last_response_end_date].present?
-      sql_str += " and date_format(irq.last_response_date, '%Y-%m-%d') <= '#{Date.strptime("#{params[:last_response_end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d")}'"
-    end
-
-    sql_str+=" ORDER BY request_number, status"
-
+    sql_str+=" ORDER BY cast(request_number as signed) , iss.display_sequence"
     results=Icm::IncidentRequest.find_by_sql(sql_str)
     datas = []
 
     headers = [
-        I18n.t(:label_icm_incident_request_request_number_alias),
-        I18n.t(:label_icm_incident_request_submitted_date),
-        I18n.t(:label_icm_incident_request_last_response_date),
+        "No.",
+        "Ticket Create Date",
+        "Last Response Date",
         I18n.t(:label_icm_incident_request_status),
         I18n.t(:label_icm_incident_request_support_person),
-        I18n.t(:label_icm_incident_request_real_distance),
+        "Real Distance(hour)",
         I18n.t(:label_icm_incident_request_support_group_name)
     ]
     results.each do |s|

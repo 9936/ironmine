@@ -1,0 +1,89 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id, {:title => "OP.", :width => "30"}) do |data|%>
+        <% if data[:re].eql?("Y")%>
+            <%= bootstrap_icons("icon-trash",t(:remove),{:controller=>"ndm/dev_managements",:action=>"destroy",:id=> data[:id]},:confirm => t(:label_are_you_sure) ,:method => :delete) %>
+        <% end %>
+    <% end %>
+    <% builder.column(:no,{:title=> "No.", :width => "70px"}) do |data|%>
+        <% if data[:ed].eql?('Y')%>
+            <%= link_to("#{data[:branch_name]}-#{data[:no]}",{:controller=>"ndm/dev_managements",:action=>"edit",:id=>data[:id]}) %>
+        <% else %>
+            <%= data[:branch_name]%>-<%= data[:no] %>
+        <% end %>
+    <% end %>
+    <% builder.column(:module,{:title=> "Mod./Pro/Pri/Stat.", :width => "120px"}) do |data|%>
+        <%= data[:module]%><br>
+        <%= data[:project_name]%><br>
+        <%= data[:priority_name]%><br>
+        <%= data[:dev_status]%>
+    <% end %>
+    <% builder.column(:name,{:title=> "Name", :width => "120px"}) do |data|%>
+        <% if data[:ed].eql?('Y')%>
+            <%= link_to(data[:name],{:controller=>"ndm/dev_managements",:action=>"edit",:id=>data[:id]}) %>
+        <% else %>
+            <%= data[:name] %>
+        <% end %>
+    <% end %>
+    <% builder.column(:description,{:title=>"Description"})%>
+    <% builder.column(:type_name,{:title=>"M./T./D.", :width => "80px"}) do |data|%>
+        <%= data[:method_name]%><br>
+        <%= data[:type_name]%><br>
+        <%= data[:dev_difficulty_name]%>
+    <% end %>
+    <% builder.column(:status_code, {:title => "Phase", :width => "240px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="vt" style="vertical-align: top;">
+               <span>
+                 <a class="expand-icon" href="javascript:void(0);" title="expand" name="<%= data[:id]%>">expand</a>
+                 <a class="collapse-icon" href="javascript:void(0);" title="collapse" name="<%= data[:id]%>">collapse</a>
+               </span>
+            </td>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_stage_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:gd_owner, {:title => "Owner", :width => "60px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_owner_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:gd_status, {:title => "Status", :width => "90px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_status_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:gd_plan_start, {:title => "Plan Start", :width => "75px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_ps_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:gd_plan_end, {:title => "Plan End", :width => "75px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_pe_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:gd_real_start, {:title => "Real Start", :width => "75px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_rs_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:gd_real_end, {:title => "Real End", :width => "75px"}) do |data| %>
+        <table class="table-icon" style="vertical-align: top;">
+          <tr>
+            <td class="expends expand <%= data[:id]%>"><%= ndm_build_re_collapse(data) %></td>
+          </tr>
+        </table>
+    <% end %>
+<!-- gd fd fdr td co te si at go -->
+<% end %>

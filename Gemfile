@@ -36,6 +36,8 @@ gem 'hz2py', '0.0.4'
 
 gem 'uuid' , '2.3.4'
 
+gem 'macaddr','1.6.1'
+
 gem 'sunspot_rails','1.3.3'
 gem 'sunspot_solr', '1.3.3'
 gem "sunspot_cell", '0.1.2'

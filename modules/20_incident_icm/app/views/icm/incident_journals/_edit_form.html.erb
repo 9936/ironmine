@@ -1,6 +1,6 @@
 <%= form_for(@incident_journal,:url=>{:action=>"update", :request_id => @incident_journal.incident_request_id, :id => @incident_journal},
              :builder => CustomFormBuilder) do |f| %>
-  <% content_for :form_block_common   do%>
+  <% content_for :form_block_common do%>
     <table class="form-table">
       <tbody>
         <tr>

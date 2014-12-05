@@ -1,0 +1,73 @@
+<%= common_title(:show_data=>@system[:system_name]) %>
+
+<!--页面结构-->
+<div class="show-block">
+  <!-- 人员信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title">MM System Show&nbsp;<%= t(:label_detail_info) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:edit), {:action => "edit", :id => @system},:class=>"btn btn-primary" %>
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+        <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
+  <!-- 一般信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_common_info) %>:</h2></td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label>System Name</label></td>
+        <td class="data-col"><%=@system.system_name%></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title">MM System Members </h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:label_irm_group_add_person), {:action => "add_people",:system_id=>@system.id},:class=>"btn" %>
+    </td>
+    <td class="page-block-help">
+      <div id="systemMemberSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("system_person",{:action=>"get_owned_members_data",:system_id=>@system.id},[],{:search_box => "groupMemberSearchBox",:paginator_box=>"personPaginator"})%>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title">MM System - Support Group </h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to "Add Support Group", {:action => "add_support_groups",:system_id=>@system.id},:class=>"btn" %>
+    </td>
+    <td class="page-block-help">
+      <div id="systemGroupSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("system_group",{:action=>"get_owned_groups_data",:system_id=>@system.id},[],{:search_box => "systemGroupSearchBox",:paginator_box=>"groupPaginator"})%>
+  </div>
+</div>
+

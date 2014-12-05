@@ -1,0 +1,22 @@
+<%= common_title %>
+
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title">System List</h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="mam_SearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("systems",{:action=>"get_data"},[],{:export_data=>"#systemExport",
+                                                                          :search_box=>"mam_system_SearchBox",
+                                                                          :paginator_box=>'mamPaginatorBox',
+                                                                          :view_filter=>true,
+                                                                          :export_data=>"#exportData"})%>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% unless @show_form %>
+    <% builder.column(:id,{:title=>t(:operation), :width => "20px"}) do |data|%>
+        <%= bootstrap_icons("icon-trash",t(:remove),{:action=>"delete_ur",:id=> data[:id],:master_id=>@master_id, :format => "js"},
+                            :confirm => t(:label_are_you_sure) ,:method => :delete, :remote => true) %>
+    <% end %>
+    <% end %>
+    <% builder.column(:responsibility,{:title=>"Responsibility",:width => "20%"})%>
+    <% builder.column(:action_name,{:title=>"Action", :width => "20%"})%>
+    <% builder.column(:start_date,{:title=>"Start Date",:width => "30px"})%>
+    <% builder.column(:end_date,{:title=>"End Date", :width => "30px"})%>
+    <% builder.column(:remark,{:title=>"Remark"})%>
+<% end %>

@@ -1,0 +1,52 @@
+<!-- Modal -->
+<div id="editProjectPermissionModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editProjectPermissionModalLabel" aria-hidden="true">
+  <%= form_tag({:controller => "ndm/projects", :action => "update_project_people", :id => "${id}"}, {:class => "modal-form", :id => "edit_project_permission_form"}) do %>
+  <%= hidden_field_tag "redirect_to" %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>Edit Project Permissions</h3>
+  </div>
+
+  <div class="modal-body">
+    <table class="form-table">
+      <tr>
+        <td class="label-col"><label>Selected Permissions：</label></td>
+        <td class="data-col">
+          <div>
+              <%= check_box_tag :vi, 'Y' %> <label for="vi">View All</label> |
+              <%= check_box_tag :ed, 'Y' %> <label for="ed">Edit</label> |
+              <%= check_box_tag :re, 'Y' %> <label for="re">Remove</label> |
+              <%= check_box_tag :ad, 'Y' %> <label for="ad">New</label> |
+              <%= check_box_tag :im, 'Y' %> <label for="im">Import</label>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <%= link_to(t(:cancel), {}, {:class => "btn", "data-dismiss" => "modal", "aria-hidden" => "true", :href => "javascript:void(0);"}) %>
+    <%= link_submit(t(:save), {:class => "btn btn-primary"}) %>
+  </div>
+  <% end %>
+</div>
+<script type="text/javascript">
+  $(function(){
+     $("#redirect_to").val(window.location.href);
+  });
+  function showProfileDialog(vi, ed, re, ad, im, id){
+          $("#vi").val(vi);
+          $("#ed").val(ed);
+          $("#re").val(re);
+          $("#ad").val(ad);
+          $("#im").val(im);
+          $("#vi").attr("checked", vi == 'Y' ? true : false);
+          $("#ed").attr("checked", ed == 'Y' ? true : false);
+          $("#re").attr("checked", re == 'Y' ? true : false);
+          $("#ad").attr("checked", ad == 'Y' ? true : false);
+          $("#im").attr("checked", im == 'Y' ? true : false);
+
+          var $action = $.tmpl(decodeURIComponent($("#edit_project_permission_form").attr("action")), {"id":id}).text();
+          $("#edit_project_permission_form").attr("action", $action);
+          $("#editProjectPermissionModal").modal("show");
+  }
+</script>

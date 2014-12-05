@@ -88,7 +88,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     joins("LEFT OUTER JOIN #{Irm::Organization.view_name} requested_organization ON  requested_organization.id = requested.organization_id AND requested_organization.language = '#{language}'").
     joins("LEFT OUTER JOIN #{Irm::Profile.view_name} requested_profile ON  requested_profile.id = requested.profile_id AND requested_profile.language = '#{language}'").
     joins("LEFT OUTER JOIN #{Irm::Role.view_name} requested_role ON  requested_role.id = requested.role_id AND requested_role.language = '#{language}'").
-    select("requested.organization_id requested_organization_id, requested.full_name requested_name,requested_organization.name requested_organization_name,requested_profile.name requested_profile_name,requested_role.name requested_role_name")
+    select("requested.login_name requester_login_name, requested.organization_id requested_organization_id, requested.full_name requested_name,requested_organization.name requested_organization_name,requested_profile.name requested_profile_name,requested_role.name requested_role_name")
   }
 
   scope :with_organization,lambda{|language|
@@ -268,6 +268,19 @@ class Icm::IncidentRequest < ActiveRecord::Base
   scope :with_close_reason, lambda{|language|
     joins(" LEFT OUTER JOIN #{Icm::CloseReason.view_name} ON #{Icm::CloseReason.view_name}.id = #{table_name}.close_reason_id AND #{Icm::CloseReason.view_name}.language= '#{language}'").
         select(" #{Icm::CloseReason.view_name}.name close_reason_name, #{Icm::CloseReason.view_name}.description close_reason_description")
+  }
+
+  scope :with_close_reply, lambda{
+    joins(" LEFT OUTER JOIN #{Icm::IncidentJournal.table_name} icj ON icj.reply_type = 'CLOSE' AND icj.incident_request_id = #{table_name}.id AND icj.id = (SELECT
+            ij1.id
+        FROM
+            icm_incident_journals ij1
+        WHERE
+            ij1.reply_type = 'CLOSE'
+                AND #{table_name}.id = ij1.incident_request_id
+        ORDER BY ij1.created_at DESC
+        LIMIT 1)").
+        select(" icj.message_body close_message")
   }
 
   acts_as_watchable
@@ -578,6 +591,21 @@ class Icm::IncidentRequest < ActiveRecord::Base
         where("gm.group_id = sg.group_id").
         where("gm.person_id = #{Irm::Person.table_name}.id").
         where("sg.id = ?", self.support_group_id).
+        enabled.collect(&:id)
+  end
+
+  def system_sg_member_ids
+    return @system_group_member_ids if @system_group_member_ids
+    return nil if self.external_system_id.nil?
+    @system_group_member_ids = Irm::Person.
+        joins(",#{Irm::GroupMember.table_name} gm").
+        joins(",#{Icm::SupportGroup.table_name} sg").
+        joins(",#{Icm::ExternalSystemGroup.table_name} esg").
+        where("#{Irm::Person.table_name}.assignment_availability_flag = 'Y'").
+        where("esg.support_group_id = sg.id").
+        where("gm.group_id = sg.group_id").
+        where("gm.person_id = #{Irm::Person.table_name}.id").
+        where("esg.external_system_id = ?", self.external_system_id).
         enabled.collect(&:id)
   end
 

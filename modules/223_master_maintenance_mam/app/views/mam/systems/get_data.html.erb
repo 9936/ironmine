@@ -1,0 +1,8 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+        <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},:class => "action-link") %>&nbsp;|
+        <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},:class => "action-link") %>
+    <% end %>
+    <% builder.column(:system_name,{:title=>"System Name",:searchable=>true, :width => "50%"})%>
+    <% builder.column(:status_meaning,{:title=>t(:label_irm_external_system_status_meaning)})%>
+<% end %>

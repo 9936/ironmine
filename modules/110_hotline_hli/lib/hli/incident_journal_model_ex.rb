@@ -2,7 +2,7 @@ module Hli::IncidentJournalModelEx
   def self.included(base)
     base.class_eval do
       after_create :count_reply
-
+      attr_accessor :keep_next_status
       #回写回复数量到事故单中，方便统计
       def count_reply
         ir = Icm::IncidentRequest.find(self.incident_request_id)
@@ -40,6 +40,15 @@ module Hli::IncidentJournalModelEx
           end
         end
 
+        #Check if strict workload
+          rq = Icm::IncidentRequest.find(self.incident_request_id)
+          es = Irm::ExternalSystem.find(rq.external_system_id)
+        unless self.replied_by.nil?
+          pr = Irm::Person.find(self.replied_by)
+          if es.strict_workload.eql?('Y') && !self.workload.present? && pr.email_address.end_with?("hand-china.com")
+            self.errors.add(:message_body, 'Workload can not be blank')
+          end
+        end
       end
     end
   end

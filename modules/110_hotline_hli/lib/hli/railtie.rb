@@ -11,6 +11,7 @@ module Hli
       Icm::IncidentRequestsHelper.send(:include, Hli::IncidentRequestsHelperEx)
       Icm::IncidentJournalsHelper.send(:include, Hli::IncidentJournalsHelperEx)
       Irm::WatchersController.send(:include, Hli::WatchersControllerEx)
+      Irm::CustomFieldHelper.send(:include, Hli::CustomFieldHelperEx)
     end
   end
 end

@@ -1,0 +1,38 @@
+<%= common_title %>
+<%= view_filter("MAM_MASTERS","MAM_MASTERS ","masters") %>
+
+
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title">Master List</h2>
+    </td>
+    <td class="page-block-button">
+      <div class="btn-group" style="float: left;display: inline-block;">
+        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+          Master Type
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to("Item",{:action => "new_item"}) %></li>
+          <li class="divider"></li>
+          <li><%= link_to("Supplier&Customer",{:action => "new_scs"}) %></li>
+          <li class="divider"></li>
+          <li><%= link_to("User&Responsibility",{:action => "new_urs"}) %></li>
+        </ul>
+      </div>
+      <div class="btn-group" style="float: left;display: inline-block;">
+        <a href="javascript:void(0)" id="exportData" class="btn btn-info"><%= t(:export) %></a>
+      </div>
+    </td>
+    <td class="page-block-help">
+      <div id="mam_SearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("masters",{:action=>"get_data"},[],{:export_data=>"#masterExport",
+                                                                  :paginator_box=>'mamPaginatorBox',
+                                                                  :view_filter=>true,:search_box => "mam_SearchBox",
+                                                                  :export_data=>"#exportData"})%>
+  </div>
+</div>

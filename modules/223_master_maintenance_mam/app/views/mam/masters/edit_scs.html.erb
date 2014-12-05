@@ -1,0 +1,319 @@
+<%= common_title(:action_meaning=> t(:edit)) %>
+<% require_jscss(:maxlength) %>
+<% temp_master_id = @temp_master_id%>
+<style>
+  textarea {height:50px;}
+</style>
+
+
+<script type="text/javascript">
+    var required_set_1=new Array("mam_master_system_id","mam_master_category","master_sc_party_name_e", "master_sc_party_name_l",
+            "master_sc_scs_type", "master_sc_duns_number","master_sc_country","master_sc_postal_code","master_sc_address_line_1",
+            "master_sc_account_type","master_sc_classification");
+    var required_set_2=new Array("mam_master_system_id","mam_master_category","master_sc_party_name_e", "master_sc_party_name_l",
+            "master_sc_scs_type", "master_sc_duns_number","master_sc_country","master_sc_postal_code","master_sc_address_line_1");
+    var all_set=new Array("mam_master_system_id","mam_master_category","master_sc_party_name_e", "master_sc_party_name_l", "master_sc_city",
+            "master_sc_scs_type", "master_sc_duns_number","master_sc_country","master_sc_postal_code","master_sc_address_line_1","master_sc_address_line_2","master_sc_address_line_3",
+            "master_sc_account_type","master_sc_classification")
+    var required_set_3=new Array("master_sc_state")
+    var current_required_set = required_set_1;
+    function checkForm(required_set, id) {
+        pass = true;
+        if ($("#mam_master_category").val()=="SC_UPDATE"){
+            required_set = ["master_sc_party_name_e"];
+        }
+        $.each(required_set, function(){
+                    if(typeof($("#" + this).val()) == "undefined" || $("#"+this).val() == ''){
+                        alert("Required fields can not be blank");
+                        $("#"+this).focus();
+                        if(id != ''){
+                            $("#"+id).unmask();
+                        }
+                        pass = false;
+                        return false;
+                    }
+                }
+        )
+        return pass;
+    }
+
+    function checkType(){
+        if($("#master_sc_scs_type").val()=="CU"){
+            reset_required();
+            current_required_set = required_set_1.clone3();
+            $.each(current_required_set, function(){
+                $("#" + this).parent().parent().addClass("form-field-required");
+            })
+        }
+        else{
+            reset_required();
+            current_required_set = required_set_2.clone3();
+            $.each(current_required_set, function(){
+                $("#" + this).parent().parent().addClass("form-field-required");
+            })
+        }
+    }
+
+    function checkCountry(){
+        if($("#master_sc_country").val()=="United States"){
+            $("#master_sc_state").parent().parent().addClass("form-field-required");
+            checkType()
+            current_required_set.push("master_sc_state");
+        }
+        else{
+            $("#master_sc_state").parent().parent().removeClass("form-field-required");
+            checkType()
+        }
+    }
+    Array.prototype.clone3 = function(){
+        return this.slice(0);
+    }
+    function reset_required(){
+        $.each(required_set_1, function(){
+            $("#" + this).parent().parent().removeClass("form-field-required");
+        })
+        $.each(required_set_2, function(){
+            $("#" + this).parent().parent().removeClass("form-field-required");
+        })
+    }
+
+    function checkCategory(){
+        if($("#mam_master_category").val()=="SC_UPDATE"){
+            reset_required();
+            $("#master_sc_party_name_e").parent().parent().addClass("form-field-required");
+        }
+        else{
+            checkType();
+            checkCountry();
+        }
+    }
+
+    $(document).ready(function () {
+        checkCategory();
+        $("#master_sc_scs_type").bind("change", function(){
+            checkType();
+            checkCategory();
+        })
+        $("#master_sc_country").bind("keyup", function(){
+            checkCountry();
+            checkCategory();
+        })
+        $("#mam_master_category").bind("change", function(){
+            checkCategory();
+        })
+        $.each(all_set, function(){
+            if(typeof($("#" + this).attr("maxlength")) != "undefined"){
+                $("#"+this).maxlength({
+                    max: $("#"+this).attr("maxlength"),
+                    showFeedback: true
+                });
+            }
+        })
+    });
+</script>
+<!--页面结构-->
+<div class="page-block">
+
+  <%= form_for(@master,:url=>{:action=>"update_scs"},:builder => CustomFormBuilder,
+               :html => { :multipart => true ,
+                          :onsubmit => "return checkForm(current_required_set, 'edit_mam_master_#{@master.id}');"}) do |f| %>
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title">Edit Supplier & Customer</h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+          <%= link_to t(:cancel),{:action => "show", :id => @master.id},{:class=>"btn cancel"}%>
+        </td>
+      </tr></table>
+      <%= error_for @master %>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title">Master Info</h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= hidden_field_tag :return_url,@return_url %>
+            <%= hidden_field_tag :temp_master_id,temp_master_id %>
+            <table class="form-table">
+              <tbody>
+              <tr>
+                <td class="label-col"><label>Requester</label></td>
+                <td class="data-col">
+                  <label>Requester</label>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>System</label></td>
+                <td class="data-col">
+
+                  <%=f.select :system_id, mam_ava_system_for_person(Irm::Person.current.id), :required => true%>
+
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>Category</label></td>
+                <td class="data-col">
+                  <%=f.select :category, available_lookup_type("MAM_SC_CATEGORY"),{:value=>@master.category}, :required => true%>
+                </td>
+              </tr>
+              <%= fields_for("master_sc", @master.master_scs.first) do |sub_f|%>
+              <tr>
+                <td class="label-col"><label>Party Name(English)</label></td>
+                <td class="data-col">
+                  <div class="form-field-wrapped form-field-required">
+                    <span class="form-field-required-flag"></span>
+                    <span class="form-field">
+                  <%= sub_f.text_area :party_name_e, :required => true, :maxlength => 360%>
+                      <%= mam_demo_label("YANMAR CO.,LTD")%>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>Party Name(Local)</label></td>
+                <td class="data-col">
+                  <div class="form-field-wrapped form-field-required">
+                    <span class="form-field-required-flag"></span>
+                    <span class="form-field">
+                  <%= sub_f.text_area :party_name_l, :required => true, :maxlength => 360%>
+                      <%= mam_demo_label("YANMAR CO.,LTD")%>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>DNUS Number</label></td>
+                <td class="data-col">
+                  <div class="form-field-wrapped form-field-required">
+                    <span class="form-field-required-flag"></span>
+                    <span class="form-field">
+                  <%= sub_f.text_field :duns_number, :required => true%>
+                      <%= mam_demo_label("69055474")%>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>Type</label></td>
+                <td class="data-col">
+                  <div class="form-field-wrapped form-field-required">
+                    <span class="form-field-required-flag"></span>
+                    <span class="form-field">
+                  <%= sub_f.select :scs_type, available_lookup_type("MAM_SC_TYPE"), :required => true%>
+                    </span>
+                  </div>
+                </td>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>Country</label></td>
+                <td class="data-col">
+                  <div class="form-field-wrapped form-field-required">
+                    <span class="form-field-required-flag"></span>
+                    <span class="form-field">
+                  <%= sub_f.text_field :country, :required => true, :maxlength => 60%>
+                      <%= mam_demo_label("Japan")%>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>State</label></td>
+                <td class="data-col">
+                  <div class="form-field-wrapped">
+                    <span class="form-field-required-flag"></span>
+                    <span class="form-field">
+                  <%= sub_f.text_field :state, :maxlength => 60%>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>Postal Code</label></td>
+                <td class="data-col">
+                  <div class="form-field-wrapped form-field-required">
+                    <span class="form-field-required-flag"></span>
+                    <span class="form-field">
+                  <%= sub_f.text_field :postal_code, :required => true, :maxlength => 60%>
+                      <%= mam_demo_label("660-8585")%>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>City</label></td>
+                <td class="data-col">
+                  <%= sub_f.text_field :city, :maxlength => 60%>
+                  <%= mam_demo_label("AMAGASAKI")%>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>Address Line 1</label></td>
+                <td class="data-col">
+                  <div class="form-field-wrapped form-field-required">
+                    <span class="form-field-required-flag"></span>
+                    <span class="form-field">
+                  <%= sub_f.text_area :address_line_1, :required => true, :maxlength => 240%>
+                      <%= mam_demo_label("1-1-1 NAGASU")%>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>Address Line 2</label></td>
+                <td class="data-col">
+                  <%= sub_f.text_area :address_line_2, :maxlength => 240%>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>Address Line 3</label></td>
+                <td class="data-col">
+                  <%= sub_f.text_area :address_line_3, :maxlength => 240%>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>Account Type</label></td>
+                <td class="data-col">
+                  <div class="form-field-wrapped form-field-required">
+                    <span class="form-field-required-flag"></span>
+                    <span class="form-field">
+                  <%= sub_f.select :account_type, available_lookup_type("MAM_SC_ACCOUNT_TYPE"),{:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
+                                                                                                :blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---"}%>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>Classification</label></td>
+                <td class="data-col">
+                  <div class="form-field-wrapped form-field-required">
+                    <span class="form-field-required-flag"></span>
+                    <span class="form-field">
+                  <%= sub_f.select :classification, available_lookup_type("MAM_SC_CLASSIFICATION"),{:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
+                                                                                                    :blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---"}%>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>Credit Limit</label></td>
+                <td class="data-col">
+                  <%= sub_f.text_field :credit_limit%>
+                  <%= mam_demo_label("500000000000000")%>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label>Currency</label></td>
+                <td class="data-col">
+                  <%= sub_f.select :currency, available_lookup_type("MAM_SC_CURRENCY")%>
+                </td>
+              </tr>
+              <% end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  <% end %>
+</div>

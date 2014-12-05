@@ -60,7 +60,7 @@ module Irm::CommonHelper
   def select_tag_multiple(name, option_tags, hidden_name, hidden_value, options = {})
     id_str = name.gsub('[', '_').gsub(']', '')
     hidden_id_str = hidden_name.gsub('[', '_').gsub(']', '')
-    select_field = select_tag("#{name}", option_tags,{:chosen => false})
+    select_field = select_tag("#{name}", option_tags,({:chosen => false}).merge(options||{}))
     link_button = link_to "+", {}, {:href => "javascript:void(0);", :id => "#{id_str}button"}
     hidden_flag = hidden_field_tag hidden_name, hidden_value
     scripts = %Q(

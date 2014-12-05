@@ -1,0 +1,24 @@
+<%=datatable_view({:columns=>[:id, :vi, :ed, :re, :ad, :im,:person_name,:email_address,:organization_name],:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title =>t(:operation), :width => "120px"}) do |data|%>
+        <%= link_to "Edit Permission", "javascript:void(0);", :class => "action-link",
+                    :onclick => "showProfileDialog('#{data[:vi]}', '#{data[:ed]}', '#{data[:re]}', '#{data[:ad]}', '#{data[:im]}','#{data[:ppid]}');" %>
+    <% end %>
+    <% builder.column(:vi,{:title=> "View", :width => "50px"}) do |data|%>
+        <%= check_img(data[:vi]) %>
+    <% end %>
+    <% builder.column(:ed,{:title=> "Edit", :width => "50px"}) do |data|%>
+        <%= check_img(data[:ed]) %>
+    <% end %>
+    <% builder.column(:re,{:title=> "Remove", :width => "50px"}) do |data|%>
+        <%= check_img(data[:re]) %>
+    <% end %>
+    <% builder.column(:ad,{:title=> "New", :width => "50px"}) do |data|%>
+        <%= check_img(data[:ad]) %>
+    <% end %>
+    <% builder.column(:im,{:title=> "Import", :width => "50px"}) do |data|%>
+        <%= check_img(data[:im]) %>
+    <% end %>
+    <% builder.column(:person_name,{:title=>t(:label_irm_person_full_name),:searchable=>true, :width => "120px"})%>
+    <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address),:searchable=>true, :width => "25%"})%>
+    <% builder.column(:organization_name,{:title=>t(:label_irm_organization),:searchable=>true})%>
+<% end %>

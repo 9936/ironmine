@@ -1590,7 +1590,7 @@ jQuery.fn.menubutton = function () {
         this.$element = $(element);
         this.element = element;
         this.data = this.getData();
-
+        this.sideBarWidth = $("td.setting-sidebar-cell.setting-sidebar-cell").outerWidth(true);
         // Shorthand accessors to data entries:
         this.id = this.data.id;
 
@@ -1609,7 +1609,6 @@ jQuery.fn.menubutton = function () {
             data.initialised = true;
             data.options = $.extend({}, DEFAULT_OPTIONS, customOptions);
         }
-
         this.buildTable();
         $(window).hashchange(function () {
             var hashPage = me.getHashPage();
@@ -2209,14 +2208,30 @@ jQuery.fn.menubutton = function () {
 
             });
             var currentWidth = me.$element.find(".datatable-scroll .include-header table:first").outerWidth(true);
+
             // 如果列的实际所需宽度大于表格宽度,则使用百分比重置表格宽度
             if (totalWidth > currentWidth) {
                 var percentWidth = Math.ceil(totalWidth * 100 / currentWidth)
                 me.$element.find(".datatable-scroll .include-header table:first").css("width", percentWidth + "%");
                 me.$element.find(".datatable-scroll .scroll-header table:first").css("width", percentWidth + "%");
+                //如果表格宽度大于窗口剩余宽度，使用百分比重置page-block块
+                if (this.sideBarWidth==null){
+                    pagePercent = Math.ceil(($(window).width()- 35)*100/$("div.page-block").width());
+                }else{
+                    pagePercent = Math.ceil(($(window).width()- this.sideBarWidth-35)*100/$("div.page-block").width());
+                }
+                // 当pagePercent小于90%时，不重置宽度，避免表格变形
+                if (pagePercent > 90){
+                    $("div.page-block").width($(window).width()-35)
+                }
             }
             me.$element.find(".datatable-scroll .include-header:first").scroll(function (e) {
                 me.$element.find(".datatable-scroll .scroll-header:first").scrollLeft($(this).scrollLeft());
+                // 当pagePercent小于90%时，横向滚动窗口，避免datatable变形
+                if (pagePercent < 90){
+                    diff = $(this).scrollLeft() - ($(window).width()/2);
+                    $("html, body").stop().animate({ scrollLeft: diff+"px"},500);
+                }
             })
 
         }

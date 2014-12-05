@@ -31,7 +31,6 @@ module Fwk
       table_header = ActiveSupport::SafeBuffer.new
       #== display columns count
       total_count = column_options.collect{|i| [i] unless i[:hidden]}.count
-
       table_header.safe_concat "<thead><tr>"
       column_options.each do |column|
         next if column[:hidden]&&!column[:searchable].present?
@@ -40,7 +39,11 @@ module Fwk
         if total_count == column_count
           table_header.safe_concat "<th #{column_options_str} class='last' ><div>#{column[:title]}"
         else
-          table_header.safe_concat "<th #{column_options_str} ><div>#{column[:title]}"
+          if column[:phase]
+            table_header.safe_concat "<th #{column_options_str} phase='#{column[:phase]}'><div>#{column[:title]}"
+          else
+            table_header.safe_concat "<th #{column_options_str}><div>#{column[:title]}"
+          end
         end
         table_header.safe_concat "</div></th>"
       end
@@ -119,6 +122,7 @@ module Fwk
          style = "width:0px;display:none;"
          origin_width = "0"
       end
+
 
       options_str << "origin-width='#{origin_width}' style='#{style}'" unless style.blank?
 

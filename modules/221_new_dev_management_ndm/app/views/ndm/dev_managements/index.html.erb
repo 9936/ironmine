@@ -1,0 +1,318 @@
+<style type="text/css">
+    .icm-incident-requests .page-block{
+        width: 100%;
+    }
+    .datatable table tbody table.table-icon {
+        background-color: transparent;
+        text-align: left;
+    }
+
+    .datatable table tbody table.table-icon tr {
+        background-color: transparent;
+    }
+
+    .datatable table tbody table.table-icon tr td {
+        background-color: transparent;
+        border: none;
+    }
+
+
+    .datatable table tbody table.table-icon tr td.div {
+        padding: 0px;
+        border: none;
+    }
+
+    .datatable table tbody table.table-icon tr td.vt {
+        width: 21px;
+    }
+    .datatable table td {
+        padding: 0;
+    }
+
+    .table-icon a.expand-icon {
+        background: url('../images/filter_hide.gifx') no-repeat 0 0 transparent;
+        width: 16px;
+        height: 16px;
+        text-indent: -9999px;
+        display: none;
+    }
+
+    .table-icon a.collapse-icon {
+        background: url('../images/filter_reveal.gifx') no-repeat 0 0 transparent;
+        width: 16px;
+        height: 16px;
+        text-indent: -9999px;
+        display: block;
+    }
+
+    .table-icon .workflow {
+        width: 18px;
+        height: 18px;
+    }
+
+    .table-icon .slim {
+        width: 1px;
+    }
+
+    .table-icon .requested {
+        background: url('../images/workflow_requested.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .active {
+        background: url('../images/workflow_active.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .pending {
+        background: url('../images/workflow_pending.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .complete {
+        background: url('../images/workflow_complete.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .closed {
+        background: url('../images/workflow_approval_rejected.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .processing {
+        background: url('../images/workflow_processing.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .delayed {
+        background: url('../images/workflow_delayed.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .space {
+        background: url('../images/workflow_space.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon td {
+        background: transparent;
+        border: none;
+    }
+
+    .table-icon td.expends div {
+        float: left;
+        display: inline-block;
+        padding: 0;
+        border: none;
+    }
+
+    .table-icon td.expand div {
+        display: block;
+        float: none;
+    }
+
+    .table-icon td.expends div.name {
+        display: none;
+    }
+
+    .table-icon td.expand div.name  {
+        *height: 20px;
+        display: block;
+    }
+
+    .table-icon .expand {
+        min-width: 80px;
+        display: block;
+    }
+
+    .table-icon .name {
+        display: none;
+        padding: 3px;
+
+    }
+
+    .table-icon .header-name {
+        background: transparent;
+        padding: 2px 3px !important;
+        display: block;
+        min-width: 50px;
+    }
+
+    .expand .name {
+        display: inline-block;
+        min-width: 60px;
+        clear: left;
+    }
+
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".expand-icon").live('click', function () {
+            var name = $(this).attr('name');
+            var parent_table = $(this).parent();
+            parent_table.find(".collapse-icon").show();
+            $(this).hide();
+            $("." + name).addClass("expand");
+//            parent_table.parent().parent().find(".expends").addClass("expand");
+//            $("#requests").datatable("adjustScroll");
+        });
+        $(".collapse-icon").live('click', function () {
+            var name = $(this).attr('name');
+            var parent_table = $(this).parent();
+            parent_table.find(".expand-icon").css("display", "block");
+            $(this).hide();
+            $("." + name).removeClass("expand");
+//            parent_table.parent().parent().find(".expends").removeClass("expand");
+//            $("#requests").datatable("adjustScroll");
+        });
+        $(".switch_show").live('click', function () {
+            $(this).hide();
+            $(".collapse-icon").show();
+            $(".expand-icon").hide();
+            $(".switch_hide").show();
+            $(".expends").addClass("expand");
+        });
+
+        $(".switch_hide").live('click', function () {
+            $(this).hide();
+            $(".collapse-icon").hide();
+            $(".expand-icon").css("display", "block");
+            $(".switch_show").show();
+            $(".expends").removeClass("expand");
+        });
+
+        $("#search_form").hide();
+        $(".switch_show_search").live('click', function () {
+            $(this).hide();
+            $("#search_form").show();
+            $(".switch_hide_search").show();
+        });
+
+        $(".switch_hide_search").live('click', function () {
+            $(this).hide();
+            $("#search_form").hide();
+            $(".switch_show_search").show();
+        });
+    });
+</script>
+
+<div class="page-block" id="search_form">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title">Project</h2>
+    </td>
+    <td class="page-block-button">
+
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="sub-page-block">
+      <div class="sub-page-block-body">
+        <%= form_tag({:action=> "sindex"},{:id=>"search_index",:name=>"search_index"}) do%>
+            <table style = "width:100%">
+              <tr>
+                <td>
+                  Project
+                </td>
+                <td>
+                  No.
+                </td>
+                <td>
+                  Name
+                </td>
+                <td>
+                  Type
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <%= select_tag_multiple(
+                              "project_params[project_id][]",
+                              options_for_select(get_project_list, @project_params.present? ? @project_params[:project_id] : nil),
+                              "project_params[project_mul]",
+                              @project_params.present? && @project_params[:project_mul] ? @project_params[:project_mul] : 'N',
+                              {:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
+                               :blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---", :style => "width:210px;"} )%>
+                </td>
+                <td>
+                  <%= text_field_tag "project_params[no]", @project_params.present?&&@project_params[:no].present? ? @project_params[:no] : nil%>
+                </td>
+                <td>
+                  <%= text_field_tag "project_params[name]", @project_params.present?&&@project_params[:name].present? ? @project_params[:name] : nil%>
+                </td>
+                <td>
+                  <%= blank_select_tag "project_params[dev_type]",
+                                       Irm::LookupValue.
+                                          get_lookup_value("NDM_TYPE").
+                                          enabled.
+                                          collect{|lv| [lv[:meaning], lv[:meaning]]},
+                                       @project_params.present?&&@project_params[:dev_type].present? ? @project_params[:dev_type] : nil%>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Priority
+                </td>
+                <td>
+                  Status
+                </td>
+                <td>
+                  Method
+                </td>
+                <td>
+                  Difficulty
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <%= blank_select_tag "project_params[priority]",
+                                       Irm::LookupValue.get_lookup_value("NDM_PRIORITY").enabled.collect{|lv| [lv[:meaning], lv[:meaning]]},
+                                       @project_params.present?&&@project_params[:priority].present? ? @project_params[:priority] : nil%>
+                </td>
+                <td>
+                  <%= blank_select_tag "project_params[dev_status]",
+                                       ndm_get_dev_status_name_list,
+                                       @project_params.present?&&@project_params[:dev_status].present? ? @project_params[:dev_status] : nil%>
+                </td>
+                <td>
+                  <%= blank_select_tag "project_params[method]",
+                                       Irm::LookupValue.
+                                          get_lookup_value("NDM_METHOD").
+                                          enabled.
+                                          collect{|lv| [lv[:meaning], lv[:meaning]]},
+                                       @project_params.present?&&@project_params[:method].present? ? @project_params[:method] : nil%>
+                </td>
+                <td>
+                  <%= blank_select_tag "project_params[dev_difficulty]",
+                                       Irm::LookupValue.
+                                           get_lookup_value("NDM_DIFFICULTY").
+                                           enabled.
+                                           collect{|lv| [lv[:meaning], lv[:meaning]]},
+                                       @project_params.present?&&@project_params[:dev_difficulty].present? ? @project_params[:dev_difficulty] : nil%>
+                </td>
+              </tr>
+              <tr>
+                <td colspan = 4>
+                  <%= link_submit("Search",{:class => "btn btn-primary"}) %>
+                </td>
+              </tr>
+            </table>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title">Development Management</h2>
+    </td>
+    <td class="page-block-button">
+      <a class="btn btn-primary switch_show_search" style="display: inline-block" href="javascript:void(0)">Show Search</a>
+      <a class="btn btn-primary switch_hide_search" style="display: none" href="javascript:void(0)">Hide Search</a>
+      <a class="btn btn-primary switch_show" style="display: none" href="javascript:void(0)">Show All</a>
+      <a class="btn btn-primary switch_hide" style="display: inline-block" href="javascript:void(0)">Hide All</a>
+      <%= link_to t(:new), {:action => "new"},{:class=>"btn btn-primary"}%>
+    </td>
+    <td class="page-block-help">
+
+      <%= link_to "Import Excel", {:action => "import_excel"},{:class=>"btn btn-primary"}%>
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("dev_managements",{:action=>"get_data", :project_params => @project_params.present? ? @project_params : nil},[],{:search_box => "searchBox", :view_filter => true,:paginator_box=>"paginatorBox",:scroll=>"x"})%>
+  </div>
+</div>
