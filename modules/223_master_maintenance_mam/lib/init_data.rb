@@ -24,8 +24,12 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "mam/masters" => ["new", "create", "new_item", "new_scs", "new_urs","get_ur_data",
-                                "get_item_data", "delete_item", "add_item", "create_sc", "delete_ur"]
+              "mam/masters" => ["new", "create",
+                                "new_item", "new_scs", "new_urs",
+                                "get_ur_data","get_item_data",
+                                "add_item","create_reply", "add_ur",
+                                "create_scs", "create_urs", "create_item",
+                                "delete_ur", "delete_item"]
           },
           :edit_master => {
               :en => {:name => "Edit", :description => "Edit"},
@@ -33,8 +37,13 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "mam/masters" => ["new_item", "new_scs", "new_urs","get_ur_data","edit_item","edit_scs", "edit_urs", "update",
-                                "get_item_data", "delete_item", "add_item", "create_sc", "delete_ur"]
+              "mam/masters" => ["new_item", "new_scs", "new_urs",
+                                "get_ur_data","edit_item","edit_scs",
+                                "edit_urs", "update",
+                                "update_item", "update_scs", "update_urs",
+                                "get_item_data", "delete_item", "add_item",
+                                "delete_ur", "delete_item",
+                                "create_scs"]
           },
           :create_reply => {
               :en => {:name => "New Reply", :description => "New Reply"},

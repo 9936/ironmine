@@ -68,6 +68,16 @@ class Irm::LookupValue < ActiveRecord::Base
     Irm::LookupValue.multilingual.order_by_sequence.query_by_lookup_type(lookup_type)
   end
 
+  def self.get_list_with_code(lookup_type)
+    Irm::LookupValue.query_by_lookup_type(lookup_type).
+        order_by_sequence.multilingual.
+        collect{|m| ["#{m.lookup_code}-#{m[:meaning]}", m.lookup_code]}
+  end
+
+  def self.display_with_code(lookup_type, lookup_code)
+    meaning = Irm::LookupValue.get_meaning(lookup_type, lookup_code)
+    return "#{lookup_code}-#{meaning}"
+  end
 
   private
     #构建sequence

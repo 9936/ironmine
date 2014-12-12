@@ -141,25 +141,29 @@
               <tr>
                 <td class="label-col"><label>Department</label></td>
                 <td class="data-col">
-                  <%= f.text_area :department, :required => true, :maxlength => 240%>
-                  <%= mam_demo_label("000000")%>
+                  <%= f.select :department,
+                               Irm::LookupValue.get_list_with_code("MAM_DEPARTMENT"),
+                               :required => true%>
                 </td>
                 <td class="label-col"><label>Business Unit</label></td>
                 <td class="data-col">
-                  <%= f.text_area :business_unit, :required => true, :maxlength => 240%>
-                  <%= mam_demo_label("200")%>
+                  <%= f.select :business_unit,
+                               Irm::LookupValue.get_list_with_code("MAM_BUSINESS_UNIT"),
+                               :required => true%>
                 </td>
               </tr>
               <tr>
                 <td class="label-col"><label>Inventory Account</label></td>
                 <td class="data-col">
-                  <%= f.text_area :inventory_account, :required => true, :maxlength => 240%>
-                  <%= mam_demo_label("12120")%>
+                  <%= f.select :inventory_account,
+                               Irm::LookupValue.get_list_with_code("MAM_INV_ACCOUNT"),
+                               :required => true%>
                 </td>
                 <td class="label-col"><label>Inventory Sub-Account</label></td>
                 <td class="data-col">
-                  <%= f.text_area :inventory_sub_account,  :required => true, :maxlength => 240%>
-                  <%= mam_demo_label("1000")%>
+                  <%= f.select :inventory_sub_account,
+                               Irm::LookupValue.get_list_with_code("MAM_INV_SUB_ACCOUNT"),
+                               :required => true%>
                 </td>
               </tr>
               <tr>

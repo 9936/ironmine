@@ -249,9 +249,9 @@ class Mam::MastersController < ApplicationController
 
   def get_item_data
     if params[:real_master_id]
-      master_items_scope = Mam::MasterItem.select_all.with_sng.with_template.with_replace_br.where("master_id = ? OR master_id = ?", params[:master_id], params[:real_master_id])
+      master_items_scope = Mam::MasterItem.select_all.with_sng.with_template.with_department.with_business_unit.with_inv_account.with_inv_sub_account.where("master_id = ? OR master_id = ?", params[:master_id], params[:real_master_id])
     else
-      master_items_scope = Mam::MasterItem.select_all.with_sng.with_template.with_replace_br.where("master_id = ?", params[:master_id])
+      master_items_scope = Mam::MasterItem.select_all.with_sng.with_template.with_department.with_business_unit.with_inv_account.with_inv_sub_account.where("master_id = ?", params[:master_id])
     end
     master_items_scope,count = paginate(master_items_scope)
     respond_to do |format|
