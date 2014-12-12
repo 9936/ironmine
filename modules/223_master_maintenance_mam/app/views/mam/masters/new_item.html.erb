@@ -120,7 +120,7 @@
                 <td class="label-col"><label>Template</label></td>
                 <td class="data-col">
                   <%= f.select :template,
-                                       Irm::LookupValue.query_by_lookup_type("MAM_TEMPLATE").
+                                       Irm::LookupValue.query_by_lookup_type("MAM_TEMPLATE").enabled.
                                                order_by_sequence.multilingual.
                                                collect{|m| ["#{m.lookup_code}-#{m[:meaning]}", m.lookup_code]},
                                        :required => true%>
