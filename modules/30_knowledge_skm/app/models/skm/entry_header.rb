@@ -167,34 +167,34 @@ class Skm::EntryHeader < ActiveRecord::Base
     end if search
 
     #搜索知识库附件关联
-    search_att = Sunspot.search(Irm::AttachmentVersion) do |sp|
-      sp.keywords query, :highlight => true
-      sp.with(:source_type, ["Skm::EntryHeader"])
-      sp.with(:updated_at).greater_than(time_limit) if time_limit
-      sp.paginate(:offset => offset, :per_page => per_page)
-    end
-
-    search_att.each_hit_with_result do |hit, result|
-      results[result.source_id.to_sym] ||= {}
-      results[result.source_id.to_sym][:attachments] ||= []
-      if results_ids.include?(result.source_id.to_s)
-        results[result.source_id.to_sym][:attachments] << hit
-      else
-        if results[result.source_id.to_sym][:result].present?
-          results[result.source_id.to_sym][:attachments] << hit
-        else
-          begin
-            record = result.source_type.constantize.find(result.source_id)
-          rescue
-            record = nil
-          end
-          if record.present?
-            results[result.source_id.to_sym][:attachments] << hit
-            results[result.source_id.to_sym][:result] = record
-          end
-        end
-      end
-    end if search_att
+    #search_att = Sunspot.search(Irm::AttachmentVersion) do |sp|
+    #  sp.keywords query, :highlight => true
+    #  sp.with(:source_type, ["Skm::EntryHeader"])
+    #  sp.with(:updated_at).greater_than(time_limit) if time_limit
+    #  sp.paginate(:offset => offset, :per_page => per_page)
+    #end
+    #
+    #search_att.each_hit_with_result do |hit, result|
+    #  results[result.source_id.to_sym] ||= {}
+    #  results[result.source_id.to_sym][:attachments] ||= []
+    #  if results_ids.include?(result.source_id.to_s)
+    #    results[result.source_id.to_sym][:attachments] << hit
+    #  else
+    #    if results[result.source_id.to_sym][:result].present?
+    #      results[result.source_id.to_sym][:attachments] << hit
+    #    else
+    #      begin
+    #        record = result.source_type.constantize.find(result.source_id)
+    #      rescue
+    #        record = nil
+    #      end
+    #      if record.present?
+    #        results[result.source_id.to_sym][:attachments] << hit
+    #        results[result.source_id.to_sym][:result] = record
+    #      end
+    #    end
+    #  end
+    #end if search_att
 
     total_records = (search.total > search_att.total) ? search.total : search_att.total
     if total_records > per_page
