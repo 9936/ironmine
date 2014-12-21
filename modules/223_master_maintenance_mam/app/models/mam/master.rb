@@ -7,6 +7,9 @@ class Mam::Master < ActiveRecord::Base
   has_many :master_urs
   has_many :master_items
   has_many :master_replies
+
+  validates_presence_of :system_id
+
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 

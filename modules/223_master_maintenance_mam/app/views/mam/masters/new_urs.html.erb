@@ -225,7 +225,7 @@
               <tr>
                 <td class="label-col"><label>System</label></td>
                 <td class="data-col">
-                  <%=f.select :system_id, mam_ava_system_for_person(Irm::Person.current.id)%>
+                  <%=f.select :system_id, mam_ava_system_for_person(Irm::Person.current.id), :required => true%>
                 </td>
               </tr>
               <tr>
