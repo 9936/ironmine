@@ -1,4 +1,4 @@
-<%=datatable_view({:columns=>[:person_name, :organization_name, :email_address], :count=>@count,:datas=>@datas}) do |builder|%>
+<%=datatable_view({:columns=>[:person_name, :login_name, :email_address], :count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:id)%>
   <% builder.column(:person_name,{:title=>t(:label_irm_group_person_name),:searchable=>true, :width => "30%"})%>
     <% builder.column(:login_name,{:title=>"Login Name",:searchable=>true, :width => "30%"})%>
