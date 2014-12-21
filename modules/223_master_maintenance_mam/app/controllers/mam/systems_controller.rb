@@ -114,8 +114,13 @@ class Mam::SystemsController < ApplicationController
 
   def get_memberable_data
     members_scope = Irm::Person.
-        select("#{Irm::Person.table_name}.full_name person_name, #{Irm::Person.table_name}.email_address email_address, #{Irm::Person.table_name}.id").
+        select("#{Irm::Person.table_name}.full_name person_name, #{Irm::Person.table_name}.login_name, #{Irm::Person.table_name}.email_address email_address, #{Irm::Person.table_name}.id").
         where("NOT EXISTS(SELECT 1 FROM mam_system_people msp WHERE msp.system_id = ? AND msp.person_id = #{Irm::Person.table_name}.id)", params[:system_id])
+
+    members_scope = members_scope.match_value("#{Irm::Person.table_name}.login_name", params[:login_name])
+    members_scope = members_scope.match_value("#{Irm::Person.table_name}.full_name", params[:person_name])
+    members_scope = members_scope.match_value("#{Irm::Person.table_name}.email_address", params[:email_address])
+
     members_scope,count = paginate(members_scope)
     respond_to do |format|
       format.html  {
