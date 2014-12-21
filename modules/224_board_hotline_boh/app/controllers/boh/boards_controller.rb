@@ -10,11 +10,11 @@ class Boh::BoardsController < ApplicationController
     @table_a_open_by_service_desk = []
     @count_new = Icm::IncidentRequest.enabled.
         select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
-        joins(",#{Icm::IncidentSubCategory.view_name} ic").
+        joins(",#{Icm::IncidentCategory.view_name} ic").
         joins(",#{Icm::IncidentStatus.table_name} iis").
         joins(",icm_support_groups_vl isg").
         where("isg.language = 'zh'").
-        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_sub_category_id").
+        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
