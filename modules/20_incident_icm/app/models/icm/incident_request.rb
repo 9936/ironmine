@@ -355,37 +355,37 @@ class Icm::IncidentRequest < ActiveRecord::Base
       end if search
 
       #检索附件
-      search_att = Sunspot.search(Irm::AttachmentVersion) do |sp|
-        sp.keywords query, :highlight => true
-        sp.with(:source_type,["Icm::IncidentRequest", "Icm::IncidentJournal"])
-        sp.with(:updated_at).greater_than(time_limit) if time_limit
-        sp.paginate(:page => page, :per_page => per_page)
-      end
-      search_att.each_hit_with_result do |hit, result|
-        results[result.source_id.to_sym] ||= {}
-        results[result.source_id.to_sym][:attachments] ||= []
-        if results_ids.include?(result.source_id.to_s)
-          results[result.source_id.to_sym][:attachments] << hit
-        else
-          if results[result.source_id.to_sym][:result].present?
-            results[result.source_id.to_sym][:attachments] << hit
-          else
-            begin
-              record = result.source_type.constantize.find(result.source_id)
-            rescue
-              record = nil
-            end
-            #附件是否来自于回复
-            if record && result.source_type.to_s.eql?('Icm::IncidentJournal')
-              record = Icm::IncidentRequest.where("id=?",record.incident_request_id).first
-            end
-            if record.present?
-              results[result.source_id.to_sym][:attachments] << hit
-              results[result.source_id.to_sym][:result] =  record
-            end
-          end
-        end
-      end if search_att
+      #search_att = Sunspot.search(Irm::AttachmentVersion) do |sp|
+      #  sp.keywords query, :highlight => true
+      #  sp.with(:source_type,["Icm::IncidentRequest", "Icm::IncidentJournal"])
+      #  sp.with(:updated_at).greater_than(time_limit) if time_limit
+      #  sp.paginate(:page => page, :per_page => per_page)
+      #end
+      #search_att.each_hit_with_result do |hit, result|
+      #  results[result.source_id.to_sym] ||= {}
+      #  results[result.source_id.to_sym][:attachments] ||= []
+      #  if results_ids.include?(result.source_id.to_s)
+      #    results[result.source_id.to_sym][:attachments] << hit
+      #  else
+      #    if results[result.source_id.to_sym][:result].present?
+      #      results[result.source_id.to_sym][:attachments] << hit
+      #    else
+      #      begin
+      #        record = result.source_type.constantize.find(result.source_id)
+      #      rescue
+      #        record = nil
+      #      end
+      #      #附件是否来自于回复
+      #      if record && result.source_type.to_s.eql?('Icm::IncidentJournal')
+      #        record = Icm::IncidentRequest.where("id=?",record.incident_request_id).first
+      #      end
+      #      if record.present?
+      #        results[result.source_id.to_sym][:attachments] << hit
+      #        results[result.source_id.to_sym][:result] =  record
+      #      end
+      #    end
+      #  end
+      #end if search_att
       #获取事故单的详细信息
       incident_requests = self.select_all.with_requested_by(I18n.locale).
                               with_incident_status(I18n.locale).
