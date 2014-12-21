@@ -2,7 +2,7 @@
  <div class="reply" id="enabled_<%= reply.id %>">
    <div id="journal_<%= reply.id %>" class="reply-header"  submit_by="<%= reply[:created_by]%>">
     <div style="float:left"></div>
-    <div style="float:left; padding:0 0 0 5px;">
+    <div style="float:left; width: 100%; padding:0 0 0 5px;">
      <h3><%= reply[:reply_person_name]  %></h3>
         <span style="color:#666666;font-style:italic;">
           <%= t(:label_reply_title,:time_distance=>distance_of_time_in_words(Time.now,reply[:created_at]),:date_format=>format_date(reply[:created_at])) %>
