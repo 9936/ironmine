@@ -80,7 +80,7 @@ class Mam::MastersController < ApplicationController
       else
         @master_item = Mam::MasterItem.new()
         @temp_master_id = params[:temp_master_id]
-        format.html { render :action => "new_item" }
+        format.html { render :action => "new_item",:layout => "application_full" }
         format.xml  { render :xml => @master.errors, :status => :unprocessable_entity }
       end
     end
@@ -106,7 +106,7 @@ class Mam::MastersController < ApplicationController
         format.html { redirect_to({:action=>"show", :id => @master.id}, :notice =>t(:successfully_created)) }
         format.xml  { render :xml => @master, :status => :created, :location => @master }
       else
-        format.html { render :action => "new_scs" }
+        format.html { render :action => "new_scs",:layout => "application_full" }
         format.xml  { render :xml => @master.errors, :status => :unprocessable_entity }
       end
     end
@@ -181,7 +181,7 @@ class Mam::MastersController < ApplicationController
       else
         @master_ur = Mam::MasterUr.new()
         @temp_master_id = params[:temp_master_id]
-        format.html { render :action => "new_urs" }
+        format.html { render :action => "new_urs",:layout => "application_full" }
         format.xml  { render :xml => @master.errors, :status => :unprocessable_entity }
       end
     end
