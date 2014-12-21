@@ -196,7 +196,7 @@ class Skm::EntryHeader < ActiveRecord::Base
     #  end
     #end if search_att
 
-    total_records = (search.total > search_att.total) ? search.total : search_att.total
+    #total_records = (search.total > search_att.total) ? search.total : search_att.total
     if total_records > per_page
       offset = 0
       if page > 1
