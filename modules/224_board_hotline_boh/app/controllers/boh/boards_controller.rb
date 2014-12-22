@@ -12,11 +12,8 @@ class Boh::BoardsController < ApplicationController
         select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
         joins(",#{Icm::IncidentCategory.view_name} ic").
         joins(",#{Icm::IncidentStatus.table_name} iis").
-        joins(",icm_support_groups_vl isg").
-        where("isg.language = 'zh'").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
-        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").
@@ -26,9 +23,6 @@ class Boh::BoardsController < ApplicationController
 
     @table_a_open_by_service_desk = Icm::IncidentRequest.enabled.
         joins(",#{Icm::IncidentStatus.view_name} isv").
-        joins(",icm_support_groups_vl isg").
-        where("isg.language = 'zh'").
-        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         select("isv.name status_name, SUM(1) amount, isv.display_color").
         where("isv.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
@@ -38,9 +32,6 @@ class Boh::BoardsController < ApplicationController
 
     @table_a_incident_by_category_open = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").
         select("ic.name category_name, SUM(1) amount").
-        joins(",icm_support_groups_vl isg").
-        where("isg.language = 'zh'").
-        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
@@ -61,12 +52,8 @@ class Boh::BoardsController < ApplicationController
     @today_created = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").
         select("ic.name category_name, #{Icm::IncidentRequest.table_name}.request_number request_number").
         select("ipv.name priority_name").
-        joins(",icm_support_groups_vl isg").
         joins(",icm_priority_codes_vl ipv").
         where("ipv.id = #{Icm::IncidentRequest.table_name}.priority_id").
-        where("ipv.language = 'en'").
-        where("isg.language = 'zh'").
-        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
@@ -78,15 +65,12 @@ class Boh::BoardsController < ApplicationController
         select("ic.name category_name, #{Icm::IncidentRequest.table_name}.request_number request_number").
         select("ipv.name priority_name").
         joins(",#{Icm::IncidentCategory.view_name} ic").
-        joins(",icm_support_groups_vl isg").
         joins(",icm_priority_codes_vl ipv").
         where("ipv.id = #{Icm::IncidentRequest.table_name}.priority_id").
         where("ipv.language = 'en'").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
-        where("isg.language = 'zh'").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
-        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
               (Time.now).strftime('%Y-%m-%d')).
@@ -95,9 +79,6 @@ class Boh::BoardsController < ApplicationController
     @processing_list = []
     @processing_list = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").
         select("ic.name category_name, #{Icm::IncidentRequest.table_name}.request_number request_number, #{Icm::IncidentRequest.table_name}.last_response_date last_response_date").
-        joins(",icm_support_groups_vl isg").
-        where("isg.language = 'zh'").
-        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
@@ -123,28 +104,19 @@ class Boh::BoardsController < ApplicationController
       if update_flag
         today_create = Icm::IncidentRequest.
                         where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", today.strftime('%Y-%m-%d')).
-                        joins(",icm_support_groups_vl isg").
-                        where("isg.language = 'zh'").
-                        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
             where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
                         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
                         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
         today_close = Icm::IncidentRequest.enabled.
             joins(",#{Icm::IncidentCategory.view_name} ic").
-            joins(",icm_support_groups_vl isg").
-            where("isg.language = 'zh'").
             where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
             where("ic.language = 'en'").
-            where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
             where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
             where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
                   today.strftime('%Y-%m-%d')).size
         today_avg_create = Icm::IncidentRequest.
             where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') >= ?", (today - 6.day).strftime('%Y-%m-%d')).
             where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') <= ?", today.strftime('%Y-%m-%d')).
-            joins(",icm_support_groups_vl isg").
-            where("isg.language = 'zh'").
-            where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
             where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
             where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
             where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
@@ -153,13 +125,9 @@ class Boh::BoardsController < ApplicationController
 
         today_avg_close = Icm::IncidentRequest.enabled.
             joins(",#{Icm::IncidentCategory.view_name} ic").
-            joins(",icm_support_groups_vl isg").
             where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
-            where("isg.language = 'zh'").
             where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
             where("ic.language = 'en'").
-            where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-            where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
             where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') >= ?)",
                   (today - 6.day).strftime('%Y-%m-%d')).
             where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') <= ?)",
@@ -196,27 +164,18 @@ class Boh::BoardsController < ApplicationController
 
     today_create = Icm::IncidentRequest.
         where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", Time.now.strftime('%Y-%m-%d')).
-        joins(",icm_support_groups_vl isg").
-        where("isg.language = 'zh'").
-        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
     today_close = Icm::IncidentRequest.enabled.
         joins(",#{Icm::IncidentCategory.view_name} ic").
-        joins(",icm_support_groups_vl isg").
-        where("isg.language = 'zh'").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
-        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
               Time.now.strftime('%Y-%m-%d')).size
     today_avg_create = Icm::IncidentRequest.
         where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') >= ?", (Time.now - 7.day).strftime('%Y-%m-%d')).
-        joins(",icm_support_groups_vl isg").
-        where("isg.language = 'zh'").
-        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
@@ -225,13 +184,9 @@ class Boh::BoardsController < ApplicationController
 
     today_avg_close = Icm::IncidentRequest.enabled.
         joins(",#{Icm::IncidentCategory.view_name} ic").
-        joins(",icm_support_groups_vl isg").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
-        where("isg.language = 'zh'").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
-        where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-        where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') >= ?)",
               (Time.now - 7.day).strftime('%Y-%m-%d')).size
 
