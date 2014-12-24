@@ -10,10 +10,8 @@ class Boh::BoardsController < ApplicationController
     @table_a_open_by_service_desk = []
     @count_new = Icm::IncidentRequest.enabled.
         select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
-        joins(",#{Icm::IncidentCategory.view_name} ic").
+        joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'en'").
         joins(",#{Icm::IncidentStatus.table_name} iis").
-        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
-        where("ic.language = 'en'").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").
@@ -49,39 +47,38 @@ class Boh::BoardsController < ApplicationController
     end
 
     @today_created = []
-    @today_created = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").
+    @today_created = Icm::IncidentRequest.
+        joins("LEFT OUTER JOIN#{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'en'").
+        enabled.
         select("ic.name category_name, #{Icm::IncidentRequest.table_name}.request_number request_number").
         select("ipv.name priority_name").
         joins(",icm_priority_codes_vl ipv").
+        where("ipv.language = 'en'").
         where("ipv.id = #{Icm::IncidentRequest.table_name}.priority_id").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
-        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
-        where("ic.language = 'en'").
         where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", (Time.now).strftime('%Y-%m-%d')).
         order("#{Icm::IncidentRequest.table_name}.submitted_date ASC").
         collect{|a| [a[:request_number], a[:category_name], a[:priority_name]]}
     @today_closed = []
-    @today_closed = Icm::IncidentRequest.enabled.
+    @today_closed = Icm::IncidentRequest.
+        joins("LEFT OUTER JOIN#{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'en'").
+        enabled.
         select("ic.name category_name, #{Icm::IncidentRequest.table_name}.request_number request_number").
         select("ipv.name priority_name").
-        joins(",#{Icm::IncidentCategory.view_name} ic").
         joins(",icm_priority_codes_vl ipv").
         where("ipv.id = #{Icm::IncidentRequest.table_name}.priority_id").
         where("ipv.language = 'en'").
-        where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
-        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
-        where("ic.language = 'en'").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
               (Time.now).strftime('%Y-%m-%d')).
         order("#{Icm::IncidentRequest.table_name}.submitted_date ASC").
         collect{|a| [a[:request_number], a[:category_name], a[:priority_name]]}
     @processing_list = []
-    @processing_list = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").
+    @processing_list = Icm::IncidentRequest.
+        joins("LEFT OUTER JOIN#{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'en'").
+        enabled.
         select("ic.name category_name, #{Icm::IncidentRequest.table_name}.request_number request_number, #{Icm::IncidentRequest.table_name}.last_response_date last_response_date").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
-        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
-        where("ic.language = 'en'").
         where("#{Icm::IncidentRequest.table_name}.incident_status_id NOT IN (?)", ["000K00024DQy5jvCDe45SK"]).
         where("#{Icm::IncidentRequest.table_name}.urgence_id IN (?)", ["000R00012iHAS1p4ZmE8B6","000R00042DtjOeqJARkc5Y"]).
         order("#{Icm::IncidentRequest.table_name}.last_response_date DESC").
@@ -104,13 +101,12 @@ class Boh::BoardsController < ApplicationController
       if update_flag
         today_create = Icm::IncidentRequest.
                         where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", today.strftime('%Y-%m-%d')).
-            where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
+                        where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
                         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
                         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
-        today_close = Icm::IncidentRequest.enabled.
-            joins(",#{Icm::IncidentCategory.view_name} ic").
-            where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
-            where("ic.language = 'en'").
+        today_close = Icm::IncidentRequest.
+            joins("LEFT OUTER JOIN#{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'en'").
+            enabled.
             where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
             where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
                   today.strftime('%Y-%m-%d')).size
@@ -123,11 +119,10 @@ class Boh::BoardsController < ApplicationController
 
         today_avg_create = (today_avg_create.to_f/7).round(2)
 
-        today_avg_close = Icm::IncidentRequest.enabled.
-            joins(",#{Icm::IncidentCategory.view_name} ic").
+        today_avg_close = Icm::IncidentRequest.
+            joins("LEFT OUTER JOIN#{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'en'").
+            enabled.
             where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
-            where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
-            where("ic.language = 'en'").
             where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') >= ?)",
                   (today - 6.day).strftime('%Y-%m-%d')).
             where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') <= ?)",
@@ -167,10 +162,9 @@ class Boh::BoardsController < ApplicationController
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
-    today_close = Icm::IncidentRequest.enabled.
-        joins(",#{Icm::IncidentCategory.view_name} ic").
-        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
-        where("ic.language = 'en'").
+    today_close = Icm::IncidentRequest.
+        joins("LEFT OUTER JOIN#{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'en'").
+        enabled.
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
               Time.now.strftime('%Y-%m-%d')).size
@@ -182,11 +176,10 @@ class Boh::BoardsController < ApplicationController
 
     today_avg_create = (today_avg_create.to_f/7).round(2)
 
-    today_avg_close = Icm::IncidentRequest.enabled.
-        joins(",#{Icm::IncidentCategory.view_name} ic").
+    today_avg_close = Icm::IncidentRequest.
+        joins("LEFT OUTER JOIN#{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'en'").
+        enabled.
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
-        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
-        where("ic.language = 'en'").
         where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') >= ?)",
               (Time.now - 7.day).strftime('%Y-%m-%d')).size
 
