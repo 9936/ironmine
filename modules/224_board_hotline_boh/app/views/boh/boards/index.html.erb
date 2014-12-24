@@ -55,19 +55,9 @@
   <tr>
     <td >
       <% @today_created.each do |tc| %>
-          <% if tc[2].end_with?("Critical")%>
-              <div style="display: inline-block; margin: 10px 5px;font-size: 17px; color:#FF0000">
-                <%= tc[0].to_s%>
-              </div>
-          <% elsif tc[1].end_with?("Maintenance")%>
-              <div style="display: inline-block; margin: 10px 5px;font-size: 17px; color:#0000ff">
-                <%= tc[0].to_s%>
-              </div>
-          <% else %>
-              <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
-                <%= tc[0].to_s%>
-              </div>
-          <% end %>
+          <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
+            <%= tc[0].to_s%>
+          </div>
       <% end %>
     </td>
     <td></td>
@@ -83,19 +73,9 @@
   <tr>
     <td>
       <% @today_closed.each do |tc| %>
-          <% if tc[2].end_with?("Critical")%>
-              <div style="display: inline-block; margin: 10px 5px;font-size: 17px; color:#FF0000">
-                <%= tc[0].to_s%>
-              </div>
-          <% elsif tc[1].end_with?("Maintenance")%>
-              <div style="display: inline-block; margin: 10px 5px;font-size: 17px; color:#0000ff">
-                <%= tc[0].to_s%>
-              </div>
-          <% else %>
-              <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
-                <%= tc[0].to_s%>
-              </div>
-          <% end %>
+          <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
+            <%= tc[0].to_s%>
+          </div>
       <% end %>
     </td>
     <td></td>
