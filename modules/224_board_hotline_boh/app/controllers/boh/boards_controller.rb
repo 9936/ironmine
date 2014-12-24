@@ -8,9 +8,10 @@ class Boh::BoardsController < ApplicationController
     @table_a_incident_by_category_open = []
     @table_a_incident_by_category_total = []
     @table_a_open_by_service_desk = []
-    @count_new = Icm::IncidentRequest.enabled.
-        select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
+    @count_new = Icm::IncidentRequest.
         joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'en'").
+        enabled.
+        select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
         joins(",#{Icm::IncidentStatus.table_name} iis").
         where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
