@@ -158,7 +158,7 @@
               <tr>
                 <td class="label-col"><label>Responsibility</label></td>
                 <td class="data-col">
-                  <%= text_field_tag :responsibility%>
+                  <%=f.select :responsibility, available_lookup_type("MAM_UR_RESPONSIBILITY")%>
                 </td>
                 <td class="label-col"><label>Action</label></td>
                 <td class="data-col">

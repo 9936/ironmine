@@ -280,9 +280,9 @@ class Mam::MastersController < ApplicationController
 
   def get_ur_data
     if params[:real_master_id]
-      master_urs_scope = Mam::MasterUr.select_all.with_action.where("master_id = ? OR master_id = ?", params[:master_id], params[:real_master_id])
+      master_urs_scope = Mam::MasterUr.select_all.with_action.with_responsibility.where("master_id = ? OR master_id = ?", params[:master_id], params[:real_master_id])
     else
-      master_urs_scope = Mam::MasterUr.select_all.with_action.where("master_id = ?", params[:master_id])
+      master_urs_scope = Mam::MasterUr.select_all.with_action.with_responsibility.where("master_id = ?", params[:master_id])
     end
     master_urs_scope,count = paginate(master_urs_scope)
     respond_to do |format|
