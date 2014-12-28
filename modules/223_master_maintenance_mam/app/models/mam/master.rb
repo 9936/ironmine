@@ -71,4 +71,17 @@ class Mam::Master < ActiveRecord::Base
     end
     return false
   end
+
+  def support_group_member_ids
+    return @support_group_member_ids if @support_group_member_ids
+    return nil if self.support_group_id.nil?
+    @support_group_member_ids = Irm::Person.
+        joins(",#{Irm::GroupMember.table_name} gm").
+        joins(",#{Icm::SupportGroup.table_name} sg").
+        where("gm.group_id = sg.group_id").
+        where("gm.person_id = #{Irm::Person.table_name}.id").
+        where("sg.id = ?", self.support_group_id).
+        enabled.collect(&:id)
+  end
+
 end
