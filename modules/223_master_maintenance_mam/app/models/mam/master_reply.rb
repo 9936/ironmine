@@ -27,4 +27,12 @@ class Mam::MasterReply < ActiveRecord::Base
         enabled.collect(&:id)
   end
 
+  def master_support_person_id
+    self.master.support_person_id
+  end
+
+  def master_submitted_by
+    self.master.submitted_by
+  end
+
 end

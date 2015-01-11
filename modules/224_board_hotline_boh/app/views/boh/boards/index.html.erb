@@ -99,6 +99,24 @@
       <% end %>
     </td>
   </tr>
+  <tr style="">
+    <td>
+      <% if @processing_list.first[2] > (Time.now - 30.minutes)%>
+          <div style="background-color: #ffa0a0; width: 80%; padding: 10px 10px;font-size: 18px;">Emergent List</div>
+      <% else %>
+          <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px;font-size: 18px;">Emergent List</div>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <% @processing_list.each do |tc| %>
+          <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
+            <%= tc[0].to_s%>
+          </div>
+      <% end %>
+    </td>
+  </tr>
   </table>
 <script type="text/javascript">
 
