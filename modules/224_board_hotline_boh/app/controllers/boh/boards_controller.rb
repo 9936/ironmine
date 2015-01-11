@@ -46,6 +46,14 @@ class Boh::BoardsController < ApplicationController
       c[2] = '#8E5DE8' if c[0].eql?("Master Maintenance")
       c[2] = '#A9E2E8' if c[0].eql?("EBS")
     end
+    @sla_list = []
+    @sla_list = Icm::IncidentRequest.select("#{Icm::IncidentRequest.table_name}.request_number").
+        enabled.
+        joins(", slm_sla_instances ssi").
+        where("ssi.bo_id = #{Icm::IncidentRequest.table_name}.id").
+        where("ssi.current_status = 'START'").
+        where("(ssi.max_duration - ssi.current_duration) <= (ssi.max_duration * 0.1)").
+        collect{|a| a[:request_number]}
 
     @today_created = []
     @today_created = Icm::IncidentRequest.

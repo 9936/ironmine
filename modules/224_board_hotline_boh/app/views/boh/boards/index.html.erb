@@ -101,18 +101,14 @@
   </tr>
   <tr style="">
     <td>
-      <% if @processing_list.first[2] > (Time.now - 30.minutes)%>
-          <div style="background-color: #ffa0a0; width: 80%; padding: 10px 10px;font-size: 18px;">Emergent List</div>
-      <% else %>
-          <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px;font-size: 18px;">Emergent List</div>
-      <% end %>
+      <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px;font-size: 18px;">SLA Remind</div>
     </td>
   </tr>
   <tr>
     <td>
-      <% @processing_list.each do |tc| %>
+      <% @sla_list.each do |tc| %>
           <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
-            <%= tc[0].to_s%>
+            <%= tc.to_s%>
           </div>
       <% end %>
     </td>
