@@ -188,7 +188,7 @@ class Mam::MastersController < ApplicationController
   end
 
   def add_ur
-    m = Mam::MasterUr.new({:master_id => params[:master_id], :responsibility => params[:responsibility],
+    m = Mam::MasterUr.new({:master_id => params[:master_id], :responsibility => params[:mam_master_ur][:responsibility],
                            :action => params[:mam_master_ur][:action],
                              :start_date => params[:start_date],:end_date => params[:end_date],
                              :remark => params[:mam_master_ur][:remark]})
