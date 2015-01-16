@@ -29,11 +29,24 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
     end
     statis = statis.where("date_format(icm_incident_requests.submitted_date, '%Y-%m-%d') >= ?", Date.strptime("#{start_date}", '%Y-%m-%d').strftime("%Y-%m-%d"))
 
+    ex_attributes = []
     if params[:external_system_id].present? && params[:external_system_id].size > 0 && params[:external_system_id][0].present?
       statis = statis.where("external_system.id IN (?)", params[:external_system_id] + [])
+
+      if params[:external_system_id].present? && params[:external_system_id].size == 1
+        ex_attributes = Irm::ObjectAttribute.multilingual.enabled.
+            where("external_system_id = ?", params[:external_system_id][0]).
+            where("field_type = ?", "SYSTEM_CUX_FIELD").order("display_sequence ASC")
+      end
+
     else
       current_acc_systems = Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id)
       statis = statis.where("external_system.id IN (?)", current_acc_systems + []) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).any?
+      if current_acc_systems.present? && current_acc_systems.size == 1
+        ex_attributes = Irm::ObjectAttribute.multilingual.enabled.
+            where("external_system_id = ?", params[:external_system_id][0]).
+            where("field_type = ?", "SYSTEM_CUX_FIELD").order("display_sequence ASC")
+      end
     end
 
     if params[:status_id].present? && params[:status_id].size > 0 && params[:status_id][0].present?
@@ -41,7 +54,6 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
     end
 
     datas = []
-
 
     headers = [
                 "问题编号",
@@ -57,10 +69,12 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
                 "最后更新时间",
                 "问题分类"
                ]
-
+    ex_attributes.each do |ea|
+      headers << ea[:name]
+    end
    
     statis.each do |s|
-      data = Array.new(12)
+      data = Array.new(12 + ex_attributes.size)
       data[0] = s[:request_number]
       data[1] = s[:submitted_date].strftime("%F %T")
       last_close_journal = Icm::IncidentJournal.
@@ -87,7 +101,11 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
       end
       data[10] = s[:last_response_date].strftime("%F %T")
       data[11] = s[:incident_category_name]
-
+      nc = 12
+      ex_attributes.each do |ea|
+        data[nc] = s[ea[:attribute_name].to_sym]
+        nc = nc + 1
+      end
       datas << data
     end
 
