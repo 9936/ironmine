@@ -77,6 +77,15 @@ Fwk::MenuAndFunctionManager.map do |map|
               :system_flag => "Y",
               "icm/incident_journals" => ["update_additional_info"]
           },
+          :edit_parents_v => {
+              :zh => {:name => "Edit Person Parents", :description => "Edit Person Parents"},
+              :en => {:name => "Edit Person Parents", :description => "Edit Person Parents"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "N",
+              "yan/parent_people" => ["delete_from_parent", "new_from_person","create_from_person","get_owned_parents_data","get_ava_parents_data"]
+          }
       }
   }
 end

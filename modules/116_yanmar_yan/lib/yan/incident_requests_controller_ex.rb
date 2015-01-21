@@ -40,6 +40,11 @@ module Yan::IncidentRequestsControllerEx
             #    @incident_request.person_watchers << watcher
             #  end
             #end
+            parent_list = Yan::ParentPerson.select("parent_person_id").where("person_id = ?", Irm::Person.current.id)
+            parent_list.each do |pl|
+              watcher = Irm::Person.find(pl[:parent_person_id])
+              @incident_request.add_watcher(watcher)
+            end
 
             Icm::IncidentHistory.create({:request_id => @incident_request.id,
                                          :journal_id => "",
@@ -57,7 +62,6 @@ module Yan::IncidentRequestsControllerEx
             format.xml { render :xml => @incident_request, :status => :created, :location => @incident_request }
             format.json { render :json => @incident_request }
           else
-            puts("+++++++++++++++++++++++++++++++++ #{@incident_request.errors.to_json}")
             format.html { render :action => "new", :layout => "application_full" }
             format.xml { render :xml => @incident_request.errors, :status => :unprocessable_entity }
             format.json { render :json => @incident_request.errors, :status => :unprocessable_entity }

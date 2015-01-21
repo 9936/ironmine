@@ -1,0 +1,44 @@
+<%= common_title(:model_meaning => @person[:full_name],:action_meaning=>  "Select Parents") %>
+
+<%= form_for(@parent_person,:url=>{:action=>"create_from_person"},:builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:status_code) %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+
+              <td class="page-block-title">
+                <h2 class="block-title"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2>
+              </td>
+              <td class="page-block-button">
+                <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+                <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class=>"btn cancel")%>
+              </td>
+              <td class="page-block-help">
+                <div id="selectableParentsSearchBox"></div>
+              </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <hr style="margin-top: 0px ;margin-bottom: -1px;">
+        <%= datatable("parentPersonList",{:action=>"get_ava_parents_data",:id=>@person.id},[],{:paginator_box=>"parentPersonPaginator",:search_box=>"selectableParentsSearchBox",:select=>"multiple"})%>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+              <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+              <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class=>"btn cancel")%>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      $("#parentPersonList").bind('selectionchange',function(event,ids){
+          $("#yan_parent_person_status_code").val(ids.join(","));
+      });
+  });
+</script>
