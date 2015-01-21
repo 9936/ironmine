@@ -5,7 +5,6 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
     statis = Icm::IncidentRequest.
         select_all.enabled.
         with_category(I18n.locale).
-        with_sub_category(I18n.locale).
         with_requested_by(I18n.locale).
         with_support_group(I18n.locale).
         with_supporter(I18n.locale).
