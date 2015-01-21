@@ -16,7 +16,7 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
             icm_incident_journals ij1
         WHERE
             ij1.reply_type IN ('OTHER_REPLY' , 'SUPPORTER_REPLY', 'CUSTOMER_REPLY')
-                AND ij1.incident_request_id = ir.id
+                AND ij1.incident_request_id = #{Icm::IncidentRequest.table_name}.id
         ORDER BY ij1.created_at DESC
         LIMIT 1) last_reply").
         select("    (SELECT
@@ -27,7 +27,7 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
         WHERE
             ipj.id = ij2.replied_by
                 AND ij2.reply_type IN ('OTHER_REPLY' , 'SUPPORTER_REPLY', 'CUSTOMER_REPLY')
-                AND ij2.incident_request_id = ir.id
+                AND ij2.incident_request_id = #{Icm::IncidentRequest.table_name}.id
         ORDER BY ij2.created_at DESC
         LIMIT 1) last_person").
         select("(SELECT
@@ -36,7 +36,7 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
             icm_incident_journals ij3
         WHERE
             ij3.reply_type IN ('OTHER_REPLY' , 'SUPPORTER_REPLY', 'CUSTOMER_REPLY')
-                AND ij3.incident_request_id = ir.id
+                AND ij3.incident_request_id = #{Icm::IncidentRequest.table_name}.id
         ORDER BY ij3.created_at DESC
         LIMIT 1) last_date").
         joins(", icm_incident_statuses_vl iisv").
