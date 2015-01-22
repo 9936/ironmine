@@ -5,10 +5,8 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
     statis = Icm::IncidentRequest.
         select_all.enabled.
         with_category(I18n.locale).
-        with_requested_by(I18n.locale).
         with_support_group(I18n.locale).
         with_supporter(I18n.locale).
-        with_external_system(I18n.locale).
         select("iisv.name incident_status_name").
         select("    (SELECT
             ij1.message_body
@@ -38,8 +36,10 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
             ij3.reply_type IN ('OTHER_REPLY' , 'SUPPORTER_REPLY', 'CUSTOMER_REPLY')
                 AND ij3.incident_request_id = #{Icm::IncidentRequest.table_name}.id
         ORDER BY ij3.created_at DESC
-        LIMIT 1) last_date").
+        LIMIT 1) last_date").select("ips.full_name requested_name").select("iesv.system_name external_system_name").
         joins(", icm_incident_statuses_vl iisv").
+        joins(", irm_people ips ").where("ips.id = #{Icm::IncidentRequest.table_name}.submitted_by").
+        joins(", irm_external_systems_vl iesv").where("iesv.language = 'en'").where("#{Icm::IncidentRequest.table_name}.external_system_id = iesv.id").
         where("iisv.language = 'en'").
         where("iisv.incident_status_code <> 'CLOSED'").
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
