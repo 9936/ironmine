@@ -40,7 +40,7 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
         joins(", icm_incident_statuses_vl iisv").
         joins(", irm_people ips ").where("ips.id = #{Icm::IncidentRequest.table_name}.submitted_by").
         joins(", irm_external_systems_vl iesv").where("iesv.language = 'en'").where("#{Icm::IncidentRequest.table_name}.external_system_id = iesv.id").
-        where("iisv.language = 'en'").
+        where("iisv.language = 'en'").where("#{Icm::IncidentRequest.table_name}.incident_status_id = iisv.id").
         where("iisv.incident_status_code <> 'CLOSED'").
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
 
