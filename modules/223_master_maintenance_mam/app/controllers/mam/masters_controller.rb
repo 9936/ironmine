@@ -336,7 +336,11 @@ class Mam::MastersController < ApplicationController
     
     if params[:order_name]
       order_value = params[:order_value] ? params[:order_value] : "DESC"
-      masters_scope = masters_scope.order("#{params[:order_name]} #{order_value}")
+      if params[:order_name].eql("master_number")
+        masters_scope = masters_scope.order("#{params[:order_name]} + 0 #{order_value}")
+      else
+        masters_scope = masters_scope.order("#{params[:order_name]} #{order_value}")
+      end
     else
       masters_scope = masters_scope.order("updated_at DESC")
     end
