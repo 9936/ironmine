@@ -83,7 +83,7 @@
   </tr>
   <tr style="">
     <td>
-      <% if @processing_list.first[2] > (Time.now - 30.minutes)%>
+      <% if @processing_list.present? && @processing_list.first[2] > (Time.now - 30.minutes)%>
           <div style="background-color: #ffa0a0; width: 80%; padding: 10px 10px;font-size: 18px;">Emergent List</div>
       <% else %>
           <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px;font-size: 18px;">Emergent List</div>
