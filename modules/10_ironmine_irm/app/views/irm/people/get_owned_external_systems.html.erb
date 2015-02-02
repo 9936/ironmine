@@ -1,11 +1,10 @@
-<%=datatable_view({:columns=>[:system_name,:system_profile,:system_description],:count=>@count,:datas=>@datas}) do |builder|%>
+<%=datatable_view({:columns=>[:system_name,:system_profile],:count=>@count,:datas=>@datas}) do |builder|%>
   <% unless Irm::Constant::SYS_NO.eql?(params[:editable]) %>
     <% builder.column(:id,{:title=>t(:operation), :width => "30px"}) do |data|%>
       <%= bootstrap_icons("icon-trash", t(:remove), {:controller=>"irm/external_system_members",:action=>"delete_from_person",:external_system_id=>data[:id],:person_id=> @person.id},:confirm => t(:label_are_you_sure) ,:method => :delete) %>
     <% end %>
   <% end %>
   <% builder.column(:system_name,{:title=>t(:label_irm_group_name), :searchable => true})%>
-  <% builder.column(:system_description,{:title=>t(:label_irm_group_description)})%>
   <% builder.column(:system_profile,{:title=>t(:label_irm_profile_system_profile)}) do |data|%>
     <%= profile_name(params[:person_id], data[:id]) %>
   <% end %>
