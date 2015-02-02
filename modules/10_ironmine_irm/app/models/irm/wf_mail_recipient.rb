@@ -12,8 +12,8 @@ class Irm::WfMailRecipient < ActiveRecord::Base
 
 
  scope :query_person_ids,lambda{
-    joins("JOIN #{Irm::Person.relation_view_name} ON  #{Irm::Person.relation_view_name}.source_type = #{table_name}.recipient_type AND #{Irm::Person.relation_view_name}.source_id = #{table_name}.recipient_id").
-        select("#{Irm::Person.relation_view_name}.person_id")
+    joins("JOIN #{Irm::Person.table_name} ON  #{Irm::Person.table_name}.id = #{table_name}.recipient_id").
+        select("#{Irm::Person.table_name}.id person_id")
   }
 
   scope :bo_attribute,lambda{|wf_mail_alert_id|
