@@ -19,6 +19,15 @@ class Yan::CuxTicketsDetailWithSla < Irm::ReportManager::ReportBase
         select("(SELECT COUNT(1) FROM icm_incident_histories iihh WHERE iihh.property_key = 'support_group_id' AND iihh.new_value <> '000Q00091nxNqRI7bBNZXU' AND iihh.request_id = #{Icm::IncidentRequest.table_name}.id) no_sd").
         select("(SELECT ssi1.id FROM slm_sla_instances ssi1, slm_service_agreements_vl ssav1 WHERE ssav1.id = ssi1.service_agreement_id AND ssi1.bo_id = #{Icm::IncidentRequest.table_name}.id AND ssav1.name = '【問合せ】受付遵守率' AND ssav1.external_system_id = #{Icm::IncidentRequest.table_name}.external_system_id ORDER BY ssi1.created_at DESC LIMIT 1) sf").
         select("(SELECT ssi2.id FROM slm_sla_instances ssi2, slm_service_agreements_vl ssav2 WHERE ssav2.id = ssi2.service_agreement_id AND ssi2.bo_id = #{Icm::IncidentRequest.table_name}.id AND ssav2.name = '【問合せ】回答所要時間' AND ssav2.external_system_id = #{Icm::IncidentRequest.table_name}.external_system_id ORDER BY ssi2.created_at DESC LIMIT 1) hd").
+        select("              (SELECT
+                      distinct ircg.name
+                  FROM
+                      irm_rating_config_grades ircg,
+                      irm_ratings irt
+                  WHERE
+                      irt.rating_object_id = #{Icm::IncidentRequest.table_name}.id
+                          AND irt.grade = ircg.grade
+                          AND ircg.rating_config_id = '004M00091pvgVjGtZKQowS') `rating`").
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
 
     if params[:end_date].present?
@@ -68,7 +77,7 @@ class Yan::CuxTicketsDetailWithSla < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_report_source_code),
                "【問合せ】受付遵守率",
                "【問合せ】回答所要時間",
-               "SD Only"
+               "SD Only","Rating"
                ]
 
     ex_attributes.each do |ea|
@@ -81,7 +90,7 @@ class Yan::CuxTicketsDetailWithSla < Irm::ReportManager::ReportBase
     end 
    
     statis.each do |s|
-      data = Array.new(22 + ex_attributes.size)
+      data = Array.new(23 + ex_attributes.size)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
@@ -121,15 +130,24 @@ class Yan::CuxTicketsDetailWithSla < Irm::ReportManager::ReportBase
       data[19] = ""
       if s[:sf].present?
         si = Slm::SlaInstance.find(s[:sf])
-        data[19] = si.current_duration.to_i+si.working_time(si.service_agreement,si.last_phase_start_date,Time.zone.now)
+        if !si.current_status.eql?("RUNNING")
+          data[19] = "#{si.current_duration.to_s}/#{si.max_duration.to_s}"
+        else
+          data[19] = "#{si.current_duration.to_i+si.working_time(si.service_agreement,si.last_phase_start_date,Time.now)}/#{si.max_duration.to_s}"
+        end
       end
       data[20] = ""
       if s[:hd].present?
         si = Slm::SlaInstance.find(s[:hd])
-        data[20] = si.current_duration.to_i+si.working_time(si.service_agreement,si.last_phase_start_date,Time.zone.now)
+        if !si.current_status.eql?("RUNNING")
+          data[20] = "#{si.current_duration.to_s}/#{si.max_duration.to_s}"
+        else
+          data[20] = "#{si.current_duration.to_i+si.working_time(si.service_agreement,si.last_phase_start_date,Time.now)}/#{si.max_duration.to_s}"
+        end
       end
       data[21] = s[:no_sd].to_i > 0 ? 'N' : 'Y'
-      nc = 22
+      data[22] = s[:rating]
+      nc = 23
       ex_attributes.each do |ea|
         data[nc] = s[ea[:attribute_name].to_sym]
         nc = nc + 1
