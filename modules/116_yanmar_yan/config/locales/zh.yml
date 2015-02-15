@@ -1,7 +1,8 @@
 zh:
   label_icm_incident_request_urgence: 代替手段有无
   label_icm_incident_request_urgence_code: 代替手段有无
-
+  label_icm_incident_request_impact_range_code: Severity
+  label_icm_incident_request_impact_range: Severity
   label_yan_edit_additional_info_form: 附加信息
 
   label_yan_edit_workload: 编辑工时
