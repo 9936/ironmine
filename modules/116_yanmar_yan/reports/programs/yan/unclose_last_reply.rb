@@ -13,7 +13,7 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
         FROM
             icm_incident_journals ij1
         WHERE
-            ij1.reply_type IN ('OTHER_REPLY' , 'SUPPORTER_REPLY', 'CUSTOMER_REPLY')
+            LENGTH(ij1.message_body) > 0 AND ij1.message_body <> 'System Auto Assign'
                 AND ij1.incident_request_id = #{Icm::IncidentRequest.table_name}.id
         ORDER BY ij1.created_at DESC
         LIMIT 1) last_reply").
@@ -24,7 +24,7 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
             irm_people ipj
         WHERE
             ipj.id = ij2.replied_by
-                AND ij2.reply_type IN ('OTHER_REPLY' , 'SUPPORTER_REPLY', 'CUSTOMER_REPLY')
+                 AND LENGTH(ij2.message_body) > 0 AND ij2.message_body <> 'System Auto Assign'
                 AND ij2.incident_request_id = #{Icm::IncidentRequest.table_name}.id
         ORDER BY ij2.created_at DESC
         LIMIT 1) last_person").
@@ -33,7 +33,7 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
         FROM
             icm_incident_journals ij3
         WHERE
-            ij3.reply_type IN ('OTHER_REPLY' , 'SUPPORTER_REPLY', 'CUSTOMER_REPLY')
+            LENGTH(ij3.message_body) > 0 AND ij3.message_body <> 'System Auto Assign'
                 AND ij3.incident_request_id = #{Icm::IncidentRequest.table_name}.id
         ORDER BY ij3.created_at DESC
         LIMIT 1) last_date").select("ips.full_name requested_name").select("iesv.system_name external_system_name").
