@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
@@ -13,7 +14,7 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
         FROM
             icm_incident_journals ij1
         WHERE
-            LENGTH(ij1.message_body) > 0 AND ij1.message_body <> 'System Auto Assign'
+            LENGTH(ij1.message_body) > 0 AND ij1.message_body <> 'System Auto Assign' AND ij1.message_body <> '割当ダッシュボード別に割当' AND ij1.message_body <> '分配工作台分派'
                 AND ij1.incident_request_id = #{Icm::IncidentRequest.table_name}.id
         ORDER BY ij1.created_at DESC
         LIMIT 1) last_reply").
@@ -24,7 +25,7 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
             irm_people ipj
         WHERE
             ipj.id = ij2.replied_by
-                 AND LENGTH(ij2.message_body) > 0 AND ij2.message_body <> 'System Auto Assign'
+                 AND LENGTH(ij2.message_body) > 0 AND ij2.message_body <> 'System Auto Assign' AND ij2.message_body <> '割当ダッシュボード別に割当' AND ij2.message_body <> '分配工作台分派'
                 AND ij2.incident_request_id = #{Icm::IncidentRequest.table_name}.id
         ORDER BY ij2.created_at DESC
         LIMIT 1) last_person").
@@ -33,7 +34,7 @@ class Yan::UncloseLastReply < Irm::ReportManager::ReportBase
         FROM
             icm_incident_journals ij3
         WHERE
-            LENGTH(ij3.message_body) > 0 AND ij3.message_body <> 'System Auto Assign'
+            LENGTH(ij3.message_body) > 0 AND ij3.message_body <> 'System Auto Assign' AND ij3.message_body <> '割当ダッシュボード別に割当' AND ij3.message_body <> '分配工作台分派'
                 AND ij3.incident_request_id = #{Icm::IncidentRequest.table_name}.id
         ORDER BY ij3.created_at DESC
         LIMIT 1) last_date").select("ips.full_name requested_name").select("iesv.system_name external_system_name").
