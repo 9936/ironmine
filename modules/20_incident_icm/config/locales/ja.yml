@@ -356,7 +356,7 @@ ja:
   label_icm_report_create_time_range: 创建时间
   label_icm_report_update_time_range: 最后更新时间
   label_icm_incident_request_request_number_alias: Ticket No
-  label_icm_incident_request_submitted_date: Ticket创建时间
+  label_icm_incident_request_submitted_date: Ticket作成日
   label_icm_incident_request_last_response_date: Ticket最后更新时间
   label_icm_incident_request_status: Status
   label_icm_incident_request_support_person: Supporter
