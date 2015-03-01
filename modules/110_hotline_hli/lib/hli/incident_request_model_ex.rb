@@ -31,6 +31,35 @@ module Hli::IncidentRequestModelEx
             where("incident_request_id = ?", self.id).
             group("person_id, incident_request_id, workload_type")
       end
+
+      searchable :auto_index => true, :auto_remove => true do
+        string :id
+        text :title, :stored => true, :boost => 2.5 do
+          strip_tags(title)
+        end
+        text :summary, :stored => true, :boost => 2.0 do
+          strip_tags(summary)
+        end
+        text :request_number, :boost => 3.0
+        text :journals_content,:stored => true do
+          incident_journals.map(&:message_body)
+        end
+        text :support_person_name,:stored => true do
+          Irm::Person.find(support_person_id).full_name if support_person_id.present?
+        end
+        text :incident_category_name,:stored => true do
+          Icm::IncidentCategoriesTl.where(:incident_category_id => incident_category_id).map { |category| category.name } if incident_category_id.present?
+        end
+        text :incident_sub_category_name,:stored => true do
+          Icm::IncidentSubCategoriesTl.where(:incident_sub_category_id => incident_sub_category_id).map { |category| category.name } if incident_sub_category_id.present?
+        end
+        string :external_system_id
+        text :reply_person_name, :stored => true do
+          incident_journals.with_replied_by.map(&:replied_name) if incident_journals.any?
+        end
+
+        time :updated_at
+      end
     end
   end
 end
