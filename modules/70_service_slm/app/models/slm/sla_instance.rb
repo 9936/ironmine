@@ -90,14 +90,18 @@ class Slm::SlaInstance < ActiveRecord::Base
   #生成新的计时阶段
   def calculate_phase(sa, action)
     if action.eql?("START")
+      Rails.logger.info "START:#{self.bo_id}=========================2:#{Time.zone}"
       new_sip = self.sla_instance_phases.build(:start_at => Time.zone.now, :phase_type => "START", :duration => 0)
       self.last_phase_start_date = new_sip.start_at
+      Rails.logger.info "START:#{self.bo_id}=========================2:#{new_sip.start_at}"
       self.last_phase_type = "START"
       self.current_status = "START"
     elsif action.eql?("PAUSE")
+      Rails.logger.info "PAUSE:#{self.bo_id}=========================3:#{Time.zone}"
       sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?&&i.phase_type.eql?("START")}
       return unless sip.present?
       sip.end_at = Time.zone.now
+      Rails.logger.info "PAUSE:#{self.bo_id}=========================3:#{sip.end_at}"
       sip.save
       sip.duration = self.working_time(sa,sip.start_at, sip.end_at)
       self.current_duration = self.current_duration+sip.duration
@@ -108,9 +112,11 @@ class Slm::SlaInstance < ActiveRecord::Base
       sip.save
 
     elsif action.eql?("RESTART")
+      Rails.logger.info "RESTART:#{self.bo_id}=========================4:#{Time.zone}"
       sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?&&i.phase_type.eql?("PAUSE")}
       return unless sip.present?
       sip.end_at = Time.zone.now
+      Rails.logger.info "RESTART:#{self.bo_id}=========================4:#{sip.end_at}"
       sip.save
       sip.duration = self.working_time(sa,sip.start_at, sip.end_at)
       new_sip = self.sla_instance_phases.build(:start_at => Time.zone.now, :phase_type => "START", :duration => 0)
@@ -119,9 +125,11 @@ class Slm::SlaInstance < ActiveRecord::Base
       self.current_status = "START"
       sip.save
     elsif action.eql?("STOP")
+      Rails.logger.info "STOP:#{self.bo_id}=========================5:#{Time.zone}"
       sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?}
       return unless sip.present?
       sip.end_at = Time.zone.now
+      Rails.logger.info "STOP:#{self.bo_id}=========================5:#{sip.end_at}"
       sip.save
       sip.duration = self.working_time(sa,sip.start_at, sip.end_at)
       if sip.phase_type.eql?("START")
@@ -134,9 +142,11 @@ class Slm::SlaInstance < ActiveRecord::Base
       sip.save
 
     elsif action.eql?("CANCEL")
+        Rails.logger.info "CANCEL:#{self.bo_id}=========================6:#{Time.zone}"
         sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?}
         return unless sip.present?
         sip.end_at = Time.zone.now
+        Rails.logger.info "CANCEL:#{self.bo_id}=========================6:#{sip.end_at}"
         sip.save
         sip.duration = self.working_time(sa,sip.start_at, sip.end_at)
         if sip.phase_type.eql?("START")
