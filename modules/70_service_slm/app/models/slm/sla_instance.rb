@@ -129,6 +129,7 @@ class Slm::SlaInstance < ActiveRecord::Base
       sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?}
       return unless sip.present?
       sip.end_at = Time.zone.now
+      Rails.logger.info "STOP:#{self.bo_id}=========================5:#{sip.start_at}"
       Rails.logger.info "STOP:#{self.bo_id}=========================5:#{sip.end_at}"
       sip.save
       sip.duration = self.working_time(sa,sip.start_at, sip.end_at)
@@ -146,6 +147,7 @@ class Slm::SlaInstance < ActiveRecord::Base
         sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?}
         return unless sip.present?
         sip.end_at = Time.zone.now
+        Rails.logger.info "CANCEL:#{self.bo_id}=========================6:#{sip.start_at}"
         Rails.logger.info "CANCEL:#{self.bo_id}=========================6:#{sip.end_at}"
         sip.save
         sip.duration = self.working_time(sa,sip.start_at, sip.end_at)
