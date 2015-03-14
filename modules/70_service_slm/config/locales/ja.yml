@@ -169,3 +169,12 @@ ja:
   label_slm_calendar_item_tips_scedule_no: Plase new a shedule at first.
   label_slm_calendar_item_tips_scedule_delete_confirm: Are you sure to delete
   #========================= end calendar=======================#
+  #========================= start sla_instance=======================#
+  label_slm_sla_instance_title: Service agreement
+  label_slm_sla_instance_name: Name
+  label_slm_sla_instance_current_status: Status
+  label_slm_sla_instance_current_duration: Duration
+  label_slm_sla_instance_max_duration: Max(min)
+  label_slm_sla_instance_start_at: Start
+  label_slm_sla_instance_end_at: End
+  #========================= end sla_instance=======================#

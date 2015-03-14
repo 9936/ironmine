@@ -175,7 +175,7 @@ zh:
   label_slm_sla_instance_name: 名称
   label_slm_sla_instance_current_status: 状态
   label_slm_sla_instance_current_duration: 耗时
-  label_slm_sla_instance_max_duration: 最大耗时
+  label_slm_sla_instance_max_duration: 最大耗时(min)
   label_slm_sla_instance_start_at: 开始时间
   label_slm_sla_instance_end_at: 结束时间
   #========================= end sla_instance=======================#

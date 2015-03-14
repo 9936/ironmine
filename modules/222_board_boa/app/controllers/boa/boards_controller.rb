@@ -90,7 +90,7 @@ class Boa::BoardsController < ApplicationController
         where("isg.name = 'Service Desk'").
         where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
               (Time.now).strftime('%Y-%m-%d')).
-        order("#{Icm::IncidentRequest.table_name}.submitted_date ASC").
+        order("#{Icm::IncidentRequest.table_name}.last_response_date ASC").
         collect{|a| [a[:request_number], a[:category_name], a[:priority_name]]}
     @processing_list = []
     @processing_list = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").
