@@ -8,7 +8,7 @@ class Irm::EventManager
       timestamp = Time.now
       # 当产生更新事件时,被修改属性的trigger_flag必须为Y
       if "UPDATE".eql?(event_type)
-        timestamp = 1.minutes.from_now
+        timestamp = 40.seconds.from_now
         return unless (bo_instance.event_change_attributes.keys&Irm::ObjectAttribute.where(:business_object_id=>bo.id,:trigger_flag=>Irm::Constant::SYS_YES,:attribute_type=>"TABLE_COLUMN").collect{|i| i.attribute_name}).any?
         bo_instance.event_change_attributes = {}
       end
