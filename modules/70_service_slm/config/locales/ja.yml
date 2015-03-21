@@ -174,7 +174,7 @@ ja:
   label_slm_sla_instance_name: Name
   label_slm_sla_instance_current_status: Status
   label_slm_sla_instance_current_duration: Duration
-  label_slm_sla_instance_max_duration: Max(min)
+  label_slm_sla_instance_max_duration: (min)
   label_slm_sla_instance_start_at: Start
   label_slm_sla_instance_end_at: End
   #========================= end sla_instance=======================#
