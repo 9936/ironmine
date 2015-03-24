@@ -424,7 +424,6 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   def assign_request
-
     incident_requests = []
     params[:incident_request_ids].split(",").each do |icid|
       incident_requests << Icm::IncidentRequest.query(icid).first
@@ -433,21 +432,25 @@ class Icm::IncidentRequestsController < ApplicationController
     force_assign = false
     force_assign = params[:force_assign] if params[:force_assign]
     incident_requests.each do |req|
+      timestamp = Time.now
+      if Time.now - req.created_at < 1.minutes
+        timestamp = timestamp + 1.minutes
+      end
       if params[:support_group_id].present?
         if params[:support_person_id]
           Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id, {:support_group_id => params[:support_group_id],
                                                                           :support_person_id => params[:support_person_id],
                                                                           :assign_dashboard => true,
                                                                           :force_assign => force_assign,
-                                                                          :assign_dashboard_operator => Irm::Person.current.id}))
+                                                                          :assign_dashboard_operator => Irm::Person.current.id}), 0,timestamp)
         else
           Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id, {:support_group_id => params[:support_group_id],
                                                                           :assign_dashboard => true,
                                                                           :force_assign => force_assign,
-                                                                          :assign_dashboard_operator => Irm::Person.current.id}))
+                                                                          :assign_dashboard_operator => Irm::Person.current.id}), 0,timestamp)
         end
       else
-        Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id, {}))
+        Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id, {}), 0,timestamp)
       end
     end
     @count = incident_requests.size
