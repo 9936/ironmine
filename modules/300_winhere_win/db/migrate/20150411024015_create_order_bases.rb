@@ -41,6 +41,6 @@ class CreateOrderBases < ActiveRecord::Migration
     end
     change_column :win_order_bases, "id", :string,:limit=>22, :collate=>"utf8_bin"
 
-    add_index "win_order_bases", ["customer_code", "yh_number"], :name => "WIN_ORDER_BASES_N1"
+    add_index "win_order_bases", ["cus_code", "yh_number"], :name => "WIN_ORDER_BASES_N1"
   end
 end
