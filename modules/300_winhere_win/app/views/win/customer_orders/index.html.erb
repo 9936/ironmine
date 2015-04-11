@@ -5,7 +5,7 @@
       <table class="page-block-header">
         <tr>
           <td class="page-block-title">
-            <h2 class="block-title"><%= t(:label_irm_order_basis_import) %></h2>
+            <h2 class="block-title"><%= t(:label_win_customer_order_import) %></h2>
           </td>
         </tr>
       </table>
@@ -17,15 +17,16 @@
       <table class="page-block-header" style="margin-top: 30px; border-top: 3px solid #1797C0;">
         <tr>
           <td class="page-block-title">
-            <h2 class="block-title"><%= t(:label_irm_order_basis_list) %></h2>
+            <h2 class="block-title"><%= t(:label_win_customer_order_list) %></h2>
           </td>
         </tr>
       </table>
 
       <div class="page-block-body">
-        <%= datatable("order_bases", {:action => "get_data"}, [], {:paginator_box => 'paginatorBox', :view_filter => true, :scroll => "x"}) %>
+        <%= datatable("customer_orders", {:action => "get_data"}, [], {:paginator_box => 'paginatorBox', :scroll => "x"}) %>
       </div>
 
     </div>
 <% end %>
+
 

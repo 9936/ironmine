@@ -12,6 +12,7 @@ class Win::OrderBase < ActiveRecord::Base
     where("#{table_name}.cus_code =? AND yh_number=?", cus_code, yh_number)
   }
 
+
   def self.import(file)
     spreadsheet = open_spreadsheet(file)
     (2..spreadsheet.last_row).each do |i|

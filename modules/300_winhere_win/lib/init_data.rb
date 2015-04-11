@@ -7,6 +7,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "win/order_bases" => ["index"],
               "win/order_bases" => ["import"],
               "win/order_bases" => ["get_data"],
+              "win/customer_orders" => ["index", "import", "get_data"]
           }
       }
   }

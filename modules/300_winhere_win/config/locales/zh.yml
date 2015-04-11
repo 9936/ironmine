@@ -2,3 +2,10 @@ zh:
   label_win_order_basis: Order Base
   label_irm_order_basis_import: 导入
   label_irm_order_basis_list: 列表
+
+  label_win_customer_order: 客户订单
+  label_win_customer_order_import: 导入订单
+  label_win_customer_order_list: 订单检查结果
+  label_win_customer_check_errors_no_orderbase: 没有对应的Order Base
+  label_win_customer_check_errors_per_price: 价格错误
+  label_win_customer_check_errors_cost: 总价错误

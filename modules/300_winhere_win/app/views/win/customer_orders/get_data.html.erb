@@ -1,0 +1,17 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:vendor_number,{:title=>"Vendor Number"})%>
+  <% builder.column(:purchase_order,{:title=>"Purchase Order"})%>
+  <% builder.column(:po_line_number,{:title=>"PO Line Number"})%>
+  <% builder.column(:part_number,{:title=>"Part Number"})%>
+  <% builder.column(:vendor_part_number,{:title=>"Vendor Part Number"})%>
+  <% builder.column(:quantity,{:title=>"Outstanding Quantity"})%>
+  <% builder.column(:deliver_date,{:title=>"Delivery Date"})%>
+  <% builder.column(:reschedule_due_date,{:title=>"Reschedule Due Date"})%>
+  <% builder.column(:po_created_date,{:title=>"PO Creation Date"})%>
+  <% builder.column(:purchase_price,{:title=>"Purchase Price"})%>
+  <% builder.column(:extended_cost,{:title=>"Extended Cost"})%>
+  <% builder.column(:error_message,{:title=>"错误消息", :width => "200px"})%>
+  <% builder.row do |data|%>
+    style="background-color:<%=display_color(data[:success_flag])%>;color:<%=get_contrast_yiq(display_color(data[:success_flag]))%>;"
+  <% end %>
+<% end %>
