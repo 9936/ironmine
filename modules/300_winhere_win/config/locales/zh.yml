@@ -1,2 +1,4 @@
 zh:
-  hello: Hello
+  label_win_order_basis: Order Base
+  label_irm_order_basis_import: 导入
+  label_irm_order_basis_list: 列表

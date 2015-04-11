@@ -1,0 +1,28 @@
+<%= common_title %>
+<!--页面结构-->
+<div class="page-block" id="order-bases">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_order_basis_import) %></h2>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= form_tag("/order_bases/import?_dom_id=order-bases", multipart: true) do %>
+      <%= file_field_tag :file %>
+      <%= submit_tag "导入文件" ,:class=>"btn btn-primary" %>
+    <% end %>
+  </div>
+
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_order_basis_list) %></h2>
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+
