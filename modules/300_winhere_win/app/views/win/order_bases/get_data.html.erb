@@ -1,6 +1,38 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
-    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
-    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
-  <% end %>
-  <% end %>
+  <% builder.column(:cus_code,{:title=>"客户号"})%>
+  <% builder.column(:cus_replace_code,{:title=>"替代"})%>
+  <% builder.column(:yh_number,{:title=>"YH号"})%>
+  <% builder.column(:yh_replace_number,{:title=>"替代"})%>
+  <% builder.column(:box_per_count,{:title=>"一盒几件"})%>
+  <% builder.column(:basic_count,{:title=>"标准托信息"})%>
+
+  <% builder.column(:put_type,{:title=>"摆放方式（裸装）"})%>
+  <% builder.column(:layers_count,{:title=>"层数"})%>
+  <% builder.column(:material,{:title=>"材质 （当前）"})%>
+  <% builder.column(:art_type,{:title=>"加工工艺 车削/磨削"})%>
+  <% builder.column(:bp,{:title=>"是否喷涂"})%>
+  <% builder.column(:basic_price,{:title=>"基础价"})%>
+
+  <% builder.column(:basic_bolt_price,{:title=>"基础价+螺钉"})%>
+  <% builder.column(:basic_bp_price,{:title=>"基础价+喷涂"})%>
+  <% builder.column(:basic_bolt_bp_price,{:title=>"基础价+喷涂+螺钉"})%>
+  <% builder.column(:bp_per_price,{:title=>"每片喷涂价格"})%>
+  <% builder.column(:info_flag,{:title=>"不干胶信息有无"})%>
+  <% builder.column(:kba_code,{:title=>"KBA Code"})%>
+
+  <% builder.column(:kba_type,{:title=>"KBA Type"})%>
+  <% builder.column(:type_code,{:title=>"类别代码"})%>
+  <% builder.column(:package,{:title=>"包装"})%>
+  <% builder.column(:dolt_type,{:title=>"螺钉型号"})%>
+  <% builder.column(:dolt_number,{:title=>"螺钉数量"})%>
+  <% builder.column(:dolt_per_price,{:title=>"螺钉价格/个"})%>
+
+  <% builder.column(:dolt_yh_per_price,{:title=>"每个型号的螺钉费用"})%>
+  <% builder.column(:dolt_info,{:title=>"螺钉信息（包装科用）"})%>
+  <% builder.column(:paper_flag,{:title=>"图纸信息"})%>
+  <% builder.column(:gan_flag,{:title=>"有无不干胶"})%>
+  <% builder.column(:paper_judge_flag,{:title=>"图纸判断"})%>
+  <% builder.column(:order_suffix,{:title=>"订单后缀"})%>
+  <% builder.column(:priority,{:title=>"优先级"})%>
+  <% builder.column(:priority_change,{:title=>"优先级转换"})%>
+<% end %>

@@ -23,6 +23,10 @@
     </tr>
   </table>
 
+  <div class="page-block-body">
+    <%= datatable("requests",{:action=>"get_data"},[],{:paginator_box=>'paginatorBox',:view_filter=>true,:scroll=>"xy"})%>
+  </div>
+
 </div>
 
 

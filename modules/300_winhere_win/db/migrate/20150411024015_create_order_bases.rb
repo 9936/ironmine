@@ -34,6 +34,7 @@ class CreateOrderBases < ActiveRecord::Migration
       t.string   "order_suffix", :limit => 60
       t.string   "priority", :limit => 30
       t.string   "priority_change", :limit => 30
+      t.string   "status_code",    :limit => 30, :default => "ENABLED", :null => false
       t.string   "created_by",    :limit => 22, :collate=>"utf8_bin"
       t.string   "updated_by",    :limit => 22, :collate=>"utf8_bin"
       t.datetime "created_at"
