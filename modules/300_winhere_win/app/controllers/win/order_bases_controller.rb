@@ -7,7 +7,7 @@ class Win::OrderBasesController < ApplicationController
 
   def import
     Win::OrderBase.import(params[:file])
-
+    redirect_to({:controller => "win/order_bases",:action => "index"})
   end
 
 
