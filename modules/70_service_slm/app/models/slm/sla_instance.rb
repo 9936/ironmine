@@ -26,7 +26,7 @@ class Slm::SlaInstance < ActiveRecord::Base
   }
 
   scope :with_detail,lambda{|language|
-    select("#{table_name}.*").with_current_status(language).with_service_agreement(language).order(" #{table_name}.created_by desc")
+    select("#{table_name}.*").with_current_status(language).with_service_agreement(language).order(" #{table_name}.created_at ASC")
   }
 
   def self.start(sa, options={})
