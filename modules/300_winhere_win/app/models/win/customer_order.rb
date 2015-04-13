@@ -27,28 +27,32 @@ class Win::CustomerOrder < ActiveRecord::Base
 
   def self.import(file)
     spreadsheet = open_spreadsheet(file)
-    batch_number = Time.now.to_i
-    (2..spreadsheet.last_row).each do |i|
-      row = spreadsheet.row(i)
-      if row.present?
-        customer_order = new(:batch_number => batch_number)
-        customer_order.vendor_number = row[0]
-        customer_order.purchase_order = row[1]
-        customer_order.po_line_number = row[2]
-        customer_order.part_number = row[3]
-        customer_order.vendor_part_number = row[4]
-        customer_order.quantity = row[5]
-        customer_order.deliver_date = row[6]
-        customer_order.reschedule_due_date = row[7]
-        customer_order.po_created_date = row[8]
-        customer_order.purchase_price = row[9]
-        customer_order.extended_cost = row[10]
-        if customer_order.save
-          customer_order.check
+    header = spreadsheet.row(1)
+    if header.present? and header.size == 9
+      batch_number = Time.now.to_i
+      (2..spreadsheet.last_row).each do |i|
+        row = spreadsheet.row(i)
+        if row.present?
+          customer_order = new(:batch_number => batch_number)
+          customer_order.vendor_number = row[0]
+          customer_order.purchase_order = row[1]
+          customer_order.po_line_number = row[2]
+          customer_order.part_number = row[3]
+          customer_order.vendor_part_number = row[4]
+          customer_order.quantity = row[5]
+          customer_order.deliver_date = row[6]
+          customer_order.reschedule_due_date = row[7]
+          customer_order.po_created_date = row[8]
+          customer_order.purchase_price = row[9]
+          customer_order.extended_cost = row[10]
+          if customer_order.save
+            customer_order.check
+          end
         end
 
       end
-
+    else
+      puts "=========================The template error."
     end
   end
 

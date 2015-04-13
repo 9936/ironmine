@@ -9,6 +9,9 @@
           </td>
         </tr>
       </table>
+      <% if notice %>
+        <div class="alert alert-success">数据导入成功。</div>
+      <% end %>
       <div class="page-block-body" style="padding-left:15px;">
         <%= input_file_tag :file %>
         <%= submit_tag "导入文件", :class => "btn btn-primary" %>

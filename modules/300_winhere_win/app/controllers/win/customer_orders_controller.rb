@@ -7,7 +7,7 @@ class Win::CustomerOrdersController < ApplicationController
 
   def import
     Win::CustomerOrder.import(params[:file])
-    redirect_to({:controller => "win/customer_orders",:action => "index"})
+    redirect_to({:controller => "win/customer_orders",:action => "index"}, notice: "Success.")
   end
 
 
