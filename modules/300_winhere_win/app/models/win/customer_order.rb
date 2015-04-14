@@ -28,7 +28,6 @@ class Win::CustomerOrder < ActiveRecord::Base
   def self.import(file)
     spreadsheet = open_spreadsheet(file)
     header = spreadsheet.row(1)
-    if header.present? and header.size == 9
       batch_number = Time.now.to_i
       (2..spreadsheet.last_row).each do |i|
         row = spreadsheet.row(i)
@@ -51,9 +50,6 @@ class Win::CustomerOrder < ActiveRecord::Base
         end
 
       end
-    else
-      puts "=========================The template error."
-    end
   end
 
 
