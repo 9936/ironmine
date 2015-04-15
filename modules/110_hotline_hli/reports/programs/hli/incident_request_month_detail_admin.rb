@@ -4,7 +4,7 @@ class Hli::IncidentRequestMonthDetailAdmin < Irm::ReportManager::ReportBase
     params||={}
 
     statis = Icm::IncidentRequest.
-        select_all.enabled.with_workloads.with_workloads_remote.with_workloads_scene.
+        select_all.select("#{Icm::IncidentRequest.table_name}.attribute6 charging_time").enabled.with_workloads.with_workloads_remote.with_workloads_scene.
         with_category(I18n.locale).
         with_requested_by(I18n.locale).
         with_incident_status(I18n.locale).
@@ -50,13 +50,13 @@ class Hli::IncidentRequestMonthDetailAdmin < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_client_info),
                I18n.t(:label_icm_incident_request_incident_status_code),
                I18n.t(:label_report_request_workload),"远程工时","现场工时",
-               "First Assign","Out of SLA","用户打分"
+               "First Assign","Out of SLA","用户打分","Charging Time"
                ]
     headers << I18n.t(:label_report_incident_request_journal) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
 
     statis.each do |s|
-      data = Array.new(21)
-      data = Array.new(22) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
+      data = Array.new(22)
+      data = Array.new(23) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
       data[0] = s[:request_number]
       data[1] = s[:external_system_name]
       data[2] = s[:requested_name]
@@ -105,12 +105,17 @@ class Hli::IncidentRequestMonthDetailAdmin < Irm::ReportManager::ReportBase
         data[20] = ""
       end
 
+      if s.charging_time.present?
+        data[21] = s.charging_time.to_s
+      else
+        data[21] = ""
+      end
 
       if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
         messages = ''
         messages << s.concat_journals_with_text
         messages = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(messages,""))
-        data[21] = messages
+        data[22] = messages
       end
       datas << data
     end
