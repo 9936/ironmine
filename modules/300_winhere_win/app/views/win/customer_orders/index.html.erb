@@ -1,0 +1,40 @@
+<%= common_title %>
+<!--页面结构-->
+<%= form_tag({:action => "import"}, :id => "file_form", :name => "file_form", :multipart => true, :builder => CustomFormBuilder) do %>
+    <div class="page-block" id="order-bases">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_win_customer_order_import) %></h2>
+          </td>
+        </tr>
+      </table>
+      <% if notice %>
+        <div class="alert alert-success">数据导入成功。</div>
+      <% end %>
+      <div class="page-block-body" style="padding-left:15px;">
+        <%= input_file_tag :file %>
+        <%= submit_tag "导入文件", :class => "btn btn-primary" %>
+      </div>
+
+      <table class="page-block-header" style="margin-top: 30px; border-top: 3px solid #1797C0;">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_win_customer_order_list) %></h2>
+          </td>
+          <td class="page-block-button"></td>
+          <td class="page-block-help">
+            <span class="label label-success">绿色表示检查通过</span>
+            <span class="label label-important">红色表示检查未通过</span>
+          </td>
+        </tr>
+      </table>
+
+      <div class="page-block-body">
+        <%= datatable("customer_orders", {:action => "get_data"}, [], {:paginator_box => 'paginatorBox', :scroll => "x"}) %>
+      </div>
+
+    </div>
+<% end %>
+
+

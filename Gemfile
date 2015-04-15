@@ -21,6 +21,7 @@ gem "daemons", '1.1.4'
 gem "net-ldap", '0.2.2'
 
 gem "spreadsheet", '0.6.5.9'
+gem 'roo'
 
 gem "rufus-scheduler", '2.0.10'
 
