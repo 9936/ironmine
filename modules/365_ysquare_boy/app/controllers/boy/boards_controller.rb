@@ -102,9 +102,7 @@ class Boy::BoardsController < ApplicationController
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
         where("#{Icm::IncidentRequest.table_name}.incident_status_id IN (?)", ["000K00091nRTl3hfwbJuHg","000K00091oEOpAuVx0QTVQ", "000K00091nRTl3hfuk332W"]).
-        order("#{Icm::IncidentRequest.table_name}.last_response_date DESC")
-    puts "==============" + @processing_list.to_sql
-    @processing_list = @processing_list.
+        order("#{Icm::IncidentRequest.table_name}.last_response_date DESC").
         collect{|a| [a[:request_number], a[:category_name], a[:last_response_date]]}
     @daily_open = []
     @daily_close = []

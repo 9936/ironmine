@@ -41,7 +41,7 @@
         <% else%>
           <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
             <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incidents</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= (@count_new.size + @count_mam_new.size).to_s%></div>
+            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s%></div>
             <div style="height: 75px;line-height: 75px; font-size: 25px;">
               <div style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
               <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
