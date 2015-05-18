@@ -935,7 +935,8 @@ en:
   label_irm_report_choose_report_type: Choose Report Type
   label_irm_report_choose_display_column: Choose Report Column
   label_irm_report_filter_company: Company
-  label_irm_report_time_range: Data Range
+  label_irm_report_time_range: Date Range
+  label_irm_report_closed_time_range: Closed Date Range
   label_irm_report_filter_date_field: Date Field
   label_irm_report_filter_date_from: from
   label_irm_report_filter_date_to: to

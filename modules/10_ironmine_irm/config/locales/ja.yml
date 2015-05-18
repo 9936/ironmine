@@ -888,6 +888,7 @@ ja:
   label_irm_report_choose_display_column: レポート列の選択
   label_irm_report_filter_company: 会社
   label_irm_report_time_range: 日付範囲
+  label_irm_report_closed_time_range: Closed Date Range
   label_irm_report_filter_date_field: 日付項目
   label_irm_report_filter_date_from: 開始
   label_irm_report_filter_date_to: 終了

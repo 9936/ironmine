@@ -931,6 +931,7 @@ zh:
   label_irm_report_choose_display_column: 选择报表列
   label_irm_report_filter_company: 公司
   label_irm_report_time_range: 时间范围
+  label_irm_report_closed_time_range: 关闭时间范围
   label_irm_report_filter_date_field: 时间字段
   label_irm_report_filter_date_from: 从
   label_irm_report_filter_date_to: 至
