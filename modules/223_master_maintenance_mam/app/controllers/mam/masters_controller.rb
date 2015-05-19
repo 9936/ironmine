@@ -69,7 +69,9 @@ class Mam::MastersController < ApplicationController
     @master.submitted_by=Irm::Person.current.id
     @master.master_number = Irm::Sequence.nextval("MAM::MasterNumber")
     @master.master_status = "MAM_NEW"
+    @master.support_group_id = "000Q00091nxNqRI7bBNZXU"
     @master.save
+    
     respond_to do |format|
       if @master.save
         Mam::MasterItem.where("master_id = ?", params[:temp_master_id]).each do |t|
@@ -99,6 +101,7 @@ class Mam::MastersController < ApplicationController
     @master.submitted_by=Irm::Person.current.id
     @master.master_number = Irm::Sequence.nextval("MAM::MasterNumber")
     @master.master_status = "MAM_NEW"
+    @master.support_group_id = "000Q00091nxNqRI7bBNZXU"
     @master.master_scs.build(params[:master_sc])
     @master.save
     respond_to do |format|
@@ -170,6 +173,7 @@ class Mam::MastersController < ApplicationController
     @master.submitted_by=Irm::Person.current.id
     @master.master_number = Irm::Sequence.nextval("MAM::MasterNumber")
     @master.master_status = "MAM_NEW"
+    @master.support_group_id = "000Q00091nxNqRI7bBNZXU"
     @master.save
     respond_to do |format|
       if @master.save
