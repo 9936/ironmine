@@ -44,7 +44,7 @@
               <div style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
               <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
             </div>
-            <embed src="4846.wav" height="0" width="0" autostart="true"/>
+            <bgsound src="4846.wav"/>
           </div>
         <% end %>
     </td>
@@ -103,7 +103,7 @@
   </tr>
   <tr style="">
     <td>
-      <% if @processing_list.first[2] > (Time.now - 30.minutes)%>
+      <% if @processing_list.size > 0 && @processing_list.first[2] > (Time.now - 30.minutes)%>
           <div style="background-color: #ffa0a0; width: 80%; padding: 10px 10px;font-size: 18px;">Processing List</div>
       <% else %>
           <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px;font-size: 18px;">Processing List</div>
