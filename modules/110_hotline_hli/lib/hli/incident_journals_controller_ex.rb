@@ -49,6 +49,7 @@ module Hli::IncidentJournalsControllerEx
 
         if params[:workload]
           @incident_journal.workload = params[:workload]
+          @incident_journal.workload_type = params[:workload_type]
         end
 
         respond_to do |format|
@@ -74,7 +75,8 @@ module Hli::IncidentJournalsControllerEx
                                             :incident_journal_id => @incident_journal.id,
                                             :real_processing_time => @incident_journal.workload,
                                             :person_id => @incident_journal.replied_by,
-                                            :workload_type => 'REMOTE'})
+                                            :workload_type => @incident_journal.workload_type})
+                                            #:workload_type => 'REMOTE'})
             end
             Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
                                          :journal_id=> @incident_journal.id,

@@ -304,6 +304,7 @@
               <% if @external_system.strict_workload.eql?('Y') %>
               <div>
                 <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_journal_edit_workload)%></label>
+                <%= select_tag :workload_type,options_for_select(available_icm_workload_type, 'REMOTE') %>
                 <%= text_field_tag :workload, nil, :style => "width:80px;", :irm_number_only => true%>
               </div>
               <% end %>
