@@ -53,7 +53,7 @@
           <tr id="workload_list" style="display:none"></tr>
               <% @supporters.each do |sp| %>
                   <%= fields_for("incident_workloads[]", @incident_request.incident_workloads.build()) do |w|%>
-                      <tr id="workload_<%= sp[:supporter_id]%>">
+                      <tr id="workload_<%= sp[:supporter_id]%>_<%= sp[:workload_type]%>">
                         <td class="label-col"></td>
                         <td class="data-col">
                           <%= w.select :workload_type, options_for_select(available_icm_workload_type, sp[:workload_type])%>
@@ -284,8 +284,8 @@
   });
 
   function add_workload(wid, wtext){
-    if ($("#workload_"+ wid).length < 1){
-        $("#workload_list").after('<tr id="workload_'+ wid +'">'+
+    if ($("#workload_"+ wid + "_REMOTE").length < 1){
+        $("#workload_list").after('<tr id="workload_'+ wid + '_REMOTE">'+
                               '<td class="label-col"></td>'+
                               '<td id="ext-gen1127" class="data-col">'+
                                 '<select id="incident_workloads__workload_type" name="incident_workloads[][workload_type]">' +
@@ -298,6 +298,20 @@
                               '</td>'+
                             '</tr>');
     }
+      if ($("#workload_"+ wid + "_SCENE").length < 1){
+          $("#workload_list").after('<tr id="workload_'+ wid +'_SCENE">'+
+                  '<td class="label-col"></td>'+
+                  '<td id="ext-gen1127" class="data-col">'+
+                  '<select id="incident_workloads__workload_type" name="incident_workloads[][workload_type]">' +
+                  '<option value="REMOTE">远程</option>' +
+                  '<option value="SCENE">现场</option>' +
+                  '</select>' +
+                  '<input type="text" value="0" size="5" style="width:30px" name="incident_workloads[][real_processing_time]" irm_pos_real_number="true" id="incident_workloads__real_processing_time">&nbsp;'+ wtext +''+
+                  '<input type="hidden" value="'+ wid +'" name="incident_workloads[][person_id]" id="incident_workloads__person_id">'+
+                  '<a href="javascript:void(0)" class="remove_workload" onclick=$(this).parent().parent().remove() ><%= I18n.t(:remove)%></a>'+
+                  '</td>'+
+                  '</tr>');
+      }
   }
 </script>
 
