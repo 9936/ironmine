@@ -24,6 +24,8 @@ class Boa::BoardsController < ApplicationController
         where("iis.incident_status_code IN ('NEW', 'NOT_STARTED')").
         order("#{Icm::IncidentRequest.table_name}.created_at DESC")
 
+    @count_mam_new = Mam::Master.enabled.where("master_status = 'MAM_NEW'")
+
     @table_a_open_by_service_desk = Icm::IncidentRequest.enabled.
         joins(",#{Icm::IncidentStatus.view_name} isv").
         joins(",icm_support_groups_vl isg").
