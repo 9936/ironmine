@@ -1,0 +1,11 @@
+<% if @incident_request.incident_workloads.any? %>
+<tr>
+  <td class="label-col"><label><%=t(:label_yan_workload)%></label></td>
+  <td class="data-col" colspan="5"><label>
+    <% @incident_request.incident_workloads.each do |iw| %>
+        <% next if iw.person.nil? %>
+        <%= iw.group_name%>-<%= iw.person[:full_name]%>:<%= "#{iw[:real_processing_time]}"%>&nbsp;<%= ", " unless iw == @incident_request.incident_workloads.last %>
+    <% end %>
+    </label></td>
+</tr>
+<% end %>

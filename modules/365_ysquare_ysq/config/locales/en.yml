@@ -1,2 +1,14 @@
 en:
-  hello: Hello
+  label_icm_incident_request_urgence: Alternative Existence
+  label_icm_incident_request_urgence_code: Alternative Existence
+  label_icm_incident_request_impact_range_code: Severity
+  label_icm_incident_request_impact_range: Severity
+
+  label_yan_edit_additional_info_form: Additional Info.
+
+  label_yan_edit_workload: Edit Workload
+  label_yan_workload: Workload
+  label_yan_view_survey: Survey Result
+
+  label_icm_report_source_name: Incident report source
+  label_icm_incident_request_report_source_code: Incident report source

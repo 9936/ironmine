@@ -1,2 +1,14 @@
-en:
-  hello: Hello
+ja:
+  label_icm_incident_request_urgence: 代替手段有無
+  label_icm_incident_request_urgence_code: 代替手段有無
+  label_icm_incident_request_impact_range_code: Severity
+  label_icm_incident_request_impact_range: Severity
+
+  label_yan_edit_additional_info_form: Additional Info.
+
+  label_yan_edit_workload: Edit Workload
+  label_yan_workload: Workload
+  label_yan_view_survey: Survey Result
+
+  label_icm_report_source_name: 要求事項発生元
+  label_icm_incident_request_report_source_code: 要求事項発生元
