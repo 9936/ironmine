@@ -37,7 +37,7 @@
       <tbody>
         <tr>
           <td class="label-col"><label for="incident_request_requested_by"><%=t(:label_icm_incident_request_requested_by)%></label></td>
-          <% if allow_to_function?(:create_icdt_rqst_for_other) %>
+          <% if allow_to_function?(:create_icdt_rqst_for_other) %> 
             <td class="data-3col"><%=f.lov_field :requested_by,Irm::Person,{:required=>true,:id=>"incident_request_requested_by",:class=>"input-medium"}%></td>
           <% else %>
             <td class="data-3col"><%= text_field_tag :requester_full_name,Irm::Person.current.full_name,{:disabled=>true, :required=>true, :class=>"input-medium"}%></td>
@@ -72,7 +72,7 @@
                                            nullable_options_for_select([],@incident_request.incident_category_id),
                                            {},
                                            {:id=>"incident_category_id",
-                                            :origin_value=>@incident_request.incident_category_id,
+                                            :origin_value=>@incident_request.incident_category_id,:required=>true,
                                             :depend=>"ass_external_system",
                                             :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                                             :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
@@ -85,7 +85,7 @@
                                            nullable_options_for_select([],@incident_request.incident_sub_category_id),
                                            {},
                                            {:id=>"incident_sub_category_id",
-                                            :origin_value=>@incident_request.incident_sub_category_id,
+                                            :origin_value=>@incident_request.incident_sub_category_id,:required=>true,
                                             :depend=>"incident_category_id",
                                             :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                                             :href=>url_for(:controller=>"icm/incident_sub_categories",:action=>"get_option",:format=>"json",
@@ -95,7 +95,7 @@
            <tr>
              <td class="label-col"><label for="incident_estimated_date"><%=t(:label_icm_incident_request_estimated_date)%></label></td>
              <td class="data-3col">
-               <%= f.date_field(:estimated_date,:size=>12,:class=>"date", :id=>"incident_estimated_date")%>
+               <%= f.date_field(:estimated_date,:size=>12,:class=>"date", :id=>"incident_estimated_date", :with_time => true)%>
              </td>
            </tr>
 
@@ -111,6 +111,15 @@
                <%= xheditor("incident_request_summary") %>
              </td>
 
+           </tr>
+           <tr>
+             <td class="label-col"><label for="incident_request_summary"><%= I18n.t(:label_icm_incident_journal_if_private)%></label></td>
+             <td class="data-3col" colspan="3">
+                   <div>
+                     <label for="if_private_reply" style="display:inline;"></label>
+                     <%= f.check_box(:if_private_reply, {}, 'Y', 'N')%>
+                   </div>
+             </td>
            </tr>
 
            <tr>
@@ -143,14 +152,8 @@
             <td class="data-col">
               <%=f.text_field :contact_number, :value=>Irm::Person.current.bussiness_phone,:size=>17,:id=>"incident_request_contact_number",:required=>true%>
             </td>
-          </tr>
-
+        </tr>
         <tr>
-          <td class="label-col"><label for="incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label></td>
-          <td class="data-col">
-            <%=f.select :urgence_id,options_for_select(available_urgence_code,@incident_request.urgence_id||Icm::UrgenceCode.default_id),
-                                                {},{:required=>true,:id=>"incident_request_urgence_code"}%>
-          </td>
           <td class="label-col"><label for="incident_request_impact_range_code"><%=t(:label_icm_incident_request_impact_range_code)%></label></td>
           <td class="data-col">
             <%=f.select :impact_range_id,options_for_select(available_impact_range,@incident_request.impact_range_id||Icm::ImpactRange.default_id),
@@ -186,21 +189,6 @@
             <%=f.select :report_source_code,nullable_options_for_select(available_request_report_source,@incident_request.report_source_code),
                                                 {},{:required=>true,:id=>"incident_request_report_source_code"}%>
           </td>
-
-          <td class="label-col"><label for="incident_request_incident_status_code"><%=t(:label_icm_incident_request_incident_status_code)%></label></td>
-          <td class="data-col">
-            <%=f.select :incident_status_id,options_for_select(available_request_status_code,@incident_request.incident_status_id||Icm::IncidentStatus.default_id),
-                                                {},{:required=>true,:id=>"incident_request_incident_status_code"}%>
-          </td>
-        </tr>
-        <tr>
-          <td class="label-col"><label for="incident_request_request_type_code"><%=t(:label_icm_incident_request_request_type_code)%></label></td>
-          <td class="data-col">
-            <%=f.select :request_type_code,nullable_options_for_select(available_request_type,@incident_request.request_type_code),
-                                                {},{:required=>true,:id=>"incident_request_request_type_code"}%>
-          </td>
-          <td class="label-col empty">&nbsp;</td>
-          <td class="data-col empty">&nbsp;</td>
         </tr>
      <%end%>
 
@@ -293,9 +281,9 @@
   $(function(){
      var requester = $("#incident_request_requested_by"), external_system_id = '<%= @incident_request.external_system_id %>', customBlockHtml = $("#customBlock").html();
 
-      var check_f = '<%= allow_to_function?(:create_icdt_rqst_for_other) %>';
+     var check_f = '<%= allow_to_function?(:create_icdt_rqst_for_other) %>';
 
-      if(check_f=="true" && requester){
+     if(check_f=="true" && requester){
          requester.change(function(event){
              setLookupValue("incident_request_contact_id",$(event.target).val());
          })
