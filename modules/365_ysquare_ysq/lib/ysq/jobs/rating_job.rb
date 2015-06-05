@@ -1,4 +1,4 @@
-module Yan
+module Ysq
   module Jobs
     class RatingJob<Struct.new(:incident_request_id)
       def perform
