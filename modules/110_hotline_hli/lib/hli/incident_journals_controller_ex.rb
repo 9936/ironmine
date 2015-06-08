@@ -70,7 +70,8 @@ module Hli::IncidentJournalsControllerEx
             es = Irm::ExternalSystem.find(@incident_request.external_system_id)
             @incident_journal.create_elapse
             @incident_request.save
-            if @incident_journal.workload.present? && Irm::Person.current.email_address.end_with?("hand-china.com")
+
+            if @incident_journal.workload.present? && Irm::Person.current.email_address.end_with?("hand-china.com") && !(es.strict_workload.eql?('N') && @incident_journal.workload.to_f == 0)
               Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
                                             :incident_journal_id => @incident_journal.id,
                                             :real_processing_time => @incident_journal.workload,

@@ -8,7 +8,7 @@ class AddWorkloadType < ActiveRecord::Migration
 
     workload_typescene= Irm::LookupValue.new(:lookup_type=>'WORKLOAD_TYPE',:lookup_code=>'SCENE',:start_date_active=>'2012-09-10',:status_code=>'ENABLED',:not_auto_mult=>true)
     workload_typescene.lookup_values_tls.build(:lookup_value_id=>workload_typescene.id,:meaning=>'现场',:description=>'现场',:language=>'zh',:status_code=>'ENABLED',:source_lang=>'en')
-    workload_typescene.lookup_values_tls.build(:lookup_value_id=>workload_typescene.id,:meaning=>'Scene',:description=>'Scene',:language=>'en',:status_code=>'ENABLED',:source_lang=>'en')
+    workload_typescene.lookup_values_tls.build(:lookup_value_id=>workload_typescene.id,:meaning=>'On-site',:description=>'On-site',:language=>'en',:status_code=>'ENABLED',:source_lang=>'en')
     workload_typescene.save
 
     workload_typeremote= Irm::LookupValue.new(:lookup_type=>'WORKLOAD_TYPE',:lookup_code=>'REMOTE',:start_date_active=>'2012-09-10',:status_code=>'ENABLED',:not_auto_mult=>true)
