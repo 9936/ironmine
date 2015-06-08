@@ -121,6 +121,11 @@ class Icm::IncidentJournal < ActiveRecord::Base
     self.incident_request.support_person_id
   end
 
+  def re_message_body
+    content = self.message_body
+    content = content.gsub(/&nbsp;/,' ')
+  end
+
   def create_elapse
     return unless Icm::IncidentJournalElapse.where(:incident_journal_id=>self.id).count<1
     last_journal = self.class.where("incident_request_id =? AND created_at < ?",self.incident_request_id,self.created_at).order("created_at desc").first
