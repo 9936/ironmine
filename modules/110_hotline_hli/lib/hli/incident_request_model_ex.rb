@@ -4,15 +4,15 @@ module Hli::IncidentRequestModelEx
       has_many :incident_workloads
 
       scope :with_workloads, lambda{
-        select("(SELECT sum(iw.real_processing_time) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id) total_processing_time")
+        select("(SELECT ROUND(sum(iw.real_processing_time), 1) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id) total_processing_time")
       }
 
       scope :with_workloads_remote, lambda{
-        select("(SELECT sum(iw.real_processing_time) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND iw.workload_type = 'REMOTE') total_processing_time_remote")
+        select("(SELECT ROUND(sum(iw.real_processing_time), 1) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND iw.workload_type = 'REMOTE') total_processing_time_remote")
       }
 
       scope :with_workloads_scene, lambda{
-        select("(SELECT sum(iw.real_processing_time) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND iw.workload_type = 'SCENE') total_processing_time_scene")
+        select("(SELECT ROUND(sum(iw.real_processing_time), 1) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND iw.workload_type = 'SCENE') total_processing_time_scene")
       }
 
       validates_presence_of :contact_number
@@ -24,7 +24,7 @@ module Hli::IncidentRequestModelEx
 
       def grouped_workload
         Icm::IncidentWorkload.
-            select("SUM(real_processing_time) real_processing_time_g, workload_type").
+            select("ROUND(SUM(real_processing_time),1) real_processing_time_g, workload_type").
             select("ip.full_name person_name").
             joins(",irm_people ip").
             where("ip.id = person_id").
