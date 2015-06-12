@@ -15,11 +15,11 @@ class Ysq::CuxMonthStat < Irm::ReportManager::ReportBase
 
     datas = []
     headers = [
-        'SITE',
-        '日期',
-        '开票数量',
-        '关票数量',
-        '系统残留数量'
+        'Syetem',
+        'Date',
+        'Created Tickets',
+        'Closed Tickets',
+        'System Remaining Tickets'
     ]
 
     for today in (Date.strptime(start_date, '%Y-%m-%d')).strftime('%Y-%m-%d').to_datetime..(Date.strptime(end_date, '%Y-%m-%d')).strftime('%Y-%m-%d').to_datetime do
