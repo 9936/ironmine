@@ -124,6 +124,7 @@ class Icm::IncidentJournal < ActiveRecord::Base
   def re_message_body
     content = self.message_body
     content = content.gsub(/&nbsp;/,' ')
+    content = content.gsub(/[[:blank:]]/, ' ')
   end
 
   def create_elapse

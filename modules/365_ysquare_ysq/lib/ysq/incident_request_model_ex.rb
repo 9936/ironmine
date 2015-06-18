@@ -6,6 +6,12 @@ module Ysq::IncidentRequestModelEx
       validates_presence_of :incident_category_id
       validates_presence_of :incident_sub_category_id
       validates_presence_of :report_source_code
+
+      def re_summary
+        content = self.summary
+        content = content.gsub(/&nbsp;/,' ')
+        return content
+      end
     end
   end
 end
