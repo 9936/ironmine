@@ -99,9 +99,9 @@
           <% if @count_new.size != 0 && @count_mam_new.size == 0 %>
               <div style="margin-left: 10px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
                 <% if @count_new.size == 1 %>
-                    <div style="height: 50px;line-height: 50px; font-size: 50px;"><I>New Incident</I></div>
+                    <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
                 <% else %>
-                    <div style="height: 50px;line-height: 50px; font-size: 50px;"><I>New Incidents</I></div>
+                    <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incidents</I></div>
                 <% end %>
                 <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s %></div>
                 <div style="height: 75px;line-height: 75px; font-size: 25px;">
@@ -116,9 +116,9 @@
           <% if @count_new.size == 0 && @count_mam_new.size != 0 %>
               <div style="margin-left: 10px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
                 <% if @count_mam_new.size == 1 %>
-                    <div style="height: 50px;line-height: 50px; font-size: 50px;"><I>New Incident</I></div>
+                    <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
                 <% else %>
-                    <div style="height: 50px;line-height: 50px; font-size: 50px;"><I>New Incidents</I></div>
+                    <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incidents</I></div>
                 <% end %>
                 <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_mam_new.size.to_s %></div>
                 <div style="height: 75px;line-height: 75px; font-size: 25px;">
