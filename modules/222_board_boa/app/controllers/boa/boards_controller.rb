@@ -31,7 +31,7 @@ class Boa::BoardsController < ApplicationController
         joins(",icm_support_groups_vl isg").
         where("isg.language = 'zh'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-        where("isg.name = 'Service Desk'").
+        #where("isg.name = 'Service Desk'").
         where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
         select("isv.name status_name, SUM(1) amount, isv.display_color").
         where("isv.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
@@ -44,7 +44,7 @@ class Boa::BoardsController < ApplicationController
         joins(",icm_support_groups_vl isg").
         where("isg.language = 'zh'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-        where("isg.name = 'Service Desk'").
+        #where("isg.name = 'Service Desk'").
         where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
