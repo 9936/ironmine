@@ -5,6 +5,8 @@ Ironmine::Application.routes.draw do
 
     match 'incident_journals/:request_id/:sid/edit_workload(.:format)' => "incident_journals#edit_workload", :via => :get
     match 'incident_journals/:request_id/:sid/update_workload(.:format)' => "incident_journals#update_workload", :via => :put
+
+    match '/support_groups/:external_system_id/get_two_group_options(.:format)' => "support_groups#get_two_group_options", :via => :get
   end
 
   scope :module => "ysq" do

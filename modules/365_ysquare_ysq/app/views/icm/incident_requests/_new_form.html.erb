@@ -151,28 +151,7 @@
                                                 {},{:required=>true,:id=>"incident_request_impact_range_code"}%>
           </td>
         </tr>
-        <% if false && allow_to_function?(:assign_incident_request) %>
-        <tr>
-          <td class="label-col"><label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label></td>
-          <td class="data-col">
-            <%=f.select :support_group_id,nullable_options_for_select([],@incident_request.support_group_id),{},{
-                            :id=>"incident_request_support_group_id",
-                            :href=>url_for(:controller=>"icm/support_groups",:action=>"get_group_options",:format=>"json",:id=>"${ass_external_system}"),
-                            :depend=>"ass_external_system",
-                            :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
-                    }%>
-          </td>
-          <td class="label-col"><label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_support_person)%></label></td>
-          <td class="data-col"><%= f.select(:support_person_id,nullable_options_for_select([],nil),{},
-                              {
-                               :id=>"incident_request_support_person_id",
-                               :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"${incident_request_support_group_id}"),
-                               :depend=>"incident_request_support_group_id",
-                               :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
-                               }) %></td>
-
-        </tr>
-      <%end%>
+        <!-- 原support group 位置-->
       <% if allow_to_function?(:create_icdt_rqst_for_other) %>
         <tr>
           <td class="label-col"><label for="incident_request_report_source_code"><%=t(:label_icm_incident_request_report_source_code)%></label></td>
@@ -184,6 +163,31 @@
      <%end%>
 
      <%= render :partial=>"new_form_external_field", :locals=>{:f => f} %>
+
+     <% if  allow_to_function?(:assign_two_group_by_user) %>
+          <tr>
+            <td class="label-col"><label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label></td>
+            <td class="data-col">
+              <%=f.select :support_group_id,nullable_options_for_select([],@incident_request.support_group_id),{},{
+                                                   :id=>"incident_request_support_group_id",
+                                                   :href=>url_for(:controller=>"icm/support_groups",:action=>"get_two_group_options",:format=>"json",:external_system_id=>"${ass_external_system}"),
+                                                   :depend=>"ass_external_system",
+                                                   :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
+                                           }%>
+            </td>
+            <!--
+          <td class="label-col"><label for="incident_request_support_person_id"><%#=t(:label_icm_incident_request_support_person)%></label></td>
+          <td class="data-col"><%#= f.select(:support_person_id,nullable_options_for_select([],nil),{},
+                              {
+                               :id=>"incident_request_support_person_id",
+                               :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"${incident_request_support_group_id}"),
+                               :depend=>"incident_request_support_group_id",
+                               :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
+                               }) %></td>
+          -->
+
+          </tr>
+      <%end%>
     </tbody>
   </table>
   <% end %>

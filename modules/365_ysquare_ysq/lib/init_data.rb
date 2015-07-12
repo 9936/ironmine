@@ -85,6 +85,15 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               :system_flag => "N",
               "ysq/parent_people" => ["delete_from_parent", "new_from_person","create_from_person","get_owned_parents_data","get_ava_parents_data"]
+          },
+          :assign_two_group_by_user => {
+              :zh => {:name => "可提单给Deployment Team", :description => "可提单给Deployment Team"},
+              :en => {:name => "Incident for Deployment Team", :description => "Incident for Deployment Team"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "N",
+              "icm/support_groups" => ["get_two_group_options"]
           }
       }
   }
