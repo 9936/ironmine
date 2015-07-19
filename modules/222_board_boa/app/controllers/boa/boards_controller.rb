@@ -116,6 +116,7 @@ class Boa::BoardsController < ApplicationController
     update_flag = false
 
     logs = ActiveRecord::Base.connection.execute("SELECT today_create `0`, today_close `1`, today_avg_create `2`, today_avg_close `3`, created_date `4` FROM icm_prime_board_logs WHERE created_date = '#{(Time.now - 1.day).strftime('%Y%m%d')}'")
+
     if logs.any?
       update_flag = false
     else
@@ -129,18 +130,20 @@ class Boa::BoardsController < ApplicationController
                         joins(",icm_support_groups_vl isg").
                         where("isg.language = 'zh'").
                         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-                        where("isg.name = 'Service Desk'").
+                        #where("isg.name = 'Service Desk'").
+                        where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
                         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
                         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
         today_close = Icm::IncidentRequest.enabled.
             joins(",#{Icm::IncidentCategory.view_name} ic").
             joins(",icm_support_groups_vl isg").
-            where("isg.name = 'Service Desk'").
+            #where("isg.name = 'Service Desk'").
+            where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
             where("isg.language = 'zh'").
             where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
             where("ic.language = 'en'").
             where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-            where("isg.name = 'Service Desk'").
+            #where("isg.name = 'Service Desk'").
             where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
                   today.strftime('%Y-%m-%d')).size
         today_avg_create = Icm::IncidentRequest.
@@ -149,7 +152,8 @@ class Boa::BoardsController < ApplicationController
             joins(",icm_support_groups_vl isg").
             where("isg.language = 'zh'").
             where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-            where("isg.name = 'Service Desk'").
+            #where("isg.name = 'Service Desk'").
+            where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
             where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
             where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
 
@@ -158,12 +162,13 @@ class Boa::BoardsController < ApplicationController
         today_avg_close = Icm::IncidentRequest.enabled.
             joins(",#{Icm::IncidentCategory.view_name} ic").
             joins(",icm_support_groups_vl isg").
-            where("isg.name = 'Service Desk'").
+            #where("isg.name = 'Service Desk'").
+            where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
             where("isg.language = 'zh'").
             where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
             where("ic.language = 'en'").
             where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-            where("isg.name = 'Service Desk'").
+            #where("isg.name = 'Service Desk'").
             where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') >= ?)",
                   (today - 6.day).strftime('%Y-%m-%d')).
             where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') <= ?)",
@@ -203,18 +208,21 @@ class Boa::BoardsController < ApplicationController
         joins(",icm_support_groups_vl isg").
         where("isg.language = 'zh'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-        where("isg.name = 'Service Desk'").
+        #where("isg.name = 'Service Desk'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
+
     today_close = Icm::IncidentRequest.enabled.
         joins(",#{Icm::IncidentCategory.view_name} ic").
         joins(",icm_support_groups_vl isg").
-        where("isg.name = 'Service Desk'").
+        #where("isg.name = 'Service Desk'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
         where("isg.language = 'zh'").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-        where("isg.name = 'Service Desk'").
+        #where("isg.name = 'Service Desk'").
         where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
               Time.now.strftime('%Y-%m-%d')).size
     today_avg_create = Icm::IncidentRequest.
@@ -222,7 +230,8 @@ class Boa::BoardsController < ApplicationController
         joins(",icm_support_groups_vl isg").
         where("isg.language = 'zh'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-        where("isg.name = 'Service Desk'").
+        #where("isg.name = 'Service Desk'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").size
 
@@ -231,12 +240,13 @@ class Boa::BoardsController < ApplicationController
     today_avg_close = Icm::IncidentRequest.enabled.
         joins(",#{Icm::IncidentCategory.view_name} ic").
         joins(",icm_support_groups_vl isg").
-        where("isg.name = 'Service Desk'").
+        #where("isg.name = 'Service Desk'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
         where("isg.language = 'zh'").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-        where("isg.name = 'Service Desk'").
+        #where("isg.name = 'Service Desk'").
         where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') >= ?)",
               (Time.now - 7.day).strftime('%Y-%m-%d')).size
 
