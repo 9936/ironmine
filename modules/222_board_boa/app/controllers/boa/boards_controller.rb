@@ -8,6 +8,8 @@ class Boa::BoardsController < ApplicationController
     @table_a_incident_by_category_open = []
     @table_a_incident_by_category_total = []
     @table_a_open_by_service_desk = []
+    @table_a_incident_by_status_30 = []
+
     @count_new = Icm::IncidentRequest.enabled.
         select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
         joins(",#{Icm::IncidentSubCategory.view_name} ic").
@@ -50,6 +52,37 @@ class Boa::BoardsController < ApplicationController
         where("ic.language = 'en'").
         where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
         group("#{Icm::IncidentRequest.table_name}.incident_category_id").order("ic.code + 0 ASC").collect{|i| [i[:category_name], i[:amount].to_i, '']}
+
+    #30状态且YA/YADIN/YID 
+    #当前 supporter 为 SD 组里的
+    @table_a_incident_by_status_30 = Icm::IncidentRequest.enabled.
+        joins(",irm_group_members igm").
+        joins(",icm_support_groups_vl isgv").
+        select("isgv.name, COUNT(isgv.name) amount").
+        where("isgv.language = 'en'").
+        where("#{Icm::IncidentRequest.table_name}.support_person_id = igm.person_id").
+        where("igm.group_id = isgv.group_id").
+        where("isgv.name = 'Service Desk'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
+        where("#{Icm::IncidentRequest.table_name}.incident_status_id = '000K00091nRTl3hfwbJuHg'").
+        group("isgv.name").collect{|i| [i[:name], i[:amount].to_i, '']}
+    #当前 Supporter 为 YISS 组织里
+    @table_a_incident_by_status_30 += Icm::IncidentRequest.enabled.
+        joins(",irm_people ip").
+        joins(",irm_organizations_vl iov").
+        select("iov.name, COUNT(iov.name) amount").
+        where("iov.language = 'en'").
+        where("#{Icm::IncidentRequest.table_name}.support_person_id = ip.id").
+        where("ip.organization_id = iov.id").
+        where("iov.name = 'YISS'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
+        where("#{Icm::IncidentRequest.table_name}.incident_status_id = '000K00091nRTl3hfwbJuHg'").
+        group("iov.name").collect{|i| [i[:name], i[:amount].to_i, '']}
+
+    @table_a_incident_by_status_30.each do |c|
+      c[2] = '#7CB5EC' if c[0].eql?("Service Desk")
+      c[2] = '#FFE384' if c[0].eql?("YISS")
+    end
 
     @table_a_incident_by_category_open.each do |c|
       c[2] = '#FF0900' if c[0].eql?("Failure")
@@ -123,7 +156,7 @@ class Boa::BoardsController < ApplicationController
       update_flag = true
     end
 
-    for today in (Time.now - 21.days).strftime('%Y-%m-%d').to_datetime..(Time.now - 1.day).strftime('%Y-%m-%d').to_datetime do
+    for today in (Time.now - 14.days).strftime('%Y-%m-%d').to_datetime..(Time.now - 1.day).strftime('%Y-%m-%d').to_datetime do
       if update_flag
         today_create = Icm::IncidentRequest.
                         where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", today.strftime('%Y-%m-%d')).

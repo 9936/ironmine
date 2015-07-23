@@ -1,35 +1,58 @@
 <% require_jscss(:newhighcharts) %>
 <table style="width:100%;table-layout:fixed" >
   <tr>
-    <th style="width:33%">
-    </th>
-    <th style="width:33%">
-    </th>
-    <th style="width:33%">
-    </th>
-  <tr>
-  <tr>
-    <td colspan="2">
-      <div id="daily_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-    </td>
     <td>
-      <div id="open_pie_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+      <table style="width:100%;table-layout:fixed" >
+        <tr>
+          <th style="width:50%">
+          </th>
+          <th style="width:25%">
+          </th>
+          <th style="width:25%">
+          </th>
+        <tr>
+        <tr>
+          <td >
+            <div id="daily_chart" style="min-width: 150px; height: 400px; margin: 0 auto"></div>
+          </td>
+          <td >
+            <div id="open_pie_chart_by_service_desk" style="min-width: 150px; height: 400px; margin: 0 auto"></div>
+          </td>
+          <td >
+            <div id="open_pie_chart" style="min-width: 150px; height: 400px; margin: 0 auto"></div>
+          </td>
+        </tr>
+
+      </table>
     </td>
   </tr>
-  <tr style="">
-    <td style="">
-        <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px; font-size: 18px;">Daily Created</div>
-    </td>
-    <td rowspan="6">
-        <%# if @count_new.size == 0 && @count_mam_new.size == 0 %>
-        <!--
+  <tr>
+    <td>
+      <table style="width:100%;table-layout:fixed" >
+        <tr>
+          <th style="width:30%">
+          </th>
+          <th style="width:20%">
+          </th>
+          <th style="width:25%">
+          </th>
+          <th style="width:25%">
+          </th>
+        </tr>
+        <tr style="">
+          <td style="">
+            <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px; font-size: 18px;">Daily Created</div>
+          </td>
+          <td rowspan="6">
+            <%# if @count_new.size == 0 && @count_mam_new.size == 0 %>
+            <!--
           <div style="margin-left: 100px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
             <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>No New Incident</I></div>
             <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%#= @count_new.size.to_s%></div>
           </div>
         <%# elsif @count_new.size == 1%>
       -->
-        <!--
+            <!--
           <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px;background-color: #ffa0a0">
             <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
             <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%#= @count_new.size.to_s%></div>
@@ -40,8 +63,8 @@
             <bgsound src="4846.wav"/>
           </div>
         -->
-        <%# else%>
-        <!--
+            <%# else%>
+            <!--
           <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
             <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incidents</I></div>
             <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%#= (@count_new.size + @count_mam_new.size).to_s%></div>
@@ -52,160 +75,161 @@
             <embed src="4846.wav" height="0" width="0" autostart="true"/>
           </div>
           -->
-        <%# end %>
+            <%# end %>
 
-      <!-- 当incident和MM 均为0的时候，直接显示为0 -->
-        <% if @count_new.size == 0 && @count_mam_new.size == 0 %>
-          <div style="margin-left: 100px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>No New Incident</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s%></div>
-          </div>
-
-          <!-- 当incident和MM 均不为0的时候，分成上下两层显示 -->
-          <!-- 显示incident信息 -->
-        <% elsif @count_new.size != 0 && @count_mam_new.size != 0 %>
-          <div style="margin-left: 10px;width: 350px;height: 175px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
-            <% if @count_new.size == 1 %>
-                <div style="height: 25px;line-height: 25px; font-size: 25px;"><I>New Incident</I></div>
-            <% else %>
-                <div style="height: 25px;line-height: 25px; font-size: 25px;"><I>New Incidents</I></div>
-            <% end %>
-            <div style="height: 112.5px;line-height: 112.5px; font-size: 100px;color:#333333;"><%= @count_new.size.to_s %></div>
-            <div style="height: 37.5px;line-height: 37.5px; font-size: 25px;">
-              <div style="float: left; margin-left: 10px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
-              <div style="text-align:right; margin-right: 10px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
-            </div>
-          </div>
-
-          <bgsound src="4846.wav"/>
-
-          <!-- 显示MM信息 -->
-          <div style="margin-left: 10px;width: 350px;height: 175px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
-            <% if @count_mam_new.size == 1 %>
-                <div style="height: 25px;line-height: 25px; font-size: 25px;"><I>New Incident</I></div>
-            <% else %>
-                <div style="height: 25px;line-height: 25px; font-size: 25px;"><I>New Incidents</I></div>
-            <% end %>
-            <div style="height: 112.5px;line-height: 112.5px; font-size: 100px;color:#333333;"><%= @count_mam_new.size.to_s %></div>
-            <div style="height: 37.5px;line-height: 37.5px; font-size: 25px;">
-              <div style="float: left; margin-left: 10px;font-size: 20px;"><%= @count_mam_new.first[:master_number]%></div>
-              <div style="text-align:right; margin-right: 10px;font-size: 20px;"><I>YA Master Maintenance</I></div>
-            </div>
-          </div>
-
-        <% else %>
-
-          <!-- 当incident不为0，而MM为0时 -->
-          <% if @count_new.size != 0 && @count_mam_new.size == 0 %>
-              <div style="margin-left: 10px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
-                <% if @count_new.size == 1 %>
-                    <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
-                <% else %>
-                    <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incidents</I></div>
-                <% end %>
-                <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s %></div>
-                <div style="height: 75px;line-height: 75px; font-size: 25px;">
-                  <div style="float: left; margin-left: 10px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
-                  <div style="text-align:right; margin-right: 10px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
+            <!-- 当incident和MM 均为0的时候，直接显示为0 -->
+            <% if @count_new.size == 0 && @count_mam_new.size == 0 %>
+                <div style="margin-left: 40px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
+                  <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>No New Incident</I></div>
+                  <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s%></div>
                 </div>
-                <bgsound src="4846.wav"/>
-              </div>
-          <% end %>
 
-          <!-- 当incident为0，而MM不为0时 -->
-          <% if @count_new.size == 0 && @count_mam_new.size != 0 %>
-              <div style="margin-left: 10px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
-                <% if @count_mam_new.size == 1 %>
-                    <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
-                <% else %>
-                    <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incidents</I></div>
-                <% end %>
-                <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_mam_new.size.to_s %></div>
-                <div style="height: 75px;line-height: 75px; font-size: 25px;">
-                  <div style="float: left; margin-left: 10px;font-size: 20px;"><%= @count_mam_new.first[:master_number]%></div>
-                  <div style="text-align:right; margin-right: 10px;font-size: 20px;"><I>YA Master Maintenance</I></div>
+                <!-- 当incident和MM 均不为0的时候，分成上下两层显示 -->
+                <!-- 显示incident信息 -->
+            <% elsif @count_new.size != 0 && @count_mam_new.size != 0 %>
+                <div style="margin-left: 10px;width: 350px;height: 175px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
+                  <% if @count_new.size == 1 %>
+                      <div style="height: 25px;line-height: 25px; font-size: 25px;"><I>New Incident</I></div>
+                  <% else %>
+                      <div style="height: 25px;line-height: 25px; font-size: 25px;"><I>New Incidents</I></div>
+                  <% end %>
+                  <div style="height: 112.5px;line-height: 112.5px; font-size: 100px;color:#333333;"><%= @count_new.size.to_s %></div>
+                  <div style="height: 37.5px;line-height: 37.5px; font-size: 25px;">
+                    <div style="float: left; margin-left: 10px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
+                    <div style="text-align:right; margin-right: 10px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
+                  </div>
                 </div>
+
                 <bgsound src="4846.wav"/>
-              </div>
-          <% end %>
+
+                <!-- 显示MM信息 -->
+                <div style="margin-left: 10px;width: 350px;height: 175px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
+                  <% if @count_mam_new.size == 1 %>
+                      <div style="height: 25px;line-height: 25px; font-size: 25px;"><I>New Incident</I></div>
+                  <% else %>
+                      <div style="height: 25px;line-height: 25px; font-size: 25px;"><I>New Incidents</I></div>
+                  <% end %>
+                  <div style="height: 112.5px;line-height: 112.5px; font-size: 100px;color:#333333;"><%= @count_mam_new.size.to_s %></div>
+                  <div style="height: 37.5px;line-height: 37.5px; font-size: 25px;">
+                    <div style="float: left; margin-left: 10px;font-size: 20px;"><%= @count_mam_new.first[:master_number]%></div>
+                    <div style="text-align:right; margin-right: 10px;font-size: 20px;"><I>YA Master Maintenance</I></div>
+                  </div>
+                </div>
+
+            <% else %>
+
+                <!-- 当incident不为0，而MM为0时 -->
+                <% if @count_new.size != 0 && @count_mam_new.size == 0 %>
+                    <div style="margin-left: 10px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
+                      <% if @count_new.size == 1 %>
+                          <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
+                      <% else %>
+                          <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incidents</I></div>
+                      <% end %>
+                      <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s %></div>
+                      <div style="height: 75px;line-height: 75px; font-size: 25px;">
+                        <div style="float: left; margin-left: 10px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
+                        <div style="text-align:right; margin-right: 10px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
+                      </div>
+                      <bgsound src="4846.wav"/>
+                    </div>
+                <% end %>
+
+                <!-- 当incident为0，而MM不为0时 -->
+                <% if @count_new.size == 0 && @count_mam_new.size != 0 %>
+                    <div style="margin-left: 10px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
+                      <% if @count_mam_new.size == 1 %>
+                          <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
+                      <% else %>
+                          <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incidents</I></div>
+                      <% end %>
+                      <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_mam_new.size.to_s %></div>
+                      <div style="height: 75px;line-height: 75px; font-size: 25px;">
+                        <div style="float: left; margin-left: 10px;font-size: 20px;"><%= @count_mam_new.first[:master_number]%></div>
+                        <div style="text-align:right; margin-right: 10px;font-size: 20px;"><I>YA Master Maintenance</I></div>
+                      </div>
+                      <bgsound src="4846.wav"/>
+                    </div>
+                <% end %>
 
 
 
-        <% end %>
+            <% end %>
 
-    </td>
-    <td rowspan="6">
-      <div id="open_pie_chart_by_service_desk" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+          </td>
+          <!--原 by status -->
+          <td rowspan="6">
+            <div id="open_pie_chart_by_status_30" style="min-width: 150px; height: 400px; margin: 0 auto"></div>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td >
+            <% @today_created.each do |tc| %>
+                <% if tc[2].end_with?("Critical")%>
+                    <div style="display: inline-block; margin: 10px 5px;font-size: 17px; color:#FF0000">
+                      <%= tc[0].to_s%>
+                    </div>
+                <% elsif tc[1].end_with?("Maintenance")%>
+                    <div style="display: inline-block; margin: 10px 5px;font-size: 17px; color:#0000ff">
+                      <%= tc[0].to_s%>
+                    </div>
+                <% else %>
+                    <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
+                      <%= tc[0].to_s%>
+                    </div>
+                <% end %>
+            <% end %>
+          </td>
+        </tr>
+        <tr style="">
+          <td>
+            <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px; font-size: 18px;">Daily Closed</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <% @today_closed.each do |tc| %>
+                <% if tc[2].end_with?("Critical")%>
+                    <div style="display: inline-block; margin: 10px 5px;font-size: 17px; color:#FF0000">
+                      <%= tc[0].to_s%>
+                    </div>
+                <% elsif tc[1].end_with?("Maintenance")%>
+                    <div style="display: inline-block; margin: 10px 5px;font-size: 17px; color:#0000ff">
+                      <%= tc[0].to_s%>
+                    </div>
+                <% else %>
+                    <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
+                      <%= tc[0].to_s%>
+                    </div>
+                <% end %>
+            <% end %>
+          </td>
+        </tr>
+        <tr style="">
+          <td>
+            <% if @processing_list.size > 0 && @processing_list.first[2] > (Time.now - 30.minutes)%>
+                <div style="background-color: #ffa0a0; width: 80%; padding: 10px 10px;font-size: 18px;">Processing List</div>
+            <% else %>
+                <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px;font-size: 18px;">Processing List</div>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <% @processing_list.each do |tc| %>
+                <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
+                  <%= tc[0].to_s%>
+                </div>
+            <% end %>
+          </td>
+        </tr>
+      </table>
     </td>
   </tr>
-  <tr>
-    <td >
-      <% @today_created.each do |tc| %>
-          <% if tc[2].end_with?("Critical")%>
-              <div style="display: inline-block; margin: 10px 5px;font-size: 17px; color:#FF0000">
-                <%= tc[0].to_s%>
-              </div>
-          <% elsif tc[1].end_with?("Maintenance")%>
-              <div style="display: inline-block; margin: 10px 5px;font-size: 17px; color:#0000ff">
-                <%= tc[0].to_s%>
-              </div>
-          <% else %>
-              <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
-                <%= tc[0].to_s%>
-              </div>
-          <% end %>
-      <% end %>
-    </td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr style="">
-    <td>
-      <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px; font-size: 18px;">Daily Closed</div>
-    </td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>
-      <% @today_closed.each do |tc| %>
-          <% if tc[2].end_with?("Critical")%>
-              <div style="display: inline-block; margin: 10px 5px;font-size: 17px; color:#FF0000">
-                <%= tc[0].to_s%>
-              </div>
-          <% elsif tc[1].end_with?("Maintenance")%>
-              <div style="display: inline-block; margin: 10px 5px;font-size: 17px; color:#0000ff">
-                <%= tc[0].to_s%>
-              </div>
-          <% else %>
-              <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
-                <%= tc[0].to_s%>
-              </div>
-          <% end %>
-      <% end %>
-    </td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr style="">
-    <td>
-      <% if @processing_list.size > 0 && @processing_list.first[2] > (Time.now - 30.minutes)%>
-          <div style="background-color: #ffa0a0; width: 80%; padding: 10px 10px;font-size: 18px;">Processing List</div>
-      <% else %>
-          <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px;font-size: 18px;">Processing List</div>
-      <% end %>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <% @processing_list.each do |tc| %>
-          <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
-            <%= tc[0].to_s%>
-          </div>
-      <% end %>
-    </td>
-  </tr>
-  </table>
+</table>
+
+
 <script type="text/javascript">
 
     $(function () {
@@ -296,6 +320,50 @@
                 type: 'pie',
                 name: 'Status',
                 data: <%= raw @table_a_open_by_service_desk%>
+            }]
+        });
+        $('#open_pie_chart_by_status_30').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
+                    },
+                    showInLegend: true
+                }
+            },
+            colors: [<%=
+                color = ''
+                count = 0
+                @table_a_incident_by_status_30.each do |c|
+                    color = color + "'#{c[2]}'"
+                    color = color + ',' if c != @table_a_incident_by_status_30.last
+                    count = count + c[1]
+                end
+                color
+            %>],
+            title: {
+                text: 'Incidents by 30_Processing (<%= count.to_s%>)'
+            },
+            legend: {
+                enabled: false
+//                layout: 'vertical',
+//                align: 'left', //水平方向位置
+//                verticalAlign: 'top', //垂直方向位置
+//                x: 50, //距离x轴的距离
+//                y: 50 //距离Y轴的距离
+            },
+            series: [{
+                type: 'pie',
+                name: 'Processing',
+                data: <%= raw @table_a_incident_by_status_30%>
             }]
         });
         $('#daily_chart').highcharts({
