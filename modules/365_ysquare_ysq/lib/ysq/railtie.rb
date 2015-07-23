@@ -10,7 +10,6 @@ module Ysq
       Irm::Rating.send(:include, Ysq::RatingModelEx)
       Icm::IncidentJournalsHelper.send(:include, Ysq::IncidentJournalsHelperEx)
       Icm::IncidentRequestsController.send(:include, Ysq::IncidentRequestsControllerEx)
-      Icm::SupportGroupsController.send(:include, Ysq::SupportGroupsControllerEx)
     end
   end
 end
