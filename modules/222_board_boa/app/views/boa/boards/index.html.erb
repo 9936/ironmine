@@ -30,13 +30,13 @@
     <td>
       <table style="width:100%;table-layout:fixed" >
         <tr>
-          <th style="width:28%">
+          <th style="width:34%">
           </th>
           <th style="width:22%">
           </th>
-          <th style="width:27%">
+          <th style="width:26%">
           </th>
-          <th style="width:23%">
+          <th style="width:18%">
           </th>
         </tr>
         <tr style="">
@@ -79,7 +79,7 @@
 
             <!-- 当incident和MM 均为0的时候，直接显示为0 -->
             <% if @count_new.size == 0 && @count_mam_new.size == 0 %>
-                <div style="margin-left: 40px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
+                <div style="margin-left: 40px;display:block; width: 330px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
                   <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>No New Incident</I></div>
                   <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s%></div>
                 </div>
@@ -87,7 +87,7 @@
                 <!-- 当incident和MM 均不为0的时候，分成上下两层显示 -->
                 <!-- 显示incident信息 -->
             <% elsif @count_new.size != 0 && @count_mam_new.size != 0 %>
-                <div style="margin-left: 10px;width: 350px;height: 175px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
+                <div style="margin-left: 20px;width: 330px;height: 175px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
                   <% if @count_new.size == 1 %>
                       <div style="height: 25px;line-height: 25px; font-size: 25px;"><I>New Incident</I></div>
                   <% else %>
@@ -103,7 +103,7 @@
                 <bgsound src="4846.wav"/>
 
                 <!-- 显示MM信息 -->
-                <div style="margin-left: 10px;width: 350px;height: 175px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
+                <div style="margin-left: 20px;width: 330px;height: 175px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
                   <% if @count_mam_new.size == 1 %>
                       <div style="height: 25px;line-height: 25px; font-size: 25px;"><I>New Incident</I></div>
                   <% else %>
@@ -120,7 +120,7 @@
 
                 <!-- 当incident不为0，而MM为0时 -->
                 <% if @count_new.size != 0 && @count_mam_new.size == 0 %>
-                    <div style="margin-left: 10px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
+                    <div style="margin-left: 20px;width: 330px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
                       <% if @count_new.size == 1 %>
                           <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
                       <% else %>
@@ -137,7 +137,7 @@
 
                 <!-- 当incident为0，而MM不为0时 -->
                 <% if @count_new.size == 0 && @count_mam_new.size != 0 %>
-                    <div style="margin-left: 10px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
+                    <div style="margin-left: 20px;width: 330px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
                       <% if @count_mam_new.size == 1 %>
                           <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
                       <% else %>
@@ -163,10 +163,10 @@
           </td>
           <td rowspan="6">
             <% if @yiss_top_3_name.size > 0 %>
-                <div id="yiss_top_3" style="min-width: 150px; height: 220px; margin: 0 auto"></div>
+                <div id="yiss_top_3" style="min-width: 100px; height: 220px; margin: 0 auto"></div>
             <% end %>
             <% if @sd_top_3_name.size > 0 %>
-                <div id="sd_top_3" style="min-width: 150px; height: 220px; margin: 0 auto"></div>
+                <div id="sd_top_3" style="min-width: 100px; height: 220px; margin: 0 auto"></div>
             <% end %>
           </td>
         </tr>
