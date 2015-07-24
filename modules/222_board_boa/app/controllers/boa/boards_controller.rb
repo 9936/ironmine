@@ -9,6 +9,12 @@ class Boa::BoardsController < ApplicationController
     @table_a_incident_by_category_total = []
     @table_a_open_by_service_desk = []
     @table_a_incident_by_status_30 = []
+    @table_a_incident_by_yiss = []
+    @yiss_top_3_name = []
+    @yiss_top_3_amount = []
+    @table_a_incident_by_sd = []
+    @sd_top_3_name = []
+    @sd_top_3_amount = []
 
     @count_new = Icm::IncidentRequest.enabled.
         select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
@@ -53,7 +59,17 @@ class Boa::BoardsController < ApplicationController
         where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
         group("#{Icm::IncidentRequest.table_name}.incident_category_id").order("ic.code + 0 ASC").collect{|i| [i[:category_name], i[:amount].to_i, '']}
 
-    #30状态且YA/YADIN/YID 
+    @table_a_incident_by_category_open.each do |c|
+      c[2] = '#FF0900' if c[0].eql?("Failure")
+      c[2] = '#E8AB5D' if c[0].eql?("Inquiry")
+      c[2] = '#FFFEC7' if c[0].eql?("Change Request")
+      c[2] = '#66D6FF' if c[0].eql?("Regular Maintenance")
+      c[2] = '#84FF82' if c[0].eql?("Non-Regular Maintenance")
+      c[2] = '#8E5DE8' if c[0].eql?("Master Maintenance")
+      c[2] = '#A9E2E8' if c[0].eql?("EBS")
+    end
+
+    #30状态且YA/YADIN/YID 饼图
     #当前 supporter 为 SD 组里的
     @table_a_incident_by_status_30 = Icm::IncidentRequest.enabled.
         joins(",irm_group_members igm").
@@ -84,15 +100,44 @@ class Boa::BoardsController < ApplicationController
       c[2] = '#FFE384' if c[0].eql?("YISS")
     end
 
-    @table_a_incident_by_category_open.each do |c|
-      c[2] = '#FF0900' if c[0].eql?("Failure")
-      c[2] = '#E8AB5D' if c[0].eql?("Inquiry")
-      c[2] = '#FFFEC7' if c[0].eql?("Change Request")
-      c[2] = '#66D6FF' if c[0].eql?("Regular Maintenance")
-      c[2] = '#84FF82' if c[0].eql?("Non-Regular Maintenance")
-      c[2] = '#8E5DE8' if c[0].eql?("Master Maintenance")
-      c[2] = '#A9E2E8' if c[0].eql?("EBS")
+    #30状态 柱状图 YISS
+    @table_a_incident_by_yiss = Icm::IncidentRequest.enabled.
+        joins(",irm_people ip").
+        joins(",irm_organizations_vl iov").
+        select("ip.full_name, COUNT(ip.full_name) amount").
+        where("iov.language = 'en'").
+        where("#{Icm::IncidentRequest.table_name}.support_person_id = ip.id").
+        where("ip.organization_id = iov.id").
+        where("iov.name = 'YISS'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
+        where("#{Icm::IncidentRequest.table_name}.incident_status_id = '000K00091nRTl3hfwbJuHg'").
+        group("ip.full_name").order("amount DESC").limit(3).collect{|i| [i[:full_name], i[:amount].to_i]}
+
+    @table_a_incident_by_yiss.each do |c|
+      @yiss_top_3_name << c[0] if !c[1].eql?(0)
+      @yiss_top_3_amount << c[1] if !c[1].eql?(0)
     end
+
+    #30状态 柱状图 SD
+    @table_a_incident_by_sd = Icm::IncidentRequest.enabled.
+        joins(",irm_group_members igm").
+        joins(",icm_support_groups_vl isgv").
+        joins(",irm_people ip").
+        select("ip.full_name, COUNT(ip.full_name) amount").
+        where("ip.id = igm.person_id").
+        where("isgv.language = 'en'").
+        where("#{Icm::IncidentRequest.table_name}.support_person_id = igm.person_id").
+        where("igm.group_id = isgv.group_id").
+        where("isgv.name = 'Service Desk'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
+        where("#{Icm::IncidentRequest.table_name}.incident_status_id = '000K00091nRTl3hfwbJuHg'").
+        group("ip.full_name").order("amount DESC").limit(3).collect{|i| [i[:full_name], i[:amount].to_i]}
+
+    @table_a_incident_by_sd.each do |c|
+      @sd_top_3_name << c[0] if !c[1].eql?(0)
+      @sd_top_3_amount << c[1] if !c[1].eql?(0)
+    end
+
 
     @today_created = []
     @today_created = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").

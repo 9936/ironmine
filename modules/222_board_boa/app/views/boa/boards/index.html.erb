@@ -96,7 +96,7 @@
                   <div style="height: 112.5px;line-height: 112.5px; font-size: 100px;color:#333333;"><%= @count_new.size.to_s %></div>
                   <div style="height: 37.5px;line-height: 37.5px; font-size: 25px;">
                     <div style="float: left; margin-left: 10px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
-                    <div style="text-align:right; margin-right: 10px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
+                    <div style="text-align:right; margin-right: 20px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
                   </div>
                 </div>
 
@@ -112,7 +112,7 @@
                   <div style="height: 112.5px;line-height: 112.5px; font-size: 100px;color:#333333;"><%= @count_mam_new.size.to_s %></div>
                   <div style="height: 37.5px;line-height: 37.5px; font-size: 25px;">
                     <div style="float: left; margin-left: 10px;font-size: 20px;"><%= @count_mam_new.first[:master_number]%></div>
-                    <div style="text-align:right; margin-right: 10px;font-size: 20px;"><I>YA Master Maintenance</I></div>
+                    <div style="text-align:right; margin-right: 20px;font-size: 20px;"><I>YA Master Maintenance</I></div>
                   </div>
                 </div>
 
@@ -129,7 +129,7 @@
                       <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s %></div>
                       <div style="height: 75px;line-height: 75px; font-size: 25px;">
                         <div style="float: left; margin-left: 10px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
-                        <div style="text-align:right; margin-right: 10px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
+                        <div style="text-align:right; margin-right: 20px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
                       </div>
                       <bgsound src="4846.wav"/>
                     </div>
@@ -146,7 +146,7 @@
                       <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_mam_new.size.to_s %></div>
                       <div style="height: 75px;line-height: 75px; font-size: 25px;">
                         <div style="float: left; margin-left: 10px;font-size: 20px;"><%= @count_mam_new.first[:master_number]%></div>
-                        <div style="text-align:right; margin-right: 10px;font-size: 20px;"><I>YA Master Maintenance</I></div>
+                        <div style="text-align:right; margin-right: 20px;font-size: 20px;"><I>YA Master Maintenance</I></div>
                       </div>
                       <bgsound src="4846.wav"/>
                     </div>
@@ -161,7 +161,14 @@
           <td rowspan="6">
             <div id="open_pie_chart_by_status_30" style="min-width: 150px; height: 400px; margin: 0 auto"></div>
           </td>
-          <td></td>
+          <td rowspan="6">
+            <% if @yiss_top_3_name.size > 0 %>
+                <div id="yiss_top_3" style="min-width: 150px; height: 220px; margin: 0 auto"></div>
+            <% end %>
+            <% if @sd_top_3_name.size > 0 %>
+                <div id="sd_top_3" style="min-width: 150px; height: 220px; margin: 0 auto"></div>
+            <% end %>
+          </td>
         </tr>
         <tr>
           <td >
@@ -480,6 +487,116 @@
                     }
                 }
             } ]
+        });
+        $('#yiss_top_3').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: '30_Processing Top 3(YISS)'
+            },
+            subtitle: {
+//                text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
+            },
+            xAxis: {
+                categories: ['<%= @yiss_top_3_name.join("','")%>'],
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: null,
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+//                valueSuffix: ' millions'
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            legend: {
+//                layout: 'vertical',
+//                align: 'right',
+//                verticalAlign: 'top',
+                x: -40,
+                y: 80,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                shadow: true
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'Processing',
+                data: [<%= @yiss_top_3_amount.join(',')%>]
+            }]
+        });
+        $('#sd_top_3').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: '30_Processing Top 3(SHSD)'
+            },
+            subtitle: {
+//                text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
+            },
+            xAxis: {
+                categories: ['<%= @sd_top_3_name.join("','")%>'],
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: null,
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+//                valueSuffix: ' millions'
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            legend: {
+//                layout: 'vertical',
+//                align: 'right',
+//                verticalAlign: 'top',
+                x: -40,
+                y: 80,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                shadow: true
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'Processing',
+                data: [<%= @sd_top_3_amount.join(',')%>]
+            }]
         });
     });
 </script>
