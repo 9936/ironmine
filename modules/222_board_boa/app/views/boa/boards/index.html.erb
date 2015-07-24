@@ -6,9 +6,9 @@
         <tr>
           <th style="width:50%">
           </th>
-          <th style="width:25%">
+          <th style="width:26%">
           </th>
-          <th style="width:25%">
+          <th style="width:24%">
           </th>
         <tr>
         <tr>
@@ -30,13 +30,13 @@
     <td>
       <table style="width:100%;table-layout:fixed" >
         <tr>
-          <th style="width:30%">
+          <th style="width:28%">
           </th>
-          <th style="width:20%">
+          <th style="width:22%">
           </th>
-          <th style="width:25%">
+          <th style="width:26%">
           </th>
-          <th style="width:25%">
+          <th style="width:24%">
           </th>
         </tr>
         <tr style="">
@@ -407,8 +407,11 @@
             legend: {
                 layout: 'vertical',
                 align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
+                verticalAlign: 'top',
+                borderWidth: 1,
+                floating: true,
+                shadow: true,
+                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF')
             },
             plotOptions: {
                 line: {

@@ -47,6 +47,15 @@ class Boa::BoardsController < ApplicationController
         where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
         group("#{Icm::IncidentRequest.table_name}.incident_status_id").order("isv.display_sequence + 0 ASC").collect{|i| [i[:status_name], i[:amount].to_i, i[:display_color]]}
 
+    @table_a_open_by_service_desk.each do |c|
+      c[0] = "10_NS" if c[0].eql?("10_Not Started")
+      c[0] = "30_P" if c[0].eql?("30_Processing")
+      c[0] = "40_UC" if c[0].eql?("40_User Confirming")
+      c[0] = "50_RC" if c[0].eql?("50_Re-Confirming")
+      c[0] = "60_R" if c[0].eql?("60_Resolved")
+      c[0] = "99_P" if c[0].eql?("99_Pending")
+    end
+
     @table_a_incident_by_category_open = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").
         select("ic.name category_name, SUM(1) amount").
         joins(",icm_support_groups_vl isg").
@@ -60,12 +69,30 @@ class Boa::BoardsController < ApplicationController
         group("#{Icm::IncidentRequest.table_name}.incident_category_id").order("ic.code + 0 ASC").collect{|i| [i[:category_name], i[:amount].to_i, '']}
 
     @table_a_incident_by_category_open.each do |c|
-      c[2] = '#FF0900' if c[0].eql?("Failure")
-      c[2] = '#E8AB5D' if c[0].eql?("Inquiry")
-      c[2] = '#FFFEC7' if c[0].eql?("Change Request")
-      c[2] = '#66D6FF' if c[0].eql?("Regular Maintenance")
-      c[2] = '#84FF82' if c[0].eql?("Non-Regular Maintenance")
-      c[2] = '#8E5DE8' if c[0].eql?("Master Maintenance")
+      if c[0].eql?("Failure")
+        c[0] = "I"
+        c[2] = '#FF0900'
+      end
+      if c[0].eql?("Inquiry")
+        c[0] = "F"
+        c[2] = '#E8AB5D'
+      end
+      if c[0].eql?("Change Request")
+        c[0] = "CR"
+        c[2] = '#FFFEC7'
+      end
+      if c[0].eql?("Regular Maintenance")
+        c[0] = "RM"
+        c[2] = '#66D6FF'
+      end
+      if c[0].eql?("Non-Regular Maintenance")
+        c[0] = "NRM"
+        c[2] = '#84FF82'
+      end
+      if c[0].eql?("Master Maintenance")
+        c[0] = "MM"
+        c[2] = '#8E5DE8'
+      end
       c[2] = '#A9E2E8' if c[0].eql?("EBS")
     end
 
