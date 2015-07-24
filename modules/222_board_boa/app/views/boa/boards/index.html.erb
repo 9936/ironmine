@@ -34,14 +34,14 @@
           </th>
           <th style="width:22%">
           </th>
-          <th style="width:26%">
+          <th style="width:27%">
           </th>
-          <th style="width:24%">
+          <th style="width:23%">
           </th>
         </tr>
         <tr style="">
           <td style="">
-            <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px; font-size: 18px;">Daily Created</div>
+            <div style="background-color: #c6c6c6; width: 90%; padding: 10px 10px; font-size: 18px;">Daily Created</div>
           </td>
           <td rowspan="6">
             <%# if @count_new.size == 0 && @count_mam_new.size == 0 %>
@@ -191,7 +191,7 @@
         </tr>
         <tr style="">
           <td>
-            <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px; font-size: 18px;">Daily Closed</div>
+            <div style="background-color: #c6c6c6; width: 90%; padding: 10px 10px; font-size: 18px;">Daily Closed</div>
           </td>
         </tr>
         <tr>
@@ -216,9 +216,9 @@
         <tr style="">
           <td>
             <% if @processing_list.size > 0 && @processing_list.first[2] > (Time.now - 30.minutes)%>
-                <div style="background-color: #ffa0a0; width: 80%; padding: 10px 10px;font-size: 18px;">Processing List</div>
+                <div style="background-color: #ffa0a0; width: 90%; padding: 10px 10px;font-size: 18px;">Processing List</div>
             <% else %>
-                <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px;font-size: 18px;">Processing List</div>
+                <div style="background-color: #c6c6c6; width: 90%; padding: 10px 10px;font-size: 18px;">Processing List</div>
             <% end %>
           </td>
         </tr>
