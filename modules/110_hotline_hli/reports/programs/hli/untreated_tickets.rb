@@ -24,7 +24,7 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
         FROM
             icm_incident_requests ir1
         WHERE
-            ir1.hotline = 'Y' AND
+            ir1.hotline = 'Y' AND ir1.status_code = 'ENABLED' AND
             EXISTS( SELECT
                     1
                 FROM
@@ -41,7 +41,7 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
         FROM
             icm_incident_requests ir1, icm_urgence_codes_vl uv
         WHERE
-            ir1.hotline = 'Y' AND uv.language = 'zh' AND uv.id = ir1.urgence_id AND
+            ir1.hotline = 'Y' AND uv.language = 'zh' AND uv.id = ir1.urgence_id AND ir1.status_code = 'ENABLED' AND
             EXISTS( SELECT
                     1
                 FROM
@@ -58,7 +58,7 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
         FROM
             icm_incident_requests ir2
         WHERE
-            ir2.hotline = 'Y' AND
+            ir2.hotline = 'Y' AND ir2.status_code = 'ENABLED' AND
             ir2.support_person_id = #{Irm::Person.table_name}.id
                 AND EXISTS( SELECT
                     1
@@ -72,7 +72,7 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
         FROM
             icm_incident_requests ir2, icm_urgence_codes_vl uv
         WHERE
-            ir2.hotline = 'Y' AND uv.language = 'zh' AND uv.id = ir2.urgence_id AND
+            ir2.hotline = 'Y' AND uv.language = 'zh' AND uv.id = ir2.urgence_id AND ir2.status_code = 'ENABLED' AND
             ir2.support_person_id = #{Irm::Person.table_name}.id
                 AND EXISTS( SELECT
                     1
@@ -86,7 +86,7 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
         FROM
             icm_incident_requests ir3, icm_urgence_codes_vl uv
         where
-            ir3.hotline = 'Y' AND uv.language = 'zh' AND uv.id = ir3.urgence_id AND
+            ir3.hotline = 'Y' AND uv.language = 'zh' AND uv.id = ir3.urgence_id AND ir3.status_code = 'ENABLED' AND
             EXISTS(SELECT * FROM icm_incident_histories iih WHERE ir3.id = iih.request_id AND
             iih.property_key = 'new_reply' AND
             date_format(iih.created_at, '%Y-%m-%d') <= '#{Date.strptime("#{end_date}", '%Y-%m-%d').strftime("%Y-%m-%d")}' AND
@@ -97,7 +97,7 @@ class Hli::UntreatedTickets < Irm::ReportManager::ReportBase
         FROM
             icm_incident_requests ir3
         where
-            ir3.hotline = 'Y' AND
+            ir3.hotline = 'Y' AND ir3.status_code = 'ENABLED' AND
             EXISTS(SELECT * FROM icm_incident_histories iih WHERE ir3.id = iih.request_id AND
             iih.property_key = 'new_reply' AND
             date_format(iih.created_at, '%Y-%m-%d') <= '#{Date.strptime("#{end_date}", '%Y-%m-%d').strftime("%Y-%m-%d")}' AND

@@ -49,7 +49,8 @@ class Hli::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_contact_way),
                I18n.t(:label_icm_incident_request_client_info),
                I18n.t(:label_icm_incident_request_incident_status_code),
-               I18n.t(:label_report_request_workload), "Close Reason", "Close Message"
+               I18n.t(:label_report_request_workload), "Close Reason", "Close Message",
+               I18n.t(:label_report_estimated_date)
                ]
     headers << I18n.t(:label_report_incident_request_journal) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
     array_size = 19
@@ -76,6 +77,7 @@ class Hli::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
 
       data[17] = s[:close_reason_name]
       data[18] = s[:close_message]
+      data[19] = s[:estimated_date]
 
       if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
         messages = ''

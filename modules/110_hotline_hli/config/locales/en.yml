@@ -98,6 +98,7 @@ en:
   label_icm_incident_request_update_workload_group: Update Workload
   label_report_rank: Rank
   label_report_share: Rate
+  label_report_estimated_date: Expected completion date
 
   label_hil_include_journal_history: Include Journal History
 
