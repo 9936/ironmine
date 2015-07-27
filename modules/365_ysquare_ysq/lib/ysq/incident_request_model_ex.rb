@@ -10,6 +10,7 @@ module Ysq::IncidentRequestModelEx
       def re_summary
         content = self.summary
         content = content.gsub(/&nbsp;/,' ')
+        content = content.gsub(/[[:blank:]]/, ' ')
         return content
       end
     end
