@@ -14,10 +14,10 @@
             <div id="daily_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
           </td>
           <td >
-            <div id="open_pie_chart_by_service_desk" style="min-width: 150px; height: 400px; margin: 0 auto"></div>
+            <div id="open_pie_chart_by_service_desk" style="min-width: 150px; height: 380px; margin: 0 auto"></div>
           </td>
           <td>
-            <div id="open_pie_chart" style="min-width: 150px; height: 400px; margin: 0 auto"></div>
+            <div id="open_pie_chart" style="min-width: 150px; height: 380px; margin: 0 auto"></div>
           </td>
         </tr>
         <tr style="">
@@ -140,11 +140,11 @@
           </td>
           <!--原 by status -->
           <td rowspan="6">
-            <div id="open_pie_chart_by_status_30" style="min-width: 150px; height: 400px; margin: 0 auto"></div>
+            <div id="open_pie_chart_by_status_30" style="min-width: 150px; height: 300px; margin: 0 auto"></div>
           </td>
-          <td rowspan="6">
+          <td rowspan="6" style="">
             <% if @top_3_name.size > 0 %>
-                <div id="yiss_sd_top_3" style="min-width: 100px; height: 220px; margin: 0 auto"></div>
+                <div id="yiss_sd_top_3" style="min-width: 100px; height: 220px; margin-top: -83px"></div>
             <% end %>
           </td>
         </tr>
@@ -221,7 +221,8 @@
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false,
-                    type: 'pie'
+                    type: 'pie',
+                    marginTop: 20
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -253,7 +254,9 @@
                 legend: {
                     labelFormatter: function(){
                         return (this.name + ": " + this.y + "  (" + this.percentage.toFixed(1) + "%)")
-                    }
+                    },
+                    margin: -10,
+                    layout: 'vertical'
                 },
                 series: [{
                     type: 'pie',
@@ -310,7 +313,8 @@
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
-                type: 'pie'
+                type: 'pie',
+                marginTop: 20
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -342,7 +346,9 @@
             legend: {
                 labelFormatter: function(){
                     return (this.name + ": " + this.y + "  (" +  this.percentage.toFixed(1) + "%)")
-                }
+                },
+                margin: -10,
+                layout: 'vertical'
             },
             series: [{
                 type: 'pie',
@@ -399,7 +405,9 @@
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
-                type: 'pie'
+                type: 'pie',
+                marginBottom: 40,
+                marginTop: 30
             },
             plotOptions: {
                 pie: {
@@ -423,17 +431,12 @@
                 color
             %>],
             title: {
-                text: 'Incidents by 30_Processing (<%= count.to_s%>)'
+                text: 'Under Processing (<%= count.to_s%>)'
             },
             legend: {
                 labelFormatter: function(){
                     return (this.name + ": " + this.y + "  (" +  this.percentage.toFixed(1) + "%)")
                 }
-//                layout: 'vertical',
-//                align: 'left', //水平方向位置
-//                verticalAlign: 'top', //垂直方向位置
-//                x: 50, //距离x轴的距离
-//                y: 50 //距离Y轴的距离
             },
             series: [{
                 type: 'pie',
@@ -564,7 +567,8 @@
                 type: 'bar'
             },
             title: {
-                text: '30_Processing Top 3'
+                text: '30_Processing Ranking',
+                margin: 30
             },
             subtitle: {
 //                text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
@@ -573,6 +577,11 @@
                 categories: ['<%= @top_3_name.join("','")%>'],
                 title: {
                     text: null
+                },
+                labels: {//设置横轴坐标的显示样式
+                    style: {
+                        font: 'normal 10px Verdana, sans-serif'
+                    }
                 }
             },
             yAxis: {
@@ -625,7 +634,7 @@
 ////                text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
 //            },
 //            xAxis: {
-//                categories: ['<%= @sd_top_3_name.join("','")%>'],
+//                categories: ['<%#= @sd_top_3_name.join("','")%>'],
 //                title: {
 //                    text: null
 //                }
@@ -666,7 +675,7 @@
 //            },
 //            series: [{
 //                name: 'Processing',
-//                data: [<%= @sd_top_3_amount.join(',')%>]
+//                data: [<%#= @sd_top_3_amount.join(',')%>]
 //            }]
 //        });
     });
