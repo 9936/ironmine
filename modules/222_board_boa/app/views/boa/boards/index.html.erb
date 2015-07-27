@@ -1,49 +1,28 @@
 <% require_jscss(:newhighcharts) %>
 <table style="width:100%;table-layout:fixed" >
-  <tr>
-    <td>
-      <table style="width:100%;table-layout:fixed" >
         <tr>
-          <th style="width:50%">
+          <th style="width:33%">
           </th>
-          <th style="width:26%">
+          <th style="width:33%">
           </th>
-          <th style="width:24%">
+          <th style="width:17%">
           </th>
+          <th style="width:17%"></th>
         <tr>
         <tr>
-          <td >
-            <div id="daily_chart" style="min-width: 150px; height: 400px; margin: 0 auto"></div>
+          <td colspan="2">
+            <div id="daily_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
           </td>
           <td >
             <div id="open_pie_chart_by_service_desk" style="min-width: 150px; height: 400px; margin: 0 auto"></div>
           </td>
-          <td >
+          <td>
             <div id="open_pie_chart" style="min-width: 150px; height: 400px; margin: 0 auto"></div>
           </td>
         </tr>
-
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <table style="width:100%;table-layout:fixed" >
-        <tr>
-          <th style="width:28%">
-          </th>
-          <th style="width:22%">
-          </th>
-          <th style="width:1.5%">
-          </th>
-          <th style="width:26%">
-          </th>
-          <th style="width:22.5%">
-          </th>
-        </tr>
         <tr style="">
           <td style="">
-            <div style="background-color: #c6c6c6; width: 90%; padding: 10px 10px; font-size: 18px;">Daily Created</div>
+            <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px; font-size: 18px;">Daily Created</div>
           </td>
           <td rowspan="6">
             <%# if @count_new.size == 0 && @count_mam_new.size == 0 %>
@@ -81,7 +60,7 @@
 
             <!-- 当incident和MM 均为0的时候，直接显示为0 -->
             <% if @count_new.size == 0 && @count_mam_new.size == 0 %>
-                <div style="margin-left: 40px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
+                <div style="margin-left: 100px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
                   <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>No New Incident</I></div>
                   <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s%></div>
                 </div>
@@ -89,7 +68,7 @@
                 <!-- 当incident和MM 均不为0的时候，分成上下两层显示 -->
                 <!-- 显示incident信息 -->
             <% elsif @count_new.size != 0 && @count_mam_new.size != 0 %>
-                <div style="margin-left: 20px;width: 350px;height: 175px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
+                <div style="margin-left: 100px;width: 350px;height: 175px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
                   <% if @count_new.size == 1 %>
                       <div style="height: 25px;line-height: 25px; font-size: 25px;"><I>New Incident</I></div>
                   <% else %>
@@ -105,7 +84,7 @@
                 <bgsound src="4846.wav"/>
 
                 <!-- 显示MM信息 -->
-                <div style="margin-left: 20px;width: 350px;height: 175px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
+                <div style="margin-left: 100px;width: 350px;height: 175px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
                   <% if @count_mam_new.size == 1 %>
                       <div style="height: 25px;line-height: 25px; font-size: 25px;"><I>New Incident</I></div>
                   <% else %>
@@ -122,7 +101,7 @@
 
                 <!-- 当incident不为0，而MM为0时 -->
                 <% if @count_new.size != 0 && @count_mam_new.size == 0 %>
-                    <div style="margin-left: 20px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
+                    <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
                       <% if @count_new.size == 1 %>
                           <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
                       <% else %>
@@ -139,7 +118,7 @@
 
                 <!-- 当incident为0，而MM不为0时 -->
                 <% if @count_new.size == 0 && @count_mam_new.size != 0 %>
-                    <div style="margin-left: 20px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
+                    <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #FFA0FF">
                       <% if @count_mam_new.size == 1 %>
                           <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
                       <% else %>
@@ -160,16 +139,12 @@
 
           </td>
           <!--原 by status -->
-          <td></td>
           <td rowspan="6">
             <div id="open_pie_chart_by_status_30" style="min-width: 150px; height: 400px; margin: 0 auto"></div>
           </td>
           <td rowspan="6">
-            <% if @yiss_top_3_name.size > 0 %>
-                <div id="yiss_top_3" style="min-width: 100px; height: 220px; margin: 0 auto"></div>
-            <% end %>
-            <% if @sd_top_3_name.size > 0 %>
-                <div id="sd_top_3" style="min-width: 100px; height: 220px; margin: 0 auto"></div>
+            <% if @top_3_name.size > 0 %>
+                <div id="yiss_sd_top_3" style="min-width: 100px; height: 220px; margin: 0 auto"></div>
             <% end %>
           </td>
         </tr>
@@ -194,7 +169,7 @@
         </tr>
         <tr style="">
           <td>
-            <div style="background-color: #c6c6c6; width: 90%; padding: 10px 10px; font-size: 18px;">Daily Closed</div>
+            <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px; font-size: 18px;">Daily Closed</div>
           </td>
         </tr>
         <tr>
@@ -219,9 +194,9 @@
         <tr style="">
           <td>
             <% if @processing_list.size > 0 && @processing_list.first[2] > (Time.now - 30.minutes)%>
-                <div style="background-color: #ffa0a0; width: 90%; padding: 10px 10px;font-size: 18px;">Processing List</div>
+                <div style="background-color: #ffa0a0; width: 80%; padding: 10px 10px;font-size: 18px;">Processing List</div>
             <% else %>
-                <div style="background-color: #c6c6c6; width: 90%; padding: 10px 10px;font-size: 18px;">Processing List</div>
+                <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px;font-size: 18px;">Processing List</div>
             <% end %>
           </td>
         </tr>
@@ -234,97 +209,140 @@
             <% end %>
           </td>
         </tr>
-      </table>
-    </td>
-  </tr>
 </table>
 
 
 <script type="text/javascript">
 
     $(function () {
-
-        $('#open_pie_chart').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: false,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
-                    },
-                    showInLegend: true
-                }
-            },
-            colors: [<%=
-                color = ''
-                count = 0
-                @table_a_incident_by_category_open.each do |c|
-                    color = color + "'#{c[2]}'"
-                    color = color + ',' if c != @table_a_incident_by_category_open.last
-                    count = count + c[1]
-                end
-                color
+            // Build the chart
+            $('#open_pie_chart').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+//                            format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
+                        },
+                        showInLegend: true
+                    }
+                },
+                colors: [<%=
+                    color = ''
+                    count = 0
+                    @table_a_incident_by_category_open.each do |c|
+                        color = color + "'#{c[2]}'"
+                        color = color + ',' if c != @table_a_incident_by_category_open.last
+                        count = count + c[1]
+                    end
+                    color
+                %>],
+                title: {
+                    text: 'Incidents by Category (<%= count.to_s%>)'
+                },
+                legend: {
+                    labelFormatter: function(){
+                        return (this.name + ": " + this.y + "  (" + this.percentage.toFixed(1) + "%)")
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Category',
+                    data: <%= raw @table_a_incident_by_category_open%>
+                }]
+            });
+//        $('#open_pie_chart').highcharts({
+//            chart: {
+//                plotBackgroundColor: null,
+//                plotBorderWidth: null,
+//                plotShadow: false
+//            },
+//            plotOptions: {
+//                pie: {
+//                    allowPointSelect: false,
+//                    cursor: 'pointer',
+//                    dataLabels: {
+//                        enabled: true,
+//                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
+//                    },
+//                    showInLegend: true
+//                }
+//            },
+//            colors: [<%#=
+#                 color = ''
+#                 count = 0
+#                 @table_a_incident_by_category_open.each do |c|
+#                     color = color + "'#{c[2]}'"
+#                     color = color + ',' if c != @table_a_incident_by_category_open.last
+#                     count = count + c[1]
+#                 end
+#                 color
             %>],
-            title: {
-                text: 'Incidents by Category (<%= count.to_s%>)'
-            },
-            legend: {
-                  enabled: false
-//                layout: 'vertical',
-//                align: 'left', //水平方向位置
-//                verticalAlign: 'top', //垂直方向位置
-//                x: 50, //距离x轴的距离
-//                y: 50 //距离Y轴的距离
-            },
-            series: [{
-                type: 'pie',
-                name: 'Category',
-                data: <%= raw @table_a_incident_by_category_open%>
-            }]
-        });
+//            title: {
+//                text: 'Incidents by Category (<%#= count.to_s%>)'
+//            },
+//            legend: {
+//                  enabled: false
+////                layout: 'vertical',
+////                align: 'left', //水平方向位置
+////                verticalAlign: 'top', //垂直方向位置
+////                x: 50, //距离x轴的距离
+////                y: 50 //距离Y轴的距离
+//            },
+//            series: [{
+//                type: 'pie',
+//                name: 'Category',
+//                data: <%#= raw @table_a_incident_by_category_open%>
+//            }]
+//        });
         $('#open_pie_chart_by_service_desk').highcharts({
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
-                plotShadow: false
+                plotShadow: false,
+                type: 'pie'
             },
-            colors: [<%=
-                color = ''
-                count = 0
-                @table_a_open_by_service_desk.each do |c|
-                    color = color + "'#{c[2]}'"
-                    color = color + ',' if c != @table_a_open_by_service_desk.last
-                    count = count + c[1]
-                end
-                color
-            %>],
-            title: {
-                text: 'Incidents by Status (<%= count.to_s%>)'
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
             },
             plotOptions: {
                 pie: {
-                    allowPointSelect: false,
+                    allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: true,
-                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
+                        enabled: false
+//                            format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
                     },
                     showInLegend: true
                 }
             },
+            colors: [<%=
+                    color = ''
+                    count = 0
+                    @table_a_open_by_service_desk.each do |c|
+                        color = color + "'#{c[2]}'"
+                        color = color + ',' if c != @table_a_open_by_service_desk.last
+                        count = count + c[1]
+                    end
+                    color
+                %>],
+            title: {
+                text: 'Incidents by Status (<%= count.to_s%>)'
+            },
             legend: {
-                  enabled: false
-//                layout: 'vertical',
-//                align: 'left', //水平方向位置
-//                verticalAlign: 'top', //垂直方向位置
-//                x: 50, //距离x轴的距离
-//                y: 50 //距离Y轴的距离
+                labelFormatter: function(){
+                    return (this.name + ": " + this.y + "  (" +  this.percentage.toFixed(1) + "%)")
+                }
             },
             series: [{
                 type: 'pie',
@@ -332,19 +350,64 @@
                 data: <%= raw @table_a_open_by_service_desk%>
             }]
         });
+//        $('#open_pie_chart_by_service_desk').highcharts({
+//            chart: {
+//                plotBackgroundColor: null,
+//                plotBorderWidth: null,
+//                plotShadow: false
+//            },
+//            colors: [<%#=
+#                 color = ''
+#                 count = 0
+#                 @table_a_open_by_service_desk.each do |c|
+#                     color = color + "'#{c[2]}'"
+#                     color = color + ',' if c != @table_a_open_by_service_desk.last
+#                     count = count + c[1]
+#                 end
+#                 color
+            %>],
+//            title: {
+//                text: 'Incidents by Status (<%#= count.to_s%>)'
+//            },
+//            plotOptions: {
+//                pie: {
+//                    allowPointSelect: false,
+//                    cursor: 'pointer',
+//                    dataLabels: {
+//                        enabled: true,
+//                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
+//                    },
+//                    showInLegend: true
+//                }
+//            },
+//            legend: {
+//                  enabled: false
+////                layout: 'vertical',
+////                align: 'left', //水平方向位置
+////                verticalAlign: 'top', //垂直方向位置
+////                x: 50, //距离x轴的距离
+////                y: 50 //距离Y轴的距离
+//            },
+//            series: [{
+//                type: 'pie',
+//                name: 'Status',
+//                data: <%#= raw @table_a_open_by_service_desk%>
+//            }]
+//        });
         $('#open_pie_chart_by_status_30').highcharts({
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
-                plotShadow: false
+                plotShadow: false,
+                type: 'pie'
             },
             plotOptions: {
                 pie: {
                     allowPointSelect: false,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: true,
-                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
+                        enabled: false
+//                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
                     },
                     showInLegend: true
                 }
@@ -363,7 +426,9 @@
                 text: 'Incidents by 30_Processing (<%= count.to_s%>)'
             },
             legend: {
-                enabled: false
+                labelFormatter: function(){
+                    return (this.name + ": " + this.y + "  (" +  this.percentage.toFixed(1) + "%)")
+                }
 //                layout: 'vertical',
 //                align: 'left', //水平方向位置
 //                verticalAlign: 'top', //垂直方向位置
@@ -410,11 +475,11 @@
             legend: {
                 layout: 'vertical',
                 align: 'right',
-                verticalAlign: 'top',
-                borderWidth: 1,
-                floating: true,
-                shadow: true,
-                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF')
+                verticalAlign: 'middle',
+                borderWidth: 0,
+//                floating: true,
+//                shadow: true,
+//                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF')
             },
             plotOptions: {
                 line: {
@@ -494,18 +559,18 @@
                 }
             } ]
         });
-        $('#yiss_top_3').highcharts({
+        $('#yiss_sd_top_3').highcharts({
             chart: {
                 type: 'bar'
             },
             title: {
-                text: '30_Processing Top 3(YISS)'
+                text: '30_Processing Top 3'
             },
             subtitle: {
 //                text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
             },
             xAxis: {
-                categories: ['<%= @yiss_top_3_name.join("','")%>'],
+                categories: ['<%= @top_3_name.join("','")%>'],
                 title: {
                     text: null
                 }
@@ -546,64 +611,64 @@
             },
             series: [{
                 name: 'Processing',
-                data: [<%= @yiss_top_3_amount.join(',')%>]
+                data: [<%= @top_3_amount.join(',')%>]
             }]
         });
-        $('#sd_top_3').highcharts({
-            chart: {
-                type: 'bar'
-            },
-            title: {
-                text: '30_Processing Top 3(SHSD)'
-            },
-            subtitle: {
-//                text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
-            },
-            xAxis: {
-                categories: ['<%= @sd_top_3_name.join("','")%>'],
-                title: {
-                    text: null
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: null,
-                    align: 'high'
-                },
-                labels: {
-                    overflow: 'justify'
-                }
-            },
-            tooltip: {
-//                valueSuffix: ' millions'
-            },
-            plotOptions: {
-                bar: {
-                    dataLabels: {
-                        enabled: true
-                    }
-                }
-            },
-            legend: {
-//                layout: 'vertical',
-//                align: 'right',
-//                verticalAlign: 'top',
-                x: -40,
-                y: 80,
-                floating: true,
-                borderWidth: 1,
-                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-                shadow: true
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: 'Processing',
-                data: [<%= @sd_top_3_amount.join(',')%>]
-            }]
-        });
+//        $('#sd_top_3').highcharts({
+//            chart: {
+//                type: 'bar'
+//            },
+//            title: {
+//                text: '30_Processing Top 3(SHSD)'
+//            },
+//            subtitle: {
+////                text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
+//            },
+//            xAxis: {
+//                categories: ['<%= @sd_top_3_name.join("','")%>'],
+//                title: {
+//                    text: null
+//                }
+//            },
+//            yAxis: {
+//                min: 0,
+//                title: {
+//                    text: null,
+//                    align: 'high'
+//                },
+//                labels: {
+//                    overflow: 'justify'
+//                }
+//            },
+//            tooltip: {
+////                valueSuffix: ' millions'
+//            },
+//            plotOptions: {
+//                bar: {
+//                    dataLabels: {
+//                        enabled: true
+//                    }
+//                }
+//            },
+//            legend: {
+////                layout: 'vertical',
+////                align: 'right',
+////                verticalAlign: 'top',
+//                x: -40,
+//                y: 80,
+//                floating: true,
+//                borderWidth: 1,
+//                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+//                shadow: true
+//            },
+//            credits: {
+//                enabled: false
+//            },
+//            series: [{
+//                name: 'Processing',
+//                data: [<%= @sd_top_3_amount.join(',')%>]
+//            }]
+//        });
     });
 </script>
 <script language="JavaScript">
