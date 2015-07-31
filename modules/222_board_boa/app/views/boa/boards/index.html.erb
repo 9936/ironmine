@@ -221,11 +221,7 @@
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false,
-                    type: 'pie',
-                    marginLeft: 15,
-                    marginRight: 15,
-                    marginTop: 15,
-                    marginBottom: 50
+                    type: 'pie'
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -258,7 +254,6 @@
                     labelFormatter: function(){
                         return (this.name + ": " + this.y + "  (" + this.percentage.toFixed(1) + "%)")
                     },
-                    margin: -30,
                     layout: 'vertical'
                 },
                 series: [{
@@ -317,10 +312,7 @@
                 plotBorderWidth: null,
                 plotShadow: false,
                 type: 'pie',
-                marginLeft: 15,
-                marginRight: 15,
-                marginTop: 15,
-                marginBottom: 50
+                margin: 30
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -353,7 +345,6 @@
                 labelFormatter: function(){
                     return (this.name + ": " + this.y + "  (" +  this.percentage.toFixed(1) + "%)")
                 },
-                margin: -30,
                 layout: 'vertical'
             },
             series: [{
