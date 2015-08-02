@@ -184,7 +184,8 @@ class Boa::BoardsController < ApplicationController
         where("ipv.language = 'en'").
         where("isg.language = 'zh'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-        where("isg.name = 'Service Desk'").
+        #where("isg.name = 'Service Desk'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
         where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", (Time.now).strftime('%Y-%m-%d')).
@@ -199,12 +200,13 @@ class Boa::BoardsController < ApplicationController
         joins(",icm_priority_codes_vl ipv").
         where("ipv.id = #{Icm::IncidentRequest.table_name}.priority_id").
         where("ipv.language = 'en'").
-        where("isg.name = 'Service Desk'").
+        #where("isg.name = 'Service Desk'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
         where("isg.language = 'zh'").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-        where("isg.name = 'Service Desk'").
+        #where("isg.name = 'Service Desk'").
         where("EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND DATE_FORMAT(ij.created_at, '%Y-%m-%d') = ?)",
               (Time.now).strftime('%Y-%m-%d')).
         order("#{Icm::IncidentRequest.table_name}.last_response_date ASC").
@@ -215,7 +217,8 @@ class Boa::BoardsController < ApplicationController
         joins(",icm_support_groups_vl isg").
         where("isg.language = 'zh'").
         where("isg.id = #{Icm::IncidentRequest.table_name}.support_group_id").
-        where("isg.name = 'Service Desk'").
+        #where("isg.name = 'Service Desk'").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
         where("#{Icm::IncidentRequest.table_name}.incident_status_id IN (?)", ["000K00091nRTl3hfwbJuHg","000K00091oEOpAuVx0QTVQ", "000K00091nRTl3hfuk332W"]).
