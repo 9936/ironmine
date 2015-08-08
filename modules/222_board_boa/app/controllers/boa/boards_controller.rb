@@ -74,28 +74,41 @@ class Boa::BoardsController < ApplicationController
     @table_a_incident_by_category_open.each do |c|
       if c[0].eql?("Failure")
         # c[0] = "I"
-        c[2] = '#FF0900'
+        # c[2] = '#FF0900'
+        c[2] = '#D60004'
       end
       if c[0].eql?("Inquiry")
         # c[0] = "F"
-        c[2] = '#E8AB5D'
-      end
-      if c[0].eql?("Change Request")
-        # c[0] = "CR"
-        c[2] = '#FFFEC7'
-      end
-      if c[0].eql?("Regular Maintenance")
-        # c[0] = "RM"
-        c[2] = '#66D6FF'
-      end
-      if c[0].eql?("Non-Regular Maintenance")
-        # c[0] = "NRM"
-        c[2] = '#84FF82'
+        # c[2] = '#E8AB5D'
+        c[2] = '#880150'
       end
       if c[0].eql?("Master Maintenance")
         # c[0] = "MM"
-        c[2] = '#8E5DE8'
+        # c[2] = '#8E5DE8'
+        c[2] = '#0273CF'
       end
+      if c[0].eql?("Non-Regular Maintenance")
+        # c[0] = "NRM"
+        # c[2] = '#84FF82'
+        c[2] = '#58AA55'
+      end
+      if c[0].eql?("Regular Maintenance")
+        # c[0] = "RM"
+        # c[2] = '#66D6FF'
+        c[2] = '#97CC05'
+      end
+      if c[0].eql?("Change Request")
+        # c[0] = "CR"
+        # c[2] = '#FFFEC7'
+        c[2] = '#E5DA48'
+      end
+      if c[0].eql?("Enhancement")
+        # c[0] = "CR"
+        # c[2] = '#FFFEC7'
+        c[2] = '#E78040'
+      end
+
+
       c[2] = '#A9E2E8' if c[0].eql?("EBS")
     end
 
