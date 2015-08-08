@@ -770,7 +770,7 @@ var xheditor=function(textarea,options)
 				});
 
 				//img强制加alt
-				if(tag==='img'&&!attr.match(/\s+alt\s*=\s*("[^"]*"|'[^']*'|[^>\s]+)/i))attr+=' alt=""';
+				if(tag==='img'&&!attr.match(/\s+alt\s*=\s*("[^"]*"|'[^']*'|[^>\s]+)/i))attr+=' alt="" width="80%"';
 				return left+attr+right;
 			});
 			//表格单元格处理
