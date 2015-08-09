@@ -12,6 +12,8 @@ gem 'rake','0.9.2'
 
 #gem 'rack-mini-profiler'
 
+gem 'passenger', '4.0.16'
+
 gem 'pry'
 
 gem 'liquid', '2.2.2',:require=>'liquid'
