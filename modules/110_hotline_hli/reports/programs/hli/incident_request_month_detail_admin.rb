@@ -27,11 +27,17 @@ class Hli::IncidentRequestMonthDetailAdmin < Irm::ReportManager::ReportBase
       statis = statis.where("icm_incident_requests.hotline = ?", params[:hotline])
     end
 
+    #定义system数组
+    sys_data = []
+
     if params[:external_system_id].present? && params[:external_system_id].size > 0 && params[:external_system_id][0].present?
+      sys_data = params[:external_system_id] + []
       statis = statis.where("external_system.id IN (?)", params[:external_system_id] + [])
     else
-      statis = statis.where("external_system.id IN (?)", Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id) + []) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).any?
+      sys_data = (Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id) + [])
+      statis = statis.where("external_system.id IN (?)", sys_data) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).any?
     end
+
 
     datas = []
     headers = [I18n.t(:label_report_number),
@@ -54,9 +60,26 @@ class Hli::IncidentRequestMonthDetailAdmin < Irm::ReportManager::ReportBase
                ]
     headers << I18n.t(:label_report_incident_request_journal) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
 
+    # 标题行 给 IEB AMO 添加自定义字段显示 English description
+    sys_data.each do |sys|
+      if sys.eql?('000q00040ldeyhJAU9f5km')
+        headers << "English description"
+      end
+    end
+
+
     statis.each do |s|
       data = Array.new(22)
       data = Array.new(23) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
+      # IEB AMO 项目添加 自定义字段 English description
+      if s[:external_system_id].eql?('000q00040ldeyhJAU9f5km')
+        if headers.size > 23
+          data = Array.new(24)
+        else
+          data = Array.new(23)
+        end
+      end
+
       data[0] = s[:request_number]
       data[1] = s[:external_system_name]
       data[2] = s[:requested_name]
@@ -117,6 +140,16 @@ class Hli::IncidentRequestMonthDetailAdmin < Irm::ReportManager::ReportBase
         messages = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(messages,""))
         data[22] = messages
       end
+
+      # 给 IEB AMO 添加自定义字段显示 English description  IEB AMO的id为：000q00040ldeyhJAU9f5km
+      if s[:external_system_id].eql?('000q00040ldeyhJAU9f5km')
+        if headers.size > 23
+          data[23] = s[:sattribute1]
+        else
+          data[22] = s[:sattribute1]
+        end
+      end
+
       datas << data
     end
 
