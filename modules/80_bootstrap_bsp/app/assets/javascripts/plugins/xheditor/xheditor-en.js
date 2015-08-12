@@ -2082,7 +2082,19 @@ var xheditor=function(textarea,options)
 		if(bSource||ev.which!==13||ev.shiftKey||ev.ctrlKey||ev.altKey)return true;
 		var pNode=_this.getParent('p,h1,h2,h3,h4,h5,h6,pre,address,div,li');
 		if(pNode.is('li'))return true;
-		if(settings.forcePtag){if(pNode.length===0)_this._exec('formatblock','<p>');}
+		if(settings.forcePtag)
+		{
+			if(pNode.length===0) {
+				_this._exec('formatblock','<p>');
+				//2015-08-12  为了使得编辑器中回复的样式与列表中的一致
+				if (_this.doc.body.getElementsByTagName('p').length > 0) {
+					_this.doc.body.getElementsByTagName('p').item(0).style.marginBottom = '2px';
+					_this.doc.body.getElementsByTagName('p').item(0).style.marginTop = '0';
+				}
+
+
+			}
+		}
 		else
 		{
 			_this.pasteHTML('<br />');
