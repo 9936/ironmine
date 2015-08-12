@@ -14,7 +14,7 @@ module Mam::MastersHelper
   end
 
   def mam_can_close?(master)
-    if allow_to_function?(:update_close)
+    if allow_to_function?(:update_close) && !master.support_person_id.nil?
       return true
     else
       return false
