@@ -6,7 +6,7 @@
           <% if mam_can_close?(@master) %>
               <%= link_to t(:close),
                           {:action => "update_status", :master_id => @master.id,
-                           :next_status => "MAM_CLOSE"},{:class=>"btn"} %>
+                           :next_status => "MAM_CLOSE"},{:class=>"btn", :data=>{:confirm=>"This ticket will be closed， please make sure this issue has been solved."}} %>
           <% end %>
 
           <!-- 检查是否具有编辑权限 -->
