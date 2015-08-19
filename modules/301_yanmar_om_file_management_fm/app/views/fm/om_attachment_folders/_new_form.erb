@@ -1,0 +1,95 @@
+<%= common_title %>
+<%= form_for(@fm_attachment_folder, :url => {:action => "create"}, :builder => CustomFormBuilder) do |f| %>
+    <% content_for :form_block_a do %>
+        <table class="form-table" cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+          <tr>
+            <td class="label-col"><label for="parent_id"><%= t(:label_irm_attachment_folder_parent_id) %></label></td>
+            <td class="data-col">
+              <%= f.blank_select :parent_id, available_attachment_parent_folder(@fm_attachment_folder[:id],false), {:required => false}, :id => "parent_folder" %>
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="name"><%= t(:label_irm_attachment_folder_name) %></label></td>
+            <td class="data-col"><%= f.text_field :name, :required => true, :id => "name" %></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="description"><%= t(:label_irm_attachment_folder_description) %></label>
+            </td>
+            <td class="data-col"><%= f.text_area :description, :class => 'input-xlarge', :rows => '6', :cols => '40', :required => true, :id => "name" %></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr style="display:none">
+            <td class="label-col"><label for="created_by"><%= t(:label_irm_attachment_folder_created_by) %></label></td>
+            <td class="data-col"><%= f.text_field :created_by, :required => true, :id => "created_by" %></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr style="display:none">
+            <td class="label-col"><label for="updated_by"><%= t(:label_irm_attachment_folder_updated_by) %></label></td>
+            <td class="data-col"><%= f.text_field :updated_by, :required => true, :id => "updated_by" %></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr style="display:none">
+            <td class="label-col"><label for="created_at"><%= t(:label_irm_attachment_folder_created_at) %></label></td>
+            <td class="data-col"><%= f.datetime_select :created_at, :required => true, :id => "created_at" %></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr style="display:none">
+            <td class="label-col"><label for="updated_at"><%= t(:label_irm_attachment_folder_updated_at) %></label></td>
+            <td class="data-col"><%= f.datetime_select :updated_at, :required => true, :id => "updated_at" %></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_buttons do %>
+        <%= link_submit t(:save), {:class => "btn btn-primary"} %>
+        <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_irm_attachment_folder_new) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= error_for @attachment_folder %>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a %>
+          </div>
+        </div>
+
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title">
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
