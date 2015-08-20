@@ -16,7 +16,7 @@
           <tr>
             <td class="label-col"><label for="parent_id"><%= t(:label_irm_attachment_folder_parent_id) %></label></td>
             <td class="data-col">
-              <%= select_tag "file[0][folder_id]", options_for_select(available_attachment_parent_folder(nil,false)), {:required => false} %>
+              <%= select_tag "file[0][folder_id]", options_for_select(om_available_attachment_parent_folder(nil,false)), {:required => false} %>
             </td>
 
           </tr>

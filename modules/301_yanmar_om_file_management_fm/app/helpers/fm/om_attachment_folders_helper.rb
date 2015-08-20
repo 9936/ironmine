@@ -1,5 +1,5 @@
 module Fm::OmAttachmentFoldersHelper
-  def available_attachment_parent_folder(id,del_p)
+  def om_available_attachment_parent_folder(id,del_p)
     @collects=[]
     folders=Fm::AttachmentFolder.all
     folders.each do |f|
