@@ -11,7 +11,7 @@
       <% end %>
     <% end %>
     <% builder.column(:data_file_name,{:title=>t(:label_skm_file_name),:searchable => true,:width=>"300px"}) do |data| %>
-      <%= data_file_name(data) %>
+      <%= om_data_file_name(data) %>
     <% end %>
     <% builder.column(:access_type,{:title=>t(:label_skm_file_access_types),:width => "100px"}) do |data| %>
       <%= access_type_meaning(data[:access_type]) %>
