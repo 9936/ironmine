@@ -65,7 +65,7 @@ class Fm::OmAttachmentFoldersController < ApplicationController
   def update
     @fm_attachment_folder = Fm::AttachmentFolder.find(params[:id])
     @fm_attachment_folder[:updated_by] = Irm::Person.current[:id]
-    params[:parent_id]='' if @irm_attachment_folder[:parent_id]==''
+    params[:parent_id]='' if @fm_attachment_folder[:parent_id]==''
     puts '*****************************************'
     puts '* Root!' if  @fm_attachment_folder[:parent_id]==''
     puts '*****************************************'

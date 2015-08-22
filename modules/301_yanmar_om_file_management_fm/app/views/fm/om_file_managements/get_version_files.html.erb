@@ -25,7 +25,7 @@
             <% end %>
           <% end %>
           <% builder.column(:data_file_name,{:title=>t(:label_skm_file_name),:searchable => true,:width=>"300px"}) do |data|%>
-            <%= data_version_file_name data %>
+            <%= om_data_version_file_name data %>
           <% end %>
           <% builder.column(:download_count,{:title=>t(:label_skm_file_download_count),:width => "100px"})%>
           <% builder.column(:description,{:title=>t(:description),:searchable => true})%>
