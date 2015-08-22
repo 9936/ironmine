@@ -190,7 +190,8 @@ var xheditor=function(textarea,options)
 		
 		var iframeHTML='<html><head>'+headHTML+'<title>WYSIWYG Editor,press alt+1-9,toogle to tool area,press tab,select button,press esc,return editor '+(settings.readTip?settings.readTip:'')+'</title>';
 		if(editorBackground)iframeHTML+='<style>html{background:'+editorBackground+';}</style>';
-		iframeHTML+='</head><body spellcheck="0" class="editMode'+bodyClass+'"></body></html>';
+		//iframeHTML+='</head><body spellcheck="0" class="editMode'+bodyClass+'"></body></html>';
+		iframeHTML+='</head><body spellcheck="0" style="font-family: Arial;" class="editMode'+bodyClass+'"></body></html>';
 		_this.win=_win=$('#'+idIframe)[0].contentWindow;
 		_jWin=$(_win);
 		try{
@@ -2088,11 +2089,10 @@ var xheditor=function(textarea,options)
 				_this._exec('formatblock','<p>');
 				//2015-08-12  为了使得编辑器中回复的样式与列表中的一致
 				if (_this.doc.body.getElementsByTagName('p').length > 0) {
-					_this.doc.body.getElementsByTagName('p').item(0).style.marginBottom = '2px';
-					_this.doc.body.getElementsByTagName('p').item(0).style.marginTop = '0';
+					_this.doc.body.getElementsByTagName('p').item(0).style.margin = '0';
+					_this.doc.body.getElementsByTagName('p').item(0).style.lineHeight = '16px';
+					_this.doc.body.getElementsByTagName('p').item(0).style.fontFamily = 'Arial';
 				}
-
-
 			}
 		}
 		else
