@@ -28,7 +28,7 @@
         </div>
         <div class="btn-group">
           <% if mam_can_receive?(@master) && @master.assignable_to_person?(Irm::Person.current.id)%>
-              <%= link_to "Receive",
+              <%= link_to "Accept",
                           {:action => "update_assign",
                            :next_person => Irm::Person.current.id,
                            :master_id=>@master.id},
