@@ -35,7 +35,12 @@
               <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
             </div>
             <!--<bgsound src="4846.wav"/>-->
-            <embed src="4846.wav" height="0" width="0" autostart="true"/>
+            <!-- Firefox play wav -->
+            <audio autoplay="autoplay">
+              Your browser does not support the <code>audio</code> element.
+              <source src="4846.wav" type="audio/wav">
+            </audio>
+
           </div>
         <% else%>
           <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
@@ -46,7 +51,12 @@
               <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
             </div>
             <!--<bgsound src="4846.wav"/>-->
-            <embed src="4846.wav" height="0" width="0" autostart="true"/>
+            <!-- Firefox play wav -->
+            <audio autoplay="autoplay">
+              Your browser does not support the <code>audio</code> element.
+              <source src="4846.wav" type="audio/wav">
+            </audio>
+
           </div>
         <% end %>
     </td>
