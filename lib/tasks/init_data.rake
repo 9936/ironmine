@@ -94,6 +94,7 @@ namespace :irm do
       group[:languages] ||= {}
       group[:languages][:zh] = group[:zh] if group[:zh]
       group[:languages][:en] = group[:en] if group[:en]
+      group[:languages][:ja] = group[:ja] if group[:ja]
       group[:code] = group_code if group_code
       if group_system_flag
         group[:system_flag] = group[:system_flag]
@@ -158,6 +159,7 @@ namespace :irm do
               function[:languages] ||= {}
               function[:languages][:zh] = function[:zh] if function[:zh]
               function[:languages][:en] = function[:en] if function[:en]
+              function[:languages][:ja] = function[:ja] if function[:ja]
 
               #检查function的system_flag
               function_system_flag = system_flag?(function)
@@ -289,6 +291,7 @@ namespace :irm do
       menu[:code] = code if code.present?
       menu[:languages][:zh] = menu[:zh]? menu[:zh] : {}
       menu[:languages][:en] = menu[:en]? menu[:en] : {}
+      menu[:languages][:ja] = menu[:ja]? menu[:ja] : {}
       tmp_menu = Irm::Menu.where(:code => code).first
       if tmp_menu.present?
         success_update_menus << code unless success_update_menus.include?(code)
@@ -340,6 +343,7 @@ namespace :irm do
           entry[:languages] ||= {}
           entry[:languages][:zh] = entry[:zh]? entry[:zh] : {}
           entry[:languages][:en] = entry[:en]? entry[:en] : {}
+          entry[:languages][:ja] = entry[:ja]? entry[:ja] : {}
           if entry[:sub_menu_code] and entry[:sub_menu_code].present?
             menu_entry = Irm::MenuEntry.new(:menu_code=> menu[:code],:sub_menu_code=>entry[:sub_menu_code],:display_sequence=>entry[:display_sequence])
           elsif entry[:sub_function_group_code] and entry[:sub_function_group_code].present?
