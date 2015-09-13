@@ -10,6 +10,8 @@ module Yan
       Irm::Rating.send(:include, Yan::RatingModelEx)
       Icm::IncidentJournalsHelper.send(:include, Yan::IncidentJournalsHelperEx)
       Icm::IncidentRequestsController.send(:include, Yan::IncidentRequestsControllerEx)
+      Irm::ExternalSystem.send(:include, Yan::ExternalSystemModelEx)
+      Irm::ExternalSystemsHelper.send(:include, Yan::ExternalSystemHelperEx)
     end
   end
 end
