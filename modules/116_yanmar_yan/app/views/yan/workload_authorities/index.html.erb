@@ -1,0 +1,122 @@
+<style type="text/css">
+  .w_title{
+    color: #000000;
+    line-height: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: start;
+    padding-left: 20px;
+    padding-top: 20px;
+  }
+
+  .w_checkbox_label{
+    color: #000000;
+    line-height: 20px;
+    font-size: 10px;
+    text-align: end;
+    padding-left: 40px;
+    padding-top: 5px;
+  }
+</style>
+
+<%= setting_title %>
+<%= form_tag({:action => :add_workload_authority}) do %>
+    <% content_for :form_block_common  do%>
+        <table>
+          <tbody>
+          <tr>
+            <td class="w_title"><%= t(:label_by_organization)%></td>
+          </tr>
+          <tr>
+            <td class="w_checkbox_label"><label><%= t(:label_organization_yiss)%></label></td>
+            <td class="w_checkbox">
+              <%= check_box_tag :yiss_people, 1,checked=has_authority("YISS"), :id=>"yiss_checkbox" %>
+            </td>
+
+            <td class="w_checkbox_label"><label><%= t(:label_organization_hand)%></label></td>
+            <td>
+              <%= check_box_tag :hand_people, 1,checked=has_authority("HAND"), :id=>"hand_checkbox" %>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="w_title"><%= t(:label_by_group)%></td>
+          </tr>
+          <tr>
+            <td class="w_checkbox_label"><label><%= t(:label_group_sd)%></label></td>
+            <td>
+              <%= check_box_tag :sd_people, 1,checked=has_authority("SD"), :id=>"sd_checkbox" %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_buttons  do %>
+        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <% end %>
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_workload_authority) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 一般信息 -->
+          <%#= error_for @session_timeout %>
+          <%= flash_notice %>
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_common   %>
+          </div>
+        </div>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function(){
+    if($("#yiss_checkbox")){
+      $("#yiss_checkbox").change(function(event){
+        if ($("#sd_checkbox").attr("checked")) {
+          $("#sd_checkbox").attr("checked", false);
+        }
+      })
+    }
+    if($("#hand_checkbox")){
+      $("#hand_checkbox").change(function(event){
+        if ($("#sd_checkbox").attr("checked")) {
+          $("#sd_checkbox").attr("checked", false);
+        }
+      })
+    }
+    if($("#sd_checkbox")){
+      $("#sd_checkbox").change(function(event){
+        if ($("#yiss_checkbox").attr("checked")) {
+          $("#yiss_checkbox").attr("checked", false);
+        }
+        if ($("#hand_checkbox").attr("checked")) {
+          $("#hand_checkbox").attr("checked", false);
+        }
+      })
+    }
+  });
+</script>

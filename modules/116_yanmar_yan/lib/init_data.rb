@@ -88,4 +88,59 @@ Fwk::MenuAndFunctionManager.map do |map|
           }
       }
   }
+
+  map.menu :management_setting, {
+      :children => {
+          :workload_management => {
+                :type => "menu",
+                :entry => {
+                    :sequence => 150,
+                    :en => {:name => "Workload Management", :description => "Workload Management"},
+                    :zh => {:name => "工时管理", :description => "工时管理"},
+                    :ja => {:name => "Workload Management", :description => "Workload Management"}
+                }
+          }
+      }
+  }
+
+  map.menu :workload_management, {
+      :en => {:name => "Workload Management", :description => "Workload Management"},
+      :zh => {:name => "工时管理", :description => "工时管理"},
+      :ja => {:name => "Workload Management", :description => "Workload Management"},
+      :children => {
+          :workload_authority => {
+              :type => "function",
+              :entry => {
+                  :sequence => 10,
+                  :en => {:name => "Workload Management", :description => "Workload Management"},
+                  :zh => {:name => "工时管理", :description => "工时管理"},
+                  :ja => {:name => "Workload Management", :description => "Workload Management"}
+              }
+          }
+      }
+  }
+
+  map.function_group :workload_authority, {
+      :en => {:name => "Workload Management", :description => "Workload Management"},
+      :zh => {:name => "工时管理", :description => "工时管理"},
+      :ja => {:name => "Workload Management", :description => "Workload Management"}
+  }
+  map.function_group :workload_authority, {
+      :zone_code => "WORKLOAD",
+      :controller => "yan/workload_authorities",
+      :action => "index"}
+  map.function_group :workload_authority, {
+      :children => {
+          :workload_authority => {
+              :en => {:name => "Workload Authority", :description => "Workload Authority"},
+              :zh => {:name => "工时权限", :description => "工时权限"},
+              :ja => {:name => "Workload Authority", :description => "Workload Authority"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "yan/workload_authorities" => ["index"]
+          }
+      }
+  }
+
 end

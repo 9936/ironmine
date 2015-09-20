@@ -11,3 +11,16 @@ zh:
 
   label_icm_report_source_name: 要求事项来源
   label_icm_incident_request_report_source_code: 要求事项来源
+
+  label_number_of_consultants: 顾问人数
+  label_number_of_technicians: 技术人数
+
+  label_by_organization: 按组织分
+  label_by_group: 按支持组分
+
+  label_organization_yiss: YISS
+  label_organization_hand: HAND
+  label_group_sd: GPACK Service Desk
+
+  label_yan_workload_authority: 工时管理
+  label_workload_authority: 工时权限

@@ -124,7 +124,7 @@
           <td class="label-col"></td>
           <td class="data-col"></td>
         </tr>
-        <%= render :partial=>"new_form_external_field"%>
+        <%#= render :partial=>"new_form_external_field"%>
         <tr>
           <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>
           <td class="data-col" colspan="5" style="word-wrap: break-all;">
@@ -234,6 +234,38 @@
           <div class="page-block-body">
             <table  style="width: 100%;">
               <tbody>
+              <% if (@incident_request.incident_status_id.eql?("000K00091nRTl3hfwbJuHg") || @incident_request.incident_status_id.eql?("000K00091oEOpAuVx0QTVQ")) && Irm::Person.current.workload_flag.eql?("Y") %>
+                  <tr>
+                    <td>
+                      <div style="text-align: end">
+                        <label style="display:inline;"><%= I18n.t(:label_number_of_consultants)%></label>
+                        <%= text_field_tag :people_count_c, nil, :style => "width:80px;", :irm_number_only => true, :id=>"people_count_c"%>
+                      </div>
+                    </td>
+                    <td>
+                      <div style="text-align: start">
+                        <label style="display:inline; margin-left: 40px"><%= I18n.t(:label_yan_workload)%></label>
+                        <%#= hidden_field_tag(:workload_type_c, "business", :id=>"business_type_id")  %>
+                        <%= text_field_tag :workload_c, nil, :style => "width:80px;", :irm_number_only => true, :id=>"workload_c"%>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="text-align: end">
+                        <label style="display:inline;"><%= I18n.t(:label_number_of_technicians)%></label>
+                        <%= text_field_tag :people_count_t, nil, :style => "width:80px;", :irm_number_only => true, :id=>"people_count_t"%>
+                      </div>
+                    </td>
+                    <td>
+                      <div style="text-align: start">
+                        <label style="display:inline; margin-left: 40px"><%= I18n.t(:label_yan_workload)%></label>
+                        <%#= hidden_field_tag(:workload_type_t, "technology", :id=>"technology_type_id")  %>
+                        <%= text_field_tag :workload_t, nil, :style => "width:80px;", :irm_number_only => true, :id=>"workload_t"%>
+                      </div>
+                    </td>
+                  </tr>
+              <% end %>
               <tr>
                 <%= fields_for @incident_journal, :as=>"incident_journal", :builder => CustomFormBuilder, :normal=>true do |sub_f| %>
                     <%= sub_f.hidden_field(:incident_request_id) %>
@@ -503,6 +535,19 @@
         }
         $("#file-contents").html("");
         $("#file-template").attr("sequence", 0);
+
+        if ($("#workload_c")) {
+            $("#workload_c").val('');
+        }
+        if ($("#workload_t")) {
+            $("#workload_t").val('');
+        }
+        if ($("#people_count_c")) {
+            $("#people_count_c").val('');
+        }
+        if ($("#people_count_t")) {
+            $("#people_count_t").val('');
+        }
     }
 
     $(document).ready(function () {

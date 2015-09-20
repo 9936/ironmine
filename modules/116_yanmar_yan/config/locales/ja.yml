@@ -12,3 +12,16 @@ ja:
 
   label_icm_report_source_name: 要求事項発生元
   label_icm_incident_request_report_source_code: 要求事項発生元
+
+  label_number_of_consultants: Number of consultants
+  label_number_of_technicians: Number of technicians
+
+  label_by_organization: By Organization
+  label_by_group: By Group
+
+  label_organization_yiss: YISS
+  label_organization_hand: HAND
+  label_group_sd: GPACK Service Desk
+
+  label_yan_workload_authority: Workload Management
+  label_workload_authority: Workload Authority

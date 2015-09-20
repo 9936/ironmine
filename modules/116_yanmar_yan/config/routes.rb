@@ -13,6 +13,9 @@ Ironmine::Application.routes.draw do
     match '/parent_people/:id/get_owned_parents_data(.:format)' => "parent_people#get_owned_parents_data"
     match '/parent_people/:id/get_ava_parents_data(.:format)' => "parent_people#get_ava_parents_data"
     match '/parent_people/:id/create_from_person(.:format)' => "parent_people#create_from_person"
+
+    match '/workload_authorities(/index)(.:format)' => "workload_authorities#index", :via => :get
+    match '/workload_authorities/add_workload_authority(.:format)' => "workload_authorities#add_workload_authority"
   end
 
 end
