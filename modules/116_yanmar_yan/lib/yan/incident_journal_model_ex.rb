@@ -37,8 +37,11 @@ module Yan::IncidentJournalModelEx
           if (!self.workload_c.present? || !self.workload_t.present? || !self.people_count_c.present? || !self.people_count_t.present?) && pr.workload_flag.eql?("Y") && (status.eql?("000K00091nRTl3hfwbJuHg") || status.eql?("000K00091oEOpAuVx0QTVQ"))
             self.errors.add(:message_body, 'Workload can not be blank')
           end
-          start_time = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' AND property_key = 'support_person_id' AND new_value = '#{self.replied_by}'").order("created_at DESC").first.created_at
           if self.workload_c.present? && self.workload_t.present?
+            start_time_record = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' AND property_key = 'support_person_id' AND new_value = '#{self.replied_by}'").order("created_at DESC").first
+            if start_time_record.present?
+              start_time=start_time_record.created_at
+            end
             time = ((Time.now - start_time)/3600).round(2)
             if self.workload_c > time || self.workload_c > time
               self.errors.add(:message_body, "Workload Should be less than #{time}")
