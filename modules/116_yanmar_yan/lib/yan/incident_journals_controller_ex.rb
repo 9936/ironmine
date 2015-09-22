@@ -133,6 +133,7 @@ module Yan::IncidentJournalsControllerEx
 
           perform_create
 
+
           if params[:workload_c] && params[:workload_t] && params[:people_count_c] && params[:people_count_t]
             @incident_journal.workload_c = params[:workload_c]
             @incident_journal.workload_t = params[:workload_t]
@@ -162,10 +163,22 @@ module Yan::IncidentJournalsControllerEx
                 process_files(@incident_journal, (params[:if_private_reply] && params[:if_private_reply].eql?('Y')) ? 'Y' : 'N')
                 @incident_journal.create_elapse
 
-                start_time = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'support_person_id' AND new_value = '#{@incident_journal.replied_by}'").order("created_at DESC").first.created_at
+
+                # 找出当前支持人员所在当前状态的开始时间
+                start_time = nil
+                status_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'incident_status_id'").order("created_at DESC").first
+                supporter_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'support_person_id' AND new_value = '#{@incident_journal.replied_by}'").order("created_at DESC").first
+
+                if supporter_time_record.present? && status_time_record.present?
+                  if supporter_time_record.created_at > status_time_record.created_at
+                    start_time=supporter_time_record.created_at
+                  else
+                    start_time=status_time_record.created_at
+                  end
+                end
                 end_time = Time.now
 
-                if params[:workload_c].present? && params[:workload_c].to_f != 0 && params[:workload_t].present? && params[:workload_t].to_f != 0
+                if params[:workload_c].present? && params[:workload_t].present?
                   Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
                                                 :incident_journal_id => @incident_journal.id,
                                                 :person_id => @incident_journal.replied_by,
@@ -175,7 +188,7 @@ module Yan::IncidentJournalsControllerEx
                                                 :end_time => end_time,
                                                 :people_count_c => params[:people_count_c],
                                                 :people_count_t => params[:people_count_t],
-                                                :subtotal_processing_time => ((params[:workload_c].to_f * params[:people_count_c].to_i)+(params[:workload_t].to_f * params[:people_count_t].to_i)),})
+                                                :subtotal_processing_time => ((params[:workload_c].to_i * params[:people_count_c].to_i)+(params[:workload_t].to_i * params[:people_count_t].to_i)),})
                 end
 
                 # if params[:workload_t].present? && params[:workload_t].to_f != 0

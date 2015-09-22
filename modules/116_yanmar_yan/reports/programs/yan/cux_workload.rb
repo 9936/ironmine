@@ -82,13 +82,36 @@ class Yan::CuxWorkload < Irm::ReportManager::ReportBase
       data[2] = s[2]
       data[3] = s[3]
       data[4] = s[4]
-      data[5] = s[5]
-      data[6] = s[6]
+      data[5] = s[5].strftime('%Y-%m-%d %H:%M:%S').to_s
+      data[6] = s[6].strftime('%Y-%m-%d %H:%M:%S').to_s
       data[7] = s[7]
-      data[8] = s[8]
+
+      if s[8] > 60
+        hour = (s[8]/60).to_i
+        min = (s[8] - s[8]/60).to_i
+        data[8] = hour.to_s + "h " + min.to_s + "m"
+      else
+        data[8] = s[8].to_s + "m"
+      end
+
       data[9] = s[9]
-      data[10] = s[10]
-      data[11] = s[11]
+
+      if s[10] > 60
+        hour = (s[10]/60).to_i
+        min = (s[10] - s[10]/60).to_i
+        data[10] = hour.to_s + "h " + min.to_s + "m"
+      else
+        data[10] = s[10].to_s + "m"
+      end
+
+      if s[11] > 60
+        hour = (s[11]/60).to_i
+        min = (s[11] - s[11]/60).to_i
+        data[11] = hour.to_s + "h " + min.to_s + "m"
+      else
+        data[11] = s[11].to_s + "m"
+      end
+
       datas << data
     end
 

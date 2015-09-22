@@ -1,0 +1,20 @@
+$(function(){
+    $("#new_icm_incident_reply").unmask();
+    $("#new_icm_incident_reply_error").remove();
+    <% prepare_request_files(@incident_request) %>
+    <% unless flash[:notice].present?%>
+        <% if Irm::Person.current.workload_flag.eql?("Y") %>
+            window.location.reload();
+        <% else %>
+            $("#replies").append("<%= escape_javascript(render :partial => "list_journals", :locals => {:journals => @current_journals, :grouped_files => @request_files})%>");
+    <% end %>
+        //回复历史数加1
+        $("#journalsNum").html('<%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request) %>)');
+        reset_rich_text();
+        $("#new_incident_status_id").val("");
+        $("#notice").html("");
+        $("#new_incident_request_journal_file .file-contents .file-item").remove();
+    <% else %>
+        $("#notice").html("<%= escape_javascript(flash_notice)%>");
+    <% end %>
+});
