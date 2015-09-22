@@ -38,9 +38,11 @@ class Yan::CuxWorkload < Irm::ReportManager::ReportBase
                 iiw.end_time 'End Time',
                 iiw.people_count_c,
                 iiw.real_processing_time,
+                ROUND(iiw.real_processing_time/60, 2),
                 iiw.people_count_t,
                 iiw.real_processing_time_t,
-                iiw.subtotal_processing_time
+                ROUND(iiw.real_processing_time_t/60, 2),
+                ROUND(iiw.subtotal_processing_time/60, 2)
               FROM
                 icm_incident_workloads iiw
               LEFT OUTER JOIN icm_incident_requests iir ON (iir.id = iiw.incident_request_id)
@@ -68,15 +70,17 @@ class Yan::CuxWorkload < Irm::ReportManager::ReportBase
         "Start Time",
         "End Time",
         "Number of Consultants",
-        "Workload",
+        "Con-Workload(min)",
+        "Con-Workload(H)",
         "Number of Technicians",
-        "Workload",
-        "Subtotal"]
+        "Tech-Workload(min)",
+        "Tech-Workload(H)",
+        "Subtotal(H)"]
 
     result = ActiveRecord::Base.connection.execute(sql)
     datas = []
     result.each do |s|
-      data = Array.new(12)
+      data = Array.new(14)
       data[0] = s[0]
       data[1] = s[1]
       data[2] = s[2]
@@ -85,32 +89,12 @@ class Yan::CuxWorkload < Irm::ReportManager::ReportBase
       data[5] = s[5].strftime('%Y-%m-%d %H:%M:%S').to_s
       data[6] = s[6].strftime('%Y-%m-%d %H:%M:%S').to_s
       data[7] = s[7]
-
-      if s[8] > 60
-        hour = (s[8]/60).to_i
-        min = (s[8] - s[8]/60).to_i
-        data[8] = hour.to_s + "h " + min.to_s + "m"
-      else
-        data[8] = s[8].to_s + "m"
-      end
-
+      data[8] = s[8]
       data[9] = s[9]
-
-      if s[10] > 60
-        hour = (s[10]/60).to_i
-        min = (s[10] - s[10]/60).to_i
-        data[10] = hour.to_s + "h " + min.to_s + "m"
-      else
-        data[10] = s[10].to_s + "m"
-      end
-
-      if s[11] > 60
-        hour = (s[11]/60).to_i
-        min = (s[11] - s[11]/60).to_i
-        data[11] = hour.to_s + "h " + min.to_s + "m"
-      else
-        data[11] = s[11].to_s + "m"
-      end
+      data[10] = s[10]
+      data[11] = s[11]
+      data[12] = s[12]
+      data[13] = s[13]
 
       datas << data
     end
