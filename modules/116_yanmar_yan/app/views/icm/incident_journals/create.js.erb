@@ -4,9 +4,6 @@ $(function(){
         alert("The Incident is closed. Please contact with the supporter.");
         window.location.reload();
     <% else %>
-        <% if Irm::Person.current.workload_flag.eql?("Y") %>
-            window.location.reload();
-        <% end %>
         $("#new_icm_incident_reply").unmask();
         $("#new_icm_incident_reply_error").remove();
         $("#msgEditorParent").prepend("<div id='new_icm_incident_reply_error'><%= escape_javascript(error_message_for(@incident_journal,@incident_request)) %><div>");
