@@ -33,15 +33,16 @@ class Yan::CuxWorkload < Irm::ReportManager::ReportBase
                 iir.title,
                 iict.`name` 'Categoty',
                 ip.full_name 'Supporter',
-                iist.`name` 'Status',
+                iist1.`name` 'Status',
+                iist2.`name` 'Workload Status',
                 iiw.start_time 'Start Time',
                 iiw.end_time 'End Time',
                 iiw.people_count_c,
                 iiw.real_processing_time,
-                ROUND(iiw.real_processing_time/60, 2),
+                ROUND((iiw.real_processing_time*iiw.people_count_c)/60, 2),
                 iiw.people_count_t,
                 iiw.real_processing_time_t,
-                ROUND(iiw.real_processing_time_t/60, 2),
+                ROUND((iiw.real_processing_time_t*iiw.people_count_t)/60, 2),
                 ROUND(iiw.subtotal_processing_time/60, 2)
               FROM
                 icm_incident_workloads iiw
@@ -51,9 +52,13 @@ class Yan::CuxWorkload < Irm::ReportManager::ReportBase
                 AND iict.`language` = 'en'
               )
               LEFT OUTER JOIN irm_people ip ON (iiw.created_by = ip.id)
-              LEFT OUTER JOIN icm_incident_statuses_tl iist ON (
-                iir.incident_status_id = iist.incident_status_id
-                AND iist.`language` = 'en'
+              LEFT OUTER JOIN icm_incident_statuses_tl iist1 ON (
+                iir.incident_status_id = iist1.incident_status_id
+                AND iist1.`language` = 'en'
+              )
+              LEFT OUTER JOIN icm_incident_statuses_tl iist2 ON (
+                iiw.incident_status_id = iist2.incident_status_id
+                AND iist2.`language` = 'en'
               )
               WHERE
                   iir.submitted_date >= '#{start_date}' AND iir.submitted_date <= '#{end_date}'
@@ -67,6 +72,7 @@ class Yan::CuxWorkload < Irm::ReportManager::ReportBase
         "Category",
         "Supporter",
         "Status",
+        "Workload Status",
         "Start Time",
         "End Time",
         "Number of Consultants",
@@ -80,21 +86,22 @@ class Yan::CuxWorkload < Irm::ReportManager::ReportBase
     result = ActiveRecord::Base.connection.execute(sql)
     datas = []
     result.each do |s|
-      data = Array.new(14)
+      data = Array.new(15)
       data[0] = s[0]
       data[1] = s[1]
       data[2] = s[2]
       data[3] = s[3]
       data[4] = s[4]
-      data[5] = s[5].strftime('%Y-%m-%d %H:%M:%S').to_s
+      data[5] = s[5]
       data[6] = s[6].strftime('%Y-%m-%d %H:%M:%S').to_s
-      data[7] = s[7]
+      data[7] = s[7].strftime('%Y-%m-%d %H:%M:%S').to_s
       data[8] = s[8]
       data[9] = s[9]
       data[10] = s[10]
       data[11] = s[11]
       data[12] = s[12]
       data[13] = s[13]
+      data[14] = s[14]
 
       datas << data
     end

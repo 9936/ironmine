@@ -112,6 +112,16 @@ module Yan::IncidentJournalsControllerEx
 
           @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
 
+
+          # 工时记录
+          workload_status_id = @incident_request.incident_status_id
+          if params[:workload_c] && params[:workload_t] && params[:people_count_c] && params[:people_count_t]
+            @incident_journal.workload_c = params[:workload_c]
+            @incident_journal.workload_t = params[:workload_t]
+            @incident_journal.people_count_c = params[:people_count_c]
+            @incident_journal.people_count_t = params[:people_count_t]
+          end
+
           # 设置回复类型
           # 1,客户回复
           # 2,服务台回复
@@ -133,13 +143,6 @@ module Yan::IncidentJournalsControllerEx
 
           perform_create
 
-
-          if params[:workload_c] && params[:workload_t] && params[:people_count_c] && params[:people_count_t]
-            @incident_journal.workload_c = params[:workload_c]
-            @incident_journal.workload_t = params[:workload_t]
-            @incident_journal.people_count_c = params[:people_count_c]
-            @incident_journal.people_count_t = params[:people_count_t]
-          end
 
           respond_to do |format|
             flag, now = validate_files(@incident_journal)
@@ -186,6 +189,7 @@ module Yan::IncidentJournalsControllerEx
                                                 :real_processing_time_t => params[:workload_t],
                                                 :start_time => start_time,
                                                 :end_time => end_time,
+                                                :incident_status_id => workload_status_id,
                                                 :people_count_c => params[:people_count_c],
                                                 :people_count_t => params[:people_count_t],
                                                 :subtotal_processing_time => ((params[:workload_c].to_i * params[:people_count_c].to_i)+(params[:workload_t].to_i * params[:people_count_t].to_i)),})
