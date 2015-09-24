@@ -26,6 +26,6 @@ ja:
   label_yan_workload_authority: Workload Management
   label_workload_authority: Workload Authority
 
-  label_workload_hour: Min
+  label_workload_min: Min
 
   label_icm_incident_journal_workload_message: Message:

@@ -235,36 +235,29 @@
             <table  style="width: 100%;">
               <tbody>
               <% if (@incident_request.incident_status_id.eql?("000K00091nRTl3hfwbJuHg") || @incident_request.incident_status_id.eql?("000K00091oEOpAuVx0QTVQ") || @incident_request.incident_status_id.eql?("000K00091nRTl3hfuk332W")) && Irm::Person.current.workload_flag.eql?("Y") %>
-                  <tr>
-                    <td>
-                      <div style="text-align: end">
+                <div>
+                      <div style="display:inline;">
                         <label style="display:inline;"><%= I18n.t(:label_number_of_consultants)%></label>
-                        <%= text_field_tag :people_count_c, nil, :style => "width:80px;", :irm_number_only => true, :id=>"people_count_c"%>
+                        <%= text_field_tag :people_count_c, 0, :style => "width:80px;", :irm_number_only => true, :id=>"people_count_c"%>
                       </div>
-                    </td>
-                    <td>
-                      <div style="text-align: start">
-                        <label style="display:inline; margin-left: 40px"><%= I18n.t(:label_yan_workload)%></label>
+
+                      <div style="display:inline; margin-left: 40px">
+                        <label style="display:inline;"><%= I18n.t(:label_yan_workload)%></label>
                         <%#= hidden_field_tag(:workload_type_c, "business", :id=>"business_type_id")  %>
-                        <%= text_field_tag :workload_c, nil, :style => "width:80px;", :irm_number_only => true, :id=>"workload_c"%><%= I18n.t(:label_workload_hour) %>
+                        <%= text_field_tag :workload_c, 0, :style => "width:80px;", :irm_number_only => true, :id=>"workload_c"%>&nbsp;<%= I18n.t(:label_workload_min) %>
                       </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div style="text-align: end">
+
+                      <div style="display:inline; margin-left: 40px">
                         <label style="display:inline;"><%= I18n.t(:label_number_of_technicians)%></label>
-                        <%= text_field_tag :people_count_t, nil, :style => "width:80px;", :irm_number_only => true, :id=>"people_count_t"%>
+                        <%= text_field_tag :people_count_t, 0, :style => "width:80px;", :irm_number_only => true, :id=>"people_count_t"%>
                       </div>
-                    </td>
-                    <td>
-                      <div style="text-align: start">
-                        <label style="display:inline; margin-left: 40px"><%= I18n.t(:label_yan_workload)%></label>
+
+                      <div style="display:inline; margin-left: 40px">
+                        <label style="display:inline;"><%= I18n.t(:label_yan_workload)%></label>
                         <%#= hidden_field_tag(:workload_type_t, "technology", :id=>"technology_type_id")  %>
-                        <%= text_field_tag :workload_t, nil, :style => "width:80px;", :irm_number_only => true, :id=>"workload_t"%><%= I18n.t(:label_workload_hour) %>
+                        <%= text_field_tag :workload_t, 0, :style => "width:80px;", :irm_number_only => true, :id=>"workload_t"%>&nbsp;<%= I18n.t(:label_workload_min) %>
                       </div>
-                    </td>
-                  </tr>
+                </div>
               <% end %>
               <tr>
                 <%= fields_for @incident_journal, :as=>"incident_journal", :builder => CustomFormBuilder, :normal=>true do |sub_f| %>
@@ -530,22 +523,22 @@
 
         if ($("#workload_c") && $("#workload_t") && $("#people_count_c") && $("#people_count_t")) {
             $("#workload_c").change(function(event){
-                if (!(parseInt($("#workload_c").val()) == $("#workload_c").val())) {
-                    alert("The type of the value must be Integer");
+                if (!(parseInt($("#workload_c").val()) == $("#workload_c").val()) && $("#workload_c").val()!='') {
+                    alert("The type of the value must be Integer。");
                 }
             })
             $("#workload_t").change(function(event){
-                if (!(parseInt($("#workload_t").val()) == $("#workload_t").val())) {
+                if (!(parseInt($("#workload_t").val()) == $("#workload_t").val()) && $("#workload_t").val()!='') {
                     alert("The type of the value must be Integer");
                 }
             })
             $("#people_count_c").change(function(event){
-                if (!(parseInt($("#people_count_c").val()) == $("#people_count_c").val())) {
+                if (!(parseInt($("#people_count_c").val()) == $("#people_count_c").val()) && $("#people_count_c").val()!='') {
                     alert("The type of the value must be Integer");
                 }
             })
             $("#people_count_t").change(function(event){
-                if (!(parseInt($("#people_count_t").val()) == $("#people_count_t").val())) {
+                if (!(parseInt($("#people_count_t").val()) == $("#people_count_t").val()) && $("#people_count_t").val()!='') {
                     alert("The type of the value must be Integer");
                 }
             })
@@ -561,16 +554,16 @@
         $("#file-template").attr("sequence", 0);
 
         if ($("#workload_c")) {
-            $("#workload_c").val('');
+            $("#workload_c").val('0');
         }
         if ($("#workload_t")) {
-            $("#workload_t").val('');
+            $("#workload_t").val('0');
         }
         if ($("#people_count_c")) {
-            $("#people_count_c").val('');
+            $("#people_count_c").val('0');
         }
         if ($("#people_count_t")) {
-            $("#people_count_t").val('');
+            $("#people_count_t").val('0');
         }
     }
 

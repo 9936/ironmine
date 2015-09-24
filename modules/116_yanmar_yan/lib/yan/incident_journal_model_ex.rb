@@ -48,13 +48,23 @@ module Yan::IncidentJournalModelEx
           end
           # 只有填写了workload才会继续验证
           if self.workload_c.present? && self.workload_t.present?
-            # 判断是否为整数
-            # if !(self.workload_c.is_a?(Integer) && self.workload_t.is_a?(Integer) && self.people_count_c.is_a?(Integer) && self.people_count_t.is_a?(Integer))
-            #   self.errors.add(:message_body, 'Those value must be Integer')
-            # end
-
+            # 验证不能小于0
             if self.workload_c < 0 || self.workload_t < 0 || self.people_count_c < 0 || self.people_count_t < 0
-              self.errors.add(:workload_message, 'Those value should not be smaller than 0')
+              self.errors.add(:workload_message, 'Those value can not be smaller than 0')
+            end
+
+            # 验证 人员数和工时只能同时为0，或同时不为0
+            if self.people_count_c == 0 && self.workload_c != 0
+              self.errors.add(:workload_message, 'The number of Consultants should not be 0 when the Workload is not 0')
+            end
+            if self.people_count_c != 0 && self.workload_c == 0
+              self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Consultants is not 0')
+            end
+            if self.people_count_t == 0 && self.workload_t != 0
+              self.errors.add(:workload_message, 'The number of Technicians should not be 0 when the Workload is not 0')
+            end
+            if self.people_count_t != 0 && self.workload_t == 0
+              self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Technicians is not 0')
             end
             # status = nil
             # status_record = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' AND property_key = 'incident_status_id'").order("created_at DESC").first

@@ -25,6 +25,6 @@ zh:
   label_yan_workload_authority: 工时管理
   label_workload_authority: 工时权限
 
-  label_workload_hour: 分钟
+  label_workload_min: 分钟
 
   label_icm_incident_journal_workload_message: Message:
