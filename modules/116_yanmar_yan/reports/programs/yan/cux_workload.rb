@@ -64,7 +64,8 @@ class Yan::CuxWorkload < Irm::ReportManager::ReportBase
                   iir.submitted_date >= '#{start_date}' AND iir.submitted_date <= '#{end_date}'
                 AND iir.external_system_id IN (#{system})
               ORDER BY
-                iir.request_number ASC)
+                iir.request_number,
+                iiw.start_time ASC)
 
     headers = [
         "Incident No",
