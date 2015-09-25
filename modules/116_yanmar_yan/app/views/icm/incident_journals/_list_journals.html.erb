@@ -21,6 +21,14 @@
      </div>
    </div>
    <div class="reply-body">
+     <% if !journal.workload_c.nil? %>
+         <div  style="text-align: left">
+           <div style="display: inline; padding-left: 30px"><%= I18n.t(:label_number_of_consultants)%> <%= journal.people_count_c %></div>
+           <div style="display: inline; padding-left: 30px"><%= I18n.t(:label_yan_workload)%> <%= journal.workload_c %> min</div>
+           <div style="display: inline; padding-left: 30px"><%= I18n.t(:label_number_of_technicians)%> <%= journal.people_count_t %></div>
+           <div style="display: inline; padding-left: 30px"><%= I18n.t(:label_yan_workload)%> <%= journal.workload_t %> min</div>
+         </div>
+     <% end %>
      <%if journal.incident_histories.any? %>
        <div class="message-header" style="font-style:italic;padding-bottom:10px;">
          <ul>

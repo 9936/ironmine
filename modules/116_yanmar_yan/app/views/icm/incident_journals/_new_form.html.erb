@@ -238,24 +238,22 @@
                 <div>
                       <div style="display:inline;">
                         <label style="display:inline;"><%= I18n.t(:label_number_of_consultants)%></label>
-                        <%= text_field_tag :people_count_c, 0, :style => "width:80px;", :irm_number_only => true, :id=>"people_count_c"%>
+                        <%= text_field_tag :people_count_c, 0, :style => "width:80px;", :id=>"people_count_c"%>
                       </div>
 
                       <div style="display:inline; margin-left: 40px">
                         <label style="display:inline;"><%= I18n.t(:label_yan_workload)%></label>
-                        <%#= hidden_field_tag(:workload_type_c, "business", :id=>"business_type_id")  %>
-                        <%= text_field_tag :workload_c, 0, :style => "width:80px;", :irm_number_only => true, :id=>"workload_c"%>&nbsp;<%= I18n.t(:label_workload_min) %>
+                        <%= text_field_tag :workload_c, 0, :style => "width:80px;", :id=>"workload_c"%>&nbsp;<%= I18n.t(:label_workload_min) %>
                       </div>
 
                       <div style="display:inline; margin-left: 40px">
                         <label style="display:inline;"><%= I18n.t(:label_number_of_technicians)%></label>
-                        <%= text_field_tag :people_count_t, 0, :style => "width:80px;", :irm_number_only => true, :id=>"people_count_t"%>
+                        <%= text_field_tag :people_count_t, 0, :style => "width:80px;", :id=>"people_count_t"%>
                       </div>
 
                       <div style="display:inline; margin-left: 40px">
                         <label style="display:inline;"><%= I18n.t(:label_yan_workload)%></label>
-                        <%#= hidden_field_tag(:workload_type_t, "technology", :id=>"technology_type_id")  %>
-                        <%= text_field_tag :workload_t, 0, :style => "width:80px;", :irm_number_only => true, :id=>"workload_t"%>&nbsp;<%= I18n.t(:label_workload_min) %>
+                        <%= text_field_tag :workload_t, 0, :style => "width:80px;", :id=>"workload_t"%>&nbsp;<%= I18n.t(:label_workload_min) %>
                       </div>
                 </div>
               <% end %>

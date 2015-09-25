@@ -93,6 +93,41 @@ module Yan::IncidentJournalsControllerEx
         end
       end
 
+      def update
+        @incident_journal = Icm::IncidentJournal.find(params[:id])
+        source_number = @incident_journal.journal_number
+        source_message_body = @incident_journal.message_body
+        source_updated_at = @incident_journal.updated_at
+        source_updated_by = @incident_journal.updated_by
+        respond_to do |format|
+          if @incident_journal.update_attributes(params[:icm_incident_journal])
+
+            @incident_workload = Icm::IncidentWorkload.find_by_incident_journal_id(params[:id])
+            @incident_workload.update_attributes(:real_processing_time => @incident_journal.workload_c,
+                                                 :real_processing_time_t => @incident_journal.workload_t,
+                                                 :people_count_c => @incident_journal.people_count_c,
+                                                 :people_count_t => @incident_journal.people_count_t)
+
+            hi = Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
+                                              :journal_id=> @incident_journal.id,
+                                              :property_key=> "update_journal",
+                                              :old_value=> source_message_body,
+                                              :new_value=> @incident_journal.message_body})
+
+            Icm::JournalHistory.create({:incident_history_id => hi.id,
+                                        :incident_journal_id => @incident_journal.id,
+                                        :message_body => source_message_body,
+                                        :source_updated_by => source_updated_by,
+                                        :source_updated_at => source_updated_at})
+
+            format.html { redirect_to({:action => "new"}) }
+          else
+            format.html { render "edit", :layout => "application_full" }
+          end
+        end
+      end
+
+
       # POST /incident_journals
       # POST /incident_journals.xml
       def create

@@ -154,7 +154,7 @@ class Yan::CuxWorkloadSd < Irm::ReportManager::ReportBase
       else
 
       end
-      # 11 property_kay
+      # 11 property_key
       if s[11].eql?("incident_status_id")
         # 如果状态变更为30或者50
         if !(s[8].eql?("000K00091nRTl3hfwbJuHg") || s[8].eql?("000K00091oEOpAuVx0QTVQ")) && (s[9].eql?("000K00091nRTl3hfwbJuHg") || s[9].eql?("000K00091oEOpAuVx0QTVQ"))

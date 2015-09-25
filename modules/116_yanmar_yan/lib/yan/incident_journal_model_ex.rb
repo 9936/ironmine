@@ -1,7 +1,9 @@
 module Yan::IncidentJournalModelEx
   def self.included(base)
     base.class_eval do
+      has_one :incident_workloads, :foreign_key => "incident_journal_id"
       after_create :write_system_id
+      validate :validate_workload_when_update, :on => :update
 
       def write_system_id
         self.update_attribute(:external_system_id, self.incident_request.external_system_id)
@@ -40,7 +42,7 @@ module Yan::IncidentJournalModelEx
           if status_record.present?
             status = status_record.new_value
           end
-          if (!self.workload_c.present? || !self.workload_t.present? || !self.people_count_c.present? || !self.people_count_t.present?) && pr.workload_flag.eql?("Y") && (status.eql?("000K00091nRTl3hfwbJuHg") || status.eql?("000K00091oEOpAuVx0QTVQ") || status.eql?("000K00091nRTl3hfuk332W"))
+          if (!self.workload_c.present? || !self.workload_t.present?) && pr.workload_flag.eql?("Y") && (status.eql?("000K00091nRTl3hfwbJuHg") || status.eql?("000K00091oEOpAuVx0QTVQ") || status.eql?("000K00091nRTl3hfuk332W"))
             self.errors.add(:workload_message, 'Workload can not be blank')
           end
           if (!self.people_count_c.present? || !self.people_count_t.present?) && pr.workload_flag.eql?("Y") && (status.eql?("000K00091nRTl3hfwbJuHg") || status.eql?("000K00091oEOpAuVx0QTVQ") || status.eql?("000K00091nRTl3hfuk332W"))
@@ -93,6 +95,46 @@ module Yan::IncidentJournalModelEx
 
         end
       end
+
+      def validate_workload_when_update
+        if !self.workload_c.present? || !self.workload_t.present?
+          self.errors.add(:workload_message, 'Workload can not be blank')
+        end
+        if !self.people_count_c.present? || !self.people_count_t.present?
+          self.errors.add(:workload_message, 'The number of Consultants/Technicians can not be blank')
+        end
+        # 只有填写了workload才会继续验证
+        if self.workload_c.present? && self.workload_t.present?
+          # 验证不能小于0
+          if self.workload_c < 0 || self.workload_t < 0 || self.people_count_c < 0 || self.people_count_t < 0
+            self.errors.add(:workload_message, 'Those value can not be smaller than 0')
+          end
+
+          # 验证 人员数和工时只能同时为0，或同时不为0
+          if self.people_count_c == 0 && self.workload_c != 0
+            self.errors.add(:workload_message, 'The number of Consultants should not be 0 when the Workload is not 0')
+          end
+          if self.people_count_c != 0 && self.workload_c == 0
+            self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Consultants is not 0')
+          end
+          if self.people_count_t == 0 && self.workload_t != 0
+            self.errors.add(:workload_message, 'The number of Technicians should not be 0 when the Workload is not 0')
+          end
+          if self.people_count_t != 0 && self.workload_t == 0
+            self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Technicians is not 0')
+          end
+
+          cur_workload = Icm::IncidentWorkload.find_by_incident_journal_id(self.id)
+          time = ((cur_workload.end_time - cur_workload.start_time)/60).to_i
+          if self.workload_c > time || self.workload_t > time
+            self.errors.add(:workload_message, "Workload should be smaller than #{time} minutes")
+          end
+
+        end
+      end
+
+
+
     end
   end
 end

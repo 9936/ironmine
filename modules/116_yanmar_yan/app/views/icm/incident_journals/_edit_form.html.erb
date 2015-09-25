@@ -1,0 +1,110 @@
+<%= form_for(@incident_journal,:url=>{:action=>"update", :request_id => @incident_journal.incident_request_id, :id => @incident_journal},
+             :builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_common do%>
+    <table class="form-table">
+      <tbody>
+      <% if Irm::Person.current.workload_flag.eql?("Y") && Irm::Person.current.id.eql?(@incident_journal.replied_by) && has_workload?(@incident_journal.id) %>
+            <div>
+              <div style="width: 18%; padding: 2px 10px 2px 2px; display: inline"></div>
+              <div style="display:inline;">
+                <label style="display:inline;"><%= I18n.t(:label_number_of_consultants)%></label>
+                <%= f.text_field :people_count_c, :id=>"people_count_c", :style => "width:80px;" %>
+              </div>
+              <div style="display:inline; margin-left: 40px">
+                <label style="display:inline;"><%= I18n.t(:label_yan_workload)%></label>
+                <%= f.text_field :workload_c, :id=>"workload_c", :style => "width:80px;" %>&nbsp;<%= I18n.t(:label_workload_min) %>
+              </div>
+
+              <div style="display:inline; margin-left: 40px">
+                <label style="display:inline;"><%= I18n.t(:label_number_of_technicians)%></label>
+                <%= f.text_field :people_count_t, :id=>"people_count_t", :style => "width:80px;" %>
+              </div>
+
+              <div style="display:inline; margin-left: 40px">
+                <label style="display:inline;"><%= I18n.t(:label_yan_workload)%></label>
+                <%= f.text_field :workload_t, :id=>"workload_t", :style => "width:80px;" %>&nbsp;<%= I18n.t(:label_workload_min) %>
+              </div>
+            </div>
+      <% end %>
+        <tr>
+            <td class="label-col"><label><%=t(:label_icm_incident_journal_new)%></label></td>
+            <td class="data-3col" colspan="3" id="msgEditorParent">
+              <%=f.text_area :message_body ,:id=>"msgEditor",:cols=>150,:rows=>8,:required=>true,:class=>"input-xlarge"%>
+              <%= xheditor("msgEditor",true) %>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel), {}, {:class => "btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_icm_incident_journal_new)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <%#= error_for @incident_journal %>
+    <div id="error_message"></div>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+
+<script type="text/javascript">
+  $(function() {
+    $("#error_message").prepend("<div id='new_icm_incident_reply_error'><%= escape_javascript(error_message_for(@incident_journal)) %><div>");
+
+    if ($("#workload_c") && $("#workload_t") && $("#people_count_c") && $("#people_count_t")) {
+      $("#workload_c").change(function(event){
+        if (!(parseInt($("#workload_c").val()) == $("#workload_c").val()) && $("#workload_c").val()!='') {
+          alert("The type of the value must be Integer。");
+        }
+      })
+      $("#workload_t").change(function(event){
+        if (!(parseInt($("#workload_t").val()) == $("#workload_t").val()) && $("#workload_t").val()!='') {
+          alert("The type of the value must be Integer");
+        }
+      })
+      $("#people_count_c").change(function(event){
+        if (!(parseInt($("#people_count_c").val()) == $("#people_count_c").val()) && $("#people_count_c").val()!='') {
+          alert("The type of the value must be Integer");
+        }
+      })
+      $("#people_count_t").change(function(event){
+        if (!(parseInt($("#people_count_t").val()) == $("#people_count_t").val()) && $("#people_count_t").val()!='') {
+          alert("The type of the value must be Integer");
+        }
+      })
+    }
+  })
+</script>

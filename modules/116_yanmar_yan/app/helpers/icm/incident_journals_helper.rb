@@ -253,4 +253,8 @@ module Icm::IncidentJournalsHelper
     Icm::SupportGroup.query(support_group.parent_group_id).with_group(I18n.locale).first[:name]
   end
 
+  def has_workload?(incident_journal_id)
+    !Icm::IncidentWorkload.find_by_incident_journal_id(incident_journal_id).nil?
+  end
+
 end
