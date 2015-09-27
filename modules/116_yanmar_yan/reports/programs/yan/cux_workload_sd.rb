@@ -61,26 +61,10 @@ class Yan::CuxWorkloadSd < Irm::ReportManager::ReportBase
         LEFT OUTER JOIN irm_people ip1 ON (
           iih.old_value = ip1.id
           AND iih.old_value NOT IN (#{except_people})
-          AND iih.old_value IN (
-            SELECT
-              igm.person_id
-            FROM
-              irm_group_members igm
-            WHERE
-              igm.group_id = '001400091nvxvi9mGSGGq8'
-          )
         )
         LEFT OUTER JOIN irm_people ip2 ON (
           iih.new_value = ip2.id
           AND iih.new_value NOT IN (#{except_people})
-          AND iih.new_value IN (
-            SELECT
-              igm.person_id
-            FROM
-              irm_group_members igm
-            WHERE
-              igm.group_id = '001400091nvxvi9mGSGGq8'
-          )
         )
         LEFT OUTER JOIN irm_people ip3 ON (iir.support_person_id = ip3.id)
         WHERE
@@ -147,6 +131,7 @@ class Yan::CuxWorkloadSd < Irm::ReportManager::ReportBase
         current_request[:title] = s[2]
 
         current_status_30_50 = false
+        ex_sd = false
         current_sd = false
         current_supporters = {}
         current_real_start_time = nil
@@ -179,14 +164,16 @@ class Yan::CuxWorkloadSd < Irm::ReportManager::ReportBase
 
       elsif s[11].eql?("support_group_id")
         if s[9].eql?("000Q00091nxNqRI7bBNZXU")
+          ex_sd = false
           current_sd = true
         end
         if s[8].eql?("000Q00091nxNqRI7bBNZXU")
+          ex_sd = true
           current_sd = false
         end
 
       elsif s[11].eql?("support_person_id")
-        if !s[6].nil?
+        if !s[6].nil? && current_sd
           current_supporter_id = s[9]
           current_request[current_supporter_id] = s[6]
         else
@@ -194,7 +181,7 @@ class Yan::CuxWorkloadSd < Irm::ReportManager::ReportBase
         end
 
         # 如果支持人员从别的组变更为sd成员
-        if current_sd && !s[6].nil? && s[5].nil?
+        if current_sd && !s[6].nil? && !ex_sd
           # 记录该sd成员
           # 如果为30或50，则记录工时开始时间
           if current_status_30_50
@@ -207,7 +194,7 @@ class Yan::CuxWorkloadSd < Irm::ReportManager::ReportBase
         end
 
         # 如果变化的支持人员同为sd成员
-        if current_sd && !s[6].nil? && !s[5].nil?
+        if current_sd && !s[6].nil? && !s[5].nil? && ex_sd
           # 如果当前状态为30或50，则保存old支持人员的工时
           # 并 更新工时开始计算时间
           if current_status_30_50
@@ -226,8 +213,8 @@ class Yan::CuxWorkloadSd < Irm::ReportManager::ReportBase
           end
         end
 
-        # 如果支持人员从sd组成员 变更为其他组成员 （或变更为曾为sd，现不为sd成员）
-        if s[6].nil? && !s[5].nil?
+        # 如果支持人员从sd组成员 变更为其他组成员
+        if s[6].nil? && !s[5].nil? && !current_sd && ex_sd
           if current_status_30_50
             # 保存 sd组成员工时
             # 如果 current_real_start_time 存在，则说明sd组成员有工时，否则sd成员之前所在状态并不是30或50
@@ -243,6 +230,7 @@ class Yan::CuxWorkloadSd < Irm::ReportManager::ReportBase
           end
 
         end
+        ex_sd = true
       end
     end
 
