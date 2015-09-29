@@ -103,10 +103,12 @@ module Yan::IncidentJournalsControllerEx
           if @incident_journal.update_attributes(params[:icm_incident_journal])
 
             @incident_workload = Icm::IncidentWorkload.find_by_incident_journal_id(params[:id])
-            @incident_workload.update_attributes(:real_processing_time => @incident_journal.workload_c,
-                                                 :real_processing_time_t => @incident_journal.workload_t,
-                                                 :people_count_c => @incident_journal.people_count_c,
-                                                 :people_count_t => @incident_journal.people_count_t)
+            if !@incident_workload.nil?
+              @incident_workload.update_attributes(:real_processing_time => @incident_journal.workload_c,
+                                                   :real_processing_time_t => @incident_journal.workload_t,
+                                                   :people_count_c => @incident_journal.people_count_c,
+                                                   :people_count_t => @incident_journal.people_count_t)
+            end
 
             hi = Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
                                               :journal_id=> @incident_journal.id,
