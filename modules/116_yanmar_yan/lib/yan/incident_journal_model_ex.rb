@@ -31,7 +31,7 @@ module Yan::IncidentJournalModelEx
           end
         end
 
-        #Check if strict workload
+        #Check  workload
         rq = Icm::IncidentRequest.find(self.incident_request_id)
         unless self.replied_by.nil?
           pr = Irm::Person.find(self.replied_by)

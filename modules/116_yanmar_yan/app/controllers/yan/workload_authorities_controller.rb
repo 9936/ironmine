@@ -4,20 +4,9 @@ class Yan::WorkloadAuthoritiesController < ApplicationController
   end
 
   def add_workload_authority
-    puts "~~~~&&&&&&~~~~~"
-    puts params[:yiss_people]
-    puts "``````````"
-    puts params[:hand_people]
-    puts "=============="
     # 勾选了 yiss
     if params[:yiss_people]
-      puts "==="
-      puts Yan::WorkloadAuthority.with_object_type_and_id("ORG", "001q00091nQ3qKZLDIeYoi").any?
-      puts "==="
       if !Yan::WorkloadAuthority.with_object_type_and_id("ORG", "001q00091nQ3qKZLDIeYoi").any?
-        puts "----------"
-
-        puts "----------"
         Yan::WorkloadAuthority.create(:ob_type => "ORG", :ob_id => "001q00091nQ3qKZLDIeYoi")
         Irm::Person.where("organization_id = '001q00091nQ3qKZLDIeYoi'").update_all(:workload_flag => 'Y' )
         # ActiveRecord::Base.connection.execute(%Q(UPDATE irm_people ip SET ip.workload_flag = 'Y' WHERE ip.organization_id = '001q00091nQ3qKZLDIeYoi'))
@@ -31,7 +20,6 @@ class Yan::WorkloadAuthoritiesController < ApplicationController
 
     # 勾选了 hand
     if params[:hand_people]
-      puts "======== ok ========="
       if !Yan::WorkloadAuthority.with_object_type_and_id("ORG", "001q00091nQ3qKZLEmXAdE").any?
         Yan::WorkloadAuthority.create(:ob_type => "ORG", :ob_id => "001q00091nQ3qKZLEmXAdE")
         ActiveRecord::Base.connection.execute(%Q(UPDATE irm_people ip SET ip.workload_flag = 'Y' WHERE ip.organization_id = '001q00091nQ3qKZLEmXAdE'))
