@@ -73,13 +73,24 @@
                                                            :incident_category_id=>"${incident_category_id}")}%>
              </td>
            </tr>
+           <tr id = "project">
+             <td class="label-col"><label for="incident_request_poject_name"><%="项目名称"%></label></td>
+             <td class="data-3col" colspan="3"><%=f.text_field :project_name,:size=>20, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_project_name"%></td>
+           </tr>
+
+           <tr id = "component">
+             <td class="label-col"><label for="incident_request_component_code"><%="组件代码"%></label></td>
+             <td class="data-3col" colspan="3"><%=f.text_field :component_code,:size=>20, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_component_code"%></td>
+           </tr>
            <tr>
-             <td class="label-col"><label for="incident_request_title"><%=t(:label_icm_incident_request_title)%></label></td>
+             <td class="label-col" id="title"><label for="incident_request_title"><%=t(:label_icm_incident_request_title)%></label></td>
+             <td class="label-col" id = "title_s"><label for="incident_request_title"><%="主题(英文)"%></label></td>
              <td class="data-3col" colspan="3"><%=f.text_field :title,:size=>80, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_title"%></td>
            </tr>
 
            <tr>
-             <td class="label-col"><label for="incident_request_summary"><%=t(:label_icm_incident_request_summary)%></label></td>
+             <td class="label-col" id="summary"><label for="incident_request_summary"><%=t(:label_icm_incident_request_summary)%></label></td>
+             <td class="label-col" id = "summary_s"><label for="incident_request_summary_s"><%="问题概要描述(英文)"%></label></td>
              <td class="data-3col" colspan="3">
                <%=f.text_area :summary,:rows=>12,:cols=>100,:value=>@incident_request.summary, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_summary"%>
                <%= xheditor("incident_request_summary") %>
@@ -91,12 +102,13 @@
              <td class="label-col"></td>
              <td class="data-3col" colspan="3">
                <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_incident_request_file"} %>
+               <div id="discribe"><%="(附件需要体现完整的step-by-step重现步骤)"%></div>
              </td>
            </tr>
            <tr>
              <td class="label-col"><%=t(:label_icm_incident_request_client_info)%></td>
              <td class="data-3col" colspan="3">
-               <%= f.text_field :client_info, :size => 20 %>
+               <%= f.text_field :client_info, :size => 20 %><div id="selection"><%="(生产机/测试机/开发机）"%></div>
              </td>
            </tr>
            <tr>
@@ -117,14 +129,15 @@
     <table class="form-table">
       <tbody>
         <tr>
-            <td class="label-col"><label for="incident_request_contact_id"><%=t(:label_icm_incident_request_contact)%></label></td>
+            <td class="label-col" id="contact"><label for="incident_request_contact_id"><%=t(:label_icm_incident_request_contact)%></label></td>
+            <td class="label-col" id="contact_s"><label for="incident_request_contact_id"><%="提交Message事业部"%></label></td>
             <td class="data-col">
               <div style="display:inline">
                 <%=f.lov_field :contact_id,Irm::Person,{:required=>true,:id=>"incident_request_contact_id",:class=>"input-medium"}%>
               </div>
             </td>
         </tr>
-        <tr>
+        <tr id="contact_number">
           <td class="label-col"><label for="incident_request_contact_number"><%=t(:label_icm_incident_request_contact_way)%></label></td>
           <td class="data-col" colspan=3>
             <%=f.text_field :contact_number,:style => "width:500px", :id=>"incident_request_contact_number",
@@ -177,6 +190,28 @@
           </td>
         </tr>
      <%end%>
+     <tr id="submit_info">
+       <td class="label-col"><label for="incident_request_contact_number"><%="提交顾问姓名"%></label></td>
+       <td class="data-col">
+         <%=f.text_field :submit_person,:size=>17,:id=>"incident_request_submit_person",:required=>true%>
+       </td>
+       <td class="label-col"><label for="incident_request_contact_number"><%="提交顾问邮箱"%></label></td>
+       <td class="data-col">
+         <%=f.text_field :submit_email,:size=>17,:id=>"incident_request_submit_email",:required=>true%>
+       </td>
+     </tr>
+     <tr id = "urgence_info">
+       <td class="label-col"><label for="incident_down_flag"><%="生产系统是否完全宕机"%></label></td>
+       <td class="data-col"><%=f.check_box :down_flag%></td>
+       <td class="label-col"><label for="incident_update_flag"><%="系统是否刚上线/升级"%></td>
+       <td class="data-col" id="flag"><%=f.check_box :update_flag, :id=>"system_update_flag"%></td>
+     </tr>
+     <tr id = "update_at">
+       <td class="label-col"><label for="incident_update_date"><%="上线/升级日期"%></label></td>
+       <td class="data-col">
+         <%= f.date_field(:update_at,:size=>12,:class=>"date", :id=>"incident_update_at")%>
+       </td>
+     </tr>
     </tbody>
   </table>
   <% end %>
@@ -242,6 +277,59 @@
 
 
 <!--javascript 脚本-->
+<script type="text/javascript">
+    $("#ass_external_system").change(function(){
+        var system = $("#ass_external_system").find("option:selected").text();
+        if(system=="内部项目-提交MSG至SAP"){
+            $("#project").show();
+            $("#component").show();
+            $("#title_s").show();
+            $("#title").hide();
+            $("#summary_s").show();
+            $("#summary").hide();
+            $("#submit_info").show();
+            $("#contact").hide();
+            $("#contact_s").show();
+            $("#discribe").show();
+            $("#selection").show();
+            //$("#contact_number").hide();
+        }else{
+            $("#project").hide();
+            $("#component").hide();
+            $("#title_s").hide()
+            $("#title").show();
+            $("#summary").show();
+            $("#summary_s").hide();
+            $("#update_at").hide();
+            $("#urgence_info").hide();
+            $("#submit_info").hide();
+            $("#contact").show();
+            $("#contact_s").hide();
+            $("#discribe").hide();
+            $("#selection").hide();
+            //$("#contact_number").show();
+        }
+    });
+    $("#incident_request_urgence_code").change(function(){
+        var urgence = $("#incident_request_urgence_code").find("option:selected").text();
+        var system = $("#ass_external_system").find("option:selected").text();
+        if(system=="内部项目-提交MSG至SAP" && urgence=="特急"){
+            $("#urgence_info").show();
+        }else{
+            $("#update_at").hide();
+            $("#urgence_info").hide();
+        }
+    });
+    $("#system_update_flag").click(function(){
+        var update_flag = $("#system_update_flag").attr("checked");
+        if (update_flag){
+            $("#update_at").show();
+        }else{
+            $("#update_at").hide();
+        }
+    });
+</script>
+
 <script type="text/javascript">
   $(function(){
      var requester = $("#incident_request_requested_by"), external_system_id = '<%= @incident_request.external_system_id %>', customBlockHtml = $("#customBlock").html();

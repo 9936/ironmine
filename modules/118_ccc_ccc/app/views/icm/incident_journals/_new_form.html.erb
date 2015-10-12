@@ -168,6 +168,36 @@
             <div><%= @incident_request[:submitted_name] %></div>
           </td>
         </tr>
+        <% if  @incident_request[:external_system_name].eql?("内部项目-提交MSG至SAP")%>
+            <tr>
+              <td class="label-col"><label><%= "项目名称" %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:project_name] %></div>
+              </td>
+              <td class="label-col"><label><%= "组件代码" %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:component_code] %></div>
+              </td>
+              <td class="label-col"><label><%= "提交顾问姓名" %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:submit_person] %></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%= "生产系统是否完全宕机" %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:down_flag] %></div>
+              </td>
+              <td class="label-col"><label><%= "系统是否刚上线/升级" %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:update_flag] %></div>
+              </td>
+              <td class="label-col"><label><%= "上线/升级日期" %></label></td>
+              <td class="data-col">
+                <div><%= format_date(@incident_request[:update_at]) %></div>
+              </td>
+            </tr>
+        <%end%>
         <tr>
           <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_org) %></label></td>
           <td class="data-col">
