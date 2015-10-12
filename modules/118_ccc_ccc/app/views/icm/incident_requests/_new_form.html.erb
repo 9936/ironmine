@@ -75,12 +75,12 @@
            </tr>
            <tr id = "project">
              <td class="label-col"><label for="incident_request_poject_name"><%="项目名称"%></label></td>
-             <td class="data-3col" colspan="3"><%=f.text_field :project_name,:size=>20, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_project_name"%></td>
+             <td class="data-3col" colspan="3"><%=f.text_field :project_name,:size=>17, :required=>true,:id=>"incident_request_project_name"%></td>
            </tr>
 
            <tr id = "component">
              <td class="label-col"><label for="incident_request_component_code"><%="组件代码"%></label></td>
-             <td class="data-3col" colspan="3"><%=f.text_field :component_code,:size=>20, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_component_code"%></td>
+             <td class="data-3col" colspan="3"><%=f.text_field :component_code,:size=>17, :required=>true,:id=>"incident_request_component_code"%></td>
            </tr>
            <tr>
              <td class="label-col" id="title"><label for="incident_request_title"><%=t(:label_icm_incident_request_title)%></label></td>
