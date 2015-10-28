@@ -11,4 +11,16 @@ module Yan::WorkloadAuthoritiesHelper
     auth
   end
 
+  def show_count_workload(current)
+    type = Yan::WorkloadAuthority.first
+    person = Irm::GroupMember.where("irm_group_members.person_id = ?", current.id)
+      if type.ob_type.eql?("ORG") && current.organization_id.eql?(type.ob_id)
+        flag = true
+      elsif type.ob_type.eql?("GROUP") && person.group_id.eql?(type.ob_id)
+        flag = true
+      else
+        flag = false
+      end
+      flag
+  end
 end

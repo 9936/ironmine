@@ -234,7 +234,8 @@
           <div class="page-block-body">
             <table  style="width: 100%;">
               <tbody>
-              <% if (@incident_request.incident_status_id.eql?("000K00091nRTl3hfwbJuHg") || @incident_request.incident_status_id.eql?("000K00091oEOpAuVx0QTVQ") || @incident_request.incident_status_id.eql?("000K00091nRTl3hfuk332W")) && Irm::Person.current.workload_flag.eql?("Y") %>
+              <%if show_count_workload(Irm::Person.current)%>
+              <% if (@incident_request.incident_status_id.eql?("000K00091nRTl3hfwbJuHg") || @incident_request.incident_status_id.eql?("000K00091oEOpAuVx0QTVQ") || @incident_request.incident_status_id.eql?("000K00091nRTl3hfuk332W")) %>
                 <div>
                       <div style="display:inline;">
                         <label style="display:inline;"><%= I18n.t(:label_number_of_consultants)%></label>
@@ -256,6 +257,7 @@
                         <%= text_field_tag :workload_t, 0, :style => "width:80px;", :id=>"workload_t"%>&nbsp;<%= I18n.t(:label_workload_min) %>
                       </div>
                 </div>
+              <% end %>
               <% end %>
               <tr>
                 <%= fields_for @incident_journal, :as=>"incident_journal", :builder => CustomFormBuilder, :normal=>true do |sub_f| %>
