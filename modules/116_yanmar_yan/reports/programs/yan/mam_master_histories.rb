@@ -2,7 +2,7 @@ class Yan::MamMasterHistories < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 
-    statis = Mam::MasterStatus.master_history.order("mam_master_statuses.master_number")
+    statis = Mam::MasterStatus.master_history.order("mam_master_statuses.master_number","mam_master_statuses.created_at")
     number = statis.first.master_number
     start_time = statis.first.created_at
 
