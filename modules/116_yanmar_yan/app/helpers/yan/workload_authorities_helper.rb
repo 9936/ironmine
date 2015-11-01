@@ -11,6 +11,7 @@ module Yan::WorkloadAuthoritiesHelper
     auth
   end
 
+  #与设置中的选项结合判断当前用户是否显示记录工时的框框
   def show_count_workload(current)
     type = Yan::WorkloadAuthority.first
     person = Irm::GroupMember.where("irm_group_members.person_id = ?", current.id)

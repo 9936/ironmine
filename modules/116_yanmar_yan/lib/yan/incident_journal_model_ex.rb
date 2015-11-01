@@ -32,10 +32,8 @@ module Yan::IncidentJournalModelEx
         end
 
         #Check  workload
-        rq = Icm::IncidentRequest.find(self.incident_request_id)
         unless self.replied_by.nil?
           pr = Irm::Person.find(self.replied_by)
-
 
           status = nil
           status_record = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' AND property_key = 'incident_status_id'").order("created_at DESC").first
@@ -68,16 +66,11 @@ module Yan::IncidentJournalModelEx
             if self.people_count_t != 0 && self.workload_t == 0
               self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Technicians is not 0')
             end
-            # status = nil
-            # status_record = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' AND property_key = 'incident_status_id'").order("created_at DESC").first
-            # if status_record.present?
-            #   status = status_record.new_value
-            # end
 
-            # 找出当前支持人员所在当前状态的开始时间
+            # 找出当前支持人员所在当前状态的开始时间/历史记录里的上一次时间
             start_time = nil
             status_time_record = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' AND property_key = 'incident_status_id'").order("created_at DESC").first
-            supporter_time_record = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' AND property_key = 'support_person_id' AND new_value = '#{self.replied_by}'").order("created_at DESC").first
+            supporter_time_record = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' ").order("created_at DESC").first
 
             if supporter_time_record.present? && status_time_record.present?
               if supporter_time_record.created_at > status_time_record.created_at
@@ -126,7 +119,6 @@ module Yan::IncidentJournalModelEx
               self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Technicians is not 0')
             end
 
-            # cur_workload = Icm::IncidentWorkload.find_by_incident_journal_id(self.id)
             time = ((cur_workload.end_time - cur_workload.start_time)/60).to_i
             if self.workload_c > time || self.workload_t > time
               self.errors.add(:workload_message, "Workload should be smaller than #{time} minutes")
