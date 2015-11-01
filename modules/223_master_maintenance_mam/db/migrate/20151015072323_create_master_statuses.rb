@@ -9,7 +9,7 @@ class CreateMasterStatuses < ActiveRecord::Migration
       t.string   "submitted_by",    :limit => 22
       t.string   "support_group_id",    :limit => 22
       t.string   "support_person_id",    :limit => 22
-      t.string   "master_status_id",  :limit => 22
+      t.string   "master_status",  :limit => 22
       t.text     "remark"
       t.string   "contact",  :limit => 100
       t.string   "contact_number",  :limit => 100
@@ -26,16 +26,10 @@ class CreateMasterStatuses < ActiveRecord::Migration
       t.datetime "created_at"
       t.datetime "updated_at"
     end
-    change_column :mam_masters, "id", :string,:limit=>22, :collate=>"utf8_bin"
+    change_column :mam_master_statuses, "id", :string,:limit=>22, :collate=>"utf8_bin"
   end
 
   def down
   end
 
-  # def change
-  #   create_table :master_statuses do |t|
-  #
-  #     t.timestamps
-  #   end
-  # end
 end

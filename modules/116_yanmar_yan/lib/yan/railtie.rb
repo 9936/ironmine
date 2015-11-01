@@ -12,6 +12,7 @@ module Yan
       Icm::IncidentRequestsController.send(:include, Yan::IncidentRequestsControllerEx)
       Irm::ExternalSystem.send(:include, Yan::ExternalSystemModelEx)
       Irm::ExternalSystemsHelper.send(:include, Yan::ExternalSystemHelperEx)
+      Mam::MasterStatus.send(:include, Yan::MasterStatusModelEx)
     end
   end
 end

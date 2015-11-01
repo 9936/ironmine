@@ -71,6 +71,25 @@ class Mam::MastersController < ApplicationController
     @master.master_status = "MAM_NEW"
     @master.support_group_id = "000Q00091nxNqRI7bBNZXU"
     @master.save
+    Mam::MasterStatus.create({:master_number => @master.master_number,
+                              :master_type => @master.master_type,
+                              :category => @master.category,
+                              :system_id => @master.system_id,
+                              :submitted_by => @master.submitted_by,
+                              :master_status => @master.master_status,
+                              :support_group_id =>@master.support_group_id,
+                              :support_person_id => @master.support_person_id,
+                              :remark => @master.remark,
+                              :contact=> @master.contact,
+                              :contact_number=> @master.contact_number,
+                              :urs_user_name=> @master.urs_user_name,
+                              :urs_start_date=> @master.urs_start_date,
+                              :urs_end_date=> @master.urs_end_date,
+                              :urs_person=> @master.urs_person,
+                              :urs_description=> @master.urs_description,
+                              :urs_status=> @master.urs_status,
+                              :urs_email=> @master.urs_email,
+                              :status_code=> @master.status_code})
     
     respond_to do |format|
       if @master.save
@@ -104,6 +123,25 @@ class Mam::MastersController < ApplicationController
     @master.support_group_id = "000Q00091nxNqRI7bBNZXU"
     @master.master_scs.build(params[:master_sc])
     @master.save
+    Mam::MasterStatus.create({:master_number => @master.master_number,
+                              :master_type => @master.master_type,
+                              :category => @master.category,
+                              :system_id => @master.system_id,
+                              :submitted_by => @master.submitted_by,
+                              :master_status => @master.master_status,
+                              :support_group_id =>@master.support_group_id,
+                              :support_person_id => @master.support_person_id,
+                              :remark => @master.remark,
+                              :contact=> @master.contact,
+                              :contact_number=> @master.contact_number,
+                              :urs_user_name=> @master.urs_user_name,
+                              :urs_start_date=> @master.urs_start_date,
+                              :urs_end_date=> @master.urs_end_date,
+                              :urs_person=> @master.urs_person,
+                              :urs_description=> @master.urs_description,
+                              :urs_status=> @master.urs_status,
+                              :urs_email=> @master.urs_email,
+                              :status_code=> @master.status_code})
     respond_to do |format|
       if @master.save
         format.html { redirect_to({:action=>"show", :id => @master.id}, :notice =>t(:successfully_created)) }
@@ -175,6 +213,25 @@ class Mam::MastersController < ApplicationController
     @master.master_status = "MAM_NEW"
     @master.support_group_id = "000Q00091nxNqRI7bBNZXU"
     @master.save
+    Mam::MasterStatus.create({:master_number => @master.master_number,
+                              :master_type => @master.master_type,
+                              :category => @master.category,
+                              :system_id => @master.system_id,
+                              :submitted_by => @master.submitted_by,
+                              :master_status => @master.master_status,
+                              :support_group_id =>@master.support_group_id,
+                              :support_person_id => @master.support_person_id,
+                              :remark => @master.remark,
+                              :contact=> @master.contact,
+                              :contact_number=> @master.contact_number,
+                              :urs_user_name=> @master.urs_user_name,
+                              :urs_start_date=> @master.urs_start_date,
+                              :urs_end_date=> @master.urs_end_date,
+                              :urs_person=> @master.urs_person,
+                              :urs_description=> @master.urs_description,
+                              :urs_status=> @master.urs_status,
+                              :urs_email=> @master.urs_email,
+                              :status_code=> @master.status_code})
     respond_to do |format|
       if @master.save
         Mam::MasterUr.where("master_id = ?", params[:temp_master_id]).each do |t|
@@ -396,6 +453,25 @@ class Mam::MastersController < ApplicationController
     end
 
     master.update_attribute(:master_status, "MAM_PROCESSING") if master.master_replies.where("reply_type = ?", 'ASSIGN').size <= 1
+    Mam::MasterStatus.create({:master_number => master.master_number,
+                              :master_type => master.master_type,
+                              :category => master.category,
+                              :system_id => master.system_id,
+                              :submitted_by => master.submitted_by,
+                              :master_status => master.master_status,
+                              :support_group_id =>master.support_group_id,
+                              :support_person_id => master.support_person_id,
+                              :remark => master.remark,
+                              :contact=> master.contact,
+                              :contact_number=> master.contact_number,
+                              :urs_user_name=> master.urs_user_name,
+                              :urs_start_date=> master.urs_start_date,
+                              :urs_end_date=> master.urs_end_date,
+                              :urs_person=> master.urs_person,
+                              :urs_description=> master.urs_description,
+                              :urs_status=> master.urs_status,
+                              :urs_email=> master.urs_email,
+                              :status_code=> master.status_code})
 
     respond_to do |format|
         format.html { redirect_to({:action=>"show", :id => params[:master_id]}, :notice =>t(:successfully_created)) }
@@ -408,6 +484,26 @@ class Mam::MastersController < ApplicationController
 
     master.update_attribute(:master_status, params[:mam_master][:master_status]) if params[:mam_master].present?
     master.update_attribute(:master_status, params[:next_status]) if params[:next_status].present?
+
+    Mam::MasterStatus.create({:master_number => master.master_number,
+                              :master_type => master.master_type,
+                              :category => master.category,
+                              :system_id => master.system_id,
+                              :submitted_by => master.submitted_by,
+                              :master_status => master.master_status,
+                              :support_group_id =>master.support_group_id,
+                              :support_person_id => master.support_person_id,
+                              :remark => master.remark,
+                              :contact=> master.contact,
+                              :contact_number=> master.contact_number,
+                              :urs_user_name=> master.urs_user_name,
+                              :urs_start_date=> master.urs_start_date,
+                              :urs_end_date=> master.urs_end_date,
+                              :urs_person=> master.urs_person,
+                              :urs_description=> master.urs_description,
+                              :urs_status=> master.urs_status,
+                              :urs_email=> master.urs_email,
+                              :status_code=> master.status_code})
 
     respond_to do |format|
       format.html { redirect_to({:action=>"show", :id => params[:master_id]}, :notice =>t(:successfully_created)) }
