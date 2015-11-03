@@ -11,7 +11,7 @@ module Yan::MasterStatusModelEx
             joins("LEFT OUTER JOIN (select * from mam_master_replies where (master_id,created_at) in
                               (select master_id,max(created_at) created_at from mam_master_replies group by master_id) order by master_id)
                                      mmr ON mmr.master_id = mm.id").
-            select("#{table_name}.*,DATE_FORMAT(mam_master_statuses.updated_at,'%Y-%m-%d %h:%i:%s') mm_updated_at, ip1.full_name submit,ip2.full_name supportp,igt.name supportg,DATE_FORMAT(mm.created_at,'%Y-%m-%d %h:%i:%s') ticket_created,DATE_FORMAT(mmr.created_at,'%Y-%m-%d %h:%i:%s') last_response")
+            select("#{table_name}.*,DATE_FORMAT(mam_master_statuses.updated_at,'%Y-%m-%d %h:%i:%s') mm_updated_at,REPLACE(mam_master_statuses.master_status,'MAM_','') mm_status, ip1.full_name submit,ip2.full_name supportp,igt.name supportg,DATE_FORMAT(mm.created_at,'%Y-%m-%d %h:%i:%s') ticket_created,DATE_FORMAT(mmr.created_at,'%Y-%m-%d %h:%i:%s') last_response")
                            }
 
     end

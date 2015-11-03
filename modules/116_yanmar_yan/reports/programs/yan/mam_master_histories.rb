@@ -3,26 +3,45 @@ class Yan::MamMasterHistories < Irm::ReportManager::ReportBase
     params||={}
 
     statis = Mam::MasterStatus.master_history.order("mam_master_statuses.master_number","mam_master_statuses.created_at")
-    number = statis.first.master_number
-    start_time = statis.first.created_at
 
     if params[:start_date].present? && params[:end_date].present?
       statis = statis.where("date_format(mm.created_at, '%Y-%m-%d') >= ?", Date.strptime("#{params[:start_date]}", '%Y-%m-%d').strftime("%Y-%m-%d"))
       statis = statis.where("date_format(mm.created_at, '%Y-%m-%d') <= ?", Date.strptime("#{params[:end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d"))
     end
 
+    mam = []
+    ft =  statis.first
+    number = ft.master_number
+    start_time = statis.first.created_at
     statis.each do |i|
       if i.master_number != number
         number = i.master_number
-        start_time = i.created_at
+        ft = i
+        mam  << ((Time.now - i.created_at)/60).round(2)
       end
+
       if i.master_status.eql?("MAM_CLOSE")
         i.urs_end_date = i.mm_updated_at
       end
-      i.urs_status = ((i.created_at - start_time)/60).round(2)
+
+      if i.id == ft.id
+        start_time = i.created_at
+        next
+      end
+      mam  << ((i.created_at - start_time)/60).round(2)
       start_time = i.created_at
-      i.ticket_created = i.ticket_created.to_s
+      #i.ticket_created = i.ticket_created.to_s
     end
+    mam  << ((Time.now - statis.last.created_at)/60).round(2)
+
+    m = 0
+    statis.each do |i|
+      i.urs_status = mam[m]
+      m = m+1
+    end
+
+    puts statis.count.to_s
+    puts mam.size.to_s
 
     datas = []
     headers = [I18n.t(:label_master_number),
@@ -42,7 +61,7 @@ class Yan::MamMasterHistories < Irm::ReportManager::ReportBase
       data[1] = s[:ticket_created]
       data[2] = s[:last_response]
       data[3] = s[:urs_end_date]
-      data[4] = s[:master_status]
+      data[4] = s[:mm_status]
       data[5] = s[:submit]
       data[6] = s[:supportg]
       data[7] = s[:supportp]
