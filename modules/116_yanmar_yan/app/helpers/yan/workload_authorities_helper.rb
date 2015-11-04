@@ -14,10 +14,14 @@ module Yan::WorkloadAuthoritiesHelper
   #与设置中的选项结合判断当前用户是否显示记录工时的框框
   def show_count_workload(current)
     type = Yan::WorkloadAuthority.first
-    person = Irm::GroupMember.where("irm_group_members.person_id = ?", current.id)
-      if type.ob_type.eql?("ORG") && current.organization_id.eql?(type.ob_id)
+    num = Yan::WorkloadAuthority.count
+    person = Irm::GroupMember.where("irm_group_members.person_id = ?", current.id).first
+    #flag = nil
+      if num == 2 && (current.organization_id.eql?("001q00091nQ3qKZLEmXAdE") || current.organization_id.eql?("001q00091nQ3qKZLDIeYoi"))
+          flag = true
+      elsif num == 1 && type.ob_type.eql?("ORG") && current.organization_id.eql?(type.ob_id)
         flag = true
-      elsif type.ob_type.eql?("GROUP") && person.group_id.eql?(type.ob_id)
+      elsif num == 1 && type.ob_type.eql?("GROUP") && person.group_id.eql?(type.ob_id)
         flag = true
       else
         flag = false
