@@ -21,11 +21,16 @@ module Yan::WorkloadAuthoritiesHelper
           flag = true
       elsif num == 1 && type.ob_type.eql?("ORG") && current.organization_id.eql?(type.ob_id)
         flag = true
-      elsif num == 1 && type.ob_type.eql?("GROUP") && person.group_id.eql?(type.ob_id)
+      elsif num == 1 && (type.ob_type.eql?("GROUP") && person.group_id.eql?(type.ob_id))
         flag = true
       else
         flag = false
       end
+    #puts "-------------------"
+    #puts flag.to_s
+    #puts num.to_s
+    #puts person.group_id.to_s
+    #puts type.ob_id
       flag
   end
 end

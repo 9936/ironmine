@@ -33,19 +33,7 @@ module Yan::IncidentJournalModelEx
 
         #Check  workload
         unless self.replied_by.nil?
-          pr = Irm::Person.find(self.replied_by)
 
-          status = nil
-          status_record = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' AND property_key = 'incident_status_id'").order("created_at DESC").first
-          if status_record.present?
-            status = status_record.new_value
-          end
-          if (!self.workload_c.present? || !self.workload_t.present?) && pr.workload_flag.eql?("Y") && (status.eql?("000K00091nRTl3hfwbJuHg") || status.eql?("000K00091oEOpAuVx0QTVQ") || status.eql?("000K00091nRTl3hfuk332W"))
-            self.errors.add(:workload_message, 'Workload can not be blank')
-          end
-          if (!self.people_count_c.present? || !self.people_count_t.present?) && pr.workload_flag.eql?("Y") && (status.eql?("000K00091nRTl3hfwbJuHg") || status.eql?("000K00091oEOpAuVx0QTVQ") || status.eql?("000K00091nRTl3hfuk332W"))
-            self.errors.add(:workload_message, 'The number of Consultants/Technicians can not be blank')
-          end
           # 只有填写了workload才会继续验证
           if self.workload_c.present? && self.workload_t.present?
             # 验证不能小于0
