@@ -15,14 +15,16 @@ module Yan::WorkloadAuthoritiesHelper
   def show_count_workload(current)
     type = Yan::WorkloadAuthority.first
     num = Yan::WorkloadAuthority.count
-    person = Irm::GroupMember.where("irm_group_members.person_id = ?", current.id).first
-    #flag = nil
+    person = Irm::GroupMember.where("irm_group_members.person_id = ? and irm_group_members.group_id = ?", current.id,"001400091nvxvi9mGSGGq8").first
+    flag = nil
       if num == 2 && (current.organization_id.eql?("001q00091nQ3qKZLEmXAdE") || current.organization_id.eql?("001q00091nQ3qKZLDIeYoi"))
           flag = true
       elsif num == 1 && type.ob_type.eql?("ORG") && current.organization_id.eql?(type.ob_id)
         flag = true
-      elsif num == 1 && (type.ob_type.eql?("GROUP") && person.group_id.eql?(type.ob_id))
-        flag = true
+      elsif num == 1 && type.ob_type.eql?("GROUP") && !person.nil?
+        if person.group_id.eql?(type.ob_id)
+          flag = true
+        end
       else
         flag = false
       end
