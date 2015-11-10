@@ -3,6 +3,7 @@
   <% content_for :form_block_common do%>
     <table class="form-table">
       <tbody>
+      <%if show_count_workload(Irm::Person.current)%>
       <% if  Irm::Person.current.id.eql?(@incident_journal.replied_by) && !@incident_journal.workload_c.nil? %>
             <div>
               <div style="width: 18%; padding: 2px 10px 2px 2px; display: inline"></div>
@@ -25,6 +26,7 @@
                 <%= f.text_field :workload_t, :id=>"workload_t", :style => "width:80px;" %>&nbsp;<%= I18n.t(:label_workload_min) %>
               </div>
             </div>
+      <% end %>
       <% end %>
         <tr>
             <td class="label-col"><label><%=t(:label_icm_incident_journal_new)%></label></td>

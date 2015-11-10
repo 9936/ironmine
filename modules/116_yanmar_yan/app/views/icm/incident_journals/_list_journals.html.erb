@@ -21,6 +21,7 @@
      </div>
    </div>
    <div class="reply-body">
+     <%if show_count_workload(Irm::Person.current)%>
      <% if !journal.workload_c.nil? && (journal.created_by.eql?(Irm::Person.current.id) || (Irm::Person.current.profile_id).eql?("001z00024DLIQpNqVFPhLc")) %>
          <div  style="text-align: left">
            <div style="display: inline; padding-left: 30px"><%= I18n.t(:label_number_of_consultants)%> <%= journal.people_count_c %></div>
@@ -29,6 +30,7 @@
            <div style="display: inline; padding-left: 30px"><%= I18n.t(:label_yan_workload)%> <%= journal.workload_t %> min</div>
          </div>
      <% end %>
+     <%end%>
      <%if journal.incident_histories.any? %>
        <div class="message-header" style="font-style:italic;padding-bottom:10px;">
          <ul>

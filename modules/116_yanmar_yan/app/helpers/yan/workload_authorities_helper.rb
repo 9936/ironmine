@@ -28,11 +28,6 @@ module Yan::WorkloadAuthoritiesHelper
       else
         flag = false
       end
-    #puts "-------------------"
-    #puts flag.to_s
-    #puts num.to_s
-    #puts person.group_id.to_s
-    #puts type.ob_id
       flag
   end
 end
