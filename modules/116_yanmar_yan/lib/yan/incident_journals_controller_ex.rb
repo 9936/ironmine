@@ -206,8 +206,8 @@ module Yan::IncidentJournalsControllerEx
 
                 # 找出当前支持人员所在当前状态的开始时间
                 start_time = nil
-                status_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'incident_status_id' AND (new_value='000K00091nRTl3hfwbJuHg' OR new_value='000K00091oEOpAuVx0QTVQ' OR new_value='000K00091nRTl3hfuk332W')").order("created_at DESC").first
-                supporter_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}'").order("created_at DESC").first
+                status_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'support_person_id' ").order("created_at DESC").first
+                supporter_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'new_reply' ").order("created_at DESC").first
 
                 if supporter_time_record.present? && status_time_record.present?
                   if supporter_time_record.created_at > status_time_record.created_at
