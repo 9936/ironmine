@@ -219,7 +219,7 @@ module Yan::IncidentJournalsControllerEx
                 if supporter_time_record.present? && !status_time_record.present?
                   start_time=supporter_time_record.created_at
                 end
-                if !supporter_time_record.present? && !status_time_record.present?
+                if !supporter_time_record.present? && status_time_record.present?
                   start_time=status_time_record.created_at
                 end
                 end_time = Time.now
