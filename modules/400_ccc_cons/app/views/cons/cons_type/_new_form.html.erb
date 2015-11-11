@@ -1,0 +1,79 @@
+<%= common_title() %>
+
+<%= form_for(@consType,:url=>{:action=>"create"},:as=>"cons_consType",:builder => CustomFormBuilder,:html => {:id => 'new_cons_consType' }) do |f| %>
+    <% content_for :form_block_customer   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_code)%></label></td>
+            <td class="data-col"><%= f.text_field(:code,:required=>true) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_name)%></label></td>
+            <td class="data-col"><%= f.text_field(:name,:required=>true) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_status)%></label></td>
+            <td class="data-col"><%= select( "cons_connect", "status",{"启用"=>"ENABLED","失效"=>"DISABLED"}) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_description)%></label></td>
+            <td class="data-col"><%= f.text_area(:description) %></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+
+    <% content_for :form_buttons  do %>
+        <%= link_submit t(:save),{:class=>"btn btn-primary save"}%>
+        <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_new) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+          <td class="page-block-help">
+
+          </td>
+        </tr>
+      </table>
+      <%= error_for @consType %>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 个人信息 -->
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%=t(:label_info)%></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_customer   %>
+          </div>
+        </div>
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+<script>
+  $(function(){
+    $("#cons_consType_description").css("height","100px")
+    $("#new_cons_consType a.save").click(function(){
+      $("#new_cons_consType").attr('action', '<%= url_for(:action => "create", :controller => "cons/consType")%>');
+      $("#new_cons_consType").submit();
+    });
+  })
+
+</script>

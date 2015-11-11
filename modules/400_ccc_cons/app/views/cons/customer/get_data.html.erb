@@ -1,0 +1,13 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+        <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:class => "action-link"}) %>
+    <% end %>
+    <% builder.column(:customer_name,{:title=>"姓名",:searchable=>true, :width => "130px"})  %>
+    <% builder.column(:customer_sex,{:title=>"性别",:searchable=>false, :width => "130px"}) %>
+    <% builder.column(:customer_duty,{:title=>"职责", :searchable=>false, :width => "150px"}) %>
+    <% builder.column(:customer_status,{:title=>"客户状态", :searchable=>false, :width => "130px"}) %>
+    <% builder.column(:customer_tel,{:title=>"手机", :searchable=>true ,:width => "150px", :sortable=>true}) %>
+    <% builder.column(:customer_email,{:title=>"邮箱", :searchable=>true, :width => "150px", :sortable=>true}) %>
+    <% builder.column(:customer_comment,{:title=>"备注", :searchable=>true, :width => "150px", :sortable=>true}) %>
+<% end %>

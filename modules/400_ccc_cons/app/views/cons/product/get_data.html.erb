@@ -1,0 +1,13 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+        <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:class => "action-link"}) %>
+    <% end %>
+    <% builder.column(:pro_name,{:title=>"项目名称",:searchable=>true, :width => "130px"})  %>
+    <% builder.column(:pro_manager,{:title=>"项目经理",:searchable=>true,:width => "130px"}) %>
+    <% builder.column(:pro_type,{:title=>"项目类型",:searchable=>false, :width => "130px"}) %>
+    <% builder.column(:pro_pricing_type,{:title=>"计价方式", :searchable=>false, :width => "150px"}) %>
+    <% builder.column(:pro_begin_date,{:title=>"项目开始时间", :searchable=>true, :width => "130px"}) %>
+    <% builder.column(:pro_end_date,{:title=>"项目结束时间", :width => "150px",:sortable=>true}) %>
+    <% builder.column(:pro_group,{:title=>"对应组别", :width => "150px",:sortable=>true}) %>
+<% end %>

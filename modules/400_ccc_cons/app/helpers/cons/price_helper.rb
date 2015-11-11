@@ -1,0 +1,2 @@
+module Cons::PriceHelper
+end

@@ -1,0 +1,109 @@
+<%= common_title(:show_data=>@company[:com_name]) %>
+<!--页面结构-->
+<div class="show-block">
+  <!-- 人员信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_company_info) %></h2>
+      </td>
+      <td class="page-block-button">
+
+        <%= link_to t(:new), {:action => "new"},:class=>"btn btn-primary"%>
+
+        <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
+
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%=t(:label_com_name)%></label></td>
+        <td class="data-col"><%= @company.com_name%></td>
+        <td class="label-col"><label><%=(t :label_com_address)%></label></td>
+        <td class="data-col"><%= @company.com_address%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_com_ZCode)%></label></td>
+        <td class="data-col"><%= @company.com_ZCode%></td>
+        <td class="label-col"><label><%=t(:label_com_city)%></label></td>
+        <td class="data-col"><%= @company.com_city%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_com_province)%></label></td>
+        <td class="data-col"><%= @company.com_province%></td>
+        <td class="label-col"><label><%=(t :label_com_country)%></label></td>
+        <td class="data-col"><%= @company.com_country%></td>
+      </tr>
+
+
+      <tr>
+        <td class="label-col"><label><%=t(:label_com_conscientious)%></label></td>
+        <td class="data-col"><%= @company.com_conscientious%></td>
+        <td class="label-col"><label><%=(t :label_com_position)%></label></td>
+        <td class="data-col"><%= @company.com_position%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_com_conscientious_tel)%></label></td>
+        <td class="data-col"><%= @company.com_conscientious_tel%></td>
+        <td class="label-col"><label><%=t(:label_com_conscientious_telNo) %></label></td>
+        <td class="data-col"><%= @company.com_conscientious_telNo %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_com_conscientious_email) %></label></td>
+        <td class="data-col"><%= @company.com_conscientious_email %></td>
+        <td class="label-col"></td>
+        <td class="data-col"></td>
+      </tr>
+
+
+
+      <tr>
+        <td class="label-col"><label><%=t(:label_com_A1_flag)%></label></td>
+        <td class="data-col"><%= @company.com_A1_flag%></td>
+        <td class="label-col"><label><%=(t :label_com_sale)%></label></td>
+        <td class="data-col"><%= @company.com_sale%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_com_industry)%></label></td>
+        <td class="data-col">
+          <%= @company.com_industry%>
+        </td>
+        <td class="label-col"><label><%=t(:label_com_service_data)%></label></td>
+        <td class="data-col"><%= @company.com_service_data%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_com_attention_point)%></label></td>
+        <td class="data-col"><%= @company.com_attention_point%></td>
+        <td class="label-col"></td>
+        <td class="data-col"></td>
+      </tr>
+
+
+
+      <tr>
+        <td class="label-col"><label><%=t(:label_com_connect_type)%></label></td>
+        <td class="data-col">
+          <%= @company.com_connect_type%>
+        </td>
+        <td class="label-col"><label><%=(t :label_com_router)%></label></td>
+        <td class="data-col"><%= @company.com_router%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_com_dev_mess)%></label></td>
+        <td class="data-col"><%= @company.com_dev_mess %></td>
+        <td class="label-col"><label><%=t(:label_com_test_mess)%></label></td>
+        <td class="data-col"><%= @company.com_test_mess%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_com_prod_mess)%></label></td>
+        <td class="data-col"><%= @company.com_prod_mess%></td>
+        <td class="label-col"><label><%=(t :lable_com_sys_mess)%></label></td>
+        <td class="data-col"><%= @company.com_sys_mess%></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,2 @@
+module Cons::LevelHelper
+end

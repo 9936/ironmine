@@ -1,0 +1,2 @@
+module Cons::ConnectHelper
+end

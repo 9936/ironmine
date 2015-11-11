@@ -1,0 +1,2 @@
+module Cons::ConsTypeHelper
+end

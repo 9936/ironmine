@@ -1,0 +1,89 @@
+<%= common_title(:show_data=>@product[:com_name]) %>
+<!--页面结构-->
+<div class="show-block">
+  <!-- 人员信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_product_info) %></h2>
+      </td>
+      <td class="page-block-button">
+
+        <%= link_to t(:new), {:action => "new"},:class=>"btn btn-primary"%>
+
+        <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
+
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%=t(:label_pro_name)%></label></td>
+        <td class="data-col"><%= @product.pro_name%></td>
+        <td class="label-col"><label><%=t(:label_pro_customer_no) %></label></td>
+        <td class="data-col"><%= @product.pro_customer_no %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=(t :label_pro_customer_contact)%></label></td>
+        <td class="data-col"><%= @product.pro_customer_contact %></td>
+        <td class="label-col"><label><%=(t :label_pro_manager)%></label></td>
+        <td class="data-col"><%= @product.pro_manager %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_pro_type)%></label></td>
+        <td class="data-col"><%= @product.pro_type %></td>
+        <td class="label-col"><label><%=t(:label_pro_pricing_type)%></label></td>
+        <td class="data-col"><%= @product.pro_pricing_type %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_pro_begin_date)%></label></td>
+        <td class="data-col"><%= @product.pro_begin_date %></td>
+        <td class="label-col"><label><%=(t :label_pro_end_date)%></label></td>
+        <td class="data-col"><%= @product.pro_end_date %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_pro_disabled_flag)%></label></td>
+        <td class="data-col"><%= @product.pro_disabled_flag %></td>
+        <td class="label-col"><label><%=t(:label_pro_comment)%></label></td>
+        <td class="data-col"><%= @product.pro_comment %></td>
+      </tr>
+
+
+      <tr>
+        <td class="label-col"><label><%=t(:label_pro_remote_date)%></label></td>
+        <td class="data-col"><%= @product.pro_remote_date %></td>
+        <td class="label-col"><label><%=(t :label_pro_scene_date)%></label></td>
+        <td class="data-col"><%= @product.pro_scene_date %></td>
+      </tr>
+
+
+      <tr>
+        <td class="label-col"><label><%=t(:label_pro_respond_time)%></label></td>
+        <td class="data-col"><%= @product.pro_respond_time %></td>
+        <td class="label-col"><label><%=(t :label_pro_handle_time)%></label></td>
+        <td class="data-col"><%= @product.pro_handle_time %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_pro_update_time)%></label></td>
+        <td class="data-col"><%= @product.pro_update_time %></td>
+        <td class="label-col"><label><%=(t :label_pro_total_time)%></label></td>
+        <td class="data-col"><%= @product.pro_total_time %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_pro_max_time)%></label></td>
+        <td class="data-col"><%= @product.pro_max_time %></td>
+        <td class="label-col"><label><%=(t :label_pro_remind_rate)%></label></td>
+        <td class="data-col"><%= @product.pro_remind_rate %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_pro_warning_rate)%></label></td>
+        <td class="data-col"><%= @product.pro_warning_rate %></td>
+        <td class="label-col"><label><%=(t :label_pro_show_to_SLA_flag)%></label></td>
+        <td class="data-col"><%= @product.pro_show_to_SLA_flag %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+        <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:class => "action-link"}) %>
+    <% end %>
+    <% builder.column(:name,{:title=>"名称",:searchable=>true, :width => "130px"})  %>
+    <% builder.column(:code,{:title=>"编码",:searchable=>true, :width => "130px"}) %>
+    <% builder.column(:description,{:title=>"描述",:searchable=>true, :width => "130px"}) %>
+<% end %>

@@ -1,0 +1,41 @@
+<%= common_title(:show_data=>@level[:name]) %>
+<!--页面结构-->
+<div class="show-block">
+  <!-- 人员信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_person_show) %></h2>
+      </td>
+      <td class="page-block-button">
+
+        <%= link_to t(:new), {:action => "new"},:class=>"btn btn-primary"%>
+
+        <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
+
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%=t(:label_code)%></label></td>
+        <td class="data-col"><%= @level.code%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_name)%></label></td>
+        <td class="data-col"><%= @level.name%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_status)%></label></td>
+        <td class="data-col"><%= @level.status%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_description)%></label></td>
+        <td class="data-col"><%= @level.description%></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

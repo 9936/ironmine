@@ -1,0 +1,2 @@
+module Cons::IndustryHelper
+end

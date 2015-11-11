@@ -1,0 +1,61 @@
+<%= common_title(:show_data=>@customer[:customer_name]) %>
+<!--页面结构-->
+<div class="show-block">
+  <!-- 人员信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_person_show) %></h2>
+      </td>
+      <td class="page-block-button">
+
+        <%= link_to t(:new), {:action => "new"},:class=>"btn btn-primary"%>
+
+        <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
+
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%=t(:label_customer_name)%></label></td>
+        <td class="data-col"><%= @customer.customer_name%></td>
+        <td class="label-col"><label><%=(t :label_customer_company)%></label></td>
+        <td class="data-col"><%= @customer.companyName %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_customer_sex)%></label></td>
+        <td class="data-col"><%= @customer.customer_sex%></td>
+        <td class="label-col"><label><%=t(:label_customer_duty)%></label></td>
+        <td class="data-col"><%= @customer.customer_duty%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_customer_status)%></label></td>
+        <td class="data-col"><%= @customer.customer_status%></td>
+        <td class="label-col"><label><%=(t :label_customer_tel)%></label></td>
+        <td class="data-col"><%= @customer.customer_tel%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_customer_telNo)%></label></td>
+        <td class="data-col"><%= @customer.customer_telNo%></td>
+        <td class="label-col"><label><%=(t :label_customer_email)%></label></td>
+        <td class="data-col"><%= @customer.customer_email%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_customer_fax)%></label></td>
+        <td class="data-col"><%= @customer.customer_fax%></td>
+        <td class="label-col"><label><%=(t :label_customer_flag)%></label></td>
+        <td class="data-col"><%= @customer.customer_flag%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_customer_comment)%></label></td>
+        <td class="data-col">
+          <%= @customer.customer_comment%>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

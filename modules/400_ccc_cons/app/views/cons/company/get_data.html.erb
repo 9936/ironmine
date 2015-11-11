@@ -1,0 +1,12 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+        <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:class => "action-link"}) %>
+    <% end %>
+    <% builder.column(:com_name,{:title=>"公司名称",:searchable=>true, :width => "130px"})  %>
+    <% builder.column(:com_address,{:title=>"地址",:searchable=>true,:width => "130px"}) %>
+    <% builder.column(:com_ZCode,{:title=>"邮编",:searchable=>false, :width => "130px"}) %>
+    <% builder.column(:com_city,{:title=>"城市", :searchable=>false, :width => "150px"}) %>
+    <% builder.column(:com_province,{:title=>"省份", :searchable=>true, :width => "130px"}) %>
+    <% builder.column(:com_country,{:title=>"国家", :width => "150px",:sortable=>true}) %>
+<% end %>
