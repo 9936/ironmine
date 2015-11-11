@@ -149,6 +149,24 @@ module Yan::IncidentJournalsControllerEx
 
           @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
 
+          start_time = nil
+          status_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'support_person_id' ").order("created_at DESC").first
+          supporter_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'new_reply' or property_key = 'incident_status_id' ").order("created_at DESC").first
+
+          if supporter_time_record.present? && status_time_record.present?
+            if supporter_time_record.created_at > status_time_record.created_at
+              start_time=supporter_time_record.created_at
+            else
+              start_time=status_time_record.created_at
+            end
+          end
+          if supporter_time_record.present? && !status_time_record.present?
+            start_time=supporter_time_record.created_at
+          end
+          if !supporter_time_record.present? && status_time_record.present?
+            start_time=status_time_record.created_at
+          end
+
 
           # 工时记录
           workload_status_id = @incident_request.incident_status_id
@@ -205,23 +223,7 @@ module Yan::IncidentJournalsControllerEx
 
 
                 # 找出当前支持人员所在当前状态的开始时间
-                start_time = nil
-                status_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'support_person_id' ").order("created_at DESC").first
-                supporter_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'new_reply' ").order("created_at DESC").first
 
-                if supporter_time_record.present? && status_time_record.present?
-                  if supporter_time_record.created_at > status_time_record.created_at
-                    start_time=supporter_time_record.created_at
-                  else
-                    start_time=status_time_record.created_at
-                  end
-                end
-                if supporter_time_record.present? && !status_time_record.present?
-                  start_time=supporter_time_record.created_at
-                end
-                if !supporter_time_record.present? && status_time_record.present?
-                  start_time=status_time_record.created_at
-                end
                 end_time = Time.now
 
                 if params[:workload_c].present? && params[:workload_t].present?
