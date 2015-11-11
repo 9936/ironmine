@@ -216,6 +216,12 @@ module Yan::IncidentJournalsControllerEx
                     start_time=status_time_record.created_at
                   end
                 end
+                if supporter_time_record.present? && !status_time_record.present?
+                  start_time=supporter_time_record.created_at
+                end
+                if !supporter_time_record.present? && !status_time_record.present?
+                  start_time=status_time_record.created_at
+                end
                 end_time = Time.now
 
                 if params[:workload_c].present? && params[:workload_t].present?
