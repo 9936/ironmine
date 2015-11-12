@@ -151,7 +151,7 @@ module Yan::IncidentJournalsControllerEx
 
           start_time = nil
           status_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'support_person_id' ").order("created_at DESC").first
-          supporter_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'new_reply' or property_key = 'incident_status_id' ").order("created_at DESC").first
+          supporter_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND (property_key = 'new_reply' or property_key = 'incident_status_id') ").order("created_at DESC").first
 
           if supporter_time_record.present? && status_time_record.present?
             if supporter_time_record.created_at > status_time_record.created_at
