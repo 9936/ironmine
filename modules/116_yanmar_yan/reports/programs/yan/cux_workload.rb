@@ -35,8 +35,8 @@ class Yan::CuxWorkload < Irm::ReportManager::ReportBase
                 ip.full_name 'Supporter',
                 iist1.`name` 'Status',
                 iist2.`name` 'Workload Status',
-                iiw.start_time 'Start Time',
-                iiw.end_time 'End Time',
+                DATE_FORMAT(iiw.start_time,'%Y-%m-%d %h:%i:%s') 'Start Time',
+                DATE_FORMAT(iiw.end_time,'%Y-%m-%d %h:%i:%s') 'End Time',
                 iiw.people_count_c,
                 iiw.real_processing_time,
                 ROUND((iiw.real_processing_time*iiw.people_count_c)/60, 2),
@@ -94,8 +94,8 @@ class Yan::CuxWorkload < Irm::ReportManager::ReportBase
       data[3] = s[3]
       data[4] = s[4]
       data[5] = s[5]
-      data[6] = s[6].strftime('%Y-%m-%d %H:%M:%S').to_s
-      data[7] = s[7].strftime('%Y-%m-%d %H:%M:%S').to_s
+      data[6] = s[6]
+      data[7] = s[7]
       data[8] = s[8]
       data[9] = s[9]
       data[10] = s[10]
