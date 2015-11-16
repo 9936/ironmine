@@ -1,0 +1,2 @@
+module Ccc::PriceTypesHelper
+end

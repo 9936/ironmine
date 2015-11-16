@@ -1,5 +1,315 @@
 #-*- coding: utf-8 -*-
 Fwk::MenuAndFunctionManager.map do |map|
+  map.menu :external_system_management, {
+                                          :en => {:name => "External System", :description => "External System"},
+                                          :zh => {:name => "应用系统", :description => "应用系统"},
+                                          :children => {
+                                              :project_type_info => {
+                                                  :type => "function",
+                                                  :entry => {
+                                                      :sequence => 50,
+                                                      :en => {:name => "Project Type", :description => "Project Type"},
+                                                      :zh => {:name => "项目类型", :description => "新建、查看、编辑一项目类型"},
+                                                  }},
+                                              :price_type_info => {
+                                                  :type => "function",
+                                                  :entry => {
+                                                      :sequence => 60,
+                                                      :en => {:name => "Price Type", :description => "Price Type"},
+                                                      :zh => {:name => "计价方式", :description => "新建、查看、编辑一计价方式"},
+                                                  }}
+                                          }
+                                      }
+
+  map.function_group :project_type_info, {
+                                               :en => {:name => "Project Type Info", :description => "Project Type Info"},
+                                               :zh => {:name => "项目类型", :description => "新建、查看、编辑一项目类型"}
+                                           }
+  map.function_group :project_type_info, {
+                                               :zone_code => "SYSTEM_SETTING",
+                                               :controller => "ccc/projectTypes",
+                                               :action => "index"}
+  map.function_group :project_type_info, {
+                                               :children => {
+                                                   :project_type_info => {
+                                                       :en => {:name => "Manage Project Type", :description => "Manage Project Type"},
+                                                       :zh => {:name => "管理项目类型", :description => "管理项目类型"},
+                                                       :default_flag => "N",
+                                                       :login_flag => "N",
+                                                       :public_flag => "N",
+                                                       "ccc/projectTypes" => ["edit","get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","create"]
+                                                   },
+                                               }
+                                           }
+
+
+  map.function_group :price_type_info, {
+                                               :en => {:name => "Price Type Info", :description => "Price Type Info"},
+                                               :zh => {:name => "计价方式", :description => "新建、查看、编辑一计价方式"}
+                                           }
+  map.function_group :price_type_info, {
+                                               :zone_code => "SYSTEM_SETTING",
+                                               :controller => "ccc/priceTypes",
+                                               :action => "index"}
+  map.function_group :price_type_info, {
+                                               :children => {
+                                                   :price_type_info => {
+                                                       :en => {:name => "Manage Price Type", :description => "Manage Price Type"},
+                                                       :zh => {:name => "管理计价方式", :description => "管理计价方式"},
+                                                       :default_flag => "N",
+                                                       :login_flag => "N",
+                                                       :public_flag => "N",
+                                                       "ccc/priceTypes" => ["edit","get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","create"]
+                                                   },
+                                               }
+                                           }
+
+    map.menu :user_management, {
+         :en => {:name => "User Management", :description => "User Management"},
+         :zh => {:name => "管理用户", :description => "管理用户"},
+         :children => {
+             :consultant_level_info => {
+                 :type => "function",
+                 :entry => {
+                     :sequence => 40,
+                     :en => {:name => "Consultant Level Info", :description => "Consultant Level Info"},
+                     :zh => {:name => "顾问等级", :description => "新建、查看、编辑一顾问等级"},
+                 }
+             },
+             :consultant_module_info => {
+                 :type => "function",
+                 :entry => {
+                     :sequence => 50,
+                     :en => {:name => "Consultant Module Info", :description => "Consultant Module Info"},
+                     :zh => {:name => "模块", :description => "新建、查看、编辑一模块"},
+                 }
+             },
+             :consultant_status_info => {
+                 :type => "function",
+                 :entry => {
+                     :sequence => 60,
+                     :en => {:name => "Consultant Status Info", :description => "Consultant Status Info"},
+                     :zh => {:name => "顾问状态", :description => "新建、查看、编辑一顾问状态"},
+                 }
+             },
+             :consultant_type_info => {
+                 :type => "function",
+                 :entry => {
+                     :sequence => 70,
+                     :en => {:name => "Consultant Type Info", :description => "Consultant Type Info"},
+                     :zh => {:name => "顾问类型", :description => "新建、查看、编辑一顾问类型"},
+                 }
+             },
+             :customer_status_info => {
+                 :type => "function",
+                 :entry => {
+                     :sequence => 80,
+                     :en => {:name => "Customer Status Info", :description => "Customer Status Info"},
+                     :zh => {:name => "客户状态", :description => "新建、查看、编辑一客户状态"},
+                 }
+             },
+             :sex_info => {
+                 :type => "function",
+                 :entry => {
+                     :sequence => 90,
+                     :en => {:name => "Sex Info", :description => "Sex Info"},
+                     :zh => {:name => "性别", :description => "新建、查看、编辑一性别"},
+                 }
+             }
+
+         }
+    }
+    map.function_group :consultant_level_info, {
+                                                 :en => {:name => "Consultant Level Info", :description => "Consultant Level Info"},
+                                                 :zh => {:name => "顾问等级", :description => "新建、查看、编辑一顾问等级"}
+                                             }
+    map.function_group :consultant_level_info, {
+                                                 :zone_code => "SYSTEM_SETTING",
+                                                 :controller => "ccc/consultantLevels",
+                                                 :action => "index"}
+    map.function_group :consultant_level_info, {
+                                                 :children => {
+                                                     :consultant_level_info => {
+                                                         :en => {:name => "Manage Consultant Level", :description => "Manage Consultant Level"},
+                                                         :zh => {:name => "管理顾问等级", :description => "管理顾问等级"},
+                                                         :default_flag => "N",
+                                                         :login_flag => "N",
+                                                         :public_flag => "N",
+                                                         "ccc/consultantLevels" => ["edit","get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","create"]
+                                                     },
+                                                 }
+                                             }
+
+    map.function_group :consultant_module_info, {
+                                                  :en => {:name => "Consultant Module Info", :description => "Consultant Module Info"},
+                                                  :zh => {:name => "模块", :description => "新建、查看、编辑一模块"},
+                                              }
+    map.function_group :consultant_module_info, {
+                                                  :zone_code => "SYSTEM_SETTING",
+                                                  :controller => "ccc/consultantModules",
+                                                  :action => "index"}
+    map.function_group :consultant_module_info, {
+                                                  :children => {
+                                                      :consultant_module_info => {
+                                                          :en => {:name => "Manage Consultant Module", :description => "Manage Consultant Module"},
+                                                          :zh => {:name => "管理模块", :description => "管理模块"},
+                                                          :default_flag => "N",
+                                                          :login_flag => "N",
+                                                          :public_flag => "N",
+                                                          "ccc/consultantModules" => ["edit","get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","create"]
+                                                      },
+                                                  }
+                                              }
+    map.function_group :consultant_status_info, {
+                                                  :en => {:name => "Consultant Status Info", :description => "Consultant Status Info"},
+                                                  :zh => {:name => "顾问状态", :description => "新建、查看、编辑一顾问状态"},
+                                              }
+    map.function_group :consultant_status_info, {
+                                                  :zone_code => "SYSTEM_SETTING",
+                                                  :controller => "ccc/consultantStatuses",
+                                                  :action => "index"}
+    map.function_group :consultant_status_info, {
+                                                  :children => {
+                                                      :consultant_status_info => {
+                                                          :en => {:name => "Manage Consultant Status", :description => "Manage Consultant Status"},
+                                                          :zh => {:name => "管理顾问状态", :description => "管理顾问状态"},
+                                                          :default_flag => "N",
+                                                          :login_flag => "N",
+                                                          :public_flag => "N",
+                                                          "ccc/consultantStatuses" => ["edit","get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","create"]
+                                                      },
+                                                  }
+                                              }
+
+    map.function_group :consultant_type_info, {
+                                                :en => {:name => "Consultant Type Info", :description => "Consultant Type Info"},
+                                                :zh => {:name => "顾问类型", :description => "新建、查看、编辑一顾问类型"},
+                                            }
+    map.function_group :consultant_type_info, {
+                                                :zone_code => "SYSTEM_SETTING",
+                                                :controller => "ccc/consultantTypes",
+                                                :action => "index"}
+    map.function_group :consultant_type_info, {
+                                                :children => {
+                                                    :consultant_type_info => {
+                                                        :en => {:name => "Manage Consultant Type", :description => "Manage Consultant Type"},
+                                                        :zh => {:name => "管理顾问类型", :description => "管理顾问类型"},
+                                                        :default_flag => "N",
+                                                        :login_flag => "N",
+                                                        :public_flag => "N",
+                                                        "ccc/consultantTypes" => ["edit","get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","create"]
+                                                    },
+                                                }
+                                            }
+
+    map.function_group :customer_status_info, {
+                                                :en => {:name => "Customer Status Info", :description => "Customer Status Info"},
+                                                :zh => {:name => "客户状态", :description => "新建、查看、编辑一客户状态"},
+                                            }
+    map.function_group :customer_status_info, {
+                                                :zone_code => "SYSTEM_SETTING",
+                                                :controller => "ccc/customerStatuses",
+                                                :action => "index"}
+    map.function_group :customer_status_info, {
+                                                :children => {
+                                                    :customer_status_info => {
+                                                        :en => {:name => "Manage Customer Status", :description => "Manage Customer Status"},
+                                                        :zh => {:name => "管理客户状态", :description => "管理客户状态"},
+                                                        :default_flag => "N",
+                                                        :login_flag => "N",
+                                                        :public_flag => "N",
+                                                        "ccc/customerStatuses" => ["edit","get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","create"]
+                                                    },
+                                                }
+                                            }
+
+    map.function_group :sex_info, {
+                                    :en => {:name => "Sex Info", :description => "Sex Info"},
+                                    :zh => {:name => "性别", :description => "新建、查看、编辑一性别"},
+                                }
+    map.function_group :sex_info, {
+                                    :zone_code => "SYSTEM_SETTING",
+                                    :controller => "ccc/sexes",
+                                    :action => "index"}
+    map.function_group :sex_info, {
+                                    :children => {
+                                        :sex_info => {
+                                            :en => {:name => "Manage Sex", :description => "Manage Sex"},
+                                            :zh => {:name => "管理性别", :description => "管理性别"},
+                                            :default_flag => "N",
+                                            :login_flag => "N",
+                                            :public_flag => "N",
+                                            "ccc/sexes" => ["edit","get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","create"]
+                                        },
+                                    }
+                                }
+
+
+    map.menu :organization_management, {
+                                         :en => {:name => "Organization Information", :description => "Organization Information"},
+                                         :zh => {:name => "组织信息", :description => "组织信息"},
+                                         :children => {
+                                             :industry_info => {
+                                                 :type => "function",
+                                                 :entry => {
+                                                     :sequence => 40,
+                                                     :en => {:name => "Industry Info", :description => "Industry Info"},
+                                                     :zh => {:name => "所属行业", :description => "新建、查看、编辑一行业"},
+                                                 }
+                                             },
+                                             :conn_type_info => {
+                                                 :type => "function",
+                                                 :entry => {
+                                                     :sequence => 50,
+                                                     :en => {:name => "Connect Type Info", :description => "Connect Type Info"},
+                                                     :zh => {:name => "连接类型", :description => "新建、查看、编辑一连接类型"},
+                                                 }
+                                             }
+
+                                         }
+                                     }
+
+    map.function_group :conn_type_info, {
+                                         :en => {:name => "Connect Type Info", :description => "Connect Type Info"},
+                                         :zh => {:name => "连接类型", :description => "新建、查看、编辑一连接类型"}, }
+    map.function_group :conn_type_info, {
+                                         :zone_code => "SYSTEM_SETTING",
+                                         :controller => "ccc/connTypes",
+                                         :action => "index"}
+    map.function_group :conn_type_info, {
+                                         :children => {
+                                             :conn_type_info => {
+                                                 :en => {:name => "Manage Connect Type", :description => "Manage Connect Type"},
+                                                 :zh => {:name => "管理连接类型", :description => "管理连接类型"},
+                                                 :default_flag => "N",
+                                                 :login_flag => "N",
+                                                 :public_flag => "N",
+                                                 "ccc/connTypes" => ["edit","get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","create"]
+                                             },
+                                         }
+                                     }
+
+    map.function_group :industry_info, {
+                                         :en => {:name => "Industry Info", :description => "Industry Info"},
+                                         :zh => {:name => "所属行业", :description => "新建、查看、编辑一行业"}, }
+    map.function_group :industry_info, {
+                                         :zone_code => "SYSTEM_SETTING",
+                                         :controller => "ccc/industries",
+                                         :action => "index"}
+    map.function_group :industry_info, {
+                                         :children => {
+                                             :industry_info => {
+                                                 :en => {:name => "Manage Industry Info", :description => "Manage Industry Info"},
+                                                 :zh => {:name => "管理行业信息", :description => "管理行业信息"},
+                                                 :default_flag => "N",
+                                                 :login_flag => "N",
+                                                 :public_flag => "N",
+                                                 "ccc/industries" => ["edit","get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","create"]
+                                             },
+                                         }
+                                     }
+
+
   map.menu :management_setting, {
       :children => {
           :hotline_project => {

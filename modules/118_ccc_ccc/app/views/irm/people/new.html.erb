@@ -1,0 +1,5 @@
+<% if params[:type].eql?("顾问") || params[:type].eql?("Consultant")%>
+    <%= render 'new_consultant_form'%>
+<% else %>
+    <%= render 'new_customer_form'%>
+<% end %>

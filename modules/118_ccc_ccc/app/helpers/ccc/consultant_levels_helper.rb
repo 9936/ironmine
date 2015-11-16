@@ -1,0 +1,2 @@
+module Ccc::ConsultantLevelsHelper
+end

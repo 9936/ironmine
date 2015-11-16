@@ -1,0 +1,2 @@
+module Ccc::ProjectTypesHelper
+end

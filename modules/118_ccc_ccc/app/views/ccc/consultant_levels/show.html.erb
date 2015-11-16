@@ -1,0 +1,20 @@
+<%= common_title %>
+
+<div class="show-block">
+  <!-- 人员信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_ccc_consultantLevel) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:edit), {:action => "edit", :id =>@consultantLevel},:class=>"btn btn-primary" %>
+        <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
+  <%= render :partial => "common_info", :locals => {:consultantLevel => @consultantLevel}%>
+</div>
+
+
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@consultantLevel} %>

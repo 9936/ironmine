@@ -1,35 +1,27 @@
 <%= setting_title %>
 <%= form_for(@organization,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
-  <% content_for :form_block_common   do%>
-    <table class="form-table">
-      <tbody>
+    <% content_for :form_block_common   do%>
+        <table class="form-table">
+          <tbody>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_organization_name)%></label></td>
             <td class="data-col"><%=f.text_field :name, :required=>true%></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
+            <td class="label-col"><label><%=(t :label_irm_organization_address)%></label></td>
+            <td class="data-col"><%= f.text_field(:address,:required=>true) %></td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=(t :label_irm_organization_short_name)%></label></td>
-            <td class="data-col"><%=f.text_field :short_name, :required=>true%></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
+            <td class="label-col"><label><%=t(:label_irm_organization_ZCode)%></label></td>
+            <td class="data-col"><%= f.text_field(:zCode) %></td>
+            <td class="label-col"><label><%=t(:label_irm_organization_city)%></label></td>
+            <td class="data-col"><%= f.text_field(:city) %></td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=(t :label_irm_organization_parent_org)%></label></td>
-            <td class="data-col"><%=f.blank_select(:parent_org_id,available_parentable_organization(@organization.id)) %></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
+            <td class="label-col"><label><%=t(:label_irm_organization_province)%></label></td>
+            <td class="data-col"><%= f.text_field(:province) %></td>
+            <td class="label-col"><label><%=(t :label_irm_organization_country)%></label></td>
+            <td class="data-col"><%= f.text_field(:country) %></td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=(t :label_irm_organization_description)%></label></td>
-            <td class="data-col"><%=f.text_area :description,:rows=>4,:class=>"input-xlarge"%></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
-          </tr>
-          <tr>
-            <td class="label-col"><label><%=(t :label_irm_organization_status_code)%></label></td>
-            <td class="data-col"><%=f.select :status_code, available_active_status%></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col">
               <%= f.radio_button :hotline, Irm::Constant::SYS_YES%>
@@ -38,10 +30,83 @@
               <label for="hotline_n">N</label>
             </td>
           </tr>
-      </tbody>
-    </table>
-  <% end %>
-  <% content_for :form_buttons  do %>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_block_respond   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_conscientious)%></label></td>
+            <td class="data-col"><%= f.text_field(:conscientious,:required=>true) %></td>
+            <td class="label-col"><label><%=(t :label_irm_organization_position)%></label></td>
+            <td class="data-col"><%= f.text_field(:position) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_conscientious_tel)%></label></td>
+            <td class="data-col"><%= f.text_field(:conscientious_tel,:required=>true) %></td>
+            <td class="label-col"><label><%=t(:label_irm_organization_conscientious_telNo)%></label></td>
+            <td class="data-col"><%= f.text_field(:conscientious_telNo,:required=>true) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_conscientious_email)%></label></td>
+            <td class="data-col"><%= f.text_field(:conscientious_email,:required=>true) %></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_block_operation do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_A1_flag)%></label></td>
+            <td class="data-col"><%= select( "irm_organization", "A1_flag",{"是"=>"Y","否"=>"N"}) %></td>
+            <td class="label-col"><label><%=(t :label_irm_organization_sale)%></label></td>
+            <td class="data-col"><%= f.text_field(:sale) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_industry)%></label></td>
+            <td class="data-col">
+              <%= f.blank_select(:industry_id,available_industry)%>
+            </td>
+            <td class="label-col"><label><%=t(:label_irm_organization_service_date)%></label></td>
+            <td class="data-col"><%= f.text_field(:service_date) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_attention_point)%></label></td>
+            <td class="data-col"><%= f.text_area :attention_point,:rows=>4,:class=>"input-xlarge" %></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_block_customer  do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_conn_type)%></label></td>
+            <td class="data-col">
+              <%= f.blank_select(:conn_type_id,available_connect)%>
+            </td>
+            <td class="label-col"><label><%=(t :label_irm_organization_router)%></label></td>
+            <td class="data-col"><%= f.text_field(:router,:required=>true) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_dev_mess)%></label></td>
+            <td class="data-col"><%= f.text_area :dev_mess,:rows=>4,:class=>"input-xlarge" %></td>
+            <td class="label-col"><label><%=t(:label_irm_organization_test_mess)%></label></td>
+            <td class="data-col"><%= f.text_area :test_mess,:rows=>4,:class=>"input-xlarge" %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_prod_mess)%></label></td>
+            <td class="data-col"><%= f.text_area :prod_mess,:rows=>4,:class=>"input-xlarge" %></td>
+            <td class="label-col"><label><%=(t :lable_irm_organization_sys_mess)%></label></td>
+            <td class="data-col"><%= f.text_area :sys_mess,:rows=>4,:class=>"input-xlarge" %></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+
+    <% content_for :form_buttons  do %>
     <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
     <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
   <% end %>
@@ -68,6 +133,27 @@
         </div>
         <div class="sub-page-block-body">
           <%= content_for :form_block_common   %>
+        </div>
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_respond_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_respond %>
+        </div>
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_operation_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_operation %>
+        </div>
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_customer_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_customer %>
         </div>
       </div>
     </div>

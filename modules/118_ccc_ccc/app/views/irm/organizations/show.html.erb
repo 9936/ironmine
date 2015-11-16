@@ -1,0 +1,102 @@
+<%= setting_show_title(:show_data => @organization[:name]) %>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_organization_show) %>&nbsp;<%= t(:label_detail_info) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @organization},:class=>"btn btn-primary"%>
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_name)%></label></td>
+            <td class="data-col"><%= @organization[:name]%></td>
+            <td class="label-col"><label><%=(t :label_irm_organization_address)%></label></td>
+            <td class="data-col"><%= @organization.address%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_ZCode)%></label></td>
+            <td class="data-col"><%= @organization.zCode%></td>
+            <td class="label-col"><label><%=t(:label_irm_organization_city)%></label></td>
+            <td class="data-col"><%= @organization.city%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_province)%></label></td>
+            <td class="data-col"><%= @organization.province%></td>
+            <td class="label-col"><label><%=(t :label_irm_organization_country)%></label></td>
+            <td class="data-col"><%= @organization.country%></td>
+          </tr>
+
+
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_conscientious)%></label></td>
+            <td class="data-col"><%= @organization.conscientious%></td>
+            <td class="label-col"><label><%=(t :label_irm_organization_position)%></label></td>
+            <td class="data-col"><%= @organization.position%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_conscientious_tel)%></label></td>
+            <td class="data-col"><%= @organization.conscientious_tel%></td>
+            <td class="label-col"><label><%=t(:label_irm_organization_conscientious_telNo) %></label></td>
+            <td class="data-col"><%= @organization.conscientious_telNo %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_conscientious_email) %></label></td>
+            <td class="data-col"><%= @organization.conscientious_email %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_A1_flag)%></label></td>
+            <td class="data-col"><%= @organization[:A1_flag]%></td>
+            <td class="label-col"><label><%=(t :label_irm_organization_sale)%></label></td>
+            <td class="data-col"><%= @organization.sale%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_industry)%></label></td>
+            <td class="data-col">
+              <%= @organization[:industry_name]%>
+            </td>
+            <td class="label-col"><label><%=t(:label_irm_organization_service_date)%></label></td>
+            <td class="data-col"><%= @organization.service_date %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_attention_point)%></label></td>
+            <td class="data-col"><%= @organization.attention_point%></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_conn_type)%></label></td>
+            <td class="data-col">
+              <%= @organization[:conn_type_name]%>
+            </td>
+            <td class="label-col"><label><%=(t :label_irm_organization_router)%></label></td>
+            <td class="data-col"><%= @organization.router%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_dev_mess)%></label></td>
+            <td class="data-col"><%= @organization.dev_mess %></td>
+            <td class="label-col"><label><%=t(:label_irm_organization_test_mess)%></label></td>
+            <td class="data-col"><%= @organization.test_mess%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_prod_mess)%></label></td>
+            <td class="data-col"><%= @organization.prod_mess%></td>
+            <td class="label-col"><label><%=t(:lable_irm_organization_sys_mess)%></label></td>
+            <td class="data-col"><%= @organization.sys_mess%></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@organization} %>

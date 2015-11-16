@@ -1,0 +1,57 @@
+<%= form_for(@consultantModule,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+    <% content_for :form_block_a do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label for="consultantModule_name"><%=t(:label_ccc_consultantModule_code)%></label></td>
+            <td class="data-col"><%=f.text_field :code, :required=>true ,:id=>"consultantModule_code"%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="consultantModule_name"><%=t(:label_ccc_consultantModule_name)%></label></td>
+            <td class="data-col"><%=f.text_field :name, :required=>true ,:id=>"consultantModule_name"%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="consultantModule_description"><%=t(:label_ccc_consultantModule_description)%></label></td>
+            <td class="data-col" colspan="3"><%=f.text_area :description,:rows=>4,:cols=>90 ,:id=>"consultantModule_description",:class => "input-xlarge" %></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_buttons  do %>
+        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+        <%= link_to t(:cancel),{:action => "index"}, {:class => "btn cancel"}%>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%=t(:label_ccc_consultantModule_new)%></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+      <%= error_for @consultantModule %>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a   %>
+          </div>
+        </div>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+

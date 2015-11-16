@@ -1,0 +1,94 @@
+<%= app_title %>
+
+<!--页面结构-->
+<style type="text/css">
+  .select-mode {
+      margin: 0 !important;
+  }
+</style>
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <% if params[:mode] == 'tree' %>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_organization_structure) %></h2></td>
+    <% else %>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_organization_list) %></h2></td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      </td>
+    <% end %>
+    <td class="page-block-help">
+      <div class="datable-search-box">
+        <%= form_tag({:controller => "irm/organizations"}, {:method => 'get',:class => 'select-mode'}) do %>
+          <%= select_tag_alias(:mode,available_mode_views, params[:mode], {:onchange => 'javascript: $.cookie("role_view", this.value);this.form.submit();',:class => 'search-select'}) %>
+        <% end %>
+      </div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <% if(params[:mode] == 'tree') %>
+     <div id="sidetreecontrol"> <a href="?#"><%= t(:collapse_all) %></a> | <a href="?#"><%= t(:expand_all) %></a> </div>
+       <%= org_tree_data %>
+       <script type="text/javascript">
+         $("#organizations").treeview({
+            animated: "fast",
+            control:"#sidetreecontrol",
+            collapsed: true,
+            unique: false,
+            persist: "cookie"
+         });
+       </script>
+     <% else %>
+     <!--  irm datatable      -->
+      <div class="datatable">
+        <div>
+          <table count="<%=@leveled_organizations.length%>">
+            <thead>
+              <tr >
+                  <th style="width:80px;">
+                    <div><%= t(:operation) %>
+                    </div>
+                  </th>
+                  <th style="width:220px;">
+                    <div ><%= t(:label_irm_organization_no) %>
+                    </div>
+                  </th>
+                  <th style="width:180px;">
+                    <div ><%= t(:label_irm_organization_name) %>
+                    </div>
+                  </th>
+                  <th  style="width:180px;">
+                    <div ><%= t(:description) %>
+                    </div>
+                  </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @leveled_organizations.each do |organization| %>
+              <tr id="<%=organization.id%>">
+                <td >
+                  <div>
+                    <%= link_to(t(:edit),{:action=>"edit",:id=>organization.id},:class => "action-link") %>&nbsp;|
+                    <%= link_to(t(:show),{:action=>"show",:id=>organization.id},:class => "action-link") %>
+                   </div>
+                </td>
+                <td>
+                  <div><%= organization[:organization_no] %></div>
+                </td>
+                <td>
+                  <div>
+                     <% organization.level.times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= organization[:name] %>(<%= organization.short_name %>)
+                  </div>
+                </td>
+                <td>
+                  <div><%= organization[:description] %></div>
+                </td>
+              </tr>
+              <% end -%>
+            </tbody>
+          </table>
+        </div>
+      </div>
+     <!--  end irm datatable      -->
+     <% end %>
+  </div>
+</div>

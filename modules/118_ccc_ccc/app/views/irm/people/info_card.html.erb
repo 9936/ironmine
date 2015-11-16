@@ -1,0 +1,28 @@
+<!-- 页面结构 -->
+<div class="show-block">
+  <div class="page-block-body">
+      <table class="show-table">
+        <tbody>
+            <tr>
+              <td colspan="1" rowspan="4" style="width:10%;">
+                <div><%= image_tag @person.avatar.url(:large), :id => "crop_box", :style => "width: 45px; height: 45px;margin-top:5px;", :class => "thumbnail-visible" %></div>
+              </td>
+              <td class="label-col"><label><%=(t :label_irm_person_email_address)%></label></td>
+              <td class="data-col"><%=@person.email_address%></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%=t(:label_irm_person_profile)%></label></td>
+              <td class="data-col"><%=@person[:profile_name]%></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%=t(:label_irm_person_organization)%></label></td>
+              <td class="data-col"><%= @person[:organization_name] %></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%=t(:label_irm_person_bussiness_phone)%></label></td>
+              <td class="data-col"><%=@person.bussiness_phone%></td>
+            </tr>
+        </tbody>
+      </table>
+  </div>
+</div>

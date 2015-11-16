@@ -1,0 +1,2 @@
+module Ccc::ConnTypesHelper
+end

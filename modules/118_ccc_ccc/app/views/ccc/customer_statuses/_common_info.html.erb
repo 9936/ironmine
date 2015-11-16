@@ -1,0 +1,25 @@
+<div class="page-block">
+    <table class="page-block-header">
+      <tr>
+         <td class="page-block-title"><h2 class="block-title"><%= t(:label_common_info) %>:</h2></td>
+      </tr>
+    </table>
+    <div class="page-block-body">
+      <table class="show-table">
+        <tbody>
+            <tr>
+              <td class="label-col"><label><%=(t :label_ccc_customerStatus_code)%></label></td>
+              <td class="data-col"><%= customerStatus.code%></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%=(t :label_ccc_customerStatus_name)%></label></td>
+              <td class="data-col"><%= customerStatus[:name]%></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%=(t :label_ccc_customerStatus_description)%></label></td>
+              <td class="data-col" colspan="3" style="width:82%;"><%= customerStatus[:description]%></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+</div>

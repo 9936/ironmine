@@ -1,0 +1,2 @@
+module Ccc::CustomerStatusesHelper
+end
