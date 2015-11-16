@@ -120,15 +120,15 @@ class Irm::OrganizationsController < ApplicationController
   end
 
   def get_organization_no
-    all_organizations = Irm::Organization.all.multilingual
-    organizations,count = paginate(all_organizations)
+    @organizations = Irm::Organization.with_parent(I18n.locale).multilingual
+    @organizations,count = paginate(@organizations)
     respond_to do |format|
       format.json {
-        render :json=>to_jsonp(organizations.to_grid_json([:organization_no,:name,],count))
+        render :json=>to_jsonp(@organizations.to_grid_json([:organization_no,:name,],count))
       }
       format.html {
         @count = count
-        @datas = organizations
+        @datas = @organizations
       }
     end
   end

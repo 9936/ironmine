@@ -65,6 +65,48 @@
       </tbody>
     </table>
   <% end %>
+
+    <% content_for :form_people_day   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_project_remote_date)%></label></td>
+            <td class="data-col"><%= f.text_field(:remote_date) %></td>
+            <td class="label-col"><label><%=(t :label_scene_date)%></label></td>
+            <td class="data-col"><%= f.text_field(:scene_date) %></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_SLA_mess   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_project_respond_time)%></label></td>
+            <td class="data-col"><%= f.text_field(:respond_time) %></td>
+            <td class="label-col"><label><%=(t :label_project_handle_time)%></label></td>
+            <td class="data-col"><%= f.text_field(:handle_time) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_project_update_time)%></label></td>
+            <td class="data-col"><%= f.text_field(:update_time) %></td>
+            <td class="label-col"><label><%=(t :label_project_total_time)%></label></td>
+            <td class="data-col"><%= f.text_field(:total_time) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_project_remind_rate)%></label></td>
+            <td class="data-col"><%= f.text_field(:remind_rate) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_project_warning_rate)%></label></td>
+            <td class="data-col"><%= f.text_field(:warning_rate) %></td>
+            <td class="label-col"><label><%=(t :label_project_show_to_SLA_flag)%></label></td>
+            <td class="data-col"><%= f.text_field(:show_SLA_flag) %></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    
   <% content_for :form_buttons  do %>
     <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
     <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
@@ -93,6 +135,23 @@
         <div class="sub-page-block-body">
           <%= content_for :form_block_common   %>
         </div>
+
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_people_day_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_people_day   %>
+        </div>
+
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_SLA_mess_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_SLA_mess   %>
+        </div>
+
       </div>
     </div>
     <table class="page-block-footer">

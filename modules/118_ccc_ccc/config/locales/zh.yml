@@ -1,4 +1,6 @@
 zh:
+  label_icm_incident_request_submitted_email: 提交人联系方式
+
   label_irm_external_system_organization_no: 公司编号
   label_irm_external_system_customer_no: 关键联系人编号
   label_project_manager: 项目经理
@@ -7,6 +9,17 @@ zh:
   label_pricing_type: 计价方式
   label_begin_date: 项目开始时间
   label_after_date: 项目结束时间
+
+  label_project_remote_date: 远程人天
+  label_scene_date: 现场人天
+  label_project_respond_time: 响应时间
+  label_project_handle_time: 开始处理时间
+  label_project_update_time: 更新时间
+  label_project_total_time: 总处理时间
+  label_project_max_time: 最大处理问题时间
+  label_project_remind_rate: 即将超出时间提醒(比例)
+  label_project_warning_rate: 超出时间时间警告(比例)
+  label_project_show_to_SLA_flag: SLA是否显示给客户
 
   label_ccc_price_type: 计价类型
   label_ccc_priceType_list: 计价类型列表
@@ -154,8 +167,15 @@ zh:
   label_icm_incident_journal_new_value: 修订
   label_icm_incident_journal_date: 日期
 
+  label_icm_incident_request_requested_by: 问题提交人
+  label_icm_incident_request_target_system: 项目名称
+  label_icm_incident_request_urgence_code: 优先级别
+  label_icm_incident_request_urgence_reason: 紧急原因
   label_report_incident_request_update_priority: 更改紧急度和影响度
 
+  label_icm_incident_request_contact: 业务用户
+  label_icm_incident_request_contact_number: 业务用户联系方式(邮箱/电话)
+  label_icm_incident_request_request_type_code: 问题类型
   label_icm_incident_request_impact_range: 影响度
   label_icm_incident_request_urgence: 紧急度
   label_icm_incident_request_new_reply: 回复问题
