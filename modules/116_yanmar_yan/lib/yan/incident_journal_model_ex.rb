@@ -36,6 +36,9 @@ module Yan::IncidentJournalModelEx
 
           # 只有填写了workload才会继续验证
           if self.workload_c.present? && self.workload_t.present?
+            if self.people_type.eql?("please select")
+              self.errors.add(:workload_message,'people type must be selected')
+            end
             # 验证不能小于0
             if self.workload_c < 0 || self.workload_t < 0 || self.people_count_c < 0 || self.people_count_t < 0
               self.errors.add(:workload_message, 'Those value can not be smaller than 0')
@@ -97,6 +100,9 @@ module Yan::IncidentJournalModelEx
           end
           # 只有填写了workload才会继续验证
           if self.workload_c.present? && self.workload_t.present?
+            if self.people_type.eql?("please select")
+              self.errors.add(:workload_message,'people type must be selected')
+            end
             # 验证不能小于0
             if self.workload_c < 0 || self.workload_t < 0 || self.people_count_c < 0 || self.people_count_t < 0
               self.errors.add(:workload_message, 'Those value can not be smaller than 0')

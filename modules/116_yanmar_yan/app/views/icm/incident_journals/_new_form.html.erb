@@ -238,6 +238,10 @@
               <% if (@incident_request.incident_status_id.eql?("000K00091nRTl3hfwbJuHg") || @incident_request.incident_status_id.eql?("000K00091oEOpAuVx0QTVQ") || @incident_request.incident_status_id.eql?("000K00091nRTl3hfuk332W")) %>
                 <div>
                       <div style="display:inline;">
+                        <label style="display:inline;"><%= I18n.t(:label_people_type)%></label>
+                        <%= select_tag "people_type", options_for_select([ "please select", "FIN", "SCM","MFG","TEHC" ], "please select") %>
+                      </div>
+                      <div style="display:inline; margin-left: 40px">
                         <label style="display:inline;"><%= I18n.t(:label_number_of_consultants)%></label>
                         <%= text_field_tag :people_count_c, 0, :style => "width:80px;", :id=>"people_count_c"%>
                       </div>

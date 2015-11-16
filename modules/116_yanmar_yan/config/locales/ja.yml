@@ -37,5 +37,6 @@ ja:
   label_support_group: Support Group
   label_support_person: Supporter
   label_process_time: Processing Time
+  label_people_type: Consultant Type
 
   label_icm_incident_journal_workload_message: Message:

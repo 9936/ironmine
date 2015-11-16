@@ -170,7 +170,8 @@ module Yan::IncidentJournalsControllerEx
 
           # 工时记录
           workload_status_id = @incident_request.incident_status_id
-          if params[:workload_c] && params[:workload_t] && params[:people_count_c] && params[:people_count_t]
+          if params[:workload_c] && params[:workload_t] && params[:people_count_c] && params[:people_count_t] &&params[:people_type]
+            @incident_journal.people_type = params[:people_type]
             @incident_journal.workload_c = params[:workload_c]
             @incident_journal.workload_t = params[:workload_t]
             @incident_journal.people_count_c = params[:people_count_c]
