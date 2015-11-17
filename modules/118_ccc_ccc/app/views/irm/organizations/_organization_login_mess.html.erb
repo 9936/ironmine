@@ -1,0 +1,13 @@
+<div class="sidebar-block">
+  <div class="sidebar-block-header">
+    <h2><%= t :label_organization_login_mess %></h2>
+  </div>
+  <div class="sidebar-block-body">
+    <a class="btn btn-primary" id="show_organization_login_mess" onclick="showOrganizationMess()"><%= t :label_mess_look %></a>
+  </div>
+</div>
+<script type="application/javascript">
+    function showOrganizationMess(){
+      $("#organizationMessModal").modal("show")
+    }
+</script>

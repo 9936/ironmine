@@ -18,6 +18,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   validate :validate_summary
 
+  # validate :validate_date , :on => :update
 
   validates_presence_of :support_group_id,:if=>Proc.new{|i| !i.pass_flag.nil?&&!i.pass_flag.blank?}
 
@@ -286,21 +287,21 @@ class Icm::IncidentRequest < ActiveRecord::Base
   acts_as_watchable
   def self.list_all
     select_all.
-        with_request_type(I18n.locale).
-        with_service(I18n.locale).
-        with_requested_by(I18n.locale).
-        with_urgence(I18n.locale).
-        with_impact_range(I18n.locale).
-        with_contact.
-        with_report_source(I18n.locale).
-        with_incident_status(I18n.locale).
-        with_priority(I18n.locale).
-        with_submitted_by.
-        with_category(I18n.locale).
-        with_support_group(I18n.locale).
-        with_supporter(I18n.locale).
-        with_external_system(I18n.locale).
-        with_organization(I18n.locale)
+    with_request_type(I18n.locale).
+    with_service(I18n.locale).
+    with_requested_by(I18n.locale).
+    with_urgence(I18n.locale).
+    with_impact_range(I18n.locale).
+    with_contact.
+    with_report_source(I18n.locale).
+    with_incident_status(I18n.locale).
+    with_priority(I18n.locale).
+    with_submitted_by.
+    with_category(I18n.locale).
+    with_support_group(I18n.locale).
+    with_supporter(I18n.locale).
+    with_external_system(I18n.locale).
+    with_organization(I18n.locale)
   end
 
   searchable :auto_index => true, :auto_remove => true do
@@ -727,5 +728,16 @@ class Icm::IncidentRequest < ActiveRecord::Base
       self.errors.add(:summary,I18n.t(:label_icm_incident_journal_message_body_not_blank))
     end
   end
+
+  # def validate_date
+  #   if Ccc::PriceType.find(Irm::ExternalSystem.find(self.external_system_id).price_type_id).code == "PEOPLEDATE"
+  #     if self.attribute3.length == 0
+  #       self.errors.add(:attribute3,I18n.t(:label_icm_incident_expect_date_not_blank))
+  #     end
+  #     if self.attribute4.length == 0
+  #       self.errors.add(:attribute4,I18n.t(:label_icm_incident_actual_date_not_blank))
+  #     end
+  #   end
+  # end
 
 end

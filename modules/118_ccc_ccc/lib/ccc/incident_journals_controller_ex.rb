@@ -1,4 +1,5 @@
 module Ccc::IncidentJournalsControllerEx
+
   def self.included(base)
     base.class_eval do
       def new
@@ -12,6 +13,13 @@ module Ccc::IncidentJournalsControllerEx
 
         @incident_reply = Icm::IncidentReply.new()
         @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
+        @show_external_system = Irm::ExternalSystem.list_all.find(@incident_request.external_system_id)
+        @organization = Irm::Organization.list_all.find(Irm::Person.find(@incident_request.requested_by).organization_id)
+        if @external_system.price_type_id
+          @price_type = Ccc::PriceType.find(@external_system.price_type_id)
+        else
+          @price_type = nil
+        end
 
         respond_to do |format|
           format.html { render :layout=>"application_right"}
@@ -155,6 +163,31 @@ module Ccc::IncidentJournalsControllerEx
 
             format.html { redirect_to({:action => "new"}) }
             format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+          end
+        end
+      end
+
+      def update_people_date
+        @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+        @incident_request = Icm::IncidentRequest.list_all.query(params[:id])
+        @incident_request = check_incident_request_permission(@incident_request)
+        respond_to do |format|
+          if @incident_request.update_attributes(params[:icm_incident_request])
+            format.html { redirect_to({:action => "new"}) }
+            format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+          # else
+          #   if @incident_request.errors[:attribute3]
+          #     @incident_journal.errors.add(:workload,@incident_request.errors[:attribute3])
+          #   end
+          #   if @incident_request.errors[:attribute4]
+          #     @incident_journal.errors.add(:reply_type,@incident_request.errors[:attribute4])
+          #   end
+          #   puts "1111111111111"
+          #   puts @incident_journal.errors.inspect
+          #   format.html { render :action => "new", :layout=>"application_right"}
+          #   # format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity ,:location => @incident_journal}
+          #   # format.html { redirect_to({:action => "new"}) }
+          #   format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
           end
         end
       end
@@ -313,6 +346,7 @@ module Ccc::IncidentJournalsControllerEx
       private
       def setup_up_incident_request
         @incident_request = Icm::IncidentRequest.select_all.
+            with_request_type(I18n.locale).
             with_workloads.
             with_requested_by(I18n.locale).
             with_urgence(I18n.locale).

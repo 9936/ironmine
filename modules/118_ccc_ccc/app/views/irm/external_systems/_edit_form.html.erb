@@ -1,87 +1,240 @@
 <%= common_title(:show_data=>@external_system[:system_name]) %>
 
 <%= form_for(@external_system,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
-  <% content_for :form_block_common   do%>
-    <table class="form-table">
-      <tbody>
-           <tr>
+    <% content_for :form_block_common   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
             <td class="label-col"><label for="external_system_external_system_code"><%=t(:label_irm_external_system_external_system_code)%></label></td>
-            <td class="data-col"><%=f.text_field :external_system_code, :required=>true ,:id=>"external_system_external_system_code"%></td>
-            <td class="label-col"><label for="external_system_external_hostname"><%=t(:label_irm_external_system_external_hostname)%></label></td>
-            <td class="data-col"><%=f.text_field :external_hostname, :id=>"external_system_external_hostname"%></td>
+            <td class="data-col"><%=f.text_field :external_system_code, :required=>true ,:irm_uppercase=>true,:id=>"external_system_external_system_code"%></td>
+            <td class="label-col"><label for="organization_no"><%=t(:label_irm_external_system_organization_no)%></label></td>
+            <td class="data-col"><%=f.lov_field :organization_no,Irm::ExternalSystem,{:id=>"organization_no",:class=>"input-medium"}%></td>
           </tr>
-
           <tr>
             <td class="label-col"><label for="external_system_system_name"><%=t(:label_irm_external_system_system_name)%></label></td>
-            <td class="data-col"><%=f.text_field :system_name,:value=>@external_system[:system_name],  :required=>true ,:id=>"external_system_system_name"%></td>
-            <td class="label-col"><label for="external_system_external_ip_address"><%=t(:label_irm_external_system_external_ip_address)%></label></td>
-            <td class="data-col"><%=f.text_field :external_ip_address, :id=>"external_system_external_ip_address"%></td>
+            <td class="data-col"><%=f.text_field :system_name, :required=>true ,:id=>"external_system_system_name"%></td>
+            <td class="label-col"><label for="customer_no"><%=t(:label_irm_external_system_customer_no)%></label></td>
+            <td class="data-col"><%=f.lov_field :customer_no,Irm::ExternalSystem,{:id=>"customer_no",:class=>"input-medium"}%></td>
           </tr>
-
+          <tr>
+            <td class="label-col"><label><%=(t :label_project_manager)%></label></td>
+            <td class="data-col"><%= f.text_field(:project_manager,:required=>true) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_project_type)%></label></td>
+            <td class="data-col">
+              <%= f.blank_select(:project_type_id,available_projectTypes,{},{:required=>true,:id=>"project_type"})%>
+            </td>
+            <td class="label-col"><label><%=t(:label_pricing_type)%></label></td>
+            <td class="data-col">
+              <%= f.blank_select(:price_type_id,available_priceTypes,{},{:required=>true,:id=>"project_pricing_type"})%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_begin_date)%></label></td>
+            <td class="data-col"><%= f.text_field(:begin_date,:required=>true) %></td>
+            <td class="label-col"><label><%=t(:label_disabled_flag)%></label></td>
+            <td class="data-col"><%=f.check_box :disabled_flag%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_after_date)%></label></td>
+            <td class="data-col"><%= f.text_field(:after_date,:required=>true) %></td>
+          </tr>
           <tr>
             <td class="label-col"><label for="external_system_system_description"><%=t(:label_irm_external_system_system_description)%></label></td>
-            <td class="data-col"><%= f.text_area :system_description, :value=>@external_system[:system_description], :rows => 4,:id=>"external_system_system_description",:class=>"input-xlarge"%></td>
-            <td class="label-col"><label><%=(t :label_irm_external_system_status_meaning)%></label></td>
-            <td class="data-col"><%=f.select :status_code,options_from_collection_for_select(available_status,:lookup_code,:wrap_meaning,@external_system.status_code)%></td>
+            <td class="data-col"><%= f.text_area :system_description, :rows => 4,:id=>"external_system_system_description",:class=>"input-xlarge" %></td>
           </tr>
-           <tr>
-             <td class="label-col empty">Hotline</td>
-             <td class="data-col">
-               <%= f.radio_button :hotline_flag, Irm::Constant::SYS_YES%>
-               <label for="hotline_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
-               <%= f.radio_button :hotline_flag, Irm::Constant::SYS_NO%>
-               <label for="hotline_n">N</label>
-             </td>
-           </tr>
-           <tr>
-             <td class="label-col empty">Strict Workload</td>
-             <td class="data-col">
-               <%= f.radio_button :strict_workload, Irm::Constant::SYS_YES%>
-               <label for="strict_workload_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
-               <%= f.radio_button :strict_workload, Irm::Constant::SYS_NO%>
-               <label for="strict_workload_n">N</label>
-             </td>
-           </tr>
-      </tbody>
-    </table>
-  <% end %>
-  <% content_for :form_buttons  do %>
-    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
-    <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
-  <% end %>
+          <tr style="display: none">
+            <td class="label-col empty">Hotline</td>
+            <td class="data-col">
+              <%= f.radio_button :hotline_flag, Irm::Constant::SYS_YES%>
+              <label for="hotline_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <%= f.radio_button :hotline_flag, Irm::Constant::SYS_NO%>
+              <label for="hotline_n">N</label>
+            </td>
+          </tr>
+          <tr style="display: none">
+            <td class="label-col empty">Strict Workload</td>
+            <td class="data-col">
+              <%= f.radio_button :strict_workload, Irm::Constant::SYS_YES%>
+              <label for="strict_workload_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <%= f.radio_button :strict_workload, Irm::Constant::SYS_NO%>
+              <label for="strict_workload_n">N</label>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
 
-  <!--页面结构-->
-  <div class="page-block">
-    <table class="page-block-header">
-      <tr>
-        <td class="page-block-title">
-          <h2 class="block-title"><%=t(:label_irm_external_system_edit)%></h2>
-        </td>
-        <td class="page-block-button">
-          <%= content_for :form_buttons   %>
-        </td>
-      </tr>
-    </table>
-    <%= error_for @external_system %>
-    <div class="page-block-body">
-      <div class="sub-page-block">
-        <!-- 一般信息 -->
-        <div class="sub-page-block-header">
-          <%= form_require_info %>
-          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
-        </div>
-        <div class="sub-page-block-body">
-          <%= content_for :form_block_common   %>
+    <% content_for :form_people_day   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_project_remote_date)%></label></td>
+            <td class="data-col"><%= f.text_field(:remote_date) %></td>
+            <td class="label-col"><label><%=(t :label_scene_date)%></label></td>
+            <td class="data-col"><%= f.text_field(:scene_date) %></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_SLA_mess   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_project_respond_time)%></label></td>
+            <td class="data-col"><%= f.text_field(:respond_time) %></td>
+            <td class="label-col"><label><%=(t :label_project_handle_time)%></label></td>
+            <td class="data-col"><%= f.text_field(:handle_time) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_project_update_time)%></label></td>
+            <td class="data-col"><%= f.text_field(:update_time) %></td>
+            <td class="label-col"><label><%=(t :label_project_total_time)%></label></td>
+            <td class="data-col"><%= f.text_field(:total_time) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_project_remind_rate)%></label></td>
+            <td class="data-col"><%= f.text_field(:remind_rate) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_project_warning_rate)%></label></td>
+            <td class="data-col"><%= f.text_field(:warning_rate) %></td>
+            <td class="label-col"><label><%=(t :label_project_show_to_SLA_flag)%></label></td>
+            <td class="data-col"><%= f.text_field(:show_SLA_flag) %></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+
+    <% content_for :form_buttons  do %>
+        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+        <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+    <% end %>
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%=t(:label_irm_external_system_new)%></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+      <%= error_for @external_system %>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 一般信息 -->
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_common   %>
+          </div>
+
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%=t(:label_people_day_info)%></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_people_day   %>
+          </div>
+
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%=t(:label_SLA_mess_info)%></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_SLA_mess   %>
+          </div>
+
         </div>
       </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
     </div>
-    <table class="page-block-footer">
-      <tr>
-        <td class="page-block-title"></td>
-        <td class="page-block-button">
-          <%= content_for :form_buttons   %>
-        </td>
-      </tr>
-    </table>
-  </div>
 <% end %>
+
+<div class="modal fade" id="customerNoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+        aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">客户列表</h4>
+      </div>
+      <div class="modal-body">
+        <div class="page-block">
+          <table class="page-block-header"><tr>
+            <td class="page-block-title">
+            </td>
+            <td class="page-block-help">
+              <div id="searchBox1"></div>
+            </td>
+          </tr></table>
+          <div class="page-block-body">
+            <%= datatable("people",{:controller => "irm/people", :action=>"get_customer_no"},[],{:search_box=>"searchBox1",:paginator_box=>"paginatorBox1"})%>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="organizationNoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+        aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">公司列表</h4>
+      </div>
+      <div class="modal-body">
+        <div class="page-block">
+          <table class="page-block-header"><tr>
+            <td class="page-block-title">
+            </td>
+            <td class="page-block-help">
+              <div id="searchBox2"></div>
+            </td>
+          </tr></table>
+          <div class="page-block-body">
+            <%= datatable("organization",{:controller => "irm/organizations", :action=>"get_organization_no"},[],{:search_box=>"searchBox2",:paginator_box=>"paginatorBox2"})%>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(function() {
+    $(".lov-btn").removeAttr("href")
+    $(".lov-btn").removeAttr("onclick")
+    $("#organization_noTip").remove()
+    $("#customer_noTip").remove()
+    $(".lov-btn").eq(0).on("click",function(){
+      $("#organizationNoModal").modal("show")
+    })
+    $(".lov-btn").eq(1).on("click",function(){
+      $("#customerNoModal").modal("show")
+    })
+
+  })
+
+</script>

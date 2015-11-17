@@ -104,6 +104,8 @@ Ironmine::Application.routes.draw do
   end
 
  scope :module => "icm" do
+   match '/incident_requests/:request_id/:sid/journals/update_people_date(.:format)' => "incident_journals#update_people_date", :via => :put
+
    match '/incident_requests/:id/cancel_request(.:format)' => "incident_requests#cancel_request"
    match '/incident_requests/:id/enable_request(.:format)' => "incident_requests#enable_request"
    match '/incident_requests/:request_id/journals/edit_workload(.:format)' => "incident_journals#edit_workload", :via => :get

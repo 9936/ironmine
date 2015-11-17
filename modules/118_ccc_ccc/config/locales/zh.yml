@@ -1,5 +1,19 @@
 zh:
+  commit_plan: 提交方案
+  label_organization_login_mess: 客户系统登录信息
+  label_external_system_mess: 项目相关信息
+  label_mess_look: 查看
+
+  label_icm_incident_expect_date_not_blank: 预计人天不能为空
+  label_icm_incident_actual_date_not_blank: 实际人天不能为空
+
   label_icm_incident_request_submitted_email: 提交人联系方式
+  label_icm_incident_request_summary: 问题详细信息
+  label_icm_incident_request_contact_email: 业务用户邮箱
+
+  label_icm_incident_request_incident_people_date: 人天(0.5天为单位)
+  label_icm_incident_request_expect_date: 预估人天
+  label_icm_incident_request_actual_date: 实际人天
 
   label_irm_external_system_organization_no: 公司编号
   label_irm_external_system_customer_no: 关键联系人编号
@@ -161,7 +175,8 @@ zh:
   label_icm_incident_journal_edit_workload: 登记工时
   label_icm_incident_journal_workload_type: 工时类型
 
-  label_icm_incident_journal_history: 问题历史
+  label_icm_incident_journal_history: 事故单变更历史
+  label_icm_incident_SLA_control: 事故单SLA监控
   label_icm_incident_journal_created_by: 账号
   label_icm_incident_journal_event: 事件
   label_icm_incident_journal_new_value: 修订
@@ -174,7 +189,7 @@ zh:
   label_report_incident_request_update_priority: 更改紧急度和影响度
 
   label_icm_incident_request_contact: 业务用户
-  label_icm_incident_request_contact_number: 业务用户联系方式(邮箱/电话)
+  label_icm_incident_request_contact_number: 业务用户联系电话
   label_icm_incident_request_request_type_code: 问题类型
   label_icm_incident_request_impact_range: 影响度
   label_icm_incident_request_urgence: 紧急度

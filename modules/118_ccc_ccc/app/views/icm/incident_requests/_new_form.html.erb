@@ -163,12 +163,6 @@
               <%= f.text_field :client_info, :size => 20 %><div id="selection"><%="(生产机/测试机/开发机）"%></div>
             </td>
           </tr>
-          <tr>
-            <td class="label-col"><label for="incident_estimated_date"><%=t(:label_icm_incident_request_estimated_date)%></label></td>
-            <td class="data-3col">
-              <%= f.date_field(:estimated_date,:size=>12,:class=>"date",:id=>"incident_estimated_date")%>
-            </td>
-          </tr>
           </tbody>
         </table>
     <% end %>
@@ -194,7 +188,15 @@
           <tr id="contact_number">
             <td class="label-col"><label for="incident_request_contact_number"><%=t(:label_icm_incident_request_contact_number)%></label></td>
             <td class="data-col">
-              <%=f.text_field :contact_number,:style => "width:500px", :id=>"incident_request_contact_number", :required=>true%>
+              <%=f.text_field :contact_number,:id=>"incident_request_contact_number", :required=>true%>
+            </td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr id="contact_number">
+            <td class="label-col"><label for="incident_request_contact_email"><%=t(:label_icm_incident_request_contact_email)%></label></td>
+            <td class="data-col">
+              <%=f.text_field :attribute2,:id=>"incident_request_contact_email"%>
             </td>
             <td class="label-col"></td>
             <td class="data-col"></td>

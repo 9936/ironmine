@@ -345,8 +345,8 @@ zh:
   label_icm_report_create_time_range: 创建时间
   label_icm_report_update_time_range: 最后更新时间
   label_icm_incident_request_request_number_alias: 单号
-  label_icm_incident_request_submitted_date: Ticket创建时间
-  label_icm_incident_request_last_response_date: Ticket最后更新时间
+  label_icm_incident_request_submitted_date: 创建时间
+  label_icm_incident_request_last_response_date: 最后更新时间
   label_icm_incident_request_status: 状态
   label_icm_incident_request_support_person: 支持人员
   label_icm_incident_request_real_distance: 个人处理时间（小时)

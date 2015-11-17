@@ -30,6 +30,24 @@ class Irm::ExternalSystem < ActiveRecord::Base
     where("NOT EXISTS(SELECT * FROM #{Irm::ExternalSystemPerson.table_name} esp WHERE esp.person_id = ? AND esp.external_system_id = #{table_name}.id)", person_id)
   }
 
+  scope :with_price_type,lambda{|language|
+                         joins("LEFT OUTER JOIN #{Ccc::PriceType.view_name} ON #{Ccc::PriceType.view_name}.id = #{table_name}.price_type_id AND #{Ccc::PriceType.view_name}.language = '#{language}'").
+                             select("#{Ccc::PriceType.view_name}.name price_type_name")
+                       }
+  scope :with_project_type,lambda{|language|
+                         joins("LEFT OUTER JOIN #{Ccc::ProjectType.view_name} ON #{Ccc::ProjectType.view_name}.id = #{table_name}.project_type_id AND #{Ccc::ProjectType.view_name}.language = '#{language}'").
+                             select("#{Ccc::ProjectType.view_name}.name project_type_name")
+                       }
+  scope :select_all,lambda{
+                     select("#{table_name}.*")
+                   }
+
+  def self.list_all
+    select_all.
+    with_price_type(I18n.locale).
+    with_project_type(I18n.locale)
+  end
+
   def wrap_system_name
     self[:system_name]
   end

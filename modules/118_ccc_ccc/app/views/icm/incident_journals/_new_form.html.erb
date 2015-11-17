@@ -1,5 +1,5 @@
 <% require_jscss(:waypoints) %>
-<style type="text/css">
+<style type="text/css" xmlns="http://www.w3.org/1999/html">
     ul {
         padding-left: 40px;
     }
@@ -135,6 +135,24 @@
     <% end %>
 <% end %>
 
+<% content_for :block_people_date_control_bar do %>
+    <%= form_for(@incident_request,
+                 :url=>{:controller => "icm/incident_journals", :action=>"update_people_date", :id => @incident_request.id, :sid => @incident_request.external_system_id},
+                 :builder => CustomFormBuilder, :html => {:class => "form-inline", :nomask => true, :onsubmit=>"return issubmit()"}) do |f| %>
+        <%= fields_for @incident_request.incident_journals.build(), :as=>"incident_journal",:builder =>CustomFormBuilder,:normal=>true do |sub_f|%>
+            <%= sub_f.hidden_field(:incident_request_id) %>
+        <% end%>
+        <%= fields_for @price_type, :builder =>CustomFormBuilder,:normal=>true do |p|%>
+            <%= p.hidden_field(:code) %>
+        <% end%>
+        <label for="incident_request_expect_date"><%=t(:label_icm_incident_request_expect_date)%></label>
+        <%=f.text_field :attribute3,:id=>"incident_request_expect_date"%>
+        <label for="incident_request_actual_date"><%=t(:label_icm_incident_request_actual_date)%></label>
+        <%=f.text_field :attribute4,:id=>"incident_request_actual_date"%>
+        <%= link_submit(t(:commit_plan), :class=>"btn btn-primary",:id=>"updatePeopleDateFormSubmit") %>
+    <% end %>
+<% end %>
+
 <!--页面头部内容-->
 <% content_for :block_header_content do %>
     <div id="incidentDetail">
@@ -211,25 +229,15 @@
           </td>
         </tr>
         <tr>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_summary) %></label></td>
-          <td class="data-5col">
-            <div><%= @incident_request[:summary] %></div>
-          </td>
-        </tr>
-        <tr>
-          <% unless @incident_request[:estimated_date].blank?%>
-          <td class="label-col"><label for="incident_estimated_date"><%=t(:label_icm_incident_request_estimated_date)%></label></td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_expect_date) %></label></td>
           <td class="data-col">
-            <%= format_date(@incident_request[:estimated_date])%>
+            <div><%= @incident_request[:attribute3] %></div>
           </td>
-          <% end %>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_actual_date) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:attribute4] %></div>
+          </td>
         </tr>
-        <% if Irm::Person.current.email_address.include?("hand-china")%>
-        <tr>
-          <td class="label-col"><label ><%=t(:label_irm_project_info)%></label></td>
-          <td class="data-col" colspan="5"><pre><div><%= @incident_request[:project_info] %></div></pre></td>
-        </tr>
-        <% end %>
         <% workload = @incident_request.grouped_workload%>
         <% if workload.any? %>
         <tr>
@@ -261,7 +269,6 @@
     </table>
     </div>
 <% end %>
-
 
 <% content_for :incident_request_reply_form do %>
    <% if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&!@incident_request.close?&&!@incident_request.permanent_close? &&@incident_request.status_code.eql?(Irm::Constant::ENABLED) %>
@@ -381,6 +388,7 @@
    <% end %>
    <iframe id='frame' name="frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
 <% end %>
+
 <% content_for :incident_request_journals do %>
 
  <div class="page-block" id="incidentReply"  style="border-bottom: none;">
@@ -501,7 +509,6 @@
     <% end %>
 <% end %>
 
-<!--页面结构  头部-->
 <div class="page-block" id="pageBlock">
   <div class="waypoint-header" id="toolbar">
   <table class="page-block-header" >
@@ -567,12 +574,17 @@
               <%= content_for :block_status_controll_bar  %>
             </td>
           </tr>
+          <tr>
+            <td class="page-block-title">
+              <h2 class="block-title"><%= I18n.t(:label_icm_incident_request_incident_people_date) %></h2>
+            </td>
+            <td class="page-block-button">
+              <%= content_for :block_people_date_control_bar  %>
+            </td>
+          </tr>
           </tbody>
         </table>
     <% end %>
-
-
-
   </div>
   <div class="page-block-body">
     <div id="notice">
@@ -602,24 +614,37 @@
       <div class="sub-page-block-body">
         <%= content_for :block_header_content %>
         <%= content_for :change_request_tab %>
+        <%= content_for :change_tab %>
       </div>
     </div>
   </div>
 </div>
 
 <% if allow_to_function?(:view_incident_journal_his) %>
-<div class="page-block" id="pageBlock">
-  <table class="page-block-header" ><tr>
-    <td class="page-block-title">
-      <h2 class="block-title"><%=t(:label_icm_incident_journal_history)%></h2>
-    </td>
-    <td class="page-block-button">
-    </td>
-  </tr></table>
-  <div class="page-block-body">
-    <%= datatable("incident_request_histories",{:action=>"get_incident_history_data"},[],{:paginator_box=>'incidentHistoriesPaginatorBox', :row_perpage => 20})%>
-  </div>
-</div>
+    <div class="page-block" id="pageBlock">
+      <table class="page-block-header" ><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_icm_incident_journal_history)%></h2>
+        </td>
+        <td class="page-block-button">
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= datatable("incident_request_histories",{:action=>"get_incident_history_data"},[],{:paginator_box=>'incidentHistoriesPaginatorBox', :row_perpage => 20})%>
+      </div>
+    </div>
+    <div class="page-block" id="pageBlock1">
+      <table class="page-block-header" ><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_icm_incident_SLA_control)%></h2>
+        </td>
+        <td class="page-block-button">
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= datatable("incident_request_histories1",{:action=>"get_incident_history_data"},[],{:paginator_box=>'incidentHistoriesPaginatorBox1', :row_perpage => 30})%>
+      </div>
+    </div>
 <% end %>
 
 <% if self.respond_to?(:display_service_agreements) && allow_to_function?(:view_service_agreement, @incident_request.external_system_id) %>
@@ -659,7 +684,18 @@
                 $("#incidentDetail tr[data-custom-flag='Y']").hide();
             }
         });
+
+        $("#incident_request_actual_date,#incident_request_expect_date").css("width","100px")
     });
+
+    function issubmit() {
+        if ($("#ccc_price_type_code").val() == "PEOPLEDATE" && (($("#incident_request_expect_date").val() == "" || $("#incident_request_actual_date").val() == ""))){
+            alert("项目类型为人天，人天数不能为空")
+            return false
+        }
+        else
+            return true
+    }
 
     function reset_rich_text() {
         if ($("#msgEditor")) {
@@ -704,6 +740,12 @@
 <% end %>
 
 <% content_for :sidebar do %>
+    <div id="organization_login_mess">
+      <%= render :partial =>"/irm/organizations/organization_login_mess" %>
+    </div>
+    <div id="external_system_mess">
+      <%= render :partial =>"/irm/external_systems/external_system_mess" %>
+    </div>
     <div id="request_watcher_list">
     <%= render :partial =>"/irm/watchers/sidebar_watcher_list",
                :locals => {:watchable => @incident_request,
@@ -714,6 +756,114 @@
     <%= render :partial =>"/icm/incident_requests/sidebar_attachment_list", :sid => @incident_request.external_system_id %>
     <div id="relation_list">
       <%= render :partial =>"/icm/incident_requests/sidebar_relation_list",
-                 :locals => {:incident_request => @incident_request,:dom_id=>"relation_list",:sid => @incident_request.external_system_id} %>
+                 :locals => {:incident_request => @incident_request,
+                             :dom_id=>"relation_list",
+                             :sid => @incident_request.external_system_id} %>
     </div>
 <% end %>
+
+
+<div class="modal fade" id="organizationMessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+        aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><%= t :label_organization_login_mess %></h4>
+      </div>
+      <div class="modal-body" id="login_mess">
+        <%= fields_for @organization, :builder =>CustomFormBuilder,:normal=>true do |o|%>
+            <table class="page-block-header table" >
+              <tbody>
+                  <tr>
+                     <td class="label-col"><label><%=t(:label_irm_organization_conn_type)%></label></td>
+                     <td class="data-col"><%= @organization[:conn_type_name]%></td>
+                  </tr>
+                  <tr>
+                     <td class="label-col"><label><%=(t :label_irm_organization_router)%></label></td>
+                     <td class="data-col"><%= @organization[:router]%></td>
+                  </tr>
+                  <tr>
+                    <td class="label-col"><label><%=t(:label_irm_organization_dev_mess)%></label></td>
+                    <td class="data-col"><%= @organization[:dev_mess]%></td>
+                  </tr>
+                  <tr>
+                    <td class="label-col"><label><%=t(:label_irm_organization_test_mess)%></label></td>
+                    <td class="data-col"><%= @organization[:test_mess]%></td>
+                  </tr>
+                  <tr>
+                    <td class="label-col"><label><%=t(:label_irm_organization_prod_mess)%></label></td>
+                    <td class="data-col"><%= @organization[:prod_mess]%></td>
+                  </tr>
+                  <tr>
+                    <td class="label-col"><label><%=t(:lable_irm_organization_sys_mess)%></label></td>
+                    <td class="data-col"><%= @organization[:sys_mess]%></td>
+                  </tr>
+                  <tr>
+                    <td class="label-col"><label><%=t(:label_irm_organization_A1_flag)%></label></td>
+                    <td class="data-col"><%= @organization[:A1_flag]%></td>
+                  </tr>
+                  <tr>
+                    <td class="label-col"><label><%=t(:label_irm_organization_industry)%></label></td>
+                    <td class="data-col"><%= @organization[:industry_name]%></td>
+                  </tr>
+                  <tr>
+                    <td class="label-col"><label><%=t(:label_irm_organization_attention_point)%></label></td>
+                    <td class="data-col"><%= @organization[:attention_point]%></td>
+                  </tr>
+              </tbody>
+            </table>
+        <% end%>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="externalSystemMessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+        aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><%= t :label_external_system_mess %></h4>
+      </div>
+      <div class="modal-body" id="system_mess">
+        <%= fields_for @show_external_system, :builder =>CustomFormBuilder,:normal=>true do |s|%>
+            <table class="page-block-header table" >
+              <tbody>
+              <tr>
+                <td class="label-col"><label><%=t(:label_project_manager)%></label></td>
+                <td class="data-col"><%= @show_external_system[:project_manager]%></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=(t :label_project_type)%></label></td>
+                <td class="data-col"><%= @show_external_system[:project_type_name]%></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=t(:label_pricing_type)%></label></td>
+                <td class="data-col"><%= @show_external_system[:price_type_name]%></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=t(:label_begin_date)%></label></td>
+                <td class="data-col"><%= @show_external_system[:begin_date]%></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=t(:label_after_date)%></label></td>
+                <td class="data-col"><%= @show_external_system[:after_date]%></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=t(:label_irm_external_system_system_description)%></label></td>
+                <td class="data-col"><%= @show_external_system[:system_description]%></td>
+              </tr>
+              </tbody>
+            </table>
+        <% end%>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

@@ -53,8 +53,13 @@ class Irm::Organization < ActiveRecord::Base
                         joins("LEFT OUTER JOIN #{Ccc::ConnType.view_name} ON #{Ccc::ConnType.view_name}.id = #{table_name}.conn_type_id AND #{Ccc::ConnType.view_name}.language = '#{language}'").
                             select("#{Ccc::ConnType.view_name}.name conn_type_name")
                       }
+  scope :select_all,lambda{
+                     select("#{table_name}.*")
+                   }
+
 
   def self.list_all
+    select_all.
     with_industry(I18n.locale).
     with_conn_type(I18n.locale)
   end
