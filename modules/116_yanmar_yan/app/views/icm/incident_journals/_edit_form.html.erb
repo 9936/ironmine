@@ -10,7 +10,7 @@
               <div style="display:inline;">
                 <label style="display:inline;"><%= I18n.t(:label_people_type)%></label>
                 <%=f.select :people_type,
-                            options_for_select([ "please select", "FIN", "SCM","MFG","TEHC" ]),
+                            options_for_select([ "please select", "FIN", "SCM","MFG","TEHC" ],@incident_journal.people_type),
                             {},
                             {:id=>"incident_category_id",
                              :origin_value=>@incident_journal.people_type,

@@ -34,15 +34,17 @@ module Yan::IncidentJournalModelEx
         #Check  workload
         unless self.replied_by.nil?
 
+          if self.people_type.eql?("select") && self.people_count_c > 0
+            self.errors.add(:workload_message,'people type must be selected')
+          end
+          if (self.people_type.eql?("FIN") || self.people_type.eql?("SCM") || self.people_type.eql?("MFG") || self.people_type.eql?("TEHC")) && (self.people_count_c == 0 || self.people_count_c.nil?)
+            self.errors.add(:workload_message,'The number of Consultants should not be 0')
+          end
+
           # 只有填写了workload才会继续验证
           if self.workload_c.present? && self.workload_t.present?
-            if self.people_type.eql?("please select")
-              self.errors.add(:workload_message,'people type must be selected')
-            end
+
             # 验证不能小于0
-            if self.workload_c < 0 || self.workload_t < 0 || self.people_count_c < 0 || self.people_count_t < 0
-              self.errors.add(:workload_message, 'Those value can not be smaller than 0')
-            end
 
             # 验证 人员数和工时只能同时为0，或同时不为0
             if self.people_count_c == 0 && self.workload_c != 0
@@ -98,15 +100,18 @@ module Yan::IncidentJournalModelEx
           if !self.people_count_c.present? || !self.people_count_t.present?
             self.errors.add(:workload_message, 'The number of Consultants/Technicians can not be blank')
           end
+
+          if self.people_type.eql?("select") && self.people_count_c > 0
+            self.errors.add(:workload_message,'people type must be selected')
+          end
+          if (self.people_type.eql?("FIN") || self.people_type.eql?("SCM") || self.people_type.eql?("MFG") || self.people_type.eql?("TEHC")) && (self.people_count_c == 0 || self.people_count_c.nil?)
+            self.errors.add(:workload_message,'The number of Consultants should not be 0')
+          end
+
           # 只有填写了workload才会继续验证
           if self.workload_c.present? && self.workload_t.present?
-            if self.people_type.eql?("please select")
-              self.errors.add(:workload_message,'people type must be selected')
-            end
             # 验证不能小于0
-            if self.workload_c < 0 || self.workload_t < 0 || self.people_count_c < 0 || self.people_count_t < 0
-              self.errors.add(:workload_message, 'Those value can not be smaller than 0')
-            end
+
 
             # 验证 人员数和工时只能同时为0，或同时不为0
             if self.people_count_c == 0 && self.workload_c != 0
