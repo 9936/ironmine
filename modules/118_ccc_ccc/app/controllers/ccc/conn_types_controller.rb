@@ -74,8 +74,8 @@ class Ccc::ConnTypesController < ApplicationController
   def get_data
     conn_types_scope = Ccc::ConnType.multilingual
     conn_types_scope = conn_types_scope.match_value("#{Ccc::ConnType.table_name}.code",params[:code])
-    conn_types_scope = conn_types_scope.match_value("#{Ccc::conn_typesTl.table_name}.name",params[:name])
-    conn_types_scope = conn_types_scope.match_value("#{Ccc::conn_typesTl.table_name}.description",params[:description])
+    conn_types_scope = conn_types_scope.match_value("#{Ccc::ConnTypesTl.table_name}.name",params[:name])
+    conn_types_scope = conn_types_scope.match_value("#{Ccc::ConnTypesTl.table_name}.description",params[:description])
     conn_types,count = paginate(conn_types_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(conn_types.to_grid_json([:name,:description,:code],count))}

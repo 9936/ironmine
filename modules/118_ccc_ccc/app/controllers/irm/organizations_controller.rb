@@ -67,9 +67,14 @@ class Irm::OrganizationsController < ApplicationController
   # POST /organizations
   # POST /organizations.xml
   def create
-    organization_no = Irm::Organization.order("organization_no DESC").first.organization_no
-    if organization_no.to_i!= 0
-      params[:irm_organization][:organization_no] = (organization_no.to_i + 1).to_s
+    organization = Irm::Organization.order("organization_no DESC").first
+    if organization
+      organization_no = organization.first.organization_no
+      if organization_no.to_i!= 0
+        params[:irm_organization][:organization_no] = (organization_no.to_i + 1).to_s
+      else
+        params[:irm_organization][:organization_no] = "2000"
+      end
     else
       params[:irm_organization][:organization_no] = "2000"
     end

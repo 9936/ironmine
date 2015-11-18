@@ -799,18 +799,6 @@
                     <td class="label-col"><label><%=t(:lable_irm_organization_sys_mess)%></label></td>
                     <td class="data-col"><%= @organization[:sys_mess]%></td>
                   </tr>
-                  <tr>
-                    <td class="label-col"><label><%=t(:label_irm_organization_A1_flag)%></label></td>
-                    <td class="data-col"><%= @organization[:A1_flag]%></td>
-                  </tr>
-                  <tr>
-                    <td class="label-col"><label><%=t(:label_irm_organization_industry)%></label></td>
-                    <td class="data-col"><%= @organization[:industry_name]%></td>
-                  </tr>
-                  <tr>
-                    <td class="label-col"><label><%=t(:label_irm_organization_attention_point)%></label></td>
-                    <td class="data-col"><%= @organization[:attention_point]%></td>
-                  </tr>
               </tbody>
             </table>
         <% end%>
@@ -858,6 +846,20 @@
                 <td class="label-col"><label><%=t(:label_irm_external_system_system_description)%></label></td>
                 <td class="data-col"><%= @show_external_system[:system_description]%></td>
               </tr>
+          <%= fields_for @organization, :builder =>CustomFormBuilder,:normal=>true do |r|%>
+              <tr>
+                <td class="label-col"><label><%=t(:label_irm_organization_A1_flag)%></label></td>
+                <td class="data-col"><%= @organization[:A1_flag]%></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=t(:label_irm_organization_industry)%></label></td>
+                <td class="data-col"><%= @organization[:industry_name]%></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=t(:label_irm_organization_attention_point)%></label></td>
+                <td class="data-col"><%= @organization[:attention_point]%></td>
+              </tr>
+          <% end%>
               </tbody>
             </table>
         <% end%>
