@@ -10,18 +10,22 @@
             <td class="data-col"><%= f.text_field(:address,:required=>true) %></td>
           </tr>
           <tr>
+            <td class="label-col"><label><%=(t :label_icm_impact_range_impact_code)%></label></td>
+            <td class="data-col"><%=f.text_field :short_name%></td>
             <td class="label-col"><label><%=t(:label_irm_organization_ZCode)%></label></td>
             <td class="data-col"><%= f.text_field(:zCode) %></td>
-            <td class="label-col"><label><%=t(:label_irm_organization_city)%></label></td>
-            <td class="data-col"><%= f.text_field(:city) %></td>
           </tr>
           <tr>
+            <td class="label-col"><label><%=t(:label_irm_organization_city)%></label></td>
+            <td class="data-col"><%= f.text_field(:city) %></td>
             <td class="label-col"><label><%=t(:label_irm_organization_province)%></label></td>
             <td class="data-col"><%= f.text_field(:province) %></td>
+          </tr>
+          <tr>
             <td class="label-col"><label><%=(t :label_irm_organization_country)%></label></td>
             <td class="data-col"><%= f.text_field(:country) %></td>
           </tr>
-          <tr>
+          <tr style="display: none">
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col">
               <%= f.radio_button :hotline, Irm::Constant::SYS_YES%>

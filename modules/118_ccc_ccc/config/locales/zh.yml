@@ -31,8 +31,8 @@ zh:
   label_project_update_time: 更新时间
   label_project_total_time: 总处理时间
   label_project_max_time: 最大处理问题时间
-  label_project_remind_rate: 即将超出时间提醒(比例)
-  label_project_warning_rate: 超出时间时间警告(比例)
+  label_project_remind_rate: 即将超出时间提醒(比例%)
+  label_project_warning_rate: 超出时间时间警告(比例%)
   label_project_show_to_SLA_flag: SLA是否显示给客户
 
   label_ccc_price_type: 计价类型
