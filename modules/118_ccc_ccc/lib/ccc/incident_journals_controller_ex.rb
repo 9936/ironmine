@@ -208,27 +208,27 @@ module Ccc::IncidentJournalsControllerEx
         end
       end
 
-      # def get_incident_listen_data
-      #   history_scope = Icm::IncidentHistory.
-      #       select_all.
-      #       without_some_property_key.
-      #       with_value_label.
-      #       with_created_by.
-      #       only_with_request(params[:request_id]).
-      #       order_by_created_at
-      #
-      #   respond_to do |format|
-      #     format.html {
-      #       @datas,@count = paginate(history_scope)
-      #       @datas.each do |t|
-      #         meaning = t.meaning
-      #         t[:new_value_label] = meaning[:new_meaning]
-      #         t[:old_value_label] = meaning[:old_meaning]
-      #       end
-      #       render_html_data_table
-      #     }
-      #   end
-      # end
+      def get_incident_listen_data
+        history_scope = Icm::IncidentHistory.
+            select_all.
+            without_some_property_key.
+            with_value_label.
+            with_created_by.
+            only_with_request(params[:request_id]).
+            order_by_created_at
+
+        respond_to do |format|
+          format.html {
+            @datas,@count = paginate(history_scope)
+            @datas.each do |t|
+              meaning = t.meaning
+              t[:new_value_label] = meaning[:new_meaning]
+              t[:old_value_label] = meaning[:old_meaning]
+            end
+            render_html_data_table
+          }
+        end
+      end
 
       def get_incident_history_data
         history_scope = Icm::IncidentHistory.

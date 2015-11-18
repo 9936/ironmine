@@ -82,46 +82,44 @@
             <td class="label-col"><label for="incident_request_component_code"><%="组件代码"%></label></td>
             <td class="data-3col" colspan="3"><%=f.text_field :component_code,:size=>17, :required=>true,:id=>"incident_request_component_code"%></td>
           </tr>
-          <% if allow_to_function?(:create_icdt_rqst_for_other) %>
-              <tr>
-                <td class="label-col"><label for="incident_request_request_type_code"><%=t(:label_icm_incident_request_request_type_code)%></label></td>
-                <td class="data-col">
-                  <%=f.select :request_type_code,nullable_options_for_select(available_request_type,@incident_request.request_type_code),
-                              {},{:required=>true,:id=>"incident_request_request_type_code"}%>
-                </td>
-              </tr>
-          <%end%>
-          <% if allow_to_function?(:change_urgence_in_submit) %>
-              <tr>
-                <td class="label-col"><label for="incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label></td>
-                <td class="data-col">
-                  <%=f.select :urgence_id,options_for_select(available_urgence_code,@incident_request.urgence_id||Icm::UrgenceCode.default_id),
-                              {},{:required=>true,:id=>"incident_request_urgence_code"}%>
-                </td>
-              </tr>
-              <tr id="urgence_reason" style="display: none">
-                <td class="label-col"><label><%=t(:label_icm_incident_request_urgence_reason)%></label></td>
-                <td class="data-col">
-                  <%=f.text_area :urgence_reason,{:required=>true,:id=>"incident_request_urgence_reason",:class=>"input-medium"}%>
-                </td>
-              </tr>
-              <tr style="display: none">
-                <td class="label-col"><label for="incident_request_impact_range_code"><%=t(:label_icm_incident_request_impact_range_code)%></label></td>
-                <td class="data-col">
-                  <%=f.select :impact_range_id,options_for_select(available_impact_range,@incident_request.impact_range_id||Icm::ImpactRange.default_id),
-                              {},{:required=>true,:id=>"incident_request_impact_range_code"}%>
-                </td>
-              </tr>
-          <% end %>
-          <% if allow_to_function?(:create_icdt_rqst_for_other) %>
-              <tr>
-                <td class="label-col"><label for="incident_request_incident_status_code"><%=t(:label_icm_incident_request_incident_status_code)%></label></td>
-                <td class="data-col">
-                  <%=f.select :incident_status_id,options_for_select(available_request_status_code,@incident_request.incident_status_id||Icm::IncidentStatus.default_id),
-                              {},{:required=>true,:id=>"incident_request_incident_status_code"}%>
-                </td>
-              </tr>
-          <%end%>
+
+          <tr>
+            <td class="label-col"><label for="incident_request_request_type_code"><%=t(:label_icm_incident_request_request_type_code)%></label></td>
+            <td class="data-col">
+              <%=f.select :request_type_code,nullable_options_for_select(available_request_type,@incident_request.request_type_code),
+                          {},{:required=>true,:id=>"incident_request_request_type_code"}%>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label for="incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label></td>
+            <td class="data-col">
+              <%=f.select :urgence_id,options_for_select(available_urgence_code,@incident_request.urgence_id||Icm::UrgenceCode.default_id),
+                          {},{:required=>true,:id=>"incident_request_urgence_code"}%>
+            </td>
+          </tr>
+          <tr id="urgence_reason" style="display: none">
+            <td class="label-col"><label><%=t(:label_icm_incident_request_urgence_reason)%></label></td>
+            <td class="data-col">
+              <%=f.text_area :urgence_reason,{:required=>true,:id=>"incident_request_urgence_reason",:class=>"input-medium"}%>
+            </td>
+          </tr>
+          <tr style="display: none">
+            <td class="label-col"><label for="incident_request_impact_range_code"><%=t(:label_icm_incident_request_impact_range_code)%></label></td>
+            <td class="data-col">
+              <%=f.select :impact_range_id,options_for_select(available_impact_range,@incident_request.impact_range_id||Icm::ImpactRange.default_id),
+                          {},{:required=>true,:id=>"incident_request_impact_range_code"}%>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label for="incident_request_incident_status_code"><%=t(:label_icm_incident_request_incident_status_code)%></label></td>
+            <td class="data-col">
+              <%=f.select :incident_status_id,options_for_select(available_request_status_code,@incident_request.incident_status_id||Icm::IncidentStatus.default_id),
+                          {},{:required=>true,:id=>"incident_request_incident_status_code"}%>
+            </td>
+          </tr>
+
           <tr>
             <td class="label-col" id="title"><label for="incident_request_title"><%=t(:label_icm_incident_request_title)%></label></td>
             <td class="label-col" id = "title_s"><label for="incident_request_title"><%="主题(英文)"%></label></td>
@@ -375,7 +373,7 @@
 
         $("#incident_request_incident_status_code").attr("disabled","disabled")
         $("#incident_request_urgence_code").on("change",function(){
-            if( $("#incident_request_urgence_code").find("option:selected").val() == "000R000A0gAPK3g8hafqJU" ){
+            if( $("#incident_request_urgence_code").find("option:selected").val() == "000R000B2jQm9tAWaFlqQi" ){
                 $("#urgence_reason").show()
             }
             else{

@@ -112,6 +112,7 @@ Ironmine::Application.routes.draw do
    match '/incident_requests/:request_id/journals/update_workload(.:format)' => "incident_journals#update_workload", :via => :put
    match '/incident_requests/:request_id/journals/:journal_id/remove_journal(.:format)' => "incident_journals#remove_journal", :via => :get
    match '/incident_requests/:request_id/journals/get_incident_history_data(.:format)' => "incident_journals#get_incident_history_data", :via => :get
+   match '/incident_requests/:request_id/journals/get_incident_listen_data(.:format)' => "incident_journals#get_incident_listen_data", :via => :get
  end
 
  scope :module => "irm" do
