@@ -69,7 +69,7 @@ class Irm::OrganizationsController < ApplicationController
   def create
     organization = Irm::Organization.order("organization_no DESC").first
     if organization
-      organization_no = organization.first.organization_no
+      organization_no = organization.organization_no
       if organization_no.to_i!= 0
         params[:irm_organization][:organization_no] = (organization_no.to_i + 1).to_s
       else
