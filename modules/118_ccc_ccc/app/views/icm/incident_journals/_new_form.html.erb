@@ -191,9 +191,9 @@
           <td class="data-col">
             <div><%= @incident_request[:attribute1] %></div>
           </td>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_contact_number) %></label></td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_contact_email_number) %></label></td>
           <td class="data-col">
-            <div><%= @incident_request[:contact_number] %></div>
+            <div><%= @incident_request[:contact_number] %>(<%= @incident_request[:attribute2] %>)</div>
           </td>
           <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_org) %></label></td>
           <td class="data-col">
@@ -633,23 +633,10 @@
         <%= datatable("incident_request_histories",{:action=>"get_incident_history_data"},[],{:paginator_box=>'incidentHistoriesPaginatorBox', :row_perpage => 20})%>
       </div>
     </div>
-    <div class="page-block" id="pageBlock1">
-      <table class="page-block-header" ><tr>
-        <td class="page-block-title">
-          <h2 class="block-title"><%=t(:label_icm_incident_SLA_control)%></h2>
-        </td>
-        <td class="page-block-button">
-        </td>
-      </tr></table>
-      <div class="page-block-body">
-        <%= datatable("incident_request_SLA_listen",{:action=>"get_incident_listen_data"},[],{:paginator_box=>'incidentHistoriesPaginatorBox1', :row_perpage => 30})%>
-      </div>
-    </div>
 <% end %>
 
-<% if self.respond_to?(:display_service_agreements) && allow_to_function?(:view_service_agreement, @incident_request.external_system_id) %>
     <%= display_service_agreements(@incident_request.id,@incident_request.class.name,@incident_request.external_system_id) %>
-<% end %>
+
 
 <script type="text/javascript">
     $(function() {

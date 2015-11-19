@@ -14,7 +14,6 @@ class Icm::IncidentJournalsController < ApplicationController
     if params[:add_watcher]
       @incident_request.add_watcher(Irm::Person.current.id)
     end
-
     @incident_reply = Icm::IncidentReply.new()
     respond_to do |format|
       format.html { render :layout=>"application_right"}
@@ -535,9 +534,6 @@ class Icm::IncidentJournalsController < ApplicationController
   private
   def check_incident_request_permission(scope)
     incident_request = scope.filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id).first
-    puts "2222222222"
-    puts incident_request.inspect
-    puts "2222222222"
     if incident_request.present?
       return incident_request
     else
@@ -549,11 +545,7 @@ class Icm::IncidentJournalsController < ApplicationController
 
   def setup_up_incident_request
     @incident_request = Icm::IncidentRequest.list_all.query(params[:request_id])
-    puts "11111111111111"
-    puts @incident_request.inspect
     @incident_request = check_incident_request_permission(@incident_request)
-    puts "33333333333333"
-    puts @incident_request.inspect
   end
 
   def backup_incident_request
@@ -578,11 +570,17 @@ class Icm::IncidentJournalsController < ApplicationController
     attributes.each do |key|
       ovalue = old_value.send(key)
       nvalue = new_value.send(key)
+      # 监听状态从受理到处理
+      if(ovalue.eql?("000K000922scMSu1Q8vthI") && nvalue.eql?("000K000C2hrdz1TO8kREaO"))
+        # SLA指派监听
+        slaListen = Ccc::SlaListen.where("request_id = ? and request_type = 'handle'",ref_journal.incident_request_id).first
+        slaListen.update_attribute(:time,Time.now)
+      end
       Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,
                                    :journal_id=>ref_journal.id,
-                                     :property_key=>key.to_s,
-                                     :old_value=>ovalue,
-                                     :new_value=>nvalue}) if !ovalue.eql?(nvalue)
+                                   :property_key=>key.to_s,
+                                   :old_value=>ovalue,
+                                   :new_value=>nvalue}) if !ovalue.eql?(nvalue)
     end
   end
 

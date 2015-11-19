@@ -208,27 +208,41 @@ module Ccc::IncidentJournalsControllerEx
         end
       end
 
-      def get_incident_listen_data
-        history_scope = Icm::IncidentHistory.
-            select_all.
-            without_some_property_key.
-            with_value_label.
-            with_created_by.
-            only_with_request(params[:request_id]).
-            order_by_created_at
-
-        respond_to do |format|
-          format.html {
-            @datas,@count = paginate(history_scope)
-            @datas.each do |t|
-              meaning = t.meaning
-              t[:new_value_label] = meaning[:new_meaning]
-              t[:old_value_label] = meaning[:old_meaning]
-            end
-            render_html_data_table
-          }
-        end
-      end
+      # def get_incident_listen_data
+      #   sla_listen_scope = Ccc::SlaListen.where("request_id = ? and time <> null",params[:request_id])
+      #       # select_all.without_some_property_key.with_value_label.with_created_by.only_with_request(params[:request_id]).order_by_created_at
+      #   @new_time = nil
+      #   @respond_time = nil
+      #   @handle_time = nil
+      #   @handing_time = nil
+      #   sla_listen_scope.each do |s|
+      #     request_type = s.request_type
+      #     if request_type.eql?("new")
+      #       @new_time = s.time
+      #     end
+      #     if request_type.eql?("respond")
+      #       @respond_time = s.time
+      #     end
+      #     if request_type.eql?("handle")
+      #       @handle_time = s.time
+      #     end
+      #     if request_type.eql?("handling")
+      #       @handing_time = s.time
+      #     end
+      #   end
+      #
+      #   respond_to do |format|
+      #     format.html {
+      #       @datas,@count = paginate(sla_listen_scope)
+      #       @datas.each do |t|
+      #         meaning = t.meaning
+      #         t[:new_value_label] = meaning[:new_meaning]
+      #         t[:old_value_label] = meaning[:old_meaning]
+      #       end
+      #       render_html_data_table
+      #     }
+      #   end
+      # end
 
       def get_incident_history_data
         history_scope = Icm::IncidentHistory.
@@ -400,6 +414,31 @@ module Ccc::IncidentJournalsControllerEx
         logger.debug(e.message)
         return false, now
       end
+    end
+  end
+
+  class ListenData
+    def initialize(status, time_rate, process,now_time,end_time)
+      @status = status
+      @time_rate = time_rate
+      @process = process
+      @now_time = now_time
+      @end_time = end_time
+    end
+    def status
+      @status
+    end
+    def time_rate
+      @time_rate
+    end
+    def process
+      @process
+    end
+    def now_time
+      @now_time
+    end
+    def end_time
+      @end_time
     end
   end
 end

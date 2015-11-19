@@ -239,7 +239,6 @@ module Ccc::IncidentRequestsControllerEx
             end
           else
             perform_assignment(req.id,{})
-
           end
 
           req.add_watcher(Irm::Person.current)
@@ -252,6 +251,79 @@ module Ccc::IncidentRequestsControllerEx
             format.html { redirect_to({:action => "assign_dashboard"}) }
           end
           #format.js
+        end
+      end
+
+
+      # POST /incident_requests
+      # POST /incident_requests.xml
+      def create
+        @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
+        @return_url = params[:return_url] if params[:return_url]
+        #加入创建事故单的默认参数
+        prepared_for_create(@incident_request)
+        if @incident_request.estimated_date.present?
+          begin
+            @incident_request.estimated_date = @incident_request.estimated_date + 18.hour if @incident_request.estimated_date.strftime('%H').to_i == 0
+          rescue
+            nil
+          end
+        end
+        respond_to do |format|
+          flag = true
+          flag, now = validate_files(@incident_request) if params[:files].present?
+          if !flag
+            if now.is_a?(Integer)
+              flash[:error] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+            else
+              flash[:error] = now
+            end
+            format.html { render :action => "new", :layout => "application_full" }
+            format.xml { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+            format.json { render :json => @incident_request.errors, :status => :unprocessable_entity }
+          elsif @incident_request.save
+            process_files(@incident_request)
+            if params[:source_id].present? and params[:relation_type].present?
+              create_relation(params[:source_id], @incident_request.id, params[:relation_type])
+            end
+
+            Icm::IncidentHistory.create({:request_id => @incident_request.id,
+                                         :journal_id => "",
+                                         :property_key => "incident_request_id",
+                                         :old_value => @incident_request.title,
+                                         :new_value => ""})
+
+            # SLA监控表
+            types = ["new","respond","handle","handling"]
+            types.each { |t|
+              if t.eql?("new")
+                data = {:request_id => @incident_request.id,
+                        :request_type => t,
+                        :time => @incident_request.created_at}
+                slaListen = Ccc::SlaListen.new(data)
+                slaListen.save
+              else
+                data = {:request_id => @incident_request.id,
+                        :request_type => t}
+                Ccc::SlaListen.create(data)
+              end
+            }
+
+            #如果没有填写support_group, 插入Delay Job任务
+            if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
+              Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(@incident_request.id), [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
+            end
+            #投票任务
+            Delayed::Job.enqueue(Icm::Jobs::IncidentRequestSurveyTaskJob.new(@incident_request.id))
+            format.html { redirect_to({:controller => "icm/incident_journals", :action => "new", :request_id => @incident_request.id, :show_info => Irm::Constant::SYS_YES}) }
+            format.xml { render :xml => @incident_request, :status => :created, :location => @incident_request }
+            format.json { render :json => @incident_request }
+          else
+            puts @incident_request.errors.inspect
+            format.html { render :action => "new", :layout => "application_full" }
+            format.xml { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+            format.json { render :json => @incident_request.errors, :status => :unprocessable_entity }
+          end
         end
       end
 
@@ -277,6 +349,23 @@ module Ccc::IncidentRequestsControllerEx
                                            :property_key=> "incident_request_id",
                                            :old_value=> @incident_request.title,
                                            :new_value=> ""})
+
+              # SLA监控表
+              types = ["new","respond","handle","handling"]
+              types.each { |t|
+                if t.eql?("new")
+                  data = {:request_id => @incident_request.id,
+                          :request_type => t,
+                          :time => @incident_request.created_at}
+                  slaListen = Ccc::SlaListen.new(data)
+                  slaListen.save
+                else
+                  data = {:request_id => @incident_request.id,
+                          :request_type => t}
+                  Ccc::SlaListen.create(data)
+                end
+              }
+
               format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
               format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
             else
@@ -371,6 +460,11 @@ module Ccc::IncidentRequestsControllerEx
           assign_rule = Icm::AssignRule.get_support_group_by_incident(request.id, request.external_system_id)
           if assign_rule.present? and assign_rule.support_group.present?
             assign_result[:support_group_id] = assign_rule.support_group
+
+            # SLA指派监听
+            slaListen = Ccc::SlaListen.where("request_id = ? and request_type = 'respond'",request.id).first
+            slaListen.update_attribute(:time,Time.now)
+
           else
             return
           end

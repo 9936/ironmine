@@ -8,33 +8,29 @@
             <td class="label-col"><label for="external_system_external_system_code"><%=t(:label_irm_external_system_external_system_code)%></label></td>
             <td class="data-col"><%=f.text_field :external_system_code, :required=>true ,:id=>"external_system_external_system_code"%></td>
             <td class="label-col"><label for="organization_no"><%=t(:label_irm_external_system_organization_no)%></label></td>
-            <td class="data-col"><%=f.lov_field :organization_no,Irm::ExternalSystem,{:id=>"organization_no",:class=>"input-medium"}%></td>
+            <td class="data-col"><%=f.lov_field :organization_no,Irm::ExternalSystem,{:id=>"organization_no",:class=>"input-medium",:value=>@external_system[:organization_no]}%></td>
           </tr>
           <tr>
             <td class="label-col"><label for="external_system_system_name"><%=t(:label_irm_external_system_system_name)%></label></td>
             <td class="data-col"><%=f.text_field :system_name, :required=>true ,:id=>"external_system_system_name"%></td>
             <td class="label-col"><label for="customer_no"><%=t(:label_irm_external_system_customer_no)%></label></td>
-            <td class="data-col"><%=f.lov_field :customer_no,Irm::ExternalSystem,{:id=>"customer_no",:class=>"input-medium"}%></td>
+            <td class="data-col"><%=f.lov_field :customer_no,Irm::ExternalSystem,{:id=>"customer_no",:class=>"input-medium",:value=>@external_system[:customer_no]}%></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_project_manager)%></label></td>
             <td class="data-col"><%= f.text_field(:project_manager,:required=>true) %></td>
-          </tr>
-          <tr>
             <td class="label-col"><label><%=t(:label_project_type)%></label></td>
             <td class="data-col">
               <%= f.blank_select(:project_type_id,available_projectTypes,{},{:required=>true,:id=>"project_type"})%>
-            </td>
-            <td class="label-col"><label><%=t(:label_pricing_type)%></label></td>
-            <td class="data-col">
-              <%= f.blank_select(:price_type_id,available_priceTypes,{},{:required=>true,:id=>"project_pricing_type"})%>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_begin_date)%></label></td>
             <td class="data-col"><%= f.date_field(:begin_date,:size=>12,:class=>"date", :id=>"organization_begin_date")%></td>
-            <td class="label-col"><label><%=t(:label_disabled_flag)%></label></td>
-            <td class="data-col"><%=f.check_box :disabled_flag%></td>
+            <td class="label-col"><label><%=t(:label_pricing_type)%></label></td>
+            <td class="data-col">
+              <%= f.blank_select(:price_type_id,available_priceTypes,{},{:required=>true,:id=>"project_pricing_type"})%>
+            </td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_after_date)%></label></td>
@@ -227,7 +223,7 @@
 </div>
 
 
-<script>
+<script type="application/javascript">
   $(function() {
     $(".lov-btn").removeAttr("href")
     $(".lov-btn").removeAttr("onclick")
@@ -239,7 +235,5 @@
     $(".lov-btn").eq(1).on("click",function(){
       $("#customerNoModal").modal("show")
     })
-
   })
-
 </script>
