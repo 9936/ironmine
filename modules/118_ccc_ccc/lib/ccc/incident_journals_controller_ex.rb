@@ -34,6 +34,9 @@ module Ccc::IncidentJournalsControllerEx
       end
 
       def create
+        sla_instance_id = params[:icm_incident_journal][:sla_instance]
+        params[:icm_incident_journal].delete(:sla_instance)
+
         @incident_reply = Icm::IncidentReply.new(params[:icm_incident_reply])
         @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
         # 设置回复类型
@@ -95,6 +98,14 @@ module Ccc::IncidentJournalsControllerEx
                 end
               end
             end
+
+            # 此处评论创建成功
+            sla_instance = Slm::SlaInstance.find(sla_instance_id)
+            updateData = {:current_duration => 0,
+                          :start_at => Time.now,
+                          :last_phase_start_date => Time.now}
+            sla_instance.update_attributes(updateData)
+
             format.html { redirect_to({:action => "new"}) }
             format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
           else
@@ -414,31 +425,6 @@ module Ccc::IncidentJournalsControllerEx
         logger.debug(e.message)
         return false, now
       end
-    end
-  end
-
-  class ListenData
-    def initialize(status, time_rate, process,now_time,end_time)
-      @status = status
-      @time_rate = time_rate
-      @process = process
-      @now_time = now_time
-      @end_time = end_time
-    end
-    def status
-      @status
-    end
-    def time_rate
-      @time_rate
-    end
-    def process
-      @process
-    end
-    def now_time
-      @now_time
-    end
-    def end_time
-      @end_time
     end
   end
 end

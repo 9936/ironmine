@@ -570,12 +570,6 @@ class Icm::IncidentJournalsController < ApplicationController
     attributes.each do |key|
       ovalue = old_value.send(key)
       nvalue = new_value.send(key)
-      # 监听状态从受理到处理
-      if(ovalue.eql?("000K000922scMSu1Q8vthI") && nvalue.eql?("000K000C2hrdz1TO8kREaO"))
-        # SLA指派监听
-        slaListen = Ccc::SlaListen.where("request_id = ? and request_type = 'handle'",ref_journal.incident_request_id).first
-        slaListen.update_attribute(:time,Time.now)
-      end
       Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,
                                    :journal_id=>ref_journal.id,
                                    :property_key=>key.to_s,

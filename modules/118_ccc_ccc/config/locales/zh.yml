@@ -6,7 +6,7 @@ zh:
   label_icm_incident_start_time: 开始时间
   label_icm_incident_end_time: 结束时间
 
-  commit_plan: 提交方案
+  commit_plan: 更新
   label_organization_login_mess: 客户系统登录信息
   label_external_system_mess: 项目相关信息
   label_mess_look: 查看
@@ -16,6 +16,7 @@ zh:
 
   label_icm_incident_request_submitted_email: 提交人联系方式
   label_icm_incident_request_summary: 问题详细信息
+  label_icm_incident_request_contact_email: 业务用户邮箱
   label_icm_incident_request_contact_email_number: 业务用户联系方式
 
   label_icm_incident_request_incident_people_date: 人天(0.5天为单位)
@@ -183,7 +184,8 @@ zh:
   label_icm_incident_journal_workload_type: 工时类型
 
   label_icm_incident_journal_history: 事故单变更历史
-  label_icm_incident_SLA_control: 事故单SLA监控
+  label_slm_sla_instance_title: 事故单SLA监控
+  label_slm_sla_instance_name: 对应状态
   label_icm_incident_journal_created_by: 账号
   label_icm_incident_journal_event: 事件
   label_icm_incident_journal_new_value: 修订

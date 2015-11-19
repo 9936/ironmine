@@ -9,7 +9,7 @@ class Ccc::Sex < ActiveRecord::Base
   query_extend
   acts_as_customizable
 
-  validates_presence_of :code
+  validates_presence_of :code,:name
   validates_uniqueness_of :code, :scope => :opu_id
 
 

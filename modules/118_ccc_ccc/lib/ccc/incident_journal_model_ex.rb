@@ -2,7 +2,7 @@ module Ccc::IncidentJournalModelEx
   def self.included(base)
     base.class_eval do
       after_create :count_reply
-      attr_accessor :keep_next_status
+      attr_accessor :keep_next_status,:sla_instance
       #回写回复数量到事故单中，方便统计
       def count_reply
         ir = Icm::IncidentRequest.find(self.incident_request_id)

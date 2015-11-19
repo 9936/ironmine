@@ -101,7 +101,7 @@
           <tr id="urgence_reason" style="display: none">
             <td class="label-col"><label><%=t(:label_icm_incident_request_urgence_reason)%></label></td>
             <td class="data-col">
-              <%=f.text_area :urgence_reason,{:required=>true,:id=>"incident_request_urgence_reason",:class=>"input-medium"}%>
+              <%=f.text_area :urgence_reason,:rows=>4,:cols=>90 ,:id=>"incident_request_urgence_reason",:class => "input-xlarge" %>
             </td>
           </tr>
           <tr style="display: none">

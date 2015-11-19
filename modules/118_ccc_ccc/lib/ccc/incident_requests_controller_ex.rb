@@ -292,23 +292,6 @@ module Ccc::IncidentRequestsControllerEx
                                          :property_key => "incident_request_id",
                                          :old_value => @incident_request.title,
                                          :new_value => ""})
-
-            # SLA监控表
-            types = ["new","respond","handle","handling"]
-            types.each { |t|
-              if t.eql?("new")
-                data = {:request_id => @incident_request.id,
-                        :request_type => t,
-                        :time => @incident_request.created_at}
-                slaListen = Ccc::SlaListen.new(data)
-                slaListen.save
-              else
-                data = {:request_id => @incident_request.id,
-                        :request_type => t}
-                Ccc::SlaListen.create(data)
-              end
-            }
-
             #如果没有填写support_group, 插入Delay Job任务
             if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
               Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(@incident_request.id), [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
@@ -349,23 +332,6 @@ module Ccc::IncidentRequestsControllerEx
                                            :property_key=> "incident_request_id",
                                            :old_value=> @incident_request.title,
                                            :new_value=> ""})
-
-              # SLA监控表
-              types = ["new","respond","handle","handling"]
-              types.each { |t|
-                if t.eql?("new")
-                  data = {:request_id => @incident_request.id,
-                          :request_type => t,
-                          :time => @incident_request.created_at}
-                  slaListen = Ccc::SlaListen.new(data)
-                  slaListen.save
-                else
-                  data = {:request_id => @incident_request.id,
-                          :request_type => t}
-                  Ccc::SlaListen.create(data)
-                end
-              }
-
               format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
               format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
             else
@@ -460,11 +426,6 @@ module Ccc::IncidentRequestsControllerEx
           assign_rule = Icm::AssignRule.get_support_group_by_incident(request.id, request.external_system_id)
           if assign_rule.present? and assign_rule.support_group.present?
             assign_result[:support_group_id] = assign_rule.support_group
-
-            # SLA指派监听
-            slaListen = Ccc::SlaListen.where("request_id = ? and request_type = 'respond'",request.id).first
-            slaListen.update_attribute(:time,Time.now)
-
           else
             return
           end
