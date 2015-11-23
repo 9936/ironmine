@@ -1,0 +1,31 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+        <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id],:sid=>data[:external_system_id]},:class => "action-link") %>
+    <% end %>
+    <% builder.column(:attribute1,{:title=>t(:label_icm_incident_request_incident_parent_status), :width => "20%"}) do |data|%>
+       <%
+          parent = Icm::IncidentStatus.where(:id => data[:incident_status_parent_id]).enabled.multilingual.first[:name]
+          data[:attribute1] = parent
+       %>
+    <% end %>
+    <% builder.column(:attribute2,{:title=>t(:label_icm_incident_request_incident_children_status), :width => "25%"}) do |data|%>
+        <%
+           children = ""
+           data[:incident_status_children_id].split(",").each do |ch|
+             temp = Icm::IncidentStatus.where(:id => ch ).enabled.multilingual.first[:name]
+             children = "#{children}#{temp};"
+           end
+           data[:attribute2] = children[0,children.length-1]
+        %>
+    <% end %>
+    <% builder.column(:attribute3,{:title=>t(:label_icm_incident_request_incident_profile_type)}) do |data| %>
+        <%
+           type = ""
+           data[:profile_type_id].split(",").each do |co|
+             temp = Irm::LookupValue.where(:lookup_code => co).query_by_lookup_type("IRM_PROFILE_USER_LICENSE").multilingual.first[:meaning]
+             type= "#{type}#{temp};"
+           end
+           data[:attribute3] = type[0,type.length-1]
+        %>
+    <% end %>
+<% end %>

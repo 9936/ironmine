@@ -1,5 +1,12 @@
 zh:
 
+  label_icm_incident_request_incident_parent_status: 当前状态
+  label_icm_incident_request_incident_children_status: 下一级可选状态
+  label_icm_incident_request_incident_profile_type: 用户类型
+  label_ccc_status_con: 状态控制
+  label_ccc_statusCon_new: 新建控制流
+  label_ccc_statusCon_deit: 编辑控制流
+
   label_icm_incident_status: 对应状态
   label_icm_incident_time: 时间/最大时间
   label_icm_incident_schedule: 进度
@@ -20,8 +27,8 @@ zh:
   label_icm_incident_request_contact_email_number: 业务用户联系方式
 
   label_icm_incident_request_incident_people_date: 人天(0.5天为单位)
-  label_icm_incident_request_expect_date: 预估人天
-  label_icm_incident_request_actual_date: 实际人天
+  label_icm_incident_request_expect_date: 预估人天(天)
+  incident_request_customer_comfirm_date: 客户确认人天(天)
 
   label_irm_external_system_organization_no: 公司编号
   label_irm_external_system_customer_no: 关键联系人编号

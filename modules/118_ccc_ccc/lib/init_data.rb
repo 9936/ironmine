@@ -1,5 +1,42 @@
 #-*- coding: utf-8 -*-
 Fwk::MenuAndFunctionManager.map do |map|
+  map.menu :system_incident_setting, {
+       :en => {:name => "Incident Setting", :description => "Incident Setting"},
+       :zh => {:name => "事故单设置", :description => "事故单设置"},
+       :children => {
+           :system_incident_status_control => {
+               :type => "function",
+               :entry => {
+                   :sequence => 150,
+                   :en => {:name => "Status Control", :description => "Status Control"},
+                   :zh => {:name => "状态控制", :description => "状态控制"},
+               }
+           },
+       }
+   }
+
+  map.function_group :system_incident_status_control, {
+      :en => {:name => "Status Control", :description => "Status Control"},
+      :zh => {:name => "状态控制", :description => "状态控制"},
+      # :system_flag => 'Y'
+  }
+  map.function_group :system_incident_status_control, {
+      :zone_code => "INCIDENT_SETTING",
+      :controller => "ccc/statusCons",
+      :action => "index"
+  }
+  map.function_group :system_incident_status_control, {
+      :children => {
+          :system_incident_status_control => {
+              :en => {:name => "Status Control", :description => "Status Control"},
+              :zh => {:name => "状态控制", :description => "状态控制"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "ccc/statusCons" => ["index","new","create","edit","update","get_data"]
+          }
+      }
+  }
   map.menu :external_system_management, {
                                           :en => {:name => "External System", :description => "External System"},
                                           :zh => {:name => "应用系统", :description => "应用系统"},

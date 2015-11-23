@@ -1,5 +1,12 @@
 Ironmine::Application.routes.draw do
   scope :module => "ccc" do
+    match '/statusCons(/index)(.:format)' => "statusCons#index", :via => :get
+    match '/statusCons/new(.:format)' => "statusCons#new", :via => :get
+    match '/statusCons/create(.:format)' => "statusCons#create", :via => :post
+    match '/statusCons/:id/edit(.:format)' => "statusCons#edit", :via => :get
+    match '/statusCons/:id(.:format)' => "statusCons#update", :via => :put
+    match '/statusCons/get_data(.:format)' => "statusCons#get_data"
+
     match '/projectTypes(/index)(.:format)' => "projectTypes#index", :via => :get
     match '/projectTypes/get_data(.:format)' => "projectTypes#get_data"
     match '/projectTypes/:id/edit(.:format)' => "projectTypes#edit", :via => :get

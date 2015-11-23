@@ -12,7 +12,6 @@ class Ccc::ConnTypesController < ApplicationController
   end
 
   def show
-
     @connType = Ccc::ConnType.multilingual.find(params[:id])
 
     respond_to do |format|
