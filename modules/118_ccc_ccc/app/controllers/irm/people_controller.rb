@@ -13,6 +13,7 @@ class Irm::PeopleController < ApplicationController
 
   def show
     @person = Irm::Person.list_all.find(params[:id])
+    @user_license = @person.profile.user_license
     @support_group_count = Irm::GroupMember.where(:person_id=>@person.id).size
     respond_to do |format|
       format.json {render :json=>@person}
@@ -34,6 +35,7 @@ class Irm::PeopleController < ApplicationController
   # GET /people/1/edit
   def edit
     @person = Irm::Person.list_all.find(params[:id])
+    @user_license = @person.profile.user_license
     @step = params[:next_action] if params[:next_action]
   end
 
@@ -134,12 +136,16 @@ class Irm::PeopleController < ApplicationController
   end
 
   def get_lov_data
-    @people= Irm::Person.not_anonymous.list_all.order(:id)
-    @people = @people.match_value("#{Irm::Person.table_name}.people_no",params[:people_no])
+    profile_ids = []
+    Irm::Profile.where("user_license = ?","SUPPORTER").each do |p|
+      profile_ids << p.id
+    end
+    @people= Irm::Person.where(profile_id: profile_ids).where("consultant_no <> ''").not_anonymous.list_all.order(:id)
+    @people = @people.match_value("#{Irm::Person.table_name}.consultant_no",params[:consultant_no])
 
     @people,count = paginate(@people)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:people_no], count))}
+      format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:consultant_no], count))}
       format.html {
         @count = count
         @datas = @people

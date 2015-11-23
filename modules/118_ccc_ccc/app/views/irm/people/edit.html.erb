@@ -1,1 +1,5 @@
-<%= render 'edit_form'%>
+<% if @user_license.eql?("REQUESTER")%>
+    <%= render 'edit_customer_form'%>
+<% else %>
+    <%= render 'edit_consultant_form'%>
+<% end %>

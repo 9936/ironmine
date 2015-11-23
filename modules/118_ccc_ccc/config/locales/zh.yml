@@ -1,5 +1,7 @@
 zh:
 
+  label_irm_person_update: 用户编辑
+
   label_icm_incident_request_incident_parent_status: 当前状态
   label_icm_incident_request_incident_children_status: 下一级可选状态
   label_icm_incident_request_incident_profile_type: 用户类型

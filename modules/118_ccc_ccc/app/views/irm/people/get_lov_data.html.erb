@@ -1,8 +1,8 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
     <% builder.column(:id,{:title=>t(:operation), :width => "130px"}) do |data|%>
-        <a onclick="fillInput(this)" style="cursor: pointer;text-decoration: none;" id="<%=data[:id]%>" name="<%=data[:people_no]%>">选择</a>
+        <a onclick="fillInput(this)" style="cursor: pointer;text-decoration: none;" id="<%=data[:id]%>" name="<%=data[:consultant_no]%>">选择</a>
     <% end %>
-    <% builder.column(:people_no,{:title=>t(:label_irm_person_parent_no),:searchable=>true})%>
+    <% builder.column(:consultant_no,{:title=>t(:label_irm_person_parent_no),:searchable=>true})%>
     <% builder.column(:login_name,{:title=>t(:label_irm_person_login), :width => "15%"})%>
 <% end %>
 <script>
