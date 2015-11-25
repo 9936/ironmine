@@ -587,10 +587,6 @@ class Icm::IncidentJournalsController < ApplicationController
       ovalue = old_value.send(key)
       nvalue = new_value.send(key)
 
-      puts "1111111111111111"
-      puts ovalue
-      puts nvalue
-      puts sla_instance_id
       if !ovalue.eql?(nvalue)
         if (ovalue.eql?("000K000A0g8zPKXoIwOIhk") && nvalue.eql?("000K000C2hrdz1TO8kREaO")) || (ovalue.eql?("000K000A0g9LO0pOKPsZ1s") && nvalue.eql?("000K000A0g8dQeGEHYvu9g"))
           sla_instance = Slm::SlaInstance.find(sla_instance_id)

@@ -1,0 +1,9 @@
+$(function(){
+    <% if flash[:error].present? %>
+    alert("<%= flash[:error]%>");
+    <%end %>
+    <% if @incident_request %>
+    $("#<%= @dom_id%>").html('<%= escape_javascript(render :partial =>"/icm/incident_requests/entry_header_relation_list",
+    :locals => {:incident_request => @incident_request,:dom_id=>@dom_id, :sid => @incident_request.external_system_id})%>');
+    <% end %>
+});

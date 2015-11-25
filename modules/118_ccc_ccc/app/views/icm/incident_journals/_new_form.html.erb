@@ -717,12 +717,14 @@
 <% end %>
 
 <% content_for :sidebar do %>
-    <div id="organization_login_mess">
-      <%= render :partial =>"/irm/organizations/organization_login_mess" %>
-    </div>
-    <div id="external_system_mess">
-      <%= render :partial =>"/irm/external_systems/external_system_mess" %>
-    </div>
+    <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
+        <div id="organization_login_mess">
+          <%= render :partial =>"/irm/organizations/organization_login_mess" %>
+        </div>
+        <div id="external_system_mess">
+          <%= render :partial =>"/irm/external_systems/external_system_mess" %>
+        </div>
+    <%end%>
     <div id="request_watcher_list">
     <%= render :partial =>"/irm/watchers/sidebar_watcher_list",
                :locals => {:watchable => @incident_request,
@@ -737,12 +739,14 @@
                              :dom_id=>"relation_list",
                              :sid => @incident_request.external_system_id} %>
     </div>
-    <div id="entry_header_relation_list">
-      <%= render :partial =>"/icm/incident_requests/entry_header_relation_list",
-                 :locals => {:incident_request => @incident_request,
-                             :dom_id=>"relation_list",
-                             :sid => @incident_request.external_system_id} %>
-    </div>
+    <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
+        <div id="entry_header_relation_list">
+          <%= render :partial =>"/icm/incident_requests/entry_header_relation_list",
+                     :locals => {:incident_request => @incident_request,
+                                 :dom_id=>"entry_header_relation_list",
+                                 :sid => @incident_request.external_system_id} %>
+        </div>
+    <%end%>
 <% end %>
 
 

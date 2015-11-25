@@ -1,55 +1,28 @@
-<%= form_tag({:controller => "icm/incident_requests", :action => "add_relation", :sid=>sid, :source_id => incident_request.id,:_dom_id=>dom_id}, :remote => true) do |f| %>
+<%= form_tag({:controller => "icm/incident_requests", :action => "add_entry_header_relation", :sid=>sid, :source_id => incident_request.id,:_dom_id=>dom_id}, :remote => true) do |f| %>
     <div class="sidebar-block">
       <div class="sidebar-block-header"><h2>
-        <%= t :label_icm_incident_request_relation %>
+        <%= t :label_icm_incident_request_entry_header_relation %>
       </h2></div>
       <div class="sidebar-block-body">
         <div class="form-inline">
           <table width="100%">
             <% if can_relation?(incident_request) %>
-                <tbody id="new_relation_form">
+                <tbody id="new_entry_header_relation_form">
                 <tr>
                   <td>
-                    <div id="relation_select" class="form-inline">
-                      <%= lov_field_tag "icm_relation", Icm::IncidentRequest, :style => "width:130px;" %>
-                    </div>
-                  </td>
-                </tr>
-                <!-- 关联的类别 -->
-                <tr>
-                  <td>
-                    <div class="form-inline" style="width: 100%;">
-                      <%= link_to t(:new), {:controller=>"icm/incident_requests",:action => "new",:source_id =>incident_request.id },
-                                  {:id=>"newRelation",:class=>"btn btn-primary",:style=>"display:none;"}%>
-                      <label><%= t(:label_icm_incident_request_relation_type) %></label>
-                      <%= lookup_field_tag(:relation_type,"ICM_INCIDENT_REQUEST_REL_TYPE",nil,{:style=>"width:80px;display:inline-block;height:22px;"}) %>
-                      <%= link_submit t(:add),{:id => "addRelationBtn",:class=>"btn btn-primary"}%>
+                    <div id="entry_header_relation_select" class="form-inline">
+                      <%= lov_field_tag "icm_entry_header_relation", Skm::EntryHeader, :style => "width:90px;" %>
+                      <%= link_submit t(:add),{:id => "addEntryHeaderRelationBtn",:class=>"btn btn-primary"}%>
                     </div>
                   </td>
                 </tr>
                 </tbody>
             <% end %>
-            <tbody>
-            <%= list_all_icm_incident_relations(incident_request.id, incident_request,sid)%>
+            <tbody id="entry_header_relation">
+            <%= list_ir_existed_entry_headers(incident_request)%>
             </tbody>
           </table>
         </div>
       </div>
     </div>
 <% end %>
-<script type="text/javascript">
-    $(function(){
-        $("#addRelationBtn").click(function(){
-            //检查是否直接跳转
-            if($("#icm_relation").val().length > 0) {
-                return true;
-            }else{
-                var url = $("#newRelation").attr("href");
-                url += "&relation_type="+$("#relation_type").val();
-                window.location = url;
-                return false;
-            }
-
-        })
-    })
-</script>

@@ -112,6 +112,8 @@ Ironmine::Application.routes.draw do
 
  scope :module => "icm" do
    match '/incident_requests/:request_id/:sid/journals/update_people_date(.:format)' => "incident_journals#update_people_date", :via => :put
+   match '/incident_requests/:source_id/:sid/add_entry_header_relation(.:format)' => "incident_requests#add_entry_header_relation", :via => :post
+   match '/incident_requests/:source_id/:target_id/remove_entry_header_relation(.:format)' => "incident_requests#remove_entry_header_relation"
 
    match '/incident_requests/:id/cancel_request(.:format)' => "incident_requests#cancel_request"
    match '/incident_requests/:id/enable_request(.:format)' => "incident_requests#enable_request"

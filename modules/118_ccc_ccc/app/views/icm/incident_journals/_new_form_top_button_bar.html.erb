@@ -10,11 +10,6 @@
               <% if can_pass?(@incident_request)  %>
                   <%= link_to t(:pass), {:action => "edit_pass", :sid => @incident_request.external_system_id},{:class=>"btn"} %>
               <% end %>
-              <% if can_edit_status?(@incident_request) %>
-                  <%= link_to t(:label_icm_incident_request_incident_status),
-                              {:action => "edit_status", :sid => @incident_request.external_system_id},
-                              {:class=>"btn"}  %>
-              <% end %>
               <% if false && current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
                   <%= link_to t(:label_icm_incident_request_upgrade),
                               {:action => "edit_upgrade", :sid => @incident_request.external_system_id},

@@ -1,6 +1,6 @@
-class CreateIcmIncidentRequesEntryHeaderRelations < ActiveRecord::Migration
+class CreateCccIncidentRequestEntryHeaderRelations < ActiveRecord::Migration
   def change
-    create_table :icm_incident_request_entry_header_relations do |t|
+    create_table :ccc_incident_request_entry_header_relations do |t|
       t.string "opu_id", :limit => 22, :null => false
       t.string "source_id", :limit => 22, :null => false
       t.string "target_id", :limit => 22, :null => false

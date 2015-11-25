@@ -346,6 +346,44 @@ module Ccc::IncidentRequestsControllerEx
         end
       end
 
+      def add_entry_header_relation
+
+        @incident_request = Icm::IncidentRequest.find(params[:source_id])
+
+        source_id = params[:source_id]
+        target_id = params[:icm_entry_header_relation]
+        existed_relation = Ccc::IncidentRequestEntryHeaderRelation.where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", source_id, target_id, target_id, source_id)
+        if existed_relation.any?
+          flash[:error] = t(:label_icm_incident_request_relation_error_exists)
+        elsif !target_id.present?
+          flash[:error] = t(:label_icm_incident_request_relation_error_no_target)
+        else
+          Ccc::IncidentRequestEntryHeaderRelation.create(:source_id => source_id, :target_id => target_id)
+          # Icm::IncidentHistory.create({:request_id => source_id,
+          #                              :journal_id => "",
+          #                              :property_key => "add_relation",
+          #                              :old_value => relation_type,
+          #                              :new_value => target_id})
+        end
+
+        @dom_id = params[:_dom_id]
+
+        respond_to do |format|
+          format.js { render :add_entry_header_relation }
+        end
+      end
+
+      def remove_entry_header_relation
+        @incidentRequestEntryHeaderRelation = Ccc::IncidentRequestEntryHeaderRelation.where("source_id = ? AND target_id = ?",params[:source_id],params[:target_id]).first
+
+        @incident_request = Icm::IncidentRequest.find(params[:source_id])
+        respond_to do |format|
+          if @incidentRequestEntryHeaderRelation.destroy
+            format.js { render :remove_entry_header_relation }
+          end
+        end
+      end
+
       private
 
       def validate_files(ref_request)
