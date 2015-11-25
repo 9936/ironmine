@@ -4,7 +4,7 @@ class Icm::IncidentJournalsController < ApplicationController
   before_filter :backup_incident_request ,:only=>[:create,:update_close,:update_permanent_close,:update_reopen,:update_pass,:update_status,:update_upgrade, :update_workload]
 
   def index
-   redirect_to :action=>"new"
+    redirect_to :action=>"new"
   end
 
   # GET /incident_journals/new
@@ -127,7 +127,7 @@ class Icm::IncidentJournalsController < ApplicationController
     respond_to do |format|
       unless incident_request_bak.close?
         if @incident_journal.valid?&&@incident_request.save
-          process_change_attributes([:incident_status_id],@incident_request,@incident_request_bak,@incident_journal,sla_instance_id)
+          process_change_attributes1([:incident_status_id],@incident_request,@incident_request_bak,@incident_journal,sla_instance_id)
           process_files(@incident_journal)
           @incident_journal.create_elapse
           format.html { redirect_to({:action => "new"}) }
@@ -350,43 +350,43 @@ class Icm::IncidentJournalsController < ApplicationController
 
   # 自动升级
   def direct_upgrade
-      @incident_journal = @incident_request.incident_journals.build(:message_body=>"Upgrade")
+    @incident_journal = @incident_request.incident_journals.build(:message_body=>"Upgrade")
 
-      current_support_group_id = Icm::SupportGroup.find(@incident_request.support_group_id).parent_group_id
+    current_support_group_id = Icm::SupportGroup.find(@incident_request.support_group_id).parent_group_id
 
-      perform_create(true)
-      respond_to do |format|
-        if current_support_group_id.present?&&@incident_journal.valid?&&@incident_request.support_group_id
-          @incident_journal.reply_type = "UPGRADE"
-          @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
+    perform_create(true)
+    respond_to do |format|
+      if current_support_group_id.present?&&@incident_journal.valid?&&@incident_request.support_group_id
+        @incident_journal.reply_type = "UPGRADE"
+        @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
 
-          # 设置升级组
-          @incident_request.upgrade_person_id = @incident_request.support_person_id
-          @incident_request.upgrade_group_id = @incident_request.upgrade_group_id
+        # 设置升级组
+        @incident_request.upgrade_person_id = @incident_request.support_person_id
+        @incident_request.upgrade_group_id = @incident_request.upgrade_group_id
 
-          # 设置支持组
-          @incident_request.support_person_id = current_support_group_id
+        # 设置支持组
+        @incident_request.support_person_id = current_support_group_id
 
-          support_person_id = @incident_request.support_person_id
-          support_person_id = Icm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
+        support_person_id = @incident_request.support_person_id
+        support_person_id = Icm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
 
-          @incident_request.support_person_id = support_person_id
+        @incident_request.support_person_id = support_person_id
 
 
-          @incident_request.save
+        @incident_request.save
 
-          process_change_attributes([:incident_status_id,:support_group_id,:support_person_id,
-                                     :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
-          process_files(@incident_journal)
-          @incident_journal.create_elapse
+        process_change_attributes([:incident_status_id,:support_group_id,:support_person_id,
+                                   :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
+        process_files(@incident_journal)
+        @incident_journal.create_elapse
 
-          format.html { redirect_to({:action => "new"}) }
-          format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
-        else
-          format.html { render :action => "new" }
-          format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
-        end
+        format.html { redirect_to({:action => "new"}) }
+        format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       end
+    end
 
   end
 
@@ -396,7 +396,7 @@ class Icm::IncidentJournalsController < ApplicationController
 #    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
 #    entry_headers,count = paginate(entry_headers_scope)
 
-    #全文检索
+#全文检索
     if params[:entry_title].present?
       @skm_data = Sunspot.search Skm::EntryHeader do
         keywords params[:entry_title]
@@ -467,16 +467,16 @@ class Icm::IncidentJournalsController < ApplicationController
       if @incident_journal.update_attributes(params[:icm_incident_journal])
 
         hi = Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
-                                     :journal_id=> @incident_journal.id,
-                                     :property_key=> "update_journal",
-                                     :old_value=> source_message_body,
-                                     :new_value=> @incident_journal.message_body})
+                                          :journal_id=> @incident_journal.id,
+                                          :property_key=> "update_journal",
+                                          :old_value=> source_message_body,
+                                          :new_value=> @incident_journal.message_body})
 
         Icm::JournalHistory.create({:incident_history_id => hi.id,
-                                 :incident_journal_id => @incident_journal.id,
-                                 :message_body => source_message_body,
-                                 :source_updated_by => source_updated_by,
-                                 :source_updated_at => source_updated_at})
+                                    :incident_journal_id => @incident_journal.id,
+                                    :message_body => source_message_body,
+                                    :source_updated_by => source_updated_by,
+                                    :source_updated_at => source_updated_at})
 
         format.html { redirect_to({:action => "new"}) }
       else
@@ -491,10 +491,10 @@ class Icm::IncidentJournalsController < ApplicationController
     incident_journal.status_code = 'OFFLINE'
     if incident_journal.update_attributes({:status_code => "OFFLINE"})
       Icm::IncidentHistory.create({:request_id => incident_journal.incident_request_id,
-                                 :journal_id=> incident_journal.id,
-                                 :property_key=> "remove_journal",
-                                 :old_value=> incident_journal.journal_number || incident_journal.id,
-                                 :new_value=> ""})
+                                   :journal_id=> incident_journal.id,
+                                   :property_key=> "remove_journal",
+                                   :old_value=> incident_journal.journal_number || incident_journal.id,
+                                   :new_value=> ""})
     end
     @incident_request = incident_journal.incident_request
   end
@@ -505,10 +505,10 @@ class Icm::IncidentJournalsController < ApplicationController
 
     if incident_journal.save
       Icm::IncidentHistory.create({:request_id => incident_journal.incident_request_id,
-                                 :journal_id=> incident_journal.id,
-                                 :property_key=> "recover_journal",
-                                 :old_value=> "",
-                                 :new_value=> incident_journal.journal_number || incident_journal.id})
+                                   :journal_id=> incident_journal.id,
+                                   :property_key=> "recover_journal",
+                                   :old_value=> "",
+                                   :new_value=> incident_journal.journal_number || incident_journal.id})
     end
     @incident_request = incident_journal.incident_request
   end
@@ -553,7 +553,7 @@ class Icm::IncidentJournalsController < ApplicationController
   end
 
   def backup_incident_request
-    @incident_request_bak = @incident_request.dup  
+    @incident_request_bak = @incident_request.dup
   end
 
   def perform_create(pass=false)
@@ -582,13 +582,17 @@ class Icm::IncidentJournalsController < ApplicationController
     end
   end
 
-  def process_change_attributes(attributes,new_value,old_value,ref_journal,sla_instance_id)
+  def process_change_attributes1(attributes,new_value,old_value,ref_journal,sla_instance_id)
     attributes.each do |key|
       ovalue = old_value.send(key)
       nvalue = new_value.send(key)
 
+      puts "1111111111111111"
+      puts ovalue
+      puts nvalue
+      puts sla_instance_id
       if !ovalue.eql?(nvalue)
-        if (old_value.eql?("000K000A0g8zPKXoIwOIhk") && new_value.eql?("000K000C2hrdz1TO8kREaO")) || (old_value.eql?("000K000A0g9LO0pOKPsZ1s") && new_value.eql?("000K000A0g8dQeGEHYvu9g"))
+        if (ovalue.eql?("000K000A0g8zPKXoIwOIhk") && nvalue.eql?("000K000C2hrdz1TO8kREaO")) || (ovalue.eql?("000K000A0g9LO0pOKPsZ1s") && nvalue.eql?("000K000A0g8dQeGEHYvu9g"))
           sla_instance = Slm::SlaInstance.find(sla_instance_id)
           if sla_instance
             updateData = {:current_duration => 0,
@@ -611,9 +615,9 @@ class Icm::IncidentJournalsController < ApplicationController
     @files = []
     params[:files].each do |key,value|
       file = Irm::AttachmentVersion.create({:source_id=>ref_journal.id,
-                                               :source_type=>ref_journal.class.name,
-                                               :data=>value[:file],
-                                               :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
+                                            :source_type=>ref_journal.class.name,
+                                            :data=>value[:file],
+                                            :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
       if file
         Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,
                                      :journal_id=> ref_journal.id,
