@@ -1,4 +1,36 @@
 zh:
+  label_skm_entry_header_column: 知识库分类
+  label_skm_entry_header_status: 知识库状态
+
+#  1
+  label_customer_no: 客户编号
+  label_customer_name: 客户名
+  label_project_name: 项目名称
+  label_service_list_status: 服务单状态
+  label_commit_question_time: 提交问题时间
+#  label_question_solver: 问题处理者
+#  label_question_joiner: 问题参与者
+  label_my_team: 我的团队
+  label_for_my_only: 只选择自己
+  label_for_SLA_time_out: 只选择SLA超时
+#  2
+#  label_customer_no: 客户编号
+#  label_project_name: 项目名称
+#  label_service_list_status: 服务单状态
+#  label_commit_question_time: 提交问题时间
+#  3
+  label_question_solver: 问题处理者
+  label_question_joiner: 问题参与者
+# 4
+  label_small_team: 小组
+  label_module: 模块
+  label_for_small_team: 按小组统计
+  label_for_module: 按模块统计
+  label_total_period: 统计周期
+# 5
+#  label_customer_name: 客户名
+#  label_total_period: 统计周期
+
 
   label_irm_person_update: 用户编辑
 

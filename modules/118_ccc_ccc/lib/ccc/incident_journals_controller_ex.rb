@@ -98,13 +98,16 @@ module Ccc::IncidentJournalsControllerEx
                 end
               end
             end
-
-            # 此处评论创建成功
-            sla_instance = Slm::SlaInstance.find(sla_instance_id)
-            updateData = {:current_duration => 0,
-                          :start_at => Time.now,
-                          :last_phase_start_date => Time.now}
-            sla_instance.update_attributes(updateData)
+            if (Irm::Person.find(@incident_journal.replied_by).profile.user_license.eql?("SUPPORTER"))
+              # 此处评论创建成功
+              sla_instance = Slm::SlaInstance.find(sla_instance_id)
+              if sla_instance
+                updateData = {:current_duration => 0,
+                              :start_at => Time.now,
+                              :last_phase_start_date => Time.now}
+                sla_instance.update_attributes(updateData)
+              end
+            end
 
             format.html { redirect_to({:action => "new"}) }
             format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }

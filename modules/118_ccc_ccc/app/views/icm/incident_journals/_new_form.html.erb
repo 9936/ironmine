@@ -127,6 +127,7 @@
         <label for="label_icm_incident_request_status_code"><%=t(:label_icm_incident_request_incident_status)%></label>
         <%= fields_for @incident_request.incident_journals.build(), :as=>"incident_journal",:builder =>CustomFormBuilder,:normal=>true do |sub_f|%>
             <%= sub_f.hidden_field(:incident_request_id) %>
+            <%= sub_f.hidden_field(:sla_instance_id) %>
         <% end%>
         <%=f.blank_select :incident_status_id, available_request_status_children_code(@incident_request[:external_system_id], @incident_request[:incident_status_id], Irm::Person.current.profile_id), {},{:id=>"incident_request_incident_status_code", :required => true}%>
         <%= link_submit(t(:update), :class=>"btn btn-primary",:id=>"updateStatusFormSubmit") %>
@@ -732,6 +733,12 @@
     <%= render :partial =>"/icm/incident_requests/sidebar_attachment_list", :sid => @incident_request.external_system_id %>
     <div id="relation_list">
       <%= render :partial =>"/icm/incident_requests/sidebar_relation_list",
+                 :locals => {:incident_request => @incident_request,
+                             :dom_id=>"relation_list",
+                             :sid => @incident_request.external_system_id} %>
+    </div>
+    <div id="entry_header_relation_list">
+      <%= render :partial =>"/icm/incident_requests/entry_header_relation_list",
                  :locals => {:incident_request => @incident_request,
                              :dom_id=>"relation_list",
                              :sid => @incident_request.external_system_id} %>

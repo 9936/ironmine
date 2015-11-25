@@ -113,6 +113,10 @@ class Icm::IncidentJournalsController < ApplicationController
 
 
   def update_status
+
+    sla_instance_id = params[:icm_incident_journal][:sla_instance_id]
+    params[:icm_incident_journal].delete(:sla_instance_id)
+
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
 
     @incident_request.attributes = params[:icm_incident_request]
@@ -123,7 +127,7 @@ class Icm::IncidentJournalsController < ApplicationController
     respond_to do |format|
       unless incident_request_bak.close?
         if @incident_journal.valid?&&@incident_request.save
-          process_change_attributes([:incident_status_id],@incident_request,@incident_request_bak,@incident_journal)
+          process_change_attributes([:incident_status_id],@incident_request,@incident_request_bak,@incident_journal,sla_instance_id)
           process_files(@incident_journal)
           @incident_journal.create_elapse
           format.html { redirect_to({:action => "new"}) }
@@ -570,6 +574,31 @@ class Icm::IncidentJournalsController < ApplicationController
     attributes.each do |key|
       ovalue = old_value.send(key)
       nvalue = new_value.send(key)
+      Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,
+                                   :journal_id=>ref_journal.id,
+                                   :property_key=>key.to_s,
+                                   :old_value=>ovalue,
+                                   :new_value=>nvalue}) if !ovalue.eql?(nvalue)
+    end
+  end
+
+  def process_change_attributes(attributes,new_value,old_value,ref_journal,sla_instance_id)
+    attributes.each do |key|
+      ovalue = old_value.send(key)
+      nvalue = new_value.send(key)
+
+      if !ovalue.eql?(nvalue)
+        if (old_value.eql?("000K000A0g8zPKXoIwOIhk") && new_value.eql?("000K000C2hrdz1TO8kREaO")) || (old_value.eql?("000K000A0g9LO0pOKPsZ1s") && new_value.eql?("000K000A0g8dQeGEHYvu9g"))
+          sla_instance = Slm::SlaInstance.find(sla_instance_id)
+          if sla_instance
+            updateData = {:current_duration => 0,
+                          :start_at => Time.now,
+                          :last_phase_start_date => Time.now}
+            sla_instance.update_attributes(updateData)
+          end
+        end
+      end
+
       Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,
                                    :journal_id=>ref_journal.id,
                                    :property_key=>key.to_s,
