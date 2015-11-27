@@ -32,14 +32,6 @@
                         <td class="data-2col"><%= f.text_field :keyword_tags, :size => 80%></td>
                       </tr>
                       <tr>
-                        <td class="label-col"><label><%=(t :label_skm_entry_header_column)%></label></td>
-                        <td class="data-2col"><%= f.blank_select :type_code, available_skm_columns, {} %></td>
-                      </tr>
-                      <tr>
-                        <td class="label-col"><label><%=(t :label_skm_entry_header_status)%></label></td>
-                        <td class="data-2col"><%= f.blank_select :status_code, available_skm_statuses, {} %></td>
-                      </tr>
-                      <tr>
                         <td class="label-col"><label><%=(t :label_skm_channel)%></label></td>
                         <td class="data-2col"><%= f.lov_field :channel_id, Skm::Channel, {:required => true}%></td>
                       </tr>
@@ -145,6 +137,39 @@
         <% end %>
         <!-- 加载上传附件模板 -->
         <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => true } %>
+
+        <!-- 添加相关事故单 -->
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title">添加事故单</h3>
+        </div>
+        <div class="sub-page-block-body">
+          <table width="100%" class="detail-list">
+            <tbody>
+                <tr>
+                  <%= hidden_field_tag "skm_entry_header[add_request_ids]",""%>
+                </tr>
+                <tr>
+                  <td>
+                  </td>
+                  <td class="data-col">
+                    <div class="form-inline">
+                      <%= lov_field_tag "icm_relation", Icm::IncidentRequest, :style => "width:130px;" %>
+                      <a href="javascript:void(0);" onclick="add_request()" class="btn btn-primary">
+                        <span><%= t(:add) %></span>
+                      </a>
+                    </div>
+                  </td>
+                  <td class="label-col">
+                  </td>
+                  <td class="data-col">
+                  </td>
+                </tr>
+            </tbody>
+            <tbody id="request_list">
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </div>
 
@@ -160,6 +185,38 @@
 <% end %>
 
 <script type="text/javascript">
+    function add_request(){
+//      事故单编号
+        var request_no = $("#icm_relation_label").val()
+//      事故单id
+        var request_id = $("#icm_relation").val()
+        if(request_no =="" || request_no == null)
+            alert("<%= t(:label_add_request_error) %>")
+        else if($("#request_list").html().indexOf(request_id) != -1)
+            alert("<%= t(:label_add_request_exist_error) %>")
+        else{
+            var html =
+                    "<tr><td>"+
+                    "</td>" +
+                    "<td class='data-col' id='"+request_id+"'>"
+
+            html += "<a style='margin-right:5px' onclick='delete_request(this)'><%= t(:delete) %></a>"+
+                    "<%= t(:label_icm_incident_request_number) %>:"+request_no
+
+            html += "</td>"+
+                    "<td class='label-col'>"+
+                    "</td>" +
+                    "<td class='data-col'>"+
+                    "</td></tr>"
+            $("#request_list").html($("#request_list").html()+html)
+            $("#skm_entry_header_add_request_ids").val($("#skm_entry_header_add_request_ids").val()+request_id+",")
+        }
+    }
+    function delete_request(arg){
+        //首先将DOM转化成jQuery对象
+        $("#skm_entry_header_add_request_ids").val($("#skm_entry_header_add_request_ids").val().replace($(arg).parent().attr("id")+",",""))
+        $(arg).parent().parent().empty()
+    }
     function submit_draft(){
         document.edit_form.action = "<%=url_for(:action=>"create_from_icm_request",:status=>"DRAFT")%>";
     }

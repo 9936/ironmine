@@ -287,6 +287,7 @@
               <% if @external_system.strict_workload.eql?('Y') %>
               <div>
                 <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_journal_edit_workload)%></label>
+                <%= select_tag :workload_type,options_for_select(available_icm_workload_type, 'REMOTE') %>
                 <%= text_field_tag :workload, nil, :style => "width:80px;", :irm_number_only => true%>
               </div>
               <% end %>
@@ -624,7 +625,7 @@
       </div>
     </div>
 <% end %>
-<% if self.respond_to?(:display_service_agreements)%>
+<% if self.respond_to?(:display_service_agreements) && allow_to_function?(:view_service_agreement, @incident_request.external_system_id) %>
     <%= display_service_agreements(@incident_request.id,@incident_request.class.name,@incident_request.external_system_id) %>
 <% end %>
 

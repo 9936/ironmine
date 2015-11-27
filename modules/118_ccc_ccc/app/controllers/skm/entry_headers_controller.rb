@@ -1121,6 +1121,21 @@ class Skm::EntryHeadersController < ApplicationController
     incident_request = Icm::IncidentRequest.find(@entry_header.source_id)
     respond_to do |format|
       if @entry_header.save
+        # 知识库关联事故单
+        add_request_ids = "#{params[:skm_entry_header][:add_request_ids]}#{incident_request.id}".split(",")
+        source_id = @entry_header.id
+        add_request_ids.each do |t|
+          target_id = incident_request.id
+          existed_relation = Ccc::IncidentRequestEntryHeaderRelation.where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", source_id, target_id, target_id, source_id)
+          if existed_relation.any?
+            flash[:error] = t(:label_icm_incident_request_relation_error_exists)
+          elsif !target_id.present?
+            flash[:error] = t(:label_icm_incident_request_relation_error_no_target)
+          else
+            Ccc::IncidentRequestEntryHeaderRelation.create(:source_id => source_id, :target_id => target_id)
+          end
+        end
+
         incident_request.process_knowledge(@entry_header.id)
 #        column_ids.each do |c|
 #          Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => c)

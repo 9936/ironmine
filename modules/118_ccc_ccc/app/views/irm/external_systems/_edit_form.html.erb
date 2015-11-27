@@ -37,6 +37,24 @@
             <td class="data-col"><%= f.date_field(:after_date,:size=>12,:class=>"date", :id=>"organization_after_date")%></td>
           </tr>
           <tr>
+            <td class="label-col empty">Hotline</td>
+            <td class="data-col">
+              <%= f.radio_button :hotline_flag, Irm::Constant::SYS_YES%>
+              <label for="hotline_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <%= f.radio_button :hotline_flag, Irm::Constant::SYS_NO%>
+              <label for="hotline_n">N</label>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col empty">Strict Workload</td>
+            <td class="data-col">
+              <%= f.radio_button :strict_workload, Irm::Constant::SYS_YES%>
+              <label for="strict_workload_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <%= f.radio_button :strict_workload, Irm::Constant::SYS_NO%>
+              <label for="strict_workload_n">N</label>
+            </td>
+          </tr>
+          <tr>
             <td class="label-col"><label for="external_system_system_description"><%=t(:label_irm_external_system_system_description)%></label></td>
             <td class="data-col"><%= f.text_area :system_description, :rows => 4,:id=>"external_system_system_description",:class=>"input-xlarge" %></td>
           </tr>
@@ -127,11 +145,11 @@
             <%= content_for :form_people_day   %>
           </div>
 
-          <div class="sub-page-block-header">
+          <div class="sub-page-block-header" style="display:none">
             <%= form_require_info %>
             <h3 class="sub-page-block-title"><%=t(:label_SLA_mess_info)%></h3>
           </div>
-          <div class="sub-page-block-body">
+          <div class="sub-page-block-body" style="display:none">
             <%= content_for :form_SLA_mess   %>
           </div>
 

@@ -1,5 +1,7 @@
 zh:
   label_icm_incident_request_entry_header_relation: 相关知识库
+  label_add_request_error: 请先填写事故单
+  label_add_request_exist_error: 事故单已添加
 
   label_skm_entry_header_column: 知识库分类
   label_skm_entry_header_status: 知识库状态

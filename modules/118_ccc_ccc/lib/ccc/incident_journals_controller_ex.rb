@@ -100,7 +100,8 @@ module Ccc::IncidentJournalsControllerEx
             end
             if (Irm::Person.find(@incident_journal.replied_by).profile.user_license.eql?("SUPPORTER"))
               # 此处评论创建成功
-              sla_instance = Slm::SlaInstance.find(sla_instance_id)
+              puts sla_instance_id
+              sla_instance = Slm::SlaInstance.where("id = ?",sla_instance_id).first
               if sla_instance
                 updateData = {:current_duration => 0,
                               :start_at => Time.now,
