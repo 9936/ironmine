@@ -34,8 +34,8 @@
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_role)%></label></td>
             <td class="data-col"><%=f.blank_select :role_id,available_roles,{},{:id=>"role_id"}%></td>
-            <td class="label-col"><label><%=(t :label_irm_person_type)%></label></td>
-            <td class="data-col"><%=f.blank_select :consultant_type_id,available_consultant_types,{},{:id=>"consultant_type_id"}%></td>
+            <td class="label-col"><label><%=(t :label_irm_person_sex)%></label></td>
+            <td class="data-col"><%=f.blank_select :sex_id,available_sexes,{},{:id=>"sex_id"}%></td>
           </tr>
           <tr>
             <td class="label-col"><label><%= t(:label_irm_identity_language_code) %></label></td>
@@ -44,26 +44,24 @@
             <td class="data-col"><%=f.text_field :mobile_phone, {:irm_number_only => true}%></td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=(t :label_irm_person_sex)%></label></td>
-            <td class="data-col"><%=f.blank_select :sex_id,available_sexes,{},{:id=>"sex_id"}%></td>
+            <td class="label-col"><label><%=(t :label_irm_person_consultant_status)%></label></td>
+            <td class="data-col"><%=f.blank_select :consultant_status_id,available_consultant_statuses,{},{:id=>"consultant_status_id"}%></td>
             <td class="label-col"><label><%=t(:label_irm_person_fax_number)%></label></td>
             <td class="data-col"><%=f.text_field :fax_number, {:irm_number_and_cross => true}%></td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=(t :label_irm_person_consultant_status)%></label></td>
-            <td class="data-col"><%=f.blank_select :consultant_status_id,available_consultant_statuses,{},{:id=>"consultant_status_id"}%></td>
+            <td class="label-col"><label for="parent_no"><%=t(:label_irm_person_parent_no)%></label></td>
+            <td class="data-col"><%=f.lov_field :parent_no,Irm::Person,{:id=>"parent_no",:class=>"input-medium"}%></td>
             <td class="label-col"><label><%=(t :label_irm_person_consultant_level)%></label></td>
             <td class="data-col"><%=f.blank_select :consultant_level_id,available_consultant_levels,{},{:id=>"consultant_level_id"}%></td>
           </tr>
           <tr>
-            <td class="label-col"><label for="parent_no"><%=t(:label_irm_person_parent_no)%></label></td>
-            <td class="data-col"><%=f.lov_field :parent_no,Irm::Person,{:id=>"parent_no",:class=>"input-medium"}%></td>
+            <td class="label-col"><label><%=t(:label_irm_person_notification_flag)%></label></td>
+            <td class="data-col"><%=f.check_box :notification_flag,:checked => true%></td>
             <td class="label-col"><label><%=t(:label_irm_person_notification_lang)%></label></td>
             <td class="data-col"><%=f.select :notification_lang,selectable_languages%></td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=t(:label_irm_person_notification_flag)%></label></td>
-            <td class="data-col"><%=f.check_box :notification_flag,:checked => true%></td>
             <td class="label-col"><label><%=t(:label_irm_person_delete_flag)%></label></td>
             <td class="data-col"><%=f.check_box :delete_flag %></td>
           </tr>

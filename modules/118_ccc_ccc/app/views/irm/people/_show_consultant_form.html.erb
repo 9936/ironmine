@@ -27,8 +27,8 @@
       <tr>
         <td class="label-col"><label><%=t(:label_irm_person_consultant_no)%></label></td>
         <td class="data-col"><%= @person.consultant_no %></td>
-        <td class="label-col"><label><%=(t :label_irm_person_type)%></label></td>
-        <td class="data-col"><%= (@person.consultant_type_id && @person.consultant_type_id != '') ? Ccc::ConsultantType.find(@person.consultant_type_id).to_s : ''%></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
       </tr>
       <tr>
         <td class="label-col"><label><%=t(:label_irm_identity_login_name)%></label></td>
@@ -79,9 +79,7 @@
         <td class="data-col"><%=@person[:notification_lang_description]%></td>
       </tr>
       <tr>
-        <td class="label-col">
-          <label><%=t(:label_irm_person_notification_flag)%></label>
-        </td>
+        <td class="label-col"><label><%=t(:label_irm_person_notification_flag)%></label></td>
         <td class="data-col"><%=check_img(@person.notification_flag)%></td>
         <td class="label-col"><label><%=t(:label_irm_person_assignment_availability_flag)%></label></td>
         <td class="data-col"><%=check_img(@person.assignment_availability_flag)%></td>

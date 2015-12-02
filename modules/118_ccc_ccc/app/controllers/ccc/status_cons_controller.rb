@@ -1,7 +1,7 @@
 class Ccc::StatusConsController < ApplicationController
   layout "setting"
   def index
-    @statusCons = Ccc::StatusCon.all
+    @statusCons = Ccc::StatusCon.where("external_system_id = ?",params[:sid])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -18,6 +18,8 @@ class Ccc::StatusConsController < ApplicationController
   end
 
   def create
+    puts "1111111111111111"
+    puts params[:ccc_status_con]
     @statusCon = Ccc::StatusCon.new(params[:ccc_status_con])
     respond_to do |format|
       if @statusCon.valid? && @statusCon.save
@@ -52,7 +54,10 @@ class Ccc::StatusConsController < ApplicationController
   end
 
   def get_data
-    status_con_scope = Ccc::StatusCon.where("id <> ?", "")
+    puts params[:sid]
+    status_con_scope = Ccc::StatusCon.where("external_system_id = ?",params[:sid])
+    puts "11111111111111111"
+    puts status_con_scope.inspect
     status_con_scope,count = paginate(status_con_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(status_con_scope.to_grid_json([:incident_status_parent_id,
