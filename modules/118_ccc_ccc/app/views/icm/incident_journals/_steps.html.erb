@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="/stylesheets/ystep.css">
+
+<div class="ystep2">
+
+</div>
+<!--<script src="/javascripts/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="/javascripts/xheditor/xheditor-zh.js"></script>-->
+<script src="/javascripts/ystep.js"></script>
+<script>
+    var steps = [
+        {
+            title: "新建",
+            content: "实名用户/公益组织发起项目"
+        },
+        {
+            title: "受理中",
+            content: "实名用户/公益组织发起项目"
+        },
+        {
+            title: "处理中",
+            content: "实名用户/公益组织发起项目"
+        }
+    ]
+    $(".ystep2").loadStep({
+        size: "large",
+        color: "green",
+        steps: steps
+    });
+    $(".ystep2").setStep(2)
+</script>

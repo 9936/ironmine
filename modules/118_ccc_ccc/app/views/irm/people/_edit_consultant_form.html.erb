@@ -22,8 +22,8 @@
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_last_name)%></label></td>
             <td class="data-col"><%=f.text_field :last_name%></td>
-            <td class="label-col"><label><%=t(:label_irm_person_bussiness_phone)%></label></td>
-            <td class="data-col"><%=f.text_field :bussiness_phone,{:required=>true, :irm_number_and_cross => true}%></td>
+            <td class="label-col"><label><%=t(:label_irm_person_organization)%></label></td>
+            <td class="data-col"><%= f.blank_select(:organization_id,available_organization,{}) %></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_first_name)%></label></td>
@@ -56,14 +56,16 @@
             <td class="data-col"><%=f.blank_select :consultant_level_id,available_consultant_levels,{},{:id=>"consultant_level_id"}%></td>
           </tr>
           <tr>
+            <td class="label-col"><label><%=t(:label_irm_person_bussiness_phone)%></label></td>
+            <td class="data-col"><%=f.text_field :bussiness_phone,{:required=>true, :irm_number_and_cross => true}%></td>
             <td class="label-col"><label for="parent_no"><%=t(:label_irm_person_parent_no)%></label></td>
             <td class="data-col"><%=f.lov_field :parent_no,Irm::Person,{:id=>"parent_no",:class=>"input-medium",:value=>@person[:parent_no]}%></td>
-            <td class="label-col"><label><%=t(:label_irm_person_delete_flag)%></label></td>
-            <td class="data-col"><%=f.check_box :delete_flag %></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_person_notification_flag)%></label></td>
             <td class="data-col"><%=f.check_box :notification_flag,:checked => true%></td>
+            <td class="label-col"><label><%=t(:label_irm_person_delete_flag)%></label></td>
+            <td class="data-col"><%=f.check_box :delete_flag %></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_person_assignment_availability_flag)%></label></td>

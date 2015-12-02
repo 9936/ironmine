@@ -1,4 +1,7 @@
 zh:
+  label_service_disabled_flag: 服务失效标识
+  label_people_day_info: 赠送人天信息
+
   label_in_new: 新建
   label_in_accept: 受理中
   label_in_process: 处理中

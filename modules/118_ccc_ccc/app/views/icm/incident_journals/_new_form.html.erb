@@ -362,7 +362,6 @@
             <% end %>
           </div>
 
-
           <div class="page-block-body">
             <table class="form-table"  style="width: 100%;">
               <tbody>
@@ -525,9 +524,7 @@
 <% end %>
 
 <div class="page-block" id="pageBlock">
-  <div class="ystep2">
-
-  </div>
+  <%= render :partial =>"steps" %>
 </div>
 
 <div class="page-block" id="pageBlock">
@@ -649,29 +646,8 @@
 <% if self.respond_to?(:display_service_agreements) && allow_to_function?(:view_service_agreement, @incident_request.external_system_id) %>
     <%= display_service_agreements(@incident_request.id,@incident_request.class.name,@incident_request.external_system_id) %>
 <% end %>
-
-<!--&lt;!&ndash; 引入jquery &ndash;&gt;-->
-<!--<script src="/javascripts/jquery.min.js"></script>-->
-<!--&lt;!&ndash; 引入ystep插件 &ndash;&gt;-->
-<!--<script src="/javascripts/ystep.js"></script>-->
-
 <script type="text/javascript">
-//    $(".ystep2").loadStep({
-//        size: "large",
-//        color: "green",
-//        steps: [
-////            {
-////            title: "处理中",
-////            content: "实名用户/公益组织发起项目"
-////            }
-//        ]
-//    });
-//    $(".ystep2").setStep(1);
-
     $(function() {
-
-
-
         $(".toggle-button").each(function(index, element) {
             var me = $(element);
             var ref = $("#" + me.attr("ref"));
