@@ -5,56 +5,57 @@
 </div>
 <script src="/javascripts/ystep.js"></script>
 <script>
-    var steps = []
+    var steps = [
+        {
+            title: "<%=t(:label_in_new)%>",
+            content: ""
+        },
+        {
+            title: "<%=t(:label_in_accept)%>",
+            content: ""
+        },
+        {
+            title: "<%=t(:label_in_process)%>",
+            content: ""
+        },
+        {
+            title: "<%=t(:label_in_commit_solution)%>",
+            content: ""
+        },
+        {
+            title: "<%=t(:label_in_close)%>",
+            content: ""
+        }
+    ]
     <% Icm::IncidentHistory.where("request_id = ?",@incident_request.id).order("created_at ASC").each do |h|
         # 新建
         if h.property_key.eql?("incident_request_id")
     %>
-            var times = {
-                title: "<%=t(:label_in_new)%>",
-                content: "<%= format_date(h.created_at) %>"
-            }
-            steps.push(times)
+            steps[0].content = "<%= format_date(h.created_at) %>"
     <%
         end
         # 受理中
         if h.new_value.eql?("000K000922scMSu1Q8vthI")
     %>
-            var times = {
-                title: "<%=t(:label_in_accept)%>",
-                content: "<%= format_date(h.created_at) %>"
-            }
-            steps.push(times)
+            steps[1].content = "<%= format_date(h.created_at) %>"
     <%
         end
         # 处理中
-        if h.new_value.eql?("000K000C2hrdz1TO8kREaO")
+        if h.new_value.eql?("000K000C2hrdz1TO8kREaO") || h.new_value.eql?("000K000A0g8dQeGEHYvu9g")
     %>
-            var times = {
-                title: "<%=t(:label_in_process)%>",
-                content: "<%= format_date(h.created_at) %>"
-            }
-            steps.push(times)
+            steps[2].content = "<%= format_date(h.created_at) %>"
     <%
         end
         # 提交方案
         if h.new_value.eql?("000K000A0g9LO0pOKPsZ1s")
     %>
-            var times = {
-                title: "<%=t(:label_in_commit_solution)%>",
-                content: "<%= format_date(h.created_at) %>"
-            }
-            steps.push(times)
+            steps[3].content = "<%= format_date(h.created_at) %>"
     <%
         end
         # 关闭
         if h.new_value.eql?("000K000922scMSu1QUxWoy")
     %>
-            var times = {
-                title: "<%=t(:label_in_close)%>",
-                content: "<%= format_date(h.created_at) %>"
-            }
-            steps.push(times)
+            steps[4].content = "<%= format_date(h.created_at) %>"
     <%
         end
     end
@@ -65,9 +66,17 @@
         color: "green",
         steps: steps
     });
-    $(".ystep2").setStep(steps.length)
 
+    var length = 0
     for(var i=0;i<steps.length;i++){
+        if(steps[i].content != ""){
+            length ++
+        }
+    }
+
+    $(".ystep2").setStep(length)
+
+    for(var i=0;i<length;i++){
         $(".ystep-step").eq(i).attr("class","ystep-step ystep-step-done")
     }
 </script>

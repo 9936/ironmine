@@ -30,9 +30,6 @@
                             {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id, :sid => @incident_request.external_system_id},
                             {:class=>"btn"} %>
               <% end %>
-
-            <%= link_to t(:cancel), {:controller => "icm/incident_requests", :action => "cancel_request", :id => @incident_request.id},
-                        :confirm => t(:label_icm_incident_request_cancel_confirm), :class=>"btn", :method => :delete %>
           <% elsif @incident_request.status_code.eql?("OFFLINE") %>
             <%= link_to t(:enable), {:controller => "icm/incident_requests", :action => "enable_request", :id => @incident_request.id},
                         :confirm => t(:label_icm_incident_request_enable_confirm), :class=>"btn",:method => :delete %>

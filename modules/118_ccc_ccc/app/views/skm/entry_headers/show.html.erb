@@ -54,16 +54,7 @@
         <h1><%= raw(e.element_name) %></h1>
         <p><%= raw(display_content(@entry_header.id, e.entry_content)) %></p>
       <% end %>
-      <!-- 未发布的知识不能进行表态 -->
-      <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
-        <div class="sub-page-block">
-          <div class="sub-page-block-body">
-            <div class="digg-zone" id="diggZone">
-              <%= show_rating("SKM_RATING",@entry_header) %>
-            </div>
-          </div>
-        </div>
-      <%- end -%>
+
       <!-- 显示附件列表信息 -->
       <% if @entry_header.attachments.any? %>
         <h1><%= t(:label_irm_attachment)%></h1>
