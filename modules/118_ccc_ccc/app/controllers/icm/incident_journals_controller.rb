@@ -589,12 +589,13 @@ class Icm::IncidentJournalsController < ApplicationController
 
       if !ovalue.eql?(nvalue)
         if (ovalue.eql?("000K000A0g8zPKXoIwOIhk") && nvalue.eql?("000K000C2hrdz1TO8kREaO")) || (ovalue.eql?("000K000A0g9LO0pOKPsZ1s") && nvalue.eql?("000K000A0g8dQeGEHYvu9g"))
-          sla_instance = Slm::SlaInstance.find(sla_instance_id)
-          if sla_instance
+          sla_instance = Slm::SlaInstance.where(:id=>sla_instance_id)
+          puts sla_instance.inspect
+          if sla_instance.length == 1
             updateData = {:current_duration => 0,
                           :start_at => Time.now,
                           :last_phase_start_date => Time.now}
-            sla_instance.update_attributes(updateData)
+            sla_instance.first.update_attributes(updateData)
           end
         end
       end

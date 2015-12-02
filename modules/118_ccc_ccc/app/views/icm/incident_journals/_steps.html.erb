@@ -3,28 +3,71 @@
 <div class="ystep2">
 
 </div>
-<!--<script src="/javascripts/jquery.min.js"></script>-->
-<!--<script type="text/javascript" src="/javascripts/xheditor/xheditor-zh.js"></script>-->
 <script src="/javascripts/ystep.js"></script>
 <script>
-    var steps = [
-        {
-            title: "新建",
-            content: "实名用户/公益组织发起项目"
-        },
-        {
-            title: "受理中",
-            content: "实名用户/公益组织发起项目"
-        },
-        {
-            title: "处理中",
-            content: "实名用户/公益组织发起项目"
-        }
-    ]
+    var steps = []
+    <% Icm::IncidentHistory.where("request_id = ?",@incident_request.id).order("created_at ASC").each do |h|
+        # 新建
+        if h.property_key.eql?("incident_request_id")
+    %>
+            var times = {
+                title: "<%=t(:label_in_new)%>",
+                content: "<%= format_date(h.created_at) %>"
+            }
+            steps.push(times)
+    <%
+        end
+        # 受理中
+        if h.new_value.eql?("000K000922scMSu1Q8vthI")
+    %>
+            var times = {
+                title: "<%=t(:label_in_accept)%>",
+                content: "<%= format_date(h.created_at) %>"
+            }
+            steps.push(times)
+    <%
+        end
+        # 处理中
+        if h.new_value.eql?("000K000C2hrdz1TO8kREaO")
+    %>
+            var times = {
+                title: "<%=t(:label_in_process)%>",
+                content: "<%= format_date(h.created_at) %>"
+            }
+            steps.push(times)
+    <%
+        end
+        # 提交方案
+        if h.new_value.eql?("000K000A0g9LO0pOKPsZ1s")
+    %>
+            var times = {
+                title: "<%=t(:label_in_commit_solution)%>",
+                content: "<%= format_date(h.created_at) %>"
+            }
+            steps.push(times)
+    <%
+        end
+        # 关闭
+        if h.new_value.eql?("000K000922scMSu1QUxWoy")
+    %>
+            var times = {
+                title: "<%=t(:label_in_close)%>",
+                content: "<%= format_date(h.created_at) %>"
+            }
+            steps.push(times)
+    <%
+        end
+    end
+    %>
+
     $(".ystep2").loadStep({
         size: "large",
         color: "green",
         steps: steps
     });
-    $(".ystep2").setStep(2)
+    $(".ystep2").setStep(steps.length)
+
+    for(var i=0;i<steps.length;i++){
+        $(".ystep-step").eq(i).attr("class","ystep-step ystep-step-done")
+    }
 </script>

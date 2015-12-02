@@ -270,11 +270,12 @@
 
     $tip.removeClass('in')
 
-    $.support.transition && this.$tip.hasClass('fade') ?
-      $tip
-        .one($.support.transition.end, complete)
-        .emulateTransitionEnd(150) :
-      complete()
+    //$.support.transition && this.$tip.hasClass('fade') ?
+    //  $tip
+    //    .one($.support.transition.end, complete)
+    //    .transitionEnd(150) :
+    ////.emulateTransitionEnd(150)
+    //  complete()
 
     this.$element.trigger('hidden.bs.' + this.type)
 

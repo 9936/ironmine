@@ -6,7 +6,7 @@
           <tbody>
           <tr>
             <td class="label-col"><label for="external_system_external_system_code"><%=t(:label_irm_external_system_external_system_code)%></label></td>
-            <td class="data-col"><%=f.text_field :external_system_code, :required=>true ,:irm_uppercase=>true,:id=>"external_system_external_system_code"%></td>
+            <td class="data-col"><%=f.text_field :external_system_code, :required=>true ,:id=>"external_system_external_system_code"%></td>
             <td class="label-col"><label for="organization_no"><%=t(:label_irm_external_system_organization_no)%></label></td>
             <td class="data-col"><%=f.lov_field :organization_no,Irm::ExternalSystem,{:id=>"organization_no",:class=>"input-medium"}%></td>
           </tr>

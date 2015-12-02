@@ -5,7 +5,7 @@ zh:
   label_in_new: 新建
   label_in_accept: 受理中
   label_in_process: 处理中
-  label_in_reprocess: 重新处理
+  label_in_commit_solution: 提交方案
   label_in_close:  关闭
 
 
