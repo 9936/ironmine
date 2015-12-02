@@ -1,0 +1,145 @@
+<%= app_title({:description => t(:new)}) %>
+
+<%= form_for(@entry_header,:url=>{:action=>"new"},:builder => CustomFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
+  <%= hidden_field_tag("entry_book_id", params[:entry_book_id]) %>
+  <%= f.hidden_field :tmp_source_ids, :id => "tmpSourceIds" %>
+  <% content_for :form_buttons  do %>
+    <%= link_to t(:last), {}, {:href => "javascript:void(0);", :onclick => "submit_last()",:class => "btn ", :type => "submit"}%>
+    <%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary", :type => "submit"%>
+    <%= link_to t(:save_as_draft), {}, :href => "javascript:void(0);", :onclick => "submit_draft();",:class => "btn btn-primary", :type => "submit"%>
+    <% if params[:entry_book_id] %>
+      <%= link_to t(:cancel), {:controller => "skm/entry_books", :action => "show", :id => params[:entry_book_id]}, {:confirm => t(:label_cancel_confirm), :class => "btn cancel"}%>
+    <% else %>
+      <%= link_to t(:cancel), {:action => "index"}, :confirm => t(:label_cancel_confirm),:class => "btn cancel" %>
+    <% end %>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:step_n, :n => "4") %><%= t(:notice_skm_entry_header_preview_entry)%></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+          <td class="page-block-help">
+            <%= t(:step_n_total_m, :n => "4", :m => "4") %>
+          </td>
+        </tr>
+    </table>
+    <%= error_for @entry_header %>
+    <div class="help-block" style="padding: 10px;">
+      <div style="font-weight: bold;font-size: 15px;float:left;"><%= t(:label_skm_entry_header_title)%>: <%= @entry_header.entry_title %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <div><%= t(:label_skm_entry_header_keyword_tags) %>: <%= @entry_header.keyword_tags.blank? ? t(:none) : @entry_header.keyword_tags %></div>
+    </div>
+    <div class="page-block-body">
+      <!-- 基本信息 -->
+      <% session[:skm_entry_details].each do |k,e| %>
+      <div class="sub-page-block">
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%= raw(e[:element_name]) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <table class="show-table">
+            <tbody>
+                <tr>
+                  <td class="data-col"><pre><%= raw(e[:entry_content]) %></pre></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <% end %>
+
+      <!-- 添加相关事故单 -->
+      <div class="sub-page-block">
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title">添加事故单</h3>
+        </div>
+        <div class="sub-page-block-body">
+        <table width="100%" class="detail-list">
+          <tbody>
+          <tr>
+            <%= hidden_field_tag "skm_entry_header[add_request_ids]",""%>
+          </tr>
+          <tr>
+            <td>
+            </td>
+            <td class="data-col">
+              <div class="form-inline">
+                <%= lov_field_tag "icm_relation", Icm::IncidentRequest, :style => "width:130px;" %>
+                <a href="javascript:void(0);" onclick="add_request()" class="btn btn-primary">
+                  <span><%= t(:add) %></span>
+                </a>
+              </div>
+            </td>
+            <td class="label-col">
+            </td>
+            <td class="data-col">
+            </td>
+          </tr>
+          </tbody>
+          <tbody id="request_list">
+          </tbody>
+        </table>
+      </div>
+      </div>
+
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  function add_request(){
+//      事故单编号
+    var request_no = $("#icm_relation_label").val()
+//      事故单id
+    var request_id = $("#icm_relation").val()
+    if(request_no =="" || request_no == null)
+      alert("<%= t(:label_add_request_error) %>")
+    else if($("#request_list").html().indexOf(request_id) != -1)
+      alert("<%= t(:label_add_request_exist_error) %>")
+    else{
+      var html =
+              "<tr><td>"+
+              "</td>" +
+              "<td class='data-col' id='"+request_id+"'>"
+
+      html += "<a style='margin-right:5px' onclick='delete_request(this)'><%= t(:delete) %></a>"+
+              "<%= t(:label_icm_incident_request_number) %>:"+request_no
+
+      html += "</td>"+
+              "<td class='label-col'>"+
+              "</td>" +
+              "<td class='data-col'>"+
+              "</td></tr>"
+      $("#request_list").html($("#request_list").html()+html)
+      $("#skm_entry_header_add_request_ids").val($("#skm_entry_header_add_request_ids").val()+request_id+",")
+    }
+  }
+  function delete_request(arg){
+    //首先将DOM转化成jQuery对象
+    $("#skm_entry_header_add_request_ids").val($("#skm_entry_header_add_request_ids").val().replace($(arg).parent().attr("id")+",",""))
+    $(arg).parent().parent().empty()
+  }
+  function submit_last(){
+    document.new_skm_entry_header.action = "<%=url_for(:action=>"new",:step=>"3")%>";
+  }
+  function submit_draft(){
+    document.new_skm_entry_header.action = "<%=url_for(:action=>"create",:status=>"DRAFT")%>";
+  }
+
+  function submit_published(){
+    document.new_skm_entry_header.action = "<%=url_for(:action=>"create",:status=>"PUBLISHED")%>";
+  }
+</script>

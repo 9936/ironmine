@@ -1,0 +1,189 @@
+<% if @entry_header.entry_status_code.eql?("DRAFT")%>
+<%= common_title(:show_data=> "[#{@entry_header.doc_number}]  #{@entry_header.entry_title}  [#{t(:label_skm_draft)}]".html_safe) %>
+<% else %>
+    <%= common_title(:show_data=> "[#{@entry_header.doc_number}]  #{@entry_header.entry_title}".html_safe) %>
+<% end %>
+<% require_jscss(:markdown) %>
+
+<style type="text/css">
+    .markdown-body img {border: none;}
+    .digg-zone span,
+    .markdown-body table span {
+        margin-left: 0;
+    }
+    .markdown-body p{
+        text-indent: 0;
+    }
+
+</style>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"></h2>
+    </td>
+    <td class="page-block-button">
+      <% if @entry_header[:is_favorite] == Irm::Constant::SYS_NO %>
+          <%= link_to t(:save_page), {:controller => "skm/entry_headers", :action => "add_favorites", :id => @entry_header.id, :person_id => Irm::Person.current.id},:class=>"btn btn-primary"%>
+      <% end %>
+      <% if @entry_header.history_flag == Irm::Constant::SYS_NO  %>
+          <% if can_edit_header?(@entry_header) %>
+              <%= link_to t(:edit), {:action => "edit", :id => @entry_header, :approval_flag => true },:class=>"btn"%>
+          <% end %>
+      <% end %>
+      <% if params[:entry_book_id].present? %>
+          <%= link_to t(:back), {:controller => "skm/entry_books",:action => "show", :id => params[:entry_book_id]},:class=>"btn cancel"%>
+      <% else %>
+          <%= link_to t(:back), {:action => "index"},:class=>"btn cancel"%>
+      <% end %>
+      <!-- 如果知识库没有发布则不能进行新建关联知识库和导出pdf数据 -->
+      <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
+          <%= link_to t(:label_skm_entry_header_new_relation),{:action => "new_relation", :id => @entry_header.id }, :class => "btn btn-primary" %>
+          <%= link_to t(:label_skm_entry_header_favorites),{:action => "add_favorites", :person_id => Irm::Person.current.id, :id => @entry_header.id }, :class => "btn btn-info" %>
+          <%= link_to t(:export_pdf), {:controller=>"skm/entry_headers",:action=>"show",:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
+      <%- end -%>
+    </td>
+    <td class="page-block-help">
+      (<%= t(:label_skm_entry_header_version) + "  " + @entry_header.version_number %>)
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="markdown-body" style="width: 551pt;text-align: left;margin: 0 auto;">
+      <% @entry_header.entry_details.each do |e| %>
+        <h1><%= raw(e.element_name) %></h1>
+        <p><%= raw(display_content(@entry_header.id, e.entry_content)) %></p>
+      <% end %>
+      <!-- 未发布的知识不能进行表态 -->
+      <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
+        <div class="sub-page-block">
+          <div class="sub-page-block-body">
+            <div class="digg-zone" id="diggZone">
+              <%= show_rating("SKM_RATING",@entry_header) %>
+            </div>
+          </div>
+        </div>
+      <%- end -%>
+      <!-- 显示附件列表信息 -->
+      <% if @entry_header.attachments.any? %>
+        <h1><%= t(:label_irm_attachment)%></h1>
+        <div id="exist_attachments_list">
+          <%= render :partial=> "skm/entry_headers/exits_attachment_list",:locals=>{:datas=> @entry_header.attachments }%>
+        </div>
+      <% end %>
+      <!-- 未发布的知识没有版本记录 -->
+      <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
+      <h1><%= t(:label_skm_entry_header_versions) %></h1>
+        <div style="margin-left: 50px;">
+          <table style="margin-left: 0;">
+            <tbody>
+            <tr>
+              <th><%= t(:label_skm_entry_header_title) %></th>
+              <th><%= t(:label_skm_entry_header_published_date) %></th>
+              <th><%= t(:label_skm_entry_header_version) %></th>
+              <th><%= t(:label_skm_entry_header_doc_number) %></th>
+            </tr>
+            <% @entry_history.each do |data| %>
+              <tr>
+                <td><%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]}) %></td>
+                <td><%= format_date data[:published_date] %></td>
+                <td><%= data[:version_number] %></td>
+                <td><%= data[:doc_number] %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <h1><%= t(:label_skm_entry_header_approval_record) %></h1>
+        <div style="margin-left: 50px;">
+          <table class="page-block-header" style="margin-left: 0;">
+            <tr>
+              <td class="page-block-help form-inline" style="width: 100%; border: none;">
+                <!-- 有拒绝的审批状态显示重新申请审核 -->
+                <%- if has_approval_deny?(@entry_header.id) %>
+                  <%= form_tag({:controller => "skm/entry_headers",:action => "reset_approve"},:style => "padding:0; margin:0; display:inline-block;") do %>
+                      <%= hidden_field_tag :entry_header_id, @entry_header.id %>
+                      <%= link_to t(:label_skm_entry_header_approval_reset),'reset_approve', :class => 'btn btn-primary submit', :style => "color: #fff;" %>
+                  <%- end -%>
+                <%- end %>
+                <strong><%= t(:label_skm_entry_header_approval_status_note) %>:</strong>
+                <span class="badge badge-success">
+                  <i class="icon-ok-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_y) %>
+                </span>
+                <span class="badge badge-important">
+                  <i class="icon-remove-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_r) %>
+                </span>
+                <span class="badge badge-info">
+                  <i class="icon-user icon-white"></i><%= t(:label_skm_entry_header_approval_status_c) %>
+                </span>
+                <span class="badge">
+                  <i class="icon-question-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_n) %>
+                </span>
+              </td>
+            </tr>
+          </table>
+          <table style="margin-left: 0px;">
+            <tbody>
+            <tr>
+              <th style="width: 60px;"><%= t(:label_skm_entry_header_approval_status) %></th>
+              <th><%= t(:label_skm_entry_header_approval_person) %></th>
+              <th><%= t(:label_skm_entry_header_approval_date) %></th>
+              <th><%= t(:label_skm_entry_header_approval_note) %></th>
+            </tr>
+            <% @entry_header.entry_approval_people.each do |data| %>
+                <tr>
+                  <td>
+                    <% if data[:approval_flag].eql?(Irm::Constant::SYS_YES) %>
+                    <span class="badge badge-success">
+                      <i class="icon-ok-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_y) %>
+                    </span>
+                    <% elsif data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
+                      <span class="badge">
+                        <i class="icon-question-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_n) %>
+                      </span>
+                    <% elsif data[:approval_flag].eql?(Skm::EntryStatus::SYS_CHANGE) %>
+                      <span class="badge badge-info">
+                        <i class="icon-user icon-white"></i><%= t(:label_skm_entry_header_approval_status_c) %>
+                      </span>
+                    <% else %>
+                      <span class="badge badge-important">
+                        <i class="icon-remove-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_r) %>
+                    </span>
+                    <% end %>
+                  </td>
+                  <td>
+                    <%= Irm::Person.query_person_name(data[:person_id]).first[:person_name] if Irm::Person.query_person_name(data[:person_id]).first %>
+                  </td>
+                  <td>
+                    <% if data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
+                        <%= '' %>
+                    <% else %>
+                        <%= format_date data[:updated_at] %>
+                    <% end %>
+                  </td>
+                  <td>
+                    <% if data[:approval_flag].eql?(Irm::Constant::SYS_YES) %>
+                        <span style="color:#468847"><%= data[:note] %></span>
+                    <% elsif data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
+                        <span><%= data[:note] %></span>
+                    <% elsif data[:approval_flag].eql?(Skm::EntryStatus::SYS_CHANGE) %>
+                        <span style="color:#3A87AD"><%= data[:note] %></span>
+                    <% else %>
+                        <span style="color: #B94A48"><%= data[:note] %></span>
+                    <% end %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+      <!-- 关联的知识 -->
+      <h1><%= t(:label_skm_entry_header_relation_list) %></h1>
+      <div style="margin-left: 50px;" id="entryHeaderRelation">
+        <%= render :partial=> "skm/entry_headers/entry_header_relations",:locals=>{:datas=>@entry_relation, :entry_header_id => @entry_header.id }%>
+      </div>
+    </div>
+  </div>
+</div>

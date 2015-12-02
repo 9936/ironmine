@@ -75,7 +75,6 @@
         margin:0;
     }
 </style>
-
 <!--页面头部按钮-->
 <%= render :partial=>"new_form_top_button_bar"%>
 
@@ -225,13 +224,29 @@
           <% end %>
           <% workload = @incident_request.grouped_workload%>
           <% if workload.any? %>
-                  <td class="label-col"><label for="incident_request_close_reason_code"><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
-                  <td class="data-col" colspan="5"><label>
-                    <% workload.each do |iw| %>
-                        <%= iw[:person_name]%>:<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time_g]}"%>&nbsp;<%= ", " unless iw == workload.last %>
-                    <% end %>
-                  </label></td>
+              <td class="label-col"><label><%=t(:label_icm_incident_request_real_processing_total_time)%></label></td>
+              <td class="data-col" colspan="5"><label>
+                <%
+                   total_workload = 0
+                   workload.each do |iw|
+                     total_workload += iw[:real_processing_time_g]
+                   end
+                %>
+                <%= total_workload%>
+              </label></td>
           <% end %>
+        </tr>
+            <% workload = @incident_request.grouped_workload%>
+            <% if workload.any? %>
+                <td class="label-col"><label><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
+                <td class="data-col" colspan="5"><label>
+                  <% workload.each do |iw| %>
+                      <%= iw[:person_name]%>:<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time_g]}"%>&nbsp;<%= ", " unless iw == workload.last %>
+                  <% end %>
+                </label></td>
+            <% end %>
+        <tr>
+
         </tr>
         <% else %>
             <% if @incident_request.attribute3 != nil && @incident_request.attribute3 != "" %>
@@ -510,6 +525,12 @@
 <% end %>
 
 <div class="page-block" id="pageBlock">
+  <div class="ystep2">
+
+  </div>
+</div>
+
+<div class="page-block" id="pageBlock">
   <div class="waypoint-header" id="toolbar">
   <table class="page-block-header" >
     <tr>
@@ -629,8 +650,28 @@
     <%= display_service_agreements(@incident_request.id,@incident_request.class.name,@incident_request.external_system_id) %>
 <% end %>
 
+<!--&lt;!&ndash; 引入jquery &ndash;&gt;-->
+<!--<script src="/javascripts/jquery.min.js"></script>-->
+<!--&lt;!&ndash; 引入ystep插件 &ndash;&gt;-->
+<!--<script src="/javascripts/ystep.js"></script>-->
+
 <script type="text/javascript">
+//    $(".ystep2").loadStep({
+//        size: "large",
+//        color: "green",
+//        steps: [
+////            {
+////            title: "处理中",
+////            content: "实名用户/公益组织发起项目"
+////            }
+//        ]
+//    });
+//    $(".ystep2").setStep(1);
+
     $(function() {
+
+
+
         $(".toggle-button").each(function(index, element) {
             var me = $(element);
             var ref = $("#" + me.attr("ref"));

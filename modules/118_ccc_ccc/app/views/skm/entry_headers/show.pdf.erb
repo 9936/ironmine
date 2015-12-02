@@ -1,0 +1,80 @@
+<style type="text/css">
+    .markdown-body img {border: none;}
+    .markdown-body table {border-collapse: collapse; border-spacing: 0;}
+    .markdown-body table span {
+        margin-left: 0;
+    }
+    .markdown-body .auto-page-break { page-break-before: auto;  page-break-inside: avoid; border: none; }
+    .markdown-body p{
+        text-indent: 0;
+    }
+</style>
+<div class="markdown-body" style="width: 551pt;text-align: left;margin: 0 auto;">
+  <% @entry_header.entry_details.each do |e| %>
+      <h1><%= raw(e.element_name) %></h1>
+      <p><%= raw(display_content(@entry_header.id, e.entry_content)) %></p>
+  <% end %>
+  <!-- 显示附件列表信息 -->
+  <% if @entry_header.attachments.any? %>
+      <h1><%= t(:label_irm_attachment)%></h1>
+      <% @entry_header.attachments.each do |a| %>
+          <% version = a.last_version_entity %>
+          <ul>
+            <li>
+              <%= raw("<a target='_blank' href='#{request.protocol}#{request.host_with_port}#{version.data.url}' >#{version.data.original_filename}</a>") %>
+            </li>
+          </ul>
+      <% end %>
+  <% end %>
+  <!-- 未发布的知识没有版本记录 -->
+  <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
+      <h1><%= t(:label_skm_entry_header_versions) %></h1>
+      <div style="margin-left: 50px;">
+        <table style="margin-left: 0;" class="auto-page-break">
+          <tbody>
+          <tr>
+            <th><%= t(:label_skm_entry_header_title) %></th>
+            <th><%= t(:label_skm_entry_header_published_date) %></th>
+            <th><%= t(:label_skm_entry_header_version) %></th>
+            <th><%= t(:label_skm_entry_header_doc_number) %></th>
+          </tr>
+          <% @entry_history.each do |data| %>
+              <tr>
+                <td>
+
+                  <%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id],:only_path => false}) %>
+                </td>
+                <td><%= format_date data[:published_date] %></td>
+                <td><%= data[:version_number] %></td>
+                <td><%= data[:doc_number] %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+  <% end %>
+  <!-- 关联的知识 -->
+  <h1><%= t(:label_skm_entry_header_relation_list) %></h1>
+  <div style="margin-left: 50px;" id="entryHeaderRelation">
+    <% if @entry_relation.any? %>
+    <table style="margin-left: 0px;" class="auto-page-break">
+      <tbody>
+      <tr>
+        <th><%= t(:label_skm_entry_header_title) %></th>
+        <th><%= t(:label_skm_entry_header_published_date) %></th>
+        <th><%= t(:label_skm_entry_header_version) %></th>
+        <th><%= t(:label_skm_entry_header_doc_number) %></th>
+      </tr>
+      <% @entry_relation.each do |data| %>
+          <tr>
+            <td><%= link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:entry_id],:only_path => false}) %></td>
+            <td><%= format_date data[:published_date] %></td>
+            <td><%= data[:version_number] %></td>
+            <td><%= data[:doc_number] %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <% end %>
+  </div>
+</div>

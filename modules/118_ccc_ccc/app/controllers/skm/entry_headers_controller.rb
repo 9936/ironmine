@@ -434,6 +434,21 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_header.type_code = "ARTICLE"
     respond_to do |format|
       if @entry_header.save
+        # 知识库关联事故单
+        add_request_ids = params[:skm_entry_header][:add_request_ids].split(",")
+        source_id = @entry_header.id
+        add_request_ids.each do |t|
+          target_id = t
+          existed_relation = Ccc::IncidentRequestEntryHeaderRelation.where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", source_id, target_id, target_id, source_id)
+          if existed_relation.any?
+            flash[:error] = t(:label_icm_incident_request_relation_error_exists)
+          elsif !target_id.present?
+            flash[:error] = t(:label_icm_incident_request_relation_error_no_target)
+          else
+            Ccc::IncidentRequestEntryHeaderRelation.create(:source_id => source_id, :target_id => target_id)
+          end
+        end
+
         if !approval_people.nil? && approval_people.any?
           approval_people.each do |person|
             Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id]) if !person[:person_id].eql?(Irm::Person.current.id)
@@ -1009,14 +1024,14 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def new_from_icm_request
-    incident_request = Icm::IncidentRequest.list_all.where("#{Icm::IncidentRequest.table_name}.id = ?", params[:request_id]).first()
+    @incident_request = Icm::IncidentRequest.list_all.where("#{Icm::IncidentRequest.table_name}.id = ?", params[:request_id]).first()
     template = Skm::EntryTemplate.where(:entry_template_code => "ENTRY_FROM_ICM_REQUEST_" + I18n.locale.to_s.upcase).first()
     if template.nil?
       template = Skm::EntryTemplate.where(:entry_template_code => "ENTRY_FROM_ICM_REQUEST_EN").first()
     end
     elements = Skm::EntryTemplateDetail.owned_elements(template.id)
 
-    session[:skm_entry_header] = {:entry_title => "[#{incident_request.request_number}]#{incident_request.title}",
+    session[:skm_entry_header] = {:entry_title => "[#{@incident_request.request_number}]#{@incident_request.title}",
                                   #:doc_number => Skm::EntryHeader.generate_doc_number,
                                   :entry_template_id => template.id,
                                   :history_flag => "N",
@@ -1025,7 +1040,7 @@ class Skm::EntryHeadersController < ApplicationController
                                   :author_id => Irm::Person.current.id,
                                   :version_number => 1,
                                   :source_type=> Icm::IncidentRequest.name,
-                                  :source_id => incident_request.id}
+                                  :source_id => @incident_request.id}
 
     @entry_header = Skm::EntryHeader.new
     if session[:skm_entry_header]
@@ -1036,15 +1051,15 @@ class Skm::EntryHeadersController < ApplicationController
     session[:skm_entry_details] = {}
     elements.each do |e|
       if e.entry_template_element_code.include?("INCIDENT_REQUEST_INFO_")
-        content = "\n" + "Ticket No.: #{incident_request.request_number}" + "\n" +
-                  "Title: #{incident_request.title}" + "\n" +
-                  "Project: #{incident_request[:external_system_name]}" + "\n" +
-                  "Category: #{incident_request[:incident_category_name]}" + "\n" +
-                  "Subcategory: #{incident_request[:incident_sub_category_name]}" + "\n" +
-                  "Requester: #{incident_request[:requested_name]}" + "\n" +
-                  "Urgency: #{incident_request[:urgence_name]}" + "\n" +
-                  "Support Group: #{incident_request[:support_group_name]}" + "\n" +
-                  "Supporter: #{incident_request[:supporter_name]}"
+        content = "\n" + "Ticket No.: #{@incident_request.request_number}" + "\n" +
+                  "Title: #{@incident_request.title}" + "\n" +
+                  "Project: #{@incident_request[:external_system_name]}" + "\n" +
+                  "Category: #{@incident_request[:incident_category_name]}" + "\n" +
+                  "Subcategory: #{@incident_request[:incident_sub_category_name]}" + "\n" +
+                  "Requester: #{@incident_request[:requested_name]}" + "\n" +
+                  "Urgency: #{@incident_request[:urgence_name]}" + "\n" +
+                  "Support Group: #{@incident_request[:support_group_name]}" + "\n" +
+                  "Supporter: #{@incident_request[:supporter_name]}"
         session[:skm_entry_details].merge!({e.id.to_sym =>
             {:entry_content => content,
              :default_rows => e.default_rows,
@@ -1056,7 +1071,7 @@ class Skm::EntryHeadersController < ApplicationController
         )
       elsif e.entry_template_element_code.include?("INCIDENT_REQUEST_INSTANCE_")
         session[:skm_entry_details].merge!({e.id.to_sym =>{
-             :entry_content => Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(incident_request.summary.to_s,"")),
+             :entry_content => Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(@incident_request.summary.to_s,"")),
              :default_rows => e.default_rows,
              :entry_template_element_id => e.id,
              :element_name => e.element_name,
@@ -1066,7 +1081,7 @@ class Skm::EntryHeadersController < ApplicationController
         })
       elsif e.entry_template_element_code.include?("INCIDENT_REQUEST_SOLUTION_")
         session[:skm_entry_details].merge!({e.id.to_sym => {
-            :entry_content => incident_request.concat_journals_with_text,
+            :entry_content => @incident_request.concat_journals_with_text,
              :default_rows => e.default_rows,
              :entry_template_element_id => e.id,
              :element_name => e.element_name,
@@ -1122,10 +1137,10 @@ class Skm::EntryHeadersController < ApplicationController
     respond_to do |format|
       if @entry_header.save
         # 知识库关联事故单
-        add_request_ids = "#{params[:skm_entry_header][:add_request_ids]}#{incident_request.id}".split(",")
+        add_request_ids = params[:skm_entry_header][:add_request_ids].split(",")
         source_id = @entry_header.id
         add_request_ids.each do |t|
-          target_id = incident_request.id
+          target_id = t
           existed_relation = Ccc::IncidentRequestEntryHeaderRelation.where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", source_id, target_id, target_id, source_id)
           if existed_relation.any?
             flash[:error] = t(:label_icm_incident_request_relation_error_exists)

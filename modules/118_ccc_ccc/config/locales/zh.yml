@@ -1,4 +1,12 @@
 zh:
+  label_in_new: 新建
+  label_in_accept: 受理中
+  label_in_process: 处理中
+  label_in_reprocess: 重新处理
+  label_in_close:  关闭
+
+
+  label_icm_incident_request_real_processing_total_time: 实际消耗总时间(小时)
   label_icm_incident_request_entry_header_relation: 相关知识库
   label_add_request_error: 请先填写事故单
   label_add_request_exist_error: 事故单已添加

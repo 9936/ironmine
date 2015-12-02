@@ -22,7 +22,6 @@
             <td class="data-2col">
                 <table class="detail-list" cellpadding="0" cellspacing="0" border="0">
                   <tbody>
-
                       <tr>
                         <td class="label-col"><label><%=(t :label_skm_entry_header_title)%></label></td>
                         <td class="data-2col"><%= f.text_field :entry_title, :size => 80, :required => true%></td>
@@ -38,6 +37,8 @@
                   </tbody>
                 </table>
             </td>
+            <td class="label-col"></td>
+            <td class="data-2col"></td>
           </tr>
       </tbody>
     </table>
@@ -153,7 +154,7 @@
                   </td>
                   <td class="data-col">
                     <div class="form-inline">
-                      <%= lov_field_tag "icm_relation", Icm::IncidentRequest, :style => "width:130px;" %>
+                      <%= lov_field_tag "icm_relation", Icm::IncidentRequest,:style => "width:130px;" %>
                       <a href="javascript:void(0);" onclick="add_request()" class="btn btn-primary">
                         <span><%= t(:add) %></span>
                       </a>
@@ -185,6 +186,10 @@
 <% end %>
 
 <script type="text/javascript">
+    $(function(){
+        $("#icm_relation_label").val("<%= @incident_request.request_number %>")
+        $("#icm_relation").val("<%= @incident_request.id%>")
+    })
     function add_request(){
 //      事故单编号
         var request_no = $("#icm_relation_label").val()

@@ -11,7 +11,6 @@ module Ccc::StatusConsHelper
     ).first
     if status_con
       incident_status_children_ids = status_con.incident_status_children_id.split(",")
-      puts Icm::IncidentStatus.where(id: incident_status_children_ids).to_sql
       Icm::IncidentStatus.where(id: incident_status_children_ids).enabled.multilingual.query_by_close_flag(Irm::Constant::SYS_NO).order_display.collect{|i|[i[:name],i.id]}
     else
       Icm::IncidentStatus.where(id: incident_status_parent_id).enabled.multilingual.query_by_close_flag(Irm::Constant::SYS_NO).order_display.collect{|i|[i[:name],i.id]}

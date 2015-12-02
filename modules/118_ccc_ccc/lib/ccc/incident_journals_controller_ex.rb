@@ -80,11 +80,13 @@ module Ccc::IncidentJournalsControllerEx
             @incident_journal.create_elapse
             @incident_request.save
             if es.strict_workload.eql?('Y') && @incident_journal.workload.present? && Irm::Person.current.email_address.end_with?("hand-china.com")
+              puts "11111111111111111111"
+              puts params[:workload_type]
               Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
                                             :incident_journal_id => @incident_journal.id,
                                             :real_processing_time => @incident_journal.workload,
                                             :person_id => @incident_journal.replied_by,
-                                            :workload_type => 'REMOTE'})
+                                            :workload_type => params[:workload_type]})
             end
             Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
                                          :journal_id=> @incident_journal.id,
@@ -100,7 +102,6 @@ module Ccc::IncidentJournalsControllerEx
             end
             if (Irm::Person.find(@incident_journal.replied_by).profile.user_license.eql?("SUPPORTER"))
               # 此处评论创建成功
-              puts sla_instance_id
               sla_instance = Slm::SlaInstance.where("id = ?",sla_instance_id).first
               if sla_instance
                 updateData = {:current_duration => 0,

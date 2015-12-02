@@ -104,7 +104,8 @@ class Irm::WfMailAlert < ActiveRecord::Base
 
 
     # loop send mail
-    bo_update_by = bo.respond_to?(:updated_by)? bo.created_by : "nocreatedby" # do not send to creater
+    # bo_update_by = bo.respond_to?(:updated_by)? bo.created_by : "nocreatedby" # do not send to creater
+    bo_update_by = bo.respond_to?(:updated_by)? bo.updated_by : "noupdatedby"
 
     recipient_ids.delete_if{|i| i.eql?(bo_update_by)}
     return unless recipient_ids.any?
