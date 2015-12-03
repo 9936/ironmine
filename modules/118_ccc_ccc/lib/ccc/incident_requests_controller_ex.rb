@@ -1,4 +1,5 @@
 module Ccc::IncidentRequestsControllerEx
+
   def self.included(base)
     base.class_eval do
       before_filter :setup_up_incident_request, :only => [:update]
@@ -258,6 +259,8 @@ module Ccc::IncidentRequestsControllerEx
       # POST /incident_requests
       # POST /incident_requests.xml
       def create
+        puts "111111111111"
+        puts params[:icm_incident_request].inspect
         @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
         @return_url = params[:return_url] if params[:return_url]
         #加入创建事故单的默认参数
@@ -298,6 +301,9 @@ module Ccc::IncidentRequestsControllerEx
             end
             #投票任务
             Delayed::Job.enqueue(Icm::Jobs::IncidentRequestSurveyTaskJob.new(@incident_request.id))
+            # 事故单创建成功发送邮件
+            Delayed::Job.enqueue(Ccc::Jobs::IncidentSendEmailsTaskJob.new("CREATE_INCIDENT_REQUEST",@incident_request))
+
             format.html { redirect_to({:controller => "icm/incident_journals", :action => "new", :request_id => @incident_request.id, :show_info => Irm::Constant::SYS_YES}) }
             format.xml { render :xml => @incident_request, :status => :created, :location => @incident_request }
             format.json { render :json => @incident_request }
@@ -569,16 +575,16 @@ module Ccc::IncidentRequestsControllerEx
         if incident_request.incident_status_id.nil?||incident_request.incident_status_id.blank?
           incident_request.incident_status_id = Icm::IncidentStatus.default_id
         end
-        if incident_request.request_type_code.nil?||incident_request.request_type_code.blank?
-          incident_request.request_type_code = "REQUESTED_TO_CHANGE"
-        end
+        # if incident_request.request_type_code.nil?||incident_request.request_type_code.blank?
+        #   incident_request.request_type_code = "REQUESTED_TO_CHANGE"
+        # end
 
         if incident_request.report_source_code.nil?||incident_request.report_source_code.blank?
           incident_request.report_source_code = "CUSTOMER_SUBMIT"
         end
-        if incident_request.requested_by.present?
-          incident_request.contact_id = incident_request.requested_by
-        end
+        # if incident_request.requested_by.present?
+        #   incident_request.contact_id = incident_request.requested_by
+        # end
 
         if incident_request.urgence_id.nil?
           begin
@@ -598,9 +604,9 @@ module Ccc::IncidentRequestsControllerEx
           end
         end
 
-        if !incident_request.contact_number.present?&&incident_request.contact_id.present?
-          incident_request.contact_number = Irm::Person.find(incident_request.contact_id).bussiness_phone
-        end
+        # if !incident_request.contact_number.present?&&incident_request.contact_id.present?
+        #   incident_request.contact_number = Irm::Person.find(incident_request.contact_id).bussiness_phone
+        # end
 
         if limit_device?
           incident_request.summary = "<pre>"+incident_request.summary+"</pre>"

@@ -1,82 +1,121 @@
 <link rel="stylesheet" href="/stylesheets/ystep.css">
 
-<div class="ystep2">
+<div class="ystep1" style="margin-left: 1%;margin-top: 20px;">
+
+</div>
+<div class="ystep2" style="margin-left: 1%;margin-top: 20px;">
 
 </div>
 <script src="/javascripts/ystep.js"></script>
 <script>
-    var steps = [
-        {
-            title: "<%=t(:label_in_new)%>",
-            content: ""
-        },
-        {
-            title: "<%=t(:label_in_accept)%>",
-            content: ""
-        },
-        {
-            title: "<%=t(:label_in_process)%>",
-            content: ""
-        },
-        {
-            title: "<%=t(:label_in_commit_solution)%>",
-            content: ""
-        },
-        {
-            title: "<%=t(:label_in_close)%>",
-            content: ""
-        }
-    ]
-    <% Icm::IncidentHistory.where("request_id = ?",@incident_request.id).order("created_at ASC").each do |h|
-        # 新建
-        if h.property_key.eql?("incident_request_id")
-    %>
-            steps[0].content = "<%= format_date(h.created_at) %>"
-    <%
-        end
-        # 受理中
-        if h.new_value.eql?("000K000922scMSu1Q8vthI")
-    %>
+  $(function(){
+      var steps = [
+          {
+              title: "<%=t(:label_in_new)%>",
+              content: ""
+          },
+          {
+              title: "<%=t(:label_in_accept)%>",
+              content: ""
+          },
+          {
+              title: "<%=t(:label_in_process)%>",
+              content: ""
+          },
+          {
+              title: "<%=t(:label_in_commit_solution)%>",
+              content: ""
+          },
+          {
+              title: "<%=t(:label_in_close)%>",
+              content: ""
+          }
+      ]
+      <% Icm::IncidentHistory.where("request_id = ?",@incident_request.id).order("created_at ASC").each do |h|
+          # 新建
+          if h.property_key.eql?("incident_request_id")
+      %>
+      steps[0].content = "<%= format_date(h.created_at) %>"
+      <%
+          end
+          # 受理中
+          if h.new_value.eql?("000K000922scMSu1Q8vthI")
+      %>
             steps[1].content = "<%= format_date(h.created_at) %>"
-    <%
-        end
-        # 处理中
-        if h.new_value.eql?("000K000C2hrdz1TO8kREaO") || h.new_value.eql?("000K000A0g8dQeGEHYvu9g")
-    %>
+      <%
+          end
+          # 处理中
+          if h.new_value.eql?("000K000C2hrdz1TO8kREaO") || h.new_value.eql?("000K000A0g8dQeGEHYvu9g")
+      %>
             steps[2].content = "<%= format_date(h.created_at) %>"
-    <%
-        end
-        # 提交方案
-        if h.new_value.eql?("000K000A0g9LO0pOKPsZ1s")
-    %>
-            steps[3].content = "<%= format_date(h.created_at) %>"
-    <%
-        end
-        # 关闭
-        if h.new_value.eql?("000K000922scMSu1QUxWoy")
-    %>
+            <% if h.new_value.eql?("000K000A0g8dQeGEHYvu9g")%>
+                if(steps[2].content > steps[4].content)
+                    steps[4].content = ""
+                if(steps[2].content > steps[3].content)
+                    steps[3].content = ""
+            <% end %>
+      <%
+          end
+          # 提交方案
+          if h.new_value.eql?("000K000A0g9LO0pOKPsZ1s")
+      %>
+      if(steps[2].content < "<%= format_date(h.created_at) %>")
+          steps[3].content = "<%= format_date(h.created_at) %>"
+      else
+          steps[3].content = ""
+      <%
+          end
+          # 关闭
+          if h.new_value.eql?("000K000922scMSu1QUxWoy")
+      %>
             steps[4].content = "<%= format_date(h.created_at) %>"
-    <%
-        end
-    end
-    %>
+      <%
+          end
+      end
+      %>
 
-    $(".ystep2").loadStep({
-        size: "large",
-        color: "green",
-        steps: steps
-    });
+//      var length = 0
+//      for(var i=0;i<steps.length;i++){
+//          if(steps[i].content != ""){
+//              length ++
+//          }
+//      }
 
-    var length = 0
-    for(var i=0;i<steps.length;i++){
-        if(steps[i].content != ""){
-            length ++
-        }
-    }
+      Array.prototype.remove=function(dx) {
+          if(isNaN(dx)||dx>this.length){return false;}
+          for(var i=0,n=0;i<this.length;i++)
+          {
+              if(this[i]!=this[dx])
+              {
+                  this[n++]=this[i]
+              }
+          }
+          this.length-=1
+      }
 
-    $(".ystep2").setStep(length)
+      var l = steps.length
+      for(var i=1;i<l;i++){
+          console.log(steps[i].title)
+          console.log(steps[i].content)
+          console.log(steps.length)
+          if(steps[i].content == ""){
+              steps.remove(i)
+              i = 0
+              l = steps.length
+          }
+      }
+      console.log(steps)
 
-    for(var i=0;i<length;i++){
-        $(".ystep-step").eq(i).attr("class","ystep-step ystep-step-done")
-    }
+      $(".ystep1").loadStep({
+          size: "large",
+          color: "green",
+          steps: steps
+      });
+
+      $(".ystep1").setStep(steps.length)
+
+      for(var i=0;i<steps.length;i++){
+          $(".ystep-step").eq(i).attr("class","ystep-step ystep-step-done")
+      }
+  })
 </script>

@@ -18,7 +18,7 @@
            <%= link_to t(:hide), {:controller => "icm/incident_journals", :action => "delete",
                                   :request_id => @incident_request.id, :id => journal[:id], :_dom_id => "enabled_#{journal[:id]}", :sid => @incident_request.external_system_id},:remote => true %>
          <% end %>
-         <% if can_edit_comment?(journal, @incident_request) %>
+         <% if can_edit_comment?(journal, @incident_request) && Irm::Person.current.profile.user_license.eql?("SUPPORTER") %>
              &nbsp;&nbsp;<%= link_to t(:edit), {:controller => "icm/incident_journals",
                                                 :action => "edit",
                                                 :sid => @incident_request.external_system_id,

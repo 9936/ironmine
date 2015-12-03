@@ -1,4 +1,6 @@
 zh:
+  label_icm_incident_request_charge_person: 项目负责人
+
   label_service_disabled_flag: 服务失效标识
   label_people_day_info: 赠送人天信息
 
@@ -247,7 +249,7 @@ zh:
   label_icm_incident_journal_new_value: 修订
   label_icm_incident_journal_date: 日期
 
-  label_icm_incident_request_requested_by: 问题提交人
+  label_icm_incident_request_requested_by: 问题申请人
   label_icm_incident_request_target_system: 项目名称
   label_icm_incident_request_urgence_code: 优先级别
   label_icm_incident_request_urgence_reason: 紧急原因

@@ -87,7 +87,7 @@
         <label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label>
         <%= blank_select_tag :support_group_id,available_support_group(@incident_request.external_system_id),
                                                               {},{:id=>"incident_request_support_group_id"}%>
-        <label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_support_person)%></label>
+        <label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_charge_person)%></label>
         <%= blank_select_tag(:support_person_id,[],{},
                                             {
                                              :id=>"incident_request_support_person_id",
@@ -229,7 +229,7 @@
                 <%
                    total_workload = 0
                    workload.each do |iw|
-                     total_workload += iw[:real_processing_time_g]
+                    total_workload += iw[:real_processing_time_g]
                    end
                 %>
                 <%= total_workload%>
@@ -299,7 +299,7 @@
               <% end %>
             </td>
             <td class="page-block-button">
-              <% if @external_system.strict_workload.eql?('Y') %>
+              <% if @external_system.strict_workload.eql?('Y') && Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
               <div>
                 <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_journal_edit_workload)%></label>
                 <%= select_tag :workload_type,options_for_select(available_icm_workload_type, 'REMOTE') %>

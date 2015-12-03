@@ -49,14 +49,14 @@
               <td class="label-col"><label for="incident_request_actual_date"><%=t(:incident_request_customer_comfirm_date)%></label></td>
               <td class="data-col"><%=f.text_field :attribute4,:id=>"incident_request_customer_comfirm_date"%></td>
             </tr>
-            <tr>
+            <tr style="display:none">
               <td class="label-col"></td>
               <td class="data-col"><label for="incident_request_close_reason_code"><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
             </tr>
             <tr id="workload_list" style="display:none"></tr>
             <% @supporters.each do |sp| %>
                 <%= fields_for("incident_workloads[]", @incident_request.incident_workloads.build()) do |w|%>
-                    <tr id="workload_<%= sp[:supporter_id]%>">
+                    <tr id="workload_<%= sp[:supporter_id]%>" style="display:none">
                       <td class="label-col"></td>
                       <td class="data-col">
                         <%= w.select :workload_type, options_for_select(available_icm_workload_type, sp[:workload_type])%>
@@ -67,7 +67,7 @@
                     </tr>
                 <% end%>
             <% end %>
-            <tr>
+            <tr style="display:none">
               <td class="label-col"></td>
               <td class="data-col">
                 <%= select_tag("add_workload_select", options_for_select(available_people), {:id => "workload_select"})%><%= link_to I18n.t(:add), {}, {:id => "add_workload", :href => "javascript:void(0)"}%>
