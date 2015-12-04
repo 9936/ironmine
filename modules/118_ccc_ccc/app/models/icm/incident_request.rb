@@ -13,6 +13,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   validates_presence_of :title,:external_system_id,:requested_by,:submitted_by,:attribute1,:attribute2,:request_type_code,:incident_category_id,
                         :impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code,
                         :contact_number#,:contact_id
+  validates_format_of :attribute2, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,:message=>:email
 
   attr_accessor :pass_flag,:close_flag,:permanent_close_flag
 

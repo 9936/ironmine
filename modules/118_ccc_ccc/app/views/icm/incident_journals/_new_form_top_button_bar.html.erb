@@ -58,7 +58,7 @@
         <div class="btn-group">
           <% if @incident_request.status_code.eql?("ENABLED") %>
               <%= link_to t(:label_icm_incident_journal_edit_workload),
-                          {:controller=>"icm/incident_journals",:action => "edit_workload"}, {:class=>"btn"}%>
+                          {:controller=>"icm/incident_journals",:action => "edit_workload"}, {:class=>"btn",:id=>"edit_workload"}%>
           <% end %>
         </div>
     <% end %>

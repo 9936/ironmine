@@ -122,7 +122,7 @@
 <% content_for :block_status_controll_bar do %>
     <%= form_for(@incident_request,
                  :url=>{:controller => "icm/incident_journals", :action=>"update_status", :id => @incident_request.id, :sid => @incident_request.external_system_id},
-                 :builder => CustomFormBuilder, :html => {:class => "form-inline", :nomask => true}) do |f| %>
+                 :builder => CustomFormBuilder, :html => {:class => "form-inline",:onSubmit=>"return issubmit()", :nomask => true}) do |f| %>
         <label for="label_icm_incident_request_status_code"><%=t(:label_icm_incident_request_incident_status)%></label>
         <%= fields_for @incident_request.incident_journals.build(), :as=>"incident_journal",:builder =>CustomFormBuilder,:normal=>true do |sub_f|%>
             <%= sub_f.hidden_field(:incident_request_id) %>
@@ -684,8 +684,13 @@
     });
 
     function issubmit() {
-        if ($("#ccc_price_type_code").val() == "PEOPLEDATE" && (($("#incident_request_expect_date").val() == "" || $("#incident_request_actual_date").val() == ""))){
-            alert("项目类型为人天，人天数不能为空")
+        console.log($("#incident_request_incident_status_code").find("option:selected").val())
+        if(     ($("#incident_request_incident_status_code").find("option:selected").val()=="000K000A0g9LO0pOKPsZ1s") &&
+                "<%=@external_system.price_type_id%>" == "2" &&
+                (<%= @incident_request.attribute3 == nil || @incident_request.attribute3 == "" || @incident_request.attribute4 == nil || @incident_request.attribute4 == "" %>)
+        ){
+            alert("项目类型为人天，请先填写人天信息")
+            window.location.href = "/incident_requests/<%= @incident_request.id%>/journals/edit_workload"
             return false
         }
         else
@@ -830,6 +835,10 @@
               <tr>
                 <td class="label-col"><label><%=t(:label_project_manager)%></label></td>
                 <td class="data-col"><%= @show_external_system[:project_manager]%></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=t(:label_irm_external_system_customer_no)%></label></td>
+                <td class="data-col"><%=@show_external_system.customer_no %></td>
               </tr>
               <tr>
                 <td class="label-col"><label><%=(t :label_project_type)%></label></td>

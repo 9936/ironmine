@@ -18,7 +18,8 @@ class Irm::ExternalSystem < ActiveRecord::Base
   default_scope {default_filter}
 
   validates_uniqueness_of :external_system_code,:scope=>[:opu_id]
-  validates_presence_of :external_system_code ,:begin_date,:after_date,:system_name,:project_type_id,:price_type_id#, :external_hostname
+  validates_presence_of :external_system_code ,:begin_date,:after_date,:system_name,:project_type_id,:price_type_id,
+                        :organization_no,:customer_no,:project_manager
 
   scope :with_person, lambda{|person_id|
     joins(",#{Irm::ExternalSystemPerson.table_name} esp").

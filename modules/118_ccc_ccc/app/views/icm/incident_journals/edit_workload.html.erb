@@ -1,5 +1,5 @@
 <%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:label_icm_incident_journal_edit_workload)) %>
-<%= form_for(@incident_request,:url=>{:action=>"update_workload"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
+<%= form_for(@incident_request,:url=>{:action=>"update_workload"},:builder => LabellingFormBuilder,:html => { :multipart => true,:onSubmit=>"return check_submit()"}) do |f| %>
     <% content_for :form_block_common   do%>
       <table class="form-table" style="width: 100%;">
         <tbody>
@@ -281,6 +281,18 @@
      });
   });
 
+  function check_submit() {
+      if(
+              "<%=@external_system.price_type_id%>" == "2" &&
+              ($("#incident_request_expect_date").val() == "" || $("#incident_request_expect_date").val() == null || $("#incident_request_customer_comfirm_date").val() == "" || $("#incident_request_customer_comfirm_date").val() == null)
+      ){
+          alert("项目类型为人天，人天信息不能为空")
+          window.location.reload()
+          return false
+      }
+      else
+          return true
+  }
   function add_workload(wid, wtext){
     if ($("#workload_"+ wid).length < 1){
         $("#workload_list").after('<tr id="workload_'+ wid +'">'+

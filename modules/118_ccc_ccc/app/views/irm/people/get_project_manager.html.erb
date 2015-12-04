@@ -1,13 +1,13 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
     <% builder.column(:id,{:title=>t(:operation), :width => "130px"}) do |data|%>
-        <a onclick="fillInput(this)" style="cursor: pointer;text-decoration: none;" name="<%=data[:full_name]%>">选择</a>
+        <a onclick="fillInput2(this)" style="cursor: pointer;text-decoration: none;" name="<%=data[:full_name]%>">选择</a>
     <% end %>
     <% builder.column(:full_name,{:title=>t(:label_irm_person_full_name), :width => "20%",:searchable=>true})%>
     <% builder.column(:organization_name,{:title=>t(:label_irm_person_organization),:width => "50%",:searchable=>true})%>
 <% end %>
 <script>
-    function fillInput(arg){
-        $("#customer_no,#customer_no_label").val(arg.name)
-        $("#customerNoModal").modal("hide")
+    function fillInput2(arg){
+        $("#project_manager,#project_manager_label").val(arg.name)
+        $("#projectManagerModal").modal("hide")
     }
 </script>

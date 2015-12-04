@@ -155,11 +155,27 @@ class Irm::PeopleController < ApplicationController
 
   def get_customer_no
     @people= Irm::Person.not_anonymous.list_all.order(:id)
-    @people = @people.match_value("#{Irm::Person.table_name}.people_no",params[:people_no])
+    @people = @people.match_value("#{Irm::Person.table_name}.full_name",params[:full_name])
+    @people = @people.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
 
     @people,count = paginate(@people)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:people_no], count))}
+      format.json {render :json=>to_jsonp(@people.to_grid_json([:organization_name,:full_name], count))}
+      format.html {
+        @count = count
+        @datas = @people
+      }
+    end
+  end
+
+  def get_project_manager
+    @people= Irm::Person.not_anonymous.list_all.order(:id)
+    @people = @people.match_value("#{Irm::Person.table_name}.full_name",params[:full_name])
+    @people = @people.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
+
+    @people,count = paginate(@people)
+    respond_to do |format|
+      format.json {render :json=>to_jsonp(@people.to_grid_json([:organization_name,:full_name], count))}
       format.html {
         @count = count
         @datas = @people

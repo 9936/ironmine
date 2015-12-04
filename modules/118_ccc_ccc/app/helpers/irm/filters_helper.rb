@@ -48,8 +48,13 @@ module Irm::FiltersHelper
     current = filters.detect{|f| f.id.to_s.eql?(session[:_view_filter_id].to_s)}
     # 取得我的默认选项
     current = filters.detect{|f| f.default_flag.eql?(Irm::Constant::SYS_YES)&&f.own_id.eql?(Irm::Person.current.id)} unless current
-    # 如果我的默认选项不存在，则使用全局默认选项
-    current = filters.detect{|f| f.default_flag.eql?(Irm::Constant::SYS_YES)} unless current
+    # 如果顾问则选择默认选项，否则选择我参与的事故单
+    if Irm::Person.current.profile.user_license.eql?("SUPPORTER")
+      # 如果我的默认选项不存在，则使用全局默认选项
+      current = filters.detect{|f| f.default_flag.eql?(Irm::Constant::SYS_YES)} unless current
+    else
+      current = filters.last
+    end
     current ||= {:id=>nil}
 
     filters = filters.collect {|i|[i[:filter_name], i[:id]]}

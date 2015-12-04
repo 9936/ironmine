@@ -8,21 +8,19 @@
             <td class="label-col"><label for="external_system_external_system_code"><%=t(:label_irm_external_system_external_system_code)%></label></td>
             <td class="data-col"><%=f.text_field :external_system_code, :required=>true ,:id=>"external_system_external_system_code"%></td>
             <td class="label-col"><label for="organization_no"><%=t(:label_irm_external_system_organization_no)%></label></td>
-            <td class="data-col"><%=f.lov_field :organization_no,Irm::ExternalSystem,{:id=>"organization_no",:class=>"input-medium"}%></td>
+            <td class="data-col"><%=f.lov_field :organization_no,Irm::ExternalSystem,{:id=>"organization_no",:class=>"input-medium",:value=>@external_system[:organization_no]}%></td>
           </tr>
           <tr>
             <td class="label-col"><label for="external_system_system_name"><%=t(:label_irm_external_system_system_name)%></label></td>
             <td class="data-col"><%=f.text_field :system_name, :required=>true ,:id=>"external_system_system_name"%></td>
             <td class="label-col"><label for="customer_no"><%=t(:label_irm_external_system_customer_no)%></label></td>
-            <td class="data-col"><%=f.lov_field :customer_no,Irm::ExternalSystem,{:id=>"customer_no",:class=>"input-medium"}%></td>
+            <td class="data-col"><%=f.lov_field :customer_no,Irm::ExternalSystem,{:id=>"customer_no",:class=>"input-medium",:value=>@external_system[:customer_no]}%></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_project_manager)%></label></td>
-            <td class="data-col"><%= f.text_field(:project_manager,:required=>true) %></td>
+            <td class="data-col"><%=f.lov_field :project_manager,Irm::ExternalSystem,{:required=>true,:id=>"project_manager",:class=>"input-medium",:value=>@external_system[:project_manager]}%></td>
             <td class="label-col"><label><%=t(:label_project_type)%></label></td>
-            <td class="data-col">
-              <%= f.blank_select(:project_type_id,available_projectTypes,{},{:required=>true,:id=>"project_type"})%>
-            </td>
+            <td class="data-col"><%= f.blank_select(:project_type_id,available_projectTypes,{},{:required=>true,:id=>"project_type"})%></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_begin_date)%></label></td>
@@ -201,6 +199,34 @@
   </div>
 </div>
 
+<div class="modal fade" id="projectManagerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+        aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">项目经理列表</h4>
+      </div>
+      <div class="modal-body">
+        <div class="page-block">
+          <table class="page-block-header"><tr>
+            <td class="page-block-title">
+            </td>
+            <td class="page-block-help">
+              <div id="searchBox3"></div>
+            </td>
+          </tr></table>
+          <div class="page-block-body">
+            <%= datatable("people1",{:controller => "irm/people", :action=>"get_project_manager"},[],{:search_box=>"searchBox3",:paginator_box=>"paginatorBox3"})%>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="organizationNoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -236,15 +262,16 @@
     $(".lov-btn").removeAttr("onclick")
     $("#organization_noTip").remove()
     $("#customer_noTip").remove()
+    $("#project_managerTip").remove()
     $(".lov-btn").eq(0).on("click",function(){
       $("#organizationNoModal").modal("show")
     })
     $(".lov-btn").eq(1).on("click",function(){
       $("#customerNoModal").modal("show")
     })
-
-    $("#organization_no_label").val($("#organization_no").val())
-    $("#customer_no_label").val($("#customer_no").val())
+    $(".lov-btn").eq(2).on("click",function(){
+      $("#projectManagerModal").modal("show")
+    })
   })
 
 </script>

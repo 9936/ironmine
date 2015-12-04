@@ -3,7 +3,7 @@
         <a onclick="fillInput1(this)" style="cursor: pointer" id="<%=data[:id]%>" name="<%=data[:organization_no]%>">选择</a>
     <% end %>
     <% builder.column(:organization_no,{:title=>t(:label_irm_organization_no),:searchable=>true})%>
-    <% builder.column(:name,{:title=>t(:label_irm_organization_name), :width => "15%"})%>
+    <% builder.column(:name,{:title=>t(:label_irm_organization_name), :width => "50%"})%>
 <% end %>
 <script>
     function fillInput1(arg){

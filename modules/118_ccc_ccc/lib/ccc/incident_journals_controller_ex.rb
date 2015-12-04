@@ -15,11 +15,11 @@ module Ccc::IncidentJournalsControllerEx
         @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
         @show_external_system = Irm::ExternalSystem.list_all.find(@incident_request.external_system_id)
         @organization = Irm::Organization.list_all.find(Irm::Person.find(@incident_request.requested_by).organization_id)
-        if @external_system.price_type_id
-          @price_type = Ccc::PriceType.find(@external_system.price_type_id)
-        else
-          @price_type = nil
-        end
+        # if @external_system.price_type_id
+        #   @price_type = Ccc::PriceType.find(@external_system.price_type_id).to_s
+        # else
+        #   @price_type = nil
+        # end
 
         respond_to do |format|
           format.html { render :layout=>"application_right"}
@@ -80,8 +80,6 @@ module Ccc::IncidentJournalsControllerEx
             @incident_journal.create_elapse
             @incident_request.save
             if es.strict_workload.eql?('Y') && @incident_journal.workload.present? && Irm::Person.current.email_address.end_with?("hand-china.com")
-              puts "11111111111111111111"
-              puts params[:workload_type]
               Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
                                             :incident_journal_id => @incident_journal.id,
                                             :real_processing_time => @incident_journal.workload,
@@ -129,6 +127,7 @@ module Ccc::IncidentJournalsControllerEx
 
       def edit_workload
         @incident_journal = @incident_request.incident_journals.build()
+        @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
 
         @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").joins(",#{Irm::LookupValue.view_name} lv").
                     where("lv.language = ?", I18n.locale).where("lv.lookup_type = ?", "WORKLOAD_TYPE").
@@ -153,6 +152,7 @@ module Ccc::IncidentJournalsControllerEx
       def update_workload
         ir = Icm::IncidentRequest.find(@incident_request.id)
         @incident_request.attributes = params[:icm_incident_request]
+        @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
 
         respond_to do |format|
           if
