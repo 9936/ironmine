@@ -259,8 +259,6 @@ module Ccc::IncidentRequestsControllerEx
       # POST /incident_requests
       # POST /incident_requests.xml
       def create
-        puts "111111111111"
-        puts params[:icm_incident_request].inspect
         @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
         @return_url = params[:return_url] if params[:return_url]
         #加入创建事故单的默认参数
@@ -301,8 +299,8 @@ module Ccc::IncidentRequestsControllerEx
             end
             #投票任务
             Delayed::Job.enqueue(Icm::Jobs::IncidentRequestSurveyTaskJob.new(@incident_request.id))
-            # 事故单创建成功发送邮件
-            Delayed::Job.enqueue(Ccc::Jobs::IncidentSendEmailsTaskJob.new("CREATE_INCIDENT_REQUEST",@incident_request))
+            # # 事故单创建成功发送邮件
+            # Delayed::Job.enqueue(Ccc::Jobs::IncidentSendEmailsTaskJob.new("CREATE_INCIDENT_REQUEST",@incident_request))
 
             format.html { redirect_to({:controller => "icm/incident_journals", :action => "new", :request_id => @incident_request.id, :show_info => Irm::Constant::SYS_YES}) }
             format.xml { render :xml => @incident_request, :status => :created, :location => @incident_request }

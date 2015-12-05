@@ -20,6 +20,10 @@ class Irm::WfMailRecipient < ActiveRecord::Base
     where(:wf_mail_alert_id=>wf_mail_alert_id,:recipient_type=>Irm::BusinessObject.class_name_to_code(Irm::ObjectAttribute.name))
   }
 
+  scope :bo_attribute1,lambda{|wf_mail_alert_id|
+                       where(:wf_mail_alert_id=>wf_mail_alert_id,:recipient_type=>Irm::BusinessObject.class_name_to_code(Irm::Role.name))
+                     }
+
 
   def person_ids(bo=nil)
     person_ids = []

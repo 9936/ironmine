@@ -75,10 +75,17 @@ class Irm::WfMailAlert < ActiveRecord::Base
   def all_recipients(bo)
     person_ids = []
     person_ids += Irm::WfMailRecipient.where(:wf_mail_alert_id=>self.id).query_person_ids.collect{|i| i[:person_id]}
+
     Irm::WfMailRecipient.bo_attribute(self.id).each do |recipient|
       person_ids += recipient.person_ids(bo)
     end if bo.present?
+
+    Irm::WfMailRecipient.bo_attribute1(self.id).each do |recipient|
+      person_ids += Irm::Person.where(:role_id=>recipient.recipient_id).collect{|i| i[:id]}
+    end if bo.present?
+
     person_ids.uniq
+
   end
 
   def perform(bo)
