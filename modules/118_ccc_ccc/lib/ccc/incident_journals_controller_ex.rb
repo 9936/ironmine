@@ -177,6 +177,24 @@ module Ccc::IncidentJournalsControllerEx
               ir.update_attribute(:last_response_date, Time.now)
             end if params[:incident_workloads]
 
+
+            if params[:next_status]
+              incident_request_bak = Icm::IncidentRequest.find(@incident_request.id)
+              @incident_request.update_attribute(:incident_status_id,params[:next_status])
+              @incident_journal = @incident_request.incident_journals.build()
+              @incident_journal.reply_type = "STATUS"
+              @incident_journal.replied_by=Irm::Person.current.id
+              puts @incident_journal.inspect
+              @incident_journal.save
+              ovalue = incident_request_bak.incident_status_id
+              nvalue = params[:next_status]
+              Icm::IncidentHistory.create({:request_id => @incident_request.id,
+                                           :journal_id=> @incident_journal.id,
+                                           :property_key=>"incident_status_id",
+                                           :old_value=>ovalue,
+                                           :new_value=>nvalue}) if !ovalue.eql?(nvalue)
+            end
+
             format.html { redirect_to({:action => "new"}) }
             format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
           end
@@ -259,6 +277,14 @@ module Ccc::IncidentJournalsControllerEx
       #     }
       #   end
       # end
+      def grade_of_satisfy
+        Ccc::SatisRateOfConsultant.create({:supporter_id => params[:supporter_id],
+                                           :incident_request_id => params[:request_id],
+                                           :grade_type => params[:grade_type],
+                                           :bad_reason => params[:bad_reason]
+                                                               })
+        render json: {:result=>"ok"}
+      end
 
       def get_incident_history_data
         history_scope = Icm::IncidentHistory.
@@ -345,7 +371,7 @@ module Ccc::IncidentJournalsControllerEx
             #process_files(@incident_journal)
             @incident_journal.create_elapse
             #关闭事故单时，产生一个与之关联的投票任务
-            #Delayed::Job.enqueue(Irm::Jobs::IcmIncidentRequestSurveyTaskJob.new(@incident_request.id))
+            # Delayed::Job.enqueue(Irm::Jobs::IcmIncidentRequestSurveyTaskJob.new(@incident_request.id))
             format.html { redirect_to({:action => "new"}) }
             format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
           else
@@ -396,6 +422,19 @@ module Ccc::IncidentJournalsControllerEx
       end
 
       private
+
+      def process_change_attributes(attributes,new_value,old_value,ref_journal)
+        attributes.each do |key|
+          ovalue = old_value.send(key)
+          nvalue = new_value.send(key)
+          Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,
+                                       :journal_id=>ref_journal.id,
+                                       :property_key=>key.to_s,
+                                       :old_value=>ovalue,
+                                       :new_value=>nvalue}) if !ovalue.eql?(nvalue)
+        end
+      end
+
       def setup_up_incident_request
         @incident_request = Icm::IncidentRequest.select_all.
             with_request_type(I18n.locale).

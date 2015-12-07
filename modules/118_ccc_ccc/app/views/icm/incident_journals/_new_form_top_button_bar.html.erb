@@ -16,9 +16,9 @@
         <div class="btn-group">
           <% if @incident_request.status_code.eql?("ENABLED") %>
               <% if can_close?(@incident_request) %>
-                <%= link_to t(:close),
-                            {:action => "edit_close", :sid => @incident_request.external_system_id},
-                            {:class=>"btn"} %>
+                  <%= link_to t(:close),
+                              {},
+                              {:href => "javascript:void(0);",:class=>"btn",:onclick=>"beforeClose()"} %>
               <% end %>
               <% if can_edit?(@incident_request) %>
                 <%= link_to t(:edit),

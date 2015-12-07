@@ -299,8 +299,6 @@ module Ccc::IncidentRequestsControllerEx
             end
             #投票任务
             Delayed::Job.enqueue(Icm::Jobs::IncidentRequestSurveyTaskJob.new(@incident_request.id))
-            # # 事故单创建成功发送邮件
-            # Delayed::Job.enqueue(Ccc::Jobs::IncidentSendEmailsTaskJob.new("CREATE_INCIDENT_REQUEST",@incident_request))
 
             format.html { redirect_to({:controller => "icm/incident_journals", :action => "new", :request_id => @incident_request.id, :show_info => Irm::Constant::SYS_YES}) }
             format.xml { render :xml => @incident_request, :status => :created, :location => @incident_request }

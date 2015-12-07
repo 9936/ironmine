@@ -111,6 +111,7 @@ Ironmine::Application.routes.draw do
   end
 
  scope :module => "icm" do
+   match '/incident_journals/grade_of_satisfy(.:format)' => "incident_journals#grade_of_satisfy"
    match '/incident_requests/:request_id/:sid/journals/update_people_date(.:format)' => "incident_journals#update_people_date", :via => :put
    match '/incident_requests/:source_id/:sid/add_entry_header_relation(.:format)' => "incident_requests#add_entry_header_relation", :via => :post
    match '/incident_requests/:source_id/:target_id/remove_entry_header_relation(.:format)' => "incident_requests#remove_entry_header_relation"

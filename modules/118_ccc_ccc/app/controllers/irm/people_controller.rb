@@ -141,11 +141,11 @@ class Irm::PeopleController < ApplicationController
       profile_ids << p.id
     end
     @people= Irm::Person.where(profile_id: profile_ids).where("consultant_no <> ''").not_anonymous.list_all.order(:id)
-    @people = @people.match_value("#{Irm::Person.table_name}.consultant_no",params[:consultant_no])
+    @people = @people.match_value("#{Irm::Person.table_name}.full_name",params[:full_name])
 
     @people,count = paginate(@people)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:consultant_no], count))}
+      format.json {render :json=>to_jsonp(@people.to_grid_json([:full_name,:consultant_no], count))}
       format.html {
         @count = count
         @datas = @people

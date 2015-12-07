@@ -13,6 +13,10 @@ module Ccc::WatchersControllerEx
                                        :property_key=> "add_watcher",
                                        :old_value=>params[:watcher],
                                        :new_value=> ""})
+          # 事故单添加跟踪者发送邮件
+          puts "11111111"
+          puts watcher.email_address
+          Delayed::Job.enqueue(Ccc::Jobs::IncidentSendEmailsTaskJob.new("ADD_WATCHER",watcher.email_address,params[:watchable_id]))
         end
     #    prepare_order
         @editable = params[:editable]

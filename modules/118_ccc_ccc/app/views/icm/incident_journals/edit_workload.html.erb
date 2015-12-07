@@ -1,5 +1,5 @@
 <%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:label_icm_incident_journal_edit_workload)) %>
-<%= form_for(@incident_request,:url=>{:action=>"update_workload"},:builder => LabellingFormBuilder,:html => { :multipart => true,:onSubmit=>"return check_submit()"}) do |f| %>
+<%= form_for(@incident_request,:url=>{:action=>"update_workload",:next_status=>params[:next_status]},:builder => LabellingFormBuilder,:html => { :multipart => true,:onSubmit=>"return check_submit()"}) do |f| %>
     <% content_for :form_block_common   do%>
       <table class="form-table" style="width: 100%;">
         <tbody>
