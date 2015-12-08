@@ -139,13 +139,12 @@ class Irm::MailTemplate < ActiveRecord::Base
         TemplateMailer.template_email(mail_options, email_template, template_params, header_options ,logger_options).deliver
       end
     else
-      if params[:code_type].eql?("ADD_WATCHER")
-        mail_options = params[:mail_options]
-        email_template  = self.class.query_by_language(Irm::Person.current.language_code).find(self.id)
+      email_template  = self.class.query_by_language(Irm::Person.current.language_code).find(self.id)
+      if email_template.template_code.eql?("ADD_WATCHER")
+        mail_options = {:to=>params[:object_params]["icm_incident_requests"]["attribute5"]}
         TemplateMailer.template_email(mail_options, email_template, template_params, header_options ,logger_options).deliver
       else
         mail_options = {:to=>params[:object_params]["icm_incident_requests"]["attribute2"]}
-        email_template  = self.class.query_by_language(Irm::Person.current.language_code).find(self.id)
         TemplateMailer.template_email(mail_options, email_template, template_params, header_options ,logger_options).deliver
       end
     end

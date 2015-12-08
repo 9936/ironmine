@@ -109,6 +109,16 @@ class Irm::WfMailAlert < ActiveRecord::Base
     # template 　
     mail_template = Irm::MailTemplate.query_by_template_code(self.mail_template_code).first
 
+    # 如果邮件不是用于新建则不提醒Hotline
+    if !self.mail_template_code.eql?("CREATE_INCIDENT_REQUEST")
+      temp_person_ids = []
+      Irm::WfMailRecipient.bo_attribute(self.id).each do |recipient|
+        if recipient.recipient_type.eql?("IRM__ROLE") && recipient.recipient_id.eql?("002N000B2jQQBCsvKW8BfM")
+          temp_person_ids += recipient.person_ids(bo)
+        end
+      end if bo.present?
+      recipient_ids = recipient_ids - temp_person_ids
+    end
     # loop send mail
     # bo_update_by = bo.respond_to?(:updated_by)? bo.created_by : "nocreatedby" # do not send to creater
     bo_update_by = bo.respond_to?(:updated_by)? bo.updated_by : "noupdatedby"
@@ -157,7 +167,6 @@ class Irm::WfMailAlert < ActiveRecord::Base
       params[:object_params] = Irm::BusinessObject.liquid_attributes(bo,true)
       mail_template.deliver_to(params.merge(:logger_options => logger_options))
     end
-
 
     I18n.locale =  current_locale
     Time.zone = current_time_zone

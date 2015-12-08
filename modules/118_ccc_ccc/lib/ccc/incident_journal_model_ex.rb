@@ -45,7 +45,8 @@ module Ccc::IncidentJournalModelEx
           es = Irm::ExternalSystem.find(rq.external_system_id)
         unless self.replied_by.nil?
           pr = Irm::Person.find(self.replied_by)
-          if es.strict_workload.eql?('Y') && !self.workload.present? && pr.email_address.end_with?("hand-china.com")
+          # if es.strict_workload.eql?('Y') && !self.workload.present? && pr.email_address.end_with?("hand-china.com")
+          if es.strict_workload.eql?('Y') && !self.workload.present? && pr.profile.user_license.eql?("SUPPORTER")
             self.errors.add(:message_body, 'Workload can not be blank')
           end
         end

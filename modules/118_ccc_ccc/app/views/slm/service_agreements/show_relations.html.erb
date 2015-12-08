@@ -23,6 +23,8 @@
     if($(".serviceCount").length >= 3){
       $("#icm_incident_journal_sla_instance").val($(".serviceCount").eq(2).attr("id"))
       $("#icm_incident_journal_sla_instance_id").val($(".serviceCount").eq(2).attr("id"))
+      var edit_pass_href = $("#edit_pass").attr("href")
+      $("#edit_pass").attr("href",edit_pass_href+"?sla_instance_id="+$(".serviceCount").eq(2).attr("id"))
     }
   })
 </script>

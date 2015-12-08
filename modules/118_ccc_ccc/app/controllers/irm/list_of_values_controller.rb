@@ -200,8 +200,6 @@ class Irm::ListOfValuesController < ApplicationController
     end
     params[:lov_params] ||= {}
     params[:lksrch].gsub!(/\*/,"%")
-    puts "11111111111"
-    puts params[:lksrch]
     @fields,@datas = @business_object.lookup(params[:lksrch],params[:lkvfid],params)
     @datas = @datas.limit(15)
     respond_to do |format|

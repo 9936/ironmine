@@ -258,6 +258,7 @@ class Icm::IncidentJournalsController < ApplicationController
   # 转交
   def edit_pass
     @incident_journal = @incident_request.incident_journals.build()
+    @sla_instance_id = params[:sla_instance_id]
     respond_to do |format|
       format.html { render :action => "edit_pass",:layout => "application_full" }
       format.xml  { render :xml => @incident_journal }
@@ -265,6 +266,8 @@ class Icm::IncidentJournalsController < ApplicationController
   end
 
   def update_pass
+    sla_instance_id = params[:sla_instance_id]
+
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
     @incident_journal.reply_type = "PASS"
     @incident_request.attributes = params[:icm_incident_request]
@@ -286,6 +289,14 @@ class Icm::IncidentJournalsController < ApplicationController
                                    :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         @incident_journal.create_elapse
+
+        sla_instance = Slm::SlaInstance.where(:id=>sla_instance_id)
+        if sla_instance.length == 1
+          updateData = {:current_duration => 0,
+                        :start_at => Time.now,
+                        :last_phase_start_date => Time.now}
+          sla_instance.first.update_attributes(updateData)
+        end
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
@@ -588,7 +599,8 @@ class Icm::IncidentJournalsController < ApplicationController
       nvalue = new_value.send(key)
 
       if !ovalue.eql?(nvalue)
-        if (ovalue.eql?("000K000A0g8zPKXoIwOIhk") && nvalue.eql?("000K000C2hrdz1TO8kREaO")) || (ovalue.eql?("000K000A0g9LO0pOKPsZ1s") && nvalue.eql?("000K000A0g8dQeGEHYvu9g"))
+        # 事故单变为处理中或重新处理
+        # if nvalue.eql?("000K000C2hrdz1TO8kREaO") || nvalue.eql?("000K000A0g8dQeGEHYvu9g")
           sla_instance = Slm::SlaInstance.where(:id=>sla_instance_id)
           if sla_instance.length == 1
             updateData = {:current_duration => 0,
@@ -596,7 +608,7 @@ class Icm::IncidentJournalsController < ApplicationController
                           :last_phase_start_date => Time.now}
             sla_instance.first.update_attributes(updateData)
           end
-        end
+        # end
       end
 
       Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,

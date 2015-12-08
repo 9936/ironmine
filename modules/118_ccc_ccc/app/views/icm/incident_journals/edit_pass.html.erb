@@ -1,5 +1,5 @@
 <%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:pass)) %>
-<%= form_for(@incident_request,:url=>{:action=>"update_pass"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
+<%= form_for(@incident_request,:url=>{:action=>"update_pass",:sla_instance_id=>@sla_instance_id},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
   <%=f.hidden_field :pass_flag,:value=>"Y" %>
   <% content_for :form_block_common   do%>
     <table class="form-table" style="width: 100%;">

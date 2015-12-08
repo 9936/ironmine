@@ -13,10 +13,13 @@ module Ccc::WatchersControllerEx
                                        :property_key=> "add_watcher",
                                        :old_value=>params[:watcher],
                                        :new_value=> ""})
+          incident_request = Icm::IncidentRequest.find(params[:watchable_id])
+          incident_request.update_attribute(:attribute5,watcher.email_address)
           # 事故单添加跟踪者发送邮件
-          puts "11111111"
-          puts watcher.email_address
-          Delayed::Job.enqueue(Ccc::Jobs::IncidentSendEmailsTaskJob.new("ADD_WATCHER",watcher.email_address,params[:watchable_id]))
+          # Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new({:bo_id => params[:watchable_id], :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000C2jUfvOMmSeX1ZQ", :action_type => "Irm::WfMailAlert"}))
+          # Delayed::Job.enqueue(Ccc::Jobs::IncidentSendEmailsTaskJob.new(params[:watchable_id],"ICM_INCIDENT_REQUESTS","002i000C2jUfvOMmSeX1ZQ","Irm::WfMailAlert"))
+          options = {:bo_id => params[:watchable_id], :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000C2jUfvOMmSeX1ZQ", :action_type => "Irm::WfMailAlert"}
+          Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
         end
     #    prepare_order
         @editable = params[:editable]
