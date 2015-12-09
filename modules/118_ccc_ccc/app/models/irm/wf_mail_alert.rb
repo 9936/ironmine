@@ -110,7 +110,7 @@ class Irm::WfMailAlert < ActiveRecord::Base
     mail_template = Irm::MailTemplate.query_by_template_code(self.mail_template_code).first
 
     # 如果邮件不是用于新建则不提醒Hotline
-    if !self.mail_template_code.eql?("CREATE_INCIDENT_REQUEST")
+    if !self.mail_template_code.eql?("CREATE_INCIDENT_REQUEST") && !self.mail_template_code.eql?("WARNING_HOTLINE") && !self.mail_template_code.eql?("TIMEOUT_NEW")
       temp_person_ids = []
       recipient_ids.each do |r|
         temp_person = Irm::Person.with_role.find(r)
