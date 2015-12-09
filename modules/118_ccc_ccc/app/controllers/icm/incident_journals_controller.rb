@@ -300,9 +300,9 @@ class Icm::IncidentJournalsController < ApplicationController
         # 转交后给支持人员发邮件提醒
         # 如果事故单状态处于受理中时则用新问题分配的邮件模板
         if @incident_request.incident_status_id.eql?("000K000922scMSu1Q8vthI")
-          options = {:bo_id => @incident_request.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000923Uu47csv7Tpj6", :action_type => "Irm::WfMailAlert"}
+          options = {:bo_id => @incident_request.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2jvcJDvCh6ck88", :action_type => "Irm::WfMailAlert"}
         else
-          options = {:bo_id => @incident_request.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000C2jahYzBsuIaTSq", :action_type => "Irm::WfMailAlert"}
+          options = {:bo_id => @incident_request.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2jvGKXdQwvFVBI", :action_type => "Irm::WfMailAlert"}
         end
         Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
 
@@ -620,7 +620,9 @@ class Icm::IncidentJournalsController < ApplicationController
         # 如果事故单状态从受理中->处理中
         if ovalue.eql?("000K000922scMSu1Q8vthI") && nvalue.eql?("000K000C2hrdz1TO8kREaO")
           puts "Show Li -> In Process"
-          options = {:bo_id => new_value.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000C2jUfvOMmSeX1ZQ", :action_type => "Irm::WfMailAlert"}
+          options = {:bo_id => new_value.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2joAktx30siHFA", :action_type => "Irm::WfMailAlert"}
+          Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
+          options = {:bo_id => new_value.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2joAktx30siHFA", :action_type => "Irm::WfMailAlert"}
           Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
         end
         # 如果事故单状态从客户对应中->处理中
