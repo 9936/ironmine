@@ -99,7 +99,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "chm/change_requests" => ["show_detail"],
               "icm/incident_journals" => ["grade_of_satisfy","index", "new"],
-              "icm/incident_requests" => ["get_data", "get_external_systems", "get_help_desk_data", "get_slm_services", "index",
+              "icm/incident_requests" => ["remove_entry_header_relation","add_entry_header_relation","get_data", "get_external_systems", "get_help_desk_data", "get_slm_services", "index",
                                           "update", "remove_attachment"],
               "icm/support_groups" => ["get_pass_member_options"]
           },

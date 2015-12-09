@@ -85,11 +85,11 @@ class Irm::WfMailAlert < ActiveRecord::Base
     end if bo.present?
 
     person_ids.uniq
-
   end
 
   def perform(bo)
     recipient_ids = self.all_recipients(bo)
+    temp_recipient_ids = recipient_ids
     # template params
     current_locale = I18n.locale
     current_time_zone = Time.zone
@@ -112,11 +112,12 @@ class Irm::WfMailAlert < ActiveRecord::Base
     # 如果邮件不是用于新建则不提醒Hotline
     if !self.mail_template_code.eql?("CREATE_INCIDENT_REQUEST")
       temp_person_ids = []
-      Irm::WfMailRecipient.bo_attribute(self.id).each do |recipient|
-        if recipient.recipient_type.eql?("IRM__ROLE") && recipient.recipient_id.eql?("002N000B2jQQBCsvKW8BfM")
-          temp_person_ids += recipient.person_ids(bo)
+      recipient_ids.each do |r|
+        temp_person = Irm::Person.with_role.find(r)
+        if temp_person[:role_name].eql?("HOTLINE")
+          temp_person_ids << r
         end
-      end if bo.present?
+      end
       recipient_ids = recipient_ids - temp_person_ids
     end
     # loop send mail
@@ -131,7 +132,7 @@ class Irm::WfMailAlert < ActiveRecord::Base
         :template_code => self.mail_template_code
     }
 
-    if recipient_ids.any?
+    if temp_recipient_ids.any?
     # return unless recipient_ids.any?
 
       #检查是否需要进行合并发送

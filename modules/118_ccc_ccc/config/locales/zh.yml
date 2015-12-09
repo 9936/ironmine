@@ -1,4 +1,5 @@
 zh:
+  label_peopel_date_error: 项目类型为人天，请先填写人天信息
   label_business_user: 业务用户
   label_icm_incident_request_charge_person: 小组负责人
 
@@ -10,6 +11,7 @@ zh:
   label_in_process: 处理中
   label_in_commit_solution: 提交方案
   label_in_close:  关闭
+  label_in_confirm:  确定
 
 
   label_icm_incident_request_real_processing_total_time: 实际消耗总时间(小时)
@@ -254,7 +256,7 @@ zh:
   label_icm_incident_request_target_system: 项目名称
   label_icm_incident_request_urgence_code: 优先级别
   label_icm_incident_request_urgence_reason: 紧急原因
-  label_report_incident_request_update_priority: 更改紧急度和影响度
+  label_report_incident_request_update_priority: 更改优先级
 
   label_icm_incident_request_contact: 业务用户
   label_icm_incident_request_contact_number: 业务用户联系电话

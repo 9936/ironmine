@@ -536,15 +536,8 @@
         <td class="page-block-title">
           <h2 class="block-title"><%=t(:label_incident_request)%></h2>
         </td>
-        <td class="page-block-button">
-          <% if !@incident_request.close? &&
-                  !@incident_request.permanent_close? &&
-                  allow_to_function?(:reply_incident_request) &&
-                  @incident_request.watcher?(Irm::Person.current.id) &&
-                  @incident_request.status_code.eql?(Irm::Constant::ENABLED) %>
-              <a href="#new_icm_incident_reply" class="btn"><%= t(:label_icm_incident_journal_new) %></a>
-          <% end %>
-        </td>
+      <td class="sub-page-block-body">
+      </td>
         <td class="page-block-help" style="width: auto;">
           <%= content_for :block_header_buttons  %>
         </td>
@@ -689,8 +682,7 @@
         if(     ($("#incident_request_incident_status_code").find("option:selected").val()=="000K000A0g9LO0pOKPsZ1s") &&
                 "<%=@external_system.price_type_id%>" == "2"
           ){
-            alert("项目类型为人天，请先填写人天信息")
-            window.location.href = "/incident_requests/<%= @incident_request.id%>/journals/edit_workload?next_status=000K000A0g9LO0pOKPsZ1s"
+           $("#errorMessModal").modal("show")
             return false
         }
         else
@@ -708,6 +700,22 @@
         $("#new_icm_incident_reply").mask($.i18n("processing"));
     }
 </script>
+<!--提示填写工时的模态框-->
+<div class="modal fade" id="errorMessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body">
+        <h3><%= t :label_peopel_date_error %></h3>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="update_people_date()"><%= t :label_in_confirm %></button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <% unless limit_device? %>
     <style type="text/css">
         .sticky #toolbar {
@@ -771,7 +779,6 @@
         </div>
     <%end%>
 <% end %>
-
 
 <div class="modal fade" id="organizationMessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -930,6 +937,11 @@
 </div>
 
 <script type="text/javascript">
+    function update_people_date(){
+        $("#errorMessModal").modal("hide")
+        window.location.href = '/incident_requests/<%= @incident_request.id%>/journals/edit_workload?next_status=000K000A0g9LO0pOKPsZ1s'
+    }
+
     function beforeClose(){
         //如果没有评价过则需要评价
         if("<%=Ccc::SatisRateOfConsultant.where(:incident_request_id=>@incident_request.id).length %>" == "0")
