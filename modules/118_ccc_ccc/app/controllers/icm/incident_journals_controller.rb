@@ -613,7 +613,9 @@ class Icm::IncidentJournalsController < ApplicationController
         sla_instance_phase = Slm::SlaInstancePhase.where(:sla_instance_id=>sla_instance_id,:phase_type=>"START").order("start_at DESC").first
         updateDatas = {:duration => 0,
                       :start_at => Time.now}
-        sla_instance_phase.update_attributes(updateDatas)
+        if sla_instance_phase
+          sla_instance_phase.update_attributes(updateDatas)
+        end
 
         if sla_instance.length == 1
           updateData = {:current_duration => 0,
@@ -624,13 +626,18 @@ class Icm::IncidentJournalsController < ApplicationController
 
         # 如果事故单状态从受理中->处理中
         if ovalue.eql?("000K000922scMSu1Q8vthI") && nvalue.eql?("000K000C2hrdz1TO8kREaO")
+          # 客户邮件
+          puts "111111111111111111111111"
           options = {:bo_id => new_value.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2joAktx30siHFA", :action_type => "Irm::WfMailAlert"}
           Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
-          options = {:bo_id => new_value.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2joAktx30siHFA", :action_type => "Irm::WfMailAlert"}
+          # 业务用户邮件
+          puts "22222222222222222222222"
+          options = {:bo_id => new_value.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2jsQV5MhXscJHc", :action_type => "Irm::WfMailAlert"}
           Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
         end
         # 如果事故单状态从客户对应中->处理中
         if ovalue.eql?("000K000A0g8zPKXoIwOIhk") && nvalue.eql?("000K000C2hrdz1TO8kREaO")
+          puts "33333333333333333333333"
           options = {:bo_id => new_value.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2joAktx33nmFxg", :action_type => "Irm::WfMailAlert"}
           Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
         end
