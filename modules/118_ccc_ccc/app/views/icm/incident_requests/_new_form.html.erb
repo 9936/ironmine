@@ -139,10 +139,10 @@
             <td class="label-col"></td>
             <td class="data-3col" colspan="3">
               <div>
-                <b style="float:left;color: red">注：如有截图，请通过“客户提交问题模板”作为附件提交</b>
+                <b style="float:left;color: blue;margin-right: 67px;">注：如有截图，请通过“客户提交问题模板”作为附件提交</b>
                 <a href="/template/template.docx" target="_blank">
                   <div class="file-info">
-                    <div title="template" class="file-name"><b style="float:left;color: red;text-decoration: underline;">客户提交问题模板</b></div>
+                    <div title="template" class="file-name"><b style="float:left;color: blue;text-decoration: underline;">客户提交问题模板</b></div>
                   </div>
                 </a>
               </div>
@@ -418,5 +418,42 @@
         if($("#incident_category_id")){
             $("#incident_category_id").cascade("#incident_sub_category_id");
         }
+
+
+        $(".lov-btn").removeAttr("href")
+        $(".lov-btn").removeAttr("onclick")
+        $("#incident_request_requested_by_label").removeAttr("onchange")
+        $("#incident_request_requested_byTip").remove()
+        $(".lov-btn").on("click",function(){
+            $("#requestPeopleModal").modal("show")
+        })
+
     });
 </script>
+<div class="modal fade" id="requestPeopleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+        aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">问题请求人</h4>
+      </div>
+      <div class="modal-body">
+        <div class="page-block">
+          <table class="page-block-header"><tr>
+            <td class="page-block-title">
+            </td>
+            <td class="page-block-help">
+              <div id="searchBox"></div>
+            </td>
+          </tr></table>
+          <div class="page-block-body">
+            <%= datatable("people",{:controller => "irm/people", :action=>"get_people_list"},[],{:search_box=>"searchBox",:paginator_box=>"paginatorBox"})%>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

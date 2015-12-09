@@ -289,7 +289,7 @@ class Icm::IncidentJournalsController < ApplicationController
                                    :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         @incident_journal.create_elapse
-
+        # 更新SLA
         sla_instance = Slm::SlaInstance.where(:id=>sla_instance_id)
         if sla_instance.length == 1
           updateData = {:current_duration => 0,
@@ -297,6 +297,15 @@ class Icm::IncidentJournalsController < ApplicationController
                         :last_phase_start_date => Time.now}
           sla_instance.first.update_attributes(updateData)
         end
+        # 转交后给支持人员发邮件提醒
+        # 如果事故单状态处于受理中时则用新问题分配的邮件模板
+        if @incident_request.incident_status_id.eql?("000K000922scMSu1Q8vthI")
+          options = {:bo_id => @incident_request.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000923Uu47csv7Tpj6", :action_type => "Irm::WfMailAlert"}
+        else
+          options = {:bo_id => @incident_request.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000C2jahYzBsuIaTSq", :action_type => "Irm::WfMailAlert"}
+        end
+        Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
+
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
@@ -600,15 +609,26 @@ class Icm::IncidentJournalsController < ApplicationController
 
       if !ovalue.eql?(nvalue)
         # 事故单变为处理中或重新处理
-        # if nvalue.eql?("000K000C2hrdz1TO8kREaO") || nvalue.eql?("000K000A0g8dQeGEHYvu9g")
-          sla_instance = Slm::SlaInstance.where(:id=>sla_instance_id)
-          if sla_instance.length == 1
-            updateData = {:current_duration => 0,
-                          :start_at => Time.now,
-                          :last_phase_start_date => Time.now}
-            sla_instance.first.update_attributes(updateData)
-          end
-        # end
+        sla_instance = Slm::SlaInstance.where(:id=>sla_instance_id)
+        if sla_instance.length == 1
+          updateData = {:current_duration => 0,
+                        :start_at => Time.now,
+                        :last_phase_start_date => Time.now}
+          sla_instance.first.update_attributes(updateData)
+        end
+
+        # 如果事故单状态从受理中->处理中
+        if ovalue.eql?("000K000922scMSu1Q8vthI") && nvalue.eql?("000K000C2hrdz1TO8kREaO")
+          puts "Show Li -> In Process"
+          options = {:bo_id => new_value.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000C2jUfvOMmSeX1ZQ", :action_type => "Irm::WfMailAlert"}
+          Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
+        end
+        # 如果事故单状态从客户对应中->处理中
+        if ovalue.eql?("000K000A0g8zPKXoIwOIhk") && nvalue.eql?("000K000C2hrdz1TO8kREaO")
+          puts "Customer Face -> In Process"
+          options = {:bo_id => new_value.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2joAktx33nmFxg", :action_type => "Irm::WfMailAlert"}
+          Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
+        end
       end
 
       Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,

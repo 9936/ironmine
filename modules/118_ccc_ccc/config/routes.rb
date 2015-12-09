@@ -126,6 +126,7 @@ Ironmine::Application.routes.draw do
  end
 
  scope :module => "irm" do
+   match '/people/get_people_list(.:format)' => "people#get_people_list"
    match '/people/get_lov_data(.:format)' => "people#get_lov_data"
    match '/people/get_customer_no(.:format)' => "people#get_customer_no"
    match '/people/get_project_manager(.:format)' => "people#get_project_manager"

@@ -1,0 +1,14 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "100px"}) do |data|%>
+        <a onclick="fillRequestInput(this)" style="cursor: pointer" id="<%=data[:id]%>" name="<%=data[:person_name]%>">选择</a>
+    <% end %>
+    <% builder.column(:person_name,{:title=>t(:label_irm_person_name),:searchable=>true, :width => "30%"})%>
+    <% builder.column(:organization_name,{:title=>t(:label_irm_person_organization),:searchable=>true})%>
+<% end %>
+<script>
+    function fillRequestInput(arg){
+        $("#incident_request_requested_by").val(arg.id)
+        $("#incident_request_requested_by_label").val(arg.name)
+        $("#requestPeopleModal").modal("hide")
+    }
+</script>

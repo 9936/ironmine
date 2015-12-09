@@ -135,6 +135,21 @@ class Irm::PeopleController < ApplicationController
     end
   end
 
+  def get_people_list
+    @people= Irm::Person.not_anonymous.list_all.order(:id)
+    @people = @people.match_value("#{Irm::Person.name_to_sql(nil,Irm::Person.table_name,"")}",params[:person_name])
+    @people = @people.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
+
+    @people,count = paginate(@people)
+    respond_to do |format|
+      format.json {render :json=>to_jsonp(@people.to_grid_json([:person_name, :organization_name], count))}
+      format.html {
+        @count = count
+        @datas = @people
+      }
+    end
+  end
+
   def get_lov_data
     profile_ids = []
     Irm::Profile.where("user_license = ?","SUPPORTER").each do |p|
