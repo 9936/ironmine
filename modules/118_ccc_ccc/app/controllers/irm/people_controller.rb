@@ -83,7 +83,7 @@ class Irm::PeopleController < ApplicationController
   def update
     @person = Irm::Person.list_all.find(params[:id])
     #禁止更新用户名
-    params[:irm_person].delete(:login_name)
+    # params[:irm_person].delete(:login_name)
 
     @attributes = params[:irm_person]
     respond_to do |format|
