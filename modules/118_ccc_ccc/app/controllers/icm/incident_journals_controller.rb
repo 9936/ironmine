@@ -608,22 +608,23 @@ class Icm::IncidentJournalsController < ApplicationController
       nvalue = new_value.send(key)
 
       if !ovalue.eql?(nvalue)
-        # 事故单变为处理中或重新处理
-        # sla_instance = Slm::SlaInstance.where(:id=>sla_instance_id)
-        # sla_instance_phase = Slm::SlaInstancePhase.where(:sla_instance_id=>sla_instance_id,:phase_type=>"START").order("start_at DESC").first
-        # updateDatas = {:duration => 0,
-        #               :start_at => Time.now}
-        # if sla_instance_phase
-        #   sla_instance_phase.update_attributes(updateDatas)
-        # end
+        if sla_instance_id
+          # 事故单变为处理中或重新处理
+          sla_instance = Slm::SlaInstance.where(:id=>sla_instance_id)
+          # sla_instance_phase = Slm::SlaInstancePhase.where(:sla_instance_id=>sla_instance_id,:phase_type=>"START").order("start_at DESC").first
+          # updateDatas = {:duration => 0,
+          #               :start_at => Time.now}
+          # if sla_instance_phase
+          #   sla_instance_phase.update_attributes(updateDatas)
+          # end
 
-        if sla_instance.length == 1
-          updateData = {:current_duration => 0,
-                        :start_at => Time.now,
-                        :last_phase_start_date => Time.now}
-          sla_instance.first.update_attributes(updateData)
+          if sla_instance.length == 1
+            updateData = {:current_duration => 0,
+                          :start_at => Time.now,
+                          :last_phase_start_date => Time.now}
+            sla_instance.first.update_attributes(updateData)
+          end
         end
-
         # 如果事故单状态从受理中->处理中
         if ovalue.eql?("000K000922scMSu1Q8vthI") && nvalue.eql?("000K000C2hrdz1TO8kREaO")
           # 客户邮件
