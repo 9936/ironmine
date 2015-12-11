@@ -49,6 +49,7 @@ class TemplateMailer < ActionMailer::Base
     body = body.gsub(/<br\s*\/?>/i, "\n") unless "html".eql?(email_template.template_type)
     body = strip_tags(body) unless "html".eql?(email_template.template_type)
     body = (before_body.nil? ? "" : before_body) + body + (after_body.nil? ? "" : after_body)
+    body = body.gsub(/\+0800/,"")
     send_options.merge!({:body=>body})
     headers(header_options)
 
