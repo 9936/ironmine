@@ -1,0 +1,119 @@
+<table class="form-table" style="width: 70%;margin-left: 15%">
+  <tbody>
+  <tr style="height: 190px">
+    <td align=center style="width: 20%;">
+      <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;">
+        <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000923JClcGUDhzYMy" style="float: left;text-decoration: none;">
+          <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #00acee;">
+            <img height=70 width=80 src="/images/new.png">
+            <p style="color: white;margin-top: 10px;">新到达问题</p>
+          </div>
+        </a>
+        <div style=" width:40px; height:40px; background-color:#F00; border-radius:25px;position: absolute;margin-left: 256px;margin-top: -16px;display:none">
+          <span style="height:40px; line-height:40px; display:block; color:#FFF; text-align:center;font-family: fantasy;" id="span_1">1</span>
+        </div>
+      </div>
+    </td>
+    <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
+    <td align=center style="width: 20%;">
+      <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;">
+        <a href="/incident_requests?incident_requests_page=1&filter_id=002Q0009239HMWJmlUmVmK" style="float: left;text-decoration: none;">
+          <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #9400D3;">
+            <img height=70 width=80 src="/images/process.png">
+            <p style="color: white;margin-top: 10px;">我处理中的问题</p>
+          </div>
+        </a>
+        <div style=" width:40px; height:40px; background-color:#F00; border-radius:25px;position: absolute;margin-left: 256px;margin-top: -16px;display:none">
+          <span style="height:40px; line-height:40px; display:block; color:#FFF; text-align:center;font-family: fantasy;" id="span_2">2</span>
+        </div>
+      </div>
+    </td>
+    <%else%>
+        <td align=center style="width: 20%;">
+          <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;">
+            <a href="/incident_requests/new" style="float: left;text-decoration: none;">
+              <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #9400D3;">
+                <img height=70 width=80 src="/images/create.png">
+                <p style="color: white;margin-top: 10px;">新建问题</p>
+              </div>
+            </a>
+          </div>
+        </td>
+    <% end %>
+    <td align=center style="width: 20%;">
+      <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;">
+        <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000B2jTxy1kSBuiS2a" style="float: left;text-decoration: none;">
+          <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #4cbb49;">
+            <img height=70 width=80 src="/images/join.png">
+            <p style="color: white;margin-top: 10px;">我参与的问题</p>
+          </div>
+        </a>
+        <div style=" width:40px; height:40px; background-color:#F00; border-radius:25px;position: absolute;margin-left: 256px;margin-top: -16px;display:none">
+          <span style="height:40px; line-height:40px; display:block; color:#FFF; text-align:center;font-family: fantasy;" id="span_3">3</span>
+        </div>
+      </div>
+    </td>
+  </tr>
+
+  <tr style="height: 190px">
+    <td align=center style="width: 20%;">
+      <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;">
+        <a href="/incident_requests?incident_requests_page=1&filter_id=other" style="float: left;text-decoration: none;">
+          <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #D15FEE;">
+            <img height=70 width=80 src="/images/all.png">
+            <p style="color: white;margin-top: 10px;">所有问题</p>
+          </div>
+        </a>
+      </div>
+    </td>
+    <td align=center style="width: 20%;">
+      <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;">
+        <a href="/entry_headers?entry_headers_list_page=1" style="float: left;text-decoration: none;">
+          <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #00acee;">
+            <img height=70 width=80 src="/images/knowledge.png">
+            <p style="color: white;margin-top: 10px;">知识库</p>
+          </div>
+        </a>
+      </div>
+    </td>
+    <td align=center style="width: 20%;">
+      <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;">
+        <a href="/reports?report_list_page=1" style="float: left;text-decoration: none;">
+          <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #bc1c48;">
+            <img height=70 width=80 src="/images/report.png">
+            <p style="color: white;margin-top: 10px;">报表</p>
+          </div>
+        </a>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<script>
+  $(function(){
+      $(".body-cell-div").css({"height":"500px","margin-top":"80px"})
+
+      var href = '<%= url_for(:action => "kinds_of_count")%>'
+      $.ajax({
+          url: href,
+          type: 'post',
+          dataType: 'json',
+          data: {
+          },
+          success:function (data) {
+              if(data.span_1 != "0") {
+                  $("#span_1").text(data.span_1)
+                  $("#span_1").parent().show()
+              }
+              if(data.span_2 != "0"){
+                  $("#span_2").text(data.span_2)
+                  $("#span_2").parent().show()
+              }
+              if(data.span_3 != "0"){
+                  $("#span_3").text(data.span_3)
+                  $("#span_3").parent().show()
+              }
+          }
+      })
+  })
+</script>

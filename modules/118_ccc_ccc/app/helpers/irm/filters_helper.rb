@@ -33,8 +33,8 @@ module Irm::FiltersHelper
 
 
 
-  def view_filter(source_code,bo_code,datatable_id)
-    render :partial=>"irm/filters/view_filter",:locals=>{:source_code=>source_code,:bo_code=>bo_code,:datatable_id=>datatable_id}
+  def view_filter(source_code,bo_code,datatable_id,filter_id)
+    render :partial=>"irm/filters/view_filter",:locals=>{:source_code=>source_code,:bo_code=>bo_code,:datatable_id=>datatable_id,:filter_id=>filter_id}
   end
 
   def has_filters?(source_code)
@@ -42,21 +42,40 @@ module Irm::FiltersHelper
   end
 
 
-  def available_view_filter(source_code, datatable_id)
+  def available_view_filter(source_code, datatable_id,filter_id)
     filters = view_filters(source_code)
-
-    current = filters.detect{|f| f.id.to_s.eql?(session[:_view_filter_id].to_s)}
-    # 取得我的默认选项
-    current = filters.detect{|f| f.default_flag.eql?(Irm::Constant::SYS_YES)&&f.own_id.eql?(Irm::Person.current.id)} unless current
-    # 如果顾问则选择默认选项，否则选择我参与的事故单
-    if Irm::Person.current.profile.user_license.eql?("SUPPORTER")
-      # 如果我的默认选项不存在，则使用全局默认选项
-      current = filters.detect{|f| f.default_flag.eql?(Irm::Constant::SYS_YES)} unless current
+    # 如果查看其他问题
+    if filter_id.eql?("other")
+      temp_filter_ids = ['002Q000B2jTxy1kSBuiS2a','002Q000923JClcGUDhzYMy','002Q0009239HMWJmlUmVmK']
+      temp_filters = []
+      filters.each do |f|
+        if temp_filter_ids.include? f.id
+          temp_filters << f
+        end
+      end
+      filters = filters - temp_filters
     else
-      current = filters.last
+      temp_filter = []
+      filters.each do |f|
+        if !f.id.eql?(filter_id)
+          temp_filter << f
+        end
+      end
+      filters = filters - temp_filter
     end
-    current ||= {:id=>nil}
 
+    # current = filters.detect{|f| f.id.to_s.eql?(session[:_view_filter_id].to_s)}
+    # # 取得我的默认选项
+    # current = filters.detect{|f| f.default_flag.eql?(Irm::Constant::SYS_YES)&&f.own_id.eql?(Irm::Person.current.id)} unless current
+    # # 如果顾问则选择默认选项，否则选择我参与的事故单
+    # if Irm::Person.current.profile.user_license.eql?("SUPPORTER")
+    #   # 如果我的默认选项不存在，则使用全局默认选项
+    #   current = filters.detect{|f| f.default_flag.eql?(Irm::Constant::SYS_YES)} unless current
+    # else
+    current = filters.first
+    # end
+    # current ||= {:id=>nil}
+    #
     filters = filters.collect {|i|[i[:filter_name], i[:id]]}
     select_tag_alias("view_filter", filters, current[:id], {:id => "#{datatable_id}ViewFilter", :class => "view-filter", :ref => "#{datatable_id}Datatable" })
   end

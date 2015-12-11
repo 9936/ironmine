@@ -286,8 +286,7 @@
               "<%=@external_system.price_type_id%>" == "2" &&
               ($("#incident_request_expect_date").val() == "" || $("#incident_request_expect_date").val() == null || $("#incident_request_customer_comfirm_date").val() == "" || $("#incident_request_customer_comfirm_date").val() == null)
       ){
-          alert("项目类型为人天，人天信息不能为空")
-          window.location.reload()
+          $("#errorMessModal").modal("show")
           return false
       }
       else
@@ -309,5 +308,25 @@
                             '</tr>');
     }
   }
+  function update_people_date(){
+      $("#errorMessModal").modal("hide")
+      window.location.reload()
+  }
 </script>
+
+<!--提示填写工时的模态框-->
+<div class="modal fade" id="errorMessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body">
+        <h3><%= t :label_peopel_date_error %></h3>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="update_people_date()"><%= t :label_in_confirm %></button>
+      </div>
+    </div>
+  </div>
+</div>
 

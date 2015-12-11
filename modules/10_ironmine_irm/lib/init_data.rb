@@ -957,7 +957,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "irm/calendars" => ["get_full_calendar"],
-              "irm/home" => ["index", "my_tasks"],
+              "irm/home" => ["index", "my_tasks","kinds_of_count"],
           },
           #:todo_event => {
           #    :en => {:name => "Todo Event", :description => "Todo Event"},
@@ -1731,7 +1731,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/people" => ["index", "show", "get_data", "get_choose_people", "get_support_group", "get_owned_roles", "multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles"],
+              "irm/people" => ["index", "show", "get_data", "get_people_list","get_choose_people", "get_support_group", "get_owned_roles", "multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles"],
               "irm/external_system_members" => ["update"]
           },
           :edit_person_basic_info => {

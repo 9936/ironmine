@@ -242,41 +242,6 @@ module Ccc::IncidentJournalsControllerEx
         end
       end
 
-      # def get_incident_listen_data
-      #   sla_listen_scope = Ccc::SlaListen.where("request_id = ? and time <> null",params[:request_id])
-      #       # select_all.without_some_property_key.with_value_label.with_created_by.only_with_request(params[:request_id]).order_by_created_at
-      #   @new_time = nil
-      #   @respond_time = nil
-      #   @handle_time = nil
-      #   @handing_time = nil
-      #   sla_listen_scope.each do |s|
-      #     request_type = s.request_type
-      #     if request_type.eql?("new")
-      #       @new_time = s.time
-      #     end
-      #     if request_type.eql?("respond")
-      #       @respond_time = s.time
-      #     end
-      #     if request_type.eql?("handle")
-      #       @handle_time = s.time
-      #     end
-      #     if request_type.eql?("handling")
-      #       @handing_time = s.time
-      #     end
-      #   end
-      #
-      #   respond_to do |format|
-      #     format.html {
-      #       @datas,@count = paginate(sla_listen_scope)
-      #       @datas.each do |t|
-      #         meaning = t.meaning
-      #         t[:new_value_label] = meaning[:new_meaning]
-      #         t[:old_value_label] = meaning[:old_meaning]
-      #       end
-      #       render_html_data_table
-      #     }
-      #   end
-      # end
       def grade_of_satisfy
         Ccc::SatisRateOfConsultant.create({:supporter_id => params[:supporter_id],
                                            :incident_request_id => params[:request_id],
