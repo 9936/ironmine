@@ -99,6 +99,7 @@ class Irm::WfMailAlert < ActiveRecord::Base
     mail_options.merge!(:from=>self.from_email) if self.from_email.present?
     mail_options.merge!(:message_id=>Irm::BusinessObject.mail_message_id(bo,"mailalert"))
     params.merge!(:mail_options=>mail_options)
+    params.merge!(:requested_by=>bo.requested_by)
 
     # header options
     header_options = {}
