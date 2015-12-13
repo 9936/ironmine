@@ -7,13 +7,14 @@
       <h2 class="block-title"><%= t(:label_irm_person_list) %></h2>
     </td>
     <td class="page-block-button" style="text-align: right">
-      <% if Irm::Person.current.language_code.eql?("zh") %>
-          <%= select_tag "peopleType", options_for_select([ "请选择", "顾问", "客户" ], "请选择") %>
-      <% else %>
-          <%= select_tag "peopleType", options_for_select([ "Please Select Type", "Consultant", "Customer" ], "Please Select Type") %>
-      <% end %>
-      <a class="btn" id="peopleNew">新建</a>
-      <a style="display: none" id="commitNew">提交</a>
+      <% if allow_to_function?(:new)%>
+        <% if Irm::Person.current.language_code.eql?("zh") %>
+            <%= select_tag "peopleType", options_for_select([ "请选择", "顾问", "客户" ], "请选择") %>
+        <% else %>
+            <%= select_tag "peopleType", options_for_select([ "Please Select Type", "Consultant", "Customer" ], "Please Select Type") %>
+        <% end %>
+        <a class="btn" id="peopleNew">新建</a>
+      <%end%>
     </td>
     <td class="page-block-help">
       <div id="searchBox"></div>

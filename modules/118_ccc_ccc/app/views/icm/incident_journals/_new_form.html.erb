@@ -920,6 +920,7 @@
                 <td colspan="3">
                 <%= label_tag(:reason_1, "如果选择不满意，请说明理由:") %>
                 <%= text_area_tag(:reason, "", size: "480x4") %>
+                <div style="color: red;display: none" id="errorReason" >注：理由不能为空</div>
                 </td>
               </tr>
               <tr>
@@ -950,28 +951,37 @@
             window.location.href="/incident_requests/<%= @incident_request.id%>/<%= @show_external_system.id %>/journals/edit_close"
     }
     function sGrade(){
-        if($("input[name='level']:checked").val()=="BAD")
+        if($("input[name='level']:checked").val()=="BAD"){
+            $("#reason").css("border-color","")
+            $("#errorReason").hide()
             $("#reason_id").show()
+        }
         else
             $("#reason_id").hide()
     }
     function submit_commit(){
-        var href = '<%= url_for(:controller => "incident_journals",:action => "grade_of_satisfy",:request_id=>@incident_request.id)%>'
-        $.ajax({
-            url: href,
-            type: 'post',
-            dataType: 'json',
-            data: {
-                supporter_id:"<%=@incident_request.support_person_id%>",
-                request_id:"<%=@incident_request.id%>",
-                grade_type:$("input[name='level']:checked").val(),
-                bad_reason:$("#reason").val()
-            },
-            success:function (data) {
-                $("#evaluateModal").modal("hide")
-                window.location.href="/incident_requests/<%= @incident_request.id%>/<%= @show_external_system.id %>/journals/edit_close"
-            }
-        })
+        if($("input[name='level']:checked").val()=="BAD" && $("#reason").val() == ""){
+            $("#reason").css("border-color","red")
+            $("#errorReason").show()
+        }
+        else{
+            var href = '<%= url_for(:controller => "incident_journals",:action => "grade_of_satisfy",:request_id=>@incident_request.id)%>'
+            $.ajax({
+                url: href,
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    supporter_id:"<%=@incident_request.support_person_id%>",
+                    request_id:"<%=@incident_request.id%>",
+                    grade_type:$("input[name='level']:checked").val(),
+                    bad_reason:$("#reason").val()
+                },
+                success:function (data) {
+                    $("#evaluateModal").modal("hide")
+                    window.location.href="/incident_requests/<%= @incident_request.id%>/<%= @show_external_system.id %>/journals/edit_close"
+                }
+            })
+        }
     }
 </script>
 
