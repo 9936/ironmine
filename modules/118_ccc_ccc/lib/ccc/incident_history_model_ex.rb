@@ -81,6 +81,9 @@ module Ccc::IncidentHistoryModelEx
           when "new_reply" #回复
             old_meaning = ""
             new_meaning = new_value
+          when "update_id" #编辑request
+            old_meaning = ""
+            new_meaning = new_value
           when "update_journal" #编辑回复
             old_meaning = old_value
             new_meaning = new_value

@@ -23,15 +23,16 @@
         border-right: 0px;
     }
 
-
     div.reply div.reply-header[submit_by="<%= Irm::Person.current.id%>"] {
         /*自己回复的*/
         background-color: #ddeef4 !important;
     }
+
     div.reply div.reply-header[submit_by="<%= @incident_request.submitted_by%>"] {
         /*提单人回复的*/
         background-color: #ffebeb !important;
     }
+
     .tab-content .page-block {
         margin-bottom: 0;
     }
@@ -40,11 +41,12 @@
         padding-bottom: 0;
     }
 
-    #incidentDetail .detail-list td{
-        border:1px solid #cccccc;
+    #incidentDetail .detail-list td {
+        border: 1px solid #cccccc;
         padding-left: 3px;
     }
-    div.file-list{
+
+    div.file-list {
         border-top-color: #EFEFEF;
         border-top-style: solid;
         border-top-width: 2px;
@@ -53,6 +55,7 @@
         margin-right: 5px;
         margin-top: 5px;
     }
+
     div.file-list div.file-item {
         color: #888888;
         display: inline;
@@ -65,80 +68,83 @@
         float: left;
         vertical-align: top;
     }
+
     td.page-block-button select {
-        display:inline;
+        display: inline;
     }
+
     td.page-block-button label {
-        display:inline;
+        display: inline;
     }
+
     td.page-block-button form {
-        margin:0;
+        margin: 0;
     }
 </style>
 <!--页面头部按钮-->
-<%= render :partial=>"new_form_top_button_bar"%>
+<%= render :partial => "new_form_top_button_bar" %>
 
 <!--页面头部按钮-->
 <% content_for :block_assign_controll_bar do %>
 
-    <%= form_tag({:controller => "icm/incident_requests",:action=>"assign_request"},) do |f|%>
-        <%= hidden_field_tag(:incident_request_ids, @incident_request.id, :id=>"incident_request_ids")  %>
-        <%= hidden_field_tag(:from_incident_request, "true", :id=>"from_incident_request")  %>
-        <label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label>
-        <%= blank_select_tag :support_group_id,available_support_group(@incident_request.external_system_id),
-                                                              {},{:id=>"incident_request_support_group_id"}%>
-        <label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_charge_person)%></label>
-        <%= blank_select_tag(:support_person_id,[],{},
-                                            {
-                                             :id=>"incident_request_support_person_id",
-                                             :href=>url_for(:controller=>"icm/support_groups",
-                                                            :action=>"get_member_options",:format=>"json",:id=>"${incident_request_support_group_id}",
-                                                            :role_id => "${person_role_id}"),
-                                             :depend=>"incident_request_support_group_id",
-                                             }) %>
-        <%= submit_tag(t(:label_icm_incident_request_assign),{:id=>"formSubmit",:class=>"btn btn-primary"})  %>
-    <% end  %>
+    <%= form_tag({:controller => "icm/incident_requests", :action => "assign_request"},) do |f| %>
+        <%= hidden_field_tag(:incident_request_ids, @incident_request.id, :id => "incident_request_ids") %>
+        <%= hidden_field_tag(:from_incident_request, "true", :id => "from_incident_request") %>
+        <label for="incident_request_support_group_id"><%= t(:label_icm_incident_request_support_group) %></label>
+        <%= blank_select_tag :support_group_id, available_support_group(@incident_request.external_system_id),
+                             {}, {:id => "incident_request_support_group_id"} %>
+        <label for="incident_request_support_person_id"><%= t(:label_icm_incident_request_charge_person) %></label>
+        <%= blank_select_tag(:support_person_id, [], {},
+                             {
+                                     :id => "incident_request_support_person_id",
+                                     :href => url_for(:controller => "icm/support_groups",
+                                                      :action => "get_member_options", :format => "json", :id => "${incident_request_support_group_id}",
+                                                      :role_id => "${person_role_id}"),
+                                     :depend => "incident_request_support_group_id",
+                             }) %>
+        <%= submit_tag(t(:label_icm_incident_request_assign), {:id => "formSubmit", :class => "btn btn-primary"}) %>
+    <% end %>
     <script type="text/javascript">
-      $(function(){
-         if($("#incident_request_support_group_id")){
-            $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
-         }
-      });
+        $(function () {
+            if ($("#incident_request_support_group_id")) {
+                $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
+            }
+        });
     </script>
 <% end %>
 
 <% content_for :block_priority_controll_bar do %>
     <%= form_for(@incident_request,
-                 :url=>{:controller => "icm/incident_requests", :action=>"update", :id => @incident_request.id, :sid => @incident_request.external_system_id},
+                 :url => {:controller => "icm/incident_requests", :action => "update", :id => @incident_request.id, :sid => @incident_request.external_system_id},
                  :builder => CustomFormBuilder, :html => {:class => "form-inline", :nomask => true}) do |f| %>
-        <label for="label_icm_incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label>
-        <%=f.select :urgence_id,available_urgence_code,{},{:id=>"incident_request_urgence_code"}%>
-        <%if false%>
-            <label for="incident_request_impact_range_code"><%=t(:label_icm_incident_request_impact_range_code)%></label>
-            <%=f.select :impact_range_id,available_impact_range, {},{:id=>"incident_request_impact_range_code"}%>
-        <%end%>
-        <%= link_submit(t(:update), :class=>"btn btn-primary",:id=>"updatePriorityFormSubmit") %>
+        <label for="label_icm_incident_request_urgence_code"><%= t(:label_icm_incident_request_urgence_code) %></label>
+        <%= f.select :urgence_id, available_urgence_code, {}, {:id => "incident_request_urgence_code"} %>
+        <% if false %>
+            <label for="incident_request_impact_range_code"><%= t(:label_icm_incident_request_impact_range_code) %></label>
+            <%= f.select :impact_range_id, available_impact_range, {}, {:id => "incident_request_impact_range_code"} %>
+        <% end %>
+        <%= link_submit(t(:update), :class => "btn btn-primary", :id => "updatePriorityFormSubmit") %>
     <% end %>
 <% end %>
 
 <% content_for :block_status_controll_bar do %>
     <%= form_for(@incident_request,
-                 :url=>{:controller => "icm/incident_journals", :action=>"update_status", :id => @incident_request.id, :sid => @incident_request.external_system_id},
-                 :builder => CustomFormBuilder, :html => {:class => "form-inline",:onSubmit=>"return issubmit()", :nomask => true}) do |f| %>
-        <label for="label_icm_incident_request_status_code"><%=t(:label_icm_incident_request_incident_status)%></label>
-        <%= fields_for @incident_request.incident_journals.build(), :as=>"incident_journal",:builder =>CustomFormBuilder,:normal=>true do |sub_f|%>
+                 :url => {:controller => "icm/incident_journals", :action => "update_status", :id => @incident_request.id, :sid => @incident_request.external_system_id},
+                 :builder => CustomFormBuilder, :html => {:class => "form-inline", :onSubmit => "return issubmit()", :nomask => true}) do |f| %>
+        <label for="label_icm_incident_request_status_code"><%= t(:label_icm_incident_request_incident_status) %></label>
+        <%= fields_for @incident_request.incident_journals.build(), :as => "incident_journal", :builder => CustomFormBuilder, :normal => true do |sub_f| %>
             <%= sub_f.hidden_field(:incident_request_id) %>
             <%= sub_f.hidden_field(:sla_instance_id) %>
-        <% end%>
-        <%=f.blank_select :incident_status_id, available_request_status_children_code(@incident_request[:external_system_id], @incident_request[:incident_status_id], Irm::Person.current.profile_id), {},{:id=>"incident_request_incident_status_code", :required => true}%>
-        <%= link_submit(t(:update), :class=>"btn btn-primary",:id=>"updateStatusFormSubmit") %>
+        <% end %>
+        <%= f.blank_select :incident_status_id, available_request_status_children_code(@incident_request[:external_system_id], @incident_request[:incident_status_id], Irm::Person.current.profile_id), {}, {:id => "incident_request_incident_status_code", :required => true} %>
+        <%= link_submit(t(:update), :class => "btn btn-primary", :id => "updateStatusFormSubmit") %>
     <% end %>
 <% end %>
 
 <!--页面头部内容-->
 <% content_for :block_header_content do %>
     <div id="incidentDetail">
-    <table class="detail-list">
+      <table class="detail-list">
         <tbody>
         <tr>
           <td class="label-col"><label><%= t(:label_icm_incident_request_target_system) %></label></td>
@@ -147,11 +153,11 @@
           </td>
           <td class="label-col"><label><%= t(:label_icm_incident_request_incident_category) %></label></td>
           <td class="data-col">
-          <div><%= @incident_request[:incident_category_name] %></div>
+            <div><%= @incident_request[:incident_category_name] %></div>
           </td>
           <td class="label-col"><label><%= t(:label_icm_incident_request_incident_sub_category) %></label></td>
           <td class="data-col">
-          <div><%= @incident_request[:incident_sub_category_name] %></div>
+            <div><%= @incident_request[:incident_sub_category_name] %></div>
           </td>
         </tr>
         <tr>
@@ -210,46 +216,48 @@
             <div><%= @incident_request[:supporter_name] %></div>
           </td>
         </tr>
-        <% if allow_to_function?(:create_icdt_rqst_for_other) %>
-        <tr>
-          <% if @incident_request.attribute3 != nil && @incident_request.attribute3 != "" %>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_expect_date) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:attribute3] %></div>
-              </td>
-          <% end %>
-          <% if @incident_request.attribute4 != nil && @incident_request.attribute4 != "" %>
-              <td class="label-col"><label><%= t(:incident_request_customer_comfirm_date) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:attribute4] %></div>
-              </td>
-          <% end %>
-          <% workload = @incident_request.grouped_workload%>
-          <% if workload.any? %>
-              <td class="label-col"><label><%=t(:label_icm_incident_request_real_processing_total_time)%></label></td>
-              <td class="data-col" colspan="5"><label>
-                <%
-                   total_workload = 0
-                   workload.each do |iw|
-                    total_workload += iw[:real_processing_time_g]
-                   end
-                %>
-                <%= total_workload%>
-              </label></td>
-          <% end %>
-        </tr>
-            <% workload = @incident_request.grouped_workload%>
+        <% if allow_to_function?(:edit_workload) %>
+            <tr>
+              <% if @incident_request.attribute3 != nil && @incident_request.attribute3 != "" %>
+                  <td class="label-col"><label><%= t(:label_icm_incident_request_expect_date) %></label></td>
+                  <td class="data-col">
+                    <div><%= @incident_request[:attribute3] %></div>
+                  </td>
+              <% end %>
+              <% if @incident_request.attribute4 != nil && @incident_request.attribute4 != "" %>
+                  <td class="label-col"><label><%= t(:incident_request_customer_comfirm_date) %></label></td>
+                  <td class="data-col">
+                    <div><%= @incident_request[:attribute4] %></div>
+                  </td>
+              <% end %>
+              <% workload = @incident_request.grouped_workload %>
+              <% if workload.any? %>
+                  <td class="label-col"><label><%= t(:label_icm_incident_request_real_processing_total_time) %></label>
+                  </td>
+                  <td class="data-col" colspan="5"><label>
+                    <%
+                       total_workload = 0
+                       workload.each do |iw|
+                         total_workload += iw[:real_processing_time_g]
+                       end
+                    %>
+                    <%= total_workload.to_f.round(1) %>
+                  </label></td>
+              <% end %>
+            </tr>
+            <% workload = @incident_request.grouped_workload %>
             <% if workload.any? %>
-                <td class="label-col"><label><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
+                <td class="label-col"><label><%= t(:label_icm_incident_request_real_processing_time) %></label></td>
                 <td class="data-col" colspan="5"><label>
                   <% workload.each do |iw| %>
-                      <%= iw[:person_name]%>:<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time_g]}"%>&nbsp;<%= ", " unless iw == workload.last %>
+                      <%= iw[:person_name] %>
+                      :<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time_g].to_f.round(1)}" %>&nbsp;<%= ", " unless iw == workload.last %>
                   <% end %>
                 </label></td>
             <% end %>
-        <tr>
+            <tr>
 
-        </tr>
+            </tr>
         <% else %>
             <% if @incident_request.attribute3 != nil && @incident_request.attribute3 != "" %>
                 <td class="label-col"><label><%= t(:label_icm_incident_request_expect_date) %></label></td>
@@ -266,13 +274,14 @@
         <% end %>
 
         <tr>
-          <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_summary) %></label></td>
           <td class="data-col" colspan="5" style="word-WRAP: break-word;">
             <% prepare_request_files(@incident_request) %>
             <div class="reply-body">
               <div class="message-body">
-                <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}")  %></h3><br><br>
-                <%= raw process_message(@incident_request[:summary])  %>
+                <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}") %></h3>
+                <br><br>
+                <%= raw process_message(@incident_request[:summary]) %>
               </div>
               <%= list_request_file(@incident_request) %>
             </div>
@@ -281,155 +290,162 @@
         <!-- 显示自定义字段信息 -->
         <%= show_custom_field_info(@incident_request) %>
         </tbody>
-    </table>
+      </table>
     </div>
 <% end %>
 
 <% content_for :incident_request_reply_form do %>
-   <% if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&!@incident_request.close?&&!@incident_request.permanent_close? &&@incident_request.status_code.eql?(Irm::Constant::ENABLED) %>
-       <%= form_for(@incident_reply, :url=>{:action=>"create", :format => "js"}, :builder => CustomFormBuilder,
-                    :html => {:multipart => true, :target => "frame",:style=>"margin:0;", :onSubmit => "mask_after_journal();"}) do |f| %>
-        <div class="page-block">
-          <table class="page-block-header"><tr>
-            <td class="page-block-title">
-              <div style="float:left;">
-                <h2 class="block-title"><%= t(:label_icm_incident_journal_new) %></h2>
-              </div>
-              <% if !limit_device?&&allow_to_function?(:view_skm_entries) %>
-                  <div style="float:left;padding-top:5px; margin-left:20px;">
-                    <a href="javascript:void(0)" id="applySKM"><%= t(:apply_skm) %></a></div>
-              <% end %>
-            </td>
-            <td class="page-block-button">
-              <% if @external_system.strict_workload.eql?('Y') && Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
-              <div>
-                <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_journal_edit_workload)%></label>
-                <%= select_tag :workload_type,options_for_select(available_icm_workload_type, 'REMOTE') %>
-                <%= text_field_tag :workload, nil, :style => "width:80px;", :irm_number_only => true%>
-              </div>
-              <% end %>
-            </td>
-            <td class="page-block-help" style="width: auto;">
-              <div>
-                <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_request_keep_next_status)%></label>
-                <%= check_box_tag :keep_next_status, 'Y'%>
-              </div>
-            </td>
-          </tr></table>
-          <div class="page-block-body">
-            <% if !limit_device?&&allow_to_function?(:view_skm_entries) %>
-                <table class="form-table full" style="width: 100%;">
-                  <tr><td class="data-4col" colspan="4">
-                    <div id="linktoSKM" class="hidden form-inline">
-                      <div class="input-append">
-                        <input id="searchSKMText" type="text" class="span3"/>
-                        <%= link_to t(:search), {:controller => "icm/incident_journals", :action => "get_entry_header_data"},:remote => true, :id => "searchSKM",:class=>"btn" %>
-                      </div>
+    <% if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&!@incident_request.close?&&!@incident_request.permanent_close? &&@incident_request.status_code.eql?(Irm::Constant::ENABLED) %>
+        <%= form_for(@incident_reply, :url => {:action => "create", :format => "js"}, :builder => CustomFormBuilder,
+                     :html => {:multipart => true, :target => "frame", :style => "margin:0;", :onSubmit => "mask_after_journal();"}) do |f| %>
+            <div class="page-block">
+              <table class="page-block-header">
+                <tr>
+                  <td class="page-block-title">
+                    <div style="float:left;">
+                      <h2 class="block-title"><%= t(:label_icm_incident_journal_new) %></h2>
                     </div>
-                  </td></tr>
-                  <tr><td class="data-4col" colspan="4">
-                    <div id="entrySubsection" style="display: none;">
-                      <%= render :partial => "icm/incident_journals/apply_skm", :locals => {:skm_data => {}} %>
+                    <% if !limit_device?&&allow_to_function?(:view_skm_entries) %>
+                        <div style="float:left;padding-top:5px; margin-left:20px;">
+                          <a href="javascript:void(0)" id="applySKM"><%= t(:apply_skm) %></a></div>
+                    <% end %>
+                  </td>
+                  <td class="page-block-button">
+                    <% if @external_system.strict_workload.eql?('Y') && Irm::Person.current.profile.user_license.eql?("SUPPORTER") %>
+                        <div>
+                          <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_journal_edit_workload) %></label>
+                          <%= select_tag :workload_type, options_for_select(available_icm_workload_type, 'REMOTE') %>
+                          <%= text_field_tag :workload, nil, :style => "width:80px;", :irm_number_only => true %>
+                        </div>
+                    <% end %>
+                  </td>
+                  <td class="page-block-help" style="width: auto;">
+                    <div>
+                      <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_request_keep_next_status) %></label>
+                      <%= check_box_tag :keep_next_status, 'Y' %>
                     </div>
-                  </td></tr>
-                </table>
+                  </td>
+                </tr>
+              </table>
+              <div class="page-block-body">
+                <% if !limit_device?&&allow_to_function?(:view_skm_entries) %>
+                    <table class="form-table full" style="width: 100%;">
+                      <tr>
+                        <td class="data-4col" colspan="4">
+                          <div id="linktoSKM" class="hidden form-inline">
+                            <div class="input-append">
+                              <input id="searchSKMText" type="text" class="span3"/>
+                              <%= link_to t(:search), {:controller => "icm/incident_journals", :action => "get_entry_header_data"}, :remote => true, :id => "searchSKM", :class => "btn" %>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="data-4col" colspan="4">
+                          <div id="entrySubsection" style="display: none;">
+                            <%= render :partial => "icm/incident_journals/apply_skm", :locals => {:skm_data => {}} %>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
 
-                <script type="text/javascript">
-                    $(function() {
-                        $("#applySKM").bind("click", function(e) {
-                            if ($("#linktoSKM").hasClass("hidden")) {
-                                $("#linktoSKM").removeClass("hidden")
-                            } else {
-                                $("#linktoSKM").addClass("hidden")
-                                $("#entrySubsection").css("display", "none");
-                            }
-                        });
+                    <script type="text/javascript">
+                        $(function () {
+                            $("#applySKM").bind("click", function (e) {
+                                if ($("#linktoSKM").hasClass("hidden")) {
+                                    $("#linktoSKM").removeClass("hidden")
+                                } else {
+                                    $("#linktoSKM").addClass("hidden")
+                                    $("#entrySubsection").css("display", "none");
+                                }
+                            });
 
-                        $("#searchSKM").bind("click", function(e) {
-                            $("#entrySubsection").css("display", "");
-                        });
+                            $("#searchSKM").bind("click", function (e) {
+                                $("#entrySubsection").css("display", "");
+                            });
 
-                        $("#searchSKMText").keyup(function(e) {
-                            $("#searchSKM").attr("href", "<%= url_for(:controller => "icm/incident_journals", :action => "get_entry_header_data")%>?entry_title=" + $("#searchSKMText").val())
-                        });
+                            $("#searchSKMText").keyup(function (e) {
+                                $("#searchSKM").attr("href", "<%= url_for(:controller => "icm/incident_journals", :action => "get_entry_header_data")%>?entry_title=" + $("#searchSKMText").val())
+                            });
 
-                        $("#searchSKMText").keydown(function(e) {
-                            if (e.keyCode == '13') {
-                                e.preventDefault();
-                                $("#searchSKM").trigger("click");
-                            }
-                        });
-                    })
-                </script>
-            <% end %>
-          </div>
-
-          <div class="page-block-body">
-            <table class="form-table"  style="width: 100%;">
-              <tbody>
-              <tr>
-                <%= fields_for @incident_journal, :as=>"incident_journal", :builder => CustomFormBuilder, :normal=>true do |sub_f| %>
-                    <%= sub_f.hidden_field(:replied_by, :value => Irm::Person.current.id)%>
-                    <%= sub_f.hidden_field(:incident_request_id) %>
-                    <%= sub_f.hidden_field(:sla_instance) %>
-                    <% if ie6? -%>
-                        <td class="data-col" id="msgEditorParent" colspan="4" style="padding: 2px 20px 2px 10px;">
-                    <% else -%>
-                        <td class="data-col" id="msgEditorParent" colspan="4">
-                    <% end -%>
-                      <%= sub_f.text_area :message_body, :id=>"msgEditor", :jrequired => true, :rows=>8,:cols=>20,:class=>"input-xxlarge" %>
-                      <%= xheditor("msgEditor", true) %>
-                    </td>
+                            $("#searchSKMText").keydown(function (e) {
+                                if (e.keyCode == '13') {
+                                    e.preventDefault();
+                                    $("#searchSKM").trigger("click");
+                                }
+                            });
+                        })
+                    </script>
                 <% end %>
-              </tr>
+              </div>
 
-              <tr><td class="data-4col" colspan="4">
-                  <%= render :partial=>"helper/upload_file", :locals=>{:upload_file_id=>"new_incident_request_journal_file"} %>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-          <table class="page-block-footer">
-            <tr>
-                <td class="page-block-title"></td>
-                <td class="page-block-button">
-                  <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
-                </td>
-                <td class="page-block-help"></td>
-            </tr>
-          </table>
-        </div>
-       <% end %>
-   <% end %>
-   <iframe id='frame' name="frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
+              <div class="page-block-body">
+                <table class="form-table" style="width: 100%;">
+                  <tbody>
+                  <tr>
+                    <%= fields_for @incident_journal, :as => "incident_journal", :builder => CustomFormBuilder, :normal => true do |sub_f| %>
+                        <%= sub_f.hidden_field(:replied_by, :value => Irm::Person.current.id) %>
+                        <%= sub_f.hidden_field(:incident_request_id) %>
+                        <%= sub_f.hidden_field(:sla_instance) %>
+                        <% if ie6? -%>
+                            <td class="data-col" id="msgEditorParent" colspan="4" style="padding: 2px 20px 2px 10px;">
+                        <% else -%>
+                            <td class="data-col" id="msgEditorParent" colspan="4">
+                        <% end -%>
+                        <%= sub_f.text_area :message_body, :id => "msgEditor", :jrequired => true, :rows => 8, :cols => 20, :class => "input-xxlarge" %>
+                        <%= xheditor("msgEditor", true) %>
+                        </td>
+                    <% end %>
+                  </tr>
+
+                  <tr>
+                    <td class="data-4col" colspan="4">
+                      <%= render :partial => "helper/upload_file", :locals => {:upload_file_id => "new_incident_request_journal_file"} %>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <table class="page-block-footer">
+                <tr>
+                  <td class="page-block-title"></td>
+                  <td class="page-block-button">
+                    <%= link_submit t(:save), {:class => "btn btn-primary"} %>
+                  </td>
+                  <td class="page-block-help"></td>
+                </tr>
+              </table>
+            </div>
+        <% end %>
+    <% end %>
+    <iframe id='frame' name="frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
 <% end %>
 
 <% content_for :incident_request_journals do %>
 
- <div class="page-block" id="incidentReply"  style="border-bottom: none;">
-   <div id="histories">
-     <div style="padding: 0 0 10px 0; font-weight: bold;">
-       <table cellpadding="0" cellspacing="0" border="0">
-         <tbody>
-         <tr>
-           <td>
-             <h2 style="font-size: 18px;margin-left: 5px;" id="journalsNum">
-               <%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request) %>)
-             </h2>
-           </td>
-         </tr>
-         </tbody>
-       </table>
-     </div>
-     <div class="page-block-body">
-       <div id="replies">
-         <%= list_journals(@incident_request) %>
-       </div>
-     </div>
-   </div>
-   <%= content_for :incident_request_reply_form  %>
- </div>
+    <div class="page-block" id="incidentReply" style="border-bottom: none;">
+      <div id="histories">
+        <div style="padding: 0 0 10px 0; font-weight: bold;">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+            <tr>
+              <td>
+                <h2 style="font-size: 18px;margin-left: 5px;" id="journalsNum">
+                  <%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request) %>)
+                </h2>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="page-block-body">
+          <div id="replies">
+            <%= list_journals(@incident_request) %>
+          </div>
+        </div>
+      </div>
+      <%= content_for :incident_request_reply_form %>
+    </div>
 <% end %>
 
 <% content_for :incident_config_items do %>
@@ -442,13 +458,13 @@
           </td>
           <td class="page-block-button"></td>
           <td class="page-block-help form-inline" id="configItemForm">
-            <%= render :partial=>"icm/incident_config_relations/mini_form",:locals => {:incident_request=>@incident_request}%>
+            <%= render :partial => "icm/incident_config_relations/mini_form", :locals => {:incident_request => @incident_request} %>
           </td>
         </tr>
       </table>
       <div class="page-block-body">
         <div id="configItems">
-          <%= render :partial=>"icm/incident_config_relations/incident_config_items",:locals=>{:datas=>@incident_request.incident_config_relations.with_config_item.select_all} %>
+          <%= render :partial => "icm/incident_config_relations/incident_config_items", :locals => {:datas => @incident_request.incident_config_relations.with_config_item.select_all} %>
         </div>
       </div>
     </div>
@@ -456,53 +472,55 @@
 
 <% content_for :change_request_tab do %>
     <% chm = Irm::ProductModule.usable?(:chm)&&@incident_request.change_request_id.present?;com = Irm::ProductModule.usable?(:com) %>
-    <% if allow_to_function?(:config_item) &&( chm||com )%>
+    <% if allow_to_function?(:config_item) &&(chm||com) %>
         <!-- 处理关联的变更单 -->
         <%- if params[:format].eql?('pdf') -%>
-           <%= content_for :incident_request_journals %>
-           <%- if chm -%>
+            <%= content_for :incident_request_journals %>
+            <%- if chm -%>
 
-           <%- else -%>
-             <%= content_for :incident_config_items  %>
-           <%- end -%>
+            <%- else -%>
+                <%= content_for :incident_config_items %>
+            <%- end -%>
         <%- else -%>
-        <!-- start tabs -->
-        <div class="tabs-container">
-          <div class="mx-tabs" id="tabNav">
-             <ul class="clear-fix">
-               <li class="active" id="nav_0" ref="incidentReply"><a href="#tab1" data-toggle="tab"><%= t(:label_icm_incident_journal_list) %></a></li>
-               <% if chm %>
-                 <li id="nav_1" ref="changeRequest"><a href="#tab2" data-toggle="tab"><%= t(:label_chm_change_request) %></a></li>
-               <% end %>
-               <% if com %>
-                 <li  ref="configItem"><a href="#tab3" data-toggle="tab"><%= t(:label_com_config_item) %></a></li>
-               <% end %>
-             </ul>
-          </div>
-          <div class="mx-tab-content">
-            <div class="mx-tab-pane active" id="tab1">
-              <%= content_for :incident_request_journals %>
+            <!-- start tabs -->
+            <div class="tabs-container">
+              <div class="mx-tabs" id="tabNav">
+                <ul class="clear-fix">
+                  <li class="active" id="nav_0" ref="incidentReply">
+                    <a href="#tab1" data-toggle="tab"><%= t(:label_icm_incident_journal_list) %></a></li>
+                  <% if chm %>
+                      <li id="nav_1" ref="changeRequest">
+                        <a href="#tab2" data-toggle="tab"><%= t(:label_chm_change_request) %></a></li>
+                  <% end %>
+                  <% if com %>
+                      <li ref="configItem"><a href="#tab3" data-toggle="tab"><%= t(:label_com_config_item) %></a></li>
+                  <% end %>
+                </ul>
+              </div>
+              <div class="mx-tab-content">
+                <div class="mx-tab-pane active" id="tab1">
+                  <%= content_for :incident_request_journals %>
+                </div>
+                <% if chm %>
+                    <div class="mx-tab-pane" id="tab2">
+                      <div class="hidden" id="changeRequest" href="<%= url_for(:controller => "chm/change_requests", :action => "show_detail", :id => @incident_request.change_request_id||"001") %>"></div>
+                    </div>
+                <% else %>
+                    <div class="mx-tab-pane" id="tab3">
+                      <%= content_for :incident_config_items %>
+                    </div>
+                <% end %>
+              </div>
             </div>
-            <% if chm %>
-            <div class="mx-tab-pane" id="tab2">
-              <div class="hidden" id="changeRequest" href="<%= url_for(:controller=>"chm/change_requests", :action=>"show_detail", :id=>@incident_request.change_request_id||"001") %>"></div>
-            </div>
-            <% else %>
-            <div class="mx-tab-pane" id="tab3">
-              <%= content_for :incident_config_items  %>
-            </div>
-            <% end %>
-          </div>
-        </div>
-        <!-- end tabs -->
+            <!-- end tabs -->
         <%- end -%>
 
         <script type="text/javascript">
-            $(function() {
-                $("#tabNav li").live("click", function(e) {
+            $(function () {
+                $("#tabNav li").live("click", function (e) {
                     $("#tabNav li").removeClass("active");
                     $(e.currentTarget).addClass("active");
-                    $("#tabNav li").each(function(index, element) {
+                    $("#tabNav li").each(function (index, element) {
                         var ref = $("#" + $(element).attr("ref"));
                         if (ref && !ref.hasClass("hidden")) {
                             ref.addClass("hidden");
@@ -520,74 +538,74 @@
                 });
             });
         </script>
-    <%else%>
-    <%= content_for :incident_request_journals %>
+    <% else %>
+        <%= content_for :incident_request_journals %>
     <% end %>
 <% end %>
 
 <div class="page-block" id="pageBlock">
-  <%= render :partial =>"steps" %>
+  <%= render :partial => "steps" %>
 </div>
 
 <div class="page-block" id="pageBlock">
   <div class="waypoint-header" id="toolbar">
-  <table class="page-block-header" >
-    <tr>
+    <table class="page-block-header">
+      <tr>
         <td class="page-block-title">
-          <h2 class="block-title"><%=t(:label_incident_request)%></h2>
+          <h2 class="block-title"><%= t(:label_incident_request) %></h2>
         </td>
-      <td class="sub-page-block-body">
-      </td>
+        <td class="sub-page-block-body">
+        </td>
         <td class="page-block-help" style="width: auto;">
-          <%= content_for :block_header_buttons  %>
+          <%= content_for :block_header_buttons %>
         </td>
-    </tr>
-  </table>
+      </tr>
+    </table>
     <% if @incident_request.support_group_id.blank? &&
             @incident_request.support_person_id.blank? &&
             allow_to_function?(:assign_incident_request) &&
-            !@incident_request.close?%>
-    <table class="page-block-header" >
-      <tr>
-          <td class="page-block-title">
-            <h2 class="block-title"><%=t(:label_report_incident_request_support)%></h2>
-          </td>
-          <td class="page-block-button">
-            <%= content_for :block_assign_controll_bar  %>
-          </td>
-      </tr>
-    </table>
+            !@incident_request.close? %>
+        <table class="page-block-header">
+          <tr>
+            <td class="page-block-title">
+              <h2 class="block-title"><%= t(:label_report_incident_request_support) %></h2>
+            </td>
+            <td class="page-block-button">
+              <%= content_for :block_assign_controll_bar %>
+            </td>
+          </tr>
+        </table>
     <% end %>
     <% if (allow_to_function?(:edit_incident_request_priority) ||
             Irm::Person.current.id == @incident_request.requested_by ||
             Irm::Person.current.id == @incident_request.support_person_id) &&
             !@incident_request.close? %>
-    <table class="page-block-header">
-      <tbody>
-        <tr>
-          <td class="page-block-title">
-            <h2 class="block-title"><%= I18n.t(:label_report_incident_request_update_priority) %></h2>
-          </td>
-          <td class="page-block-button">
-            <%= content_for :block_priority_controll_bar  %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <% end %>
-
         <table class="page-block-header">
           <tbody>
           <tr>
             <td class="page-block-title">
-              <h2 class="block-title"><%= I18n.t(:label_icm_incident_request_incident_status) %></h2>
+              <h2 class="block-title"><%= I18n.t(:label_report_incident_request_update_priority) %></h2>
             </td>
             <td class="page-block-button">
-              <%= content_for :block_status_controll_bar  %>
+              <%= content_for :block_priority_controll_bar %>
             </td>
           </tr>
           </tbody>
         </table>
+    <% end %>
+
+    <table class="page-block-header">
+      <tbody>
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= I18n.t(:label_icm_incident_request_incident_status) %></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :block_status_controll_bar %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
   </div>
   <div class="page-block-body">
@@ -597,13 +615,14 @@
     </div>
     <div class="sub-page-block">
       <div class="sub-page-block-header">
-        <h3 class="sub-page-block-title">(<%= @incident_request[:incident_status_name] %>)[<%= @incident_request[:request_number] %>]<%= @incident_request[:title] %></h3>
+        <h3 class="sub-page-block-title">(<%= @incident_request[:incident_status_name] %>
+          )[<%= @incident_request[:request_number] %>]<%= @incident_request[:title] %></h3>
         <% if @incident_request.has_custom_attributes? %>
         <span>
           【<a href="javascript:void(0);" class="more-or-less show-less">
-            <span class="expand"><%= t(:label_custom_attributes_show) %></span>
-            <span class="collapse"><%= t(:label_custom_attributes_hide) %></span>
-          </a>】
+          <span class="expand"><%= t(:label_custom_attributes_show) %></span>
+          <span class="collapse"><%= t(:label_custom_attributes_hide) %></span>
+        </a>】
         </span>
         <% end %>
         <div style="margin-left: 15px; display:inline; float: right;">
@@ -626,63 +645,65 @@
 
 <% if allow_to_function?(:view_incident_journal_his) %>
     <div class="page-block" id="pageBlock">
-      <table class="page-block-header" ><tr>
-        <td class="page-block-title">
-          <h2 class="block-title"><%=t(:label_icm_incident_journal_history)%></h2>
-        </td>
-        <td class="page-block-button">
-        </td>
-      </tr></table>
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_icm_incident_journal_history) %></h2>
+          </td>
+          <td class="page-block-button">
+          </td>
+        </tr>
+      </table>
       <div class="page-block-body">
-        <%= datatable("incident_request_histories",{:action=>"get_incident_history_data"},[],{:paginator_box=>'incidentHistoriesPaginatorBox', :row_perpage => 20})%>
+        <%= datatable("incident_request_histories", {:action => "get_incident_history_data"}, [], {:paginator_box => 'incidentHistoriesPaginatorBox', :row_perpage => 20}) %>
       </div>
     </div>
 <% end %>
 <% if self.respond_to?(:display_service_agreements) && allow_to_function?(:view_service_agreement, @incident_request.external_system_id) %>
-    <%= display_service_agreements(@incident_request.id,@incident_request.class.name,@incident_request.external_system_id) %>
+    <%= display_service_agreements(@incident_request.id, @incident_request.class.name, @incident_request.external_system_id) %>
 <% end %>
 <script type="text/javascript">
-    $(function() {
-        $(".toggle-button").each(function(index, element) {
+    $(function () {
+        $(".toggle-button").each(function (index, element) {
             var me = $(element);
             var ref = $("#" + me.attr("ref"));
             if (ref.hasClass("hidden")) {
-                me.html('<i class="icon-chevron-down"></i>'+ me.attr("expandedText"));
+                me.html('<i class="icon-chevron-down"></i>' + me.attr("expandedText"));
             } else {
-                me.html('<i class="icon-chevron-up"></i>'+ me.attr("collapsedText"));
+                me.html('<i class="icon-chevron-up"></i>' + me.attr("collapsedText"));
             }
         });
-        $(".toggle-button").bind("click", function(event) {
+        $(".toggle-button").bind("click", function (event) {
             var me = $(this);
             var ref = $("#" + me.attr("ref"));
             if (ref.hasClass("hidden")) {
-                me.html('<i class="icon-chevron-up"></i>'+ me.attr("collapsedText"));
+                me.html('<i class="icon-chevron-up"></i>' + me.attr("collapsedText"));
                 ref.removeClass("hidden");
             } else {
-                me.html('<i class="icon-chevron-down"></i>'+ me.attr("expandedText"));
+                me.html('<i class="icon-chevron-down"></i>' + me.attr("expandedText"));
                 ref.addClass("hidden");
             }
         });
 
         $("#incidentDetail tr[data-custom-flag='Y']").hide();
-        $(".more-or-less").bind("click", function(){
-            if($(this).hasClass("show-less")){
+        $(".more-or-less").bind("click", function () {
+            if ($(this).hasClass("show-less")) {
                 $(this).removeClass("show-less").addClass("show-all");
                 $("#incidentDetail tr[data-custom-flag='Y']").show();
-            }else{
+            } else {
                 $(this).removeClass("show-all").addClass("show-less");
                 $("#incidentDetail tr[data-custom-flag='Y']").hide();
             }
         });
 
-        $("#incident_request_actual_date,#incident_request_expect_date").css("width","100px")
+        $("#incident_request_actual_date,#incident_request_expect_date").css("width", "100px")
     });
 
     function issubmit() {
-        if(     ($("#incident_request_incident_status_code").find("option:selected").val()=="000K000A0g9LO0pOKPsZ1s") &&
+        if (($("#incident_request_incident_status_code").find("option:selected").val() == "000K000A0g9LO0pOKPsZ1s") &&
                 "<%=@external_system.price_type_id%>" == "2"
-          ){
-           $("#errorMessModal").modal("show")
+        ) {
+            $("#errorMessModal").modal("show")
             return false
         }
         else
@@ -696,7 +717,7 @@
         $("#file-contents").html("");
         $("#file-template").attr("sequence", 0);
     }
-    function mask_after_journal(){
+    function mask_after_journal() {
         $("#new_icm_incident_reply").mask($.i18n("processing"));
     }
 </script>
@@ -740,44 +761,45 @@
     <script type="text/javascript">
         $.waypoints.settings.scrollThrottle = 30;
 
-        $('#pageBlock').waypoint(function(event, direction) { }, {offset: '-100%'}).find('#toolbar').waypoint(function(event, direction) {
-           $(this).parent().toggleClass('sticky', direction === "down");
-           event.stopPropagation();
+        $('#pageBlock').waypoint(function (event, direction) {
+        }, {offset: '-100%'}).find('#toolbar').waypoint(function (event, direction) {
+            $(this).parent().toggleClass('sticky', direction === "down");
+            event.stopPropagation();
         });
     </script>
 <% end %>
 
 <% content_for :sidebar do %>
-    <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
+    <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER") %>
         <div id="organization_login_mess">
-          <%= render :partial =>"/irm/organizations/organization_login_mess" %>
+          <%= render :partial => "/irm/organizations/organization_login_mess" %>
         </div>
         <div id="external_system_mess">
-          <%= render :partial =>"/irm/external_systems/external_system_mess" %>
+          <%= render :partial => "/irm/external_systems/external_system_mess" %>
         </div>
-    <%end%>
+    <% end %>
     <div id="request_watcher_list">
-    <%= render :partial =>"/irm/watchers/sidebar_watcher_list",
-               :locals => {:watchable => @incident_request,
-                           :editable => !@incident_request.close?,
-                           :sid => @incident_request.external_system_id,
-                           :dom_id=>"request_watcher_list"} %>
+      <%= render :partial => "/irm/watchers/sidebar_watcher_list",
+                 :locals => {:watchable => @incident_request,
+                             :editable => !@incident_request.close?,
+                             :sid => @incident_request.external_system_id,
+                             :dom_id => "request_watcher_list"} %>
     </div>
-    <%= render :partial =>"/icm/incident_requests/sidebar_attachment_list", :sid => @incident_request.external_system_id %>
+    <%= render :partial => "/icm/incident_requests/sidebar_attachment_list", :sid => @incident_request.external_system_id %>
     <div id="relation_list">
-      <%= render :partial =>"/icm/incident_requests/sidebar_relation_list",
+      <%= render :partial => "/icm/incident_requests/sidebar_relation_list",
                  :locals => {:incident_request => @incident_request,
-                             :dom_id=>"relation_list",
+                             :dom_id => "relation_list",
                              :sid => @incident_request.external_system_id} %>
     </div>
-    <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
+    <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER") %>
         <div id="entry_header_relation_list">
-          <%= render :partial =>"/icm/incident_requests/entry_header_relation_list",
+          <%= render :partial => "/icm/incident_requests/entry_header_relation_list",
                      :locals => {:incident_request => @incident_request,
-                                 :dom_id=>"entry_header_relation_list",
+                                 :dom_id => "entry_header_relation_list",
                                  :sid => @incident_request.external_system_id} %>
         </div>
-    <%end%>
+    <% end %>
 <% end %>
 
 <div class="modal fade" id="organizationMessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -789,36 +811,36 @@
         <h4 class="modal-title"><%= t :label_organization_login_mess %></h4>
       </div>
       <div class="modal-body" id="login_mess">
-        <%= fields_for @organization, :builder =>CustomFormBuilder,:normal=>true do |o|%>
-            <table class="page-block-header table" >
+        <%= fields_for @organization, :builder => CustomFormBuilder, :normal => true do |o| %>
+            <table class="page-block-header table">
               <tbody>
-                  <tr>
-                     <td class="label-col"><label><%=t(:label_irm_organization_conn_type)%></label></td>
-                     <td class="data-col"><%= @organization[:conn_type_name]%></td>
-                  </tr>
-                  <tr>
-                     <td class="label-col"><label><%=(t :label_irm_organization_router)%></label></td>
-                     <td class="data-col"><%= @organization[:router]%></td>
-                  </tr>
-                  <tr>
-                    <td class="label-col"><label><%=t(:label_irm_organization_dev_mess)%></label></td>
-                    <td class="data-col"><%= @organization[:dev_mess]%></td>
-                  </tr>
-                  <tr>
-                    <td class="label-col"><label><%=t(:label_irm_organization_test_mess)%></label></td>
-                    <td class="data-col"><%= @organization[:test_mess]%></td>
-                  </tr>
-                  <tr>
-                    <td class="label-col"><label><%=t(:label_irm_organization_prod_mess)%></label></td>
-                    <td class="data-col"><%= @organization[:prod_mess]%></td>
-                  </tr>
-                  <tr>
-                    <td class="label-col"><label><%=t(:lable_irm_organization_sys_mess)%></label></td>
-                    <td class="data-col"><%= @organization[:sys_mess]%></td>
-                  </tr>
+              <tr>
+                <td class="label-col"><label><%= t(:label_irm_organization_conn_type) %></label></td>
+                <td class="data-col"><%= @organization[:conn_type_name] %></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%= (t :label_irm_organization_router) %></label></td>
+                <td class="data-col"><%= @organization[:router] %></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%= t(:label_irm_organization_dev_mess) %></label></td>
+                <td class="data-col"><%= @organization[:dev_mess] %></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%= t(:label_irm_organization_test_mess) %></label></td>
+                <td class="data-col"><%= @organization[:test_mess] %></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%= t(:label_irm_organization_prod_mess) %></label></td>
+                <td class="data-col"><%= @organization[:prod_mess] %></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%= t(:lable_irm_organization_sys_mess) %></label></td>
+                <td class="data-col"><%= @organization[:sys_mess] %></td>
+              </tr>
               </tbody>
             </table>
-        <% end%>
+        <% end %>
       </div>
       <div class="modal-footer">
       </div>
@@ -835,54 +857,54 @@
         <h4 class="modal-title"><%= t :label_external_system_mess %></h4>
       </div>
       <div class="modal-body" id="system_mess">
-        <%= fields_for @show_external_system, :builder =>CustomFormBuilder,:normal=>true do |s|%>
-            <table class="page-block-header table" >
+        <%= fields_for @show_external_system, :builder => CustomFormBuilder, :normal => true do |s| %>
+            <table class="page-block-header table">
               <tbody>
               <tr>
-                <td class="label-col"><label><%=t(:label_project_manager)%></label></td>
-                <td class="data-col"><%= @show_external_system[:project_manager]%></td>
+                <td class="label-col"><label><%= t(:label_project_manager) %></label></td>
+                <td class="data-col"><%= @show_external_system[:project_manager] %></td>
               </tr>
               <tr>
-                <td class="label-col"><label><%=t(:label_irm_external_system_customer_no)%></label></td>
-                <td class="data-col"><%=@show_external_system.customer_no %></td>
+                <td class="label-col"><label><%= t(:label_irm_external_system_customer_no) %></label></td>
+                <td class="data-col"><%= @show_external_system.customer_no %></td>
               </tr>
               <tr>
-                <td class="label-col"><label><%=(t :label_project_type)%></label></td>
-                <td class="data-col"><%= @show_external_system[:project_type_name]%></td>
+                <td class="label-col"><label><%= (t :label_project_type) %></label></td>
+                <td class="data-col"><%= @show_external_system[:project_type_name] %></td>
               </tr>
               <tr>
-                <td class="label-col"><label><%=t(:label_pricing_type)%></label></td>
-                <td class="data-col"><%= @show_external_system[:price_type_name]%></td>
+                <td class="label-col"><label><%= t(:label_pricing_type) %></label></td>
+                <td class="data-col"><%= @show_external_system[:price_type_name] %></td>
               </tr>
               <tr>
-                <td class="label-col"><label><%=t(:label_begin_date)%></label></td>
-                <td class="data-col"><%= @show_external_system[:begin_date]%></td>
+                <td class="label-col"><label><%= t(:label_begin_date) %></label></td>
+                <td class="data-col"><%= @show_external_system[:begin_date] %></td>
               </tr>
               <tr>
-                <td class="label-col"><label><%=t(:label_after_date)%></label></td>
-                <td class="data-col"><%= @show_external_system[:after_date]%></td>
+                <td class="label-col"><label><%= t(:label_after_date) %></label></td>
+                <td class="data-col"><%= @show_external_system[:after_date] %></td>
               </tr>
               <tr>
-                <td class="label-col"><label><%=t(:label_irm_external_system_system_description)%></label></td>
-                <td class="data-col"><%= @show_external_system[:system_description]%></td>
+                <td class="label-col"><label><%= t(:label_irm_external_system_system_description) %></label></td>
+                <td class="data-col"><%= @show_external_system[:system_description] %></td>
               </tr>
-          <%= fields_for @organization, :builder =>CustomFormBuilder,:normal=>true do |r|%>
-              <tr>
-                <td class="label-col"><label><%=t(:label_irm_organization_A1_flag)%></label></td>
-                <td class="data-col"><%= @organization[:A1_flag]%></td>
-              </tr>
-              <tr>
-                <td class="label-col"><label><%=t(:label_irm_organization_industry)%></label></td>
-                <td class="data-col"><%= @organization[:industry_name]%></td>
-              </tr>
-              <tr>
-                <td class="label-col"><label><%=t(:label_irm_organization_attention_point)%></label></td>
-                <td class="data-col"><%= @organization[:attention_point]%></td>
-              </tr>
-          <% end%>
+              <%= fields_for @organization, :builder => CustomFormBuilder, :normal => true do |r| %>
+                  <tr>
+                    <td class="label-col"><label><%= t(:label_irm_organization_A1_flag) %></label></td>
+                    <td class="data-col"><%= @organization[:A1_flag] %></td>
+                  </tr>
+                  <tr>
+                    <td class="label-col"><label><%= t(:label_irm_organization_industry) %></label></td>
+                    <td class="data-col"><%= @organization[:industry_name] %></td>
+                  </tr>
+                  <tr>
+                    <td class="label-col"><label><%= t(:label_irm_organization_attention_point) %></label></td>
+                    <td class="data-col"><%= @organization[:attention_point] %></td>
+                  </tr>
+              <% end %>
               </tbody>
             </table>
-        <% end%>
+        <% end %>
       </div>
       <div class="modal-footer">
       </div>
@@ -900,37 +922,37 @@
         <h4 class="modal-title">满意度选择</h4>
       </div>
       <div class="modal-body">
-        <table class="page-block-header table" >
-           <tbody>
-              <tr>
-                <td style="width: 100px">
-                  <input id="level_1" name="level" type="radio" value="VERY" style="float: left" onclick="sGrade()" checked>
-                  <%= label_tag(:level_1_1, "非常满意") %>
-                </td>
-                <td style="width: 100px">
-                  <input id="level_2" name="level" type="radio" value="GOOD" style="float: left" onclick="sGrade()">
-                  <%= label_tag(:level_2_2, "满意") %>
-                </td>
-                <td style="width: 100px">
-                  <input id="level_3" name="level" type="radio" value="BAD" style="float: left" onclick="sGrade()">
-                  <%= label_tag(:level_3_3, "不满意") %>
-                </td>
-              </tr>
-              <tr style="display: none" id="reason_id">
-                <td colspan="3">
-                <%= label_tag(:reason_1, "如果选择不满意，请说明理由:") %>
-                <%= text_area_tag(:reason, "", size: "480x4") %>
-                <div style="color: red;display: none" id="errorReason" >注：理由不能为空</div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="3">
-                  <%= link_to t(:submit),
-                              {},
-                              {:href => "javascript:void(0);",:class=>"btn",:onclick=>"submit_commit()"} %>
-                </td>
-              </tr>
-           </tbody>
+        <table class="page-block-header table">
+          <tbody>
+          <tr>
+            <td style="width: 100px">
+              <input id="level_1" name="level" type="radio" value="VERY" style="float: left" onclick="sGrade()" checked>
+              <%= label_tag(:level_1_1, "非常满意") %>
+            </td>
+            <td style="width: 100px">
+              <input id="level_2" name="level" type="radio" value="GOOD" style="float: left" onclick="sGrade()">
+              <%= label_tag(:level_2_2, "满意") %>
+            </td>
+            <td style="width: 100px">
+              <input id="level_3" name="level" type="radio" value="BAD" style="float: left" onclick="sGrade()">
+              <%= label_tag(:level_3_3, "不满意") %>
+            </td>
+          </tr>
+          <tr style="display: none" id="reason_id">
+            <td colspan="3">
+              <%= label_tag(:reason_1, "如果选择不满意，请说明理由:") %>
+              <%= text_area_tag(:reason, "", size: "480x4") %>
+              <div style="color: red;display: none" id="errorReason">注：理由不能为空</div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <%= link_to t(:submit),
+                          {},
+                          {:href => "javascript:void(0);", :class => "btn", :onclick => "submit_commit()"} %>
+            </td>
+          </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -938,47 +960,47 @@
 </div>
 
 <script type="text/javascript">
-    function update_people_date(){
+    function update_people_date() {
         $("#errorMessModal").modal("hide")
         window.location.href = '/incident_requests/<%= @incident_request.id%>/journals/edit_workload?next_status=000K000A0g9LO0pOKPsZ1s'
     }
 
-    function beforeClose(){
+    function beforeClose() {
         //如果没有评价过则需要评价
-        if("<%=Ccc::SatisRateOfConsultant.where(:incident_request_id=>@incident_request.id).length %>" == "0")
+        if ("<%=Ccc::SatisRateOfConsultant.where(:incident_request_id=>@incident_request.id).length %>" == "0")
             $("#evaluateModal").modal("show")
         else
-            window.location.href="/incident_requests/<%= @incident_request.id%>/<%= @show_external_system.id %>/journals/edit_close"
+            window.location.href = "/incident_requests/<%= @incident_request.id%>/<%= @show_external_system.id %>/journals/edit_close"
     }
-    function sGrade(){
-        if($("input[name='level']:checked").val()=="BAD"){
-            $("#reason").css("border-color","")
+    function sGrade() {
+        if ($("input[name='level']:checked").val() == "BAD") {
+            $("#reason").css("border-color", "")
             $("#errorReason").hide()
             $("#reason_id").show()
         }
         else
             $("#reason_id").hide()
     }
-    function submit_commit(){
-        if($("input[name='level']:checked").val()=="BAD" && $("#reason").val() == ""){
-            $("#reason").css("border-color","red")
+    function submit_commit() {
+        if ($("input[name='level']:checked").val() == "BAD" && $("#reason").val() == "") {
+            $("#reason").css("border-color", "red")
             $("#errorReason").show()
         }
-        else{
+        else {
             var href = '<%= url_for(:controller => "incident_journals",:action => "grade_of_satisfy",:request_id=>@incident_request.id)%>'
             $.ajax({
                 url: href,
                 type: 'post',
                 dataType: 'json',
                 data: {
-                    supporter_id:"<%=@incident_request.support_person_id%>",
-                    request_id:"<%=@incident_request.id%>",
-                    grade_type:$("input[name='level']:checked").val(),
-                    bad_reason:$("#reason").val()
+                    supporter_id: "<%=@incident_request.support_person_id%>",
+                    request_id: "<%=@incident_request.id%>",
+                    grade_type: $("input[name='level']:checked").val(),
+                    bad_reason: $("#reason").val()
                 },
-                success:function (data) {
+                success: function (data) {
                     $("#evaluateModal").modal("hide")
-                    window.location.href="/incident_requests/<%= @incident_request.id%>/<%= @show_external_system.id %>/journals/edit_close"
+                    window.location.href = "/incident_requests/<%= @incident_request.id%>/<%= @show_external_system.id %>/journals/edit_close"
                 }
             })
         }

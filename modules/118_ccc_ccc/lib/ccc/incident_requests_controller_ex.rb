@@ -258,6 +258,40 @@ module Ccc::IncidentRequestsControllerEx
         end
       end
 
+      def update
+        @incident_reply = Icm::IncidentReply.new(params[:icm_incident_reply])
+        @incident_request = Icm::IncidentRequest.list_all.query(params[:id])
+        @incident_request = check_incident_request_permission(@incident_request)
+        respond_to do |format|
+          flag = true
+          flag, now = validate_files(@incident_request) if params[:files].present?
+
+          incident_request_old = @incident_request.dup
+
+          if !flag
+            if now.is_a?(Integer)
+              flash[:error] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+            else
+              flash[:error] = now
+            end
+            format.html { render :action => "edit", :layout => "bootstrap_application_full" }
+            format.xml { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+          elsif @incident_request.update_attributes(params[:icm_incident_request])
+            process_files(@incident_request)
+            Icm::IncidentHistory.create({:request_id => @incident_request.id,
+                                         :journal_id => "",
+                                         :property_key => "update_id",
+                                         :old_value => "",
+                                         :new_value => @incident_request.title})
+            process_change_attributes(Icm::IncidentReply.all_attributes, @incident_request, incident_request_old, @incident_request.id)
+            format.html { redirect_to({:controller => "icm/incident_journals", :action => "new", :request_id => @incident_request.id, :show_info => Irm::Constant::SYS_YES}) }
+            format.xml { head :ok }
+          else
+            format.html { render :action => "edit", :layout => "application_full" }
+            format.xml { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+          end
+        end
+      end
 
       # POST /incident_requests
       # POST /incident_requests.xml

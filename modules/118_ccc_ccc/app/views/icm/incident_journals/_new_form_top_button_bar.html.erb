@@ -13,7 +13,7 @@
     </div>
 
     <div class="btn-group">
-      <%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests", :action => "index"} ,{:class=>"btn"}%>
+      <%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests", :action => "index"} ,{:class=>"btn",:id=>"back_to_list"}%>
     </div>
     <% if !@incident_request.close? %>
         <div class="btn-group">
@@ -93,3 +93,8 @@
     <% end %>
   </div>
 <% end %>
+<script>
+  $(function(){
+      $("#back_to_list").attr("href","/incident_requests?incident_requests_page=1&filter_id=<%=session[:_view_filter_id]%>")
+  })
+</script>

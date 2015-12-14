@@ -10,7 +10,10 @@
               <% if journal[:created_at] != journal[:updated_at] %>
               <%= "(#{t(:updated_at)}: #{format_date(journal[:updated_at])}, #{distance_of_time_in_words(Time.now,journal[:updated_at])})"%>
               <% end %>
-              - <%= journal[:journal_number]%><%= " - #{journal[:workload]} Hours" if journal[:workload].present? && journal[:workload].to_f > 0%>
+              - <%= journal[:journal_number]%>
+              <%if allow_to_function?(:edit_workload)%>
+                <%= " - #{journal[:workload]} Hours" if journal[:workload].present? && journal[:workload].to_f > 0%>
+              <%end%>
             </span>
        </div>
        <div style="float:right;padding: 5px 10px;">
