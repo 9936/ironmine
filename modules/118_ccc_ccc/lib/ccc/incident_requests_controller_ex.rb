@@ -336,12 +336,11 @@ module Ccc::IncidentRequestsControllerEx
             # end
             #投票任务
             # Delayed::Job.enqueue(Icm::Jobs::IncidentRequestSurveyTaskJob.new(@incident_request.id))
-
+            session[:_view_filter_id] = "002Q000923JClcGUDhzYMy"
             format.html { redirect_to({:controller => "icm/incident_journals", :action => "new", :request_id => @incident_request.id, :show_info => Irm::Constant::SYS_YES}) }
             format.xml { render :xml => @incident_request, :status => :created, :location => @incident_request }
             format.json { render :json => @incident_request }
           else
-            puts @incident_request.errors.inspect
             format.html { render :action => "new", :layout => "application_full" }
             format.xml { render :xml => @incident_request.errors, :status => :unprocessable_entity }
             format.json { render :json => @incident_request.errors, :status => :unprocessable_entity }
@@ -398,11 +397,6 @@ module Ccc::IncidentRequestsControllerEx
           flash[:error] = t(:label_icm_incident_request_relation_error_no_target)
         else
           Ccc::IncidentRequestEntryHeaderRelation.create(:source_id => source_id, :target_id => target_id)
-          # Icm::IncidentHistory.create({:request_id => source_id,
-          #                              :journal_id => "",
-          #                              :property_key => "add_relation",
-          #                              :old_value => relation_type,
-          #                              :new_value => target_id})
         end
 
         @dom_id = params[:_dom_id]

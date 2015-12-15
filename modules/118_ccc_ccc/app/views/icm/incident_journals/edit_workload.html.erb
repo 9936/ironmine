@@ -43,11 +43,11 @@
             </tr>
             <tr>
               <td class="label-col"><label for="incident_request_expect_date"><%=t(:label_icm_incident_request_expect_date)%></label></td>
-              <td class="data-col"><%=f.text_field :attribute3,:id=>"incident_request_expect_date"%></td>
+              <td class="data-col"><%=f.text_field :attribute3,:id=>"incident_request_expect_date",:type=>"number"%></td>
             </tr>
             <tr>
               <td class="label-col"><label for="incident_request_actual_date"><%=t(:incident_request_customer_comfirm_date)%></label></td>
-              <td class="data-col"><%=f.text_field :attribute4,:id=>"incident_request_customer_comfirm_date"%></td>
+              <td class="data-col"><%=f.text_field :attribute4,:id=>"incident_request_customer_comfirm_date",:type=>"number"%></td>
             </tr>
             <tr style="display:none">
               <td class="label-col"></td>
@@ -284,7 +284,7 @@
   function check_submit() {
       if(
               "<%=@external_system.price_type_id%>" == "2" &&
-              ($("#incident_request_expect_date").val() == "" || $("#incident_request_expect_date").val() == null || $("#incident_request_customer_comfirm_date").val() == "" || $("#incident_request_customer_comfirm_date").val() == null)
+              ($("#incident_request_customer_comfirm_date").val() == "" || $("#incident_request_customer_comfirm_date").val() == null)
       ){
           $("#errorMessModal").modal("show")
           return false

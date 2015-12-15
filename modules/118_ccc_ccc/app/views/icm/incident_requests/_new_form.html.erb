@@ -425,6 +425,9 @@
         $("#incident_request_requested_by_label").removeAttr("onchange")
         $("#incident_request_requested_byTip").remove()
         $(".lov-btn").on("click",function(){
+            $("#searchBox select option:first").attr("selected","selected")
+            $("#searchBox input").val("")
+            $("#searchBox a").click()
             $("#requestPeopleModal").modal("show")
         })
 

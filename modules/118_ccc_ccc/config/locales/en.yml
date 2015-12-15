@@ -1,4 +1,237 @@
 en:
+  label_irm_home: HISMS
+  label_icm_incident_request_update: Update Incident Request
+
+  label_peopel_date_error: Please fill in the information of the day
+  label_business_user: Business User
+  label_icm_incident_request_charge_person: Group Header
+
+  label_service_disabled_flag: Service failure identification
+  label_people_day_info: Gift giving day information
+
+  label_in_new: New
+  label_in_accept: Acceptance
+  label_in_process: In Process
+  label_in_commit_solution: Solution
+  label_in_close:  Close
+  label_in_confirm:  Confirm
+
+#  label_icm_incident_request_real_processing_total_time: 实际消耗总时间(小时)
+#  label_icm_incident_request_entry_header_relation: 相关知识库
+#  label_add_request_error: 请先填写事故单
+#  label_add_request_exist_error: 事故单已添加
+#
+#  label_skm_entry_header_column: 知识库分类
+#  label_skm_entry_header_status: 知识库状态
+#
+#  #  1
+#    label_customer_no: 客户编号
+#    label_customer_name: 客户名
+#    label_project_name: 项目名称
+#    label_service_list_status: 服务单状态
+#    label_commit_question_time: 提交问题时间
+#  #  label_question_solver: 问题处理者
+#  #  label_question_joiner: 问题参与者
+#    label_my_team: 我的团队
+#    label_for_my_only: 只选择自己
+#    label_for_SLA_time_out: 只选择SLA超时
+#  #  2
+#  #  label_customer_no: 客户编号
+#  #  label_project_name: 项目名称
+#  #  label_service_list_status: 服务单状态
+#  #  label_commit_question_time: 提交问题时间
+#  #  3
+#    label_question_solver: 问题处理者
+#    label_question_joiner: 问题参与者
+#  # 4
+#    label_small_team: 小组
+#    label_module: 模块
+#    label_for_small_team: 按小组统计
+#    label_for_module: 按模块统计
+#    label_total_period: 统计周期
+#  # 5
+#  #  label_customer_name: 客户名
+#  #  label_total_period: 统计周期
+#
+#  label_irm_person_update: 用户编辑
+#
+#  label_icm_incident_request_incident_parent_status: 当前状态
+#  label_icm_incident_request_incident_children_status: 下一级可选状态
+#  label_icm_incident_request_incident_profile_type: 用户类型
+#  label_ccc_status_con: 状态控制
+#  label_ccc_statusCon_new: 新建控制流
+#  label_ccc_statusCon_deit: 编辑控制流
+#
+#  label_icm_incident_status: 对应状态
+#  label_icm_incident_time: 时间/最大时间
+#  label_icm_incident_schedule: 进度
+#  label_icm_incident_start_time: 开始时间
+#  label_icm_incident_end_time: 结束时间
+#
+#  commit_plan: 更新
+#  label_organization_login_mess: 客户系统登录信息
+#  label_external_system_mess: 项目相关信息
+#  label_mess_look: 查看
+#
+#  label_icm_incident_expect_date_not_blank: 预计人天不能为空
+#  label_icm_incident_actual_date_not_blank: 实际人天不能为空
+#
+#  label_icm_incident_request_requested_email: 请求人联系方式
+#  label_icm_incident_request_summary: 问题详细信息
+#  label_icm_incident_request_contact_email: 业务用户邮箱
+#  label_icm_incident_request_contact_email_number: 业务用户联系方式
+#
+#  label_icm_incident_request_incident_people_date: 人天(0.5天为单位)
+#  label_icm_incident_request_expect_date: 预估人天(天)
+#  incident_request_customer_comfirm_date: 客户确认人天(天)
+#
+#  label_irm_external_system_organization_no: 公司编号
+#  label_irm_external_system_customer_no: 关键联系人
+#  label_project_manager: 项目经理
+#  label_disabled_flag: 失效标识
+#  label_project_type: 项目类型
+#  label_pricing_type: 计价方式
+#  label_begin_date: 项目开始时间
+#  label_after_date: 项目结束时间
+#
+#  label_project_remote_date: 远程人天
+#  label_scene_date: 现场人天
+#  label_project_respond_time: 响应时间(H)
+#  label_project_handle_time: 开始处理时间(H)
+#  label_project_update_time: 更新时间(H)
+#  label_project_total_time: 总处理时间(H)
+##  label_project_max_time: 最大处理问题时间(H)
+#  label_project_remind_rate: 即将超出时间提醒(比例%)
+#  label_project_warning_rate: 超出时间时间警告(比例%)
+#  label_project_show_to_SLA_flag: SLA是否显示给客户
+#
+#  label_ccc_price_type: 计价类型
+#  label_ccc_priceType_list: 计价类型列表
+#  label_ccc_priceType_code: 编码
+#  label_ccc_priceType_name: 名称
+#  label_ccc_priceType_description: 描述
+#  label_ccc_priceType_new: 计价类型新建
+#  label_ccc_priceType: 计价类型
+#
+#  label_ccc_project_type: 项目类型
+#  label_ccc_projectType_list: 项目类型列表
+#  label_ccc_projectType_code: 编码
+#  label_ccc_projectType_name: 名称
+#  label_ccc_projectType_description: 描述
+#  label_ccc_projectType_new: 项目类型新建
+#  label_ccc_projectType: 项目类型
+#
+#  label_irm_person_consultant_no: 工号
+#  label_irm_person_type: 顾问类型
+#  label_irm_person_sex: 性别
+#  label_irm_person_consultant_status: 顾问状态
+#  label_irm_person_consultant_level: 顾问等级
+#  label_irm_person_delete_flag: 删除标记
+#  label_irm_person_comment: 备注信息
+#  label_irm_person_consultant_module: 模块
+#  label_irm_person_parent_no: 上级顾问
+#
+#  label_irm_person_customer_status: 客户状态
+#  label_irm_person_customer_task: 客户职责
+#
+#  label_irm_organization_info: 公司信息
+#  label_irm_organization_new: 新建公司
+#  label_irm_organization_update: 编辑公司
+#  label_irm_organization: 公司列表
+#  label_irm_organization_no: 编号
+#  label_irm_organization_name: 公司名称
+#  label_irm_organization_address: 地址
+#  label_irm_organization_ZCode: 邮编
+#  label_irm_organization_city: 城市
+#  label_irm_organization_province: 省份
+#  label_irm_organization_country: 国家
+#
+#  label_respond_info: 负责人信息
+#  label_irm_organization_conscientious: 客户负责人
+#  label_irm_organization_position: 负责人职位
+#  label_irm_organization_conscientious_tel: 客户负责人手机
+#  label_irm_organization_conscientious_telNo: 客户负责人座机
+#  label_irm_organization_conscientious_email: 客户负责人邮箱
+#
+#  label_operation_info: 运维信息
+#  label_irm_organization_A1_flag: 是否A1客户
+#  label_irm_organization_sale: 销售
+#  label_irm_organization_industry: 所属行业
+#  label_irm_organization_service_date: 最早运维服务日期
+#  label_irm_organization_attention_point: 运维关键注意点
+#
+#  label_customer_info: 客户登录信息
+#  label_irm_organization_conn_type: 连接类型
+#  label_irm_organization_router: SAProuter
+#  label_irm_organization_dev_mess: ECC开发机登录信息
+#  label_irm_organization_test_mess: ECC测试机登录信息
+#  label_irm_organization_prod_mess: ECC生产机登录信息
+#  lable_irm_organization_sys_mess: 其它SAP系统登录信息
+#
+#  label_ccc_industry: 所属行业
+#  label_ccc_industry_list: 行业列表
+#  label_ccc_industry_code: 编码
+#  label_ccc_industry_name: 名称
+#  label_ccc_industry_description: 描述
+#  label_ccc_industry_new: 行业新建
+#  label_ccc_industry: 行业
+#
+#  label_ccc_conn_type: 连接类型
+#  label_ccc_connType_list: 连接类型列表
+#  label_ccc_connType_code: 编码
+#  label_ccc_connType_name: 名称
+#  label_ccc_connType_description: 描述
+#  label_ccc_connType_new: 连接类型新建
+#  label_ccc_connType: 连接类型
+#
+#  label_ccc_sex: 性别
+#  label_ccc_sex_list: 性别列表
+#  label_ccc_sex_code: 编码
+#  label_ccc_sex_name: 名称
+#  label_ccc_sex_description: 描述
+#  label_ccc_sex_new: 连接性别
+#  label_ccc_sex: 性别
+#
+#  label_ccc_consultant_level: 顾问等级
+#  label_ccc_consultantLevel_list: 顾问等级列表
+#  label_ccc_consultantLevel_code: 编码
+#  label_ccc_consultantLevel_name: 名称
+#  label_ccc_consultantLevel_description: 描述
+#  label_ccc_consultantLevel_new: 顾问等级新建
+#  label_ccc_consultantLevel: 顾问等级
+#
+#  label_ccc_consultant_module: 模块
+#  label_ccc_consultantModule_list: 模块列表
+#  label_ccc_consultantModule_code: 编码
+#  label_ccc_consultantModule_name: 名称
+#  label_ccc_consultantModule_description: 描述
+#  label_ccc_consultantModule_new: 模块新建
+#  label_ccc_consultantModule: 模块
+#
+#  label_ccc_consultant_status: 顾问状态
+#  label_ccc_consultantStatus_list: 顾问状态列表
+#  label_ccc_consultantStatus_code: 编码
+#  label_ccc_consultantStatus_name: 名称
+#  label_ccc_consultantStatus_description: 描述
+#  label_ccc_consultantStatus_new: 顾问状态新建
+#  label_ccc_consultantStatus: 顾问状态
+#
+#  label_ccc_consultant_type: 顾问类型
+#  label_ccc_consultantType_list: 顾问类型列表
+#  label_ccc_consultantType_code: 编码
+#  label_ccc_consultantType_name: 名称
+#  label_ccc_consultantType_description: 描述
+#  label_ccc_consultantType_new: 顾问类型新建
+#  label_ccc_consultantType: 顾问类型
+#
+#  label_ccc_customer_status: 客户状态
+#  label_ccc_customerStatus_list: 客户状态列表
+#  label_ccc_customerStatus_code: 编码
+#  label_ccc_customerStatus_name: 名称
+#  label_ccc_customerStatus_description: 描述
+#  label_ccc_customerStatus_new: 客户状态新建
+#  label_ccc_customerStatus: 客户状态
+
   pass: Transfer
 
   label_icm_incident_request_hotline: Hotline

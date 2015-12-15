@@ -41,10 +41,10 @@ class Icm::IncidentJournalsController < ApplicationController
     # 1,客户回复
     # 2,服务台回复
     # 3,其他人员回复
-    if Irm::Person.current.id.eql?(@incident_request.requested_by)
+    if Irm::Person.current.id.eql?(@incident_request.requested_by) || Irm::Person.current.id.eql?(@incident_request.support_person_id)
       @incident_journal.reply_type = "CUSTOMER_REPLY"
-    elsif Irm::Person.current.id.eql?(@incident_request.support_person_id)
-      @incident_journal.reply_type = "SUPPORTER_REPLY"
+    # elsif Irm::Person.current.id.eql?(@incident_request.support_person_id)
+    #   @incident_journal.reply_type = "SUPPORTER_REPLY"
     else
       @incident_journal.reply_type = "OTHER_REPLY"
     end
