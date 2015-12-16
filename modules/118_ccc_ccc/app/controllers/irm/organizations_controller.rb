@@ -126,6 +126,10 @@ class Irm::OrganizationsController < ApplicationController
 
   def get_organization_no
     @organizations = Irm::Organization.with_parent(I18n.locale).multilingual
+
+    @organizations = @organizations.match_value("#{Irm::Organization.table_name}.organization_no",params[:organization_no])
+    @organizations = @organizations.match_value("#{Irm::OrganizationsTl.table_name}.name",params[:name])
+
     @organizations,count = paginate(@organizations)
     respond_to do |format|
       format.json {

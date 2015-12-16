@@ -45,13 +45,13 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_begin_date)%></label></td>
-            <td class="data-col"><%=@external_system.begin_date %></td>
+            <td class="data-col"><%=format_date(@external_system.begin_date) %></td>
             <td class="label-col"><label><%=t(:label_pricing_type)%></label></td>
             <td class="data-col"><%=@external_system[:price_type_name] %></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_after_date)%></label></td>
-            <td class="data-col"><%=@external_system.after_date %></td>
+            <td class="data-col"><%=format_date(@external_system.after_date) %></td>
             <td class="label-col"></td>
             <td class="data-col"></td>
           </tr>
