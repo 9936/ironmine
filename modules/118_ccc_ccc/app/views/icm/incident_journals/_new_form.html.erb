@@ -696,7 +696,11 @@
             }
         });
 
-        $("#incident_request_actual_date,#incident_request_expect_date").css("width", "100px")
+        $("#dev_mess").html($("#dev_mess").text())
+        $("#test_mess").html($("#test_mess").text())
+        $("#prod_mess").html($("#prod_mess").text())
+        $("#sys_mess").html($("#sys_mess").text())
+        $(".label-col").css("width","30%")
     });
 
     function issubmit() {
@@ -824,19 +828,19 @@
               </tr>
               <tr>
                 <td class="label-col"><label><%= t(:label_irm_organization_dev_mess) %></label></td>
-                <td class="data-col"><%= @organization[:dev_mess] %></td>
+                <td class="data-col" id="dev_mess"><%= @organization[:dev_mess] %></td>
               </tr>
               <tr>
                 <td class="label-col"><label><%= t(:label_irm_organization_test_mess) %></label></td>
-                <td class="data-col"><%= @organization[:test_mess] %></td>
+                <td class="data-col" id="test_mess"><%= @organization[:test_mess] %></td>
               </tr>
               <tr>
                 <td class="label-col"><label><%= t(:label_irm_organization_prod_mess) %></label></td>
-                <td class="data-col"><%= @organization[:prod_mess] %></td>
+                <td class="data-col" id="prod_mess"><%= @organization[:prod_mess] %></td>
               </tr>
               <tr>
                 <td class="label-col"><label><%= t(:lable_irm_organization_sys_mess) %></label></td>
-                <td class="data-col"><%= @organization[:sys_mess] %></td>
+                <td class="data-col" id="sys_mess"><%= @organization[:sys_mess] %></td>
               </tr>
               </tbody>
             </table>
@@ -878,11 +882,11 @@
               </tr>
               <tr>
                 <td class="label-col"><label><%= t(:label_begin_date) %></label></td>
-                <td class="data-col"><%= @show_external_system[:begin_date] %></td>
+                <td class="data-col"><%= format_date(@show_external_system[:begin_date]) %></td>
               </tr>
               <tr>
                 <td class="label-col"><label><%= t(:label_after_date) %></label></td>
-                <td class="data-col"><%= @show_external_system[:after_date] %></td>
+                <td class="data-col"><%= format_date(@show_external_system[:after_date]) %></td>
               </tr>
               <tr>
                 <td class="label-col"><label><%= t(:label_irm_external_system_system_description) %></label></td>

@@ -72,16 +72,18 @@
             </td>
           </tr>
           <% end %>
-          <tr>
-            <%= fields_for @incident_journal,:as=>"incident_journal",:builder => LabellingFormBuilder,:normal=>true do |sub_f|%>
-              <%= sub_f.hidden_field(:incident_request_id) %>
-            <td class="label-col"><%= t(:label_icm_incident_journal_reply) %></td>
-            <td class="data-3col" colspan="5">
-              <%= sub_f.text_area :message_body ,:id=>"msgEditor",:cols=>150,:rows=>8,:required=>true,:class=>"input-xlarge"%>
-              <%= xheditor("msgEditor",true) %>
-            </td>
-            <% end%>
-          </tr>
+          <% if false%>
+              <tr>
+                <%= fields_for @incident_journal,:as=>"incident_journal",:builder => LabellingFormBuilder,:normal=>true do |sub_f|%>
+                  <%= sub_f.hidden_field(:incident_request_id) %>
+                <td class="label-col"><%= t(:label_icm_incident_journal_reply) %></td>
+                <td class="data-3col" colspan="5">
+                  <%= sub_f.text_area :message_body ,:id=>"msgEditor",:cols=>150,:rows=>8,:required=>true,:class=>"input-xlarge"%>
+                  <%= xheditor("msgEditor",true) %>
+                </td>
+                <% end%>
+              </tr>
+          <% end %>
       </tbody>
     </table>
   <% end %>
