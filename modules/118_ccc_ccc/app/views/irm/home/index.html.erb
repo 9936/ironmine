@@ -1,4 +1,6 @@
 <!--<%= page_title %>-->
+<script src="/javascripts/comment.js"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/comment.css"/>
 
 <table class="form-table" style="width: 70%;margin-left: 15%">
   <tbody>
@@ -6,7 +8,7 @@
     <!-- 顾问查看页面 -->
     <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
         <td align=center style="width: 20%;">
-          <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;width: 280px">
+          <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000923JClcGUDhzYMy" style="float: left;text-decoration: none;">
               <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #00acee;">
                 <img height=70 width=80 src="/images/new.png">
@@ -14,12 +16,12 @@
               </div>
             </a>
             <div style=" width:40px; height:40px; background-color:#F00; border-radius:25px;position: absolute;margin-left: 256px;margin-top: -16px;display:none">
-              <span style="height:40px; line-height:40px; display:block; color:#FFF; text-align:center;font-weight: bold;" id="span_1">1</span>
+              <span style="height:40px; line-height:40px; display:block; color:#FFF; text-align:center;font-weight: bold;" id="span_1"></span>
             </div>
           </div>
         </td>
         <td align=center style="width: 20%;">
-          <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;width: 280px">
+          <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q0009239HMWJmlUmVmK" style="float: left;text-decoration: none;">
               <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #9400D3;">
                 <img height=70 width=80 src="/images/process.png">
@@ -27,13 +29,13 @@
               </div>
             </a>
             <div style=" width:40px; height:40px; background-color:#F00; border-radius:25px;position: absolute;margin-left: 256px;margin-top: -16px;display:none">
-              <span style="height:40px; line-height:40px; display:block; color:#FFF; text-align:center;font-weight: bold;" id="span_2">2</span>
+              <span style="height:40px; line-height:40px; display:block; color:#FFF; text-align:center;font-weight: bold;" id="span_2"></span>
             </div>
           </div>
         </td>
     <%else%>
         <td align=center style="width: 20%;">
-          <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;width: 280px">
+          <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
             <a href="/incident_requests/new" style="float: left;text-decoration: none;">
               <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #00acee;">
                 <img height=70 width=80 src="/images/create.png">
@@ -43,7 +45,7 @@
           </div>
         </td>
         <td align=center style="width: 20%;">
-          <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;width: 280px">
+          <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000923JClcGUDhzYMy" style="float: left;text-decoration: none;">
               <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #9400D3;">
                 <img height=70 width=80 src="/images/new.png">
@@ -51,13 +53,13 @@
               </div>
             </a>
             <div style=" width:40px; height:40px; background-color:#F00; border-radius:25px;position: absolute;margin-left: 256px;margin-top: -16px;display:none">
-              <span style="height:40px; line-height:40px; display:block; color:#FFF; text-align:center;font-weight: bold;" id="span_1">1</span>
+              <span style="height:40px; line-height:40px; display:block; color:#FFF; text-align:center;font-weight: bold;" id="span_1"></span>
             </div>
           </div>
         </td>
     <% end %>
     <td align=center style="width: 20%;">
-      <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;width: 280px">
+      <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
         <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000B2jTxy1kSBuiS2a" style="float: left;text-decoration: none;">
           <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #4cbb49;">
             <img height=70 width=80 src="/images/join.png">
@@ -65,7 +67,7 @@
           </div>
         </a>
         <div style=" width:40px; height:40px; background-color:#F00; border-radius:25px;position: absolute;margin-left: 256px;margin-top: -16px;display:none">
-          <span style="height:40px; line-height:40px; display:block; color:#FFF; text-align:center;font-weight: bold;" id="span_3">3</span>
+          <span style="height:40px; line-height:40px; display:block; color:#FFF; text-align:center;font-weight: bold;" id="span_3"></span>
         </div>
       </div>
     </td>
@@ -73,7 +75,7 @@
 
   <tr style="height: 190px">
     <td align=center style="width: 20%;">
-      <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;width: 280px">
+      <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
         <a href="/incident_requests?incident_requests_page=1&filter_id=other" style="float: left;text-decoration: none;">
           <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #D15FEE;">
             <img height=70 width=80 src="/images/all.png">
@@ -83,9 +85,9 @@
       </div>
     </td>
     <td align=center style="width: 20%;">
-      <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;width: 280px">
+      <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
         <a href="/entry_headers?entry_headers_list_page=1" style="float: left;text-decoration: none;">
-          <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #00acee;">
+          <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #00AC6C;">
             <img height=70 width=80 src="/images/knowledge.png">
             <p style="color: white;margin-top: 10px;">知识库</p>
           </div>
@@ -93,7 +95,7 @@
       </div>
     </td>
     <td align=center style="width: 20%;">
-      <div style="display: inline-block;box-shadow: 5px 5px 20px #909090;width: 280px">
+      <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
         <a href="/reports?report_list_page=1" style="float: left;text-decoration: none;">
           <div style="width: 280px;height: 160px;display:table-cell;text-align:center;vertical-align: middle; background-color: #bc1c48;">
             <img height=70 width=80 src="/images/report.png">
@@ -105,9 +107,25 @@
   </tr>
   </tbody>
 </table>
+<div style="width: 130px;float: right;position: fixed;right: 10px;top: 250px;">
+  <a href="http://wpa.qq.com/msgrd?v=3&uin=1664311700&site=qq&menu=yes">
+    <div style="width: 130px;height: 130px;display:table-cell;text-align:center;vertical-align: middle;">
+      <img src="images/hl.jpg" width="100" height="110" class="shows" />
+    </div>
+  </a>
+  <div class="goods-comm" style="">
+    <div class="goods-comm-stars" align="center">
+      <div id="rate-comm-1" class="rate-comm" style="display: inline-table;"></div>
+    </div>
+  </div>
+</div>
 <script>
   $(function(){
       $(".body-cell-div").css({"height":"500px","margin-top":"80px"})
+      $(".body-cell").css("background-color","grey")
+      $("#navMenu").css("background-color","black")
+      $(".dropdown-toggle").css("background-color","red")
+      $("li[title='3']").click()
 
       var href = '<%= url_for(:action => "kinds_of_count")%>'
       $.ajax({

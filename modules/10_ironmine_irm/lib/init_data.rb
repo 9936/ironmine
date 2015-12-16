@@ -369,7 +369,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :entry => {
                   :sequence => 20,
                   :en => {:name => "Organization Information", :description => "Organization Information"},
-                  :zh => {:name => "组织信息", :description => "组织信息"},
+                  :zh => {:name => "公司信息", :description => "公司信息"},
               }},
           :site_management => {
               :type => "menu",

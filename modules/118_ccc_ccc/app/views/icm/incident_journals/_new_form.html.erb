@@ -319,7 +319,8 @@
                         </div>
                     <% end %>
                   </td>
-                  <td class="page-block-help" style="width: auto;">
+
+                  <td class="page-block-help" style="width: auto;display: none">
                     <div>
                       <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_request_keep_next_status) %></label>
                       <%= check_box_tag :keep_next_status, 'Y' %>
@@ -552,7 +553,7 @@
     <table class="page-block-header">
       <tr>
         <td class="page-block-title">
-          <h2 class="block-title"><%= t(:label_incident_request) %></h2>
+          <h2 class="block-title"></h2>
         </td>
         <td class="sub-page-block-body">
         </td>
@@ -567,7 +568,7 @@
             !@incident_request.close? %>
         <table class="page-block-header">
           <tr>
-            <td class="page-block-title">
+            <td class="page-block-title" style="width: 13%">
               <h2 class="block-title"><%= t(:label_report_incident_request_support) %></h2>
             </td>
             <td class="page-block-button">
@@ -583,7 +584,7 @@
         <table class="page-block-header">
           <tbody>
           <tr>
-            <td class="page-block-title">
+            <td class="page-block-title" style="width: 13%">
               <h2 class="block-title"><%= I18n.t(:label_report_incident_request_update_priority) %></h2>
             </td>
             <td class="page-block-button">
@@ -597,7 +598,7 @@
     <table class="page-block-header">
       <tbody>
       <tr>
-        <td class="page-block-title">
+        <td class="page-block-title" style="width: 13%">
           <h2 class="block-title"><%= I18n.t(:label_icm_incident_request_incident_status) %></h2>
         </td>
         <td class="page-block-button">
@@ -642,6 +643,9 @@
     </div>
   </div>
 </div>
+<% if self.respond_to?(:display_service_agreements) && allow_to_function?(:view_service_agreement, @incident_request.external_system_id) %>
+    <%= display_service_agreements(@incident_request.id, @incident_request.class.name, @incident_request.external_system_id) %>
+<% end %>
 
 <% if allow_to_function?(:view_incident_journal_his) %>
     <div class="page-block" id="pageBlock">
@@ -658,9 +662,6 @@
         <%= datatable("incident_request_histories", {:action => "get_incident_history_data"}, [], {:paginator_box => 'incidentHistoriesPaginatorBox', :row_perpage => 20}) %>
       </div>
     </div>
-<% end %>
-<% if self.respond_to?(:display_service_agreements) && allow_to_function?(:view_service_agreement, @incident_request.external_system_id) %>
-    <%= display_service_agreements(@incident_request.id, @incident_request.class.name, @incident_request.external_system_id) %>
 <% end %>
 <script type="text/javascript">
     $(function () {

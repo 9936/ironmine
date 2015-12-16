@@ -339,14 +339,8 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
     #当当前人员有系统时候才进行搜索
     if system_ids.any?
-      puts "000000000000000"
-      puts query
-      puts time_limit
-
       #检索事故单本身
       search = Sunspot.search(Icm::IncidentRequest) do |sp|
-        puts "000000011111111"
-        puts sp.inspect
 
         sp.keywords query, :highlight => true
         sp.with(:external_system_id, system_ids)
@@ -354,17 +348,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
         sp.paginate(:page => page, :per_page => per_page)
       end
 
-      puts "11111111111111"
-      puts search.inspect
-
       # results_ids = search.results.collect{|i| i[:id]}  if search
 
       search.each_hit_with_result do |hit, result|
         results[result.id.to_sym] ||= {}
         results[result.id.to_sym][:hit] = hit
       end if search
-      puts "222222222222222"
-      puts results.inspect
 
       #检索附件
       #search_att = Sunspot.search(Irm::AttachmentVersion) do |sp|
@@ -409,17 +398,10 @@ class Icm::IncidentRequest < ActiveRecord::Base
                               with_organization(I18n.locale).
                               where(:id => results.keys).index_by(&:id)
 
-      puts "3333333333333333"
-      puts incident_requests.inspect
-
       results.each do |k,v|
         results[k][:details] = incident_requests[k.to_s] if incident_requests[k.to_s].present?
       end
-      puts "444444444444444"
-      puts results.inspect
     end
-    puts "5555555555555555"
-    puts results.inspect
     results
   end
 

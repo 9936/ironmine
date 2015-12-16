@@ -12,6 +12,7 @@
             <td class="label-col empty">&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
+          <% if false%>
           <tr>
              <td class="label-col"><label for="incident_request_service_code"><%=t(:label_icm_incident_request_target_system)%></label></td>
              <td class="data-col"><%=f.select :external_system_id,
@@ -72,7 +73,6 @@
             </td>
           </tr>
           <% end %>
-          <% if false%>
               <tr>
                 <%= fields_for @incident_journal,:as=>"incident_journal",:builder => LabellingFormBuilder,:normal=>true do |sub_f|%>
                   <%= sub_f.hidden_field(:incident_request_id) %>

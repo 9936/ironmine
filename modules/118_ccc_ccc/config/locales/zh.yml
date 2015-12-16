@@ -1,16 +1,20 @@
 zh:
+  label_icm_incident_request_incident_category: 应用系统
+  label_icm_incident_request_incident_sub_category: 模块
+  label_icm_incident_request_requested_by: 请求者
+  label_icm_incident_request_submitted_by: 创建者
   label_irm_home: HISMS
   label_icm_incident_request_update: 问题更新
 
   label_peopel_date_error: 项目类型为人天，请先填写人天信息
-  label_business_user: 业务用户
+  label_business_user: 最终用户
   label_icm_incident_request_charge_person: 小组负责人
 
   label_service_disabled_flag: 服务失效标识
   label_people_day_info: 赠送人天信息
 
   label_in_new: 新建
-  label_in_accept: 受理中
+  label_in_accept: 已分配
   label_in_process: 处理中
   label_in_commit_solution: 提交方案
   label_in_close:  关闭
@@ -19,8 +23,8 @@ zh:
 
   label_icm_incident_request_real_processing_total_time: 实际消耗总时间(小时)
   label_icm_incident_request_entry_header_relation: 相关知识库
-  label_add_request_error: 请先填写事故单
-  label_add_request_exist_error: 事故单已添加
+  label_add_request_error: 请先填写事件单
+  label_add_request_exist_error: 事件单已添加
 
   label_skm_entry_header_column: 知识库分类
   label_skm_entry_header_status: 知识库状态
@@ -28,7 +32,7 @@ zh:
 #  1
   label_customer_no: 客户编号
   label_customer_name: 客户名
-  label_project_name: 项目名称
+  label_project_name: 项目
   label_service_list_status: 服务单状态
   label_commit_question_time: 提交问题时间
 #  label_question_solver: 问题处理者
@@ -71,17 +75,17 @@ zh:
   label_icm_incident_end_time: 结束时间
 
   commit_plan: 更新
-  label_organization_login_mess: 客户系统登录信息
-  label_external_system_mess: 项目相关信息
+  label_organization_login_mess: 登录信息
+  label_external_system_mess: 项目信息
   label_mess_look: 查看
 
   label_icm_incident_expect_date_not_blank: 预计人天不能为空
   label_icm_incident_actual_date_not_blank: 实际人天不能为空
 
-  label_icm_incident_request_requested_email: 请求人联系方式
-  label_icm_incident_request_summary: 问题详细信息
-  label_icm_incident_request_contact_email: 业务用户邮箱
-  label_icm_incident_request_contact_email_number: 业务用户联系方式
+  label_icm_incident_request_requested_email: 请求者联系方式
+  label_icm_incident_request_summary: 详情
+  label_icm_incident_request_contact_email: 用户邮箱
+  label_icm_incident_request_contact_email_number: 最终用户联系方式
 
   label_icm_incident_request_incident_people_date: 人天(0.5天为单位)
   label_icm_incident_request_expect_date: 预估人天(天)
@@ -92,7 +96,7 @@ zh:
   label_project_manager: 项目经理
   label_disabled_flag: 失效标识
   label_project_type: 项目类型
-  label_pricing_type: 计价方式
+  label_pricing_type: 结算方式
   label_begin_date: 项目开始时间
   label_after_date: 项目结束时间
 
@@ -107,13 +111,13 @@ zh:
   label_project_warning_rate: 超出时间时间警告(比例%)
   label_project_show_to_SLA_flag: SLA是否显示给客户
 
-  label_ccc_price_type: 计价类型
-  label_ccc_priceType_list: 计价类型列表
+  label_ccc_price_type: 结算类型
+  label_ccc_priceType_list: 结算类型列表
   label_ccc_priceType_code: 编码
   label_ccc_priceType_name: 名称
   label_ccc_priceType_description: 描述
-  label_ccc_priceType_new: 计价类型新建
-  label_ccc_priceType: 计价类型
+  label_ccc_priceType_new: 结算类型新建
+  label_ccc_priceType: 结算类型
 
   label_ccc_project_type: 项目类型
   label_ccc_projectType_list: 项目类型列表
@@ -160,7 +164,7 @@ zh:
   label_irm_organization_sale: 销售
   label_irm_organization_industry: 所属行业
   label_irm_organization_service_date: 最早运维服务日期
-  label_irm_organization_attention_point: 运维关键注意点
+  label_irm_organization_attention_point: 运维注意事项
 
   label_customer_info: 客户登录信息
   label_irm_organization_conn_type: 连接类型
@@ -247,28 +251,28 @@ zh:
   label_icm_incident_journal_edit_workload: 登记工时
   label_icm_incident_journal_workload_type: 工时类型
 
-  label_icm_incident_journal_history: 事故单变更历史
-  label_slm_sla_instance_title: 事故单SLA监控
+  label_icm_incident_journal_history: 事件单变更历史
+  label_slm_sla_instance_title: 事件单SLA监控
   label_slm_sla_instance_name: 对应状态
   label_icm_incident_journal_created_by: 账号
   label_icm_incident_journal_event: 事件
   label_icm_incident_journal_new_value: 修订
   label_icm_incident_journal_date: 日期
 
-  label_icm_incident_request_requested_by: 问题请求人
-  label_icm_incident_request_target_system: 项目名称
-  label_icm_incident_request_urgence_code: 优先级别
+  label_icm_incident_request_requested_by: 请求者
+  label_icm_incident_request_target_system: 运维项目
+  label_icm_incident_request_urgence_code: 优先级
   label_icm_incident_request_urgence_reason: 紧急原因
-  label_report_incident_request_update_priority: 更改优先级
+  label_report_incident_request_update_priority: 优先级
 
-  label_icm_incident_request_contact: 业务用户
-  label_icm_incident_request_contact_number: 业务用户联系电话
+  label_icm_incident_request_contact: 最终用户
+  label_icm_incident_request_contact_number: 联系方式
   label_icm_incident_request_request_type_code: 问题类型
   label_icm_incident_request_impact_range: 影响度
   label_icm_incident_request_urgence: 紧急度
   label_icm_incident_request_new_reply: 回复问题
-  label_icm_incident_request_add_watcher: 添加跟踪者
-  label_icm_incident_request_remove_watcher: 移除跟踪者
+  label_icm_incident_request_add_watcher: 添加参与者
+  label_icm_incident_request_remove_watcher: 移除参与者
   label_icm_incident_request_add_relation: 添加关联
   label_icm_incident_request_remove_relation: 移除关联
   label_icm_incident_request_incident_request: 创建问题
