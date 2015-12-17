@@ -13,10 +13,15 @@
           <%= link_to( "(#{data[:incident_status_id_label]})"+data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
     <% end %>
     <% builder.column(:external_system_id_label,{:title=>t(:label_irm_external_system),:searchable=>true,:width => "240px"}) do |data| %>
-          <CENTER>
-          [<%= data[:external_system_id_label] %>]<br>
-          <%= "#{data[:incident_category_id_label]}" %><%= "(#{data[:incident_sub_category_id_label]})" if data[:incident_sub_category_id_label].present?%>
-          </CENTER>
+        <%if false%>
+            <CENTER>
+        <%end%>
+        [<%= data[:external_system_id_label] %>]
+        <%if false%>
+            <br>
+            <%= "#{data[:incident_category_id_label]}" %><%= "(#{data[:incident_sub_category_id_label]})" if data[:incident_sub_category_id_label].present?%>
+            </CENTER>
+        <%end%>
     <% end %>
     <% builder.column(:priority_id_label,{:title=>t(:label_icm_incident_request_priority),:searchable=>true, :width => "60px"})%>
     <% builder.column(:support_person_id_label,{:title=>t(:label_icm_incident_request_support_person),:searchable=>true, :width => "90px"}) do |data| %>

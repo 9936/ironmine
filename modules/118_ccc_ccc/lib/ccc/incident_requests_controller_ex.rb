@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Ccc::IncidentRequestsControllerEx
 
   def self.included(base)
@@ -417,6 +418,26 @@ module Ccc::IncidentRequestsControllerEx
         end
       end
 
+      def get_external_systems
+        external_systems_scope = Irm::ExternalSystem.multilingual.enabled.with_person(params[:requested_by]).order("CONVERT( system_name USING gbk ) ")
+        external_systems_scope = external_systems_scope.uniq
+        external_systems = external_systems_scope.collect { |i|
+          if Time.now >= i.after_date
+            {
+                :label => "#{i[:system_name]}(过期)",
+                :value => i.id, :id => i.id
+            }
+          else
+            {
+                :label => i[:system_name],
+                :value => i.id, :id => i.id
+            }
+          end
+        }
+        respond_to do |format|
+          format.json { render :json => external_systems.to_grid_json([:label, :value], external_systems.count) }
+        end
+      end
       private
 
       def validate_files(ref_request)

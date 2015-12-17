@@ -140,4 +140,5 @@ $(function(){
 		max	: 5
 	}
 	$('#rate-comm-1').rater(options);
+	$('#rate-comm-2').rater(options);
 });

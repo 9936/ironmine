@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/comment.css"/>
 <style>
     .bc_div{
-        border-radius: 16px;
+        border-radius: 20px;
         width: 280px;
         height: 160px;
         display:table-cell;
@@ -11,19 +11,62 @@
         vertical-align: middle;
         background-color: #606060;
     }
-
+    .div_service{
+        width: 130px;
+        float: right;
+        position: fixed;
+        right: 10px;
+    }
+    .div_img{
+        width: 130px;
+        height: 130px;
+        display:table-cell;
+        text-align:center;
+        vertical-align: middle;
+    }
+    .bc_div img {
+        height: 110px;
+        width: 100px;
+    }
+    .td_div{
+        display: inline-block;
+        width: 280px;
+        box-shadow: 7px 10px 10px;
+        border-radius: 25px;
+    }
+    .d1{
+        margin:10px;
+        width:180px;
+        height:20px;
+        overflow:hidden;
+        white-space:nowrap;
+    }
+    .div2{
+        width:auto;
+        height:20px;
+        font-size:12px;
+    }
 </style>
-
+<div class="alert alert-info" role="alert">
+  <div class="d1" id="div1" onmouseover="clearInterval(timer)" onmouseout="timer=setInterval(mar,30)">
+    <span class="div2" id="div2">
+		<h3>尊敬的用户，</h3>
+		<h3>欢迎登录系统!!!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+    </span>
+    <span id="div3" class="div2">
+    </span>
+  </div>
+</div>
 <table class="form-table" style="width: 70%;margin-left: 15%">
   <tbody>
   <tr style="height: 190px">
     <!-- 顾问查看页面 -->
     <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
         <td align=center style="width: 20%;">
-          <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
+          <div class="td_div">
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000923JClcGUDhzYMy" style="float: left;text-decoration: none;">
               <div class="bc_div">
-                <img height=70 width=80 src="/images/new.png">
+                <img  src="/images/new.png">
                 <p style="color: white;margin-top: 10px;">新到达问题</p>
               </div>
             </a>
@@ -33,10 +76,10 @@
           </div>
         </td>
         <td align=center style="width: 20%;">
-          <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
+          <div class="td_div">
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q0009239HMWJmlUmVmK" style="float: left;text-decoration: none;">
               <div class="bc_div">
-                <img height=70 width=80 src="/images/process.png">
+                <img  src="/images/process.png">
                 <p style="color: white;margin-top: 10px;">我处理中的问题</p>
               </div>
             </a>
@@ -47,20 +90,20 @@
         </td>
     <%else%>
         <td align=center style="width: 20%;">
-          <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
+          <div class="td_div">
             <a href="/incident_requests/new" style="float: left;text-decoration: none;">
               <div class="bc_div">
-                <img height=70 width=80 src="/images/create.png">
+                <img  src="/images/create.png">
                 <p style="color: white;margin-top: 10px;">新建问题</p>
               </div>
             </a>
           </div>
         </td>
         <td align=center style="width: 20%;">
-          <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
+          <div class="td_div">
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000923JClcGUDhzYMy" style="float: left;text-decoration: none;">
               <div class="bc_div">
-                <img height=70 width=80 src="/images/new.png">
+                <img  src="/images/new.png">
                 <p style="color: white;margin-top: 10px;">已新建的问题</p>
               </div>
             </a>
@@ -71,10 +114,10 @@
         </td>
     <% end %>
     <td align=center style="width: 20%;">
-      <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
+      <div class="td_div">
         <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000B2jTxy1kSBuiS2a" style="float: left;text-decoration: none;">
           <div class="bc_div">
-            <img height=70 width=80 src="/images/join.png">
+            <img  src="/images/join.png">
             <p style="color: white;margin-top: 10px;">我参与的问题</p>
           </div>
         </a>
@@ -87,30 +130,30 @@
 
   <tr style="height: 190px">
     <td align=center style="width: 20%;">
-      <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
+      <div class="td_div">
         <a href="/incident_requests?incident_requests_page=1&filter_id=other" style="float: left;text-decoration: none;">
           <div class="bc_div">
-            <img height=70 width=80 src="/images/all.png">
+            <img  src="/images/all.png">
             <p style="color: white;margin-top: 10px;">所有问题</p>
           </div>
         </a>
       </div>
     </td>
     <td align=center style="width: 20%;">
-      <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
+      <div class="td_div">
         <a href="/entry_headers?entry_headers_list_page=1" style="float: left;text-decoration: none;">
           <div class="bc_div">
-            <img height=70 width=80 src="/images/knowledge.png">
+            <img  src="/images/knowledge.png">
             <p style="color: white;margin-top: 10px;">知识库</p>
           </div>
         </a>
       </div>
     </td>
     <td align=center style="width: 20%;">
-      <div style="display: inline-block;box-shadow: 10px 10px 38px #909090;width: 280px">
+      <div class="td_div">
         <a href="/reports?report_list_page=1" style="float: left;text-decoration: none;">
           <div class="bc_div">
-            <img height=70 width=80 src="/images/report.png">
+            <img  src="/images/report.png">
             <p style="color: white;margin-top: 10px;">报表</p>
           </div>
         </a>
@@ -119,30 +162,51 @@
   </tr>
   </tbody>
 </table>
-<div style="width: 130px;float: right;position: fixed;right: 10px;top: 250px;">
-  <a href="http://wpa.qq.com/msgrd?v=3&uin=1026331244&site=qq&menu=yes">
-    <div style="width: 130px;height: 130px;display:table-cell;text-align:center;vertical-align: middle;">
+<div class="div_service" style="top: 200px;">
+  <a href="http://wpa.qq.com/msgrd?v=3&uin=2413167220&site=qq&menu=yes">
+    <div class="div_img">
       <img src="images/hl.jpg" width="100" height="110" class="shows" />
+      <p><b>胡亮</b></p>
     </div>
   </a>
-  <div class="goods-comm" style="">
+  <div class="goods-comm">
     <div class="goods-comm-stars" align="center">
       <div id="rate-comm-1" class="rate-comm" style="display: inline-table;"></div>
     </div>
   </div>
 </div>
+<div class="div_service" style="top: 360px;">
+  <a href="http://wpa.qq.com/msgrd?v=3&uin=1664311700&site=qq&menu=yes">
+    <div class="div_img">
+      <img src="images/wxx.jpg" width="100" height="110" class="shows" />
+      <p><b>武小霞</b></p>
+    </div>
+  </a>
+  <div class="goods-comm">
+    <div class="goods-comm-stars" align="center">
+      <div id="rate-comm-2" class="rate-comm" style="display: inline-table;"></div>
+    </div>
+  </div>
+</div>
 <script>
   $(function(){
-      $(".body-cell-div").css({"height":"500px","margin-top":"80px"})
-      $(".body-cell").css("background-color","#969795")
+      $(".body-cell-div").css({"height":"480px"})
+      $(".body-cell").css("background-color","#F8F8F8")
       $("#navMenu").css("background-color","#D91E1A")
-      $(".dropdown-toggle").css("background-color","#4AADC7")
+      $(".dropdown-toggle").css("background-color","black")
       $(".page-container-header .headerSearchRightRoundedCorner #phSearchButton").css("color","black")
       $(".page-container-header .nav-menu .application-menu,.page-body-content-header,.page-body-content-header .left-round, .page-body-content-header .right-round ,.page-body-content-footer,.page-body-content-footer .left-round, .page-body-content-footer .right-round").css("background-image","url('')")
-      $(".page-body-content-header,.page-body-content-header .left-round, .page-body-content-header .right-round").css("background-color","#969795")
+      $(".page-body-content-header,.page-body-content-header .left-round, .page-body-content-header .right-round").css("background-color","#F8F8F8")
 
-      $("li[title='4']").click()
+      $("#rate-comm-1 li[title='4']").click()
+      $("#rate-comm-2 li[title='3']").click()
 
+      $(".bc_div").on("mouseover",function(arg){
+          $(arg.currentTarget).eq(0).css("background-color","#8B3E2F")
+      })
+      $(".bc_div").on("mouseout",function(arg){
+          $(arg.currentTarget).eq(0).css("background-color","#606060")
+      })
       var href = '<%= url_for(:action => "kinds_of_count")%>'
       $.ajax({
           url: href,
@@ -166,4 +230,25 @@
           }
       })
   })
+
+  var s,s2,s3,timer;
+  function init(){
+      s=getid("div1");
+      s2=getid("div2");
+      s3=getid("div3");
+      s3.innerHTML=s2.innerHTML;
+      timer=setInterval(mar,30)
+  }
+  function mar(){
+      if(s2.offsetWidth<=s.scrollLeft){
+          s.scrollLeft-=s2.offsetWidth;
+      }
+      else{
+          s.scrollLeft++;
+      }
+  }
+  function getid(id){
+      return document.getElementById(id);
+  }
+  window.onload=init;
 </script>

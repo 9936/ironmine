@@ -218,45 +218,73 @@
         </tr>
         <% if allow_to_function?(:edit_workload) %>
             <tr>
-              <% if @incident_request.attribute3 != nil && @incident_request.attribute3 != "" %>
+              <% if (@incident_request.attribute3 != nil && @incident_request.attribute3 != "" && @incident_request.attribute3 != "0") ||
+                      (@incident_request.attribute6 != nil && @incident_request.attribute6 != "" && @incident_request.attribute6 != "0") %>
                   <td class="label-col"><label><%= t(:label_icm_incident_request_expect_date) %></label></td>
                   <td class="data-col">
-                    <div><%= @incident_request[:attribute3] %></div>
+                    <div>
+                      <% if @incident_request.attribute3 != nil &&
+                              @incident_request.attribute3 != "" && @incident_request.attribute3 != "0"%>
+                      <%= t(:label_icm_sence) %>:<%= @incident_request[:attribute3] %>
+                      <%end%>
+                      <% if @incident_request.attribute6 != nil &&
+                              @incident_request.attribute6 != "" && @incident_request.attribute6 != "0"%>
+                      &nbsp;&nbsp;
+                      <%= t(:label_icm_expect) %>:<%= @incident_request[:attribute6] %>
+                      <%end%>
+                    </div>
                   </td>
               <% end %>
-              <% if @incident_request.attribute4 != nil && @incident_request.attribute4 != "" %>
-                  <td class="label-col"><label><%= t(:incident_request_customer_comfirm_date) %></label></td>
+              <% if (@incident_request.attribute4 != nil && @incident_request.attribute4 != "" && @incident_request.attribute4 != "0") ||
+                      (@incident_request.attribute7 != nil && @incident_request.attribute7 != "" && @incident_request.attribute7 != "0")%>
+                  <td class="label-col"><label><%= t(:label_icm_incident_request_confirm_date) %></label></td>
                   <td class="data-col">
-                    <div><%= @incident_request[:attribute4] %></div>
+                    <div>
+                      <% if @incident_request.attribute4 != nil &&
+                              @incident_request.attribute4 != "" && @incident_request.attribute4 != "0"%>
+                      <%= t(:label_icm_sence) %>:<%= @incident_request[:attribute4] %>
+                      <% end %>
+                      <% if @incident_request.attribute7 != nil &&
+                              @incident_request.attribute7 != "" && @incident_request.attribute7 != "0"%>
+                      &nbsp;&nbsp;
+                      <%= t(:label_icm_expect) %>:<%= @incident_request[:attribute7] %>
+                      <% end %>
+                    </div>
+                  </td>
+                  <td class="label-col"><label><%= t(:label_icm_incident_request_confirm_date_total) %></label></td>
+                  <td class="data-col">
+                    <div><%= @incident_request[:attribute4].to_i+@incident_request[:attribute7].to_i %></div>
                   </td>
               <% end %>
+              <!-- 登记工时总计 -->
+              <%if false%>
+                  <% workload = @incident_request.grouped_workload %>
+                  <% if workload.any? %>
+                      <td class="label-col"><label><%= t(:label_icm_incident_request_real_processing_total_time) %></label>
+                      </td>
+                      <td class="data-col" colspan="5"><label>
+                        <%
+                           total_workload = 0
+                           workload.each do |iw|
+                             total_workload += iw[:real_processing_time_g]
+                           end
+                        %>
+                        <%= total_workload.to_f.round(1) %>
+                      </label></td>
+                  <% end %>
+              <%end%>
+            </tr>
+            <tr>
               <% workload = @incident_request.grouped_workload %>
               <% if workload.any? %>
-                  <td class="label-col"><label><%= t(:label_icm_incident_request_real_processing_total_time) %></label>
-                  </td>
+                  <td class="label-col"><label><%= t(:label_icm_incident_request_real_processing_time) %></label></td>
                   <td class="data-col" colspan="5"><label>
-                    <%
-                       total_workload = 0
-                       workload.each do |iw|
-                         total_workload += iw[:real_processing_time_g]
-                       end
-                    %>
-                    <%= total_workload.to_f.round(1) %>
+                    <% workload.each do |iw| %>
+                        <%= iw[:person_name] %>
+                        :<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time_g].to_f.round(1)}" %>&nbsp;<%= ", " unless iw == workload.last %>
+                    <% end %>
                   </label></td>
               <% end %>
-            </tr>
-            <% workload = @incident_request.grouped_workload %>
-            <% if workload.any? %>
-                <td class="label-col"><label><%= t(:label_icm_incident_request_real_processing_time) %></label></td>
-                <td class="data-col" colspan="5"><label>
-                  <% workload.each do |iw| %>
-                      <%= iw[:person_name] %>
-                      :<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time_g].to_f.round(1)}" %>&nbsp;<%= ", " unless iw == workload.last %>
-                  <% end %>
-                </label></td>
-            <% end %>
-            <tr>
-
             </tr>
         <% else %>
             <% if @incident_request.attribute3 != nil && @incident_request.attribute3 != "" %>

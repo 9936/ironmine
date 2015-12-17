@@ -1032,10 +1032,10 @@ zh:
   label_irm_bu_column_choice: 选择栏目
   #======================== end bu_column controller ======================
   #======================== watcher ======================
-  label_irm_watcher: 跟踪者
-  label_irm_watcher_new: 添加跟踪者
-  label_irm_watcher_list: 跟踪者列表
-  label_irm_watcher_helper: 你只能添加自己为跟踪者
+  label_irm_watcher: 参与者
+  label_irm_watcher_new: 添加参与者
+  label_irm_watcher_list: 参与者列表
+  label_irm_watcher_helper: 你只能添加自己为参与者
   #======================== end watcher ======================
   #======================== calendar events====================
   label_action_calendar_view: 工作日历

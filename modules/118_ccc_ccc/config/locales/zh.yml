@@ -1,5 +1,5 @@
 zh:
-  label_icm_incident_request_incident_category: 应用系统
+  label_icm_incident_request_incident_category: 运维项目
   label_icm_incident_request_incident_sub_category: 模块
   label_icm_incident_request_requested_by: 请求者
   label_icm_incident_request_submitted_by: 创建者
@@ -87,9 +87,15 @@ zh:
   label_icm_incident_request_contact_email: 用户邮箱
   label_icm_incident_request_contact_email_number: 最终用户联系方式
 
+  label_icm_incident_journal_edit_date: 登记人天
   label_icm_incident_request_incident_people_date: 人天(0.5天为单位)
   label_icm_incident_request_expect_date: 预估人天(天)
-  incident_request_customer_comfirm_date: 客户确认人天(天)
+  label_icm_incident_request_confirm_date: 确认人天(天)
+  label_icm_incident_request_confirm_date_total: 总确认人天
+  label_icm_sence: 现场
+  label_icm_expect: 远程
+  label_icm_incident_request_sence_remain_date: 剩余现场人天(天)
+  label_icm_incident_request_remote_remain_date: 剩余远程人天(天)
 
   label_irm_external_system_organization_no: 公司编号
   label_irm_external_system_customer_no: 关键联系人
@@ -99,6 +105,32 @@ zh:
   label_pricing_type: 结算方式
   label_begin_date: 项目开始时间
   label_after_date: 项目结束时间
+  
+  label_irm_external_system_member: 运维项目成员
+  label_irm_external_system_list: 运维项目列表
+  label_irm_external_system_new:  新建运维项目
+  label_irm_external_system_edit: 编辑运维项目
+  label_irm_external_system_external_system_code: 项目编码
+  label_irm_external_system_system_name: 项目名称
+  label_irm_external_system_system_description: 描述
+  label_irm_external_system_external_hostname: 主机名
+  label_irm_external_system_external_ip_address: IP地址
+  label_irm_external_system_status_meaning: 记录状态
+  label_irm_external_system:  运维项目
+  label_irm_external_system_info: 运维项目信息
+  label_irm_external_system_select_system: 选择加入的运维项目
+  label_irm_external_system_people: 项目人员
+  label_irm_external_system_select_people: 选择人员
+  label_irm_external_system_save_selected: 保存所选人员
+  label_irm_external_system_select_system_profile: 选择项目简档
+  label_irm_external_system_exists_people: 项目已有人员
+  label_irm_external_system_people_type: 类型
+  label_irm_external_system_add_people: 添加成员
+  error_irm_external_system_ip_invalid: IP地址无效
+  label_merge_people_to_system_title: 同步人员
+  label_merge_people_to_system_checkbox: 同步人员到项目
+  label_merge_people_to_system_checkbox_tip: 将所选支持组中的人员添加到项目
+  label_delete_people_from_system_checkbox: 移除只属于该支持组的项目成员
 
   label_project_remote_date: 远程人天
   label_scene_date: 现场人天
@@ -172,7 +204,7 @@ zh:
   label_irm_organization_dev_mess: ECC开发机登录信息
   label_irm_organization_test_mess: ECC测试机登录信息
   label_irm_organization_prod_mess: ECC生产机登录信息
-  lable_irm_organization_sys_mess: 其它SAP系统登录信息
+  lable_irm_organization_sys_mess: 其它SAP项目登录信息
 
   label_ccc_industry: 所属行业
   label_ccc_industry_list: 行业列表
@@ -243,7 +275,7 @@ zh:
   label_icm_incident_request_hotline_n: Not Report
   label_icm_incident_request_client_info: 提交人客户端信息
   label_icm_incident_request_client_info: 提交人客户端信息
-  label_icm_incident_request_real_processing_time: 实际耗费时间(小时)
+  label_icm_incident_request_real_processing_time: 实际耗费工时(小时)
   label_icm_incident_request_cancel_confirm: 你确定要取消该问题吗？
   label_icm_incident_request_enable_confirm: 你确定要重新启用该问题吗？
   label_icm_incident_request_cancel_request: 取消问题
@@ -323,8 +355,8 @@ zh:
   #========================== end incident_amount_by_month_cate report  ===============================
 
   #========================== template report  ===================================
-  message_report_template_subject: "您%{m}的时候在HISMS系统中提交的模板报表请求已经执行完成"
-#  message_report_template_content: 您%{m}的时候在HISMS系统中提交的模板报表请求已经执行完成。本次递交模板:%{n}，执行参数: "%{o}。执行结果请查阅附件。"
+  message_report_template_subject: "您%{m}的时候在HISMS项目中提交的模板报表请求已经执行完成"
+#  message_report_template_content: 您%{m}的时候在HISMS项目中提交的模板报表请求已经执行完成。本次递交模板:%{n}，执行参数: "%{o}。执行结果请查阅附件。"
   message_report_template_running: 您提交的请求正在执行，执行完毕后，结果会发到您的联系邮箱。您现在可以关闭本页面。
   #========================== end template report  ===============================
 

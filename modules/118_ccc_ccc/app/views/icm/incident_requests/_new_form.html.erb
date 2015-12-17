@@ -430,9 +430,35 @@
             $("#searchBox a").click()
             $("#requestPeopleModal").modal("show")
         })
-
+//      项目过期处理
+        if($("#ass_external_system").find("option:selected").text().indexOf("过期") != -1){
+            $("#ass_external_system option:first").attr("selected","selected")
+        }
+        $("#ass_external_system").on("change",function(){
+            if($("#ass_external_system").find("option:selected").text().indexOf("过期") != -1){
+                $("#ass_external_system option:first").attr("selected","selected")
+                $("#projectOutOfTimeModal").modal("show")
+            }
+        })
     });
 </script>
+<div class="modal fade" id="projectOutOfTimeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+        aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">项目过期提醒</h4>
+      </div>
+      <div class="modal-body">
+        <h4>您好:<p>&nbsp;&nbsp;&nbsp;&nbsp;该项目已过期,请续期后再来提单,谢谢!!!</p></h4>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="requestPeopleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
