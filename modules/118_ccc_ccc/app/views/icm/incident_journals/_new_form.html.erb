@@ -909,6 +909,18 @@
                 <td class="label-col label-col-1"><label><%= t(:label_pricing_type) %></label></td>
                 <td class="data-col"><%= @show_external_system[:price_type_name] %></td>
               </tr>
+              <!-- 剩余人天信息 remote_date scene_date @incident_request -->
+              <tr>
+                <td class="label-col label-col-1"><label><%= t(:label_icm_incident_request_remain_date) %></label></td>
+                <td class="data-col">
+                  <% if (@show_external_system[:scene_date].to_i - @incident_request[:attribute4].to_i) >= 0%>
+                  <%= t(:label_icm_sence) %>:<%= @show_external_system[:scene_date].to_i - @incident_request[:attribute4].to_i %>
+                  <%end%>
+                  <% if (@show_external_system[:remote_date].to_i - @incident_request[:attribute7].to_i) >= 0%>
+                  <%= t(:label_icm_expect) %>:<%= @show_external_system[:remote_date].to_i - @incident_request[:attribute7].to_i%>
+                  <%end%>
+                </td>
+              </tr>
               <tr>
                 <td class="label-col label-col-1"><label><%= t(:label_begin_date) %></label></td>
                 <td class="data-col"><%= format_date(@show_external_system[:begin_date]) %></td>
@@ -952,7 +964,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">满意度选择</h4>
+        <h4 class="modal-title"><%= t(:label_grade_of_satisfy) %></h4>
       </div>
       <div class="modal-body">
         <table class="page-block-header table">
@@ -960,20 +972,34 @@
           <tr>
             <td style="width: 100px">
               <input id="level_1" name="level" type="radio" value="VERY" style="float: left" onclick="sGrade()" checked>
-              <%= label_tag(:level_1_1, "非常满意") %>
+              <%= label_tag(:level_1_1, t(:label_very_good)) %>
             </td>
             <td style="width: 100px">
               <input id="level_2" name="level" type="radio" value="GOOD" style="float: left" onclick="sGrade()">
-              <%= label_tag(:level_2_2, "满意") %>
+              <%= label_tag(:level_2_2, t(:label_good)) %>
             </td>
             <td style="width: 100px">
               <input id="level_3" name="level" type="radio" value="BAD" style="float: left" onclick="sGrade()">
-              <%= label_tag(:level_3_3, "不满意") %>
+              <%= label_tag(:level_3_3, t(:label_bad)) %>
+            </td>
+          </tr>
+          <tr style="display: none" id="reason_type">
+            <td style="width: 100px">
+              <input id="reason_one" name="reason_check" type="radio" value="reason_one" style="float: left" onclick="reason_grade()">
+              <%= label_tag(:reason_one_1, t(:label_for_reason_one)) %>
+            </td>
+            <td style="width: 100px">
+              <input id="reason_two" name="reason_check" type="radio" value="reason_two" style="float: left" onclick="reason_grade()">
+              <%= label_tag(:reason_two_1, t(:label_for_reason_two)) %>
+            </td>
+            <td style="width: 100px">
+              <input id="reason_other" name="reason_check" type="radio" value="reason_other" style="float: left" onclick="reason_grade()">
+              <%= label_tag(:reason_other_1, t(:label_for_reason_other)) %>
             </td>
           </tr>
           <tr style="display: none" id="reason_id">
             <td colspan="3">
-              <%= label_tag(:reason_1, "如果选择不满意，请说明理由:") %>
+              <%= label_tag(:reason_1, t(:label_for_reason)) %>
               <%= text_area_tag(:reason, "", size: "480x4") %>
               <div style="color: red;display: none" id="errorReason">注：理由不能为空</div>
             </td>
@@ -1009,11 +1035,28 @@
         if ($("input[name='level']:checked").val() == "BAD") {
             $("#reason").css("border-color", "")
             $("#errorReason").hide()
+            $("#reason_type").show()
+            reason_grade()
+        }
+        else{
+            $("#reason_type").hide()
+            $("#reason_id").hide()
+            $("#reason_id").val("")
+        }
+    }
+    function reason_grade(){
+        if ($("input[name='reason_check']:checked").val() == "reason_other") {
+            $("#reason").css("border-color", "")
+            $("#errorReason").hide()
+            $("#reason").val("")
             $("#reason_id").show()
         }
-        else
+        else{
             $("#reason_id").hide()
+            $("#reason").val($("input[name='reason_check']:checked").next().text())
+        }
     }
+
     function submit_commit() {
         if ($("input[name='level']:checked").val() == "BAD" && $("#reason").val() == "") {
             $("#reason").css("border-color", "red")

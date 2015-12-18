@@ -122,13 +122,13 @@
             <td class="data-col">
               <div><%= @incident_request[:requested_organization_name] %></div>
             </td>
-            <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_role) %></label></td>
-            <td class="data-col">
-              <div><%= @incident_request[:requested_role_name] %></div>
-            </td>
             <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_profile) %></label></td>
             <td class="data-col">
               <div><%= @incident_request[:requested_profile_name] %></div>
+            </td>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_urgence_code) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:urgence_name] %></div>
             </td>
           </tr>
           <tr>
@@ -147,28 +147,26 @@
               <div><%= format_date(@incident_request[:last_response_date]) %></div>
             </td>
           </tr>
-          <tr>
-            <td class="label-col"><label><%= t(:label_icm_incident_request_urgence_code) %></label></td>
-            <td class="data-col">
-              <div><%= @incident_request[:urgence_name] %></div>
-            </td>
-            <td class="label-col"><label><%= t(:label_icm_incident_request_impact_range_code) %></label></td>
-            <td class="data-col">
-              <div><%= @incident_request[:impact_range_name] %></div>
-            </td>
-            <td class="label-col"><label><%= t(:label_icm_incident_request_priority) %></label></td>
-            <td class="data-col">
-              <div><%= @incident_request[:priority_name] %></div>
-            </td>
-          </tr>
-          <tr>
-            <td class="label-col"><label ><%=t(:label_icm_incident_request_client_info)%></label></td>
-            <td class="data-col"><div><%= @incident_request[:client_info] %></div></td>
-            <td class="label-col"><label ><%=t(:label_icm_incident_request_hotline)%></label></td>
-            <td class="data-col"><div><%= @incident_request[:hotline].eql?(Irm::Constant::SYS_YES) ? t(:label_icm_incident_request_hotline_y) : t(:label_icm_incident_request_hotline_n)%></div></td>
-            <td class="label-col"><label ><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
-            <td class="data-col"><div><%= @incident_request[:total_processing_time]%></div></td>
-          </tr>
+          <%if false%>
+              <tr>
+                <td class="label-col"><label><%= t(:label_icm_incident_request_impact_range_code) %></label></td>
+                <td class="data-col">
+                  <div><%= @incident_request[:impact_range_name] %></div>
+                </td>
+                <td class="label-col"><label><%= t(:label_icm_incident_request_priority) %></label></td>
+                <td class="data-col">
+                  <div><%= @incident_request[:priority_name] %></div>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label ><%=t(:label_icm_incident_request_client_info)%></label></td>
+                <td class="data-col"><div><%= @incident_request[:client_info] %></div></td>
+                <td class="label-col"><label ><%=t(:label_icm_incident_request_hotline)%></label></td>
+                <td class="data-col"><div><%= @incident_request[:hotline].eql?(Irm::Constant::SYS_YES) ? t(:label_icm_incident_request_hotline_y) : t(:label_icm_incident_request_hotline_n)%></div></td>
+                <td class="label-col"><label ><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
+                <td class="data-col"><div><%= @incident_request[:total_processing_time]%></div></td>
+              </tr>
+          <%end%>
           <tr>
             <td class="label-col"><label><%= t(:label_icm_incident_request_support_group) %></label></td>
             <td class="data-col">

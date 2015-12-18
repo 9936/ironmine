@@ -79,7 +79,10 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_organization_attention_point)%></label></td>
-            <td class="data-col"><%= f.text_area :attention_point,:rows=>4,:class=>"input-xlarge" %></td>
+            <td class="data-3col">
+              <%= f.text_area :attention_point ,:id=>"msgEditor_attention_point",:cols=>150,:rows=>8,:class=>"input-xlarge"%>
+              <%= xheditor("msgEditor_attention_point",true) %>
+            </td>
           </tr>
           <tr style="display: none">
             <td><%= f.text_field(:organization_no,:style=>'display:none')%></td>
@@ -107,7 +110,7 @@
             </td>
           </tr>
           <tr>
-            <td class="label-col"><%= t(:label_irm_organization_test_mess) %></td>
+            <td class="label-col"><label><%= t(:label_irm_organization_test_mess) %></label></td>
             <td class="data-3col">
               <%= f.text_area :test_mess ,:id=>"msgEditor_test_mess",:cols=>150,:rows=>8,:class=>"input-xlarge"%>
               <%= xheditor("msgEditor_test_mess",true) %>

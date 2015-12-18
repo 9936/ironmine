@@ -15,7 +15,7 @@
         width: 130px;
         float: right;
         position: fixed;
-        right: 10px;
+        right: 40px;
     }
     .div_img{
         width: 130px;
@@ -25,8 +25,8 @@
         vertical-align: middle;
     }
     .bc_div img {
-        height: 110px;
-        width: 100px;
+        height: 90px;
+        width: 80px;
     }
     .td_div{
         display: inline-block;
@@ -57,12 +57,12 @@
     </span>
   </div>
 </div>
-<table class="form-table" style="width: 70%;margin-left: 15%">
+<table class="form-table" style="width: 70%;margin-left: 10%">
   <tbody>
   <tr style="height: 190px">
     <!-- 顾问查看页面 -->
     <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
-        <td align=center style="width: 20%;">
+        <td align=center>
           <div class="td_div">
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000923JClcGUDhzYMy" style="float: left;text-decoration: none;">
               <div class="bc_div">
@@ -75,7 +75,7 @@
             </div>
           </div>
         </td>
-        <td align=center style="width: 20%;">
+        <td align=center >
           <div class="td_div">
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q0009239HMWJmlUmVmK" style="float: left;text-decoration: none;">
               <div class="bc_div">
@@ -89,7 +89,7 @@
           </div>
         </td>
     <%else%>
-        <td align=center style="width: 20%;">
+        <td align=center >
           <div class="td_div">
             <a href="/incident_requests/new" style="float: left;text-decoration: none;">
               <div class="bc_div">
@@ -99,7 +99,7 @@
             </a>
           </div>
         </td>
-        <td align=center style="width: 20%;">
+        <td align=center >
           <div class="td_div">
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000923JClcGUDhzYMy" style="float: left;text-decoration: none;">
               <div class="bc_div">
@@ -113,7 +113,7 @@
           </div>
         </td>
     <% end %>
-    <td align=center style="width: 20%;">
+    <td align=center >
       <div class="td_div">
         <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000B2jTxy1kSBuiS2a" style="float: left;text-decoration: none;">
           <div class="bc_div">
@@ -129,7 +129,7 @@
   </tr>
 
   <tr style="height: 190px">
-    <td align=center style="width: 20%;">
+    <td align=center >
       <div class="td_div">
         <a href="/incident_requests?incident_requests_page=1&filter_id=other" style="float: left;text-decoration: none;">
           <div class="bc_div">
@@ -139,7 +139,7 @@
         </a>
       </div>
     </td>
-    <td align=center style="width: 20%;">
+    <td align=center >
       <div class="td_div">
         <a href="/entry_headers?entry_headers_list_page=1" style="float: left;text-decoration: none;">
           <div class="bc_div">
@@ -149,7 +149,7 @@
         </a>
       </div>
     </td>
-    <td align=center style="width: 20%;">
+    <td align=center >
       <div class="td_div">
         <a href="/reports?report_list_page=1" style="float: left;text-decoration: none;">
           <div class="bc_div">
@@ -192,6 +192,7 @@
   $(function(){
       $(".body-cell-div").css({"height":"480px"})
       $(".body-cell").css("background-color","#F8F8F8")
+//      $(".body-cell").css("background-image","url('images/background.jpg')")
       $("#navMenu").css("background-color","#D91E1A")
       $(".dropdown-toggle").css("background-color","black")
       $(".page-container-header .headerSearchRightRoundedCorner #phSearchButton").css("color","black")
@@ -244,7 +245,12 @@
           s.scrollLeft-=s2.offsetWidth;
       }
       else{
-          s.scrollLeft++;
+          var temp = s.scrollLeft
+          s.scrollLeft = s.scrollLeft + 1;
+          if(temp == s.scrollLeft){
+              s.scrollLeft = temp + 1
+          }
+          console.log(s.scrollLeft)
       }
   }
   function getid(id){

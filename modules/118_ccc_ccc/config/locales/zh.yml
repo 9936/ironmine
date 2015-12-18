@@ -1,8 +1,20 @@
 zh:
-  label_icm_incident_request_incident_category: 运维项目
+  label_icm_incident_request_support_person: 支持顾问
+  label_icm_incident_request_requested_by_org: 客户公司
+  label_icm_incident_request_requested_by_profile: 请求者简档
+  label_grade_of_satisfy: 满意度选择
+  label_very_good: 非常满意
+  label_good: 满意
+  label_bad: 不满意
+  label_for_reason: 如果选择不满意，请说明理由
+  label_for_reason_one: 顾问解决问题专业能力
+  label_for_reason_two: 顾问工作态度
+  label_for_reason_other: 其他
+
+  label_icm_incident_request_incident_category: 应用系统
   label_icm_incident_request_incident_sub_category: 模块
-  label_icm_incident_request_requested_by: 请求者
-  label_icm_incident_request_submitted_by: 创建者
+  label_icm_incident_request_requested_by: 事件单提交者
+  label_icm_incident_request_submitted_by: 事件单创建者
   label_irm_home: HISMS
   label_icm_incident_request_update: 问题更新
 
@@ -91,14 +103,13 @@ zh:
   label_icm_incident_request_incident_people_date: 人天(0.5天为单位)
   label_icm_incident_request_expect_date: 预估人天(天)
   label_icm_incident_request_confirm_date: 确认人天(天)
-  label_icm_incident_request_confirm_date_total: 总确认人天
+  label_icm_incident_request_confirm_date_total: 总确认人天(天)
   label_icm_sence: 现场
   label_icm_expect: 远程
-  label_icm_incident_request_sence_remain_date: 剩余现场人天(天)
-  label_icm_incident_request_remote_remain_date: 剩余远程人天(天)
+  label_icm_incident_request_remain_date: 剩余人天(天)
 
   label_irm_external_system_organization_no: 公司编号
-  label_irm_external_system_customer_no: 关键联系人
+  label_irm_external_system_customer_no: 客户经理
   label_project_manager: 项目经理
   label_disabled_flag: 失效标识
   label_project_type: 项目类型
@@ -185,11 +196,11 @@ zh:
   label_irm_organization_country: 国家
 
   label_respond_info: 负责人信息
-  label_irm_organization_conscientious: 客户负责人
-  label_irm_organization_position: 负责人职位
-  label_irm_organization_conscientious_tel: 客户负责人手机
-  label_irm_organization_conscientious_telNo: 客户负责人座机
-  label_irm_organization_conscientious_email: 客户负责人邮箱
+  label_irm_organization_conscientious: 客户经理
+  label_irm_organization_position: 职位
+  label_irm_organization_conscientious_tel: 手机
+  label_irm_organization_conscientious_telNo: 座机
+  label_irm_organization_conscientious_email: 邮箱
 
   label_operation_info: 运维信息
   label_irm_organization_A1_flag: 是否A1客户
@@ -198,7 +209,7 @@ zh:
   label_irm_organization_service_date: 最早运维服务日期
   label_irm_organization_attention_point: 运维注意事项
 
-  label_customer_info: 客户登录信息
+  label_customer_info: 系统登录信息
   label_irm_organization_conn_type: 连接类型
   label_irm_organization_router: SAProuter
   label_irm_organization_dev_mess: ECC开发机登录信息
