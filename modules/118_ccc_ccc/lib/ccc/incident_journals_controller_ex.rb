@@ -100,12 +100,11 @@ module Ccc::IncidentJournalsControllerEx
             end
             if (Irm::Person.find(@incident_journal.replied_by).profile.user_license.eql?("SUPPORTER"))
               # 此处评论创建成功
-              sla_instance = Slm::SlaInstance.where("id = ?",sla_instance_id).first
-              if sla_instance
-                updateData = {:current_duration => 0,
-                              :start_at => Time.now,
-                              :last_phase_start_date => Time.now}
-                sla_instance.update_attributes(updateData)
+              if !@incident_request.incident_status_id.eql?("000K000A0g8zPKXoIwOIhk") && !@incident_request.incident_status_id.eql?("000K000A0g9LO0pOKPsZ1s")
+                sla_instance = Slm::SlaInstance.find(sla_instance_id)
+                sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
+                Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
+                sla_instance.destroy
               end
             end
 

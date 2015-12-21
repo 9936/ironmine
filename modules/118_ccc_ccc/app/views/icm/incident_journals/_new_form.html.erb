@@ -736,7 +736,7 @@
 
     function issubmit() {
         if (($("#incident_request_incident_status_code").find("option:selected").val() == "000K000A0g9LO0pOKPsZ1s") &&
-                "<%=@external_system.price_type_id%>" == "2"
+                "<%=@external_system.project_type_id%>" == "2"
         ) {
             $("#errorMessModal").modal("show")
             return false

@@ -21,11 +21,18 @@
 <script type="text/javascript">
   $(function() {
       if($(".serviceCount").length >= 3){
-//      回复时的SLA监控
+          var third_row_time = $(".serviceCount").eq(2).children().eq(2).children().children().eq(0).text().split("/")[0].split("(")[1]
+          var fourth_row_time = $(".serviceCount").eq(3).children().eq(2).children().children().eq(0).text().split("/")[0].split("(")[1]
+          if(third_row_time > fourth_row_time){
+              var htmls = $(".serviceCount").parent().html().split("<tr")
+              var html = "<tr"+htmls[1]+"<tr"+htmls[2]+"<tr"+htmls[4]+"<tr"+htmls[3]
+              $(".serviceCount").parent().html(html)
+          }
+          //回复时的SLA监控
           $("#icm_incident_journal_sla_instance").val($(".serviceCount").eq(2).attr("id"))
-//      修改状态时的SLA监控
+          //修改状态时的SLA监控
           $("#icm_incident_journal_sla_instance_id").val($(".serviceCount").eq(2).attr("id"))
-//      转交时的SLA监控
+          //转交时的SLA监控
           var edit_pass_href = $("#edit_pass").attr("href")
           $("#edit_pass").attr("href",edit_pass_href+"?sla_instance_id="+$(".serviceCount").eq(2).attr("id"))
       }

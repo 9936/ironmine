@@ -43,8 +43,8 @@ class Icm::IncidentJournalsController < ApplicationController
     # 3,其他人员回复
     if Irm::Person.current.id.eql?(@incident_request.requested_by) || Irm::Person.current.id.eql?(@incident_request.support_person_id)
       @incident_journal.reply_type = "CUSTOMER_REPLY"
-    # elsif Irm::Person.current.id.eql?(@incident_request.support_person_id)
-    #   @incident_journal.reply_type = "SUPPORTER_REPLY"
+    elsif Irm::Person.current.id.eql?(@incident_request.support_person_id)
+      @incident_journal.reply_type = "SUPPORTER_REPLY"
     else
       @incident_journal.reply_type = "OTHER_REPLY"
     end
@@ -266,7 +266,7 @@ class Icm::IncidentJournalsController < ApplicationController
   end
 
   def update_pass
-    # @sla_instance_id = params[:sla_instance_id]
+    sla_instance_id = params[:sla_instance_id]
 
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
     @incident_journal.reply_type = "PASS"
@@ -301,20 +301,21 @@ class Icm::IncidentJournalsController < ApplicationController
         # 转交后给支持人员发邮件提醒
         # 如果事故单状态处于受理中时则用新问题分配的邮件模板
         if @incident_request.incident_status_id.eql?("000K000922scMSu1Q8vthI")
-
           options = {:bo_id => @incident_request.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2jvcJDvCh6ck88", :action_type => "Irm::WfMailAlert"}
         else
           options = {:bo_id => @incident_request.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2jvGKXdQwvFVBI", :action_type => "Irm::WfMailAlert"}
         end
         Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
 
-        # sla_instance = Slm::SlaInstance.find(@sla_instance_id)
-        # sla_instance.cancel
-        # sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
-        # Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
-        # sla_instance.destroy
+        # 事故单状态不处于客户响应和提交方案时,SLA才需要改变
+        if !@incident_request.incident_status_id.eql?("000K000A0g8zPKXoIwOIhk") && !@incident_request.incident_status_id.eql?("000K000A0g9LO0pOKPsZ1s")
+          sla_instance = Slm::SlaInstance.find(sla_instance_id)
+          sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
+          Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
+          sla_instance.destroy
+        end
 
-        format.html { redirect_to({:action => "new",:sla_instance_id=>@sla_instance_id}) }
+        format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
         format.html { render :action => "edit_pass",:layout => "application_full" }
@@ -616,23 +617,13 @@ class Icm::IncidentJournalsController < ApplicationController
       nvalue = new_value.send(key)
 
       if !ovalue.eql?(nvalue)
-        if sla_instance_id
-          # 事故单变为处理中或重新处理
-          sla_instance = Slm::SlaInstance.where(:id=>sla_instance_id)
-          # sla_instance_phase = Slm::SlaInstancePhase.where(:sla_instance_id=>sla_instance_id,:phase_type=>"START").order("start_at DESC").first
-          # updateDatas = {:duration => 0,
-          #               :start_at => Time.now}
-          # if sla_instance_phase
-          #   sla_instance_phase.update_attributes(updateDatas)
-          # end
-
-          if sla_instance.length == 1
-            updateData = {:current_duration => 0,
-                          :start_at => Time.now,
-                          :last_phase_start_date => Time.now}
-            sla_instance.first.update_attributes(updateData)
-          end
+        if !@incident_request.incident_status_id.eql?("000K000A0g8zPKXoIwOIhk") && !@incident_request.incident_status_id.eql?("000K000A0g9LO0pOKPsZ1s")
+          sla_instance = Slm::SlaInstance.find(sla_instance_id)
+          sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
+          Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
+          sla_instance.destroy
         end
+
         # 如果事故单状态从受理中->处理中
         if ovalue.eql?("000K000922scMSu1Q8vthI") && nvalue.eql?("000K000C2hrdz1TO8kREaO")
           # 客户邮件

@@ -302,7 +302,7 @@ zh:
   label_icm_incident_journal_new_value: 修订
   label_icm_incident_journal_date: 日期
 
-  label_icm_incident_request_requested_by: 提交者
+  label_icm_incident_request_for_requested_by: 提交者
   label_icm_incident_request_target_system: 运维项目
   label_icm_incident_request_urgence_code: 优先级
   label_icm_incident_request_urgence_reason: 紧急原因
