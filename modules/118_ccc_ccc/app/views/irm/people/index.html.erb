@@ -7,7 +7,7 @@
       <h2 class="block-title"><%= t(:label_irm_person_list) %></h2>
     </td>
     <td class="page-block-button" style="text-align: right">
-      <% if allow_to_function?(:new)%>
+      <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
         <% if Irm::Person.current.language_code.eql?("zh") %>
             <%= select_tag "peopleType", options_for_select([ "请选择", "顾问", "客户" ], "请选择") %>
         <% else %>
