@@ -266,7 +266,7 @@ class Icm::IncidentJournalsController < ApplicationController
   end
 
   def update_pass
-    sla_instance_id = params[:sla_instance_id]
+    # @sla_instance_id = params[:sla_instance_id]
 
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
     @incident_journal.reply_type = "PASS"
@@ -290,23 +290,31 @@ class Icm::IncidentJournalsController < ApplicationController
         process_files(@incident_journal)
         @incident_journal.create_elapse
         # 转交后SLA重新计时
-        sla_instance = Slm::SlaInstance.where(:id=>sla_instance_id)
-        if sla_instance.length == 1
-          updateData = {:current_duration => 0,
-                        :start_at => Time.now,
-                        :last_phase_start_date => Time.now}
-          sla_instance.first.update_attributes(updateData)
-        end
+        # sla_instance = Slm::SlaInstance.where(:id=>sla_instance_id)
+        # if sla_instance.length == 1
+        #   updateData = {:current_duration => 0,
+        #                 :start_at => Time.now,
+        #                 :last_phase_start_date => Time.now}
+        #   sla_instance.first.update_attributes(updateData)
+        # end
+
         # 转交后给支持人员发邮件提醒
         # 如果事故单状态处于受理中时则用新问题分配的邮件模板
         if @incident_request.incident_status_id.eql?("000K000922scMSu1Q8vthI")
+
           options = {:bo_id => @incident_request.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2jvcJDvCh6ck88", :action_type => "Irm::WfMailAlert"}
         else
           options = {:bo_id => @incident_request.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2jvGKXdQwvFVBI", :action_type => "Irm::WfMailAlert"}
         end
         Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
 
-        format.html { redirect_to({:action => "new"}) }
+        # sla_instance = Slm::SlaInstance.find(@sla_instance_id)
+        # sla_instance.cancel
+        # sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
+        # Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
+        # sla_instance.destroy
+
+        format.html { redirect_to({:action => "new",:sla_instance_id=>@sla_instance_id}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
         format.html { render :action => "edit_pass",:layout => "application_full" }

@@ -245,12 +245,7 @@
           s.scrollLeft-=s2.offsetWidth;
       }
       else{
-          var temp = s.scrollLeft
-          s.scrollLeft = s.scrollLeft + 1;
-          if(temp == s.scrollLeft){
-              s.scrollLeft = temp + 1
-          }
-          console.log(s.scrollLeft)
+          s.scrollLeft = s.scrollLeft + 1/window.devicePixelRatio
       }
   }
   function getid(id){

@@ -189,7 +189,7 @@
           </td>
         </tr>
         <tr>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_title) %></label></td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_question_discription) %></label></td>
           <td class="data-col">
             <div><%= @incident_request[:title] %></div>
           </td>
@@ -203,10 +203,12 @@
           </td>
         </tr>
         <tr>
+          <%if false%>
           <td class="label-col"><label><%= t(:label_icm_incident_request_priority) %></label></td>
           <td class="data-col">
             <div><%= @incident_request[:priority_name] %></div>
           </td>
+          <%end%>
           <td class="label-col"><label><%= t(:label_icm_incident_request_support_group) %></label></td>
           <td class="data-col">
             <div><%= @incident_request[:support_group_name] %></div>
@@ -307,7 +309,7 @@
             <% prepare_request_files(@incident_request) %>
             <div class="reply-body">
               <div class="message-body">
-                <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}") %></h3>
+                <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_question_discription)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}") %></h3>
                 <br><br>
                 <%= raw process_message(@incident_request[:summary]) %>
               </div>
