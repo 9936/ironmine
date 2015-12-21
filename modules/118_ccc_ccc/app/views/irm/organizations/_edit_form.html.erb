@@ -78,7 +78,7 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_organization_attention_point)%></label></td>
-            <td class="data-3col">
+            <td class="data-3col" colspan="3">
               <%= f.text_area :attention_point ,:id=>"msgEditor_attention_point",:cols=>150,:rows=>8,:class=>"input-xlarge"%>
               <%= xheditor("msgEditor_attention_point",true) %>
             </td>
