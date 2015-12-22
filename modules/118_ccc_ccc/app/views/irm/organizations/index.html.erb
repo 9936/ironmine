@@ -75,9 +75,15 @@
                   <div><%= organization[:organization_no] %></div>
                 </td>
                 <td>
-                  <div>
-                     <% organization.level.times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= organization[:name] %>(<%= organization.short_name %>)
-                  </div>
+                  <% if organization.short_name.present?%>
+                      <div>
+                         <% organization.level.times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= organization[:name] %>(<%= organization.short_name %>)
+                      </div>
+                  <%else%>
+                      <div>
+                        <% organization.level.times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= organization[:name] %>
+                      </div>
+                  <%end%>
                 </td>
                 <td>
                   <div><%= organization[:description] %></div>

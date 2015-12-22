@@ -114,7 +114,7 @@ zh:
   label_project_manager: 项目经理
   label_disabled_flag: 失效标识
   label_project_type: 项目类型
-  label_pricing_type: 结算方式
+  label_pricing_type: 计价方式
   label_begin_date: 项目开始时间
   label_after_date: 项目结束时间
   
@@ -155,13 +155,13 @@ zh:
   label_project_warning_rate: 超出时间时间警告(比例%)
   label_project_show_to_SLA_flag: SLA是否显示给客户
 
-  label_ccc_price_type: 结算类型
-  label_ccc_priceType_list: 结算类型列表
+  label_ccc_price_type: 计价类型
+  label_ccc_priceType_list: 计价类型列表
   label_ccc_priceType_code: 编码
   label_ccc_priceType_name: 名称
   label_ccc_priceType_description: 描述
-  label_ccc_priceType_new: 结算类型新建
-  label_ccc_priceType: 结算类型
+  label_ccc_priceType_new: 计价类型新建
+  label_ccc_priceType: 计价类型
 
   label_ccc_project_type: 项目类型
   label_ccc_projectType_list: 项目类型列表
@@ -205,7 +205,7 @@ zh:
 
   label_operation_info: 运维信息
   label_irm_organization_A1_flag: 是否A1客户
-  label_irm_organization_sale: 销售
+  label_irm_organization_sale: 汉得销售
   label_irm_organization_industry: 所属行业
   label_irm_organization_service_date: 最早运维服务日期
   label_irm_organization_attention_point: 运维注意事项
