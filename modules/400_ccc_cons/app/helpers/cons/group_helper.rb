@@ -1,2 +1,0 @@
-module Cons::GroupHelper
-end

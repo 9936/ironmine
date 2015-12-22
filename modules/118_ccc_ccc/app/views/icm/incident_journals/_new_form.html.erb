@@ -132,11 +132,12 @@
                  :url => {:controller => "icm/incident_journals", :action => "update_status", :id => @incident_request.id, :sid => @incident_request.external_system_id},
                  :builder => CustomFormBuilder, :html => {:class => "form-inline", :onSubmit => "return issubmit()", :nomask => true}) do |f| %>
         <label for="label_icm_incident_request_status_code"><%= t(:label_icm_incident_request_incident_status) %></label>
+        &nbsp;&nbsp;&nbsp;&nbsp;
         <%= fields_for @incident_request.incident_journals.build(), :as => "incident_journal", :builder => CustomFormBuilder, :normal => true do |sub_f| %>
             <%= sub_f.hidden_field(:incident_request_id) %>
             <%= sub_f.hidden_field(:sla_instance_id) %>
         <% end %>
-        <%= f.blank_select :incident_status_id, available_request_status_children_code(@incident_request[:external_system_id], @incident_request[:incident_status_id], Irm::Person.current.profile_id), {}, {:id => "incident_request_incident_status_code", :required => true} %>
+        <%= f.blank_select :incident_status_id, available_request_status_children_code(@incident_request[:external_system_id], @incident_request[:incident_status_id], Irm::Person.current.profile_id), {}, {:id => "incident_request_incident_status_code"} %>
         <%= link_submit(t(:update), :class => "btn btn-primary", :id => "updateStatusFormSubmit") %>
     <% end %>
 <% end %>

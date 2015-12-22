@@ -25,8 +25,8 @@
         vertical-align: middle;
     }
     .bc_div img {
-        height: 90px;
-        width: 80px;
+        height: 70px;
+        width: 60px;
     }
     .td_div{
         display: inline-block;
@@ -57,7 +57,7 @@
     </span>
   </div>
 </div>
-<table class="form-table" style="width: 70%;margin-left: 10%">
+<table class="form-table" style="width: 70%;margin-left: 15%">
   <tbody>
   <tr style="height: 190px">
     <!-- 顾问查看页面 -->
@@ -65,7 +65,7 @@
         <td align=center>
           <div class="td_div">
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000923JClcGUDhzYMy" style="float: left;text-decoration: none;">
-              <div class="bc_div" style="background-color:#00ACEE">
+              <div class="bc_div" style="background-color:#218868">
                 <img  src="/images/new.png">
                 <p style="color: white;margin-top: 10px;">新到达问题</p>
               </div>
@@ -92,7 +92,7 @@
         <td align=center >
           <div class="td_div">
             <a href="/incident_requests/new" style="float: left;text-decoration: none;">
-              <div class="bc_div" style="background-color:#00ACEE">
+              <div class="bc_div" style="background-color:#218868">
                 <img  src="/images/create.png">
                 <p style="color: white;margin-top: 10px;">新建问题</p>
               </div>
@@ -132,7 +132,7 @@
     <td align=center >
       <div class="td_div">
         <a href="/incident_requests?incident_requests_page=1&filter_id=other" style="float: left;text-decoration: none;">
-          <div class="bc_div" style="background-color:#A100A9">
+          <div class="bc_div" style="background-color:#BC1C48">
             <img  src="/images/all.png">
             <p style="color: white;margin-top: 10px;">所有问题</p>
           </div>
@@ -142,7 +142,7 @@
     <td align=center >
       <div class="td_div">
         <a href="/entry_headers?entry_headers_list_page=1" style="float: left;text-decoration: none;">
-          <div class="bc_div" style="background-color:#BC1C48">
+          <div class="bc_div" style="background-color:#A100A9">
             <img  src="/images/knowledge.png">
             <p style="color: white;margin-top: 10px;">知识库</p>
           </div>
@@ -152,7 +152,7 @@
     <td align=center >
       <div class="td_div">
         <a href="/reports?report_list_page=1" style="float: left;text-decoration: none;">
-          <div class="bc_div" style="background-color:#218868">
+          <div class="bc_div" style="background-color:#00ACEE">
             <img  src="/images/report.png">
             <p style="color: white;margin-top: 10px;">报表</p>
           </div>
@@ -162,6 +162,7 @@
   </tr>
   </tbody>
 </table>
+<%if false%>
 <div class="div_service" style="top: 214px;">
   <a href="http://wpa.qq.com/msgrd?v=3&uin=2413167220&site=qq&menu=yes">
     <div class="div_img">
@@ -188,6 +189,7 @@
     <!--</div>-->
   <!--</div>-->
 </div>
+<%end%>
 <script>
   $(function(){
       $(".body-cell-div").css({"height":"500px"})
