@@ -71,7 +71,7 @@
           <tr>
             <td class="label-col"><label><%=t(:label_irm_organization_industry)%></label></td>
             <td class="data-col">
-              <%= f.blank_select(:industry_id,available_industry)%>
+              <%= f.blank_select(:industry_id,available_industry, :required=>true)%>
             </td>
             <td class="label-col"><label><%=t(:label_irm_organization_service_date)%></label></td>
             <td class="data-col"><%= f.text_field(:service_date) %></td>

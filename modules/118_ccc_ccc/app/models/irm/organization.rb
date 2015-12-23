@@ -14,7 +14,7 @@ class Irm::Organization < ActiveRecord::Base
   belongs_to :industry
   belongs_to :conn_type
 
-  validates_presence_of :industry_id,:conn_type_id
+  validates_presence_of :industry_id
   validates_uniqueness_of :address,:scope=>[:opu_id], :if => Proc.new { |i| i.address.present? }
 
   # validates_uniqueness_of :conscientious_email, :if => Proc.new { |i| !i.conscientious_email.blank? }, :if => :need_uniqueness_email
