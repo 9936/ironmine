@@ -66,11 +66,11 @@
         <td class="label-col"><label><%=t(:label_irm_person_customer_task)%></label></td>
         <td class="data-col"><%=@person[:customer_task]%></td>
         <td class="label-col"><label><%=(t :label_irm_person_customer_status)%></label></td>
-        <td class="data-col"><%=Ccc::CustomerStatus.find(@person.customer_status_id).to_s%></td>
+        <td class="data-col"><%=(@person.customer_status_id!='' && @person.customer_status_id)? Ccc::CustomerStatus.find(@person.customer_status_id).to_s : ''%></td>
       </tr>
       <tr>
         <td class="label-col"><label><%=(t :label_irm_person_sex)%></label></td>
-        <td class="data-col"><%=Ccc::Sex.find(@person.sex_id).to_s%></td>
+        <td class="data-col"><%=(@person.sex_id!='' && @person.sex_id)? Ccc::Sex.find(@person.sex_id).to_s : ''%></td>
         <td class="label-col"><label><%=t(:label_irm_person_notification_flag)%></label></td>
         <td class="data-col"><%=check_img(@person.notification_flag)%></td>
       </tr>

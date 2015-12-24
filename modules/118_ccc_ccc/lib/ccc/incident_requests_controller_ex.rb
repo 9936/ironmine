@@ -438,6 +438,34 @@ module Ccc::IncidentRequestsControllerEx
           format.json { render :json => external_systems.to_grid_json([:label, :value], external_systems.count) }
         end
       end
+      def get_external_systems_t
+        external_systems_scope = Irm::ExternalSystem.multilingual.enabled.with_person(params[:requested_by]).order("CONVERT( system_name USING gbk ) ")
+        external_systems_scope = external_systems_scope.uniq
+        external_systems = external_systems_scope.collect { |i|
+          if Time.now >= i.after_date
+            {
+                :label => "#{i[:system_name]}(过期)",
+                :value => i.id, :id => i.id
+            }
+          else
+            {
+                :label => i[:system_name],
+                :value => i.id, :id => i.id
+            }
+          end
+        }
+
+        incident_statuses_scope = Icm::IncidentStatus.multilingual.with_phase.status_meaning
+        incident_statuses = incident_statuses_scope.collect { |i|
+          {
+              :label => i[:name],
+              :value => i.id
+          }
+        }
+        render json: {:external_systems=>external_systems,
+                      :incident_statuses=>incident_statuses}
+      end
+
       private
 
       def validate_files(ref_request)
