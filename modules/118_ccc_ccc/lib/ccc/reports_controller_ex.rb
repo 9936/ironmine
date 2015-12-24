@@ -1,6 +1,60 @@
 module Ccc::ReportsControllerEx
   def self.included(base)
     base.class_eval do
+      def run
+        start_time = Time.now
+
+        folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
+        @report = Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).filter_by_folder_access(Irm::Person.current.id).find(params[:id])
+
+        if "CUSTOM".eql?(@report.program_type)
+          @report.attributes =  params[:irm_report]
+        end
+
+        if params[:apply].present?
+          if @report.filter_date_range_type.present? and !@report.filter_date_range_type.to_s.eql?('CUSTOM')
+            @report.filter_date_from = nil
+            @report.filter_date_to = nil
+          end
+          @report.save
+        end
+
+        @report.program_params = params[:program_params]||{}
+
+        @filter_date_from=""
+        @filter_date_to=""
+
+        if @report.filter_date_range_type.present? and !@report.filter_date_range_type.to_s.eql?('CUSTOM')
+          from_and_to = Irm::ConvertTime.convert(@report.filter_date_range_type)
+          @filter_date_from = @report.filter_date_from = from_and_to[:from]
+          @filter_date_to = @report.filter_date_to = from_and_to[:to]
+        else
+          @filter_date_from = @report.filter_date_from.strftime("%Y-%m-%d") if @report.filter_date_from.present?
+          @filter_date_to = @report.filter_date_to.strftime("%Y-%m-%d") if @report.filter_date_to.present?
+        end
+
+        respond_to do |format|
+          format.html { render(:action=>"show", :layout => "application_full") }
+          format.xls  { send_data(export_report_data_to_excel(@report),:type => "text/plain", :filename=>"report_#{@report.code.downcase}_#{Time.now.strftime('%Y%m%d%H%M%S')}.xls") }
+          format.pdf  {
+            render :pdf => @report[:name],
+                   :print_media_type => true,
+                   :encoding => 'utf-8',
+                   :page_size => 'A4',
+                   #:book => true,
+                   #:show_as_html => true,
+                   :zoom => 0.8
+          }
+        end
+
+        end_time = Time.now
+
+        #记录报表运行历史
+        report_params = @report.program_params.merge({:date_from=>@filter_date_from,:date_to=>@filter_date_to})
+        report_history = Irm::ReportRequestHistory.create(:report_id=>@report.id,:executed_by=>Irm::Person.current.id,:start_at=>start_time,:end_at=>end_time,:execute_type=>"PAGE",:params=>report_params)
+        @report.current_history_id = report_history.id
+      end
+
       def new_template
         @report = Irm::Report.new(:program_type=>"TEMPLATE")
         respond_to do |format|
