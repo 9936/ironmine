@@ -10,5 +10,6 @@
         $("#incident_request_requested_by").val(arg.id)
         $("#incident_request_requested_by_label").val(arg.name)
         $("#requestPeopleModal").modal("hide")
+        $("#incident_request_requested_by").trigger("change");
     }
 </script>

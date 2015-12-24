@@ -15,6 +15,8 @@ module Ccc::IncidentJournalsControllerEx
         @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
         @show_external_system = Irm::ExternalSystem.list_all.find(@incident_request.external_system_id)
         @organization = Irm::Organization.list_all.find(Irm::Person.find(@incident_request.requested_by).organization_id)
+        puts 1111111111111
+        puts @organization.inspect
         # if @external_system.price_type_id
         #   @price_type = Ccc::PriceType.find(@external_system.price_type_id).to_s
         # else

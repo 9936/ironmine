@@ -33,7 +33,7 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_person_bussiness_phone)%></label></td>
-            <td class="data-col"><%=f.text_field :bussiness_phone,{:required=>true, :irm_number_and_cross => true}%></td>
+            <td class="data-col"><%=f.text_field :bussiness_phone%></td>
             <td class="label-col"><label><%=(t :label_irm_person_role)%></label></td>
             <td class="data-col"><%=f.blank_select :role_id,available_roles,{},{:id=>"role_id"}%></td>
           </tr>

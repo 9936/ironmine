@@ -213,10 +213,14 @@ zh:
   label_customer_info: 系统登录信息
   label_irm_organization_conn_type: 连接类型
   label_irm_organization_router: SAProuter
-  label_irm_organization_dev_mess: ECC开发机登录信息
-  label_irm_organization_test_mess: ECC测试机登录信息
-  label_irm_organization_prod_mess: ECC生产机登录信息
-  lable_irm_organization_sys_mess: 其它SAP项目登录信息
+  label_irm_organization_login_mess: 登录信息
+  label_irm_organization_user_mess: 登录账户
+  label_irm_organization_other_mess: 其他信息
+#  label_irm_organization_dev_mess: ECC开发机登录信息
+#  label_irm_organization_test_mess: ECC测试机登录信息
+#  label_irm_organization_prod_mess: ECC生产机登录信息
+#  lable_irm_organization_sys_mess: 其它SAP项目登录信息
+
 
   label_ccc_industry: 所属行业
   label_ccc_industry_list: 行业列表
