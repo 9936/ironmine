@@ -17,84 +17,10 @@
       </td>
     <% end %>
     <td class="page-block-help">
-      <div class="datable-search-box">
-        <%= form_tag({:controller => "irm/organizations"}, {:method => 'get',:class => 'select-mode'}) do %>
-          <%= select_tag_alias(:mode,available_mode_views, params[:mode], {:onchange => 'javascript: $.cookie("role_view", this.value);this.form.submit();',:class => 'search-select'}) %>
-        <% end %>
-      </div>
+      <div id="searchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <% if(params[:mode] == 'tree') %>
-     <div id="sidetreecontrol"> <a href="?#"><%= t(:collapse_all) %></a> | <a href="?#"><%= t(:expand_all) %></a> </div>
-       <%= org_tree_data %>
-       <script type="text/javascript">
-         $("#organizations").treeview({
-            animated: "fast",
-            control:"#sidetreecontrol",
-            collapsed: true,
-            unique: false,
-            persist: "cookie"
-         });
-       </script>
-     <% else %>
-     <!--  irm datatable      -->
-      <div class="datatable">
-        <div>
-          <table count="<%=@leveled_organizations.length%>">
-            <thead>
-              <tr >
-                  <th style="width:80px;">
-                    <div><%= t(:operation) %>
-                    </div>
-                  </th>
-                  <th style="width:220px;">
-                    <div ><%= t(:label_irm_organization_no) %>
-                    </div>
-                  </th>
-                  <th style="width:180px;">
-                    <div ><%= t(:label_irm_organization_name) %>
-                    </div>
-                  </th>
-                  <th  style="width:180px;">
-                    <div ><%= t(:description) %>
-                    </div>
-                  </th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @leveled_organizations.each do |organization| %>
-              <tr id="<%=organization.id%>">
-                <td >
-                  <div>
-                    <%= link_to(t(:edit),{:action=>"edit",:id=>organization.id},:class => "action-link") %>&nbsp;|
-                    <%= link_to(t(:show),{:action=>"show",:id=>organization.id},:class => "action-link") %>
-                   </div>
-                </td>
-                <td>
-                  <div><%= organization[:organization_no] %></div>
-                </td>
-                <td>
-                  <% if organization.short_name.present?%>
-                      <div>
-                         <% organization.level.times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= organization[:name] %>(<%= organization.short_name %>)
-                      </div>
-                  <%else%>
-                      <div>
-                        <% organization.level.times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= organization[:name] %>
-                      </div>
-                  <%end%>
-                </td>
-                <td>
-                  <div><%= organization[:description] %></div>
-                </td>
-              </tr>
-              <% end -%>
-            </tbody>
-          </table>
-        </div>
-      </div>
-     <!--  end irm datatable      -->
-     <% end %>
+    <%= datatable("organization",{:action=>"get_data"},[],{:search_box=>"searchBox",:paginator_box=>"paginatorBox"})%>
   </div>
 </div>
