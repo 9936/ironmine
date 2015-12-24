@@ -70,7 +70,7 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_organization_attention_point)%></label></td>
-            <td class="data-col"><%= @organization.attention_point%></td>
+            <td class="data-col" id="attention_point"><%= @organization.attention_point%></td>
             <td class="label-col"></td>
             <td class="data-col"></td>
           </tr>
@@ -85,18 +85,27 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_organization_login_mess)%></label></td>
-            <td class="data-3col"><%= @organization.dev_mess %></td>
+            <td class="data-3col" id="dev_mess"><%= @organization.dev_mess %></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_organization_user_mess)%></label></td>
-            <td class="data-3col"><%= @organization.test_mess%></td>
+            <td class="data-3col" id="test_mess"><%= @organization.test_mess%></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_organization_other_mess)%></label></td>
-            <td class="data-3col"><%= @organization.prod_mess%></td>
+            <td class="data-3col" id="prod_mess"><%= @organization.prod_mess%></td>
           </tr>
       </tbody>
     </table>
   </div>
 </div>
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@organization} %>
+<script>
+  $(function(){
+      $("#attention_point").html($("#attention_point").text())
+      $("#dev_mess").html($("#dev_mess").text())
+      $("#test_mess").html($("#test_mess").text())
+      $("#prod_mess").html($("#prod_mess").text())
+
+  })
+</script>

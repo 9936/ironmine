@@ -731,7 +731,7 @@
         $("#dev_mess").html($("#dev_mess").text())
         $("#test_mess").html($("#test_mess").text())
         $("#prod_mess").html($("#prod_mess").text())
-//        $("#sys_mess").html($("#sys_mess").text())
+        $("#attention_point").html($("#attention_point").text())
         $(".label-col-1").css("width","30%")
     });
 
@@ -943,7 +943,7 @@
                   </tr>
                   <tr>
                     <td class="label-col label-col-1"><label><%= t(:label_irm_organization_attention_point) %></label></td>
-                    <td class="data-col"><%= @organization[:attention_point] %></td>
+                    <td class="data-col" id="attention_point"><%= @organization[:attention_point] %></td>
                   </tr>
               <% end %>
               </tbody>
