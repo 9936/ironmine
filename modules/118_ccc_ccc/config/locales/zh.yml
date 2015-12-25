@@ -51,7 +51,9 @@ zh:
   label_commit_question_time: 提交问题时间
 #  label_question_solver: 问题处理者
 #  label_question_joiner: 问题参与者
-  label_my_team: 我的团队
+#  label_my_team: 我的团队
+  label_for_question_level: 问题处理级别
+  label_for_team: 组别
   label_for_my_only: 只选择自己
   label_for_SLA_time_out: 只选择SLA超时
 #  2

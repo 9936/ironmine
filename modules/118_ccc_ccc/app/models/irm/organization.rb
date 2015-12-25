@@ -15,11 +15,11 @@ class Irm::Organization < ActiveRecord::Base
   belongs_to :conn_type
 
   # validates_presence_of :industry_id
-  validates_uniqueness_of :address,:scope=>[:opu_id], :if => Proc.new { |i| i.address.present? }
-
   # validates_uniqueness_of :conscientious_email, :if => Proc.new { |i| !i.conscientious_email.blank? }, :if => :need_uniqueness_email
   # validates_format_of :conscientious_email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,:message=>:email,:if => Proc.new { |i| !i.conscientious_email.blank? }
 
+  # 临时取消验证
+  # validates_uniqueness_of :address,:scope=>[:opu_id], :if => Proc.new { |i| i.address.present? }
 
   def need_uniqueness_email
     true

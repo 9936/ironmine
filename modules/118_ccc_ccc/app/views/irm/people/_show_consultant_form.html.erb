@@ -66,12 +66,14 @@
         <td class="label-col"><label><%=(t :label_irm_person_consultant_status)%></label></td>
         <td class="data-col"><%=Ccc::ConsultantStatus.where("id = ?" ,@person.consultant_status_id).first.to_s%></td>
       </tr>
-      <tr>
-        <td class="label-col"><label><%=(t :label_irm_person_consultant_level)%></label></td>
-        <td class="data-col"><%=(@person.consultant_level_id && @person.consultant_level_id != '') ? Ccc::ConsultantLevel.find(@person.consultant_level_id).to_s : ''%></td>
-        <td class="label-col"><label for="parent_no"><%=t(:label_irm_person_parent_no)%></label></td>
-        <td class="data-col"><%=@person[:parent_no]%></td>
-      </tr>
+      <%if false%>
+        <tr>
+          <td class="label-col"><label><%=(t :label_irm_person_consultant_level)%></label></td>
+          <td class="data-col"><%=(@person.consultant_level_id && @person.consultant_level_id != '') ? Ccc::ConsultantLevel.find(@person.consultant_level_id).to_s : ''%></td>
+          <td class="label-col"><label for="parent_no"><%=t(:label_irm_person_parent_no)%></label></td>
+          <td class="data-col"><%=@person[:parent_no]%></td>
+        </tr>
+      <%end%>
       <tr>
         <td class="label-col"><label><%=t(:label_irm_person_mobile_phone)%></label></td>
         <td class="data-col"><%=@person.mobile_phone%></td>

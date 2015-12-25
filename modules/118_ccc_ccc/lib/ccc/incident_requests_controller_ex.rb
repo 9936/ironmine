@@ -462,8 +462,17 @@ module Ccc::IncidentRequestsControllerEx
               :value => i.id
           }
         }
+        groups_scope = Irm::Group.multilingual.query_wrap_info(I18n::locale)
+        groups = groups_scope.collect { |i|
+          {
+              :label => i[:name],
+              :value => i.id
+          }
+        }
+
         render json: {:external_systems=>external_systems,
-                      :incident_statuses=>incident_statuses}
+                      :incident_statuses=>incident_statuses,
+                      :groups=>groups}
       end
 
       private
