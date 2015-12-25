@@ -2,7 +2,6 @@
 class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
-    project = Irm::ExternalSystem.where("external_system_code = ?", "1").first
     statis = Icm::IncidentRequest.
         select_all.
         enabled.
@@ -11,7 +10,6 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         with_incident_status(I18n.locale).
         with_supporter(I18n.locale).
         with_submitted_by.
-        where("external_system_id = ?", project.id).
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
     end_date = params[:end_date]
     unless params[:end_date].present?

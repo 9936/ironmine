@@ -2,14 +2,14 @@
   <tbody>
     <tr>
       <td class="label-col"></td>
-      <td class="data-col"><%= hidden_field_tag(:customer_no,Irm::Person.current.id)%></td>
+      <td class="data-col"><%= hidden_field_tag(:customer_no,Irm::Person.current.id,:name=>"program_params[customer_no]")%></td>
       <td class="label-col"></td>
       <td class="data-col"></td>
     </tr>
     <tr>
       <td class="label-col"><label><%= t(:label_project_name) %></label></td>
       <td class="data-col">
-        <select id="project_name">
+        <select id="project_name" name="program_params[project_name]">
           <option value="">--- 请选择 ---</option>
         </select>
       </td>
@@ -19,7 +19,7 @@
     <tr>
       <td class="label-col"><label><%= t(:label_service_list_status) %></label></td>
       <td class="data-col">
-        <select id="service_list_status">
+        <select id="service_list_status" name="program_params[service_list_status]">
           <option value="">--- 请选择 ---</option>
         </select>
       </td>
@@ -49,8 +49,6 @@
         requested_by: $("#customer_no").val()
       },
       success: function (data) {
-        console.log(data.external_systems)
-        console.log(data.incident_statuses)
         var len = data.external_systems.length
         var items = data.external_systems
         for(var i=0;i<len;i++){
