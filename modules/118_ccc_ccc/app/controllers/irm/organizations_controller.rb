@@ -115,7 +115,7 @@ class Irm::OrganizationsController < ApplicationController
 
   def get_data
     # all_organizations = Irm::Organization.with_parent(I18n.locale).multilingual
-    @organizations = Irm::Organization.with_parent(I18n.locale).multilingual
+    @organizations = Irm::Organization.with_parent(I18n.locale).multilingual.order("organization_no ASC")
     @organizations = @organizations.match_value("#{Irm::Organization.table_name}.organization_no",params[:organization_no])
     @organizations = @organizations.match_value("#{Irm::OrganizationsTl.table_name}.name",params[:name])
 

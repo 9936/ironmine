@@ -101,10 +101,12 @@ module Ccc::IncidentJournalsControllerEx
             if (Irm::Person.find(@incident_journal.replied_by).profile.user_license.eql?("SUPPORTER"))
               # 此处评论创建成功
               if !@incident_request.incident_status_id.eql?("000K000A0g8zPKXoIwOIhk") && !@incident_request.incident_status_id.eql?("000K000A0g9LO0pOKPsZ1s")
-                sla_instance = Slm::SlaInstance.find(sla_instance_id)
-                sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
-                Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
-                sla_instance.destroy
+                if sla_instance_id.present?
+                  sla_instance = Slm::SlaInstance.find(sla_instance_id)
+                  sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
+                  Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
+                  sla_instance.destroy
+                end
               end
             end
 

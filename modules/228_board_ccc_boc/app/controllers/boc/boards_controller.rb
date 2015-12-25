@@ -8,16 +8,54 @@ class Boc::BoardsController < ApplicationController
     @table_a_incident_by_category_open = []
     @table_a_incident_by_category_total = []
     @table_a_open_by_service_desk = []
+    # 新建的事故单
     @count_new = Icm::IncidentRequest.
         joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'zh'").
         enabled.
         select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
         joins(",#{Icm::IncidentStatus.table_name} iis").
         # where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", (Time.now).strftime('%Y-%m-%d')).
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").
         where("iis.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
         where("iis.id = '000K000A0gG4yyDU3KUO1o'").
+        order("#{Icm::IncidentRequest.table_name}.created_at DESC")
+    # 已分配的事故单(待处理)
+    @count_assign = Icm::IncidentRequest.
+        joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'zh'").
+        enabled.
+        select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
+        joins(",#{Icm::IncidentStatus.table_name} iis").
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", (Time.now).strftime('%Y-%m-%d')).
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").
+        where("iis.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
+        where("iis.id = '000K000922scMSu1Q8vthI'").
+        order("#{Icm::IncidentRequest.table_name}.created_at DESC")
+    # 处理中的事故单
+    @count_solving = Icm::IncidentRequest.
+        joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'zh'").
+        enabled.
+        select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
+        joins(",#{Icm::IncidentStatus.table_name} iis").
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", (Time.now).strftime('%Y-%m-%d')).
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").
+        where("iis.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
+        where("iis.id not in ('000K000922scMSu1Q8vthI','000K000922scMSu1QUxWoy','000K000A0gG4yyDU3KUO1o')").
+        order("#{Icm::IncidentRequest.table_name}.created_at DESC")
+    # 已完成的事故单
+    @count_close = Icm::IncidentRequest.
+        joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ic ON ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id AND ic.language = 'zh'").
+        enabled.
+        select("#{Icm::IncidentRequest.table_name}.request_number request_number, ic.name category_name").
+        joins(",#{Icm::IncidentStatus.table_name} iis").
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", (Time.now).strftime('%Y-%m-%d')).
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").
+        where("iis.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
+        where("iis.id = '000K000922scMSu1QUxWoy'").
         order("#{Icm::IncidentRequest.table_name}.created_at DESC")
 
     @table_a_open_by_service_desk = Icm::IncidentRequest.enabled.

@@ -289,14 +289,6 @@ class Icm::IncidentJournalsController < ApplicationController
                                    :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         @incident_journal.create_elapse
-        # 转交后SLA重新计时
-        # sla_instance = Slm::SlaInstance.where(:id=>sla_instance_id)
-        # if sla_instance.length == 1
-        #   updateData = {:current_duration => 0,
-        #                 :start_at => Time.now,
-        #                 :last_phase_start_date => Time.now}
-        #   sla_instance.first.update_attributes(updateData)
-        # end
 
         # 转交后给支持人员发邮件提醒
         # 如果事故单状态处于受理中时则用新问题分配的邮件模板
@@ -309,10 +301,12 @@ class Icm::IncidentJournalsController < ApplicationController
 
         # 事故单状态不处于客户响应和提交方案时,SLA才需要改变
         if !@incident_request.incident_status_id.eql?("000K000A0g8zPKXoIwOIhk") && !@incident_request.incident_status_id.eql?("000K000A0g9LO0pOKPsZ1s")
-          sla_instance = Slm::SlaInstance.find(sla_instance_id)
-          sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
-          Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
-          sla_instance.destroy
+          if sla_instance_id.present?
+            sla_instance = Slm::SlaInstance.find(sla_instance_id)
+            sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
+            Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
+            sla_instance.destroy
+          end
         end
 
         format.html { redirect_to({:action => "new"}) }
@@ -618,10 +612,12 @@ class Icm::IncidentJournalsController < ApplicationController
 
       if !ovalue.eql?(nvalue)
         if !@incident_request.incident_status_id.eql?("000K000A0g8zPKXoIwOIhk") && !@incident_request.incident_status_id.eql?("000K000A0g9LO0pOKPsZ1s")
-          sla_instance = Slm::SlaInstance.find(sla_instance_id)
-          sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
-          Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
-          sla_instance.destroy
+          if sla_instance_id.present?
+            sla_instance = Slm::SlaInstance.find(sla_instance_id)
+            sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
+            Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
+            sla_instance.destroy
+          end
         end
 
         # 如果事故单状态从受理中->处理中

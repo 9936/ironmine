@@ -7,19 +7,22 @@
     </th>
     <th style="width:33%">
     </th>
+    <th style="width:33%">
+    </th>
   <tr>
   <tr>
     <td colspan="2">
       <div id="daily_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </td>
-    <td>
-      <div id="open_pie_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-    </td>
+    <!--<td>-->
+      <!--<div id="open_pie_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>-->
+    <!--</td>-->
+    <!--<td rowspan="6">-->
+      <!--<div id="open_pie_chart_by_service_desk" style="min-width: 310px; height: 400px; margin: 0 auto"></div>-->
+    <!--</td>-->
   </tr>
   <tr style="">
-    <td style="">
-      <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px; font-size: 18px;">Daily Created</div>
-    </td>
+    <!-- 新建的事故单 -->
     <td rowspan="6">
       <% if @count_new.size == 0 %>
           <div style="margin-left: 100px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
@@ -60,76 +63,93 @@
           </div>
       <% end %>
     </td>
+    <!-- 待处理的事故单 -->
     <td rowspan="6">
-      <div id="open_pie_chart_by_service_desk" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-    </td>
-  </tr>
-  <tr>
-    <td >
-      <% @today_created.each do |tc| %>
-          <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
-            <%= tc[0].to_s%>
+      <% if @count_assign.size == 0 %>
+          <div style="margin-left: 100px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
+            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>No Assigned Incident</I></div>
+            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_assign.size.to_s%></div>
+          </div>
+      <% elsif @count_assign.size == 1%>
+          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px;background-color: #ffa0a0">
+            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>Assigned Incident</I></div>
+            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_assign.size.to_s%></div>
+            <div style="height: 75px;line-height: 75px; font-size: 25px;">
+              <div style="float: left; margin-left: 25px; font-size: 20px;"><%= @count_assign.first[:request_number]%></div>
+              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_assign.first[:category_name]%></div>
+            </div>
+          </div>
+      <% else%>
+          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
+            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>Assigned Incidents</I></div>
+            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_assign.size.to_s%></div>
+            <div style="height: 75px;line-height: 75px; font-size: 25px;">
+              <div style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_assign.first[:request_number]%></div>
+              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_assign.first[:category_name]%></div>
+            </div>
           </div>
       <% end %>
     </td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr style="">
-    <td>
-      <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px; font-size: 18px;">Daily Closed</div>
-    </td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>
-      <% @today_closed.each do |tc| %>
-          <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
-            <%= tc[0].to_s%>
+    <!-- 处理中的事故单 -->
+    <td rowspan="6">
+      <% if @count_solving.size == 0 %>
+          <div style="margin-left: 100px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
+            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>No Solving Incident</I></div>
+            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_solving.size.to_s%></div>
+          </div>
+      <% elsif @count_solving.size == 1%>
+          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px;background-color: #ffa0a0">
+            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>Solving Incident</I></div>
+            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_solving.size.to_s%></div>
+            <div style="height: 75px;line-height: 75px; font-size: 25px;">
+              <div style="float: left; margin-left: 25px; font-size: 20px;"><%= @count_solving.first[:request_number]%></div>
+              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_solving.first[:category_name]%></div>
+            </div>
+          </div>
+      <% else%>
+          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
+            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>Solving Incidents</I></div>
+            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_solving.size.to_s%></div>
+            <div style="height: 75px;line-height: 75px; font-size: 25px;">
+              <div style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_solving.first[:request_number]%></div>
+              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_solving.first[:category_name]%></div>
+            </div>
           </div>
       <% end %>
     </td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr style="">
-    <td>
-      <% if @processing_list.present? && @processing_list.first[2] > (Time.now - 30.minutes)%>
-          <div style="background-color: #ffa0a0; width: 80%; padding: 10px 10px;font-size: 18px;">Emergent List</div>
-      <% else %>
-          <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px;font-size: 18px;">Emergent List</div>
-      <% end %>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <% @processing_list.each do |tc| %>
-          <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
-            <%= tc[0].to_s%>
+    <!-- 已完成的事故单 -->
+    <td rowspan="6">
+      <% if @count_close.size == 0 %>
+          <div style="margin-left: 100px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
+            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>No Closed Incident</I></div>
+            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_close.size.to_s%></div>
+          </div>
+      <% elsif @count_close.size == 1%>
+          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px;background-color: #ffa0a0">
+            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>Closed Incident</I></div>
+            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_close.size.to_s%></div>
+            <div style="height: 75px;line-height: 75px; font-size: 25px;">
+              <div style="float: left; margin-left: 25px; font-size: 20px;"><%= @count_close.first[:request_number]%></div>
+              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_close.first[:category_name]%></div>
+            </div>
+          </div>
+      <% else%>
+          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
+            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>Closed Incidents</I></div>
+            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_close.size.to_s%></div>
+            <div style="height: 75px;line-height: 75px; font-size: 25px;">
+              <div style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_close.first[:request_number]%></div>
+              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_close.first[:category_name]%></div>
+            </div>
           </div>
       <% end %>
     </td>
-  </tr>
-  <tr style="">
-    <td>
-      <div style="background-color: #c6c6c6; width: 80%; padding: 10px 10px;font-size: 18px;">SLA Remind</div>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <% @sla_list.each do |tc| %>
-          <div style="display: inline-block; margin: 10px 5px;font-size: 17px">
-            <%= tc.to_s%>
-          </div>
-      <% end %>
-    </td>
+
   </tr>
 </table>
 <script type="text/javascript">
 
     $(function () {
-
         $('#open_pie_chart').highcharts({
             chart: {
                 plotBackgroundColor: null,
