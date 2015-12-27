@@ -113,7 +113,7 @@ zh:
 
   label_irm_external_system_organization_no: 公司编号
   label_irm_external_system_customer_no: 客户经理
-  label_project_manager: 项目经理
+  label_project_manager: 接口人
   label_disabled_flag: 失效标识
   label_project_type: 项目类型
   label_pricing_type: 计价方式

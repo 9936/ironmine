@@ -57,23 +57,33 @@ class Boc::BoardsController < ApplicationController
         where("iis.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
         where("iis.id = '000K000922scMSu1QUxWoy'").
         order("#{Icm::IncidentRequest.table_name}.created_at DESC")
-
+    # 事故单状态分类柱状图
     @table_a_open_by_service_desk = Icm::IncidentRequest.enabled.
         joins(",#{Icm::IncidentStatus.view_name} isv").
-        # where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         select("isv.name status_name, SUM(1) amount, isv.display_color").
         where("isv.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
         where("isv.language = 'zh'").
         where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
         group("#{Icm::IncidentRequest.table_name}.incident_status_id").order("isv.display_sequence + 0 ASC").collect{|i| [i[:status_name], i[:amount].to_i, i[:display_color]]}
-
-    @table_a_incident_by_category_open = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentCategory.view_name} ic").
+    # 事故单的分类柱状图
+    @table_a_incident_by_category_open = Icm::IncidentRequest.enabled.joins(",#{Icm::IncidentSubCategory.view_name} ic").
         select("ic.name category_name, SUM(1) amount").
-        # where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
-        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
+        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_sub_category_id").
         where("ic.language = 'zh'").
         where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
-        group("#{Icm::IncidentRequest.table_name}.incident_category_id").order("ic.code + 0 ASC").collect{|i| [i[:category_name], i[:amount].to_i, '']}
+        group("#{Icm::IncidentRequest.table_name}.incident_sub_category_id").order("ic.code + 0 ASC").collect{|i| [i[:category_name], i[:amount].to_i, '']}
+    # 事故单类型柱状图
+    @table_a_incident_by_type_code = Icm::IncidentRequest.enabled.
+        select("#{Icm::IncidentRequest.table_name}.request_type_code code_name, SUM(1) amount").
+        where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
+        group("#{Icm::IncidentRequest.table_name}.request_type_code").order("#{Icm::IncidentRequest.table_name}.request_type_code + 0 ASC").collect{|i| [i[:code_name], i[:amount].to_i, '']}
+    # 事故单优先级柱状图
+    @table_a_incident_by_urgence = Icm::IncidentRequest.enabled.joins(",#{Icm::UrgenceCode.view_name} ic").
+        select("ic.name urgence_name, SUM(1) amount").
+        where("ic.id = #{Icm::IncidentRequest.table_name}.urgence_id").
+        where("ic.language = 'zh'").
+        where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
+        group("#{Icm::IncidentRequest.table_name}.urgence_id").order("ic.urgency_code + 0 ASC").collect{|i| [i[:urgence_name], i[:amount].to_i, '']}
 
     @table_a_incident_by_category_open.each do |c|
       c[2] = '#FF0900' if c[0].eql?("Failure")
@@ -85,13 +95,24 @@ class Boc::BoardsController < ApplicationController
       c[2] = '#A9E2E8' if c[0].eql?("EBS")
     end
     @sla_list = []
-    @sla_list = Icm::IncidentRequest.select("#{Icm::IncidentRequest.table_name}.request_number").
+    @sla_list = Icm::IncidentRequest.
+        joins("LEFT OUTER JOIN ccc_sla_con_incidents sci on icm_incident_requests.id = sci.incident_request_id").
+        joins("LEFT OUTER JOIN irm_people supporter ON  supporter.id = sci.supporter_id").
+        joins("LEFT OUTER JOIN slm_sla_instances ssi ON ssi.id = sci.sla_instance_id").
+        joins("LEFT OUTER JOIN #{Irm::Organization.view_name} iov ON iov.id = #{Icm::IncidentRequest.table_name}.organization_id AND iov.language = 'zh'").
+        select("#{Icm::IncidentRequest.table_name}.request_number request_number,#{Icm::IncidentRequest.table_name}.title title,supporter.full_name supporter_name,#{Icm::IncidentRequest.table_name}.submitted_date submitted_date,iov.name organization_name").
         enabled.
-        joins(", slm_sla_instances ssi").
-        where("ssi.bo_id = #{Icm::IncidentRequest.table_name}.id").
         where("ssi.current_status = 'START'").
-        where("(ssi.max_duration - ssi.current_duration) <= (ssi.max_duration * 0.1)").
-        collect{|a| a[:request_number]}
+        collect{|a|
+        {
+          :request_number=>a[:request_number],
+          :title=>a[:title],
+          :supporter_name=>a[:supporter_name],
+          :submitted_date=>a[:submitted_date],
+          :organization_name=>a[:organization_name],
+
+        }
+    }
 
     @today_created = []
     @today_created = Icm::IncidentRequest.
@@ -102,7 +123,6 @@ class Boc::BoardsController < ApplicationController
         joins(",icm_priority_codes_vl ipv").
         where("ipv.language = 'zh'").
         where("ipv.id = #{Icm::IncidentRequest.table_name}.priority_id").
-        # where("#{Icm::IncidentRequest.table_name}.hotline = ?", 'Y').
         where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", (Time.now).strftime('%Y-%m-%d')).
         order("#{Icm::IncidentRequest.table_name}.submitted_date ASC").
         collect{|a| [a[:request_number], a[:category_name], a[:priority_name]]}
@@ -144,7 +164,7 @@ class Boc::BoardsController < ApplicationController
       update_flag = true
     end
 
-    for today in (Time.now - 21.days).strftime('%Y-%m-%d').to_datetime..(Time.now - 1.day).strftime('%Y-%m-%d').to_datetime do
+    for today in (Time.now - 14.days).strftime('%Y-%m-%d').to_datetime..(Time.now - 1.day).strftime('%Y-%m-%d').to_datetime do
       if update_flag
         today_create = Icm::IncidentRequest.
             where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", today.strftime('%Y-%m-%d')).

@@ -1,155 +1,395 @@
 <% require_jscss(:newhighcharts) %>
-<table style="width:100%;table-layout:fixed" >
-  <tr>
-    <th style="width:33%">
-    </th>
-    <th style="width:33%">
-    </th>
-    <th style="width:33%">
-    </th>
-    <th style="width:33%">
-    </th>
-  <tr>
-  <tr>
-    <td colspan="2">
-      <div id="daily_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-    </td>
-    <!--<td>-->
-      <!--<div id="open_pie_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>-->
-    <!--</td>-->
-    <!--<td rowspan="6">-->
-      <!--<div id="open_pie_chart_by_service_desk" style="min-width: 310px; height: 400px; margin: 0 auto"></div>-->
-    <!--</td>-->
-  </tr>
-  <tr style="">
-    <!-- 新建的事故单 -->
-    <td rowspan="6">
-      <% if @count_new.size == 0 %>
-          <div style="margin-left: 100px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>No New Incident</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s%></div>
-          </div>
-      <% elsif @count_new.size == 1%>
-          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px;background-color: #ffa0a0">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incident</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s%></div>
-            <div style="height: 75px;line-height: 75px; font-size: 25px;">
-              <div style="float: left; margin-left: 25px; font-size: 20px;"><%= @count_new.first[:request_number]%></div>
-              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
-            </div>
-            <!--<bgsound src="4846.wav"/>-->
-            <!-- Firefox play wav -->
-            <audio autoplay="autoplay">
-              Your browser does not support the <code>audio</code> element.
-              <source src="4846.wav" type="audio/wav">
-            </audio>
+<style>
+  .incident_div {
+      width: 300px;
+      /*height: 350px;*/
+      border: solid 1px #cccccc;
+      text-align: center;
+      margin: 0px 21px;
+  }
+  .incident_head_div{
+      height: 50px;
+      line-height: 50px;
+      font-size: 25px;
+  }
+  .incident_body_div{
+      height: 225px;
+      line-height: 225px; 
+      font-size: 120px;
+      color:#333333;
+  }
+  .incident_foot_div{
+      display: none;
+      height: 75px;
+      line-height: 75px;
+      font-size: 25px;
+  }
+  .incident_foot_left_div{
+      float: left; 
+      margin-left: 25px; 
+      font-size: 20px;
+  }
+  .incident_foot_right_div{
+      float: right; 
+      margin-right: 25px;
+      font-size: 20px;
+  }
+  #daily_chart{
+      min-width: 310px;
+      height: 560px;
+      margin: 0 auto
+  }
+  #open_pie_chart,#open_pie_chart_by_service_desk,#incident_by_type_code,#incident_by_urgence{
+      min-width: 300px;
+      height: 280px;
+      margin: 0 auto
+  }
+  .table-responsive{
+      min-width: 310px;
+      height: 560px;
+      margin: 0 auto
+  }
+</style>
+<div id="myCarousel" class="carousel slide">
+  <!-- 轮播（Carousel）项目 -->
+  <div class="carousel-inner">
+    <div class="item active">
+      <!-- 两周问题量监控表 -->
+      <table style="width:100%;table-layout:fixed" >
+        <!-- 列数确定 -->
+        <tr>
+          <th style="width:25%">
+          </th>
+          <th style="width:25%">
+          </th>
+          <th style="width:25%">
+          </th>
+          <th style="width:25%">
+          </th>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <div id="daily_chart"></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="item">
+      <!-- 当日问题监控 -->
+      <div class="table-responsive">
+        <!-- 当日问题监控之四类事件单 -->
+        <table style="width:100%;table-layout:fixed" >
+          <!-- 列数确定 -->
+          <tr>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+          </tr>
+          <tr>
+            <!-- 新建的事故单 -->
+            <td rowspan="6">
+              <% if @count_new.size == 0 %>
+                  <div class="incident_div" style="display:block; line-height: 250px;">
+                    <div class="incident_head_div"><I>No New Incident</I></div>
+                    <div class="incident_body_div"><%= @count_new.size.to_s%></div>
+                  </div>
+              <% elsif @count_new.size == 1%>
+                  <div class="incident_div" style="font-size: 50px;background-color: #ffa0a0">
+                    <div class="incident_head_div"><I>New Incident</I></div>
+                    <div class="incident_body_div"><%= @count_new.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div"><%= @count_new.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_new.first[:category_name]%></div>
+                    </div>
+                    <audio autoplay="autoplay">
+                      Your browser does not support the <code>audio</code> element.
+                      <source src="4846.wav" type="audio/wav">
+                    </audio>
+                  </div>
+              <% else%>
+                  <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
+                    <div class="incident_head_div"><I>New Incidents</I></div>
+                    <div class="incident_body_div" ><%= @count_new.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_new.first[:category_name]%></div>
+                    </div>
+                    <audio autoplay="autoplay">
+                      Your browser does not support the <code>audio</code> element.
+                      <source src="4846.wav" type="audio/wav">
+                    </audio>
+                  </div>
+              <% end %>
+            </td>
+            <!-- 待处理的事故单 -->
+            <td rowspan="6">
+              <% if @count_assign.size == 0 %>
+                  <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
+                    <div class="incident_head_div" style=""><I>No Assigned Incident</I></div>
+                    <div class="incident_body_div" ><%= @count_assign.size.to_s%></div>
+                  </div>
+              <% elsif @count_assign.size == 1%>
+                  <div class="incident_div" style="font-size: 50px;background-color: #ffa0a0">
+                    <div class="incident_head_div" style=""><I>Assigned Incident</I></div>
+                    <div class="incident_body_div" ><%= @count_assign.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div"><%= @count_assign.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_assign.first[:category_name]%></div>
+                    </div>
+                  </div>
+              <% else%>
+                  <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
+                    <div class="incident_head_div" style=""><I>Assigned Incidents</I></div>
+                    <div class="incident_body_div" ><%= @count_assign.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_assign.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_assign.first[:category_name]%></div>
+                    </div>
+                  </div>
+              <% end %>
+            </td>
+            <!-- 处理中的事故单 -->
+            <td rowspan="6">
+              <% if @count_solving.size == 0 %>
+                  <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
+                    <div class="incident_head_div" style=""><I>No Solving Incident</I></div>
+                    <div class="incident_body_div" ><%= @count_solving.size.to_s%></div>
+                  </div>
+              <% elsif @count_solving.size == 1%>
+                  <div class="incident_div" style="font-size: 50px;background-color: #ffa0a0">
+                    <div class="incident_head_div" style=""><I>Solving Incident</I></div>
+                    <div class="incident_body_div" ><%= @count_solving.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div"><%= @count_solving.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_solving.first[:category_name]%></div>
+                    </div>
+                  </div>
+              <% else%>
+                  <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
+                    <div class="incident_head_div" style=""><I>Solving Incidents</I></div>
+                    <div class="incident_body_div" ><%= @count_solving.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_solving.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_solving.first[:category_name]%></div>
+                    </div>
+                  </div>
+              <% end %>
+            </td>
+            <!-- 已完成的事故单 -->
+            <td rowspan="6">
+              <% if @count_close.size == 0 %>
+                  <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
+                    <div class="incident_head_div" style=""><I>No Closed Incident</I></div>
+                    <div class="incident_body_div" ><%= @count_close.size.to_s%></div>
+                  </div>
+              <% elsif @count_close.size == 1%>
+                  <div class="incident_div" style="font-size: 50px;background-color: #ffa0a0">
+                    <div class="incident_head_div" style=""><I>Closed Incident</I></div>
+                    <div class="incident_body_div" ><%= @count_close.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div"><%= @count_close.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_close.first[:category_name]%></div>
+                    </div>
+                  </div>
+              <% else%>
+                  <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
+                    <div class="incident_head_div" style=""><I>Closed Incidents</I></div>
+                    <div class="incident_body_div" ><%= @count_close.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_close.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_close.first[:category_name]%></div>
+                    </div>
+                  </div>
+              <% end %>
+            </td>
+          </tr>
+        </table>
+        <!-- 当日问题监控之SLA报警 -->
+        <table style="width:100%;table-layout:fixed" >
+          <!-- 列数确定 -->
+          <tr>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+          </tr>
+          <tr>
+            <td colspan="4">
+              <table class="table table-bordered">
+                <tr style="background-color: #F5F5F5;">
+                  <th>问题单号</th>
+                  <th>问题标题</th>
+                  <th>客户名称</th>
+                  <th>处理者</th>
+                  <th>问题提交日期</th>
+                </tr>
+                <% @sla_list.each do |sl|%>
+                    <tr>
+                      <td><%=sl[:request_number] %></td>
+                      <td><%=sl[:title] %></td>
+                      <td><%=sl[:organization_name] %></td>
+                      <td><%=sl[:supporter_name] %></td>
+                      <td><%=format_date(sl[:submitted_date]) %></td>
+                    </tr>
+                <%end%>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="item">
+      <!-- 问题分析一 -->
+      <div class="table-responsive">
+        <table style="width:100%;table-layout:fixed" >
+        <!-- 列数确定 -->
+        <tr>
+          <th style="width:14.3%">
+          </th>
+          <th style="width:14.3%">
+          </th>
+          <th style="width:14.3%">
+          </th>
+          <th style="width:14.3%">
+          </th>
+          <th style="width:14.3%">
+          </th>
+          <th style="width:14.3%">
+          </th>
+          <th style="width:14.3%">
+          </th>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td colspan="2">
+            <div id="open_pie_chart"></div>
+          </td>
+          <td>
+          </td>
+          <td colspan="2">
+            <div id="open_pie_chart_by_service_desk"></div>
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td colspan="2">
+            <div id="incident_by_type_code"></div>
+          </td>
+          <td>
+          </td>
+          <td colspan="2">
+            <div id="incident_by_urgence"></div>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </table>
+      </div>
+    </div>
+  </div>
+  <!-- 轮播（Carousel）导航 -->
+  <a class="carousel-control left" href="#myCarousel"
+     data-slide="prev">&lsaquo;</a>
+  <a class="carousel-control right" href="#myCarousel"
+     data-slide="next">&rsaquo;</a>
+</div>
 
-          </div>
-      <% else%>
-          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>New Incidents</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_new.size.to_s%></div>
-            <div style="height: 75px;line-height: 75px; font-size: 25px;">
-              <div style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
-              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_new.first[:category_name]%></div>
-            </div>
-            <!--<bgsound src="4846.wav"/>-->
-            <!-- Firefox play wav -->
-            <audio autoplay="autoplay">
-              Your browser does not support the <code>audio</code> element.
-              <source src="4846.wav" type="audio/wav">
-            </audio>
-
-          </div>
-      <% end %>
-    </td>
-    <!-- 待处理的事故单 -->
-    <td rowspan="6">
-      <% if @count_assign.size == 0 %>
-          <div style="margin-left: 100px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>No Assigned Incident</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_assign.size.to_s%></div>
-          </div>
-      <% elsif @count_assign.size == 1%>
-          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px;background-color: #ffa0a0">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>Assigned Incident</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_assign.size.to_s%></div>
-            <div style="height: 75px;line-height: 75px; font-size: 25px;">
-              <div style="float: left; margin-left: 25px; font-size: 20px;"><%= @count_assign.first[:request_number]%></div>
-              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_assign.first[:category_name]%></div>
-            </div>
-          </div>
-      <% else%>
-          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>Assigned Incidents</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_assign.size.to_s%></div>
-            <div style="height: 75px;line-height: 75px; font-size: 25px;">
-              <div style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_assign.first[:request_number]%></div>
-              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_assign.first[:category_name]%></div>
-            </div>
-          </div>
-      <% end %>
-    </td>
-    <!-- 处理中的事故单 -->
-    <td rowspan="6">
-      <% if @count_solving.size == 0 %>
-          <div style="margin-left: 100px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>No Solving Incident</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_solving.size.to_s%></div>
-          </div>
-      <% elsif @count_solving.size == 1%>
-          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px;background-color: #ffa0a0">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>Solving Incident</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_solving.size.to_s%></div>
-            <div style="height: 75px;line-height: 75px; font-size: 25px;">
-              <div style="float: left; margin-left: 25px; font-size: 20px;"><%= @count_solving.first[:request_number]%></div>
-              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_solving.first[:category_name]%></div>
-            </div>
-          </div>
-      <% else%>
-          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>Solving Incidents</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_solving.size.to_s%></div>
-            <div style="height: 75px;line-height: 75px; font-size: 25px;">
-              <div style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_solving.first[:request_number]%></div>
-              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_solving.first[:category_name]%></div>
-            </div>
-          </div>
-      <% end %>
-    </td>
-    <!-- 已完成的事故单 -->
-    <td rowspan="6">
-      <% if @count_close.size == 0 %>
-          <div style="margin-left: 100px;display:block; width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;line-height: 250px;">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>No Closed Incident</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_close.size.to_s%></div>
-          </div>
-      <% elsif @count_close.size == 1%>
-          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px;background-color: #ffa0a0">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>Closed Incident</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_close.size.to_s%></div>
-            <div style="height: 75px;line-height: 75px; font-size: 25px;">
-              <div style="float: left; margin-left: 25px; font-size: 20px;"><%= @count_close.first[:request_number]%></div>
-              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_close.first[:category_name]%></div>
-            </div>
-          </div>
-      <% else%>
-          <div style="margin-left: 100px;width: 350px;height: 350px;border: solid 1px #cccccc;text-align:center;font-size: 50px; background-color: #ffa0a0">
-            <div style="height: 50px;line-height: 50px; font-size: 25px;"><I>Closed Incidents</I></div>
-            <div style="height: 225px;line-height: 225px; font-size: 120px;color:#333333;"><%= @count_close.size.to_s%></div>
-            <div style="height: 75px;line-height: 75px; font-size: 25px;">
-              <div style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_close.first[:request_number]%></div>
-              <div style="float: right; margin-right: 25px;font-size: 20px;"><%= @count_close.first[:category_name]%></div>
-            </div>
-          </div>
-      <% end %>
-    </td>
-
-  </tr>
-</table>
 <script type="text/javascript">
 
     $(function () {
+        $('#incident_by_type_code').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
+                    },
+                    showInLegend: true
+                }
+            },
+            //colors: [<%
+                color = ''
+                count = 0
+                @table_a_incident_by_type_code.each do |c|
+                    color = color + "'#{c[2]}'"
+                    color = color + ',' if c != @table_a_incident_by_type_code.last
+                    count = count + c[1]
+                end
+                color
+            %>
+            //],
+            title: {
+                text: '类别分析 (<%= count.to_s%>)'
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                type: 'pie',
+                name: 'Category',
+                data: <%= raw @table_a_incident_by_type_code%>
+            }]
+        });
+        $('#incident_by_urgence').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
+                    },
+                    showInLegend: true
+                }
+            },
+            //colors: [<%
+                color = ''
+                count = 0
+                @table_a_incident_by_urgence.each do |c|
+                    color = color + "'#{c[2]}'"
+                    color = color + ',' if c != @table_a_incident_by_urgence.last
+                    count = count + c[1]
+                end
+                color
+            %>
+            //],
+            title: {
+                text: '优先级分析 (<%= count.to_s%>)'
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                type: 'pie',
+                name: 'Urgent',
+                data: <%= raw @table_a_incident_by_urgence%>
+            }]
+        });
         $('#open_pie_chart').highcharts({
             chart: {
                 plotBackgroundColor: null,
@@ -179,19 +419,14 @@
             %>
             //],
             title: {
-                text: 'Incidents by Category (<%= count.to_s%>)'
+                text: '模块分析 (<%= count.to_s%>)'
             },
             legend: {
                 enabled: false
-//                layout: 'vertical',
-//                align: 'left', //水平方向位置
-//                verticalAlign: 'top', //垂直方向位置
-//                x: 50, //距离x轴的距离
-//                y: 50 //距离Y轴的距离
             },
             series: [{
                 type: 'pie',
-                name: 'Category',
+                name: 'Module',
                 data: <%= raw @table_a_incident_by_category_open%>
             }]
         });
@@ -213,7 +448,7 @@
             %>
             //],
             title: {
-                text: 'Incidents by Status (<%= count.to_s%>)'
+                text: '状态分析 (<%= count.to_s%>)'
             },
             plotOptions: {
                 pie: {
@@ -228,11 +463,6 @@
             },
             legend: {
                 enabled: false
-//                layout: 'vertical',
-//                align: 'left', //水平方向位置
-//                verticalAlign: 'top', //垂直方向位置
-//                x: 50, //距离x轴的距离
-//                y: 50 //距离Y轴的距离
             },
             series: [{
                 type: 'pie',
@@ -356,12 +586,10 @@
             } ]
         });
     });
-</script>
-<script language="JavaScript">
     function myrefresh()
     {
         window.location.reload();
     }
-    setTimeout('myrefresh()',120000); //指定1秒刷新一次
+//    setTimeout('myrefresh()',120000); //指定1秒刷新一次
 </script>
 
