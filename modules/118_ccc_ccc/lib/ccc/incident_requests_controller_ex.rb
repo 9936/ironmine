@@ -462,7 +462,22 @@ module Ccc::IncidentRequestsControllerEx
               :value => i.id
           }
         }
-        groups_scope = Irm::Group.multilingual.query_wrap_info(I18n::locale)
+        # 所有的组
+        level_group_ids = []
+        level_group_ids << Irm::Group.where("parent_group_id = ''").first().id
+        Irm::Group.where(:parent_group_id=>level_group_ids[0]).each do |ig|
+          level_group_ids << ig.id
+        end
+
+        level_groups_scope = Irm::Group.multilingual.where(:id=>level_group_ids)
+        level_groups = level_groups_scope.collect { |i|
+          {
+              :label => i[:name],
+              :value => i.id
+          }
+        }
+
+        groups_scope = Irm::Group.multilingual
         groups = groups_scope.collect { |i|
           {
               :label => i[:name],
@@ -472,6 +487,7 @@ module Ccc::IncidentRequestsControllerEx
 
         render json: {:external_systems=>external_systems,
                       :incident_statuses=>incident_statuses,
+                      :level_groups=>level_groups,
                       :groups=>groups}
       end
 

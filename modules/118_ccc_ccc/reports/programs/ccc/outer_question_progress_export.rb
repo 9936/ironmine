@@ -76,7 +76,7 @@ class Ccc::OuterQuestionProgressExport < Irm::ReportManager::ReportBase
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = s[:priority_name]
-      data[3] = s[:request_type_name]
+      data[3] = s[:request_type_code]
       data[4] = s[:incident_category_name]
       data[5] = s[:organization_name]
       data[6] = s[:requested_name]
