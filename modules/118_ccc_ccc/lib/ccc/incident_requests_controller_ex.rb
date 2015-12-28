@@ -439,19 +439,30 @@ module Ccc::IncidentRequestsControllerEx
         end
       end
       def get_external_systems_t
-        external_systems_scope = Irm::ExternalSystem.multilingual.enabled.with_person(params[:requested_by]).order("CONVERT( system_name USING gbk ) ")
+        if params[:requested_by].present?
+          external_systems_scope = Irm::ExternalSystem.multilingual.enabled.with_person(params[:requested_by]).order("CONVERT( system_name USING gbk ) ")
+        else
+          external_systems_scope = Irm::ExternalSystem.multilingual.enabled.order("CONVERT( system_name USING gbk ) ")
+        end
         external_systems_scope = external_systems_scope.uniq
         external_systems = external_systems_scope.collect { |i|
-          if Time.now >= i.after_date
-            {
-                :label => "#{i[:system_name]}(过期)",
-                :value => i.id, :id => i.id
-            }
+          if i.after_date.present?
+            if Time.now >= i.after_date
+              {
+                  :label => "#{i[:system_name]}(过期)",
+                  :value => i.id, :id => i.id
+              }
+            else
+              {
+                  :label => i[:system_name],
+                  :value => i.id, :id => i.id
+              }
+            end
           else
-            {
-                :label => i[:system_name],
-                :value => i.id, :id => i.id
-            }
+              {
+                  :label => i[:system_name],
+                  :value => i.id, :id => i.id
+              }
           end
         }
 
@@ -477,6 +488,15 @@ module Ccc::IncidentRequestsControllerEx
           }
         }
 
+        module_groups_scope = Irm::Group.multilingual.where("irm_groups.id not in (?)",level_group_ids)
+        module_groups = module_groups_scope.collect { |i|
+          {
+              :label => i[:description],
+              :value => i[:description]
+          }
+        }
+        module_groups = module_groups.uniq
+
         groups_scope = Irm::Group.multilingual
         groups = groups_scope.collect { |i|
           {
@@ -488,7 +508,8 @@ module Ccc::IncidentRequestsControllerEx
         render json: {:external_systems=>external_systems,
                       :incident_statuses=>incident_statuses,
                       :level_groups=>level_groups,
-                      :groups=>groups}
+                      :groups=>groups,
+                      :module_groups=>module_groups}
       end
 
       private

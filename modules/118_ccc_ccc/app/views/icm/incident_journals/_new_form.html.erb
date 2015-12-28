@@ -162,13 +162,13 @@
           </td>
         </tr>
         <tr>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_by) %></label></td>
-          <td class="data-col">
-            <div><%= @incident_request[:submitted_name] %></div>
-          </td>
           <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by) %></label></td>
           <td class="data-col">
             <div><%= @incident_request[:requested_name] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_requested_mobile_phone) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:requested_mobile_phone] %></div>
           </td>
           <td class="label-col"><label><%= t(:label_icm_incident_request_requested_email) %></label></td>
           <td class="data-col">
@@ -180,23 +180,23 @@
           <td class="data-col">
             <div><%= @incident_request[:attribute1] %></div>
           </td>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_contact_email_number) %></label></td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_contact_number) %></label></td>
           <td class="data-col">
-            <div><%= @incident_request[:contact_number] %>(<%= @incident_request[:attribute2] %>)</div>
+            <div><%= @incident_request[:contact_number] %></div>
           </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_contact_email) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:attribute2] %></div>
+          </td>
+        </tr>
+        <tr>
           <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_org) %></label></td>
           <td class="data-col">
             <div><%= @incident_request[:requested_organization_name] %></div>
           </td>
-        </tr>
-        <tr>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_question_discription) %></label></td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_by) %></label></td>
           <td class="data-col">
-            <div><%= @incident_request[:title] %></div>
-          </td>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_request_type_code) %></label></td>
-          <td class="data-col">
-            <div><%= @incident_request[:request_type_name] %></div>
+            <div><%= @incident_request[:submitted_name] %></div>
           </td>
           <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_date) %></label></td>
           <td class="data-col">
@@ -204,15 +204,17 @@
           </td>
         </tr>
         <tr>
-          <%if false%>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_priority) %></label></td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_request_type_code) %></label></td>
           <td class="data-col">
-            <div><%= @incident_request[:priority_name] %></div>
+            <div><%= @incident_request[:request_type_code] %></div>
           </td>
-          <%end%>
           <td class="label-col"><label><%= t(:label_icm_incident_request_support_group) %></label></td>
           <td class="data-col">
-            <div><%= @incident_request[:support_group_name] %></div>
+            <%if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
+            <div><%= @incident_request[:support_group_name]?@incident_request[:support_group_name].split("-")[1]:"" %></div>
+            <%else%>
+            <div><%= @incident_request[:description] %></div>
+            <%end%>
           </td>
           <td class="label-col"><label><%= t(:label_icm_incident_request_support_person) %></label></td>
           <td class="data-col">
@@ -733,6 +735,7 @@
         $("#prod_mess").html($("#prod_mess").text())
         $("#attention_point").html($("#attention_point").text())
         $(".label-col-1").css("width","30%")
+        $(".page-title").css({"padding":"0px 0px","margin":"0px 0px"})
     });
 
     function issubmit() {

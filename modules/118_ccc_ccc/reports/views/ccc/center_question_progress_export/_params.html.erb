@@ -22,7 +22,7 @@
     <tr>
       <td class="label-col"><label><%= t(:label_project_name) %></label></td>
       <td class="data-col">
-        <select id="project_name" name="program_params[project_name]">
+        <select id="project_name" name="program_params[project_name]" class="chzn-done">
           <option value="">--- 请选择 ---</option>
         </select>
       </td>
@@ -66,15 +66,24 @@
       <td class="data-col"></td>
     </tr>
     <!-- 问题处理级别 -->
+    <%if false%>
     <tr>
       <td class="label-col"><label><%= t(:label_for_question_level) %></label></td>
       <td class="data-col">
         <select id="question_level" name="program_params[question_level]">
           <option value="">--- 请选择 ---</option>
-          <!--<option value="one">Level-1</option>-->
-          <!--<option value="two">Level-2</option>-->
-          <!--<option value="three">Level-3</option>-->
-          <!--<option value="all">全部</option>-->
+        </select>
+      </td>
+      <td class="label-col"></td>
+      <td class="data-col"></td>
+    </tr>
+    <%end%>
+    <!-- 模块 -->
+    <tr>
+      <td class="label-col"><label><%= t(:label_module) %></label></td>
+      <td class="data-col">
+        <select id="module_name" name="program_params[module_name]">
+          <option value="">--- 请选择 ---</option>
         </select>
       </td>
       <td class="label-col"></td>
@@ -115,20 +124,25 @@
       type: 'post',
       dataType: 'json',
       data: {
-        requested_by: ""
       },
       success: function (data) {
+        console.log(data)
         var len = data.external_systems.length
         var items = data.external_systems
         for(var i=0;i<len;i++){
           $("#project_name").append("<option value='"+items[i].value+"'>"+items[i].label+"</option>")
         }
 
-        var level_length = data.level_groups.length
-        var level_groups = data.level_groups
-        for(var i=0;i<level_length;i++){
-          $("#question_level").append("<option value='"+level_groups[i].value+"'>"+level_groups[i].label+"</option>")
+        var module_length = data.module_groups.length
+        var module_names = data.module_groups
+        for(var i=0;i<module_length;i++){
+          $("#module_name").append("<option value='"+module_names[i].value+"'>"+module_names[i].label+"</option>")
         }
+//        var level_length = data.level_groups.length
+//        var level_groups = data.level_groups
+//        for(var i=0;i<level_length;i++){
+//          $("#question_level").append("<option value='"+level_groups[i].value+"'>"+level_groups[i].label+"</option>")
+//        }
 
         var length = data.groups.length
         var groups = data.groups

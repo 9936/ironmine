@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Boc::BoardsController < ApplicationController
   def index
     @table_a_date = []
@@ -103,14 +104,14 @@ class Boc::BoardsController < ApplicationController
         select("#{Icm::IncidentRequest.table_name}.request_number request_number,#{Icm::IncidentRequest.table_name}.title title,supporter.full_name supporter_name,#{Icm::IncidentRequest.table_name}.submitted_date submitted_date,iov.name organization_name").
         enabled.
         where("ssi.current_status = 'START'").
+        where("sci.type_name = '超时'").
         collect{|a|
         {
           :request_number=>a[:request_number],
           :title=>a[:title],
           :supporter_name=>a[:supporter_name],
           :submitted_date=>a[:submitted_date],
-          :organization_name=>a[:organization_name],
-
+          :organization_name=>a[:organization_name]
         }
     }
 

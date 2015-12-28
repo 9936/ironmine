@@ -1,4 +1,5 @@
 zh:
+  label_icm_incident_request_requested_mobile_phone: 提交者电话
   label_icm_incident_request_organization: 公司
   label_icm_incident_request_question_discription: 问题描述
   label_icm_incident_request_support_person: 支持顾问
@@ -97,10 +98,10 @@ zh:
 
   label_icm_incident_actual_date_not_blank: 实际人天不能为空
 
-  label_icm_incident_request_requested_email: 提交者联系方式
+  label_icm_incident_request_requested_email: 提交者邮箱
   label_icm_incident_request_summary: 详情
   label_icm_incident_request_contact_email: 用户邮箱
-  label_icm_incident_request_contact_email_number: 最终用户联系方式
+  label_icm_incident_request_contact_number: 用户电话
 
   label_icm_incident_journal_edit_date: 登记人天
   label_icm_incident_request_incident_people_date: 人天(0.5天为单位)
@@ -316,7 +317,7 @@ zh:
   label_report_incident_request_update_priority: 优先级
 
   label_icm_incident_request_contact: 最终用户
-  label_icm_incident_request_contact_number: 联系方式
+#  label_icm_incident_request_contact_number: 联系方式
   label_icm_incident_request_request_type_code: 问题类型
   label_icm_incident_request_impact_range: 影响度
   label_icm_incident_request_urgence: 紧急度

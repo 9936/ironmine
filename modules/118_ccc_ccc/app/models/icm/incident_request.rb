@@ -90,7 +90,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     joins("LEFT OUTER JOIN #{Irm::Organization.view_name} requested_organization ON  requested_organization.id = requested.organization_id AND requested_organization.language = '#{language}'").
     joins("LEFT OUTER JOIN #{Irm::Profile.view_name} requested_profile ON  requested_profile.id = requested.profile_id AND requested_profile.language = '#{language}'").
     joins("LEFT OUTER JOIN #{Irm::Role.view_name} requested_role ON  requested_role.id = requested.role_id AND requested_role.language = '#{language}'").
-    select("requested.email_address requested_email,requested.login_name requester_login_name, requested.organization_id requested_organization_id, requested.full_name requested_name,requested_organization.name requested_organization_name,requested_profile.name requested_profile_name,requested_role.name requested_role_name")
+    select("requested.mobile_phone requested_mobile_phone,requested.email_address requested_email,requested.login_name requester_login_name, requested.organization_id requested_organization_id, requested.full_name requested_name,requested_organization.name requested_organization_name,requested_profile.name requested_profile_name,requested_role.name requested_role_name")
   }
 
   scope :with_organization,lambda{|language|
@@ -122,7 +122,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   scope :with_support_group,lambda{|language|
     joins("LEFT OUTER JOIN #{Icm::SupportGroup.table_name} ON  #{table_name}.support_group_id = #{Icm::SupportGroup.table_name}.id").
     joins("LEFT OUTER JOIN #{Irm::Group.view_name} ON  #{Icm::SupportGroup.table_name}.group_id = #{Irm::Group.view_name}.id AND #{Irm::Group.view_name}.language= '#{language}'").
-    select(" #{Irm::Group.view_name}.name support_group_name")
+    select(" #{Irm::Group.view_name}.name support_group_name,#{Irm::Group.view_name}.description description")
   }
 
   scope :query_by_submitted,lambda{|submitted_by|
