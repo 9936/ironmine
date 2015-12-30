@@ -58,7 +58,7 @@ module Ccc::IncidentRequestsControllerEx
         incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name", params[:incident_sub_category_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
-        incident_requests_scope = incident_requests_scope.match_value("#{Icm::PriorityCode.view_name}.name", params[:priority_id_label])
+        incident_requests_scope = incident_requests_scope.match_value("#{Icm::UrgenceCode.view_name}.name", params[:priority_id_label])
 
         respond_to do |format|
           format.json {
@@ -122,8 +122,14 @@ module Ccc::IncidentRequestsControllerEx
         incident_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_category_id")
         incident_sub_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_sub_category_id")
 
-        incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
-            filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id)
+        # 如果当前用户是顾问且所要查看的视图是新到达问题
+        if Irm::Person.current.profile.user_license.eql?("SUPPORTER") && params[:filter_id].eql?("002Q000923JClcGUDhzYMy")
+          incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
+              relate_person(Irm::Person.current.id)
+        else
+          incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
+              filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id)
+        end
 
         session[:current_external_system] = params[:external_system_id_param] if params[:external_system_id_param]
         unless session[:current_external_system].blank?
@@ -148,7 +154,7 @@ module Ccc::IncidentRequestsControllerEx
         incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name", params[:incident_sub_category_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
-        incident_requests_scope = incident_requests_scope.match_value("#{Icm::PriorityCode.view_name}.name", params[:priority_id_label])
+        incident_requests_scope = incident_requests_scope.match_value("#{Icm::UrgenceCode.view_name}.name", params[:priority_id_label])
         t = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number", params[:request_number])
         if t.any?
           incident_requests_scope = t
@@ -422,11 +428,18 @@ module Ccc::IncidentRequestsControllerEx
         external_systems_scope = Irm::ExternalSystem.multilingual.enabled.with_person(params[:requested_by]).order("CONVERT( system_name USING gbk ) ")
         external_systems_scope = external_systems_scope.uniq
         external_systems = external_systems_scope.collect { |i|
-          if Time.now >= i.after_date
-            {
-                :label => "#{i[:system_name]}(过期)",
-                :value => i.id, :id => i.id
-            }
+          if i.after_date.present?
+            if Time.now >= i.after_date
+              {
+                  :label => "#{i[:system_name]}(过期)",
+                  :value => i.id, :id => i.id
+              }
+            else
+              {
+                  :label => i[:system_name],
+                  :value => i.id, :id => i.id
+              }
+            end
           else
             {
                 :label => i[:system_name],

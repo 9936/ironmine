@@ -259,7 +259,7 @@ module Ccc::IncidentJournalsControllerEx
             with_value_label.
             with_created_by.
             only_with_request(params[:request_id]).
-            order_by_created_at
+            order_by_created_at.where("property_key != 'priority_id'")
 
         respond_to do |format|
           format.html {

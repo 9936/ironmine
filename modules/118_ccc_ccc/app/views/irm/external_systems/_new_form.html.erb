@@ -1,6 +1,7 @@
 <%= common_title %>
 
-<%= form_for(@external_system,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+<%= form_for(@external_system,:url=>{:action=>"create"},:builder => CustomFormBuilder,
+             :html => {:onSubmit => "return data_solve()"}) do |f| %>
   <% content_for :form_block_common   do%>
     <table class="form-table">
       <tbody>
@@ -70,48 +71,28 @@
         <table class="form-table">
           <tbody>
           <tr>
-            <td class="label-col"><label><%=t(:label_project_remote_date)%></label></td>
-            <td class="data-col"><%= f.text_field(:remote_date) %></td>
-            <td class="label-col"><label><%=(t :label_scene_date)%></label></td>
-            <td class="data-col"><%= f.text_field(:scene_date) %></td>
+            <td class="label-col"></td>
+            <td class="data-col"><%= f.hidden_field(:people_date_message) %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
           </tr>
-          </tbody>
-        </table>
-    <% end %>
-    <% content_for :form_SLA_mess   do%>
-        <table class="form-table">
-          <tbody>
-          <tr>
-            <td class="label-col"><label><%=t(:label_project_respond_time)%></label></td>
-            <td class="data-col"><%= f.text_field(:respond_time) %></td>
-            <td class="label-col"><label><%=(t :label_project_handle_time)%></label></td>
-            <td class="data-col"><%= f.text_field(:handle_time) %></td>
-          </tr>
-          <tr>
-            <td class="label-col"><label><%=t(:label_project_update_time)%></label></td>
-            <td class="data-col"><%= f.text_field(:update_time) %></td>
-            <td class="label-col"><label><%=(t :label_project_total_time)%></label></td>
-            <td class="data-col"><%= f.text_field(:total_time) %></td>
-          </tr>
-          <tr>
-            <td class="label-col"><label><%=(t :label_project_remind_rate)%></label></td>
-            <td class="data-col"><%= f.text_field(:remind_rate) %></td>
-            <td class="label-col"><label><%=t(:label_project_warning_rate)%></label></td>
-            <td class="data-col"><%= f.text_field(:warning_rate) %></td>
-          </tr>
-          <tr>
-            <td class="label-col"><label><%=(t :label_project_show_to_SLA_flag)%></label></td>
-            <td class="data-col">
-              <%= f.radio_button :show_SLA_flag, Irm::Constant::SYS_YES%>
-              <label for="show_SLA_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
-              <%= f.radio_button :show_SLA_flag, Irm::Constant::SYS_NO%>
-              <label for="show_SLA_n">N</label>
+          <tr id="tr_new">
+            <td class="label-col"><label><%= t(:label_for_effective) %></label></td>
+            <td class="data-col" colspan="3">
+              <%= date_field_tag(:start_date,:id=>"filterDateFrom",:name=>"start_date",:size=>12,:nobutton=>true,:filter_class=>"data_begin_date")%>
+              <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+              <%= date_field_tag(:end_date,:id=>"filterDateTo",:name=>"end_date",:size=>12,:nobutton=>true,:filter_class=>"data_end_date")%>
+              <label for="expect" style="margin-left: 20px"><%= t(:label_icm_expect) %>:</label>
+              <%= text_field_tag(:expect,'',:name=>"expect",:size=>12,:style=>"width:110px",:class=>"data_people_expect_date")%>
+              <label for="sence"><%= t(:label_icm_sence) %>:</label>
+              <%= text_field_tag(:sence,'',:name=>"sence",:size=>12,:style=>"width:110px",:class=>"data_people_sence_date")%>
+              <a class="btn btn-primary" onclick="add_new_row()" style="margin-left: 30px;margin-bottom: 9px;"><%= t(:add)%></a>
+              <a class="btn btn-danger" onclick="remove_row(this)" style="margin-left: 10px;margin-bottom: 9px;"><%= t(:remove)%></a>
             </td>
           </tr>
           </tbody>
         </table>
     <% end %>
-    
   <% content_for :form_buttons  do %>
     <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
     <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
@@ -147,14 +128,6 @@
         </div>
         <div class="sub-page-block-body">
           <%= content_for :form_people_day   %>
-        </div>
-
-        <div class="sub-page-block-header" style="display:none">
-          <%= form_require_info %>
-          <h3 class="sub-page-block-title"><%=t(:label_SLA_mess_info)%></h3>
-        </div>
-        <div class="sub-page-block-body" style="display:none">
-          <%= content_for :form_SLA_mess   %>
         </div>
 
       </div>
@@ -274,4 +247,25 @@
       $("#projectManagerModal").modal("show")
     })
   })
+  function add_new_row(){
+    $("#tr_new").parent().append("<tr>"+$("#tr_new").html()+"</tr>")
+  }
+  function remove_row(arg){
+    if($(arg).parent().parent().attr("id")!="tr_new")
+      $(arg).parent().parent().remove()
+  }
+  function data_solve(){
+    var length = $("input[filter_class='data_begin_date']").length
+    var begin_date = $("input[filter_class='data_begin_date']")
+    var end_date = $("input[filter_class='data_end_date']")
+    var expect_date = $(".data_people_expect_date")
+    var sence_date = $(".data_people_sence_date")
+    var people_date_str = ""
+    for(var i=0;i<length;i++){
+      people_date_str = people_date_str + begin_date.eq(i).val() + "->" + end_date.eq(i).val() + ":" + expect_date.eq(i).val() + ";" + sence_date.eq(i).val()+"||"
+    }
+    people_date_str = people_date_str.substring(0,people_date_str.length-2)
+    $("#irm_external_system_people_date_message").val(people_date_str)
+    return true
+  }
 </script>

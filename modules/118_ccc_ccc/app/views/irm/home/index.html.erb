@@ -143,6 +143,7 @@
         </a>
       </div>
     </td>
+    <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
     <td align=center >
       <div class="td_div">
         <a href="/entry_headers?entry_headers_list_page=1" style="float: left;text-decoration: none;">
@@ -163,6 +164,28 @@
         </a>
       </div>
     </td>
+    <%else%>
+        <td align=center >
+          <div class="td_div">
+            <a href="/reports?report_list_page=1" style="float: left;text-decoration: none;">
+              <div class="bc_div" style="background-color:#00ACEE">
+                <img  src="/images/report.png">
+                <p style="color: white;margin-top: 10px;">报表</p>
+              </div>
+            </a>
+          </div>
+        </td>
+        <td align=center >
+          <div class="td_div">
+            <a href="/setting/001g00012i8IyyjJamKGHo/common" style="float: left;text-decoration: none;">
+              <div class="bc_div" style="background-color:#A100A9">
+                <img  src="/images/knowledge.png">
+                <p style="color: white;margin-top: 10px;">个人设置</p>
+              </div>
+            </a>
+          </div>
+        </td>
+    <%end%>
   </tr>
   </tbody>
 </table>

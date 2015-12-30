@@ -1,4 +1,5 @@
 zh:
+  label_icm_incident_request_urgence: 优先级
   label_icm_incident_request_requested_mobile_phone: 提交者电话
   label_icm_incident_request_organization: 公司
   label_icm_incident_request_question_discription: 问题描述
@@ -23,7 +24,7 @@ zh:
 
   label_peopel_date_error: 项目类型为人天，请先填写人天信息
   label_business_user: 最终用户
-  label_icm_incident_request_charge_person: 小组负责人
+  label_icm_incident_request_charge_person: 支持顾问
 
   label_service_disabled_flag: 服务失效标识
   label_people_day_info: 赠送人天信息
@@ -147,6 +148,7 @@ zh:
   label_merge_people_to_system_checkbox_tip: 将所选支持组中的人员添加到项目
   label_delete_people_from_system_checkbox: 移除只属于该支持组的项目成员
 
+  label_for_effective: 有效期
   label_project_remote_date: 远程人天
   label_scene_date: 现场人天
   label_project_respond_time: 响应时间(H)
@@ -320,7 +322,7 @@ zh:
 #  label_icm_incident_request_contact_number: 联系方式
   label_icm_incident_request_request_type_code: 问题类型
   label_icm_incident_request_impact_range: 影响度
-  label_icm_incident_request_urgence: 紧急度
+#  label_icm_incident_request_urgence: 紧急度
   label_icm_incident_request_new_reply: 回复问题
   label_icm_incident_request_add_watcher: 添加参与者
   label_icm_incident_request_remove_watcher: 移除参与者

@@ -32,101 +32,81 @@
     <% content_for :block_header_content do %>
         <div id="incidentDetail">
         <table class="detail-list" cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-            <tr>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_target_system) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:external_system_name] %></div>
-              </td>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_incident_category) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:incident_category_name] %></div>
-              </td>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_incident_sub_category) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:incident_sub_category_name] %></div>
-              </td>
-            </tr>
-            <tr>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:requested_name] %></div>
-              </td>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_contact) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:contact_name] %>(<%= @incident_request[:contact_number] %>)</div>
-              </td>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_by) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:submitted_name] %></div>
-              </td>
-            </tr>
-            <tr>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_org) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:requested_organization_name] %></div>
-              </td>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_role) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:requested_role_name] %></div>
-              </td>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_profile) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:requested_profile_name] %></div>
-              </td>
-            </tr>
-            <tr>
-              <td class="label-col">
-                <label><%= t(:label_icm_incident_request_incident_status_code) %></label>
-              </td>
-              <td class="data-col">
-                <div><%= @incident_request[:incident_status_name] %></div>
-              </td>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_date) %></label></td>
-              <td class="data-col">
-                <div><%= format_date(@incident_request[:submitted_date]) %></div>
-              </td>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_last_date) %></label></td>
-              <td class="data-col">
-                <div><%= format_date(@incident_request[:last_response_date]) %></div>
-              </td>
-            </tr>
-            <tr>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_urgence_code) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:urgence_name] %></div>
-              </td>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_impact_range_code) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:impact_range_name] %></div>
-              </td>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_priority) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:priority_name] %></div>
-              </td>
-            </tr>
-            <tr>
-              <td class="label-col"><label ><%=t(:label_icm_incident_request_client_info)%></label></td>
-              <td class="data-col"><div><%= @incident_request[:client_info] %></div></td>
-              <td class="label-col"><label ><%=t(:label_icm_incident_request_hotline)%></label></td>
-              <td class="data-col"><div><%= @incident_request[:hotline].eql?(Irm::Constant::SYS_YES) ? t(:label_icm_incident_request_hotline_y) : t(:label_icm_incident_request_hotline_n)%></div></td>
-              <td class="label-col"><label ><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
-              <td class="data-col"><div><%= @incident_request[:total_processing_time]%></div></td>
-            </tr>
-            <tr>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_support_group) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:support_group_name] %></div>
-              </td>
-              <td class="label-col"><label><%= t(:label_icm_incident_request_support_person) %></label></td>
-              <td class="data-col">
-                <div><%= @incident_request[:supporter_name] %></div>
-              </td>
-            </tr>
-            <tr>
-              <td class="label-col"><label ><%=t(:label_icm_incident_request_contact_number)%></label></td>
-              <td class="data-col" colspan="5"><div><%= @incident_request[:contact_number] %></div></td>
-            </tr>
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_target_system) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:external_system_name] %></div>
+            </td>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_incident_category) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:incident_category_name] %></div>
+            </td>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_incident_sub_category) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:incident_sub_category_name] %></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:requested_name] %></div>
+            </td>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_requested_mobile_phone) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:requested_mobile_phone] %></div>
+            </td>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_requested_email) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:requested_email] %></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_contact) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:attribute1] %></div>
+            </td>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_contact_number) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:contact_number] %></div>
+            </td>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_contact_email) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:attribute2] %></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_org) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:requested_organization_name] %></div>
+            </td>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_by) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:submitted_name] %></div>
+            </td>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_date) %></label></td>
+            <td class="data-col">
+              <div><%= format_date(@incident_request[:submitted_date]) %></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_request_type_code) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:request_type_code] %></div>
+            </td>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_support_group) %></label></td>
+            <td class="data-col">
+              <%if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
+                  <div><%= @incident_request[:support_group_name]?@incident_request[:support_group_name].split("-")[1]:"" %></div>
+              <%else%>
+                  <div><%= @incident_request[:description] %></div>
+              <%end%>
+            </td>
+            <td class="label-col"><label><%= t(:label_icm_incident_request_support_person) %></label></td>
+            <td class="data-col">
+              <div><%= @incident_request[:supporter_name] %></div>
+            </td>
+          </tr>
             <tr>
               <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>
               <td class="data-col" colspan="5" style="word-WRAP: break-word;">

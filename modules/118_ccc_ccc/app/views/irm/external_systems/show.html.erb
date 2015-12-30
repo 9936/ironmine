@@ -61,13 +61,27 @@
             <td class="label-col"></td>
             <td class="data-col"></td>
           </tr>
-
-          <tr>
-            <td class="label-col"><label><%=t(:label_project_remote_date)%></label></td>
-            <td class="data-col"><%=@external_system.remote_date %></td>
-            <td class="label-col"><label><%=(t :label_scene_date)%></label></td>
-            <td class="data-col"><%=@external_system.scene_date %></td>
-          </tr>
+          <% if @external_system.people_date_message.present?
+             people_date_message = @external_system.people_date_message.split("||")
+             people_date_message.each do |pdm|
+                if pdm.present?
+          %>
+            <tr>
+              <!-- 2015-12-29->2015-12-31:1;2 -->
+              <td class="label-col"><label><%= t(:label_for_effective) %></label></td>
+              <td class="data-col" colspan="3">
+                <div style="float: left;line-height: 20px;margin-right: 10px"><%=pdm.split(":")[0].split("->")[0] %></div>
+                <label style="float: left;margin-right: 10px" for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+                <div style="float: left;line-height: 20px;margin-right: 10px"><%=pdm.split(":")[0].split("->")[1] %></div>
+                <label style="float: left" for="expect" style="margin-left: 20px"><%= t(:label_icm_expect) %>:</label>
+                <div style="float: left;line-height: 20px;margin-right: 10px"><%=pdm.split(":")[1].split(";")[0] %></div>
+                <label style="float: left;margin-right: 10px" for="sence"><%= t(:label_icm_sence) %>:</label>
+                <div style="line-height: 20px;margin-right: 10px"><%=pdm.split(":")[1].split(";")[1] %></div>
+              </td>
+            </tr>
+          <% end
+             end
+          end%>
       </tbody>
     </table>
   </div>

@@ -95,7 +95,7 @@
             <td rowspan="6">
               <% if @count_new.size == 0 %>
                   <div class="incident_div" style="display:block; line-height: 250px;">
-                    <div class="incident_head_div"><I>No New Incident</I></div>
+                    <div class="incident_head_div"><I>New Incident</I></div>
                     <div class="incident_body_div"><%= @count_new.size.to_s%></div>
                   </div>
               <% elsif @count_new.size == 1%>
@@ -130,7 +130,7 @@
             <td rowspan="6">
               <% if @count_assign.size == 0 %>
                   <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
-                    <div class="incident_head_div" style=""><I>No Assigned Incident</I></div>
+                    <div class="incident_head_div" style=""><I>Assigned Incident</I></div>
                     <div class="incident_body_div" ><%= @count_assign.size.to_s%></div>
                   </div>
               <% elsif @count_assign.size == 1%>
@@ -157,7 +157,7 @@
             <td rowspan="6">
               <% if @count_solving.size == 0 %>
                   <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
-                    <div class="incident_head_div" style=""><I>No Solving Incident</I></div>
+                    <div class="incident_head_div" style=""><I>Solving Incident</I></div>
                     <div class="incident_body_div" ><%= @count_solving.size.to_s%></div>
                   </div>
               <% elsif @count_solving.size == 1%>
@@ -184,7 +184,7 @@
             <td rowspan="6">
               <% if @count_close.size == 0 %>
                   <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
-                    <div class="incident_head_div" style=""><I>No Closed Incident</I></div>
+                    <div class="incident_head_div" style=""><I>Closed Incident</I></div>
                     <div class="incident_body_div" ><%= @count_close.size.to_s%></div>
                   </div>
               <% elsif @count_close.size == 1%>
@@ -590,6 +590,6 @@
     {
         window.location.reload();
     }
-//    setTimeout('myrefresh()',120000); //指定1秒刷新一次
+    setTimeout('myrefresh()',180000); //指定1秒刷新一次
 </script>
 
