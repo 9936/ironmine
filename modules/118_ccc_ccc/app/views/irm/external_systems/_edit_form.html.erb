@@ -32,6 +32,7 @@
             <td class="data-col"><%= f.date_field(:after_date,:size=>12,:class=>"date", :id=>"organization_after_date")%></td>
           </tr>
           <tr>
+            <%if false%>
             <td class="label-col empty"><label><%=(t :label_service_disabled_flag)%></label></td>
             <td class="data-col">
               <%= f.radio_button :disabled_flag, Irm::Constant::SYS_YES%>
@@ -39,21 +40,20 @@
               <%= f.radio_button :disabled_flag, Irm::Constant::SYS_NO%>
               <label for="hotline_n">N</label>
             </td>
-            <td class="label-col empty"><label>Hotline</label></td>
-            <td class="data-col">
-              <%= f.radio_button :hotline_flag, Irm::Constant::SYS_YES%>
-              <label for="hotline_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
-              <%= f.radio_button :hotline_flag, Irm::Constant::SYS_NO%>
-              <label for="hotline_n">N</label>
-            </td>
-          </tr>
-          <tr>
+            <%end%>
             <td class="label-col empty"><label>实际花费工时登记</label></td>
             <td class="data-col">
               <%= f.radio_button :strict_workload, Irm::Constant::SYS_YES%>
               <label for="strict_workload_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
               <%= f.radio_button :strict_workload, Irm::Constant::SYS_NO%>
               <label for="strict_workload_n">N</label>
+            </td>
+            <td class="label-col empty"><label>Hotline</label></td>
+            <td class="data-col">
+              <%= f.radio_button :hotline_flag, Irm::Constant::SYS_YES%>
+              <label for="hotline_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <%= f.radio_button :hotline_flag, Irm::Constant::SYS_NO%>
+              <label for="hotline_n">N</label>
             </td>
           </tr>
           <tr>
