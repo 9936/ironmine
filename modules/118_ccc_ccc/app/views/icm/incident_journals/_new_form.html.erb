@@ -916,10 +916,13 @@
                 <td class="label-col label-col-1"><label><%= t(:label_icm_incident_request_remain_date) %></label></td>
                 <td class="data-col">
                   <% if (@show_external_system[:scene_date].to_i - @incident_request[:attribute4].to_i) >= 0%>
-                  <%= t(:label_icm_sence) %>:<%= @show_external_system[:scene_date].to_i - @incident_request[:attribute4].to_i %>
+                      <%= t(:label_icm_sence) %>:<%= @show_external_system[:scene_date].to_i - @incident_request[:attribute4].to_i %>
                   <%end%>
                   <% if (@show_external_system[:remote_date].to_i - @incident_request[:attribute7].to_i) >= 0%>
-                  <%= t(:label_icm_expect) %>:<%= @show_external_system[:remote_date].to_i - @incident_request[:attribute7].to_i%>
+                      <%= t(:label_icm_expect) %>:<%= @show_external_system[:remote_date].to_i - @incident_request[:attribute7].to_i%>
+                  <%end%>
+                  <% if @show_external_system[:external_hostname].present? %>
+                      <%= @show_external_system[:external_hostname]%>
                   <%end%>
                 </td>
               </tr>

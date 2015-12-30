@@ -14,6 +14,7 @@ module Ccc::IncidentJournalsControllerEx
         @incident_reply = Icm::IncidentReply.new()
         @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
         @show_external_system = Irm::ExternalSystem.list_all.find(@incident_request.external_system_id)
+        @show_external_system = solve_people_date_message(@incident_request,@show_external_system)
         @organization = Irm::Organization.list_all.find(Irm::Person.find(@incident_request.requested_by).organization_id)
         # if @external_system.price_type_id
         #   @price_type = Ccc::PriceType.find(@external_system.price_type_id).to_s
@@ -389,6 +390,27 @@ module Ccc::IncidentJournalsControllerEx
 
       private
 
+      def solve_people_date_message(incident,external_system) # 处理人天信息的方法
+        # 2015-12-22->2015-12-31:123;312
+        incident_created_at = incident.created_at.strftime("%F")
+        external_system_people_date = external_system.people_date_message
+        if external_system_people_date.present?
+          external_system_people_date.split("||").each do |espd|
+            date = espd.split(":")[0]
+            date_message = espd.split(":")[1]
+            if date.split("->")[0] <= incident_created_at && date.split("->")[1] >= incident_created_at
+              external_system.external_hostname = "(#{date.split("->")[0]}~#{date.split("->")[1]})"
+              external_system.remote_date = date_message.split(";")[0]
+              external_system.scene_date = date_message.split(";")[1]
+              return external_system
+            end
+          end
+        else
+          external_system.remote_date = 0
+          external_system.scene_date = 0
+          return external_system
+        end
+      end
       def process_change_attributes(attributes,new_value,old_value,ref_journal)
         attributes.each do |key|
           ovalue = old_value.send(key)
