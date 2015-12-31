@@ -37,5 +37,7 @@ zh:
   label_support_person: Supporter
   label_process_time: Processing Time
   label_people_type: Consultant Type
-
-  label_icm_incident_journal_workload_message: Message:z
+  label_add_workload: 添加工时
+  label_record_workload: 登记工时
+  label_edit_workload: 编辑工时
+  label_workload_real_use_time: 实际耗费时间

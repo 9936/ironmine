@@ -1,38 +1,14 @@
 <%= form_for(@incident_journal,:url=>{:action=>"update", :request_id => @incident_journal.incident_request_id, :id => @incident_journal},
-             :builder => CustomFormBuilder) do |f| %>
+             :builder => CustomFormBuilder,:html => { :multipart => true }) do |f| %>
   <% content_for :form_block_common do%>
     <table class="form-table">
       <tbody>
       <%if show_count_workload(Irm::Person.current)%>
-      <% if  Irm::Person.current.id.eql?(@incident_journal.replied_by) && !@incident_journal.workload_c.nil? %>
+      <% if Irm::Person.current.id.eql?(@incident_journal.replied_by) %>
             <div>
-              <div style="width: 18%; padding: 2px 10px 2px 2px; display: inline"></div>
-              <div style="display:inline;">
-                <label style="display:inline;"><%= I18n.t(:label_people_type)%></label>
-                <%=f.select :people_type,
-                            options_for_select([ "please select", "FIN", "SCM","MFG","TEHC" ],@incident_journal.people_type),
-                            {},
-                            {:id=>"incident_category_id",
-                             :origin_value=>@incident_journal.people_type,
-                             :depend=>"ass_external_system"}%>
-              </div>
-              <div style="display:inline;">
-                <label style="display:inline;"><%= I18n.t(:label_number_of_consultants)%></label>
-                <%= f.text_field :people_count_c, :id=>"people_count_c", :style => "width:80px;" %>
-              </div>
-              <div style="display:inline; margin-left: 40px">
-                <label style="display:inline;"><%= I18n.t(:label_yan_workload)%></label>
-                <%= f.text_field :workload_c, :id=>"workload_c", :style => "width:80px;" %>&nbsp;<%= I18n.t(:label_workload_min) %>
-              </div>
-
-              <div style="display:inline; margin-left: 40px">
-                <label style="display:inline;"><%= I18n.t(:label_number_of_technicians)%></label>
-                <%= f.text_field :people_count_t, :id=>"people_count_t", :style => "width:80px;" %>
-              </div>
-
-              <div style="display:inline; margin-left: 40px">
-                <label style="display:inline;"><%= I18n.t(:label_yan_workload)%></label>
-                <%= f.text_field :workload_t, :id=>"workload_t", :style => "width:80px;" %>&nbsp;<%= I18n.t(:label_workload_min) %>
+              <div style="width: 18%; padding: 2px 10px 2px 2px; display: inline">
+                <%= link_to t(:label_edit_workload), {},
+                            {:href => "javascript:void(0);", :class=>"btn editwork", :id => "hide_left"}%>
               </div>
             </div>
       <% end %>
@@ -47,6 +23,53 @@
       </tbody>
     </table>
   <% end %>
+    <div class="modal fade" id="peopleNoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="page-header">
+            <h1 style="text-align:center;display:inherit"><%=t(:label_edit_workload)%></h1>
+          </div>
+          <div class="modal-body" style="height: 500px;">
+            <table class="form-table" style="width: 100%;">
+              <tbody>
+              <tr>
+                <td class="label-col"></td>
+                <td class="data-col"><label for="incident_request_close_reason_code"><%=t(:label_workload_real_use_time)%></label></td>
+              </tr>
+              <tr id="workload_list" style="display:none"></tr>
+              <% if @workload.present?%>
+                  <% @workload.each do |sp| %>
+                      <%= fields_for("incident_workloads[]", @workload.build()) do |w|%>
+                          <tr id="workload_<%= sp[:person_id]%>">
+                            <td class="label-col"></td>
+                            <td class="data-col">
+                              <%= w.select :person_type, options_for_select(["FIN", "NFG","SCM","TECH"],sp[:person_type])%>
+                              <%= w.text_field :real_processing_time, :value => sp[:real_processing_time].blank? ? '0' : sp[:real_processing_time], :irm_pos_real_number => true, :size => 5, :style => "width:30px"%>&nbsp;<%= sp[:login_name]%>
+                              <%= w.hidden_field :person_id, :value => sp[:person_id]%>
+                              <%= link_to I18n.t(:remove), {}, {:class => "remove_workload", :href => "javascript:void(0)"}%>
+                            </td>
+                          </tr>
+                      <% end%>
+                  <% end %>
+              <% end%>
+              <tr>
+                <td class="label-col"></td>
+                <td class="data-col">
+                  <%= select_tag("add_workload_select", options_for_select(available_people), {:id => "workload_select"})%>
+                </td>
+                <td class="data-col">
+                  <%= link_to I18n.t(:add), {}, {:id => "add_workload",:class=>"btn", :href => "javascript:void(0)"}%>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close"><%= "Save"%></button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <% content_for :form_buttons  do %>
     <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
@@ -93,29 +116,69 @@
 
 <script type="text/javascript">
   $(function() {
-    $("#error_message").prepend("<div id='new_icm_incident_reply_error'><%= escape_javascript(error_message_for(@incident_journal)) %><div>");
-
-    if ($("#workload_c") && $("#workload_t") && $("#people_count_c") && $("#people_count_t")) {
-      $("#workload_c").change(function(event){
-        if (!(parseInt($("#workload_c").val()) == $("#workload_c").val()) && $("#workload_c").val()!='') {
-          alert("The type of the value must be Integer。");
-        }
-      })
-      $("#workload_t").change(function(event){
-        if (!(parseInt($("#workload_t").val()) == $("#workload_t").val()) && $("#workload_t").val()!='') {
-          alert("The type of the value must be Integer");
-        }
-      })
-      $("#people_count_c").change(function(event){
-        if (!(parseInt($("#people_count_c").val()) == $("#people_count_c").val()) && $("#people_count_c").val()!='') {
-          alert("The type of the value must be Integer");
-        }
-      })
-      $("#people_count_t").change(function(event){
-        if (!(parseInt($("#people_count_t").val()) == $("#people_count_t").val()) && $("#people_count_t").val()!='') {
-          alert("The type of the value must be Integer");
-        }
-      })
+    $("#error_message").prepend("<div id='new_icm_incident_reply_error'><%= escape_javascript(error_message_for(@incident_journal)) %><br><%= escape_javascript(flash_notice) %><div>");
+  })
+</script>
+<script type="text/javascript">
+  $(function(){
+    var external_system_id = '<%= @incident_request.external_system_id %>', customBlockHtml = $("#customBlock").html();
+    if($("#ass_external_system")){
+      $("#ass_external_system").cascade(["#incident_category_id"]);
     }
+
+    if($("#incident_category_id")){
+      $("#incident_category_id").cascade("#incident_sub_category_id");
+    }
+
+    $("#add_workload").click(function(){
+      add_workload($("#workload_select option:selected").val(),$("#workload_select option:selected").html());
+    })
+
+    $(".remove_workload").click(function(){
+      $(this).parent().parent().remove();
+    })
+
+    if(external_system_id){
+      $("#customBlock").show();
+    }
+
+    //系统改变重新加载其自定义字段信息
+    $("#ass_external_system").change(function(){
+      $("#customBlock").html('');
+      if($(this).val() == external_system_id){
+        $("#customBlock").html(customBlockHtml);
+      }
+      if($(this).val() && $(this).val() != external_system_id){
+        var href = $.tmpl(decodeURIComponent($("#customBlock").attr("href")), {external_system_id:$(this).val()}).text();
+        $("#customBlock").load(href);
+        $("#customBlock").show();
+      }
+    });
+  });
+
+  function add_workload(wid, wtext){
+    if ($("#workload_"+ wid).length < 1){
+      $("#workload_list").after('<tr id="workload_'+ wid +'">'+
+              '<td class="label-col"></td>'+
+              '<td id="ext-gen1127" class="data-col">'+
+              '<select id="incident_workloads__workload_type" name="incident_workloads[][person_type]">' +
+              '<option value="FIN">FIN</option>' +
+              '<option value="NFG">NFG</option>' +
+              '<option value="SCM">SCM</option>' +
+              '<option value="TECH">TECH</option>' +
+              '</select>' +
+              '<input type="text" value="0" size="5" style="width:30px" name="incident_workloads[][real_processing_time]" irm_pos_real_number="true" id="incident_workloads__real_processing_time">&nbsp;'+ wtext +''+
+              '<input type="hidden" value="'+ wid +'" name="incident_workloads[][person_id]" id="incident_workloads__person_id">'+
+              '<a href="javascript:void(0)" class="remove_workload" onclick=$(this).parent().parent().remove() ><%= I18n.t(:remove)%></a>'+
+              '</td>'+
+              '</tr>');
+    }
+  }
+</script>
+<script type="text/javascript">
+  $(function(){
+    $(".editwork").on("click",function(){
+      $("#peopleNoModal").modal("show")
+    })
   })
 </script>

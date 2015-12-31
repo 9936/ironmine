@@ -11,6 +11,18 @@ module Yan::IncidentJournalsControllerEx
         @incident_request.update_attributes(params[:icm_incident_request])
       end
 
+      def edit
+        @incident_journal = Icm::IncidentJournal.find(params[:id])
+        @workload = Icm::IncidentWorkload.
+            joins("LEFT JOin #{Irm::Person.table_name} ip on ip.id = #{Icm::IncidentWorkload.table_name}.person_id").
+            where("incident_journal_id = ?",params[:id]).
+            select("#{Icm::IncidentWorkload.table_name}.*,ip.full_name,ip.login_name")
+        respond_to do |format|
+          format.html { render :layout => "application_full"}# new.html.erb
+          format.xml  { render :xml => @incident_journal }
+        end
+      end
+
       def edit_workload
         @incident_request = Icm::IncidentRequest.find(params[:request_id])
         @incident_workloads = Icm::IncidentWorkload.
@@ -42,13 +54,7 @@ module Yan::IncidentJournalsControllerEx
                                        :real_processing_time => work[:real_processing_time],
                                        :group_id => work[:group_id],
                                        :person_id => work[:person_id])
-          #Icm::IncidentHistory.create({:request_id => @incident_request.id,
-          #                             :journal_id=> "",
-          #                             :property_key=> "update_workload_group",
-          #                             :old_value => work[:support_group_id],
-          #                             :new_value => work[:real_processing_time]})
           #暂不影响最后更新时间
-          #ir.update_attribute(:last_response_date, Time.now)
         end if params[:incident_workloads]
 
       end
@@ -99,15 +105,51 @@ module Yan::IncidentJournalsControllerEx
         source_message_body = @incident_journal.message_body
         source_updated_at = @incident_journal.updated_at
         source_updated_by = @incident_journal.updated_by
+        record = Icm::IncidentWorkload.where("incident_journal_id = ?",params[:id]).first
+        if record.present?
+          start_time = record.start_time
+          end_time = record.end_time
+          time = ((end_time - start_time)/60).to_i
+          errornotice = nil
+          params[:incident_workloads].each do |work|
+            if work[:real_processing_time].to_i > time
+              errornotice = "processing time is larger than #{time}"
+              break
+            end
+          end
+        end
+        if errornotice.present?
+          respond_to do |format|
+            flash[:notice] = errornotice
+            @workload = Icm::IncidentWorkload.
+                joins("LEFT JOin #{Irm::Person.table_name} ip on ip.id = #{Icm::IncidentWorkload.table_name}.person_id").
+                where("incident_journal_id = ?",params[:id]).
+                select("#{Icm::IncidentWorkload.table_name}.*,ip.full_name,ip.login_name")
+            format.html { render "edit", :layout => "application_full"}
+          end
+        else
         respond_to do |format|
-          if @incident_journal.update_attributes(params[:icm_incident_journal])
 
-            @incident_workload = Icm::IncidentWorkload.find_by_incident_journal_id(params[:id])
-            if !@incident_workload.nil?
-              @incident_workload.update_attributes(:real_processing_time => @incident_journal.workload_c,
-                                                   :real_processing_time_t => @incident_journal.workload_t,
-                                                   :people_count_c => @incident_journal.people_count_c,
-                                                   :people_count_t => @incident_journal.people_count_t)
+          if @incident_journal.update_attributes(params[:icm_incident_journal])
+            record = Icm::IncidentWorkload.where("incident_journal_id = ?",params[:id]).first
+            if record.present?
+            start_time = record.start_time
+            end_time = record.end_time
+            Icm::IncidentWorkload.where("incident_journal_id = ?",params[:id]).each do |t|
+              t.destroy
+            end
+            params[:incident_workloads].each do |work|
+              if work[:real_processing_time].blank? || work[:real_processing_time].to_f == 0 || work[:person_id].blank?
+                next
+              end
+              Icm::IncidentWorkload.create(:incident_request_id => params[:request_id],
+                                           :real_processing_time => work[:real_processing_time],
+                                           :incident_journal_id => params[:id],
+                                           :start_time => start_time,
+                                           :end_time => end_time,
+                                           :person_type => work[:person_type],
+                                           :person_id => work[:person_id])
+              end
             end
 
             hi = Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
@@ -121,11 +163,11 @@ module Yan::IncidentJournalsControllerEx
                                         :message_body => source_message_body,
                                         :source_updated_by => source_updated_by,
                                         :source_updated_at => source_updated_at})
-
             format.html { redirect_to({:action => "new"}) }
           else
-            format.html { render "edit", :layout => "application_full" }
+            format.html { render "edit", :layout => "application_full"}
           end
+        end
         end
       end
 
@@ -133,6 +175,35 @@ module Yan::IncidentJournalsControllerEx
       # POST /incident_journals
       # POST /incident_journals.xml
       def create
+        start_time = nil
+        status_time_record = Icm::IncidentHistory.where("request_id = ? AND property_key = 'support_person_id' ",params[:request_id]).order("created_at DESC").first
+        supporter_time_record = Icm::IncidentHistory.where("request_id = ? AND (property_key = 'new_reply' or property_key = 'incident_status_id') ",params[:request_id]).order("created_at DESC").first
+
+        if supporter_time_record.present? && status_time_record.present?
+          if supporter_time_record.created_at > status_time_record.created_at
+            start_time=supporter_time_record.created_at
+          else
+            start_time=status_time_record.created_at
+          end
+        end
+        if supporter_time_record.present? && !status_time_record.present?
+          start_time=supporter_time_record.created_at
+        end
+        if !supporter_time_record.present? && status_time_record.present?
+          start_time=status_time_record.created_at
+        end
+        end_time = Time.now
+        workload_status_id = @incident_request.incident_status_id
+        time = ((Time.now - start_time)/60).to_i
+        if params[:incident_workloads].present?
+          errornotice = nil
+          params[:incident_workloads].each do |work|
+            if work[:real_processing_time].to_i > time
+              errornotice = "processing time is larger than #{time}"
+              break
+            end
+          end
+        end
         if (!(@incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&!@incident_request.close?&&!@incident_request.permanent_close? && @incident_request.status_code.eql?(Irm::Constant::ENABLED)))
           @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
           respond_to do |format|
@@ -143,44 +214,20 @@ module Yan::IncidentJournalsControllerEx
               end
             end
           end
-
-        else
-          @incident_reply = Icm::IncidentReply.new(params[:icm_incident_reply])
-
-          @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
-
-          start_time = nil
-          status_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND property_key = 'support_person_id' ").order("created_at DESC").first
-          supporter_time_record = Icm::IncidentHistory.where("request_id = '#{@incident_journal.incident_request_id}' AND (property_key = 'new_reply' or property_key = 'incident_status_id') ").order("created_at DESC").first
-
-          if supporter_time_record.present? && status_time_record.present?
-            if supporter_time_record.created_at > status_time_record.created_at
-              start_time=supporter_time_record.created_at
-            else
-              start_time=status_time_record.created_at
+        elsif errornotice.present?
+            respond_to do |format|
+              format.js do
+                flash[:notice] = errornotice
+                responds_to_parent do
+                  render :notice do |page|
+                  end
+                end
+              end
             end
-          end
-          if supporter_time_record.present? && !status_time_record.present?
-            start_time=supporter_time_record.created_at
-          end
-          if !supporter_time_record.present? && status_time_record.present?
-            start_time=status_time_record.created_at
-          end
+        else
 
-
-          # 工时记录
-          workload_status_id = @incident_request.incident_status_id
-          if params[:workload_c] && params[:workload_t] && params[:people_count_c] && params[:people_count_t]
-            @incident_journal.workload_c = params[:workload_c]
-            @incident_journal.workload_t = params[:workload_t]
-            @incident_journal.people_count_c = params[:people_count_c]
-            @incident_journal.people_count_t = params[:people_count_t]
-          end
-          if !params[:people_type].eql?("please select")
-            puts  "----------------"
-            puts params[:people_type]
-            @incident_journal.people_type = params[:people_type]
-          end
+          @incident_reply = Icm::IncidentReply.new(params[:icm_incident_reply])
+          @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
 
           # 设置回复类型
           # 1,客户回复
@@ -202,7 +249,6 @@ module Yan::IncidentJournalsControllerEx
           end
 
           perform_create
-
 
           respond_to do |format|
             flag, now = validate_files(@incident_journal)
@@ -226,36 +272,18 @@ module Yan::IncidentJournalsControllerEx
                 process_files(@incident_journal, (params[:if_private_reply] && params[:if_private_reply].eql?('Y')) ? 'Y' : 'N')
                 @incident_journal.create_elapse
 
-
-                # 找出当前支持人员所在当前状态的开始时间
-
-                end_time = Time.now
-
-                if params[:workload_c].present? && params[:workload_t].present?
-                  Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
-                                                :incident_journal_id => @incident_journal.id,
-                                                :person_id => @incident_journal.replied_by,
-                                                :real_processing_time => params[:workload_c],
-                                                :real_processing_time_t => params[:workload_t],
-                                                :start_time => start_time,
-                                                :end_time => end_time,
-                                                :incident_status_id => workload_status_id,
-                                                :people_count_c => params[:people_count_c],
-                                                :people_count_t => params[:people_count_t],
-                                                :subtotal_processing_time => ((params[:workload_c].to_i * params[:people_count_c].to_i)+(params[:workload_t].to_i * params[:people_count_t].to_i)),})
+                if params[:incident_workloads].present?
+                  params[:incident_workloads].each do |work|
+                    Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
+                                                  :incident_journal_id => @incident_journal.id,
+                                                  :person_id => @incident_journal.replied_by,
+                                                  :real_processing_time => work[:real_processing_time],
+                                                  :person_type => work[:person_type],
+                                                  :start_time => start_time,
+                                                  :end_time => end_time,
+                                                  :incident_status_id => workload_status_id,})
+                  end
                 end
-
-                # if params[:workload_t].present? && params[:workload_t].to_f != 0
-                #   Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
-                #                                 :incident_journal_id => @incident_journal.id,
-                #                                 :person_id => @incident_journal.replied_by,
-                #                                 :workload_type => params[:workload_type_t],
-                #                                 :subtotal_processing_time => (params[:workload_t].to_f * params[:people_count_t].to_i),
-                #                                 :real_processing_time => params[:workload_t],
-                #                                 :start_time => start_time,
-                #                                 :end_time => end_time,
-                #                                 :people_count => params[:people_count_t]})
-                # end
 
                 Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
                                              :journal_id => @incident_journal.id,

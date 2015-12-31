@@ -38,5 +38,7 @@ en:
   label_support_person: Supporter
   label_process_time: Processing Time
   label_people_type: Consultant Type
-
-  label_icm_incident_journal_workload_message: Message:
+  label_add_workload: addd workload
+  label_record_workload: record workload
+  label_edit_workload: edit workload
+  label_workload_real_use_time: Actual time consuming

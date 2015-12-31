@@ -1,9 +1,9 @@
 module Yan::IncidentJournalModelEx
   def self.included(base)
     base.class_eval do
-      has_one :incident_workloads, :foreign_key => "incident_journal_id"
+      has_many :incident_workloads, :foreign_key => "incident_journal_id"
       after_create :write_system_id
-      validate :validate_workload_when_update, :on => :update
+      #svalidate :validate_workload_when_update, :on => :update
 
       def write_system_id
         self.update_attribute(:external_system_id, self.incident_request.external_system_id)
@@ -32,112 +32,108 @@ module Yan::IncidentJournalModelEx
         end
 
         #Check  workload
-        unless self.replied_by.nil?
-
-          if self.people_type.eql?("select") && self.people_count_c > 0
-            self.errors.add(:workload_message,'people type must be selected')
-          end
-          if (self.people_type.eql?("FIN") || self.people_type.eql?("SCM") || self.people_type.eql?("MFG") || self.people_type.eql?("TEHC")) && (self.people_count_c == 0 || self.people_count_c.nil?)
-            self.errors.add(:workload_message,'The number of Consultants should not be 0')
-          end
-
-          # 只有填写了workload才会继续验证
-          if self.workload_c.present? && self.workload_t.present?
-
-            # 验证不能小于0
-
-            # 验证 人员数和工时只能同时为0，或同时不为0
-            if self.people_count_c == 0 && self.workload_c != 0
-              self.errors.add(:workload_message, 'The number of Consultants should not be 0 when the Workload is not 0')
-            end
-            if self.people_count_c != 0 && self.workload_c == 0
-              self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Consultants is not 0')
-            end
-            if self.people_count_t == 0 && self.workload_t != 0
-              self.errors.add(:workload_message, 'The number of Technicians should not be 0 when the Workload is not 0')
-            end
-            if self.people_count_t != 0 && self.workload_t == 0
-              self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Technicians is not 0')
-            end
-
-            # 找出当前支持人员所在当前状态的开始时间/历史记录里的上一次时间
-
-            start_time = nil
-            status_time_record = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' AND (property_key = 'support_person_id' or property_key = 'incident_status_id')").order("created_at DESC").first
-            supporter_time_record = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' AND property_key = 'new_reply'  ").order("created_at DESC").first
-
-            if supporter_time_record.present? && status_time_record.present?
-              if supporter_time_record.created_at >= status_time_record.created_at
-                start_time=supporter_time_record.created_at
-              else
-                start_time=status_time_record.created_at
-              end
-            end
-
-            if supporter_time_record.present? && !status_time_record.present?
-              start_time=supporter_time_record.created_at
-            end
-            if !supporter_time_record.present? && status_time_record.present?
-              start_time=status_time_record.created_at
-            end
-
-            time = ((Time.now - start_time)/60).to_i
-            if self.workload_c > time || self.workload_t > time
-              self.errors.add(:workload_message, "Workload should be smaller than #{time} minutes")
-            end
-
-          end
-
-        end
+        # unless self.replied_by.nil?
+        #
+        #   # if self.people_type.eql?("select") && self.people_count_c > 0
+        #   #   self.errors.add(:workload_message,'people type must be selected')
+        #   # end
+        #   # if (self.people_type.eql?("FIN") || self.people_type.eql?("SCM") || self.people_type.eql?("MFG") || self.people_type.eql?("TEHC")) && (self.people_count_c == 0 || self.people_count_c.nil?)
+        #   #   self.errors.add(:workload_message,'The number of Consultants should not be 0')
+        #   # end
+        #
+        #   # 只有填写了workload才会继续验证
+        #   if self.workload_c.present? && self.workload_t.present?
+        #
+        #     # 验证不能小于0
+        #
+        #     # 验证 人员数和工时只能同时为0，或同时不为0
+        #     if self.people_count_c == 0 && self.workload_c != 0
+        #       self.errors.add(:workload_message, 'The number of Consultants should not be 0 when the Workload is not 0')
+        #     end
+        #     if self.people_count_c != 0 && self.workload_c == 0
+        #       self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Consultants is not 0')
+        #     end
+        #     if self.people_count_t == 0 && self.workload_t != 0
+        #       self.errors.add(:workload_message, 'The number of Technicians should not be 0 when the Workload is not 0')
+        #     end
+        #     if self.people_count_t != 0 && self.workload_t == 0
+        #       self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Technicians is not 0')
+        #     end
+        #
+        #     # 找出当前支持人员所在当前状态的开始时间/历史记录里的上一次时间
+        #
+        #     start_time = nil
+        #     status_time_record = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' AND (property_key = 'support_person_id' or property_key = 'incident_status_id')").order("created_at DESC").first
+        #     supporter_time_record = Icm::IncidentHistory.where("request_id = '#{self.incident_request_id}' AND property_key = 'new_reply'  ").order("created_at DESC").first
+        #
+        #     if supporter_time_record.present? && status_time_record.present?
+        #       if supporter_time_record.created_at >= status_time_record.created_at
+        #         start_time=supporter_time_record.created_at
+        #       else
+        #         start_time=status_time_record.created_at
+        #       end
+        #     end
+        #
+        #     if supporter_time_record.present? && !status_time_record.present?
+        #       start_time=supporter_time_record.created_at
+        #     end
+        #     if !supporter_time_record.present? && status_time_record.present?
+        #       start_time=status_time_record.created_at
+        #     end
+        #
+        #     time = ((Time.now - start_time)/60).to_i
+        #     if self.workload_c > time || self.workload_t > time
+        #       self.errors.add(:workload_message, "Workload should be smaller than #{time} minutes")
+        #     end
+        #
+        #   end
+        #
+        # end
       end
-
-      def validate_workload_when_update
-        cur_workload = Icm::IncidentWorkload.find_by_incident_journal_id(self.id)
-        if !cur_workload.nil?
-          if !self.workload_c.present? || !self.workload_t.present?
-            self.errors.add(:workload_message, 'Workload can not be blank')
-          end
-          if !self.people_count_c.present? || !self.people_count_t.present?
-            self.errors.add(:workload_message, 'The number of Consultants/Technicians can not be blank')
-          end
-
-          if self.people_type.eql?("select") && self.people_count_c > 0
-            self.errors.add(:workload_message,'people type must be selected')
-          end
-          if (self.people_type.eql?("FIN") || self.people_type.eql?("SCM") || self.people_type.eql?("MFG") || self.people_type.eql?("TEHC")) && (self.people_count_c == 0 || self.people_count_c.nil?)
-            self.errors.add(:workload_message,'The number of Consultants should not be 0')
-          end
-
-          # 只有填写了workload才会继续验证
-          if self.workload_c.present? && self.workload_t.present?
-            # 验证不能小于0
-
-
-            # 验证 人员数和工时只能同时为0，或同时不为0
-            if self.people_count_c == 0 && self.workload_c != 0
-              self.errors.add(:workload_message, 'The number of Consultants should not be 0 when the Workload is not 0')
-            end
-            if self.people_count_c != 0 && self.workload_c == 0
-              self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Consultants is not 0')
-            end
-            if self.people_count_t == 0 && self.workload_t != 0
-              self.errors.add(:workload_message, 'The number of Technicians should not be 0 when the Workload is not 0')
-            end
-            if self.people_count_t != 0 && self.workload_t == 0
-              self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Technicians is not 0')
-            end
-
-            time = ((cur_workload.end_time - cur_workload.start_time)/60).to_i
-            if self.workload_c > time || self.workload_t > time
-              self.errors.add(:workload_message, "Workload should be smaller than #{time} minutes")
-            end
-
-          end
-        end
-      end
-
-
-
+      # def validate_workload_when_update
+      #   cur_workload = Icm::IncidentWorkload.find_by_incident_journal_id(self.id)
+      #   if !cur_workload.nil?
+      #     if !self.workload_c.present? || !self.workload_t.present?
+      #       self.errors.add(:workload_message, 'Workload can not be blank')
+      #     end
+      #     if !self.people_count_c.present? || !self.people_count_t.present?
+      #       self.errors.add(:workload_message, 'The number of Consultants/Technicians can not be blank')
+      #     end
+      #
+      #     if self.people_type.eql?("select") && self.people_count_c > 0
+      #       self.errors.add(:workload_message,'people type must be selected')
+      #     end
+      #     if (self.people_type.eql?("FIN") || self.people_type.eql?("SCM") || self.people_type.eql?("MFG") || self.people_type.eql?("TEHC")) && (self.people_count_c == 0 || self.people_count_c.nil?)
+      #       self.errors.add(:workload_message,'The number of Consultants should not be 0')
+      #     end
+      #
+      #     # 只有填写了workload才会继续验证
+      #     if self.workload_c.present? && self.workload_t.present?
+      #       # 验证不能小于0
+      #
+      #
+      #       # 验证 人员数和工时只能同时为0，或同时不为0
+      #       if self.people_count_c == 0 && self.workload_c != 0
+      #         self.errors.add(:workload_message, 'The number of Consultants should not be 0 when the Workload is not 0')
+      #       end
+      #       if self.people_count_c != 0 && self.workload_c == 0
+      #         self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Consultants is not 0')
+      #       end
+      #       if self.people_count_t == 0 && self.workload_t != 0
+      #         self.errors.add(:workload_message, 'The number of Technicians should not be 0 when the Workload is not 0')
+      #       end
+      #       if self.people_count_t != 0 && self.workload_t == 0
+      #         self.errors.add(:workload_message, 'The Workload should not be 0 when the number of Technicians is not 0')
+      #       end
+      #
+      #       time = ((cur_workload.end_time - cur_workload.start_time)/60).to_i
+      #       if self.workload_c > time || self.workload_t > time
+      #         self.errors.add(:workload_message, "Workload should be smaller than #{time} minutes")
+      #       end
+      #
+      #     end
+      #   end
+      # end
     end
   end
 end
