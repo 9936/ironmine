@@ -146,6 +146,11 @@ module Ccc::IncidentRequestsControllerEx
         if params[:filter_id].eql?("002Q0009239HMWJmlUmVmK")
           incident_requests_scope = incident_requests_scope.where(:support_person_id=>Irm::Person.current.id)
         end
+        # 如果是我我参与的问题则需要支持人不是当前登录用户
+        if params[:filter_id].eql?("002Q000B2jTxy1kSBuiS2a")
+          incident_requests_scope = incident_requests_scope.where("support_person_id <> ?",Irm::Person.current.id)
+        end
+        
         incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
         #incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
         incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])

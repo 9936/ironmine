@@ -173,7 +173,6 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         "超时类型"
     ]
 
-
     statis.each do |s|
       watcher_ids = Irm::Watcher.where(:watchable_id=>s[:id]).collect { |w|
         Irm::Person.find(w.member_id).full_name
@@ -185,9 +184,12 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       end
 
       # 参与者条件
-      # if params[:joiner].present?
-      #
-      # end
+      if params[:joiner].present?
+        #如果不存在该参与者,则不往下面执行
+        if !watcher_ids.to_s.index(params[:joiner])
+          next
+        end
+      end
 
       data = Array.new(22)
       data[0] = s[:request_number]
