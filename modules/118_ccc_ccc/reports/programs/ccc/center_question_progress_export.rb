@@ -90,10 +90,6 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
     if params[:solver].present?
       statis = statis.where("supporter.full_name like ?","%#{params[:solver]}%")
     end
-    # 参与者条件
-    # if params[:joiner].present?
-    #
-    # end
     # 问题级别条件
     if params[:question_level].present?
       group_ids = []
@@ -187,6 +183,12 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
           watcher_ids[2] = "#{watcher_ids[2]};#{watcher_ids[i]}"
         end
       end
+
+      # 参与者条件
+      # if params[:joiner].present?
+      #
+      # end
+
       data = Array.new(22)
       data[0] = s[:request_number]
       data[1] = s[:title]

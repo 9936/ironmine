@@ -229,6 +229,7 @@
 
 
 <script type="text/javascript">
+  var global_html = ""
   $(function() {
     $("#irm_external_system_strict_workload_y").attr("checked","checked")
 
@@ -246,9 +247,11 @@
     $(".lov-btn").eq(1).on("click",function(){
       $("#projectManagerModal").modal("show")
     })
+
+    global_html = "<tr>"+$("#tr_new").html()+"</tr>"
   })
   function add_new_row(){
-    $("#tr_new").parent().append("<tr>"+$("#tr_new").html()+"</tr>")
+    $("#tr_new").parent().append(global_html)
   }
   function remove_row(arg){
     if($(arg).parent().parent().attr("id")!="tr_new")

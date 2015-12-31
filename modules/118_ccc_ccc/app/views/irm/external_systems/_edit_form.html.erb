@@ -269,6 +269,7 @@
 </div>
 
 <script>
+  var global_html = ""
   $(function() {
     $(".lov-btn").removeAttr("href")
     $(".lov-btn").removeAttr("onclick")
@@ -284,16 +285,17 @@
     $(".lov-btn").eq(1).on("click",function(){
       $("#projectManagerModal").modal("show")
     })
-  })
 
-  function add_new_row(){
     var html_str = $("#tr_new").html().replace(new RegExp(/(value=)/g),"")
-    var html = "<tr>"
+    global_html = "<tr>"
             +html_str.split("</a>")[0]
             +$("#remove_div").html()
             +html_str.split("</a>")[1]
             +"</tr>"
-    $("#tr_new").parent().append(html)
+  })
+
+  function add_new_row(){
+    $("#tr_new").parent().append(global_html)
   }
   function remove_row(arg){
     if($(arg).parent().parent().attr("id")!="tr_new")

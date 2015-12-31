@@ -15,7 +15,7 @@ module Ccc::IncidentRequestModelEx
         select("(SELECT sum(iw.real_processing_time) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND iw.workload_type = 'SCENE') total_processing_time_scene")
       }
 
-      validates_presence_of :contact_number
+      # validates_presence_of :contact_number
 
       scope :with_external_system, lambda{|language|
         joins("LEFT OUTER JOIN #{Irm::ExternalSystem.view_name} external_system ON external_system.id = #{table_name}.external_system_id AND external_system.language = '#{language}'").

@@ -16,11 +16,6 @@ module Ccc::IncidentJournalsControllerEx
         @show_external_system = Irm::ExternalSystem.list_all.find(@incident_request.external_system_id)
         @show_external_system = solve_people_date_message(@incident_request,@show_external_system)
         @organization = Irm::Organization.list_all.find(Irm::Person.find(@incident_request.requested_by).organization_id)
-        # if @external_system.price_type_id
-        #   @price_type = Ccc::PriceType.find(@external_system.price_type_id).to_s
-        # else
-        #   @price_type = nil
-        # end
 
         respond_to do |format|
           format.html { render :layout=>"application_right"}
@@ -405,11 +400,10 @@ module Ccc::IncidentJournalsControllerEx
               return external_system
             end
           end
-        else
-          external_system.remote_date = 0
-          external_system.scene_date = 0
-          return external_system
         end
+        external_system.remote_date = 0
+        external_system.scene_date = 0
+        return external_system
       end
       def process_change_attributes(attributes,new_value,old_value,ref_journal)
         attributes.each do |key|
