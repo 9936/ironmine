@@ -389,7 +389,7 @@ module Ccc::IncidentJournalsControllerEx
         # 2015-12-22->2015-12-31:123;312
         incident_created_at = incident.created_at.strftime("%F")
         external_system_people_date = external_system.people_date_message
-        if external_system_people_date.present?
+        if external_system_people_date.present? && !external_system_people_date.eql?("->:;")
           external_system_people_date.split("||").each do |espd|
             date = espd.split(":")[0]
             date_message = espd.split(":")[1]
