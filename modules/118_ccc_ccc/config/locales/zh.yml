@@ -151,14 +151,6 @@ zh:
   label_for_effective: 有效期
   label_project_remote_date: 远程人天
   label_scene_date: 现场人天
-  label_project_respond_time: 响应时间(H)
-  label_project_handle_time: 开始处理时间(H)
-  label_project_update_time: 更新时间(H)
-  label_project_total_time: 总处理时间(H)
-#  label_project_max_time: 最大处理问题时间(H)
-  label_project_remind_rate: 即将超出时间提醒(比例%)
-  label_project_warning_rate: 超出时间时间警告(比例%)
-  label_project_show_to_SLA_flag: SLA是否显示给客户
 
   label_ccc_price_type: 计价类型
   label_ccc_priceType_list: 计价类型列表
@@ -221,11 +213,6 @@ zh:
   label_irm_organization_login_mess: 登录信息
   label_irm_organization_user_mess: 登录账户
   label_irm_organization_other_mess: 其他信息
-#  label_irm_organization_dev_mess: ECC开发机登录信息
-#  label_irm_organization_test_mess: ECC测试机登录信息
-#  label_irm_organization_prod_mess: ECC生产机登录信息
-#  lable_irm_organization_sys_mess: 其它SAP项目登录信息
-
 
   label_ccc_industry: 所属行业
   label_ccc_industry_list: 行业列表

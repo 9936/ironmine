@@ -136,7 +136,7 @@ class Irm::PeopleController < ApplicationController
   end
 
   def get_people_list
-    @people= Irm::Person.not_anonymous.list_all.order(:id)
+    @people= Irm::Person.not_anonymous.list_all.not_delete.order(:id)
     @people = @people.match_value("#{Irm::Person.name_to_sql(nil,Irm::Person.table_name,"")}",params[:person_name])
     @people = @people.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
 
@@ -155,7 +155,7 @@ class Irm::PeopleController < ApplicationController
     Irm::Profile.where("user_license = ?","SUPPORTER").each do |p|
       profile_ids << p.id
     end
-    @people= Irm::Person.where(profile_id: profile_ids).where("consultant_no <> ''").not_anonymous.list_all.order(:id)
+    @people= Irm::Person.where(profile_id: profile_ids).where("consultant_no <> ''").not_anonymous.not_delete.list_all.order(:id)
     @people = @people.match_value("#{Irm::Person.table_name}.full_name",params[:full_name])
 
     @people,count = paginate(@people)
@@ -169,7 +169,7 @@ class Irm::PeopleController < ApplicationController
   end
 
   def get_customer_no
-    @people= Irm::Person.not_anonymous.list_all.order(:id)
+    @people= Irm::Person.not_anonymous.not_delete.list_all.order(:id)
     @people = @people.match_value("#{Irm::Person.table_name}.full_name",params[:full_name])
     @people = @people.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
 
@@ -184,7 +184,7 @@ class Irm::PeopleController < ApplicationController
   end
 
   def get_project_manager
-    @people= Irm::Person.not_anonymous.list_all.order(:id)
+    @people= Irm::Person.not_anonymous.not_delete.list_all.order(:id)
     @people = @people.match_value("#{Irm::Person.table_name}.full_name",params[:full_name])
     @people = @people.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
 

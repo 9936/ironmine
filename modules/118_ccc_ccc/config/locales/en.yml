@@ -94,143 +94,134 @@ en:
 #  label_begin_date: 项目开始时间
 #  label_after_date: 项目结束时间
 #
-#  label_project_remote_date: 远程人天
-#  label_scene_date: 现场人天
-#  label_project_respond_time: 响应时间(H)
-#  label_project_handle_time: 开始处理时间(H)
-#  label_project_update_time: 更新时间(H)
-#  label_project_total_time: 总处理时间(H)
-##  label_project_max_time: 最大处理问题时间(H)
-#  label_project_remind_rate: 即将超出时间提醒(比例%)
-#  label_project_warning_rate: 超出时间时间警告(比例%)
-#  label_project_show_to_SLA_flag: SLA是否显示给客户
-#
-#  label_ccc_price_type: 计价类型
-#  label_ccc_priceType_list: 计价类型列表
-#  label_ccc_priceType_code: 编码
-#  label_ccc_priceType_name: 名称
-#  label_ccc_priceType_description: 描述
-#  label_ccc_priceType_new: 计价类型新建
-#  label_ccc_priceType: 计价类型
-#
-#  label_ccc_project_type: 项目类型
-#  label_ccc_projectType_list: 项目类型列表
-#  label_ccc_projectType_code: 编码
-#  label_ccc_projectType_name: 名称
-#  label_ccc_projectType_description: 描述
-#  label_ccc_projectType_new: 项目类型新建
-#  label_ccc_projectType: 项目类型
-#
-#  label_irm_person_consultant_no: 工号
-#  label_irm_person_type: 顾问类型
-#  label_irm_person_sex: 性别
-#  label_irm_person_consultant_status: 顾问状态
-#  label_irm_person_consultant_level: 顾问等级
-#  label_irm_person_delete_flag: 删除标记
-#  label_irm_person_comment: 备注信息
-#  label_irm_person_consultant_module: 模块
-#  label_irm_person_parent_no: 上级顾问
-#
-#  label_irm_person_customer_status: 客户状态
-#  label_irm_person_customer_task: 客户职责
-#
-#  label_irm_organization_info: 公司信息
-#  label_irm_organization_new: 新建公司
-#  label_irm_organization_update: 编辑公司
-#  label_irm_organization: 公司列表
-#  label_irm_organization_no: 编号
-#  label_irm_organization_name: 公司名称
-#  label_irm_organization_address: 地址
-#  label_irm_organization_ZCode: 邮编
-#  label_irm_organization_city: 城市
-#  label_irm_organization_province: 省份
-#  label_irm_organization_country: 国家
-#
-#  label_respond_info: 负责人信息
-#  label_irm_organization_conscientious: 客户负责人
-#  label_irm_organization_position: 负责人职位
-#  label_irm_organization_conscientious_tel: 客户负责人手机
-#  label_irm_organization_conscientious_telNo: 客户负责人座机
-#  label_irm_organization_conscientious_email: 客户负责人邮箱
-#
-#  label_operation_info: 运维信息
-#  label_irm_organization_A1_flag: 是否A1客户
-#  label_irm_organization_sale: 销售
-#  label_irm_organization_industry: 所属行业
-#  label_irm_organization_service_date: 最早运维服务日期
-#  label_irm_organization_attention_point: 运维关键注意点
-#
-#  label_customer_info: 客户登录信息
-#  label_irm_organization_conn_type: 连接类型
-#  label_irm_organization_router: SAProuter
-#  label_irm_organization_dev_mess: ECC开发机登录信息
-#  label_irm_organization_test_mess: ECC测试机登录信息
-#  label_irm_organization_prod_mess: ECC生产机登录信息
-#  lable_irm_organization_sys_mess: 其它SAP系统登录信息
-#
-#  label_ccc_industry: 所属行业
-#  label_ccc_industry_list: 行业列表
-#  label_ccc_industry_code: 编码
-#  label_ccc_industry_name: 名称
-#  label_ccc_industry_description: 描述
-#  label_ccc_industry_new: 行业新建
-#  label_ccc_industry: 行业
-#
-#  label_ccc_conn_type: 连接类型
-#  label_ccc_connType_list: 连接类型列表
-#  label_ccc_connType_code: 编码
-#  label_ccc_connType_name: 名称
-#  label_ccc_connType_description: 描述
-#  label_ccc_connType_new: 连接类型新建
-#  label_ccc_connType: 连接类型
-#
-#  label_ccc_sex: 性别
-#  label_ccc_sex_list: 性别列表
-#  label_ccc_sex_code: 编码
-#  label_ccc_sex_name: 名称
-#  label_ccc_sex_description: 描述
-#  label_ccc_sex_new: 连接性别
-#  label_ccc_sex: 性别
-#
-#  label_ccc_consultant_level: 顾问等级
-#  label_ccc_consultantLevel_list: 顾问等级列表
-#  label_ccc_consultantLevel_code: 编码
-#  label_ccc_consultantLevel_name: 名称
-#  label_ccc_consultantLevel_description: 描述
-#  label_ccc_consultantLevel_new: 顾问等级新建
-#  label_ccc_consultantLevel: 顾问等级
-#
-#  label_ccc_consultant_module: 模块
-#  label_ccc_consultantModule_list: 模块列表
-#  label_ccc_consultantModule_code: 编码
-#  label_ccc_consultantModule_name: 名称
-#  label_ccc_consultantModule_description: 描述
-#  label_ccc_consultantModule_new: 模块新建
-#  label_ccc_consultantModule: 模块
-#
-#  label_ccc_consultant_status: 顾问状态
-#  label_ccc_consultantStatus_list: 顾问状态列表
-#  label_ccc_consultantStatus_code: 编码
-#  label_ccc_consultantStatus_name: 名称
-#  label_ccc_consultantStatus_description: 描述
-#  label_ccc_consultantStatus_new: 顾问状态新建
-#  label_ccc_consultantStatus: 顾问状态
-#
-#  label_ccc_consultant_type: 顾问类型
-#  label_ccc_consultantType_list: 顾问类型列表
-#  label_ccc_consultantType_code: 编码
-#  label_ccc_consultantType_name: 名称
-#  label_ccc_consultantType_description: 描述
-#  label_ccc_consultantType_new: 顾问类型新建
-#  label_ccc_consultantType: 顾问类型
-#
-#  label_ccc_customer_status: 客户状态
-#  label_ccc_customerStatus_list: 客户状态列表
-#  label_ccc_customerStatus_code: 编码
-#  label_ccc_customerStatus_name: 名称
-#  label_ccc_customerStatus_description: 描述
-#  label_ccc_customerStatus_new: 客户状态新建
-#  label_ccc_customerStatus: 客户状态
+  label_for_effective: Effective Period
+  label_project_remote_date: Remote Date
+  label_scene_date: Scene Date
+
+  label_ccc_price_type: Pricing Type
+  label_ccc_priceType_list: Pricing Type List
+  label_ccc_priceType_code: Code
+  label_ccc_priceType_name: Name
+  label_ccc_priceType_description: Description
+  label_ccc_priceType_new: New Pricing Type
+  label_ccc_priceType: Pricing Type
+
+  label_ccc_project_type: Project Type
+  label_ccc_projectType_list: Project Type List
+  label_ccc_projectType_code: Code
+  label_ccc_projectType_name: Name
+  label_ccc_projectType_description: Description
+  label_ccc_projectType_new: New Project Type
+  label_ccc_projectType: Project Type
+
+  label_irm_person_consultant_no: Consultant No
+  label_irm_person_type: Consultant Type
+  label_irm_person_sex: Sex
+  label_irm_person_consultant_status: Consultant Status
+  label_irm_person_consultant_level: Consultant Level
+  label_irm_person_delete_flag: Delete Flag
+  label_irm_person_comment: Comment
+  label_irm_person_consultant_module: Module
+
+  label_irm_person_customer_status: Customer Status
+  label_irm_person_customer_task: Customer Duty
+
+  label_irm_organization_info: Company Information
+  label_irm_organization_new: New Company
+  label_irm_organization_update: Edit Company
+  label_irm_organization: Company
+  label_irm_organization_no: Company No.
+  label_irm_organization_name: Company Name
+  label_irm_organization_address: Address
+  label_irm_organization_ZCode: Zip Code
+  label_irm_organization_city: City
+  label_irm_organization_province: Province
+  label_irm_organization_country: Country
+
+  label_respond_info: Charger Information
+  label_irm_organization_conscientious: Client Manager
+  label_irm_organization_position: Position
+  label_irm_organization_conscientious_tel: Telephone
+  label_irm_organization_conscientious_telNo: Bussiness Phone
+  label_irm_organization_conscientious_email: Email
+
+  label_operation_info: Operation Information
+  label_irm_organization_A1_flag: Is A1
+  label_irm_organization_sale: Sale
+  label_irm_organization_industry: Industry
+  label_irm_organization_service_date: Earliest Service Date
+  label_irm_organization_attention_point: Attention Point
+
+  label_customer_info: System Login Message
+  label_irm_organization_conn_type: Connect Type
+  label_irm_organization_router: SAProuter
+  label_irm_organization_login_mess: Login Message
+  label_irm_organization_user_mess: Login User
+  label_irm_organization_other_mess: Other Message
+
+  label_ccc_industry: Industry
+  label_ccc_industry_list: Industry List
+  label_ccc_industry_code: Code
+  label_ccc_industry_name: Name
+  label_ccc_industry_description: Description
+  label_ccc_industry_new: New Industry
+  label_ccc_industry: Industry
+
+  label_ccc_conn_type: Connect Type
+  label_ccc_connType_list: Connect Type List
+  label_ccc_connType_code: Code
+  label_ccc_connType_name: Name
+  label_ccc_connType_description: Description
+  label_ccc_connType_new: New Connect Type
+  label_ccc_connType: Connect Type
+
+  label_ccc_sex: Sex
+  label_ccc_sex_list: Sex List
+  label_ccc_sex_code: Code
+  label_ccc_sex_name: Name
+  label_ccc_sex_description: Description
+  label_ccc_sex_new: New Sex
+  label_ccc_sex: Sex
+
+  label_ccc_consultant_level: Consultant Level
+  label_ccc_consultantLevel_list: Consultant Level List
+  label_ccc_consultantLevel_code: Code
+  label_ccc_consultantLevel_name: Name
+  label_ccc_consultantLevel_description: Description
+  label_ccc_consultantLevel_new: New Consultant Level
+  label_ccc_consultantLevel: Consultant Level
+
+  label_ccc_consultant_module: Module
+  label_ccc_consultantModule_list: Module List
+  label_ccc_consultantModule_code: Code
+  label_ccc_consultantModule_name: Name
+  label_ccc_consultantModule_description: Description
+  label_ccc_consultantModule_new: New Module
+  label_ccc_consultantModule: Module
+
+  label_ccc_consultant_status: Consultant Status
+  label_ccc_consultantStatus_list: Consultant Status List
+  label_ccc_consultantStatus_code: Code
+  label_ccc_consultantStatus_name: Name
+  label_ccc_consultantStatus_description: Description
+  label_ccc_consultantStatus_new: New Consultant Status
+  label_ccc_consultantStatus: Consultant Status
+
+  label_ccc_consultant_type: Consultant Type
+  label_ccc_consultantType_list: Consultant Type List
+  label_ccc_consultantType_code: Code
+  label_ccc_consultantType_name: Name
+  label_ccc_consultantType_description: Description
+  label_ccc_consultantType_new: New Consultant Type
+  label_ccc_consultantType: Consultant Type
+
+  label_ccc_customer_status: Customer Status
+  label_ccc_customerStatus_list: Customer Status List
+  label_ccc_customerStatus_code: Code
+  label_ccc_customerStatus_name: Name
+  label_ccc_customerStatus_description: Description
+  label_ccc_customerStatus_new: New Customer Status
+  label_ccc_customerStatus: Customer Status
 
   pass: Transfer
 

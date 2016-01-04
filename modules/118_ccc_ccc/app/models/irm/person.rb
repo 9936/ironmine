@@ -82,6 +82,7 @@ class Irm::Person < ActiveRecord::Base
     !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
   end
 
+  scope :not_delete,where("#{table_name}.delete_flag = 'N'")
   scope :real,where(:type=>nil)
   scope :not_anonymous,where("#{table_name}.login_name != ?","anonymous")
   scope :query_by_identity,lambda{|identity|
@@ -265,9 +266,6 @@ class Irm::Person < ActiveRecord::Base
 
   # LOV额外处理方法
   def self.lov(lov_scope,params)
-    # puts "11111111111111"
-    # puts lov_scope.to_sql
-    # puts params[:lov_params].inspect
     if params[:lov_params].present?&&params[:lov_params].is_a?(Hash)&&params[:lov_params][:lktkn].present?
 
       #根据lov的使用不同,进行不同的处理
@@ -275,8 +273,6 @@ class Irm::Person < ActiveRecord::Base
         lov_scope = lov_scope.joins(",#{Irm::ExternalSystemPerson.table_name} esp").where("esp.external_system_id = ?", params[:lov_params][:external_system_id]).where("esp.person_id = #{table_name}.id")
       end
     end
-    # puts lov_scope.to_sql
-    # puts lov_scope.inspect
     lov_scope
   end
 
