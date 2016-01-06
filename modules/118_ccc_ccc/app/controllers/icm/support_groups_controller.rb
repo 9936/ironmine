@@ -113,11 +113,7 @@ class Icm::SupportGroupsController < ApplicationController
   def get_pass_member_options
     support_group_members_scope= Irm::GroupMember.select_all.with_person(I18n.locale).assignable.query_by_support_group(params[:id])
     support_group_members_scope= support_group_members_scope.with_system(params[:external_system_id]) if params[:external_system_id]
-    support_group_members = support_group_members_scope.collect{|p|
-      {
-          :label=>"#{p[:person_name]}(#{Icm::IncidentRequest.where(:support_person_id=>p[:person_id]).without_closed.length})",
-          :value=>p[:person_id]}
-    }
+    support_group_members = support_group_members_scope.collect{|p| {:label=>"#{p[:person_name]}", :value=>p[:person_id]} }
     support_group_members.delete_if{|sgm| Irm::Person.current.eql?(sgm[:value])}
     respond_to do |format|
       format.json {render :json=>support_group_members.to_grid_json([:label,:value],support_group_members.count)}

@@ -7,7 +7,7 @@
       <h2 class="block-title"><%= t(:label_irm_person_list) %></h2>
     </td>
     <td class="page-block-button" style="text-align: right">
-      <% if Irm::Person.current.profile_id.eql?("001z00075azdz6EUAp13FQ")%>
+      <% if Irm::ProfileFunction.where(:profile_id=>Irm::Person.current.profile_id,:function_id=>"000z00043nAPkghEydP2lU").length > 0 %>
         <% if Irm::Person.current.language_code.eql?("zh") %>
               <select id="peopleType" name="peopleType">
                 <option value="请选择" selected="selected">请选择</option>
