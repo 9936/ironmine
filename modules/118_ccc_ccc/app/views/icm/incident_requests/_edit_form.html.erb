@@ -23,7 +23,7 @@
                   });
               </script>
           <% else %>
-              <%= f.hidden_field(:requested_by,:value=>Irm::Person.current.id, :id=>"incident_request_requested_by") %>
+              <%= f.hidden_field(:requested_by,:value=>@incident_request[:requested_by], :id=>"incident_request_requested_by") %>
           <% end %>
           <tr>
             <td class="label-col"><label for="incident_request_service_code"><%=t(:label_icm_incident_request_target_system)%></label></td>
@@ -74,12 +74,12 @@
             </td>
           </tr>
           <tr id = "project">
-            <td class="label-col"><label for="incident_request_poject_name"><%="项目名称"%></label></td>
+            <td class="label-col"><label for="incident_request_poject_name"></label></td>
             <td class="data-3col" colspan="3"><%=f.text_field :project_name,:size=>17, :required=>true,:id=>"incident_request_project_name"%></td>
           </tr>
 
           <tr id = "component">
-            <td class="label-col"><label for="incident_request_component_code"><%="组件代码"%></label></td>
+            <td class="label-col"><label for="incident_request_component_code"></label></td>
             <td class="data-3col" colspan="3"><%=f.text_field :component_code,:size=>17, :required=>true,:id=>"incident_request_component_code"%></td>
           </tr>
           <% if allow_to_function?(:create_icdt_rqst_for_other) %>
@@ -151,13 +151,13 @@
             <td class="label-col"></td>
             <td class="data-3col" colspan="3">
               <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_incident_request_file"} %>
-              <div id="discribe"><%="(附件需要体现完整的step-by-step重现步骤)"%></div>
+              <div id="discribe"></div>
             </td>
           </tr>
           <tr style="display: none">
             <td class="label-col"><%=t(:label_icm_incident_request_client_info)%></td>
             <td class="data-3col" colspan="3">
-              <%= f.text_field :client_info, :size => 20 %><div id="selection"><%="(生产机/测试机/开发机）"%></div>
+              <%= f.text_field :client_info, :size => 20 %><div id="selection"></div>
             </td>
           </tr>
           </tbody>
@@ -416,5 +416,44 @@
         if($("#incident_category_id")){
             $("#incident_category_id").cascade("#incident_sub_category_id");
         }
+
+
+        $(".lov-btn").removeAttr("href")
+        $(".lov-btn").removeAttr("onclick")
+        $("#incident_request_requested_by_label").removeAttr("onchange")
+        $("#incident_request_requested_byTip").remove()
+        $(".lov-btn").on("click",function(){
+            $("#searchBox select option:first").attr("selected","selected")
+            $("#searchBox input").val("")
+            $("#searchBox a").click()
+            $("#requestPeopleModal").modal("show")
+        })
     });
 </script>
+<div class="modal fade" id="requestPeopleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+        aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提交者</h4>
+      </div>
+      <div class="modal-body">
+        <div class="page-block">
+          <table class="page-block-header"><tr>
+            <td class="page-block-title">
+            </td>
+            <td class="page-block-help">
+              <div id="searchBox"></div>
+            </td>
+          </tr></table>
+          <div class="page-block-body">
+            <%= datatable("people",{:controller => "irm/people", :action=>"get_people_list"},[],{:search_box=>"searchBox",:paginator_box=>"paginatorBox"})%>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
