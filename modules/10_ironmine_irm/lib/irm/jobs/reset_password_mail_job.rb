@@ -6,8 +6,8 @@ module Irm
         business_object = Irm::BusinessObject.where(:bo_model_name=>Irm::Person.name).first
         bo_instance = eval(business_object.generate_query(true)).where(:id=>person_id).first
 
-        # recipient_id  = person_id
-        recipient_id = '000100012i8IyyjJaqMaJ6'
+        recipient_id  = person_id
+        # recipient_id = '000100012i8IyyjJaqMaJ6'
 
         # template params
         params = {:object_params => Irm::BusinessObject.liquid_attributes(bo_instance,true)}

@@ -40,7 +40,7 @@
       margin: 0 auto
   }
   #open_pie_chart,#open_pie_chart_by_service_desk,#incident_by_type_code,#incident_by_urgence{
-      width: 600px;
+      width: 45%;
       height: 280px;
       float: left;
       margin-left: 5%;
@@ -222,15 +222,20 @@
                   <th>处理者</th>
                   <th>问题提交日期</th>
                 </tr>
-                <% @sla_list.each do |sl|%>
-                    <tr>
+                <% count = 0
+                   @sla_list.each do |sl|
+                %>
+                    <tr class="<%=(count/6).round(0)%>" index="scroll">
                       <td><%=sl[:request_number] %></td>
                       <td><%=sl[:title] %></td>
                       <td><%=sl[:organization_name] %></td>
                       <td><%=sl[:supporter_name] %></td>
                       <td><%=format_date(sl[:submitted_date]) %></td>
                     </tr>
-                <%end%>
+                <%
+                   count = count + 1
+                   end
+                %>
               </table>
             </td>
           </tr>
@@ -534,13 +539,26 @@
         });
 
         $('.carousel').carousel({
-            interval: 10000   //指定10秒滚动到下一个div
+            interval: 12000   //指定10秒滚动到下一个div
         })
+        $("tr[index='scroll']").hide()
+        $("tr[class='0']").show()
     });
     function myrefresh()
     {
         window.location.reload();
     }
+    function scroll(){
+//      首先查找出显示的tr
+        var current = $("tr[style='display: table-row;']").eq(0).attr("class")
+        $("tr[style='display: table-row;']").hide()
+        if($("."+(parseInt(current)+1)).length>0)
+            $("."+(parseInt(current)+1)).show()
+        else
+            $(".0").show()
+    }
+    setInterval('scroll()',4000)
     setTimeout('myrefresh()',60000); //指定90秒刷新一次
+
 </script>
 

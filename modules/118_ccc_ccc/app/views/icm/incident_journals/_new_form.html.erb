@@ -168,7 +168,11 @@
           </td>
           <td class="label-col"><label><%= t(:label_icm_incident_request_requested_mobile_phone) %></label></td>
           <td class="data-col">
-            <div><%= @incident_request[:requested_mobile_phone] %></div>
+            <% if @incident_request[:requested_mobile_phone].present? %>
+                <div><%= @incident_request[:requested_mobile_phone] %></div>
+            <%else%>
+                <div><%= @incident_request[:requested_bussiness_phone] %></div>
+            <%end%>
           </td>
           <td class="label-col"><label><%= t(:label_icm_incident_request_requested_email) %></label></td>
           <td class="data-col">
