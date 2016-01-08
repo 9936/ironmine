@@ -5,9 +5,9 @@
  <div class="irm-datatable">
    <div>
 
-       <table count="<%=datas[:datas].size%>">
-           <tr>
-             <th >
+       <table count="<%=datas[:datas].size%>" class="table table-bordered">
+           <tr class="active">
+             <th>
                <div><%= datas[:headers][0] %></div>
              </th>
              <% 1.upto(datas[:headers].length-1) do |index| %>
@@ -19,7 +19,7 @@
          </thead>
          <tbody>
          <% datas[:datas].each do |data| %>
-           <tr>
+           <tr class="success">
              <% 0.upto(datas[:headers].length-1) do |index| %>
                <td>
                  <div>

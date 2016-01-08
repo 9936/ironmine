@@ -44,7 +44,7 @@ class Boc::BoardsController < ApplicationController
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").
         where("iis.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
-        where("iis.id not in ('000K000922scMSu1Q8vthI','000K000922scMSu1QUxWoy','000K000A0gG4yyDU3KUO1o')").
+        where("iis.id not in ('000K000922scMSu1Q8vthI','000K000922scMSu1QUxWoy','000K000A0gG4yyDU3KUO1o','000K000A0g9LO0pOKPsZ1s')").
         order("#{Icm::IncidentRequest.table_name}.created_at DESC")
     # 已完成的事故单
     @count_close = Icm::IncidentRequest.
@@ -56,7 +56,7 @@ class Boc::BoardsController < ApplicationController
         where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
         where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").
         where("iis.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
-        where("iis.id = '000K000922scMSu1QUxWoy'").
+        where("iis.id in ('000K000922scMSu1QUxWoy','000K000A0g9LO0pOKPsZ1s')").
         order("#{Icm::IncidentRequest.table_name}.created_at DESC")
     # 事故单状态分类柱状图
     @table_a_open_by_service_desk = Icm::IncidentRequest.enabled.
@@ -101,17 +101,32 @@ class Boc::BoardsController < ApplicationController
         joins("LEFT OUTER JOIN irm_people supporter ON  supporter.id = sci.supporter_id").
         joins("LEFT OUTER JOIN slm_sla_instances ssi ON ssi.id = sci.sla_instance_id").
         joins("LEFT OUTER JOIN #{Irm::Organization.view_name} iov ON iov.id = #{Icm::IncidentRequest.table_name}.organization_id AND iov.language = 'zh'").
-        select("#{Icm::IncidentRequest.table_name}.request_number request_number,#{Icm::IncidentRequest.table_name}.title title,supporter.full_name supporter_name,#{Icm::IncidentRequest.table_name}.submitted_date submitted_date,iov.name organization_name").
+        select("#{Icm::IncidentRequest.table_name}.request_number request_number,#{Icm::IncidentRequest.table_name}.request_type_code type_name,#{Icm::IncidentRequest.table_name}.title title,supporter.full_name supporter_name,#{Icm::IncidentRequest.table_name}.submitted_date submitted_date,iov.name organization_name,sci.service_name service_name").
         enabled.
+        group("sci.incident_request_id").
         where("ssi.current_status = 'START'").
         where("sci.type_name = '超时'").
         collect{|a|
+          service_name = ""
+          if a[:service_name].index("新建").present?
+            service_name = "分配超时"
+          elsif a[:service_name].index("分配").present? && a[:service_name].index("处理中").present?
+            service_name = "开始处理超时"
+          elsif a[:service_name].index("处理中").present? && !a[:service_name].index("分配").present?
+            service_name = "进度更新超时"
+          elsif a[:service_name].index("总").present?
+            service_name = "总处理时间超时"
+          end
+          if service_name.eql?("总处理时间超时") and a[:type_name].eql?("新增需求")
+              next
+          end
         {
           :request_number=>a[:request_number],
           :title=>a[:title],
           :supporter_name=>a[:supporter_name],
           :submitted_date=>a[:submitted_date],
-          :organization_name=>a[:organization_name]
+          :organization_name=>a[:organization_name],
+          :service_name=>service_name
         }
     }
 

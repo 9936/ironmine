@@ -1917,6 +1917,15 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "irm/organizations" => ["belongs_to", "create", "edit", "get_by_company", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
+          # 添加只能查看组织的权限
+          :view_organization => {
+              :en => {:name => "View Organization", :description => "View Organization"},
+              :zh => {:name => "查看组织", :description => "查看组织"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/organizations" => ["get_data", "index", "show",]
+          }
       }
   }
   #=================================END:ORGANIZATION=================================
@@ -2004,6 +2013,15 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "irm/external_systems" => ["add_people", "create", "delete_people", "edit", "get_data", "index", "new", "show", "update", "multilingual_edit", "multilingual_update"],
+          },
+          # 添加只能查看的权限
+          :view_system => {
+              :en => {:name => "View External System", :description => "View External System"},
+              :zh => {:name => "查看应用系统", :description => "查看应用系统"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/external_systems" => ["get_data", "index", "show"]
           }
       }
   }

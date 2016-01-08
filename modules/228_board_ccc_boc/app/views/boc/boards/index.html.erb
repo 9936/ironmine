@@ -67,11 +67,13 @@
     <div class="item">
       <!-- 当日问题监控 -->
       <div class="table-responsive">
+
         <!-- 当日问题监控之四类事件单 -->
         <table style="width:100%;table-layout:fixed" >
           <!-- 列数确定 -->
           <tr>
-            <th style="width:25%">
+            <th style="width:25%;text-align: left;font-size: 25px">
+              <h1>当日问题监控</h1>
             </th>
             <th style="width:25%">
             </th>
@@ -85,12 +87,12 @@
             <td rowspan="6">
               <% if @count_new.size == 0 %>
                   <div class="incident_div" style="display:block; line-height: 250px;">
-                    <div class="incident_head_div"><I>New Incident</I></div>
+                    <div class="incident_head_div"><h1>当日新增</h1></div>
                     <div class="incident_body_div"><%= @count_new.size.to_s%></div>
                   </div>
               <% elsif @count_new.size == 1%>
                   <div class="incident_div" style="font-size: 50px;background-color: #ffa0a0">
-                    <div class="incident_head_div"><I>New Incident</I></div>
+                    <div class="incident_head_div"><h1>当日新增</h1></div>
                     <div class="incident_body_div"><%= @count_new.size.to_s%></div>
                     <div class="incident_foot_div">
                       <div class="incident_foot_left_div"><%= @count_new.first[:request_number]%></div>
@@ -103,7 +105,7 @@
                   </div>
               <% else%>
                   <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
-                    <div class="incident_head_div"><I>New Incidents</I></div>
+                    <div class="incident_head_div"><h1>当日新增</h1></div>
                     <div class="incident_body_div" ><%= @count_new.size.to_s%></div>
                     <div class="incident_foot_div">
                       <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
@@ -120,12 +122,12 @@
             <td rowspan="6">
               <% if @count_assign.size == 0 %>
                   <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
-                    <div class="incident_head_div" style=""><I>Assigned Incident</I></div>
+                    <div class="incident_head_div" style=""><h1>待处理</h1></div>
                     <div class="incident_body_div" ><%= @count_assign.size.to_s%></div>
                   </div>
               <% elsif @count_assign.size == 1%>
                   <div class="incident_div" style="font-size: 50px;background-color: #ffa0a0">
-                    <div class="incident_head_div" style=""><I>Assigned Incident</I></div>
+                    <div class="incident_head_div" style=""><h1>待处理</h1></div>
                     <div class="incident_body_div" ><%= @count_assign.size.to_s%></div>
                     <div class="incident_foot_div">
                       <div class="incident_foot_left_div"><%= @count_assign.first[:request_number]%></div>
@@ -134,7 +136,7 @@
                   </div>
               <% else%>
                   <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
-                    <div class="incident_head_div" style=""><I>Assigned Incidents</I></div>
+                    <div class="incident_head_div" style=""><h1>待处理</h1></div>
                     <div class="incident_body_div" ><%= @count_assign.size.to_s%></div>
                     <div class="incident_foot_div">
                       <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_assign.first[:request_number]%></div>
@@ -147,12 +149,12 @@
             <td rowspan="6">
               <% if @count_solving.size == 0 %>
                   <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
-                    <div class="incident_head_div" style=""><I>Solving Incident</I></div>
+                    <div class="incident_head_div" style=""><h1>处理中</h1></div>
                     <div class="incident_body_div" ><%= @count_solving.size.to_s%></div>
                   </div>
               <% elsif @count_solving.size == 1%>
                   <div class="incident_div" style="font-size: 50px;background-color: #ffa0a0">
-                    <div class="incident_head_div" style=""><I>Solving Incident</I></div>
+                    <div class="incident_head_div" style=""><h1>处理中</h1></div>
                     <div class="incident_body_div" ><%= @count_solving.size.to_s%></div>
                     <div class="incident_foot_div">
                       <div class="incident_foot_left_div"><%= @count_solving.first[:request_number]%></div>
@@ -161,7 +163,7 @@
                   </div>
               <% else%>
                   <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
-                    <div class="incident_head_div" style=""><I>Solving Incidents</I></div>
+                    <div class="incident_head_div" style=""><h1>处理中</h1></div>
                     <div class="incident_body_div" ><%= @count_solving.size.to_s%></div>
                     <div class="incident_foot_div">
                       <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_solving.first[:request_number]%></div>
@@ -174,12 +176,12 @@
             <td rowspan="6">
               <% if @count_close.size == 0 %>
                   <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
-                    <div class="incident_head_div" style=""><I>Closed Incident</I></div>
+                    <div class="incident_head_div" style=""><h1>已完成</h1></div>
                     <div class="incident_body_div" ><%= @count_close.size.to_s%></div>
                   </div>
               <% elsif @count_close.size == 1%>
                   <div class="incident_div" style="font-size: 50px;background-color: #ffa0a0">
-                    <div class="incident_head_div" style=""><I>Closed Incident</I></div>
+                    <div class="incident_head_div" style=""><h1>已完成</h1></div>
                     <div class="incident_body_div" ><%= @count_close.size.to_s%></div>
                     <div class="incident_foot_div">
                       <div class="incident_foot_left_div"><%= @count_close.first[:request_number]%></div>
@@ -188,7 +190,7 @@
                   </div>
               <% else%>
                   <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
-                    <div class="incident_head_div" style=""><I>Closed Incidents</I></div>
+                    <div class="incident_head_div" style=""><h1>已完成</h1></div>
                     <div class="incident_body_div" ><%= @count_close.size.to_s%></div>
                     <div class="incident_foot_div">
                       <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_close.first[:request_number]%></div>
@@ -203,7 +205,8 @@
         <table style="width:100%;table-layout:fixed" >
           <!-- 列数确定 -->
           <tr>
-            <th style="width:25%">
+            <th style="width:25%;text-align: left;font-size: 25px">
+              <h1>SLA超时监控</h1>
             </th>
             <th style="width:25%">
             </th>
@@ -221,16 +224,18 @@
                   <th>客户名称</th>
                   <th>处理者</th>
                   <th>问题提交日期</th>
+                  <th>SLA超时原因</th>
                 </tr>
                 <% count = 0
                    @sla_list.each do |sl|
                 %>
-                    <tr class="<%=(count/6).round(0)%>" index="scroll">
+                    <tr class="<%=(count/4).round(0)%>" index="scroll">
                       <td><%=sl[:request_number] %></td>
                       <td><%=sl[:title] %></td>
                       <td><%=sl[:organization_name] %></td>
                       <td><%=sl[:supporter_name] %></td>
                       <td><%=format_date(sl[:submitted_date]) %></td>
+                      <td><%=sl[:service_name] %></td>
                     </tr>
                 <%
                    count = count + 1
