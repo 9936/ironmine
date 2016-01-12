@@ -29,7 +29,7 @@ class Irm::Person < ActiveRecord::Base
   belongs_to :sex
   belongs_to :operation_unit,:foreign_key => :opu_id
 
-  validates_presence_of :login_name,:first_name,:email_address, :time_zone,:profile_id
+  validates_presence_of :login_name,:first_name,:email_address, :time_zone,:profile_id,:organization_id
   #validates_presence_of :bussiness_phone,:if=> Proc.new{|i| i.validate_as_person?}
   # validates_format_of :bussiness_phone, :with => /^[0-9\-]*$/,:message=>:phone_number ,:if => Proc.new { |i| i.bussiness_phone.present?}
   validates_uniqueness_of :login_name, :if => Proc.new { |i| !i.login_name.blank? }
@@ -38,6 +38,7 @@ class Irm::Person < ActiveRecord::Base
   validates_presence_of :password,:if=> Proc.new{|i| i.hashed_password.blank?&&i.validate_as_person?}
   validates_confirmation_of :password, :allow_nil => true,:if=> Proc.new{|i|i.hashed_password.blank?||!i.password.blank?}
   validate :validate_password_policy,:if=> Proc.new{|i| i.password.present?&&i.password_confirmation.present?}
+  validates_presence_of :customer_status_id,:if=> Proc.new{|i| !i.consultant_status_id.present?}
 
   validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }, :if => :need_uniqueness_email
   validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,:message=>:email

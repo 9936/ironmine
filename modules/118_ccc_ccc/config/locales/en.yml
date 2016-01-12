@@ -11,7 +11,7 @@ en:
   label_home_all_tickets: All Tickets
   label_home_knowledge: Knowledge
   label_home_reports: Reports
-  label_home_new_ticket_for_customer: New Tickets
+  label_home_new_ticket_for_customer: New Ticket
   label_home_to_be_assigned: To Be Assigned
   label_home_personal_profile: Personal Profile
 
@@ -34,7 +34,7 @@ en:
   label_icm_incident_request_incident_category: External System
   label_icm_incident_request_incident_sub_category: Module
   label_icm_incident_request_requested_by: Requester
-  label_icm_incident_request_submitted_by: Submitter
+  label_icm_incident_request_submitted_by: Submit By
   label_irm_home: HISMS
   label_icm_incident_request_update: Update Incident Request
 

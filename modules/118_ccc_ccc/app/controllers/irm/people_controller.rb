@@ -106,6 +106,7 @@ class Irm::PeopleController < ApplicationController
         end
       else
         @error = @person
+        @user_license = @person.profile.user_license
         format.html { render "edit" }
         format.xml  { render :xml => @person.errors, :status => :unprocessable_entity }
         format.json  { render :json => @person.errors}
