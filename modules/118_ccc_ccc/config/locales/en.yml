@@ -3,6 +3,7 @@ en:
   label_for_div_two: welcome to HISMS!
 
   label_icm_incident_request_watcher: Attendee
+  label_irm_watcher: Attendee
 
   label_home_new_ticket: New Tickets
   label_home_my_pending_tickets: My Pending Tickets
