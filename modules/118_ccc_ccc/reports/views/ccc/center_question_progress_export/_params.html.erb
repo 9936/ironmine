@@ -66,7 +66,6 @@
       <td class="data-col"></td>
     </tr>
     <!-- 问题处理级别 -->
-    <%if false%>
     <tr>
       <td class="label-col"><label><%= t(:label_for_question_level) %></label></td>
       <td class="data-col">
@@ -77,7 +76,6 @@
       <td class="label-col"></td>
       <td class="data-col"></td>
     </tr>
-    <%end%>
     <!-- 模块 -->
     <tr>
       <td class="label-col"><label><%= t(:label_module) %></label></td>
@@ -126,7 +124,6 @@
       data: {
       },
       success: function (data) {
-        console.log(data)
         var len = data.external_systems.length
         var items = data.external_systems
         for(var i=0;i<len;i++){
@@ -138,12 +135,11 @@
         for(var i=0;i<module_length;i++){
           $("#module_name").append("<option value='"+module_names[i].value+"'>"+module_names[i].label+"</option>")
         }
-//        var level_length = data.level_groups.length
-//        var level_groups = data.level_groups
-//        for(var i=0;i<level_length;i++){
-//          $("#question_level").append("<option value='"+level_groups[i].value+"'>"+level_groups[i].label+"</option>")
-//        }
-
+        var level_length = data.level_groups.length
+        var level_groups = data.level_groups
+        for(var i=0;i<level_length;i++){
+          $("#question_level").append("<option value='"+level_groups[i].value+"'>"+level_groups[i].label+"</option>")
+        }
         var length = data.groups.length
         var groups = data.groups
         for(var i=0;i<length;i++){

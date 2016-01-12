@@ -117,7 +117,7 @@ class Boc::BoardsController < ApplicationController
           elsif a[:service_name].index("总").present?
             service_name = "总处理时间超时"
           end
-          if service_name.eql?("总处理时间超时") and a[:type_name].eql?("新增需求")
+          if service_name.eql?("总处理时间超时") && a[:type_name].eql?("新增需求")
               next
           end
         {

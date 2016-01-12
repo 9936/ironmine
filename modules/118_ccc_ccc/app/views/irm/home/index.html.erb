@@ -50,8 +50,8 @@
 <div class="alert alert-info" role="alert">
   <div class="d1" id="div1" onmouseover="clearInterval(timer)" onmouseout="timer=setInterval(mar,30)">
     <span class="div2" id="div2">
-		<h3>尊敬的用户，</h3>
-		<h3>欢迎登录HISMS系统!
+		<h3><%= t(:label_for_div_one) %></h3>
+		<h3><%= t(:label_for_div_two) %>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -71,7 +71,7 @@
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000923JClcGUDhzYMy" style="float: left;text-decoration: none;">
               <div class="bc_div" style="background-color:#218868">
                 <img  src="/images/new.png">
-                <p style="color: white;margin-top: 10px;">新到达问题</p>
+                <p style="color: white;margin-top: 10px;"><%= t(:label_home_new_ticket) %></p>
               </div>
             </a>
             <div style=" width:40px; height:40px; background-color:#F00; border-radius:25px;position: absolute;margin-left: 256px;margin-top: -16px;display:none">
@@ -84,7 +84,7 @@
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q0009239HMWJmlUmVmK" style="float: left;text-decoration: none;">
               <div class="bc_div" style="background-color:#DB552D">
                 <img  src="/images/process.png">
-                <p style="color: white;margin-top: 10px;">我处理中的问题</p>
+                <p style="color: white;margin-top: 10px;"><%= t(:label_home_my_pending_tickets) %></p>
               </div>
             </a>
             <div style=" width:40px; height:40px; background-color:#F00; border-radius:25px;position: absolute;margin-left: 256px;margin-top: -16px;display:none">
@@ -98,7 +98,7 @@
             <a href="/incident_requests/new" style="float: left;text-decoration: none;">
               <div class="bc_div" style="background-color:#218868">
                 <img  src="/images/create.png">
-                <p style="color: white;margin-top: 10px;">新建问题</p>
+                <p style="color: white;margin-top: 10px;"><%= t(:label_home_new_ticket_for_customer) %></p>
               </div>
             </a>
           </div>
@@ -108,7 +108,7 @@
             <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000923JClcGUDhzYMy" style="float: left;text-decoration: none;">
               <div class="bc_div" style="background-color:#DB552D">
                 <img  src="/images/new.png">
-                <p style="color: white;margin-top: 10px;">待分配问题</p>
+                <p style="color: white;margin-top: 10px;"><%= t(:label_home_to_be_assigned) %></p>
               </div>
             </a>
             <div style=" width:40px; height:40px; background-color:#F00; border-radius:25px;position: absolute;margin-left: 256px;margin-top: -16px;display:none">
@@ -122,7 +122,7 @@
         <a href="/incident_requests?incident_requests_page=1&filter_id=002Q000B2jTxy1kSBuiS2a" style="float: left;text-decoration: none;">
           <div class="bc_div" style="background-color:#4CBB49">
             <img  src="/images/join.png">
-            <p style="color: white;margin-top: 10px;">我参与的问题</p>
+            <p style="color: white;margin-top: 10px;"><%= t(:label_home_my_attended_tickets) %></p>
           </div>
         </a>
         <div style=" width:40px; height:40px; background-color:#F00; border-radius:25px;position: absolute;margin-left: 256px;margin-top: -16px;display:none">
@@ -138,7 +138,7 @@
         <a href="/incident_requests?incident_requests_page=1&filter_id=other" style="float: left;text-decoration: none;">
           <div class="bc_div" style="background-color:#BC1C48">
             <img  src="/images/join.png">
-            <p style="color: white;margin-top: 10px;">所有问题</p>
+            <p style="color: white;margin-top: 10px;"><%= t(:label_home_all_tickets) %></p>
           </div>
         </a>
       </div>
@@ -149,7 +149,7 @@
         <a href="/entry_headers?entry_headers_list_page=1" style="float: left;text-decoration: none;">
           <div class="bc_div" style="background-color:#00ACEE">
             <img  src="/images/knowledge.png">
-            <p style="color: white;margin-top: 10px;">知识库</p>
+            <p style="color: white;margin-top: 10px;"><%= t(:label_home_knowledge) %></p>
           </div>
         </a>
       </div>
@@ -159,7 +159,7 @@
         <a href="/reports?report_list_page=1" style="float: left;text-decoration: none;">
           <div class="bc_div" style="background-color:#A100A9">
             <img  src="/images/report.png">
-            <p style="color: white;margin-top: 10px;">报表</p>
+            <p style="color: white;margin-top: 10px;"><%= t(:label_home_reports) %></p>
           </div>
         </a>
       </div>
@@ -170,7 +170,7 @@
             <a href="/reports?report_list_page=1" style="float: left;text-decoration: none;">
               <div class="bc_div" style="background-color:#00ACEE">
                 <img  src="/images/report.png">
-                <p style="color: white;margin-top: 10px;">报表</p>
+                <p style="color: white;margin-top: 10px;"><%= t(:label_home_reports) %></p>
               </div>
             </a>
           </div>
@@ -180,7 +180,7 @@
             <a href="/setting/001g00012i8IyyjJamKGHo/common" style="float: left;text-decoration: none;">
               <div class="bc_div" style="background-color:#A100A9">
                 <img  src="/images/process.png">
-                <p style="color: white;margin-top: 10px;">个人设置</p>
+                <p style="color: white;margin-top: 10px;"><%= t(:label_home_personal_profile) %></p>
               </div>
             </a>
           </div>
@@ -189,54 +189,13 @@
   </tr>
   </tbody>
 </table>
-<%if false%>
-<div class="div_service" style="top: 214px;">
-  <a href="http://wpa.qq.com/msgrd?v=3&uin=2413167220&site=qq&menu=yes">
-    <div class="div_img">
-      <img src="images/hl.jp" width="100" height="110" class="shows" />
-      <p><b>胡亮</b></p>
-    </div>
-  </a>
-  <!--<div class="goods-comm">-->
-    <!--<div class="goods-comm-stars" align="center">-->
-      <!--<div id="rate-comm-1" class="rate-comm" style="display: inline-table;"></div>-->
-    <!--</div>-->
-  <!--</div>-->
-</div>
-<div class="div_service" style="top: 374px;">
-  <a href="http://wpa.qq.com/msgrd?v=3&uin=1664311700&site=qq&menu=yes">
-    <div class="div_img">
-      <img src="images/wxx.jp" width="100" height="110" class="shows" />
-      <p><b>武小霞</b></p>
-    </div>
-  </a>
-  <!--<div class="goods-comm">-->
-    <!--<div class="goods-comm-stars" align="center">-->
-      <!--<div id="rate-comm-2" class="rate-comm" style="display: inline-table;"></div>-->
-    <!--</div>-->
-  <!--</div>-->
-</div>
-<%end%>
+
 <script>
   $(function(){
       $(".body-cell-div").css({"height":"500px"})
-//      $(".body-cell").css("background-color","#F8F8F8")
-//      $(".body-cell").css("background-image","url('images/background.jpg')")
-//      $("#navMenu").css("background-color","#D91E1A")
-//      $(".dropdown-toggle").css("background-color","black")
-//      $(".page-container-header .headerSearchRightRoundedCorner #phSearchButton").css("color","black")
-//      $(".page-container-header .nav-menu .application-menu,.page-body-content-header,.page-body-content-header .left-round, .page-body-content-header .right-round ,.page-body-content-footer,.page-body-content-footer .left-round, .page-body-content-footer .right-round").css("background-image","url('')")
-//      $(".page-body-content-header,.page-body-content-header .left-round, .page-body-content-header .right-round").css("background-color","#F8F8F8")
-
       $("#rate-comm-1 li[title='4']").click()
       $("#rate-comm-2 li[title='3']").click()
 
-//      $(".bc_div").on("mouseover",function(arg){
-//          $(arg.currentTarget).eq(0).css("background-color","#8B3E2F")
-//      })
-//      $(".bc_div").on("mouseout",function(arg){
-//          $(arg.currentTarget).eq(0).css("background-color","#606060")
-//      })
       var href = '<%= url_for(:action => "kinds_of_count")%>'
       $.ajax({
           url: href,

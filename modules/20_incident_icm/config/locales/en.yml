@@ -115,7 +115,7 @@ en:
   label_icm_incident_request_requested_by_role: Requester Role
   label_icm_incident_request_requested_by_profile: Requester Profile
   label_icm_incident_request_contact: Contact
-  label_icm_incident_request_urgence_code: Urgency
+  label_icm_incident_request_urgence_code: Priority
   label_icm_incident_request_impact_range_code: Impact range
   label_icm_incident_request_support_group: Support group
   label_icm_incident_request_support_person: Supporter
@@ -155,7 +155,7 @@ en:
   label_icm_incident_request_assign_me_receive: Accept
   label_icm_incident_request_assign_me_able_list: Tickets for My Group
   label_icm_incident_request_close_reason: Close Reason
-  label_icm_incident_request_incident_status: Change Status
+  label_icm_incident_request_incident_status: Update Status
   label_icm_incident_request_upgrade: Upgrade
   label_icm_incident_status_edit_transform: Incident status transform
   label_icm_incident_request_relation: Related Requests

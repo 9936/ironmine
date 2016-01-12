@@ -1,4 +1,17 @@
 zh:
+  label_for_div_one: 尊敬的用户，
+  label_for_div_two: 欢迎登录HISMS系统!
+
+  label_home_new_ticket: 新到达问题
+  label_home_my_pending_tickets: 我处理中的问题
+  label_home_my_attended_tickets: 我参与的问题
+  label_home_all_tickets: 所有问题
+  label_home_knowledge: 知识库
+  label_home_reports: 报表
+  label_home_new_ticket_for_customer: 新建问题
+  label_home_to_be_assigned: 待分配问题
+  label_home_personal_profile: 个人设置
+
   label_icm_incident_request_urgence: 优先级
   label_icm_incident_request_requested_mobile_phone: 提交者电话
   label_icm_incident_request_organization: 公司

@@ -23,7 +23,11 @@
              <% 0.upto(datas[:headers].length-1) do |index| %>
                <td>
                  <div>
+                   <%if index != 0 %>
                    <%= data[index] %>
+                   <%else%>
+                   <a href="/incident_requests/<%= data[datas[:headers].length] %>/journals/new"><%=data[index] %></a>
+                   <%end%>
                  </div>
                </td>
              <% end %>

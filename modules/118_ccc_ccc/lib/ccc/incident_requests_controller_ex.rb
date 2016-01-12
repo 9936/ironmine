@@ -515,7 +515,7 @@ module Ccc::IncidentRequestsControllerEx
         }
         module_groups = module_groups.uniq
 
-        groups_scope = Irm::Group.multilingual
+        groups_scope = Irm::Group.multilingual.where("irm_groups.id not in (?)",level_group_ids).order("name ASC")
         groups = groups_scope.collect { |i|
           {
               :label => i[:name],

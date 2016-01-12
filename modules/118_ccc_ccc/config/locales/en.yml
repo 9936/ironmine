@@ -1,4 +1,39 @@
 en:
+  label_for_div_one: Dear customer，
+  label_for_div_two: welcome to HISMS!
+
+  label_icm_incident_request_watcher: Attendee
+
+  label_home_new_ticket: New Tickets
+  label_home_my_pending_tickets: My Pending Tickets
+  label_home_my_attended_tickets: Attendee Tickets
+  label_home_all_tickets: All Tickets
+  label_home_knowledge: Knowledge
+  label_home_reports: Reports
+  label_home_new_ticket_for_customer: New Tickets
+  label_home_to_be_assigned: To Be Assigned
+  label_home_personal_profile: Personal Profile
+
+  label_icm_incident_request_urgence: Priority
+  label_icm_incident_request_requested_mobile_phone: Requester Mobile Phone
+  label_icm_incident_request_organization: Organization
+  label_icm_incident_request_question_discription: Description
+  label_icm_incident_request_support_person: Supporter
+  label_icm_incident_request_requested_by_org: Customer Company
+  label_icm_incident_request_requested_by_profile: Requester Profile
+  label_grade_of_satisfy: Satisfy
+  label_very_good: Best
+  label_good: Good
+  label_bad: Bad
+  label_for_reason: If the choice is not satisfied, please explain the reason
+  label_for_reason_one: Skill of consultant problem solving
+  label_for_reason_two: Consultant work attitude
+  label_for_reason_other: Other
+
+  label_icm_incident_request_incident_category: External System
+  label_icm_incident_request_incident_sub_category: Module
+  label_icm_incident_request_requested_by: Requester
+  label_icm_incident_request_submitted_by: Submitter
   label_irm_home: HISMS
   label_icm_incident_request_update: Update Incident Request
 
@@ -10,10 +45,10 @@ en:
   label_people_day_info: Gift giving day information
 
   label_in_new: New
-  label_in_accept: Assign
+  label_in_accept: Assigned
   label_in_process: In Process
-  label_in_commit_solution: Solution
-  label_in_close:  Close
+  label_in_commit_solution: Proposed Solution
+  label_in_close:  Confirmed
   label_in_confirm:  Confirm
 
   label_icm_incident_request_real_processing_total_time: Real Processing Total Time(H)
@@ -68,6 +103,7 @@ en:
 
   label_icm_incident_request_requested_email: Requester Email
   label_icm_incident_request_summary: Summary
+  label_icm_incident_request_contact: End User
   label_icm_incident_request_contact_email: User Email
   label_icm_incident_request_contact_number: User Telephone
 
@@ -239,7 +275,7 @@ en:
   label_icm_incident_journal_date: Date
 
   label_icm_incident_request_remove_journal: Remove Journal
-  label_report_incident_request_update_priority: Update urgence and impact range
+  label_report_incident_request_update_priority: Update Priority
 
   label_icm_incident_request_impact_range: Impact Range
   label_icm_incident_request_urgence: Urgence

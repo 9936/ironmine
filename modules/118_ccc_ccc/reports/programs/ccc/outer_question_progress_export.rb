@@ -60,19 +60,28 @@ class Ccc::OuterQuestionProgressExport < Irm::ReportManager::ReportBase
         "处理人",
         "参与者1",
         "参与者2",
-        "其他参与者"
+        "其他参与者",
+        "客户确认远程人天",
+        "客户确认现场人天"
     ]
 
     statis.each do |s|
-      watcher_ids = Irm::Watcher.where(:watchable_id=>s[:id]).collect { |w|
-        Irm::Person.find(w.member_id).full_name
+      watcher_ids = []
+      Irm::Watcher.where(:watchable_id=>s[:id]).collect { |w|
+        person = Irm::Person.find(w.member_id)
+        # 排除角色为hotline、客户
+        if person.present?
+          if !person.role_id.eql?("002N000B2jQQBCsvKW8BfM") && person.profile.user_license.eql?("SUPPORTER")
+            watcher_ids << person.full_name
+          end
+        end
       }
       if watcher_ids.length >3
         for i in 3..watcher_ids.length-1
           watcher_ids[2] = "#{watcher_ids[2]};#{watcher_ids[i]}"
         end
       end
-      data = Array.new(14)
+      data = Array.new(17)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = s[:priority_name]
@@ -87,6 +96,9 @@ class Ccc::OuterQuestionProgressExport < Irm::ReportManager::ReportBase
       data[11] = watcher_ids[0] if watcher_ids.length >=1
       data[12] = watcher_ids[1] if watcher_ids.length >=2
       data[13] = watcher_ids[2] if watcher_ids.length >=3
+      data[14] = s[:attribute4]
+      data[15] = s[:attribute7]
+      data[16] = s[:id]   #用于连接到事故单页面
       datas << data
     end
 

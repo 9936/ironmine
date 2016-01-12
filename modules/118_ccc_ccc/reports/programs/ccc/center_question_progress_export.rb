@@ -169,13 +169,29 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         "最新更新时间",
         "总处理时间(天)",
         "客户满意度",
+        "客户满意度备注",
         "超时状态",
-        "超时类型"
+        "超时类型",
+        "项目经理(接口人)",
+        "客户经理",
+        "项目类型",
+        "计价方式",
+        "项目开始时间",
+        "项目结束时间",
+        "是否A1客户",
+        "所属行业"
     ]
 
     statis.each do |s|
-      watcher_ids = Irm::Watcher.where(:watchable_id=>s[:id]).collect { |w|
-        Irm::Person.find(w.member_id).full_name
+      watcher_ids = []
+      Irm::Watcher.where(:watchable_id=>s[:id]).collect { |w|
+        person = Irm::Person.find(w.member_id)
+        # 排除角色为hotline、客户
+        if person.present?
+          if !person.role_id.eql?("002N000B2jQQBCsvKW8BfM") && person.profile.user_license.eql?("SUPPORTER")
+            watcher_ids << person.full_name
+          end
+        end
       }
       if watcher_ids.length >3
         for i in 3..watcher_ids.length-1
@@ -191,7 +207,7 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         end
       end
 
-      data = Array.new(22)
+      data = Array.new(32)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = s[:priority_name]
@@ -206,7 +222,6 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       data[11] = watcher_ids[0] if watcher_ids.length >=1
       data[12] = watcher_ids[1] if watcher_ids.length >=2
       data[13] = watcher_ids[2] if watcher_ids.length >=3
-
       first_commit_history_time = Icm::IncidentHistory.
           where(:request_id=>s[:id],:property_key=>"incident_status_id",:new_value=>"000K000A0g9LO0pOKPsZ1s").
           order("created_at asc").
@@ -237,7 +252,7 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       if last_commit_history_time.present? && first_solve_history_time.present?
         #总处理时间 = 最后一次提交方案的时间 - 开始处理的时间
         data[18] = last_commit_history_time.created_at - first_solve_history_time.created_at
-        data[18] = (data[18] / 86400.0).round(2)
+        data[18] = (data[18] / 3600.0).round(2)
       end
       # 用户满意度调查
       sroc = Ccc::SatisRateOfConsultant.where(:incident_request_id=>s[:id]).first()
@@ -251,25 +266,43 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
           type_name = "不满意"
         end
         data[19] = type_name  #客户满意度
+        data[20] = sroc.bad_reason
       end
 
       sla_con_incident_scope = Ccc::SlaConIncident.
       joins("LEFT OUTER JOIN slm_sla_instances ssi ON ssi.id = ccc_sla_con_incidents.sla_instance_id").
       where(:incident_request_id=>s[:id]).
       where("ssi.current_status = 'START'")
+
       if sla_con_incident_scope.length == 0
-        data[20] = "正常"
+        data[21] = "正常"
       elsif sla_con_incident_scope.length == 1
-        data[20] = sla_con_incident_scope.first().type_name    #警告
-        data[21] = sla_con_incident_scope.first().service_name #超时阶段
+        data[21] = sla_con_incident_scope.first().type_name    #警告
+        # data[21] = sla_con_incident_scope.first().service_name #超时阶段
+        data[22] = service_name(sla_con_incident_scope.first().service_name,s[:type_name]) #超时阶段
       elsif sla_con_incident_scope.length == 2
         sla_con_incident_scope.each do |scis|
           if scis.type_name.eql?("超时")
-            data[20] = scis.type_name    #超时
-            data[21] = scis.service_name #超时阶段
+            data[21] = scis.type_name    #超时
+            # data[21] = scis.service_name #超时阶段
+            data[22] = service_name(scis.service_name,s[:type_name]) #超时阶段
           end
         end
       end
+
+      # 项目信息开始
+      external_system = Irm::ExternalSystem.list_all.find(s[:external_system_id])
+      organization = Irm::Organization.list_all.find(s[:organization_id])
+      data[23] = external_system[:project_manager]
+      data[24] = external_system[:customer_no]
+      data[25] = external_system[:project_type_name]
+      data[26] = external_system[:price_type_name]
+      data[27] = external_system[:begin_date].strftime("%F %T")
+      data[28] = external_system[:after_date].strftime("%F %T")
+      data[29] = organization[:A1_flag]
+      data[30] = organization[:industry_name]
+      data[31] = s[:id]
+
       datas << data
     end
 
@@ -291,5 +324,24 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
     end
 
     excel_data.to_xls(columns,{})
+  end
+
+  private
+
+  def service_name(service_name,type_name)
+    new_service_name = ""
+    if service_name.index("新建").present?
+      new_service_name = "分配超时"
+    elsif service_name.index("分配").present? && service_name.index("处理中").present?
+      new_service_name = "开始处理超时"
+    elsif service_name.index("处理中").present? && !service_name.index("分配").present?
+      new_service_name = "进度更新超时"
+    elsif service_name.index("总").present?
+      new_service_name = "总处理时间超时"
+    end
+    if service_name.eql?("总处理时间超时") && type_name.eql?("新增需求")
+      new_service_name = ""
+    end
+    new_service_name
   end
 end
