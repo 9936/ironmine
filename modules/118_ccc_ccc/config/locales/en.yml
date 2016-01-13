@@ -1,6 +1,8 @@
 en:
-  label_for_div_one: Dear customer，
+  label_for_div_one: Dear customer,
   label_for_div_two: welcome to HISMS!
+  label_icm_incident_request_template_info: Note:If have any pictures or attachments,please add attachment to submit it.
+  label_icm_incident_request_template: Attachment template
 
   label_icm_incident_request_watcher: Attendee
   label_irm_watcher: Attendee

@@ -11,8 +11,8 @@ $(function(){
         $("#workload").val("");
         $("#notice").html("");
         $("#new_incident_request_journal_file .file-contents .file-item").remove();
-        window.location.reload()
     <% else %>
         $("#notice").html("<%= escape_javascript(flash_notice)%>");
     <% end %>
+    window.location.reload()
 });

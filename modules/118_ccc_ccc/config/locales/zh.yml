@@ -1,6 +1,8 @@
 zh:
-  label_for_div_one: 尊敬的用户，
+  label_for_div_one: 尊敬的用户,
   label_for_div_two: 欢迎登录HISMS系统!
+  label_icm_incident_request_template_info: 注：如有截图，请通过“客户提交问题模板”作为附件提交
+  label_icm_incident_request_template: 客户提交问题模板
 
   label_home_new_ticket: 新到达问题
   label_home_my_pending_tickets: 我处理中的问题

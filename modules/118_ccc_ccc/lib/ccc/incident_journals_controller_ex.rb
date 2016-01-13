@@ -87,13 +87,6 @@ module Ccc::IncidentJournalsControllerEx
                                          :property_key=> "new_reply",
                                          :old_value=>"",
                                          :new_value=>@incident_journal.journal_number})
-            format.js do
-              @current_journals = Icm::IncidentJournal.list_all(@incident_request.id).includes(:incident_histories).where("#{Icm::IncidentJournal.table_name}.id = ?", @incident_journal.id)
-              responds_to_parent do
-                render :create_journal do |page|
-                end
-              end
-            end
             if (Irm::Person.find(@incident_journal.replied_by).profile.user_license.eql?("SUPPORTER"))
               # 此处评论创建成功
               if !@incident_request.incident_status_id.eql?("000K000A0g8zPKXoIwOIhk") && !@incident_request.incident_status_id.eql?("000K000A0g9LO0pOKPsZ1s")
@@ -111,8 +104,14 @@ module Ccc::IncidentJournalsControllerEx
                 end
               end
             end
-
-            format.html { redirect_to({:action => "new"}) }
+            format.js do
+              @current_journals = Icm::IncidentJournal.list_all(@incident_request.id).includes(:incident_histories).where("#{Icm::IncidentJournal.table_name}.id = ?", @incident_journal.id)
+              responds_to_parent do
+                render :create_journal do |page|
+                end
+              end
+            end
+            # format.html { redirect_to({:action => "new"}) }
             format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
           else
             format.js do
