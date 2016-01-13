@@ -64,6 +64,7 @@ class Boc::BoardsController < ApplicationController
         select("isv.name status_name, SUM(1) amount, isv.display_color").
         where("isv.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
         where("isv.language = 'zh'").
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m') = ?", (Time.now).strftime('%Y-%m')). #当月事故单条件
         where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
         group("#{Icm::IncidentRequest.table_name}.incident_status_id").order("isv.display_sequence + 0 ASC").collect{|i| [i[:status_name], i[:amount].to_i, i[:display_color]]}
     # 事故单的分类柱状图
@@ -71,11 +72,13 @@ class Boc::BoardsController < ApplicationController
         select("ic.name category_name, SUM(1) amount").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_sub_category_id").
         where("ic.language = 'zh'").
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m') = ?", (Time.now).strftime('%Y-%m')). #当月事故单条件
         where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
         group("#{Icm::IncidentRequest.table_name}.incident_sub_category_id").order("ic.code + 0 ASC").collect{|i| [i[:category_name], i[:amount].to_i, '']}
     # 事故单类型柱状图
     @table_a_incident_by_type_code = Icm::IncidentRequest.enabled.
         select("#{Icm::IncidentRequest.table_name}.request_type_code code_name, SUM(1) amount").
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m') = ?", (Time.now).strftime('%Y-%m')). #当月事故单条件
         where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
         group("#{Icm::IncidentRequest.table_name}.request_type_code").order("#{Icm::IncidentRequest.table_name}.request_type_code + 0 ASC").collect{|i| [i[:code_name], i[:amount].to_i, '']}
     # 事故单优先级柱状图
@@ -83,6 +86,7 @@ class Boc::BoardsController < ApplicationController
         select("ic.name urgence_name, SUM(1) amount").
         where("ic.id = #{Icm::IncidentRequest.table_name}.urgence_id").
         where("ic.language = 'zh'").
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m') = ?", (Time.now).strftime('%Y-%m')). #当月事故单条件
         where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
         group("#{Icm::IncidentRequest.table_name}.urgence_id").order("ic.urgency_code + 0 ASC").collect{|i| [i[:urgence_name], i[:amount].to_i, '']}
 
@@ -95,6 +99,40 @@ class Boc::BoardsController < ApplicationController
       c[2] = '#8E5DE8' if c[0].eql?("Master Maintenance")
       c[2] = '#A9E2E8' if c[0].eql?("EBS")
     end
+
+    # 当日高紧急度问题
+    @high_new = Icm::IncidentRequest.enabled.where("#{Icm::IncidentRequest.table_name}.urgence_id = '000R000B2jQm9tAWaRMGtE'").
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", (Time.now).strftime('%Y-%m-%d'))
+    # 当日紧急问题
+    @urgence_new = Icm::IncidentRequest.enabled.where("#{Icm::IncidentRequest.table_name}.urgence_id = '000R000B2jQm9tAWaFlqQi'").
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", (Time.now).strftime('%Y-%m-%d'))
+
+    @high_urgence_today = Icm::IncidentRequest.
+        joins("LEFT OUTER JOIN #{Icm::IncidentStatus.view_name} incident_status ON  incident_status.id = #{Icm::IncidentRequest.table_name}.incident_status_id AND incident_status.language= 'zh'").
+        joins("LEFT OUTER JOIN #{Icm::UrgenceCode.view_name} urgence_code ON  urgence_code.id = #{Icm::IncidentRequest.table_name}.urgence_id AND urgence_code.language = 'zh'").
+        joins("LEFT OUTER JOIN irm_people supporter ON  supporter.id = #{Icm::IncidentRequest.table_name}.support_person_id").
+        joins("LEFT OUTER JOIN #{Irm::Organization.view_name} iov ON iov.id = #{Icm::IncidentRequest.table_name}.organization_id AND iov.language = 'zh'").
+        enabled.
+        select("incident_status.name incident_status_name,#{Icm::IncidentRequest.table_name}.request_number request_number, #{Icm::IncidentRequest.table_name}.title title,urgence_code.name urgence_name,supporter.full_name supporter_name,#{Icm::IncidentRequest.table_name}.submitted_date submitted_date,iov.name organization_name").
+        joins(",#{Icm::IncidentStatus.table_name} iis").
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m-%d') = ?", (Time.now).strftime('%Y-%m-%d')).
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IS NOT NULL").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id <> '--- Please Select ---'").
+        where("iis.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
+        where("#{Icm::IncidentRequest.table_name}.urgence_id in ('000R000B2jQm9tAWaFlqQi','000R000B2jQm9tAWaRMGtE')").
+        order("urgence_code.name DESC").
+        collect{|a|
+            {
+                :request_number=>a[:request_number],
+                :title=>a[:title],
+                :urgence_name=>a[:urgence_name],
+                :supporter_name=>a[:supporter_name],
+                :submitted_date=>a[:submitted_date],
+                :organization_name=>a[:organization_name],
+                :incident_status_name=>a[:incident_status_name]
+            }
+        }
+
     @sla_list = []
     @sla_list = Icm::IncidentRequest.
         joins("LEFT OUTER JOIN ccc_sla_con_incidents sci on icm_incident_requests.id = sci.incident_request_id").

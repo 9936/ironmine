@@ -297,8 +297,8 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       data[24] = external_system[:customer_no]
       data[25] = external_system[:project_type_name]
       data[26] = external_system[:price_type_name]
-      data[27] = external_system[:begin_date].strftime("%F %T")
-      data[28] = external_system[:after_date].strftime("%F %T")
+      data[27] = external_system[:begin_date].present??external_system[:begin_date].strftime("%F %T"):""
+      data[28] = external_system[:after_date].present??external_system[:after_date].strftime("%F %T"):""
       data[29] = organization[:A1_flag]
       data[30] = organization[:industry_name]
       data[31] = s[:id]
