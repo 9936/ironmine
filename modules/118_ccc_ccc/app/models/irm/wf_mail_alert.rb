@@ -100,6 +100,7 @@ class Irm::WfMailAlert < ActiveRecord::Base
     mail_options.merge!(:message_id=>Irm::BusinessObject.mail_message_id(bo,"mailalert"))
     params.merge!(:mail_options=>mail_options)
     params.merge!(:requested_by=>bo.requested_by) if bo.class.to_s.eql?"Icm::IncidentRequest"
+    params.merge!(:requested_by=>Icm::IncidentRequest.find(bo.incident_request_id).requested_by) if bo.class.to_s.eql?"Icm::IncidentJournal"
 
     # header options
     header_options = {}
