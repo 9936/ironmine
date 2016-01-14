@@ -24,7 +24,7 @@
         <%end%>
     <% end %>
     <% builder.column(:priority_id_label,{:title=>t(:label_icm_incident_request_priority),:searchable=>true, :width => "60px",:sortable=>true})%>
-    <% builder.column(:support_person_id_label,{:title=>t(:label_icm_incident_request_support_person),:searchable=>true, :width => "90px"}) do |data| %>
+    <% builder.column(:support_person_id_label,{:title=>t(:label_icm_incident_request_support_person),:searchable=>true, :width => "90px",:sortable=>true}) do |data| %>
           <%= data[:support_person_id_label]%>
     <% end %>
     <% builder.column(:incident_category_id_label,{:title=>t(:label_icm_incident_request_incident_category), :hidden => true, :searchable=>true, :width => "0"})%>
