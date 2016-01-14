@@ -25,6 +25,8 @@ en:
   label_icm_incident_request_requested_by_org: Customer Company
   label_icm_incident_request_requested_by_profile: Requester Profile
   label_grade_of_satisfy: Satisfy
+  label_for_grade_of_satisfy: Satisfy
+  label_for_reason_info: Reason
   label_very_good: Best
   label_good: Good
   label_bad: Bad

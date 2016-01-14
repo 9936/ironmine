@@ -309,7 +309,33 @@
                 </td>
             <% end %>
         <% end %>
-
+        <% grade = Ccc::SatisRateOfConsultant.where(:incident_request_id=>@incident_request.id).collect{|sroc|
+          grade_type = sroc[:grade_type]
+          if grade_type.eql?("VERY")
+            grade_type = "非常满意"
+          elsif grade_type.eql?("GOOD")
+            grade_type = "满意"
+          else
+            grade_type = "不满意"
+          end
+            {
+                :type=>grade_type,
+                :reason=>sroc[:bad_reason]
+            }
+        }%>
+        <%if grade.present? %>
+            <tr>
+              <%if grade.first()[:reason].present?%>
+              <td class="label-col"><label><%= t(:label_for_grade_of_satisfy) %></label></td>
+              <td class="data-col"><label><%= grade.first()[:type] %></label></td>
+              <td class="label-col"><label><%= t(:label_for_reason_info) %></label></td>
+              <td class="data-col" colspan="3"><label><%= grade.first()[:reason] %></label></td>
+              <%else%>
+                  <td class="label-col"><label><%= t(:label_for_grade_of_satisfy) %></label></td>
+                  <td class="data-col" colspan="5"><label><%= grade.first()[:type] %></label></td>
+              <%end%>
+            </tr>
+        <%end%>
         <tr>
           <td class="label-col"><label><%= t(:label_icm_incident_request_summary) %></label></td>
           <td class="data-col" colspan="5" style="word-WRAP: break-word;">

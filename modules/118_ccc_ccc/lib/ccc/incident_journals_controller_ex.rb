@@ -245,11 +245,13 @@ module Ccc::IncidentJournalsControllerEx
       end
 
       def grade_of_satisfy
-        Ccc::SatisRateOfConsultant.create({:supporter_id => params[:supporter_id],
-                                           :incident_request_id => params[:request_id],
-                                           :grade_type => params[:grade_type],
-                                           :bad_reason => params[:bad_reason]
-                                                               })
+        if Ccc::SatisRateOfConsultant.where(:incident_request_id=>params[:request_id]).length == 0
+          Ccc::SatisRateOfConsultant.create({:supporter_id => params[:supporter_id],
+                                             :incident_request_id => params[:request_id],
+                                             :grade_type => params[:grade_type],
+                                             :bad_reason => params[:bad_reason]
+                                           })
+        end
         render json: {:result=>"ok"}
       end
 
@@ -314,18 +316,18 @@ module Ccc::IncidentJournalsControllerEx
         perform_create
         respond_to do |format|
           if @incident_request.save
-            Icm::IncidentWorkload.where("incident_request_id = ?", @incident_request.id).each do |t|
-              t.destroy
-            end
-            params[:incident_workloads].each do |work|
-              if work[:real_processing_time].blank? || work[:real_processing_time].to_f == 0 || work[:person_id].blank?
-                next
-              end
-              Icm::IncidentWorkload.create(:incident_request_id => @incident_request.id,
-                                           :real_processing_time => work[:real_processing_time],
-                                           :workload_type => work[:workload_type],
-                                           :person_id => work[:person_id])
-            end if params[:incident_workloads]
+            # Icm::IncidentWorkload.where("incident_request_id = ?", @incident_request.id).each do |t|
+            #   t.destroy
+            # end
+            # params[:incident_workloads].each do |work|
+            #   if work[:real_processing_time].blank? || work[:real_processing_time].to_f == 0 || work[:person_id].blank?
+            #     next
+            #   end
+            #   Icm::IncidentWorkload.create(:incident_request_id => @incident_request.id,
+            #                                :real_processing_time => work[:real_processing_time],
+            #                                :workload_type => work[:workload_type],
+            #                                :person_id => work[:person_id])
+            # end if params[:incident_workloads]
 
             incident_journal_b.create_elapse if is_with_reply
             Icm::IncidentHistory.create({:request_id => incident_journal_b.incident_request_id,

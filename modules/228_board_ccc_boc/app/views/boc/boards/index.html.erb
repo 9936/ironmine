@@ -34,8 +34,8 @@
       margin-right: 25px;
       font-size: 20px;
   }
-  #daily_chart{
-      min-width: 310px;
+  #daily_chart,#daily_chart_1,#daily_chart_2{
+      min-width: 750px;
       height: 560px;
       margin: 0 auto
   }
@@ -60,6 +60,18 @@
         <tr>
           <td>
             <div id="daily_chart"></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="item">
+      <table style="width:98%;table-layout:fixed" >
+        <tr>
+          <td>
+            <div id="daily_chart_1"></div>
+          </td>
+          <td>
+            <div id="daily_chart_2"></div>
           </td>
         </tr>
       </table>
@@ -375,6 +387,169 @@
 <script type="text/javascript">
 
     $(function () {
+        $('#daily_chart_1').highcharts({
+            title: {
+                text: '每月问题量统计',
+                x: -20 //center
+            },
+            subtitle: {
+                x: -20
+            },
+            xAxis: {
+                categories: ['<%= @table_a_month.join("','")%>'],
+                labels: {
+                    style: {
+                        fontSize: '10px'
+                    }
+                }
+            },
+            yAxis: [{
+                title: {
+                    text: '问题量统计'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }],
+                min:0
+            }],
+            colors: ['#73AADC','#F3A571'],
+            tooltip: {
+//                valueSuffix: '°C'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                type: 'line',
+                name: '新增需求类',
+                data: [<%= @month_need_create.join(',')%>],
+                dataLabels: {
+                    enabled: false,
+                    rotation: -90,
+                    color: '#000000',
+                    align: 'right',
+                    x: 4,
+                    y: 10,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }, {
+                    type: 'line',
+                    name: '咨询纠错类',
+                    data: [<%= @month_other_create.join(',')%>],
+                    dataLabels: {
+                        enabled: false,
+                        rotation: -90,
+                        color: '#000000',
+                        align: 'right',
+                        x: 4,
+                        y: 10,
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif',
+                            textShadow: '0 0 3px black'
+                        }
+                    }
+                }]
+        });
+        $('#daily_chart_2').highcharts({
+            title: {
+                text: '每月工时量统计',
+                x: -20 //center
+            },
+            subtitle: {
+                x: -20
+            },
+            xAxis: {
+                categories: ['<%= @table_a_month.join("','")%>'],
+                labels: {
+                    style: {
+                        fontSize: '10px'
+                    }
+                }
+            },
+            yAxis: [{
+                title: {
+                    text: '工时量统计'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }],
+                min:0
+            }],
+            colors: ['#73AADC','#F3A571'],
+            tooltip: {
+//                valueSuffix: '°C'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                type: 'line',
+                name: '新增需求类',
+                data: [<%= @month_need_workload.join(',')%>],
+                dataLabels: {
+                    enabled: false,
+                    rotation: -90,
+                    color: '#000000',
+                    align: 'right',
+                    x: 4,
+                    y: 10,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }, {
+                type: 'line',
+                name: '咨询纠错类',
+                data: [<%= @month_other_workload.join(',')%>],
+                dataLabels: {
+                    enabled: false,
+                    rotation: -90,
+                    color: '#000000',
+                    align: 'right',
+                    x: 4,
+                    y: 10,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }]
+        });
+
         $('#incident_by_type_code').highcharts({
             chart: {
                 plotBackgroundColor: null,

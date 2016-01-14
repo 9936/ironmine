@@ -22,6 +22,8 @@ zh:
   label_icm_incident_request_requested_by_org: 客户公司
   label_icm_incident_request_requested_by_profile: 提交者简档
   label_grade_of_satisfy: 满意度选择
+  label_for_grade_of_satisfy: 满意度
+  label_for_reason_info: 原因
   label_very_good: 非常满意
   label_good: 满意
   label_bad: 不满意
