@@ -23,7 +23,7 @@
             <td class="label-col"><label><%=(t :label_irm_person_last_name)%></label></td>
             <td class="data-col"><%=f.text_field :last_name%></td>
             <td class="label-col"><label><%=t(:label_irm_person_organization)%></label></td>
-            <td class="data-col"><%= f.blank_select(:organization_id,available_organization,{}) %></td>
+            <td class="data-col"><%= f.blank_select(:organization_id,available_organization,{},{:required=>true}) %></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_first_name)%></label></td>
@@ -35,7 +35,7 @@
             <td class="label-col"><label><%=t(:label_irm_person_bussiness_phone)%></label></td>
             <td class="data-col"><%=f.text_field :bussiness_phone%></td>
             <td class="label-col"><label><%=(t :label_irm_person_role)%></label></td>
-            <td class="data-col"><%=f.blank_select :role_id,available_roles,{},{:id=>"role_id"}%></td>
+            <td class="data-col"><%=f.blank_select :role_id,available_roles,{},{:required=>true,:id=>"role_id"}%></td>
           </tr>
           <tr>
             <td class="label-col"><label><%= t(:label_irm_identity_language_code) %></label></td>
@@ -51,7 +51,7 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_consultant_status)%></label></td>
-            <td class="data-col"><%=f.blank_select :consultant_status_id,available_consultant_statuses,{},{:id=>"consultant_status_id"}%></td>
+            <td class="data-col"><%=f.blank_select :consultant_status_id,available_consultant_statuses,{},{:required=>true,:id=>"consultant_status_id"}%></td>
             <td class="label-col"><label><%=t(:label_irm_person_notification_flag)%></label></td>
             <td class="data-col"><%=f.check_box :notification_flag,:checked => true%></td>
           </tr>

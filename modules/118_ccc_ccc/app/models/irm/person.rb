@@ -39,6 +39,7 @@ class Irm::Person < ActiveRecord::Base
   validates_confirmation_of :password, :allow_nil => true,:if=> Proc.new{|i|i.hashed_password.blank?||!i.password.blank?}
   validate :validate_password_policy,:if=> Proc.new{|i| i.password.present?&&i.password_confirmation.present?}
   validates_presence_of :customer_status_id,:if=> Proc.new{|i| !i.consultant_status_id.present?}
+  validates_presence_of :consultant_status_id,:role_id,:if=> Proc.new{|i| !i.customer_status_id.present?}
 
   validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }, :if => :need_uniqueness_email
   validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,:message=>:email

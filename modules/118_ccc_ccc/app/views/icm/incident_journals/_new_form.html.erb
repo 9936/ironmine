@@ -262,7 +262,7 @@
                   </td>
                   <td class="label-col"><label><%= t(:label_icm_incident_request_confirm_date_total) %></label></td>
                   <td class="data-col">
-                    <div><%= @incident_request[:attribute4].to_i+@incident_request[:attribute7].to_i %></div>
+                    <div><%= @incident_request[:attribute4].to_f+@incident_request[:attribute7].to_f %></div>
                   </td>
               <% end %>
               <!-- 登记工时总计 -->
@@ -949,11 +949,11 @@
               <tr>
                 <td class="label-col label-col-1"><label><%= t(:label_icm_incident_request_remain_date) %></label></td>
                 <td class="data-col">
-                  <% if (@show_external_system[:scene_date].to_i - @incident_request[:attribute4].to_i) > 0%>
-                      <%= t(:label_icm_sence) %>:<%= @show_external_system[:scene_date].to_i - @incident_request[:attribute4].to_i %>
+                  <% if (@show_external_system[:scene_date].to_f - @incident_request[:attribute4].to_f) > 0%>
+                      <%= t(:label_icm_sence) %>:<%= @show_external_system[:scene_date].to_f - @incident_request[:attribute4].to_f %>
                   <%end%>
-                  <% if (@show_external_system[:remote_date].to_i - @incident_request[:attribute7].to_i) > 0%>
-                      <%= t(:label_icm_expect) %>:<%= @show_external_system[:remote_date].to_i - @incident_request[:attribute7].to_i %>
+                  <% if (@show_external_system[:remote_date].to_f - @incident_request[:attribute7].to_f) > 0%>
+                      <%= t(:label_icm_expect) %>:<%= @show_external_system[:remote_date].to_f - @incident_request[:attribute7].to_f %>
                   <%end%>
                   <% if @show_external_system[:external_hostname].present? %>
                       <%= @show_external_system[:external_hostname]%>

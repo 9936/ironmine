@@ -265,7 +265,14 @@
     var sence_date = $(".data_people_sence_date")
     var people_date_str = ""
     for(var i=0;i<length;i++){
-      people_date_str = people_date_str + begin_date.eq(i).val() + "->" + end_date.eq(i).val() + ":" + expect_date.eq(i).val() + ";" + sence_date.eq(i).val()+"||"
+      if (expect_date.eq(i).val() != "" || sence_date.eq(i).val() != ""){
+        if(begin_date.eq(i).val() == "" || end_date.eq(i).val() == "")
+        {
+          people_date_str = people_date_str + "->:;||"
+        }
+      }
+      else
+        people_date_str = people_date_str + begin_date.eq(i).val() + "->" + end_date.eq(i).val() + ":" + expect_date.eq(i).val() + ";" + sence_date.eq(i).val()+"||"
     }
     people_date_str = people_date_str.substring(0,people_date_str.length-2)
     $("#irm_external_system_people_date_message").val(people_date_str)

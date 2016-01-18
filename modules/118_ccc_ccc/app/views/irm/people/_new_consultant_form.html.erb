@@ -23,7 +23,7 @@
             <td class="label-col"><label><%=(t :label_irm_person_last_name)%></label></td>
             <td class="data-col"><%=f.text_field :last_name%></td>
             <td class="label-col"><label><%=t(:label_irm_person_organization)%></label></td>
-            <td class="data-col"><%= f.blank_select(:organization_id,available_organization,{}) %></td>
+            <td class="data-col"><%= f.blank_select(:organization_id,available_organization,{},{:required=>true}) %></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_first_name)%></label></td>
@@ -33,7 +33,7 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_role)%></label></td>
-            <td class="data-col"><%=f.blank_select :role_id,available_roles,{},{:id=>"role_id"}%></td>
+            <td class="data-col"><%=f.blank_select :role_id,available_roles,{},{:required=>true,:id=>"role_id"}%></td>
             <td class="label-col"><label><%=(t :label_irm_person_sex)%></label></td>
             <td class="data-col"><%=f.blank_select :sex_id,available_sexes,{},{:id=>"sex_id"}%></td>
           </tr>
@@ -45,7 +45,7 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_consultant_status)%></label></td>
-            <td class="data-col"><%=f.blank_select :consultant_status_id,available_consultant_statuses,{},{:id=>"consultant_status_id"}%></td>
+            <td class="data-col"><%=f.blank_select :consultant_status_id,available_consultant_statuses,{},{:required=>true,:id=>"consultant_status_id"}%></td>
             <td class="label-col"><label><%=t(:label_irm_person_fax_number)%></label></td>
             <td class="data-col"><%=f.text_field :fax_number, {:irm_number_and_cross => true}%></td>
           </tr>

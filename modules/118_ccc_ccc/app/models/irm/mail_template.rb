@@ -144,6 +144,7 @@ class Irm::MailTemplate < ActiveRecord::Base
         mail_options = {:to=>params[:object_params]["icm_incident_requests"]["attribute5"]}
         TemplateMailer.template_email(mail_options, email_template, template_params, header_options ,logger_options).deliver
       else
+        email_template  = self.class.query_by_language(Irm::Person.find(params[:requested_by]).language_code).find(self.id)
         if !Irm::Person.find(params[:requested_by]).email_address.eql?(params[:object_params]["icm_incident_requests"]["attribute2"])
           mail_options = {:to=>params[:object_params]["icm_incident_requests"]["attribute2"]}
           TemplateMailer.template_email(mail_options, email_template, template_params, header_options ,logger_options).deliver
