@@ -1731,7 +1731,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/people" => ["index", "show", "get_data", "get_people_list","get_choose_people", "get_support_group", "get_owned_roles", "multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles"],
+              "irm/people" => ["index", "show", "get_project_manager","get_customer_no","get_data", "get_people_list","get_choose_people", "get_support_group", "get_owned_roles", "multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles"],
               "irm/external_system_members" => ["update"]
           },
           :edit_person_basic_info => {
@@ -1915,7 +1915,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/organizations" => ["belongs_to", "create", "edit", "get_by_company", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
+              "irm/organizations" => ["belongs_to", "create", "edit", "get_by_company", "get_organization_no","get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
           # 添加只能查看组织的权限
           :view_organization => {
@@ -1924,7 +1924,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/organizations" => ["get_data", "index", "show",]
+              "irm/organizations" => ["get_data", "index", "show","get_organization_no"]
           }
       }
   }
