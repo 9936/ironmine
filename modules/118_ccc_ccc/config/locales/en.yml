@@ -1,4 +1,6 @@
 en:
+  label_icm_incident_request_supporter_business_phone: Consultant Business Phone
+  label_icm_incident_request_supporter_email: Consultant Email
   label_for_div_one: Dear customer,
   label_for_div_two: welcome to HISMS!
   label_icm_incident_request_template_info: Note:If have any pictures or attachments,please add attachment to submit it.

@@ -225,6 +225,16 @@
             <div><%= @incident_request[:supporter_name] %></div>
           </td>
         </tr>
+        <tr>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_supporter_business_phone) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:supporter_business_phone] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_supporter_email) %></label></td>
+          <td class="data-col" colspan="3">
+            <div><%= @incident_request[:supporter_email] %></div>
+          </td>
+        </tr>
         <% if allow_to_function?(:edit_workload) %>
             <tr>
               <% if (@incident_request.attribute3 != nil && @incident_request.attribute3 != "" && @incident_request.attribute3 != "0") ||
