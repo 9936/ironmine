@@ -156,7 +156,8 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         "系统类别",
         "客户名称",
         "问题提交人",
-        "创建日期",
+        "最终用户",
+        # "创建日期",
         "创建时间",
         "最新状态",
         "处理人",
@@ -215,8 +216,9 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       data[4] = s[:incident_category_name]
       data[5] = s[:organization_name]
       data[6] = s[:requested_name]
-      data[7] = s[:submitted_date].strftime("%F")
-      data[8] = s[:submitted_date].strftime("%T")
+      data[7] = s[:attribute1]
+      # data[7] = s[:submitted_date].strftime("%F")
+      data[8] = s[:submitted_date].strftime("%F %T")
       data[9] = s[:incident_status_name]
       data[10] = s[:supporter_name]
       data[11] = watcher_ids[0] if watcher_ids.length >=1

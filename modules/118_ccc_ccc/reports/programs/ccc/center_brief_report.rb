@@ -156,6 +156,7 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
         "系统类别",
         "客户名称",
         "问题提交人",
+        "最终用户",
         "创建日期",
         "创建时间",
         "最新状态",
@@ -206,7 +207,7 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
         end
       end
 
-      data = Array.new(23)
+      data = Array.new(24)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = s[:priority_name]
@@ -214,13 +215,14 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
       data[4] = s[:incident_category_name]
       data[5] = s[:organization_name]
       data[6] = s[:requested_name]
-      data[7] = s[:submitted_date].strftime("%F")
-      data[8] = s[:submitted_date].strftime("%T")
-      data[9] = s[:incident_status_name]
-      data[10] = s[:supporter_name]
-      data[11] = watcher_ids[0] if watcher_ids.length >=1
-      data[12] = watcher_ids[1] if watcher_ids.length >=2
-      data[13] = watcher_ids[2] if watcher_ids.length >=3
+      data[7] = s[:attribute1]
+      data[8] = s[:submitted_date].strftime("%F")
+      data[9] = s[:submitted_date].strftime("%T")
+      data[10] = s[:incident_status_name]
+      data[11] = s[:supporter_name]
+      data[12] = watcher_ids[0] if watcher_ids.length >=1
+      data[13] = watcher_ids[1] if watcher_ids.length >=2
+      data[14] = watcher_ids[2] if watcher_ids.length >=3
       first_commit_history_time = Icm::IncidentHistory.
           where(:request_id=>s[:id],:property_key=>"incident_status_id",:new_value=>"000K000A0g9LO0pOKPsZ1s").
           order("created_at asc").
@@ -239,19 +241,19 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
           first()
 
       if first_commit_history_time.present?
-        data[14] = first_commit_history_time.created_at.strftime("%F %T")  #首提方案日期
+        data[15] = first_commit_history_time.created_at.strftime("%F %T")  #首提方案日期
       end
       if first_assign_history_time.present?
-        data[15] = first_assign_history_time.created_at.strftime("%F %T")  #第一次分配的时间
+        data[16] = first_assign_history_time.created_at.strftime("%F %T")  #第一次分配的时间
       end
       if first_solve_history_time.present?
-        data[16] = first_solve_history_time.created_at.strftime("%F %T")  #开始处理时间
+        data[17] = first_solve_history_time.created_at.strftime("%F %T")  #开始处理时间
       end
-      data[17] = s[:updated_at].strftime("%F %T")
+      data[18] = s[:updated_at].strftime("%F %T")
       if last_commit_history_time.present? && first_solve_history_time.present?
         #总处理时间 = 最后一次提交方案的时间 - 开始处理的时间
-        data[18] = last_commit_history_time.created_at - first_solve_history_time.created_at
-        data[18] = (data[18] / 3600.0).round(2)
+        data[19] = last_commit_history_time.created_at - first_solve_history_time.created_at
+        data[19] = (data[19] / 3600.0).round(2)
       end
       # 用户满意度调查
       sroc = Ccc::SatisRateOfConsultant.where(:incident_request_id=>s[:id]).first()
@@ -264,7 +266,7 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
         else
           type_name = "不满意"
         end
-        data[19] = type_name  #客户满意度
+        data[20] = type_name  #客户满意度
       end
 
       sla_con_incident_scope = Ccc::SlaConIncident.
@@ -273,21 +275,21 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
           where("ssi.current_status = 'START'")
 
       if sla_con_incident_scope.length == 0
-        data[20] = "正常"
+        data[21] = "正常"
       elsif sla_con_incident_scope.length == 1
-        data[20] = sla_con_incident_scope.first().type_name    #警告
+        data[21] = sla_con_incident_scope.first().type_name    #警告
         # data[20] = sla_con_incident_scope.first().service_name #超时阶段
-        data[21] = service_name(sla_con_incident_scope.first().service_name,s[:type_name]) #超时阶段
+        data[22] = service_name(sla_con_incident_scope.first().service_name,s[:type_name]) #超时阶段
       elsif sla_con_incident_scope.length == 2
         sla_con_incident_scope.each do |scis|
           if scis.type_name.eql?("超时")
-            data[20] = scis.type_name    #超时
+            data[21] = scis.type_name    #超时
             # data[20] = scis.service_name #超时阶段
-            data[21] = service_name(scis.service_name,s[:type_name]) #超时阶段
+            data[22] = service_name(scis.service_name,s[:type_name]) #超时阶段
           end
         end
       end
-      data[22] = s[:id]
+      data[23] = s[:id]
       datas << data
     end
 

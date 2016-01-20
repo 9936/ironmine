@@ -54,6 +54,7 @@ class Ccc::OuterQuestionProgressExport < Irm::ReportManager::ReportBase
         "系统类别",
         "客户名称",
         "问题提交人",
+        "最终用户",
         "创建日期",
         "创建时间",
         "最新状态",
@@ -81,7 +82,7 @@ class Ccc::OuterQuestionProgressExport < Irm::ReportManager::ReportBase
           watcher_ids[2] = "#{watcher_ids[2]};#{watcher_ids[i]}"
         end
       end
-      data = Array.new(17)
+      data = Array.new(18)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = s[:priority_name]
@@ -89,16 +90,17 @@ class Ccc::OuterQuestionProgressExport < Irm::ReportManager::ReportBase
       data[4] = s[:incident_category_name]
       data[5] = s[:organization_name]
       data[6] = s[:requested_name]
-      data[7] = s[:submitted_date].strftime("%F")
-      data[8] = s[:submitted_date].strftime("%T")
-      data[9] = s[:incident_status_name]
-      data[10] = s[:supporter_name]
-      data[11] = watcher_ids[0] if watcher_ids.length >=1
-      data[12] = watcher_ids[1] if watcher_ids.length >=2
-      data[13] = watcher_ids[2] if watcher_ids.length >=3
-      data[14] = s[:attribute4]
-      data[15] = s[:attribute7]
-      data[16] = s[:id]   #用于连接到事故单页面
+      data[7] = s[:attribute1]
+      data[8] = s[:submitted_date].strftime("%F")
+      data[9] = s[:submitted_date].strftime("%T")
+      data[10] = s[:incident_status_name]
+      data[11] = s[:supporter_name]
+      data[12] = watcher_ids[0] if watcher_ids.length >=1
+      data[13] = watcher_ids[1] if watcher_ids.length >=2
+      data[14] = watcher_ids[2] if watcher_ids.length >=3
+      data[15] = s[:attribute4]
+      data[16] = s[:attribute7]
+      data[17] = s[:id]   #用于连接到事故单页面
       datas << data
     end
 
