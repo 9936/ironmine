@@ -75,7 +75,7 @@ module Ccc::IncidentJournalsControllerEx
             es = Irm::ExternalSystem.find(@incident_request.external_system_id)
             @incident_journal.create_elapse
             @incident_request.save
-            if es.strict_workload.eql?('Y') && @incident_journal.workload.present?
+            if es.strict_workload.eql?('Y') && @incident_journal.workload.present? && !@incident_journal.reply_type.eql?("CUSTOMER_REPLY")
               Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
                                             :incident_journal_id => @incident_journal.id,
                                             :real_processing_time => @incident_journal.workload,
