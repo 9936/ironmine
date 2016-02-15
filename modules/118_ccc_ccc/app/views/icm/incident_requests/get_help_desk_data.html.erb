@@ -6,6 +6,10 @@
 </style>
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
     <% builder.column(:request_number,{:title=>t(:label_icm_incident_request_request_number_shot), :width => "55px",:searchable=>true,:sortable=>true})%>
+    <% builder.column(:incident_category_id_label,{:title=>t(:label_icm_incident_request_incident_category), :hidden => true, :searchable=>true, :width => "0"})%>
+    <% builder.column(:incident_sub_category_id_label,{:title=>t(:label_icm_incident_request_incident_sub_category), :hidden => false, :searchable=>true, :width => "80px"}) do |data|%>
+        <%= "#{data[:incident_category_id_label]}-#{data[:incident_sub_category_id_label]}"%>
+    <%end%>
     <% builder.column(:title,{:title=>t(:label_icm_incident_request_title),:searchable=>true,:width => "350px"})  do |data|%>
           <% if(data[:reply_flag].eql?("Y") && data[:close_flag].eql?("N"))%>
              <%= icon_link("btn-reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
@@ -27,8 +31,6 @@
     <% builder.column(:support_person_id_label,{:title=>t(:label_icm_incident_request_support_person),:searchable=>true, :width => "90px",:sortable=>true}) do |data| %>
           <%= data[:support_person_id_label]%>
     <% end %>
-    <% builder.column(:incident_category_id_label,{:title=>t(:label_icm_incident_request_incident_category), :hidden => true, :searchable=>true, :width => "0"})%>
-    <% builder.column(:incident_sub_category_id_label,{:title=>t(:label_icm_incident_request_incident_sub_category), :hidden => true, :searchable=>true, :width => "0"})%>
     <% builder.column(:incident_status_id_label,{:title=>t(:label_icm_incident_request_incident_status_code), :hidden => true, :searchable=>true, :width => "0"})%>
     <% builder.column(:submitted_date,{:title=>t(:label_icm_incident_request_submitted_date), :width => "150px",:sortable=>true, :searchable=>true})%>
     <% builder.column(:last_response_date,{:title=>t(:label_icm_incident_request_last_date), :width => "150px",:sortable=>true})%>

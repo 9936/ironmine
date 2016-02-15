@@ -357,6 +357,7 @@ class Irm::Person < ActiveRecord::Base
            return nil
          end
        else
+         return nil unless person.delete_flag == 'N'
          return nil unless Irm::Person.hash_password(password) == person.hashed_password
        end
      else

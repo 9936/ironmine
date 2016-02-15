@@ -1925,6 +1925,15 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "irm/organizations" => ["get_data", "index", "show","get_organization_no"]
+          },
+          # 添加可以编辑组织的权限
+          :edit_organization => {
+              :en => {:name => "Edit Organization", :description => "Edit Organization"},
+              :zh => {:name => "编辑组织", :description => "编辑组织"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/organizations" => ["edit", "update"]
           }
       }
   }
