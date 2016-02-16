@@ -126,7 +126,7 @@ module Ccc::IncidentRequestsControllerEx
         # 如果当前用户是顾问且所要查看的视图是新到达问题
         if Irm::Person.current.profile.user_license.eql?("SUPPORTER") && params[:filter_id].eql?("002Q000923JClcGUDhzYMy") && Irm::Person.current.role_id.eql?("002N000B2jQQBCsvKW8BfM")
           incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
-              relate_person(Irm::Person.current.id)
+              filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id)
         elsif Irm::Person.current.profile.user_license.eql?("SUPPORTER") && params[:filter_id].eql?("002Q000923JClcGUDhzYMy") && !Irm::Person.current.role_id.eql?("002N000B2jQQBCsvKW8BfM")
           incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).where("#{Icm::IncidentRequest.table_name}.id = ''")
         else

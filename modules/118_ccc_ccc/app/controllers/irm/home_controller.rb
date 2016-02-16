@@ -10,7 +10,7 @@ class Irm::HomeController < ApplicationController
     # 新建问题数
     # 如果是用户则只选择用户的系统项目
     if Irm::Person.current.profile.user_license.eql?("SUPPORTER") && Irm::Person.current.role_id.eql?("002N000B2jQQBCsvKW8BfM")
-      span_1 = Icm::IncidentRequest.where(:incident_status_id=>"000K000A0gG4yyDU3KUO1o").length
+      span_1 = Icm::IncidentRequest.where(:incident_status_id=>"000K000A0gG4yyDU3KUO1o").filter_system_ids(Irm::Person.current.system_ids).length
     elsif Irm::Person.current.profile.user_license.eql?("SUPPORTER") && !Irm::Person.current.role_id.eql?("002N000B2jQQBCsvKW8BfM")
       span_1 = 0
     else
