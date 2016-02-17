@@ -46,9 +46,12 @@ module Irm::FiltersHelper
     filters = view_filters(source_code)
     current = nil
     if filter_id
+      temp_filter_ids = ['002Q000B2jTxy1kSBuiS2a','002Q000923JClcGUDhzYMy','002Q0009239HMWJmlUmVmK']
+      if !temp_filter_ids.include? filter_id
+        filter_id = "other"
+      end
       # 如果查看其他问题
       if filter_id.eql?("other")
-        temp_filter_ids = ['002Q000B2jTxy1kSBuiS2a','002Q000923JClcGUDhzYMy','002Q0009239HMWJmlUmVmK']
         temp_filters = []
         filters.each do |f|
           if temp_filter_ids.include? f.id
