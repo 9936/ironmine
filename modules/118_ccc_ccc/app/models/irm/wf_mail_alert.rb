@@ -81,11 +81,16 @@ class Irm::WfMailAlert < ActiveRecord::Base
     end if bo.present?
 
     Irm::WfMailRecipient.bo_attribute1(self.id).each do |recipient|
+      # 如果角色不是项目经理
+      # if !recipient.recipient_id.eql? "002N000B2kHazVX1VOtts8"
       person_ids += Irm::Person.where(:role_id=>recipient.recipient_id).collect{|i|
         if i.system_ids.index(bo.external_system_id)
           i[:id]
         end
       }
+      # else # 如果角色是项目经理则获取该事故单的项目经理id
+      #   person_ids += Irm::Person.where(:full_name => Irm::ExternalSystem.find(bo.external_system_id).project_manager).collect{|i| i[:id]}
+      # end
     end if bo.present?
     person_ids.delete(nil)
     person_ids.uniq
