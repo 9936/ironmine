@@ -81,9 +81,13 @@ class Irm::WfMailAlert < ActiveRecord::Base
     end if bo.present?
 
     Irm::WfMailRecipient.bo_attribute1(self.id).each do |recipient|
-      person_ids += Irm::Person.where(:role_id=>recipient.recipient_id).collect{|i| i[:id]}
+      person_ids += Irm::Person.where(:role_id=>recipient.recipient_id).collect{|i|
+        if i.system_ids.index(bo.external_system_id)
+          i[:id]
+        end
+      }
     end if bo.present?
-
+    person_ids.delete(nil)
     person_ids.uniq
   end
 
