@@ -264,7 +264,7 @@
                       <%= t(:label_icm_sence) %>:<%= @incident_request[:attribute4] %>
                       <% end %>
                       <% if @incident_request.attribute7 != nil &&
-                              @incident_request.attribute7 != "" && @incident_request.attribute7.round(1) != 0.0%>
+                              @incident_request.attribute7 != "" && @incident_request.attribute7.to_f.round(1) != 0.0%>
                       &nbsp;&nbsp;
                       <%= t(:label_icm_expect) %>:<%= @incident_request[:attribute7] %>
                       <% end %>
