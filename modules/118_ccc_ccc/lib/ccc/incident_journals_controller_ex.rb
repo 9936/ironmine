@@ -55,8 +55,8 @@ module Ccc::IncidentJournalsControllerEx
 
         if params[:workload]
           @incident_journal.workload = params[:workload]
+          @incident_journal.workload_type = params[:workload_type]
         end
-
         respond_to do |format|
           flag, now = validate_files(@incident_journal)
           if !flag
@@ -75,7 +75,7 @@ module Ccc::IncidentJournalsControllerEx
             es = Irm::ExternalSystem.find(@incident_request.external_system_id)
             @incident_journal.create_elapse
             @incident_request.save
-            if es.strict_workload.eql?('Y') && @incident_journal.workload.present? && !@incident_journal.reply_type.eql?("CUSTOMER_REPLY") && !@incident_journal.workload.eql?("0")
+            if @incident_journal.id.present? && es.strict_workload.eql?('Y') && @incident_journal.workload.present? && !@incident_journal.reply_type.eql?("CUSTOMER_REPLY") && !@incident_journal.workload.eql?("0")
               Icm::IncidentWorkload.create({:incident_request_id => @incident_journal.incident_request_id,
                                             :incident_journal_id => @incident_journal.id,
                                             :real_processing_time => @incident_journal.workload,
