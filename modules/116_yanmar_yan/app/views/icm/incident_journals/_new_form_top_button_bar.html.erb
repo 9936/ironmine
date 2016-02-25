@@ -90,7 +90,7 @@
           <%= link_to(t(:label_yan_edit_additional_info_form),
                       {:controller => "icm/incident_journals", :action => "edit_additional_info",
                        :request_id => @incident_request.id, :sid => @incident_request.external_system_id},
-                      {:class => "btn"}) %>
+                      {:class => "btn",:rel => "modal"}) %>
       <% end %>
     </div>
     <div class="btn-group">

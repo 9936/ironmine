@@ -106,10 +106,13 @@
                     <%= f.text_field :item_code,:required => true, :maxlength => 40%>
                   </div>
                   <%= mam_demo_label("KAC1*EBS")%>
+                  <%if false%>
                   <label class="checkbox">
                     <input type="checkbox" style="margin-top: 2px" onclick="select_length()" id="sl" >: Use interface to other system
                   </label>
+                  <%end%>
                 </td>
+                <%if false%>
                 <script>
                   function select_length(){
                       $("#code_div").empty()
@@ -137,6 +140,7 @@
                       }
                   }
                 </script>
+                <%end%>
                 <td class="label-col"><label>Item Description</label></td>
                 <td class="data-col">
                   <%= f.text_area :item_description,:required => true, :maxlength => 240%>
