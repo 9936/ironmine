@@ -102,9 +102,41 @@
               <tr>
                 <td class="label-col"><label>Item Code</label></td>
                 <td class="data-col">
-                  <%= f.text_field :item_code,:required => true, :maxlength => 40%>
+                  <div id="code_div">
+                    <%= f.text_field :item_code,:required => true, :maxlength => 40%>
+                  </div>
                   <%= mam_demo_label("KAC1*EBS")%>
+                  <label class="checkbox">
+                    <input type="checkbox" style="margin-top: 2px" onclick="select_length()" id="sl" >: Use interface to other system
+                  </label>
                 </td>
+                <script>
+                  function select_length(){
+                      $("#code_div").empty()
+                      if($("#sl").is(":checked")) {
+                          $("#code_div").html(
+                                  "<div class='form-field-wrapped form-field-required'>"+
+                                  "<span class='form-field-required-flag'></span>"+
+                                  "<span class='form-field'>"+
+                                  "<input id='mam_master_item_item_code' irequired='true'name='mam_master_item[item_code]' type='text'>"+
+                                  "</span>"+
+                                  "</div>"
+                          )
+                          $("#mam_master_item_item_code").maxlength({max: 20})
+                      }
+                      else{
+                          $("#code_div").html(
+                                  "<div class='form-field-wrapped form-field-required'>"+
+                                  "<span class='form-field-required-flag'></span>"+
+                                  "<span class='form-field'>"+
+                                  "<input id='mam_master_item_item_code' irequired='true' name='mam_master_item[item_code]' type='text'>"+
+                                  "</span>"+
+                                  "</div>"
+                          )
+                          $("#mam_master_item_item_code").maxlength({max: 40})
+                      }
+                  }
+                </script>
                 <td class="label-col"><label>Item Description</label></td>
                 <td class="data-col">
                   <%= f.text_area :item_description,:required => true, :maxlength => 240%>
