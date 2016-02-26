@@ -103,16 +103,14 @@
                 <td class="label-col"><label>Item Code</label></td>
                 <td class="data-col">
                   <div id="code_div">
-                    <%= f.text_field :item_code,:required => true, :maxlength => 40%>
+                    <%= f.text_field :item_code,:required => true, :maxlength => 20%>
                   </div>
                   <%= mam_demo_label("KAC1*EBS")%>
-                  <%if false%>
                   <label class="checkbox">
-                    <input type="checkbox" style="margin-top: 2px" onclick="select_length()" id="sl" >: Use interface to other system
+                    <input type="checkbox" style="margin-top: 2px" onclick="select_length()" id="sl" checked>: Use interface to other system
                   </label>
-                  <%end%>
                 </td>
-                <%if false%>
+                <%= f.hidden_field(:interface_flag,:value=>'Y')%>
                 <script>
                   function select_length(){
                       $("#code_div").empty()
@@ -126,6 +124,7 @@
                                   "</div>"
                           )
                           $("#mam_master_item_item_code").maxlength({max: 20})
+                          $("#mam_master_item_interface_flag").val("Y")
                       }
                       else{
                           $("#code_div").html(
@@ -137,10 +136,10 @@
                                   "</div>"
                           )
                           $("#mam_master_item_item_code").maxlength({max: 40})
+                          $("#mam_master_item_interface_flag").val("N")
                       }
                   }
                 </script>
-                <%end%>
                 <td class="label-col"><label>Item Description</label></td>
                 <td class="data-col">
                   <%= f.text_area :item_description,:required => true, :maxlength => 240%>
