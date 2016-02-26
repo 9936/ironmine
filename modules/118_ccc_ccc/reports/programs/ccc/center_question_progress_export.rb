@@ -133,6 +133,17 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       end
       statis = statis.where(:support_group_id=>support_group_ids)
     end
+
+    # 参与者组别条件
+    if params[:joiner_team_id].present?
+      incident_ids = []
+      Irm::GroupMember.where(:group_id=>params[:joiner_team_id]).collect{|i|
+        incident_ids += Irm::Watcher.where(:watchable_type=>"Icm::IncidentRequest",:member_type=>"Irm::Person",:member_id=>i.person_id).collect{|j| j.watchable_id}
+      }
+      incident_ids.uniq!
+      statis = statis.where(:id=>incident_ids)
+    end
+
     # 自己处理的事故单
     if params[:my_only].present?
       statis = statis.mine_filter
