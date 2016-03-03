@@ -10,6 +10,7 @@
     <% builder.column(:incident_sub_category_id_label,{:title=>t(:label_icm_incident_request_incident_sub_category), :hidden => false, :searchable=>true, :width => "80px"}) do |data|%>
         <%= "#{data[:incident_category_id_label]}-#{data[:incident_sub_category_id_label]}"%>
     <%end%>
+    <% builder.column(:request_type_code,{:title=>t(:label_icm_incident_request_request_type_code), :width => "55px",:searchable=>true,:sortable=>true})%>
     <% builder.column(:title,{:title=>t(:label_icm_incident_request_title),:searchable=>true,:width => "350px"})  do |data|%>
           <% if(data[:reply_flag].eql?("Y") && data[:close_flag].eql?("N"))%>
              <%= icon_link("btn-reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
