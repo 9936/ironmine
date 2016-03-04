@@ -13,6 +13,8 @@ module Yan
       Irm::ExternalSystem.send(:include, Yan::ExternalSystemModelEx)
       Irm::ExternalSystemsHelper.send(:include, Yan::ExternalSystemHelperEx)
       Mam::MasterStatus.send(:include, Yan::MasterStatusModelEx)
+      Skm::EntryHeadersController.send(:include, Yan::EntryHeadersControllerEx)
+      Skm::EntryHeader.send(:include, Yan::EntryHeaderModelEx)
     end
   end
 end

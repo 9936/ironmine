@@ -1,4 +1,5 @@
 en:
+  label_skm_entry_header_read_num: Read Number
   label_icm_incident_request_urgence: Alternative Existence
   label_icm_incident_request_urgence_code: Alternative Existence
   label_icm_incident_request_impact_range_code: Severity
