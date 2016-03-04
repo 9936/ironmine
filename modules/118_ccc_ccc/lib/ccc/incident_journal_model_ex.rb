@@ -16,6 +16,7 @@ module Ccc::IncidentJournalModelEx
       def generate_journal_number
         self.journal_number = Irm::Sequence.nextval(self.class.name)
       end
+
       private
 
       def validate_message_body
@@ -23,6 +24,7 @@ module Ccc::IncidentJournalModelEx
         return if self.reply_type == 'REOPEN'
         return if self.reply_type == 'PASS'
         return if self.reply_type == 'STATUS'
+        return if self.reply_type == 'UPGRADE'
 
         str = Irm::Sanitize.sanitize(self.message_body,'').strip
         if !str.present?||(str.length==1&&str.bytes.to_a.eql?([226, 128, 139]))

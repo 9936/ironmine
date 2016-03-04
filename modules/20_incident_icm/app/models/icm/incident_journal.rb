@@ -81,11 +81,13 @@ class Icm::IncidentJournal < ActiveRecord::Base
     request_attributes.each do |key,value|
         ovalue = incident_request_bak.send(key)
         nvalue = incident_request.send(key)
+        if !(key.to_s.eql?("upgrade_person_id") || key.to_s.eql?("upgrade_group_id"))
           Icm::IncidentHistory.create({:journal_id=>incident_journal.id,
                                        :request_id => incident_journal.incident_request_id,
                                        :property_key=>key.to_s,
                                        :old_value=>ovalue,
                                        :new_value=>nvalue}) if !ovalue.eql?(nvalue)
+        end
     end
     incident_journal.create_elapse
     return incident_journal

@@ -282,11 +282,9 @@ class Icm::IncidentJournalsController < ApplicationController
         @incident_request.charge_person_id = support_person_id
         @incident_request.charge_group_id = @incident_request.support_group_id
         @incident_request.upgrade_person_id = support_person_id
-        @incident_request.upgrade_group_id = @incident_request.upgrade_group_id
+        @incident_request.upgrade_group_id = @incident_request.support_group_id
         @incident_request.save
-        process_change_attributes([:incident_status_id,:support_group_id,:support_person_id,
-                                   :charge_group_id,:charge_person_id,
-                                   :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
+        process_change_attributes([:support_group_id,:support_person_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         @incident_journal.create_elapse
 
@@ -322,6 +320,7 @@ class Icm::IncidentJournalsController < ApplicationController
   # 升级
   def edit_upgrade
     @incident_journal = @incident_request.incident_journals.build()
+    @sla_instance_id = params[:sla_instance_id]
     respond_to do |format|
       format.html { render :action => "edit_upgrade",:layout => "application_full" }
       format.xml  { render :xml => @incident_journal }
@@ -329,46 +328,54 @@ class Icm::IncidentJournalsController < ApplicationController
   end
 
   def update_upgrade
+    sla_instance_id = params[:sla_instance_id]
+
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
-
+    @incident_journal.reply_type = "UPGRADE"
     @incident_request.attributes = params[:icm_incident_request]
-
-    current_support_group_id = Icm::SupportGroup.find(@incident_request.support_group_id).parent_group_id
-
     perform_create(true)
     respond_to do |format|
-      if current_support_group_id.present?&&@incident_journal.valid?&&@incident_request.support_group_id
-        @incident_journal.reply_type = "UPGRADE"
+      if @incident_journal.valid?&&@incident_request.support_group_id
         @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
-
-        # 设置升级组
-        @incident_request.upgrade_person_id = @incident_request_bak.support_person_id
-        @incident_request.upgrade_group_id = @incident_request_bak.support_group_id
-
-        # 设置支持组
-        @incident_request.support_group_id = current_support_group_id
-
         support_person_id = @incident_request.support_person_id
         support_person_id = Icm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
-
         @incident_request.support_person_id = support_person_id
 
-
+        @incident_request.charge_person_id = support_person_id
+        @incident_request.charge_group_id = @incident_request.support_group_id
+        @incident_request.upgrade_person_id = support_person_id
+        @incident_request.upgrade_group_id = @incident_request.support_group_id
         @incident_request.save
-
-        process_change_attributes([:incident_status_id,:support_group_id,:support_person_id,
-                                   :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
+        process_change_attributes([:upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         @incident_journal.create_elapse
 
+        # 转交后给支持人员发邮件提醒
+        # 如果事故单状态处于受理中时则用新问题分配的邮件模板
+        if @incident_request.incident_status_id.eql?("000K000922scMSu1Q8vthI")
+          options = {:bo_id => @incident_request.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2jvcJDvCh6ck88", :action_type => "Irm::WfMailAlert"}
+        else
+          options = {:bo_id => @incident_request.id, :bo_code => "ICM_INCIDENT_REQUESTS", :action_id => "002i000B2jvGKXdQwvFVBI", :action_type => "Irm::WfMailAlert"}
+        end
+        Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new(options))
+
+        # 事故单状态不处于客户响应和提交方案时,SLA才需要改变
+        if !@incident_request.incident_status_id.eql?("000K000A0g8zPKXoIwOIhk") && !@incident_request.incident_status_id.eql?("000K000A0g9LO0pOKPsZ1s")
+          if sla_instance_id.present?
+            sla_instance = Slm::SlaInstance.find(sla_instance_id)
+            sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
+            Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
+            sla_instance.destroy
+          end
+        end
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
+        puts @incident_journal.errors.inspect
         format.html { render :action => "edit_upgrade",:layout => "application_full" }
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       end
     end
-
   end
 
   # 自动升级
@@ -381,7 +388,7 @@ class Icm::IncidentJournalsController < ApplicationController
     respond_to do |format|
       if current_support_group_id.present?&&@incident_journal.valid?&&@incident_request.support_group_id
         @incident_journal.reply_type = "UPGRADE"
-        @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
+        # @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
 
         # 设置升级组
         @incident_request.upgrade_person_id = @incident_request.support_person_id
@@ -398,9 +405,9 @@ class Icm::IncidentJournalsController < ApplicationController
 
         @incident_request.save
 
-        process_change_attributes([:incident_status_id,:support_group_id,:support_person_id,
+        process_change_attributes([:support_group_id,:support_person_id,
                                    :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
-        process_files(@incident_journal)
+        # process_files(@incident_journal)
         @incident_journal.create_elapse
 
         format.html { redirect_to({:action => "new"}) }
@@ -597,6 +604,7 @@ class Icm::IncidentJournalsController < ApplicationController
     attributes.each do |key|
       ovalue = old_value.send(key)
       nvalue = new_value.send(key)
+      puts key.to_s
       Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,
                                    :journal_id=>ref_journal.id,
                                    :property_key=>key.to_s,

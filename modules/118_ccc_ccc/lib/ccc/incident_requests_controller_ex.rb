@@ -695,9 +695,9 @@ module Ccc::IncidentRequestsControllerEx
         language_code = person.language_code
         request_attributes = {:support_group_id=>assign_result[:support_group_id],
                               :support_person_id=>assign_result[:support_person_id],
-                              :upgrade_group_id=>assign_result[:support_person_id],
+                              :upgrade_group_id=>assign_result[:support_group_id],
                               :upgrade_person_id=>assign_result[:support_person_id],
-                              :charge_group_id=>assign_result[:support_person_id],
+                              :charge_group_id=>assign_result[:support_group_id],
                               :charge_person_id=>assign_result[:support_person_id]}
         journal_attributes = {:replied_by=>person.id,:reply_type=>"ASSIGN"}
         incident_status_id = Icm::IncidentStatus.transform(request.incident_status_id,journal_attributes[:reply_type],request.external_system_id)

@@ -31,7 +31,7 @@ module Ccc::IncidentHistoryModelEx
       }
 
       scope :without_some_property_key, lambda{
-        where("#{table_name}.property_key NOT IN (?)", ['charge_group_id', 'upgrade_person_id', 'upgrade_group_id', 'charge_person_id'])
+        where("#{table_name}.property_key NOT IN (?)", ['charge_group_id', 'charge_person_id'])
       }
 
       def meaning
@@ -46,19 +46,47 @@ module Ccc::IncidentHistoryModelEx
             if old_meaning.nil?
               real_value = Irm::Person.query_person_name(self.old_value).first
               old_meaning = real_value[:person_name] if real_value
+              if new_meaning.nil?
+                real_value = Irm::Person.query_person_name(self.new_value).first
+                new_meaning = "#{real_value[:person_name]}(Pass)" if real_value
+              end
+            else
+              if new_meaning.nil?
+                real_value = Irm::Person.query_person_name(self.new_value).first
+                new_meaning = "#{real_value[:person_name]}(Assign)" if real_value
+              end
+            end
+          when "support_group_id"
+            if old_meaning.nil?
+              real_value = Icm::SupportGroup.with_group(I18n.locale).query(self.old_value).first
+              old_meaning = real_value[:name] if real_value
+              if new_meaning.nil?
+                real_value = Icm::SupportGroup.with_group(I18n.locale).query(self.new_value).first
+                new_meaning = "#{real_value[:name]}(Pass)" if real_value
+              end
+            else
+              if new_meaning.nil?
+                real_value = Icm::SupportGroup.with_group(I18n.locale).query(self.new_value).first
+                new_meaning = "#{real_value[:name]}(Assign)" if real_value
+              end
+            end
+          when "upgrade_person_id"
+            if old_meaning.nil?
+              real_value = Irm::Person.query_person_name(self.old_value).first
+              old_meaning = real_value[:person_name] if real_value
             end
             if new_meaning.nil?
               real_value = Irm::Person.query_person_name(self.new_value).first
-              new_meaning = real_value[:person_name] if real_value
+              new_meaning = "#{real_value[:person_name]}(Upgrade)" if real_value
             end
-          when "support_group_id"
+          when "upgrade_group_id"
             if old_meaning.nil?
               real_value = Icm::SupportGroup.with_group(I18n.locale).query(self.old_value).first
               old_meaning = real_value[:name] if real_value
             end
             if new_meaning.nil?
               real_value = Icm::SupportGroup.with_group(I18n.locale).query(self.new_value).first
-              new_meaning = real_value[:name] if real_value
+              new_meaning = "#{real_value[:name]}(Upgrade)" if real_value
             end
           when "incident_status_id"
             if old_meaning.nil?

@@ -20,6 +20,9 @@
           <% if @incident_request.status_code.eql?("ENABLED") %>
               <% if can_pass?(@incident_request)  %>
                   <%= link_to t(:pass), {:action => "edit_pass", :sid => @incident_request.external_system_id},{:class=>"btn",:id=>"edit_pass"} %>
+                  <%= link_to t(:label_icm_incident_request_upgrade),
+                              {:action => "edit_upgrade", :sid => @incident_request.external_system_id},
+                              {:class=>"btn"}%>
               <% end %>
           <% end%>
         </div>
