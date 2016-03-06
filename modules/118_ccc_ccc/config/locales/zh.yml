@@ -1,4 +1,9 @@
 zh:
+  label_icm_incident_request_urgence_low: 对正常的业务操作影响不大的问题，此类问题一般涉及新需求。如：新调研、新配置、新开发
+  label_icm_incident_request_urgence_middle: 影响业务操作的问题，基本都是由于不正确的操作或者新的开发配置引起的。如：一般报表数据错误、物料凭证过账错误等
+  label_icm_incident_request_urgence_high: 产生严重业务影响的问题，但对全公司不产生影响。如：月结、年结错误的问题
+  label_icm_incident_request_urgence_urgence: 导致生产系统不能使用或对核心生产系统产生严重业务影响的问题。如：系统宕机、数据混乱丢失等系统无法使用的问题。
+
   label_icm_incident_request_upgrade_person: 升级支持者
   label_icm_incident_request_upgrade_group: 升级支持组
   label_for_joiner_team: 参与者组别

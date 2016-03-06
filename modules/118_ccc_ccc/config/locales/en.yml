@@ -1,4 +1,12 @@
 en:
+
+  label_icm_incident_request_urgence_low: Refers to the problems have little impact on the normal business operations. This kind of problems are involved with new requirements, like new investigation, new configuration and new development.
+  label_icm_incident_request_urgence_middle: The important problems affect business operations. This kind of problem caused by incorrect operation or new configuration. For example, general report data error, material document posting error, etc.
+  label_icm_incident_request_urgence_high: This may cause business operations cannot be conducted on production system. For example, the production behavior needed to be implemented immediately or monthly-closing and year end closing.
+  label_icm_incident_request_urgence_urgence: It will cause very serious consequence to normal business operations. For example, PRD system shutdown, data chaos or missing, and system cannot be used, etc.
+
+
+
   label_for_joiner_team: Joiner Team
 
   label_icm_incident_request_supporter_business_phone: Consultant Business Phone

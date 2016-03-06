@@ -1,4 +1,12 @@
-<%= form_for(@incident_request,:url=>{:action=>"create"},:builder => CustomFormBuilder,:html => { :multipart => true }) do |f| %>
+<style>
+  .tips{
+      display: none;
+      line-height: 25px;
+      color: blue;
+  }
+</style>
+
+<%= form_for(@incident_request,:url=>{:action=>"create"},:builder => CustomFormBuilder,:html => { :multipart => true ,:onSubmit => "return check_urgence_reason()"}) do |f| %>
     <%= hidden_field_tag :return_url,@return_url %>
 
 
@@ -88,12 +96,17 @@
             <td class="data-col">
               <%=f.select :urgence_id,options_for_select(available_urgence_code,@incident_request.urgence_id||Icm::UrgenceCode.default_id),
                           {},{:required=>true,:id=>"incident_request_urgence_code"}%>
+              <div class="tips" id="low"><label><%=t(:label_icm_incident_request_urgence_low)%></label></div>
+              <div class="tips" id="middle"><label><%=t(:label_icm_incident_request_urgence_middle)%></label></div>
+              <div class="tips" id="high"><label><%=t(:label_icm_incident_request_urgence_high)%></label></div>
+              <div class="tips" id="urgence"><label><%=t(:label_icm_incident_request_urgence_urgence)%></label></div>
             </td>
           </tr>
           <tr id="urgence_reason" style="display: none">
             <td class="label-col"><label><%=t(:label_icm_incident_request_urgence_reason)%></label></td>
             <td class="data-col">
-              <%=f.text_area :urgence_reason,:rows=>4,:cols=>90 ,:id=>"incident_request_urgence_reason",:class => "input-xlarge" %>
+              <%=f.text_area :urgence_reason,:rows=>4,:cols=>90 ,:id=>"incident_request_urgence_reason",:class => "input-xlarge",:required=>true %>
+              <div style="color: #CC0000;display: none" id="errorReason"><b>注：</b>理由不能为空</div>
             </td>
           </tr>
           <tr style="display: none">
@@ -152,8 +165,6 @@
           </tbody>
         </table>
     <% end %>
-
-
 
     <!--事故单基本信息-->
     <% content_for :incident_request_additional do %>
@@ -302,21 +313,46 @@
 </script>
 
 <script type="text/javascript">
+
+    function check_urgence_reason(){
+        var select_val = $("#incident_request_urgence_code").find("option:selected").val()
+        if(select_val == "000R000B2jQm9tAWaFlqQi" ){
+            if($("#incident_request_urgence_reason").val() == "" || $("#incident_request_urgence_reason").val() == null){
+                $("#errorReason").show()
+                $("#new_icm_incident_request").unmask()
+                return false
+            }
+            else
+                return true
+        }
+        else
+            return true
+    }
     $(function(){
         var requester = $("#incident_request_requested_by"), external_system_id = '<%= @incident_request.external_system_id %>', customBlockHtml = $("#customBlock").html();
-        if(requester){
-        }
 
         $("#incident_request_incident_status_code").attr("disabled","disabled")
         $("#incident_request_urgence_code").on("change",function(){
-            if( $("#incident_request_urgence_code").find("option:selected").val() == "000R000B2jQm9tAWaFlqQi" ){
+            var select_val = $("#incident_request_urgence_code").find("option:selected").val()
+            $(".tips").hide()
+            if(select_val == "000R000B2jQm9tAWaFlqQi" ){
                 $("#urgence_reason").show()
+                $("#urgence").css("display","inline")
             }
             else{
-                $("#urgence_reason").hide()
+                $("#urgence_reason,#errorReason").hide()
                 $("#incident_request_urgence_reason").val("")
+                if(select_val == "000R000B2jQm9tAWawb6PY")
+                    $("#low").css("display","inline")
+                else if(select_val == "000R000B2jQm9tAWadatUG")
+                    $("#middle").css("display","inline")
+                else
+                    $("#high").css("display","inline")
             }
         })
+
+        $("#incident_request_urgence_code").trigger("change")
+
 
         if($("#incident_request_support_group_id")){
             $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
@@ -371,6 +407,7 @@
         })
     });
 </script>
+
 <div class="modal fade" id="projectOutOfTimeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
