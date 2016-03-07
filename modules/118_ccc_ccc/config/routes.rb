@@ -112,6 +112,7 @@ Ironmine::Application.routes.draw do
 
  scope :module => "icm" do
    match '/incident_journals/grade_of_satisfy(.:format)' => "incident_journals#grade_of_satisfy"
+   match '/incident_requests/delete_user_history(.:format)' => "incident_requests#delete_user_history"
    match '/incident_requests/get_external_systems_t(.:format)' => "incident_requests#get_external_systems_t"
    match '/incident_requests/:request_id/:sid/journals/update_people_date(.:format)' => "incident_journals#update_people_date", :via => :put
    match '/incident_requests/:source_id/:sid/add_entry_header_relation(.:format)' => "incident_requests#add_entry_header_relation", :via => :post

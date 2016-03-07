@@ -1,4 +1,6 @@
 en:
+  label_icm_incident_request_user_history: Input Histories
+  label_delete_history: Delete This History?
 
   label_icm_incident_request_urgence_low: Refers to the problems have little impact on the normal business operations. This kind of problems are involved with new requirements, like new investigation, new configuration and new development.
   label_icm_incident_request_urgence_middle: The important problems affect business operations. This kind of problem caused by incorrect operation or new configuration. For example, general report data error, material document posting error, etc.
@@ -292,6 +294,10 @@ en:
   label_icm_incident_journal_date: Date
 
   label_icm_incident_request_remove_journal: Remove Journal
+  label_icm_incident_request_for_requested_by: Requester
+  label_icm_incident_request_target_system: Target System
+  label_icm_incident_request_urgence_code: Urgence code
+  label_icm_incident_request_urgence_reason: Urgence reason
   label_report_incident_request_update_priority: Update Priority
 
   label_icm_incident_request_impact_range: Impact Range

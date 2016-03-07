@@ -48,7 +48,7 @@ module Ccc::IncidentHistoryModelEx
               old_meaning = real_value[:person_name] if real_value
               if new_meaning.nil?
                 real_value = Irm::Person.query_person_name(self.new_value).first
-                new_meaning = "#{real_value[:person_name]}(Pass)" if real_value
+                new_meaning = "#{real_value[:person_name]}(Transfer)" if real_value
               end
             else
               if new_meaning.nil?
@@ -62,7 +62,7 @@ module Ccc::IncidentHistoryModelEx
               old_meaning = real_value[:name] if real_value
               if new_meaning.nil?
                 real_value = Icm::SupportGroup.with_group(I18n.locale).query(self.new_value).first
-                new_meaning = "#{real_value[:name]}(Pass)" if real_value
+                new_meaning = "#{real_value[:name]}(Transfer)" if real_value
               end
             else
               if new_meaning.nil?
