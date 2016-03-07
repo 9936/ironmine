@@ -2,6 +2,7 @@ ja:
   label_skm_entry_header_read_num: Read Number
   label_skm_entry_header_download_num: Download
   label_skm_entry_header_zan_num: 賛
+  label_skm_entry_header_channel_name: Channel
 
   label_icm_incident_request_urgence: 代替手段有無
   label_icm_incident_request_urgence_code: 代替手段有無
