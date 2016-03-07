@@ -5,11 +5,6 @@ module Yan::EntryHeadersControllerEx
           @entry_header = Skm::EntryHeader.list_all.with_favorite_flag(Irm::Person.current.id).find(params[:id])
           @return_url=request.env['HTTP_REFERER']
 
-          @history = Skm::EntryOperateHistory.new({:operate_code=>"SKM_SHOW",
-                                                   :entry_id=>params[:id],
-                                                   :version_number => @entry_header.version_number})
-          @history.save
-
           @entry_history = Skm::EntryHeader.list_all.where(:doc_number => @entry_header[:doc_number])
           #关联的知识文章
           @entry_relation = Skm::EntryHeaderRelation.list_all(@entry_header.id)
@@ -20,14 +15,27 @@ module Yan::EntryHeadersControllerEx
               format.html { redirect_to({:action => "video_show", :id => @entry_header})}
               format.json {render :json=>@entry_header.attributes}
             else
-              format.html # show.html.erb
-              format.xml  { render :xml => @entry_header }
+              format.html {
+                @history = Skm::EntryOperateHistory.new({:operate_code=>"SKM_SHOW_HTML",
+                                                         :entry_id=>params[:id],
+                                                         :version_number => @entry_header.version_number})
+                @history.save
+              }# show.html.erb
+              format.xml  {
+                render :xml => @entry_header
+              }
               format.json {
                 @entry_header[:entry_details]=@entry_header.entry_details.collect {|i| i.attributes}
 
                 render :json=>@entry_header.attributes
               }
               format.pdf {
+
+                @history = Skm::EntryOperateHistory.new({:operate_code=>"SKM_SHOW_PDF",
+                                                         :entry_id=>params[:id],
+                                                         :version_number => @entry_header.version_number})
+                @history.save
+
                 render :pdf => "[#{@entry_header.doc_number}]#{@entry_header.entry_title}",
                        :print_media_type => true,
                        :encoding => 'utf-8',
@@ -63,6 +71,8 @@ module Yan::EntryHeadersControllerEx
                 published.
                 current_entry.
                 with_read_num.
+                with_download_num.
+                with_zan_num.
                 with_favorite_flag(Irm::Person.current.id)
             #entry_headers_scope = entry_headers_scope.with_columns([] << params[:column_id]) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
             entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]

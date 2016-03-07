@@ -10,7 +10,7 @@
   <% end %>
   <% builder.column(:published_date,{:title=>t(:label_skm_entry_header_published_date),:width=>"180px"})%>
   <% builder.column(:author_name,{:title=>t(:label_skm_entry_header_author_name),:width=>"150px"})%>
-  <% builder.column(:doc_number,{:title=>t(:label_skm_entry_header_doc_number),:searchable=>true}) do |data|%>
+  <% builder.column(:doc_number,{:title=>t(:label_skm_entry_header_doc_number),:searchable=>true,:width=>"50px"}) do |data|%>
     <%= link_to(data[:doc_number], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
   <% end %>
   <% builder.column(:entry_title,{:title=>t(:label_skm_entry_header_title),:searchable=>true}) do |data|%>
@@ -21,6 +21,26 @@
     <%= title %>
     <% end %>
   <% end %>
-  <% builder.column(:name,{:title=>t(:label_skm_entry_header_channel_name),:width=>"150px"})%>
-  <% builder.column(:num,{:title=>t(:label_skm_entry_header_read_num),:width=>"50px"})%>
+  <% builder.column(:name,{:title=>t(:label_skm_entry_header_channel_name),:width=>"100px"})%>
+  <% builder.column(:read_num,{:title=>t(:label_skm_entry_header_read_num),:width=>"50px"}) do |data|%>
+      <%if data[:read_num]%>
+        <%=data[:read_num] %>
+      <%else%>
+            0
+      <%end%>
+  <%end%>
+  <% builder.column(:download_num,{:title=>t(:label_skm_entry_header_download_num),:width=>"50px"}) do |data|%>
+      <%if data[:download_num]%>
+          <%=data[:download_num] %>
+      <%else%>
+          0
+      <%end%>
+  <%end%>
+  <% builder.column(:zan_num,{:title=>t(:label_skm_entry_header_zan_num),:width=>"50px"}) do |data|%>
+      <%if data[:zan_num]%>
+          <%=data[:zan_num] %>
+      <%else%>
+          0
+      <%end%>
+  <%end%>
 <% end %>
