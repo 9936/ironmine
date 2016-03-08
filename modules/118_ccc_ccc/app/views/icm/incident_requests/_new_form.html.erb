@@ -54,6 +54,7 @@
               <% if allow_to_function?(:create_icdt_rqst_for_other) %>
                   <%=f.select :external_system_id,nullable_options_for_select([],@incident_request.external_system_id),{:value=>@incident_request.external_system_id},
                               {:required=>true,:id=>"ass_external_system",
+                               :onchange=>"get_histories(this)",
                                :depend=>"incident_request_requested_by",
                                :origin_value=>@incident_request.external_system_id,
                                :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
@@ -63,6 +64,7 @@
                               nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},nil),
                               {:value=>@incident_request.external_system_id},
                               {:required=>true,:id=>"ass_external_system",
+                               :onchange=>"get_histories(this)",
                                :origin_value=>@incident_request.external_system_id,
                                :depend=>"incident_request_requested_by",
                                :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
@@ -97,7 +99,6 @@
                                                               :incident_category_id=>"${incident_category_id}")}%>
             </td>
           </tr>
-
           <tr>
             <td class="label-col"><label for="incident_request_request_type_code"><%=t(:label_icm_incident_request_request_type_code)%></label></td>
             <td class="data-col">
@@ -105,7 +106,6 @@
                           {},{:required=>true,:id=>"incident_request_request_type_code"}%>
             </td>
           </tr>
-
           <tr>
             <td class="label-col"><label for="incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label></td>
             <td class="data-col">
@@ -131,7 +131,6 @@
                           {},{:required=>true,:id=>"incident_request_impact_range_code"}%>
             </td>
           </tr>
-
           <tr>
             <td class="label-col"><label for="incident_request_incident_status_code"><%=t(:label_icm_incident_request_incident_status_code)%></label></td>
             <td class="data-col">
@@ -139,12 +138,10 @@
                           {},{:required=>true,:id=>"incident_request_incident_status_code"}%>
             </td>
           </tr>
-
           <tr>
             <td class="label-col" id="title"><label for="incident_request_title"><%=t(:label_icm_incident_request_title)%></label></td>
             <td class="data-3col" colspan="3"><%=f.text_field :title,:size=>80, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_title"%></td>
           </tr>
-
           <tr>
             <td class="label-col" id="summary"><label for="incident_request_summary"><%=t(:label_icm_incident_request_summary)%></label></td>
             <td class="data-3col" colspan="3">
@@ -221,30 +218,7 @@
           <tr>
             <td colspan="4">
               <div class="list-group">
-                  <!-- 显示历史记录 -->
-                  <% if @usr_histories
-                     @usr_histories.each do |uh|%>
-                    <a class="list-group-item" href="javascript:void(0)" onclick="fill_form(this)">
-                      <span class="badge" id="<%=uh.id%>">x</span>
-                      <table>
-                        <tbody>
-                            <tr>
-                              <td class="label-col"><label><%=t(:label_icm_incident_request_contact)%>:</label></td>
-                              <td class="data-col"><%=uh.end_user_name%></td>
-                            </tr>
-                            <tr>
-                              <td class="label-col"><label><%=t(:label_icm_incident_request_contact_number)%>:</label></td>
-                              <td class="data-col"><%=uh.end_user_phone%></td>
-                            </tr>
-                            <tr>
-                              <td class="label-col"><label><%=t(:label_icm_incident_request_contact_email)%>:</label></td>
-                              <td class="data-col"><%=uh.end_user_email%></td>
-                            </tr>
-                        </tbody>
-                      </table>
-                    </a>
-                  <%end
-                  end%>
+
               </div>
             </td>
           </tr>
@@ -338,24 +312,54 @@
 <!--javascript 脚本-->
 <script type="text/javascript">
 
-    $(".badge").bind("click",function(event){
-        event.stopPropagation()
-        if(confirm("<%= t(:label_delete_history)%>")){
-            var history_id = event.toElement.id
-            var href = '<%= url_for(:controller => "incident_requests",:action => "delete_user_history")%>'
-            $.ajax({
-                url: href,
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    history_id: history_id
-                },
-                success: function (data) {
-                    $("#"+history_id).parent().remove()
+    function get_histories(arg){
+        var href = '<%= url_for(:controller => "incident_requests",:action => "get_user_histories")%>'
+        $.ajax({
+            url: href,
+            type: 'post',
+            dataType: 'json',
+            data: {
+                external_system_id: $(arg).find("option:selected").attr("id")
+            },
+            success: function (data) {
+                var length = data.user_histories.length
+                var uh = data.user_histories
+                var html = ""
+                for(var i=0;i<length;i++){
+                    html = html + "<a class='list-group-item' href='javascript:void(0)' onclick='fill_form(this)'>"+
+                            "<span class='badge' id='"+uh[i].user_history.id+"'>x</span>"+
+                            "<table><tbody><tr><td class='label-col'><label><%=t(:label_icm_incident_request_contact)%>:</label></td><td class='data-col'>"+
+                            uh[i].user_history.end_user_name+
+                            "</td></tr><tr><td class='label-col'><label><%=t(:label_icm_incident_request_contact_number)%>:</label></td><td class='data-col'>"+
+                            uh[i].user_history.end_user_phone+
+                            "</td></tr><tr><td class='label-col'><label><%=t(:label_icm_incident_request_contact_email)%>:</label></td><td class='data-col'>"+
+                            uh[i].user_history.end_user_email+
+                            "</td></tr></tbody></table></a>"
                 }
-            })
-        }
-    })
+                $(".list-group").html("")
+                $(".list-group").html(html)
+                $(".badge").bind("click",function(event){
+                    event.stopPropagation()
+                    if(confirm("<%= t(:label_delete_history)%>")){
+                        var history_id = event.toElement.id
+                        var href = '<%= url_for(:controller => "incident_requests",:action => "delete_user_history")%>'
+                        $.ajax({
+                            url: href,
+                            type: 'post',
+                            dataType: 'json',
+                            data: {
+                                history_id: history_id
+                            },
+                            success: function (data) {
+                                $("#"+history_id).parent().remove()
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }
+
     function fill_form(arg){
         var name = $(arg).find(".data-col").eq(0).html()
         var number = $(arg).find(".data-col").eq(1).html()

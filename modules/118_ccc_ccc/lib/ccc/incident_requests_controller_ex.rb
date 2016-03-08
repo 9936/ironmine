@@ -11,7 +11,7 @@ module Ccc::IncidentRequestsControllerEx
         if params[:source_id].present? and params[:relation_type].present?
           @source_incident_request = Icm::IncidentRequest.list_all.find(params[:source_id])
         end
-        @usr_histories = Ccc::UserHistory.where(:login_person_id=>Irm::Person.current.id)
+        # @usr_histories = Ccc::UserHistory.where(:login_person_id=>Irm::Person.current.id)
         @return_url=request.env['HTTP_REFERER']
         respond_to do |format|
           format.html { render :layout => "application_full" } # new.html.erb
@@ -22,7 +22,7 @@ module Ccc::IncidentRequestsControllerEx
       def edit
         @incident_request = Icm::IncidentRequest.list_all.query(params[:id])
         @incident_request = check_incident_request_permission(@incident_request)
-        @usr_histories = Ccc::UserHistory.where(:login_person_id=>Irm::Person.current.id)
+        # @usr_histories = Ccc::UserHistory.where(:login_person_id=>Irm::Person.current.id)
         respond_to do |format|
           format.html { render :layout => "application_full" } # new.html.erb
           format.xml { render :xml => @incident_request }
@@ -300,7 +300,7 @@ module Ccc::IncidentRequestsControllerEx
       def update
         @incident_reply = Icm::IncidentReply.new(params[:icm_incident_reply])
         @incident_request = Icm::IncidentRequest.list_all.query(params[:id])
-        @usr_histories = Ccc::UserHistory.where(:login_person_id=>Irm::Person.current.id)
+        # @usr_histories = Ccc::UserHistory.where(:login_person_id=>Irm::Person.current.id)
         @incident_request = check_incident_request_permission(@incident_request)
         respond_to do |format|
           flag = true
@@ -327,13 +327,16 @@ module Ccc::IncidentRequestsControllerEx
 
             # 保存历史最终用户数据
             if @incident_request.attribute1 && (@incident_request.contact_number.present? || @incident_request.attribute2.present?)
-              user_histories =  Ccc::UserHistory.where(:login_person_id=>Irm::Person.current.id,
-                                                       :end_user_name=>@incident_request.attribute1, #业务用户姓名
-                                                       :end_user_phone=>@incident_request.contact_number, #业务用户联系电话
-                                                       :end_user_email=>@incident_request.attribute2 #业务用户邮箱
+              user_histories =  Ccc::UserHistory.where(
+                  :login_person_id=>Irm::Person.current.id,
+                  :external_system_id=>@incident_request.external_system_id,
+                  :end_user_name=>@incident_request.attribute1, #业务用户姓名
+                  :end_user_phone=>@incident_request.contact_number, #业务用户联系电话
+                  :end_user_email=>@incident_request.attribute2 #业务用户邮箱
               )
               if !user_histories.present?  #如果历史参考数据不存在则新建
                 Ccc::UserHistory.create({:login_person_id=>Irm::Person.current.id,
+                                         :external_system_id=>@incident_request.external_system_id,
                                          :end_user_name=>@incident_request.attribute1,
                                          :end_user_phone=>@incident_request.contact_number,
                                          :end_user_email=>@incident_request.attribute2})
@@ -353,7 +356,7 @@ module Ccc::IncidentRequestsControllerEx
       # POST /incident_requests.xml
       def create
         @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
-        @usr_histories = Ccc::UserHistory.where(:login_person_id=>Irm::Person.current.id)
+        # @usr_histories = Ccc::UserHistory.where(:login_person_id=>Irm::Person.current.id)
         @return_url = params[:return_url] if params[:return_url]
         #加入创建事故单的默认参数
         prepared_for_create(@incident_request)
@@ -389,16 +392,19 @@ module Ccc::IncidentRequestsControllerEx
                                          :new_value => ""})
             # 保存历史最终用户数据
             if @incident_request.attribute1 && (@incident_request.contact_number.present? || @incident_request.attribute2.present?)
-              user_histories =  Ccc::UserHistory.where(:login_person_id=>Irm::Person.current.id,
-                                     :end_user_name=>@incident_request.attribute1, #业务用户姓名
-                                     :end_user_phone=>@incident_request.contact_number, #业务用户联系电话
-                                     :end_user_email=>@incident_request.attribute2 #业务用户邮箱
+              user_histories =  Ccc::UserHistory.where(
+                  :login_person_id=>Irm::Person.current.id,
+                  :external_system_id=>@incident_request.external_system_id,
+                  :end_user_name=>@incident_request.attribute1, #业务用户姓名
+                  :end_user_phone=>@incident_request.contact_number, #业务用户联系电话
+                  :end_user_email=>@incident_request.attribute2 #业务用户邮箱
               )
               if !user_histories.present?  #如果历史参考数据不存在则新建
                 Ccc::UserHistory.create({:login_person_id=>Irm::Person.current.id,
-                                          :end_user_name=>@incident_request.attribute1,
-                                          :end_user_phone=>@incident_request.contact_number,
-                                          :end_user_email=>@incident_request.attribute2})
+                                         :external_system_id=>@incident_request.external_system_id,
+                                         :end_user_name=>@incident_request.attribute1,
+                                         :end_user_phone=>@incident_request.contact_number,
+                                         :end_user_email=>@incident_request.attribute2})
               end
             end
 
@@ -589,6 +595,12 @@ module Ccc::IncidentRequestsControllerEx
                       :level_groups=>level_groups,
                       :groups=>groups,
                       :module_groups=>module_groups}
+      end
+
+      def get_user_histories
+        user_histories = Ccc::UserHistory.where(:login_person_id=>Irm::Person.current.id,:external_system_id=>params[:external_system_id])
+
+        render json:{:user_histories=>user_histories}
       end
 
       def delete_user_history

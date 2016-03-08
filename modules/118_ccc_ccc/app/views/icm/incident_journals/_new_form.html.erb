@@ -306,16 +306,40 @@
               <% end %>
             </tr>
         <% else %>
-            <% if @incident_request.attribute3 != nil && @incident_request.attribute3 != "" %>
-                <td class="label-col"><label><%= t(:label_icm_incident_request_expect_date) %></label></td>
+            <%if false%>
+                <% if @incident_request.attribute3 != nil && @incident_request.attribute3 != "" %>
+                    <td class="label-col"><label><%= t(:label_icm_incident_request_expect_date) %></label></td>
+                    <td class="data-col">
+                      <div><%= @incident_request[:attribute3] %></div>
+                    </td>
+                <% end %>
+                <% if @incident_request.attribute4 != nil && @incident_request.attribute4 != "" %>
+                    <td class="label-col"><label><%= t(:incident_request_customer_comfirm_date) %></label></td>
+                    <td class="data-col">
+                      <div><%= @incident_request[:attribute4] %></div>
+                    </td>
+                <% end %>
+            <%end%>
+
+            <% if (@incident_request.attribute4 != nil && @incident_request.attribute4 != "" && @incident_request.attribute4 != "0") ||
+                    (@incident_request.attribute7 != nil && @incident_request.attribute7 != "" && @incident_request.attribute7 != "0")%>
+                <td class="label-col"><label><%= t(:label_icm_incident_request_confirm_date) %></label></td>
                 <td class="data-col">
-                  <div><%= @incident_request[:attribute3] %></div>
+                  <div>
+                    <% if @incident_request.attribute4 != nil &&
+                            @incident_request.attribute4 != "" && @incident_request.attribute4.to_f.round(1) != 0.0%>
+                        <%= t(:label_icm_sence) %>:<%= @incident_request[:attribute4] %>
+                    <% end %>
+                    <% if @incident_request.attribute7 != nil &&
+                            @incident_request.attribute7 != "" && @incident_request.attribute7.to_f.round(1) != 0.0%>
+                        &nbsp;&nbsp;
+                        <%= t(:label_icm_expect) %>:<%= @incident_request[:attribute7] %>
+                    <% end %>
+                  </div>
                 </td>
-            <% end %>
-            <% if @incident_request.attribute4 != nil && @incident_request.attribute4 != "" %>
-                <td class="label-col"><label><%= t(:incident_request_customer_comfirm_date) %></label></td>
+                <td class="label-col"><label><%= t(:label_icm_incident_request_confirm_date_total) %></label></td>
                 <td class="data-col">
-                  <div><%= @incident_request[:attribute4] %></div>
+                  <div><%= @incident_request[:attribute4].to_f+@incident_request[:attribute7].to_f %></div>
                 </td>
             <% end %>
         <% end %>
