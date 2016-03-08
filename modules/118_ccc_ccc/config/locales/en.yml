@@ -1,5 +1,5 @@
 en:
-  label_icm_incident_request_user_history: Input Histories
+  label_icm_incident_request_user_history: Additional Info Input Histories
   label_delete_history: Delete This History?
 
   label_icm_incident_request_urgence_low: Refers to the problems have little impact on the normal business operations. This kind of problems are involved with new requirements, like new investigation, new configuration and new development.

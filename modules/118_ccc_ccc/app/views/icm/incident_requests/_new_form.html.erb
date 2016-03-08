@@ -311,15 +311,16 @@
 
 <!--javascript 脚本-->
 <script type="text/javascript">
-
     function get_histories(arg){
+        system_id = $(arg).find("option:selected").val()
+        $("#incident_request_request_type_code option[value!='']").first().attr("selected",true)
         var href = '<%= url_for(:controller => "incident_requests",:action => "get_user_histories")%>'
         $.ajax({
             url: href,
             type: 'post',
             dataType: 'json',
             data: {
-                external_system_id: $(arg).find("option:selected").attr("id")
+                external_system_id: system_id
             },
             success: function (data) {
                 var length = data.user_histories.length
@@ -356,6 +357,10 @@
                         })
                     }
                 })
+
+                $("#incident_category_id option[value!='']").first().attr("selected",true)
+                $("#incident_category_id").trigger("change")
+
             }
         })
     }

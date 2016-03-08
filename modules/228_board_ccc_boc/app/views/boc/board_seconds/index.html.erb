@@ -1,0 +1,393 @@
+<% require_jscss(:newhighcharts) %>
+<style>
+  .incident_div {
+      width: 300px;
+      border: solid 1px #cccccc;
+      text-align: center;
+      margin: 0px 21px;
+  }
+  .incident_head_div{
+      height: 50px;
+      line-height: 50px;
+      font-size: 25px;
+  }
+  .incident_body_div{
+      height: 225px;
+      line-height: 225px; 
+      font-size: 120px;
+      color:#333333;
+  }
+  .incident_foot_div{
+      display: none;
+      height: 75px;
+      line-height: 75px;
+      font-size: 25px;
+  }
+  .incident_foot_left_div{
+      float: left; 
+      margin-left: 25px; 
+      font-size: 20px;
+  }
+  .incident_foot_right_div{
+      float: right; 
+      margin-right: 25px;
+      font-size: 20px;
+  }
+  .table-responsive{
+      min-width: 310px;
+      height: 562px;
+      margin: 0 auto
+  }
+</style>
+<div id="myCarousel" class="carousel slide">
+  <!-- 轮播（Carousel）项目 -->
+  <div class="carousel-inner">
+    <div class="item active">
+      <!-- 当日问题监控 -->
+      <div class="table-responsive">
+
+        <!-- 当日问题监控之四类事件单 -->
+        <table style="width:100%;table-layout:fixed" >
+          <!-- 列数确定 -->
+          <tr>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+          </tr>
+          <tr>
+            <td colspan="4" style="text-align: left;font-size: 25px">
+              <h1>当日问题监控</h1>
+            </td>
+          </tr>
+          <tr>
+            <!-- 新建的事故单 -->
+            <td rowspan="6">
+              <% if @count_new.size == 0 %>
+                  <div class="incident_div" style="display:block; line-height: 250px;">
+                    <div class="incident_head_div"><h1>待分配</h1></div>
+                    <div class="incident_body_div"><%= @count_new.size.to_s%></div>
+                  </div>
+              <% elsif @count_new.size == 1%>
+                  <div class="incident_div" style="font-size: 50px;background-color: #ffa0a0">
+                    <div class="incident_head_div"><h1>待分配</h1></div>
+                    <div class="incident_body_div"><%= @count_new.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div"><%= @count_new.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_new.first[:category_name]%></div>
+                    </div>
+                    <audio autoplay="autoplay">
+                      Your browser does not support the <code>audio</code> element.
+                      <source src="4846.wav" type="audio/wav">
+                    </audio>
+                  </div>
+              <% else%>
+                  <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
+                    <div class="incident_head_div"><h1>待分配</h1></div>
+                    <div class="incident_body_div" ><%= @count_new.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_new.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_new.first[:category_name]%></div>
+                    </div>
+                    <audio autoplay="autoplay">
+                      Your browser does not support the <code>audio</code> element.
+                      <source src="4846.wav" type="audio/wav">
+                    </audio>
+                  </div>
+              <% end %>
+            </td>
+            <!-- 待处理的事故单 -->
+            <td rowspan="6">
+              <% if @count_assign.size == 0 %>
+                  <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
+                    <div class="incident_head_div"><h1>待处理</h1></div>
+                    <div class="incident_body_div" ><%= @count_assign.size.to_s%></div>
+                  </div>
+              <% elsif @count_assign.size == 1%>
+                  <div class="incident_div" style="font-size: 50px;background-color: #ffa0a0">
+                    <div class="incident_head_div"><h1>待处理</h1></div>
+                    <div class="incident_body_div" ><%= @count_assign.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div"><%= @count_assign.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_assign.first[:category_name]%></div>
+                    </div>
+                  </div>
+              <% else%>
+                  <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
+                    <div class="incident_head_div"><h1>待处理</h1></div>
+                    <div class="incident_body_div" ><%= @count_assign.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_assign.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_assign.first[:category_name]%></div>
+                    </div>
+                  </div>
+              <% end %>
+            </td>
+            <!-- 处理中的事故单 -->
+            <td rowspan="6">
+              <% if @count_solving.size == 0 %>
+                  <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
+                    <div class="incident_head_div"><h1>处理中</h1></div>
+                    <div class="incident_body_div" ><%= @count_solving.size.to_s%></div>
+                  </div>
+              <% elsif @count_solving.size == 1%>
+                  <div class="incident_div" style="font-size: 50px;background-color: #ffa0a0">
+                    <div class="incident_head_div"><h1>处理中</h1></div>
+                    <div class="incident_body_div" ><%= @count_solving.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div"><%= @count_solving.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_solving.first[:category_name]%></div>
+                    </div>
+                  </div>
+              <% else%>
+                  <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
+                    <div class="incident_head_div"><h1>处理中</h1></div>
+                    <div class="incident_body_div" ><%= @count_solving.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_solving.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_solving.first[:category_name]%></div>
+                    </div>
+                  </div>
+              <% end %>
+            </td>
+            <!-- 已完成的事故单 -->
+            <td rowspan="6">
+              <% if @count_close.size == 0 %>
+                  <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
+                    <div class="incident_head_div"><h1>已完成</h1></div>
+                    <div class="incident_body_div" ><%= @count_close.size.to_s%></div>
+                  </div>
+              <% elsif @count_close.size == 1%>
+                  <div class="incident_div" style="font-size: 50px;background-color: #ffa0a0">
+                    <div class="incident_head_div"><h1>已完成</h1></div>
+                    <div class="incident_body_div" ><%= @count_close.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div"><%= @count_close.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_close.first[:category_name]%></div>
+                    </div>
+                  </div>
+              <% else%>
+                  <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
+                    <div class="incident_head_div"><h1>已完成</h1></div>
+                    <div class="incident_body_div" ><%= @count_close.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"><%= @count_close.first[:request_number]%></div>
+                      <div class="incident_foot_right_div"><%= @count_close.first[:category_name]%></div>
+                    </div>
+                  </div>
+              <% end %>
+            </td>
+          </tr>
+        </table>
+        <!-- 当日问题监控之SLA报警 -->
+        <table style="width:100%;table-layout:fixed" >
+          <!-- 列数确定 -->
+          <tr>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+          </tr>
+          <tr>
+            <td colspan="4" style="text-align: left;font-size: 25px">
+              <h1>SLA超时监控</h1>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">
+              <table class="table table-bordered">
+                <tr style="background-color: #F5F5F5;">
+                  <th>问题单号</th>
+                  <th>问题标题</th>
+                  <th>客户名称</th>
+                  <th>处理者</th>
+                  <th>问题提交日期</th>
+                  <th>SLA超时原因</th>
+                </tr>
+                <% count = 0
+                   @sla_list.each do |sl|
+                %>
+                    <tr class="<%=(count/4).round(0)%>" index="scroll">
+                      <td><%=sl[:request_number] %></td>
+                      <td><%=sl[:title] %></td>
+                      <td><%=sl[:organization_name] %></td>
+                      <td><%=sl[:supporter_name] %></td>
+                      <td><%=format_date(sl[:submitted_date]) %></td>
+                      <td><%=sl[:service_name] %></td>
+                    </tr>
+                <%
+                   count = count + 1
+                   end
+                %>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="item">
+      <!-- 当日高优先级问题 -->
+      <div class="table-responsive">
+        <!-- 当日问题监控-->
+        <table style="width:100%;table-layout:fixed" >
+          <!-- 列数确定 -->
+          <tr>
+            <th style="width:15%">
+            </th>
+            <th style="width:35%">
+            </th>
+            <th style="width:35%">
+            </th>
+            <th style="width:15%">
+            </th>
+          </tr>
+          <tr>
+            <td colspan="4" style="text-align: left;font-size: 25px">
+              <h1>当日高优先级问题</h1>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td rowspan="6">
+              <% if @urgence_new.size == 0 %>
+                  <div class="incident_div" style="display:block; line-height: 250px;">
+                    <div class="incident_head_div"><h1>当日紧急问题</h1></div>
+                    <div class="incident_body_div"><%= @urgence_new.size.to_s%></div>
+                  </div>
+              <% else %>
+                  <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
+                    <div class="incident_head_div"><h1>当日紧急问题</h1></div>
+                    <div class="incident_body_div" ><%= @urgence_new.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"></div>
+                      <div class="incident_foot_right_div"></div>
+                    </div>
+                    <audio autoplay="autoplay">
+                      Your browser does not support the <code>audio</code> element.
+                      <source src="4846.wav" type="audio/wav">
+                    </audio>
+                  </div>
+              <% end %>
+            </td>
+            <td rowspan="6">
+              <% if @high_new.size == 0 %>
+                  <div class="incident_div" style="display:block; width: 300px;line-height: 250px;">
+                    <div class="incident_head_div"><h1>当日高优先级问题</h1></div>
+                    <div class="incident_body_div" ><%= @high_new.size.to_s%></div>
+                  </div>
+              <% else%>
+                  <div class="incident_div" style="font-size: 50px; background-color: #ffa0a0">
+                    <div class="incident_head_div"><h1>当日高优先级问题</h1></div>
+                    <div class="incident_body_div" ><%= @high_new.size.to_s%></div>
+                    <div class="incident_foot_div">
+                      <div class="incident_foot_left_div" style="float: left; margin-left: 25px;font-size: 20px;"></div>
+                      <div class="incident_foot_right_div"></div>
+                    </div>
+                  </div>
+              <% end %>
+            </td>
+            <td></td>
+          </tr>
+        </table>
+        <table style="width:100%;table-layout:fixed" >
+          <!-- 列数确定 -->
+          <tr>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+            <th style="width:25%">
+            </th>
+          </tr>
+          <tr>
+            <td colspan="4" style="text-align: left;font-size: 25px">
+              <h1>优先级为紧急、高问题列表</h1>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">
+              <table class="table table-bordered">
+                <tr style="background-color: #F5F5F5;">
+                  <th>问题单号</th>
+                  <th>问题标题</th>
+                  <th>优先级</th>
+                  <th>客户名称</th>
+                  <th>处理者</th>
+                  <th>问题提交日期</th>
+                  <th>状态</th>
+                </tr>
+                <% count = 0
+                   @high_urgence_today.each do |sl|
+                %>
+                    <tr class="<%=(count/4).round(0)%>" index="scroll_urgence">
+                      <td><%=sl[:request_number] %></td>
+                      <td><%=sl[:title] %></td>
+                      <td><%=sl[:urgence_name] %></td>
+                      <td><%=sl[:organization_name] %></td>
+                      <td><%=sl[:supporter_name] %></td>
+                      <td><%=format_date(sl[:submitted_date]) %></td>
+                      <td><%=sl[:incident_status_name]%></td>
+                    </tr>
+                <%
+                   count = count + 1
+                   end
+                %>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- 轮播（Carousel）导航 -->
+  <a class="carousel-control left" href="#myCarousel"
+     data-slide="prev">&lsaquo;</a>
+  <a class="carousel-control right" href="#myCarousel"
+     data-slide="next">&rsaquo;</a>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.carousel').carousel({
+            interval: 10000   //指定10秒滚动到下一个div
+        })
+        $("tr[index='scroll'],tr[index='scroll_urgence']").hide()
+        $("tr[class='0']").show()
+    });
+    function myrefresh()
+    {
+        window.location.reload();
+    }
+    function scroll(){
+//      首先查找出显示的tr
+        var current = $("tr[style='display: table-row;'][index='scroll']").eq(0).attr("class")
+        $("tr[style='display: table-row;'][index='scroll']").hide()
+
+        if($("tr[class='"+(parseInt(current)+1)+"'][index='scroll']").length>0)
+            $("tr[class='"+(parseInt(current)+1)+"'][index='scroll']").show()
+        else
+            $("tr[class='0'][index='scroll']").show()
+
+        var current_urgence = $("tr[style='display: table-row;'][index='scroll_urgence']").eq(0).attr("class")
+        $("tr[style='display: table-row;'][index='scroll_urgence']").hide()
+
+        if($("tr[class='"+(parseInt(current_urgence)+1)+"'][index='scroll_urgence']").length>0)
+            $("tr[class='"+(parseInt(current_urgence)+1)+"'][index='scroll_urgence']").show()
+        else
+            $("tr[class='0'][index='scroll_urgence']").show()
+    }
+    setInterval('scroll()',5000)
+    setTimeout('myrefresh()',90000); //指定90秒刷新一次
+
+</script>
+
