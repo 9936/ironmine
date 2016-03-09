@@ -13,6 +13,7 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         with_request_type(I18n.locale).
         with_organization(I18n.locale).
         with_incident_status(I18n.locale).
+        with_type_code(I18n.locale).
         with_submitted_by.
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
 
@@ -224,7 +225,7 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = s[:priority_name]
-      data[3] = s[:request_type_code]
+      data[3] = s[:request_type_code_label]
       data[4] = s[:incident_category_name]
       data[5] = s[:incident_sub_category_name]
       data[6] = s[:organization_name]
