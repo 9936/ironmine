@@ -1,19 +1,47 @@
 <% require_jscss(:newhighcharts) %>
 <style>
-  #daily_chart{
-      min-width: 750px;
-      height: 562px;
-      margin: 0 auto
-  }
+    #open_pie_chart,#open_pie_chart_by_service_desk,#incident_by_type_code,#incident_by_urgence{
+        width: 45%;
+        height: 265px;
+        float: left;
+        margin-left: 5%;
+    }
+    #daily_chart{
+        min-width: 750px;
+        height: 562px;
+        margin: 0 auto
+    }
 </style>
+<div id="myCarousel" class="carousel slide">
+  <!-- 轮播（Carousel）项目 -->
+  <div class="carousel-inner">
+    <div class="item active">
+        <table style="width:100%;table-layout:fixed" >
+        <tr>
+          <td>
+            <div id="daily_chart"></div>
+          </td>
+        </tr>
+        </table>
+    </div>
 
-<table style="width:100%;table-layout:fixed" >
-<tr>
-  <td>
-    <div id="daily_chart"></div>
-  </td>
-</tr>
-</table>
+    <div class="item">
+      <div><p style="font-size: 25px">当月问题分析</p></div>
+      <!-- 问题分析一 -->
+      <div>
+        <div id="open_pie_chart"></div>
+        <div id="open_pie_chart_by_service_desk"></div>
+        <div id="incident_by_type_code"></div>
+        <div id="incident_by_urgence"></div>
+      </div>
+    </div>
+  </div>
+  <!-- 轮播（Carousel）导航 -->
+  <a class="carousel-control left" href="#myCarousel"
+     data-slide="prev">&lsaquo;</a>
+  <a class="carousel-control right" href="#myCarousel"
+     data-slide="next">&rsaquo;</a>
+</div>
 
 <script type="text/javascript">
 
@@ -133,6 +161,170 @@
                 }
             } ]
         });
+        $('#incident_by_type_code').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
+                    },
+                    showInLegend: true
+                }
+            },
+            //colors: [<%
+                color = ''
+                count = 0
+                @table_a_incident_by_type_code.each do |c|
+                    color = color + "'#{c[2]}'"
+                    color = color + ',' if c != @table_a_incident_by_type_code.last
+                    count = count + c[1]
+                end
+                color
+            %>
+            //],
+            title: {
+                text: '类别分析 (<%= count.to_s%>)'
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                type: 'pie',
+                name: 'Category',
+                data: <%= raw @table_a_incident_by_type_code%>
+            }]
+        });
+        $('#incident_by_urgence').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
+                    },
+                    showInLegend: true
+                }
+            },
+            //colors: [<%
+                color = ''
+                count = 0
+                @table_a_incident_by_urgence.each do |c|
+                    color = color + "'#{c[2]}'"
+                    color = color + ',' if c != @table_a_incident_by_urgence.last
+                    count = count + c[1]
+                end
+                color
+            %>
+            //],
+            title: {
+                text: '优先级分析 (<%= count.to_s%>)'
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                type: 'pie',
+                name: 'Urgent',
+                data: <%= raw @table_a_incident_by_urgence%>
+            }]
+        });
+        $('#open_pie_chart').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
+                    },
+                    showInLegend: true
+                }
+            },
+            //colors: [<%
+                color = ''
+                count = 0
+                @table_a_incident_by_category_open.each do |c|
+                    color = color + "'#{c[2]}'"
+                    color = color + ',' if c != @table_a_incident_by_category_open.last
+                    count = count + c[1]
+                end
+                color
+            %>
+            //],
+            title: {
+                text: '模块分析 (<%= count.to_s%>)'
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                type: 'pie',
+                name: 'Module',
+                data: <%= raw @table_a_incident_by_category_open%>
+            }]
+        });
+        $('#open_pie_chart_by_service_desk').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            //colors: [<%
+                color = ''
+                count = 0
+                @table_a_open_by_service_desk.each do |c|
+                    color = color + "'#{c[2]}'"
+                    color = color + ',' if c != @table_a_open_by_service_desk.last
+                    count = count + c[1]
+                end
+                color
+            %>
+            //],
+            title: {
+                text: '状态分析 (<%= count.to_s%>)'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}: {point.y} ({point.percentage:.1f}%)'
+                    },
+                    showInLegend: true
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                type: 'pie',
+                name: 'Status',
+                data: <%= raw @table_a_open_by_service_desk%>
+            }]
+        });
+
+        $('.carousel').carousel({
+            interval: 10000   //指定10秒滚动到下一个div
+        })
     });
     function myrefresh()
     {
