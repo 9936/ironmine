@@ -83,7 +83,7 @@ module Icm::IncidentRequestsHelper
   def available_request_type
     # Irm::LookupValue.query_by_lookup_type("ICM_REQUEST_TYPE_CODE").multilingual.order_id.collect{|p|[p[:meaning],p[:lookup_code]]}
     # Irm::LookupValue.query_by_lookup_type("ICM_REQUEST_TYPE_CODE").multilingual.order_id.collect{|p|[p[:meaning],p[:meaning]]}
-    Irm::LookupValue.query_by_lookup_type("ICM_REQUEST_TYPE_CODE").multilingual.order("irm_lookup_values.lookup_code ASC").collect{|p|[p[:meaning],p[:meaning]]}
+    Irm::LookupValue.query_by_lookup_type("ICM_REQUEST_TYPE_CODE").multilingual.order("irm_lookup_values.lookup_code ASC").collect{|p|[p[:meaning],p[:id]]}
   end
 
   def available_request_status_code

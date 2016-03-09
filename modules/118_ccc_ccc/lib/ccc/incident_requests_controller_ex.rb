@@ -73,11 +73,15 @@ module Ccc::IncidentRequestsControllerEx
           incident_requests_scope = incident_requests_scope.order("last_response_date DESC")
         end
 
+        incident_requests_scope = incident_requests_scope.
+            joins("JOIN irm_lookup_values_vl ilvv on #{Icm::IncidentRequest.table_name}.request_type_code = ilvv.id and ilvv.language = '#{Irm::Person.current.language_code}'").
+            select("ilvv.meaning  request_type_code_id_label")
+
         incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
         incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
         incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
         incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.submitted_date",params[:submitted_date])
-        incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_type_code",params[:request_type_code])
+        incident_requests_scope = incident_requests_scope.match_value("ilvv.meaning", params[:request_type_code_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_status_table_alias}.name", params[:incident_status_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_category_table_alias}.name", params[:incident_category_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name", params[:incident_sub_category_id_label])
@@ -177,12 +181,14 @@ module Ccc::IncidentRequestsControllerEx
         if params[:filter_id].eql?("002Q000B2jTxy1kSBuiS2a")
           incident_requests_scope = incident_requests_scope.where("support_person_id <> ?",Irm::Person.current.id)
         end
-        
+        incident_requests_scope = incident_requests_scope.
+            joins("JOIN irm_lookup_values_vl ilvv on #{Icm::IncidentRequest.table_name}.request_type_code = ilvv.id and ilvv.language = '#{Irm::Person.current.language_code}'").
+            select("ilvv.meaning  request_type_code_id_label")
+
         incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
-        # incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
         incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
         incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.submitted_date",params[:submitted_date])
-        incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_type_code",params[:request_type_code])
+        incident_requests_scope = incident_requests_scope.match_value("ilvv.meaning", params[:request_type_code_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_status_table_alias}.name", params[:incident_status_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_category_table_alias}.name", params[:incident_category_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name", params[:incident_sub_category_id_label])
@@ -356,7 +362,6 @@ module Ccc::IncidentRequestsControllerEx
       # POST /incident_requests.xml
       def create
         @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
-        # @usr_histories = Ccc::UserHistory.where(:login_person_id=>Irm::Person.current.id)
         @return_url = params[:return_url] if params[:return_url]
         #加入创建事故单的默认参数
         prepared_for_create(@incident_request)
