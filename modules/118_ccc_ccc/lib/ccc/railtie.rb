@@ -12,6 +12,7 @@ module Ccc
       Icm::IncidentJournalsHelper.send(:include, Ccc::IncidentJournalsHelperEx)
       Irm::WatchersController.send(:include, Ccc::WatchersControllerEx)
       Irm::CustomFieldHelper.send(:include, Ccc::CustomFieldHelperEx)
+      Irm::BulletinsController.send(:include, Ccc::BulletinsControllerEx)
     end
   end
 end
