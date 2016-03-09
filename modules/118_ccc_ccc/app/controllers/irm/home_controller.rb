@@ -1,5 +1,7 @@
 class Irm::HomeController < ApplicationController
   layout 'application_full'
+  # layout 'application'
+
   def index
   end
 
