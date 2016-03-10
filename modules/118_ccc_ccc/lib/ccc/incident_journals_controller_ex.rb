@@ -3,6 +3,8 @@ module Ccc::IncidentJournalsControllerEx
   def self.included(base)
     base.class_eval do
       def new
+        @incident_request = Icm::IncidentRequest.list_all.find(params[:request_id])
+
         @incident_journal = @incident_request.incident_journals.build()
 
         @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").
@@ -15,7 +17,7 @@ module Ccc::IncidentJournalsControllerEx
         @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
         @show_external_system = Irm::ExternalSystem.list_all.find(@incident_request.external_system_id)
         @show_external_system = solve_people_date_message(@incident_request,@show_external_system)
-        @organization = Irm::Organization.list_all.find(Irm::Person.find(@incident_request.requested_by).organization_id)
+        @organization = Irm::Organization.list_all.where(:organization_no=>@show_external_system.organization_no).first()
 
         respond_to do |format|
           format.html { render :layout=>"application_right"}

@@ -981,7 +981,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "Y",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/bulletins" => ["get_data", "index", "show"],
+              "irm/bulletins" => ["get_data", "index", "show","get_data_limit"],
           },
           :edit_bulletin => {
               :en => {:name => "Edit Bulletin", :description => "Edit Bulletin"},

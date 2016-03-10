@@ -285,10 +285,15 @@ class Icm::IncidentRequest < ActiveRecord::Base
         select(" icj.message_body close_message")
   }
 
+  scope :with_type_code, lambda{|language|
+                         joins("JOIN irm_lookup_values_vl ilvv on #{Icm::IncidentRequest.table_name}.request_type_code = ilvv.id and ilvv.language = '#{language}'").
+                             select("ilvv.meaning  request_type_code_label")
+                       }
+
   acts_as_watchable
   def self.list_all
     select_all.
-    with_request_type(I18n.locale).
+    with_type_code(I18n.locale).
     with_service(I18n.locale).
     with_requested_by(I18n.locale).
     with_urgence(I18n.locale).
@@ -390,6 +395,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
       #获取事故单的详细信息
       incident_requests = self.select_all.with_requested_by(I18n.locale).
                               with_incident_status(I18n.locale).
+                              with_type_code(I18n.locale).
                               with_submitted_by.
                               with_category(I18n.locale).
                               with_support_group(I18n.locale).

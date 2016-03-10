@@ -22,10 +22,6 @@ module Ccc::IncidentRequestModelEx
             select("external_system.system_name external_system_name, external_system.system_description project_info")
       }
 
-      scope :with_type_code, lambda{|language|
-        joins("JOIN irm_lookup_values_vl ilvv on #{Icm::IncidentRequest.table_name}.request_type_code = ilvv.id and ilvv.language = '#{language}'").
-            select("ilvv.meaning  request_type_code_label")
-       }
       def grouped_workload
         Icm::IncidentWorkload.
             select("SUM(real_processing_time) real_processing_time_g, workload_type").
