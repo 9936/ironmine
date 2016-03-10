@@ -193,7 +193,8 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         "项目开始时间",
         "项目结束时间",
         "是否A1客户",
-        "所属行业"
+        "所属行业",
+        "升级标识"
     ]
 
     statis.each do |s|
@@ -221,7 +222,7 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         end
       end
 
-      data = Array.new(33)
+      data = Array.new(34)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = s[:priority_name]
@@ -321,7 +322,11 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       data[29] = external_system[:after_date].present??external_system[:after_date].strftime("%F %T"):""
       data[30] = organization[:A1_flag]
       data[31] = organization[:industry_name]
-      data[32] = s[:id]
+
+      upgrade_flag = Icm::IncidentHistory.where("request_id =? and property_key like '%upgrade%' ",s[:id]).size
+      data[32] = upgrade_flag == 0 ? "":"升级"
+
+      data[33] = s[:id]
 
       datas << data
     end

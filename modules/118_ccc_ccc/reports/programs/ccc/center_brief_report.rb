@@ -184,7 +184,8 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
         "总处理时间(H)",
         "客户满意度",
         "超时状态",
-        "超时类型"
+        "超时类型",
+        "升级标识"
     ]
 
     statis.each do |s|
@@ -212,7 +213,7 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
         end
       end
 
-      data = Array.new(25)
+      data = Array.new(26)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = s[:priority_name]
@@ -299,7 +300,9 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
           end
         end
       end
-      data[24] = s[:id]
+      upgrade_flag = Icm::IncidentHistory.where("request_id =? and property_key like '%upgrade%' ",s[:id]).size
+      data[24] = upgrade_flag == 0 ? "":"升级"
+      data[25] = s[:id]
       datas << data
     end
 

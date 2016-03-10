@@ -64,8 +64,8 @@ class Ccc::OuterQuestionProgressExport < Irm::ReportManager::ReportBase
         "参与者1",
         "参与者2",
         "其他参与者",
-        "客户确认远程人天",
-        "客户确认现场人天"
+        "客户确认现场人天",
+        "客户确认远程人天"
     ]
 
     statis.each do |s|
