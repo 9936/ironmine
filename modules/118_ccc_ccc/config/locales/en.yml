@@ -1,4 +1,20 @@
 en:
+  label_icm_incident_request_submitted_time: Submitted Time
+  label_icm_incident_request_watcher_first: First Attendee
+  label_icm_incident_request_watcher_second: Second Attendee
+  label_icm_incident_request_watcher_other: Other Attendee
+  label_icm_incident_request_first_commit_time: First Commit Solve Time
+  label_icm_incident_request_respond_time: Repond Time
+  label_icm_incident_request_start_solve_time: Start Solving Time
+  label_icm_incident_request_total_solve_time: Total Solving Time (H)
+  label_icm_incident_request_customer_satisfy: Customer Satisfy
+  label_icm_incident_request_customer_satisfy_comment: Customer Satisfy Comment
+  label_icm_incident_request_out_time_flag: Out Time Or Not
+  label_icm_incident_request_out_time_type: Out Time Type
+  label_icm_incident_request_upgrade_flag: Upgrade Flag
+  label_icm_incident_request_customer_confirm_sence_date: Customer Confirm Sence Date
+  label_icm_incident_request_customer_confirm_remote_date: Customer Confirm Remote Date
+
   label_icm_incident_request_user_history: Additional Info Input Histories
   label_delete_history: Delete This History?
 

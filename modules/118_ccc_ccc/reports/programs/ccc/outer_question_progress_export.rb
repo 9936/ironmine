@@ -48,24 +48,24 @@ class Ccc::OuterQuestionProgressExport < Irm::ReportManager::ReportBase
     datas = []
 
     headers = [
-        "问题编号",
-        "问题描述",
-        "优先级",
-        "问题类型",
-        "系统类别",
-        "模块",
-        "客户名称",
-        "问题提交人",
-        "最终用户",
-        "创建日期",
-        "创建时间",
-        "最新状态",
-        "处理人",
-        "参与者1",
-        "参与者2",
-        "其他参与者",
-        "客户确认现场人天",
-        "客户确认远程人天"
+        I18n.t(:label_icm_incident_request_request_number_shot),
+        I18n.t(:label_icm_incident_request_title),
+        I18n.t(:label_icm_incident_request_priority),
+        I18n.t(:label_icm_incident_request_request_type_code),
+        I18n.t(:label_icm_incident_request_incident_category),
+        I18n.t(:label_icm_incident_request_incident_sub_category),
+        I18n.t(:label_icm_incident_request_requested_by_org),
+        I18n.t(:label_icm_incident_request_requested_by),
+        I18n.t(:label_icm_incident_request_contact),
+        I18n.t(:label_icm_incident_request_submitted_time),
+        I18n.t(:label_icm_incident_request_submitted_date),
+        I18n.t(:label_icm_incident_request_incident_status_code),
+        I18n.t(:label_icm_incident_request_support_person),
+        I18n.t(:label_icm_incident_request_watcher_first),
+        I18n.t(:label_icm_incident_request_watcher_second),
+        I18n.t(:label_icm_incident_request_watcher_other),
+        I18n.t(:label_icm_incident_request_customer_confirm_sence_date),
+        I18n.t(:label_icm_incident_request_customer_confirm_remote_date)
     ]
 
     statis.each do |s|
