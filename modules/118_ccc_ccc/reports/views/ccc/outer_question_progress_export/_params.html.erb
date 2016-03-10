@@ -9,9 +9,14 @@
     <tr>
       <td class="label-col"><label><%= t(:label_project_name) %></label></td>
       <td class="data-col">
-        <select id="project_name" name="program_params[project_name]">
-          <option value="">--- 请选择 ---</option>
-        </select>
+        <%=select_tag_alias :project_name, ava_external_systems_reports(Irm::Person.current.id),@external_system_id,{
+                                                 :name=>"program_params[project_name]",
+                                                 :id=>"externalSystemId",
+                                                 :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                                                 :href=>url_for({:external_system_id=>"{external_system_id}"})}%>
+        <!--<select id="project_name" name="program_params[project_name]">-->
+          <!--<option value="">-&#45;&#45; 请选择 -&#45;&#45;</option>-->
+        <!--</select>-->
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
@@ -49,11 +54,11 @@
         requested_by: $("#customer_no").val()
       },
       success: function (data) {
-        var len = data.external_systems.length
-        var items = data.external_systems
-        for(var i=0;i<len;i++){
-          $("#project_name").append("<option value='"+items[i].value+"'>"+items[i].label+"</option>")
-        }
+//        var len = data.external_systems.length
+//        var items = data.external_systems
+//        for(var i=0;i<len;i++){
+//          $("#project_name").append("<option value='"+items[i].value+"'>"+items[i].label+"</option>")
+//        }
 
         var length = data.incident_statuses.length
         var statuses = data.incident_statuses

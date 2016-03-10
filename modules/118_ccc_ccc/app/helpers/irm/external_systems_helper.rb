@@ -17,6 +17,14 @@ module Irm::ExternalSystemsHelper
     systems.collect{|p| [p[:system_name], p.id]}
   end
 
+  def ava_external_systems_reports(person_id)
+    selectable_options = []
+    systems = Irm::ExternalSystem.multilingual.enabled.order_with_name.with_person(person_id)
+    selectable_options << ["--- #{t(:actionview_instancetag_blank_option)} ---",""]
+    selectable_options += systems.collect{|p| [p[:system_name], p[:id]]}
+    selectable_options
+  end
+
   def ava_external_system_members
     selectable_options = []
 
