@@ -181,7 +181,7 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         "响应时间",
         "开始处理时间",
         "最新更新时间",
-        "总处理时间(天)",
+        "总处理时间(H)",
         "客户满意度",
         "客户满意度备注",
         "超时状态",
@@ -267,8 +267,12 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       data[18] = s[:updated_at].strftime("%F %T")
       if last_commit_history_time.present? && first_solve_history_time.present?
         #总处理时间 = 最后一次提交方案的时间 - 开始处理的时间
-        data[19] = last_commit_history_time.created_at - first_solve_history_time.created_at
-        data[19] = (data[19] / 3600.0).round(2)
+        calendar = Slm::Calendar.where(:external_system_id=>s[:external_system_id]).first()
+        end_time = last_commit_history_time.created_at
+        start_time = first_solve_history_time.created_at
+        time_zone = "Beijing"
+        data[19] = calendar.working_time_with_zone(time_zone,start_time,end_time)
+        data[19] = (data[19] / 60.0).round(2)
       end
       # 用户满意度调查
       sroc = Ccc::SatisRateOfConsultant.where(:incident_request_id=>s[:id]).first()
