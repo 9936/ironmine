@@ -6,7 +6,7 @@ zh:
   label_icm_incident_request_first_commit_time: 首提方案日期
   label_icm_incident_request_respond_time: 响应时间
   label_icm_incident_request_start_solve_time: 开始处理时间
-  label_icm_incident_request_total_solve_time: 总处理时间(小时)
+  label_icm_incident_request_total_solve_time: 总处理时间(天)
   label_icm_incident_request_customer_satisfy: 客户满意度
   label_icm_incident_request_customer_satisfy_comment: 客户满意度备注
   label_icm_incident_request_out_time_flag: 超时状态
@@ -14,6 +14,8 @@ zh:
   label_icm_incident_request_upgrade_flag: 升级标识
   label_icm_incident_request_customer_confirm_sence_date: 客户确认现场人天
   label_icm_incident_request_customer_confirm_remote_date: 客户确认远程人天
+  label_icm_incident_request_detail_workload: 工时明细
+  label_icm_incident_request_total_workload: 总工时
 
   label_icm_incident_request_user_history: 附加信息历史输入
   label_delete_history: 确认删除记录吗?

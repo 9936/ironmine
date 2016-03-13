@@ -264,7 +264,7 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
         start_time = first_solve_history_time.created_at
         time_zone = "Beijing"
         data[20] = calendar.working_time_with_zone(time_zone,start_time,end_time)
-        data[20] = (data[20] / 60.0).round(2)
+        data[20] = (data[20] / 1440.0).round(2)
       end
       # 用户满意度调查
       sroc = Ccc::SatisRateOfConsultant.where(:incident_request_id=>s[:id]).first()

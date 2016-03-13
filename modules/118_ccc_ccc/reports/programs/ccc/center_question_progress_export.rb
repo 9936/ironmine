@@ -193,7 +193,9 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         I18n.t(:label_after_date),
         I18n.t(:label_irm_organization_A1_flag),
         I18n.t(:label_irm_organization_industry),
-        I18n.t(:label_icm_incident_request_upgrade_flag)
+        I18n.t(:label_icm_incident_request_upgrade_flag),
+        I18n.t(:label_icm_incident_request_detail_workload),
+        I18n.t(:label_icm_incident_request_total_workload)
     ]
 
     statis.each do |s|
@@ -221,7 +223,23 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         end
       end
 
-      data = Array.new(34)
+      # 统计工时
+      detail_workload = ""
+      total_workload = 0.0
+
+      base_sql = "SELECT sum(iiw.real_processing_time) total,sum(CASE WHEN iiw.workload_type = 'REMOTE' THEN iiw.real_processing_time ELSE 0 END ) remote, sum( CASE WHEN iiw.workload_type = 'SCENE' THEN iiw.real_processing_time ELSE 0 END ) scene, ip.full_name FROM icm_incident_workloads iiw LEFT Join irm_people ip on iiw.person_id = ip.id where iiw.incident_request_id = '#{s[:id]}' GROUP BY iiw.incident_request_id, iiw.person_id"
+      result = ActiveRecord::Base.connection.execute(base_sql).each{|wk|
+        if detail_workload == ""
+          detail_workload = "#{detail_workload}#{wk[3]}:远程-#{wk[1]},现场-#{wk[2]}"
+        else
+          detail_workload = "#{detail_workload};#{wk[3]}:远程-#{wk[1]},现场-#{wk[2]}"
+        end
+        total_workload += wk[0].to_f
+      }
+      detail_workload.gsub!(/远程-0.0,/,"")
+      detail_workload.gsub!(/,现场-0.0/,"")
+
+      data = Array.new(36)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = s[:priority_name]
@@ -272,7 +290,7 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         start_time = first_solve_history_time.created_at
         time_zone = "Beijing"
         data[19] = calendar.working_time_with_zone(time_zone,start_time,end_time)
-        data[19] = (data[19] / 60.0).round(2)
+        data[19] = (data[19] / 1440.0).round(2)
       end
       # 用户满意度调查
       sroc = Ccc::SatisRateOfConsultant.where(:incident_request_id=>s[:id]).first()
@@ -325,7 +343,9 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       upgrade_flag = Icm::IncidentHistory.where("request_id =? and property_key like '%upgrade%' ",s[:id]).size
       data[32] = upgrade_flag == 0 ? "":"升级"
 
-      data[33] = s[:id]
+      data[33] = detail_workload
+      data[34] = total_workload == 0.0 ? "":total_workload
+      data[35] = s[:id]
 
       datas << data
     end
