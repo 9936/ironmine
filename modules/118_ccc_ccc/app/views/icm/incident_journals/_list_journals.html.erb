@@ -2,8 +2,18 @@
  <div class="reply">
    <div id="journal_<%= journal.id %>" class="reply-header"  submit_by="<%= journal[:replied_by]%>">
 
-       <div style="float:left"><img width="25" height="25" alt="" src="<%=replied_avatar(journal)%>"></div>
-       <div style="float:left; padding:0 0 0 5px;">
+     <div style="float:left"><img width="25" height="25" alt="" src="<%=replied_avatar(journal)%>" onMouseOver="bigger(this)" onMouseOut="smaller(this)"></div>
+     <script>
+       function bigger(arg){
+           $(arg).attr("width",50)
+           $(arg).attr("height",50)
+       }
+       function smaller(arg){
+           $(arg).attr("width",25)
+           $(arg).attr("height",25)
+       }
+     </script>
+     <div style="float:left; padding:0 0 0 5px;">
          <h3><%= journal[:replied_name]  %></h3>
             <span style="color:#666666;font-style:italic;">
               <%= t(:label_reply_title,:time_distance=>distance_of_time_in_words(Time.now,journal[:created_at]),:date_format=>format_date(journal[:created_at])) %>
