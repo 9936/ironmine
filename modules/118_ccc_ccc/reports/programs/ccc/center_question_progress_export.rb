@@ -84,7 +84,11 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
 
     # 状态条件
     if params[:service_list_status].present?
-      statis = statis.where(:incident_status_id=>params[:service_list_status])
+      if params[:service_list_status].eql?"no_close"
+        statis = statis.where("incident_status_id != ? ",'000K000922scMSu1QUxWoy')
+      else
+        statis = statis.where(:incident_status_id=>params[:service_list_status])
+      end
     end
 
     # 支持者条件

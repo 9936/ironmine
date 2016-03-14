@@ -1,4 +1,6 @@
 en:
+  label_reports_not_close_status: Not close
+
   label_icm_incident_request_submitted_time: Submitted Time
   label_icm_incident_request_watcher_first: First Attendee
   label_icm_incident_request_watcher_second: Second Attendee

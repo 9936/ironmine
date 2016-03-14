@@ -167,6 +167,7 @@
         for(var i=0;i<l;i++){
           $("#service_list_status").append("<option value='"+statuses[i].value+"'>"+statuses[i].label+"</option>")
         }
+        $("#service_list_status").append("<option value='no_close'><%= t(:label_reports_not_close_status) %></option>")
       }
     })
   })

@@ -28,7 +28,11 @@ class Ccc::OuterQuestionProgressExport < Irm::ReportManager::ReportBase
 
     # 根据状态查找
     if params[:service_list_status].present?
-      statis = statis.where(:incident_status_id=>params[:service_list_status])
+      if params[:service_list_status].eql?"no_close"
+        statis = statis.where("incident_status_id != ? ",'000K000922scMSu1QUxWoy')
+      else
+        statis = statis.where(:incident_status_id=>params[:service_list_status])
+      end
     end
 
     end_date = params[:end_date]
