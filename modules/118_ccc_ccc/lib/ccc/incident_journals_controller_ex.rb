@@ -1,3 +1,4 @@
+
 module Ccc::IncidentJournalsControllerEx
 
   def self.included(base)
@@ -89,20 +90,25 @@ module Ccc::IncidentJournalsControllerEx
                                          :property_key=> "new_reply",
                                          :old_value=>"",
                                          :new_value=>@incident_journal.journal_number})
+
+            # 此处评论创建成功,如果回复的人是顾问,且事故单状态不处于提交方案和客户对应时需要重新计时
             if (Irm::Person.find(@incident_journal.replied_by).profile.user_license.eql?("SUPPORTER"))
-              # 此处评论创建成功
               if !@incident_request.incident_status_id.eql?("000K000A0g8zPKXoIwOIhk") && !@incident_request.incident_status_id.eql?("000K000A0g9LO0pOKPsZ1s")
                 if sla_instance_id.present?
-                  sla_instance = Slm::SlaInstance.where("id = ?",sla_instance_id)
-                  if sla_instance.first().present?
-                    sla_instance = sla_instance.first()
-                    sa = Slm::ServiceAgreement.where("id = ?",sla_instance)
-                    if sa.first().present?
-                      sa = sa.first()
-                      Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
-                      sla_instance.destroy
-                    end
-                  end
+                  sla_instance = Slm::SlaInstance.find(sla_instance_id)
+                  sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
+                  Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
+                  sla_instance.destroy
+                  # sla_instance = Slm::SlaInstance.where("id = ?",sla_instance_id)
+                  # if sla_instance.first().present?
+                  #   sla_instance = sla_instance.first()
+                  #   sa = Slm::ServiceAgreement.where("id = ?",sla_instance)
+                  #   if sa.first().present?
+                  #     sa = sa.first()
+                  #     Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
+                  #     sla_instance.destroy
+                  #   end
+                  # end
                 end
               end
             end

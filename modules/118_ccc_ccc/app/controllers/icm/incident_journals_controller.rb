@@ -619,7 +619,7 @@ class Icm::IncidentJournalsController < ApplicationController
       nvalue = new_value.send(key)
 
       if !ovalue.eql?(nvalue)
-        if !@incident_request.incident_status_id.eql?("000K000A0g8zPKXoIwOIhk") && !@incident_request.incident_status_id.eql?("000K000A0g9LO0pOKPsZ1s")
+        if !ovalue.eql?("000K000922scMSu1Q8vthI") && !@incident_request.incident_status_id.eql?("000K000A0g8zPKXoIwOIhk") && !@incident_request.incident_status_id.eql?("000K000A0g9LO0pOKPsZ1s")
           if sla_instance_id.present?
             sla_instance = Slm::SlaInstance.find(sla_instance_id)
             sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
