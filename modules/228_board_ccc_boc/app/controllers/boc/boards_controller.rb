@@ -104,22 +104,31 @@ class Boc::BoardsController < ApplicationController
 
 
     base_query = Icm::IncidentRequest.enabled.
-        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m') = ?", (Time.now).strftime('%Y-%m')). #当月事故单条件
-        where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)")
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m') = ?", (Time.now).strftime('%Y-%m')) #当月事故单条件
+        # where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)")
     
     @table_a_open_by_service_desk = base_query.
         joins(",#{Icm::IncidentStatus.view_name} isv").
-        select("isv.name status_name, SUM(1) amount, isv.display_color").
+        select("isv.name status_name, SUM(1) amount").
         where("isv.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
         where("isv.language = 'zh'").
-       group("#{Icm::IncidentRequest.table_name}.incident_status_id").order("isv.display_sequence + 0 ASC").collect{|i| [i[:status_name], i[:amount].to_i, i[:display_color]]}
+       group("#{Icm::IncidentRequest.table_name}.incident_status_id").order("isv.display_sequence + 0 ASC").collect{|i| [i[:status_name], i[:amount].to_i, '']}
     # 事故单的分类柱状图
+    nil_category = 0
     @table_a_incident_by_category_open = base_query.
-        joins(",#{Icm::IncidentSubCategory.view_name} ic").
+        joins("LEFT JOIN icm_incident_sub_categories_vl ic on #{Icm::IncidentRequest.table_name}.incident_sub_category_id = ic.id and ic.`language` = 'zh'").
         select("ic.name category_name, SUM(1) amount").
-        where("ic.id = #{Icm::IncidentRequest.table_name}.incident_sub_category_id").
-        where("ic.language = 'zh'").
-        group("#{Icm::IncidentRequest.table_name}.incident_sub_category_id").order("ic.code + 0 ASC").collect{|i| [i[:category_name], i[:amount].to_i, '']}
+        group("#{Icm::IncidentRequest.table_name}.incident_sub_category_id").order("ic.code + 0 ASC").collect{|i|
+          if i[:category_name].present? && !i[:category_name].eql?("其他")
+            [i[:category_name], i[:amount].to_i, '']
+          elsif i[:category_name].present? && i[:category_name].eql?("其他")
+            [i[:category_name], i[:amount].to_i + nil_category, '']
+          else
+              nil_category = i[:amount].to_i
+              next
+          end
+        }
+    @table_a_incident_by_category_open.delete_if{|item| !item.present?}
     # 事故单类型柱状图
     @table_a_incident_by_type_code = base_query.
         select("ilvv.meaning code_name, SUM(1) amount").
@@ -132,16 +141,6 @@ class Boc::BoardsController < ApplicationController
         where("ic.id = #{Icm::IncidentRequest.table_name}.urgence_id").
         where("ic.language = 'zh'").
         group("#{Icm::IncidentRequest.table_name}.urgence_id").order("ic.urgency_code + 0 ASC").collect{|i| [i[:urgence_name], i[:amount].to_i, '']}
-
-    # @table_a_incident_by_category_open.each do |c|
-    #   c[2] = '#FF0900' if c[0].eql?("Failure")
-    #   c[2] = '#E8AB5D' if c[0].eql?("Inquiry")
-    #   c[2] = '#FFFEC7' if c[0].eql?("Change Request")
-    #   c[2] = '#66D6FF' if c[0].eql?("Regular Maintenance")
-    #   c[2] = '#84FF82' if c[0].eql?("Non-Regular Maintenance")
-    #   c[2] = '#8E5DE8' if c[0].eql?("Master Maintenance")
-    #   c[2] = '#A9E2E8' if c[0].eql?("EBS")
-    # end
 
     respond_to do |format|
       format.html { render :layout => "application_full"}
