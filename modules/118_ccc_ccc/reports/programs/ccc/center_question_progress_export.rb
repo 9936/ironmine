@@ -234,11 +234,11 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       base_sql = "SELECT sum(iiw.real_processing_time) total,sum(CASE WHEN iiw.workload_type = 'REMOTE' THEN iiw.real_processing_time ELSE 0 END ) remote, sum( CASE WHEN iiw.workload_type = 'SCENE' THEN iiw.real_processing_time ELSE 0 END ) scene, ip.full_name FROM icm_incident_workloads iiw LEFT Join irm_people ip on iiw.person_id = ip.id where iiw.incident_request_id = '#{s[:id]}' GROUP BY iiw.incident_request_id, iiw.person_id"
       result = ActiveRecord::Base.connection.execute(base_sql).each{|wk|
         if detail_workload == ""
-          detail_workload = "#{detail_workload}#{wk[3]}:远程-#{wk[1]},现场-#{wk[2]}"
+          detail_workload = "#{detail_workload}#{wk[3]}:远程-#{wk[1].to_f.round(1)},现场-#{wk[2].to_f.round(1)}"
         else
-          detail_workload = "#{detail_workload};#{wk[3]}:远程-#{wk[1]},现场-#{wk[2]}"
+          detail_workload = "#{detail_workload};#{wk[3]}:远程-#{wk[1].to_f.round(1)},现场-#{wk[2].to_f.round(1)}"
         end
-        total_workload += wk[0].to_f
+        total_workload += wk[0].to_f.round(1)
       }
       detail_workload.gsub!(/远程-0.0,/,"")
       detail_workload.gsub!(/,现场-0.0/,"")
