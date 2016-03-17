@@ -1,10 +1,18 @@
+<style>
+    .body-table{
+      width: 100%;
+    }
+    #ep{
+        width: 94%;
+    }
+</style>
 <div id="reportChart"></div>
 
 <!--  irm datatable      -->
 <%= I18n.t(:label_total_data_size, :m => datas[:datas].size)%>
  <div class="irm-datatable">
    <div>
-       <table count="<%=datas[:datas].size%>" class="table table-bordered">
+       <table count="<%=datas[:datas].size%>" border="1">
            <tr class="active">
              <th>
                <div><%= datas[:headers][0] %></div>
