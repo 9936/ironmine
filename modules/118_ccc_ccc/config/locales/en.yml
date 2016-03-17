@@ -1,5 +1,6 @@
 en:
   label_reports_not_close_status: Not close
+  label_for_no_organization: There is no organization for this project
 
   label_icm_incident_request_submitted_time: Submitted Time
   label_icm_incident_request_watcher_first: First Attendee

@@ -914,7 +914,8 @@
         <h4 class="modal-title"><%= t :label_organization_login_mess %></h4>
       </div>
       <div class="modal-body" id="login_mess">
-        <%= fields_for @organization, :builder => CustomFormBuilder, :normal => true do |o| %>
+        <% if @organization.present? %>
+            <%= fields_for @organization, :builder => CustomFormBuilder, :normal => true do |o| %>
             <table class="page-block-header table">
               <tbody>
               <tr>
@@ -944,6 +945,9 @@
               </tbody>
             </table>
         <% end %>
+        <%else%>
+            <label><%= t :label_for_no_organization %></label>
+        <%end%>
       </div>
       <div class="modal-footer">
       </div>
@@ -1006,7 +1010,8 @@
                 <td class="label-col label-col-1"><label><%= t(:label_irm_external_system_system_description) %></label></td>
                 <td class="data-col"><%= @show_external_system[:system_description] %></td>
               </tr>
-              <%= fields_for @organization, :builder => CustomFormBuilder, :normal => true do |r| %>
+              <% if @organization.present? %>
+                <%= fields_for @organization, :builder => CustomFormBuilder, :normal => true do |r| %>
                   <tr>
                     <td class="label-col label-col-1"><label><%= t(:label_irm_organization_A1_flag) %></label></td>
                     <td class="data-col"><%= @organization[:A1_flag] %></td>
@@ -1016,6 +1021,16 @@
                     <td class="data-col"><%= @organization[:industry_name] %></td>
                   </tr>
               <% end %>
+              <%else%>
+                  <tr>
+                    <td class="label-col label-col-1"><label><%= t(:label_irm_organization_A1_flag) %></label></td>
+                    <td class="data-col"></td>
+                  </tr>
+                  <tr>
+                    <td class="label-col label-col-1"><label><%= t(:label_irm_organization_industry) %></label></td>
+                    <td class="data-col"></td>
+                  </tr>
+              <%end%>
               </tbody>
             </table>
         <% end %>

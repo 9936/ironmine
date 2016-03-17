@@ -1,5 +1,6 @@
 zh:
   label_reports_not_close_status: 未关闭
+  label_for_no_organization: 该项目尚未关联组织,无法查看登录信息
 
   label_icm_incident_request_submitted_time: 创建日期
   label_icm_incident_request_watcher_first: 参与者1
