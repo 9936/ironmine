@@ -165,12 +165,16 @@ module Ccc::IncidentRequestsControllerEx
           incident_requests_scope = incident_requests_scope.where("#{Icm::IncidentRequest.table_name}.external_system_id = ?", session[:current_external_system])
         end
 
-        if params[:order_name]
-          order_value = params[:order_value] ? params[:order_value] : "DESC"
-          incident_requests_scope = incident_requests_scope.order("#{params[:order_name]} #{order_value}")
+        session[:order_name] = params[:order_name] if params[:order_name] && !params[:order_name].eql?("")
+        session[:order_value] = params[:order_value] if params[:order_value] && !params[:order_value].eql?("")
+
+        unless session[:order_name].blank?
+          order_value = session[:order_value] ? session[:order_value] : "DESC"
+          incident_requests_scope = incident_requests_scope.order("#{session[:order_name]} #{order_value}")
         else
           incident_requests_scope = incident_requests_scope.order("last_response_date DESC")
         end
+
         # 如果是我处理中的问题则需要支持人是当前登录用户
         if params[:filter_id].eql?("002Q0009239HMWJmlUmVmK")
           incident_requests_scope = incident_requests_scope.where(:support_person_id=>Irm::Person.current.id)
