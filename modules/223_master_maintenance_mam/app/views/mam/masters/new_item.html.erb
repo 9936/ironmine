@@ -102,6 +102,9 @@
               <tr>
                 <td class="label-col"><label>Item Code</label></td>
                 <td class="data-col">
+                  <%= f.text_field :item_code,:required => true, :maxlength => 40%>
+                  <%= mam_demo_label("KAC1*EBS")%>
+                  <%if false%>
                   <div id="code_div">
                     <%= f.text_field :item_code,:required => true, :maxlength => 20%>
                   </div>
@@ -109,6 +112,7 @@
                   <label class="checkbox">
                     <input type="checkbox" style="margin-top: 2px" onclick="select_length()" id="sl" checked>: Use interface to other system
                   </label>
+                  <%end%>
                 </td>
                 <%= f.hidden_field(:interface_flag,:value=>'Y')%>
                 <script>
