@@ -47,7 +47,8 @@ class Boa::BoardsController < ApplicationController
         select("isv.name status_name, SUM(1) amount, isv.display_color").
         where("isv.id = #{Icm::IncidentRequest.table_name}.incident_status_id").
         where("isv.language = 'en'").
-        where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
+        # where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
+        where("#{Icm::IncidentRequest.table_name}.incident_status_id NOT IN ('000K00091nQlnh8W7p14T2')").
         group("#{Icm::IncidentRequest.table_name}.incident_status_id").order("isv.display_sequence + 0 ASC").collect{|i| [i[:status_name], i[:amount].to_i, i[:display_color]]}
 
     # @table_a_open_by_service_desk.each do |c|
@@ -68,7 +69,8 @@ class Boa::BoardsController < ApplicationController
         where("#{Icm::IncidentRequest.table_name}.external_system_id IN ('000q00091noWNOBDjVskLY', '000q000926XUkvMQbAHVpo', '000q000926XUkvMQawrCam')").
         where("ic.id = #{Icm::IncidentRequest.table_name}.incident_category_id").
         where("ic.language = 'en'").
-        where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
+        # where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
+        where("#{Icm::IncidentRequest.table_name}.incident_status_id NOT IN ('000K00091nQlnh8W7p14T2')").
         group("#{Icm::IncidentRequest.table_name}.incident_category_id").order("ic.code + 0 ASC").collect{|i| [i[:category_name], i[:amount].to_i, '']}
 
     @table_a_incident_by_category_open.each do |c|
