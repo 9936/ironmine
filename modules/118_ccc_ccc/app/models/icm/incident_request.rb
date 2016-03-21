@@ -290,6 +290,62 @@ class Icm::IncidentRequest < ActiveRecord::Base
                              select("ilvv.meaning  request_type_code_label")
                        }
 
+  scope :select_all_label,lambda{
+                           select("#{table_name}.id,#{table_name}.request_number,#{table_name}.title,#{table_name}.last_response_date,#{table_name}.reply_count,#{table_name}.submitted_date")
+                         }
+
+  scope :with_external_system_label, lambda{|language|
+                                     joins("LEFT OUTER JOIN #{Irm::ExternalSystem.view_name} irm_external_systems_vl ON irm_external_systems_vl.id = #{table_name}.external_system_id AND irm_external_systems_vl.language = '#{language}'").
+                                         select("irm_external_systems_vl.system_name external_system_id_label")
+                                   }
+
+  scope :with_requested_by_label,lambda{
+                                  joins("LEFT OUTER JOIN #{Irm::Person.table_name} irm_people_b ON  irm_people_b.id = #{table_name}.requested_by").
+                                      select("irm_people_b.full_name requested_by_label")
+                                }
+
+  scope :with_submitted_by_label,lambda{
+                                  joins("LEFT OUTER JOIN #{Irm::Person.table_name} irm_people_c ON  irm_people_c.id = #{table_name}.submitted_by").
+                                      select("irm_people_c.full_name submitted_by_label")
+                                }
+
+  scope :with_priority_label,lambda{|language|
+                              joins("LEFT OUTER JOIN #{Icm::PriorityCode.view_name} icm_priority_codes_vl ON  #{table_name}.priority_id = icm_priority_codes_vl.id AND icm_priority_codes_vl.language= '#{language}'").
+                                  select(" icm_priority_codes_vl.name priority_id_label")
+                            }
+
+  scope :with_supporter_label,lambda{
+                               joins("LEFT OUTER JOIN #{Irm::Person.table_name} irm_people_e ON  irm_people_e.id = #{table_name}.support_person_id").
+                                   select("irm_people_e.full_name support_person_id_label")
+                             }
+
+  scope :with_incident_status_label,lambda{|language|
+                                     joins("LEFT OUTER JOIN #{Icm::IncidentStatus.view_name} icm_incident_statuses_vl ON  icm_incident_statuses_vl.id = #{table_name}.incident_status_id AND icm_incident_statuses_vl.language= '#{language}'").
+                                         select(" icm_incident_statuses_vl.name incident_status_id_label")
+                                   }
+
+  scope :with_category_label,lambda{|language|
+                              joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ON  #{Icm::IncidentCategory.view_name}.id = #{table_name}.incident_category_id AND #{Icm::IncidentCategory.view_name}.language= '#{language}'").
+                                  joins("LEFT OUTER JOIN #{Icm::IncidentSubCategory.view_name} ON  #{Icm::IncidentSubCategory.view_name}.id = #{table_name}.incident_sub_category_id AND #{Icm::IncidentSubCategory.view_name}.language= '#{language}'").
+                                  select(" #{Icm::IncidentCategory.view_name}.name incident_category_id_label,#{Icm::IncidentSubCategory.view_name}.name incident_sub_category_id_label")
+                            }
+
+  def self.list_all_label
+    select_all_label.
+        with_type_code(I18n.locale).
+        with_priority_label(I18n.locale).
+        with_external_system_label(I18n.locale).
+        with_incident_status_label(I18n.locale).
+        with_category_label(I18n.locale).
+        with_reply_flag(Irm::Person.current.id).
+        filter_system_ids(Irm::Person.current.system_ids).
+        relate_person(Irm::Person.current.id).
+        with_supporter_label.
+        with_requested_by_label.
+        with_submitted_by_label
+  end
+
+
   acts_as_watchable
   def self.list_all
     select_all.

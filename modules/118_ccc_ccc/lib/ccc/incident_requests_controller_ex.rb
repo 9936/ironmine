@@ -63,17 +63,47 @@ module Ccc::IncidentRequestsControllerEx
         supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"support_person_id")
         incident_sub_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_sub_category_id")
 
-        incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
-            filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id)
+        if Irm::Person.current.profile.user_license.eql?("SUPPORTER") && params[:filter_id].eql?("002Q000923JClcGUDhzYMy") && !Irm::Person.current.role_id.eql?("002N000B2jQQBCsvKW8BfM")
+          incident_requests_scope = Icm::IncidentRequest.list_all_label.where("#{Icm::IncidentRequest.table_name}.id = ''")
+        else
+          incident_requests_scope = Icm::IncidentRequest.list_all_label
+        end
 
-        if params[:order_name]
-          order_value = params[:order_value] ? params[:order_value] : "DESC"
-          incident_requests_scope = incident_requests_scope.order("#{params[:order_name]} #{order_value}")
+        session[:current_external_system] = params[:external_system_id_param] if params[:external_system_id_param]
+        unless session[:current_external_system].blank?
+          incident_requests_scope = incident_requests_scope.where("#{Icm::IncidentRequest.table_name}.external_system_id = ?", session[:current_external_system])
+        end
+
+        session[:order_name] = params[:order_name] if params[:order_name] && !params[:order_name].eql?("")
+        session[:order_value] = params[:order_value] if params[:order_value] && !params[:order_value].eql?("")
+
+        unless session[:order_name].blank?
+          order_value = session[:order_value] ? session[:order_value] : "DESC"
+          incident_requests_scope = incident_requests_scope.order("#{session[:order_name]} #{order_value}")
         else
           incident_requests_scope = incident_requests_scope.order("last_response_date DESC")
         end
 
-        incident_requests_scope = incident_requests_scope.with_type_code(I18n.locale)
+        # 如果是我处理中的问题则需要支持人是当前登录用户
+        if params[:filter_id].eql?("002Q0009239HMWJmlUmVmK")
+          incident_requests_scope = incident_requests_scope.where(:support_person_id=>Irm::Person.current.id)
+        end
+        # 如果是我我参与的问题则需要支持人不是当前登录用户
+        if params[:filter_id].eql?("002Q000B2jTxy1kSBuiS2a")
+          incident_requests_scope = incident_requests_scope.where("support_person_id <> ?",Irm::Person.current.id)
+        end
+
+        # incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
+        # incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
+        # incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
+        # incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.submitted_date",params[:submitted_date])
+        # incident_requests_scope = incident_requests_scope.match_value("ilvv.meaning", params[:request_type_code_label])
+        # incident_requests_scope = incident_requests_scope.match_value("#{incident_status_table_alias}.name", params[:incident_status_id_label])
+        # incident_requests_scope = incident_requests_scope.match_value("#{incident_category_table_alias}.name", params[:incident_category_id_label])
+        # incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name", params[:incident_sub_category_id_label])
+        # incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
+        # incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
+        # incident_requests_scope = incident_requests_scope.match_value("#{Icm::UrgenceCode.view_name}.name", params[:priority_id_label])
 
         incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
         incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
@@ -81,11 +111,9 @@ module Ccc::IncidentRequestsControllerEx
         incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.submitted_date",params[:submitted_date])
         incident_requests_scope = incident_requests_scope.match_value("ilvv.meaning", params[:request_type_code_label])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_status_table_alias}.name", params[:incident_status_id_label])
-        incident_requests_scope = incident_requests_scope.match_value("#{incident_category_table_alias}.name", params[:incident_category_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name", params[:incident_sub_category_id_label])
-        incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
-        incident_requests_scope = incident_requests_scope.match_value("#{Icm::UrgenceCode.view_name}.name", params[:priority_id_label])
+        incident_requests_scope = incident_requests_scope.match_value("#{Icm::PriorityCode.view_name}.name", params[:priority_id_label])
 
         respond_to do |format|
           format.json {
@@ -149,15 +177,10 @@ module Ccc::IncidentRequestsControllerEx
         incident_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_category_id")
         incident_sub_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_sub_category_id")
 
-        # 如果当前用户是顾问且所要查看的视图是新到达问题
-        if Irm::Person.current.profile.user_license.eql?("SUPPORTER") && params[:filter_id].eql?("002Q000923JClcGUDhzYMy") && Irm::Person.current.role_id.eql?("002N000B2jQQBCsvKW8BfM")
-          incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
-              filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id)
-        elsif Irm::Person.current.profile.user_license.eql?("SUPPORTER") && params[:filter_id].eql?("002Q000923JClcGUDhzYMy") && !Irm::Person.current.role_id.eql?("002N000B2jQQBCsvKW8BfM")
-          incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).where("#{Icm::IncidentRequest.table_name}.id = ''")
+        if Irm::Person.current.profile.user_license.eql?("SUPPORTER") && params[:filter_id].eql?("002Q000923JClcGUDhzYMy") && !Irm::Person.current.role_id.eql?("002N000B2jQQBCsvKW8BfM")
+          incident_requests_scope = Icm::IncidentRequest.list_all_label.where("#{Icm::IncidentRequest.table_name}.id = ''")
         else
-          incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
-              filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id)
+          incident_requests_scope = Icm::IncidentRequest.list_all_label
         end
 
         session[:current_external_system] = params[:external_system_id_param] if params[:external_system_id_param]
@@ -184,18 +207,14 @@ module Ccc::IncidentRequestsControllerEx
           incident_requests_scope = incident_requests_scope.where("support_person_id <> ?",Irm::Person.current.id)
         end
 
-        incident_requests_scope = incident_requests_scope.with_type_code(I18n.locale)
-
         incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
         incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
         incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.submitted_date",params[:submitted_date])
         incident_requests_scope = incident_requests_scope.match_value("ilvv.meaning", params[:request_type_code_label])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_status_table_alias}.name", params[:incident_status_id_label])
-        incident_requests_scope = incident_requests_scope.match_value("#{incident_category_table_alias}.name", params[:incident_category_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name", params[:incident_sub_category_id_label])
-        incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
-        incident_requests_scope = incident_requests_scope.match_value("#{Icm::UrgenceCode.view_name}.name", params[:priority_id_label])
+        incident_requests_scope = incident_requests_scope.match_value("#{Icm::PriorityCode.view_name}.name", params[:priority_id_label])
         t = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number", params[:request_number])
         if t.any?
           incident_requests_scope = t
