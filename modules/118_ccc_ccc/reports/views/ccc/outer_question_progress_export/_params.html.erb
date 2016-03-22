@@ -9,14 +9,11 @@
     <tr>
       <td class="label-col"><label><%= t(:label_project_name) %></label></td>
       <td class="data-col">
-        <%=select_tag_alias :project_name, ava_external_systems_reports(Irm::Person.current.id),@external_system_id,{
+        <%=select_tag_alias :project_name, ava_external_systems_reports(Irm::Person.current.id),program_params[:project_name],{
                                                  :name=>"program_params[project_name]",
                                                  :id=>"externalSystemId",
                                                  :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                                                  :href=>url_for({:external_system_id=>"{external_system_id}"})}%>
-        <!--<select id="project_name" name="program_params[project_name]">-->
-          <!--<option value="">-&#45;&#45; 请选择 -&#45;&#45;</option>-->
-        <!--</select>-->
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
@@ -24,9 +21,11 @@
     <tr>
       <td class="label-col"><label><%= t(:label_service_list_status) %></label></td>
       <td class="data-col">
-        <select id="service_list_status" name="program_params[service_list_status]">
-          <option value="">--- 请选择 ---</option>
-        </select>
+        <%=select_tag_alias :service_list_status, ava_status_reports,program_params[:service_list_status],{
+                                                        :name=>"program_params[service_list_status]",
+                                                        :id=>"service_list_status",
+                                                        :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
+                                                }%>
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
@@ -43,30 +42,3 @@
     </tr>
   </tbody>
 </table>
-<script>
-  $(function(){
-    var href = '<%= url_for(:controller => "/icm/incident_requests",:action => "get_external_systems_t")%>'
-    $.ajax({
-      url: href,
-      type: 'post',
-      dataType: 'json',
-      data: {
-        requested_by: $("#customer_no").val()
-      },
-      success: function (data) {
-//        var len = data.external_systems.length
-//        var items = data.external_systems
-//        for(var i=0;i<len;i++){
-//          $("#project_name").append("<option value='"+items[i].value+"'>"+items[i].label+"</option>")
-//        }
-
-        var length = data.incident_statuses.length
-        var statuses = data.incident_statuses
-        for(var i=0;i<length;i++){
-          $("#service_list_status").append("<option value='"+statuses[i].value+"'>"+statuses[i].label+"</option>")
-        }
-        $("#service_list_status").append("<option value='no_close'><%= t(:label_reports_not_close_status) %></option>")
-      }
-    })
-  })
-</script>

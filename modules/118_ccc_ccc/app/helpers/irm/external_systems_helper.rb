@@ -25,6 +25,58 @@ module Irm::ExternalSystemsHelper
     selectable_options
   end
 
+  def ava_status_reports
+    selectable_options = []
+    incident_statuses_scope = Icm::IncidentStatus.multilingual.with_phase.status_meaning
+    selectable_options << ["--- #{t(:actionview_instancetag_blank_option)} ---",""]
+    selectable_options += incident_statuses_scope.collect { |i| [i[:name],i.id] }
+    selectable_options << [t(:label_reports_not_close_status),"no_close"]
+    selectable_options
+  end
+
+  def ava_level_groups
+    level_group_ids = []
+    level_group_ids << Irm::Group.where("parent_group_id = ''").first().id
+    Irm::Group.where(:parent_group_id=>level_group_ids[0]).each do |ig|
+      level_group_ids << ig.id
+    end
+
+    level_groups_scope = Irm::Group.multilingual.where(:id=>level_group_ids)
+
+    selectable_options = []
+    selectable_options << ["--- #{t(:actionview_instancetag_blank_option)} ---",""]
+    selectable_options += level_groups_scope.collect { |i| [i[:name],i.id] }
+    selectable_options
+  end
+
+  def ava_module_groups
+    level_group_ids = []
+    level_group_ids << Irm::Group.where("parent_group_id = ''").first().id
+    Irm::Group.where(:parent_group_id=>level_group_ids[0]).each do |ig|
+      level_group_ids << ig.id
+    end
+
+    selectable_options = []
+    selectable_options << ["--- #{t(:actionview_instancetag_blank_option)} ---",""]
+    module_groups_scope = Irm::Group.multilingual.where("irm_groups.id not in (?)",level_group_ids)
+    selectable_options += module_groups_scope.collect { |i| [i[:description],i[:description]] }
+    selectable_options.uniq!
+  end
+
+  def ava_groups
+    level_group_ids = []
+    level_group_ids << Irm::Group.where("parent_group_id = ''").first().id
+    Irm::Group.where(:parent_group_id=>level_group_ids[0]).each do |ig|
+      level_group_ids << ig.id
+    end
+
+    selectable_options = []
+    selectable_options << ["--- #{t(:actionview_instancetag_blank_option)} ---",""]
+    groups_scope = Irm::Group.multilingual.where("irm_groups.id not in (?)",level_group_ids).order("name ASC")
+    selectable_options += groups_scope.collect { |i| [i[:name],i.id] }
+    selectable_options
+  end
+
   def ava_external_system_members
     selectable_options = []
 

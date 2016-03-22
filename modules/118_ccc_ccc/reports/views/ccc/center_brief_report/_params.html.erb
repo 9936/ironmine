@@ -4,9 +4,9 @@
     <tr>
       <td class="label-col"><label><%= t(:label_customer_no) %></label></td>
       <td class="data-col">
-        <%= text_field_tag(:start_no,'',:name=>"program_params[start_no]",:size=>12,:nobutton=>true,:style=>"width:80px")%>
+        <%= text_field_tag(:start_no,'',:value => program_params[:start_no],:name=>"program_params[start_no]",:size=>12,:nobutton=>true,:style=>"width:80px")%>
         <label for="end_no"><%= t(:label_irm_report_filter_date_to) %></label>
-        <%= text_field_tag(:end_no,'',:name=>"program_params[end_no]",:size=>12,:nobutton=>true,:style=>"width:80px")%>
+        <%= text_field_tag(:end_no,'',:value => program_params[:end_no],:name=>"program_params[end_no]",:size=>12,:nobutton=>true,:style=>"width:80px")%>
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
@@ -14,7 +14,7 @@
     <!-- 公司名称 -->
     <tr>
       <td class="label-col"><label><%= t(:label_customer_name) %></label></td>
-      <td class="data-col"><%= text_field_tag(:customer_name,'',:name=>"program_params[customer_name]")%></td>
+      <td class="data-col"><%= text_field_tag(:customer_name,'',:value => program_params[:customer_name],:name=>"program_params[customer_name]")%></td>
       <td class="label-col"></td>
       <td class="data-col"></td>
     </tr>
@@ -22,14 +22,11 @@
     <tr>
       <td class="label-col"><label><%= t(:label_project_name) %></label></td>
       <td class="data-col">
-        <%=select_tag_alias :project_name, ava_external_systems_reports(Irm::Person.current.id),@external_system_id,{
+        <%=select_tag_alias :project_name, ava_external_systems_reports(Irm::Person.current.id),program_params[:project_name],{
                                                  :name=>"program_params[project_name]",
                                                  :id=>"externalSystemId",
-                                                 :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                                                 :href=>url_for({:external_system_id=>"{external_system_id}"})}%>
-        <!--<select id="project_name" name="program_params[project_name]" class="chzn-done">-->
-          <!--<option value="">-&#45;&#45; 请选择 -&#45;&#45;</option>-->
-        <!--</select>-->
+                                                 :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
+                                                }%>
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
@@ -38,9 +35,11 @@
     <tr>
       <td class="label-col"><label><%= t(:label_service_list_status) %></label></td>
       <td class="data-col">
-        <select id="service_list_status" name="program_params[service_list_status]">
-          <option value="">--- 请选择 ---</option>
-        </select>
+        <%=select_tag_alias :service_list_status, ava_status_reports,program_params[:service_list_status],{
+                                                 :name=>"program_params[service_list_status]",
+                                                 :id=>"service_list_status",
+                                                 :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
+                                                 }%>
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
@@ -59,14 +58,14 @@
     <!-- 问题处理者 -->
     <tr>
       <td class="label-col"><label><%= t(:label_question_solver) %></label></td>
-      <td class="data-col"><%= text_field_tag(:solver,'',:name=>"program_params[solver]")%></td>
+      <td class="data-col"><%= text_field_tag(:solver,'',:value => program_params[:solver],:name=>"program_params[solver]")%></td>
       <td class="label-col"></td>
       <td class="data-col"></td>
     </tr>
     <!-- 问题参与者 -->
     <tr>
       <td class="label-col"><label><%= t(:label_question_joiner) %></label></td>
-      <td class="data-col"><%= text_field_tag(:joiner,'',:name=>"program_params[joiner]")%></td>
+      <td class="data-col"><%= text_field_tag(:joiner,'',:value => program_params[:joiner],:name=>"program_params[joiner]")%></td>
       <td class="label-col"></td>
       <td class="data-col"></td>
     </tr>
@@ -74,9 +73,10 @@
     <tr>
       <td class="label-col"><label><%= t(:label_for_question_level) %></label></td>
       <td class="data-col">
-        <select id="question_level" name="program_params[question_level]">
-          <option value="">--- 请选择 ---</option>
-        </select>
+        <%=select_tag_alias :question_level, ava_level_groups,program_params[:question_level],{
+                                                        :name=>"program_params[question_level]",
+                                                        :id=>"question_level"
+                                                }%>
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
@@ -85,9 +85,10 @@
     <tr>
       <td class="label-col"><label><%= t(:label_module) %></label></td>
       <td class="data-col">
-        <select id="module_name" name="program_params[module_name]">
-          <option value="">--- 请选择 ---</option>
-        </select>
+        <%=select_tag_alias :module_name, ava_module_groups,program_params[:module_name],{
+                                                   :name=>"program_params[module_name]",
+                                                   :id=>"module_name"
+                                           }%>
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
@@ -96,9 +97,10 @@
     <tr>
       <td class="label-col"><label><%= t(:label_for_team) %></label></td>
       <td class="data-col">
-        <select id="team_id" name="program_params[team_id]">
-          <option value="">--- 请选择 ---</option>
-        </select>
+        <%=select_tag_alias :team_id, ava_groups,program_params[:team_id],{
+                                                :name=>"program_params[team_id]",
+                                                :id=>"team_id"
+                                        }%>
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
@@ -107,9 +109,10 @@
     <tr>
       <td class="label-col"><label><%= t(:label_for_joiner_team) %></label></td>
       <td class="data-col">
-        <select id="joiner_team_id" name="program_params[joiner_team_id]">
-          <option value="">--- 请选择 ---</option>
-        </select>
+        <%=select_tag_alias :joiner_team_id, ava_groups,program_params[:joiner_team_id],{
+                                            :name=>"program_params[joiner_team_id]",
+                                            :id=>"joiner_team_id"
+                                    }%>
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
@@ -130,45 +133,3 @@
     </tr>
   </tbody>
 </table>
-<script>
-  $(function(){
-    var href = '<%= url_for(:controller => "/icm/incident_requests",:action => "get_external_systems_t")%>'
-    $.ajax({
-      url: href,
-      type: 'post',
-      dataType: 'json',
-      data: {
-      },
-      success: function (data) {
-//        var len = data.external_systems.length
-//        var items = data.external_systems
-//        for(var i=0;i<len;i++){
-//          $("#project_name").append("<option value='"+items[i].value+"'>"+items[i].label+"</option>")
-//        }
-
-        var module_length = data.module_groups.length
-        var module_names = data.module_groups
-        for(var i=0;i<module_length;i++){
-          $("#module_name").append("<option value='"+module_names[i].value+"'>"+module_names[i].label+"</option>")
-        }
-        var level_length = data.level_groups.length
-        var level_groups = data.level_groups
-        for(var i=0;i<level_length;i++){
-          $("#question_level").append("<option value='"+level_groups[i].value+"'>"+level_groups[i].label+"</option>")
-        }
-        var length = data.groups.length
-        var groups = data.groups
-        for(var i=0;i<length;i++){
-          $("#team_id,#joiner_team_id").append("<option value='"+groups[i].value+"'>"+groups[i].label+"</option>")
-        }
-
-        var l = data.incident_statuses.length
-        var statuses = data.incident_statuses
-        for(var i=0;i<l;i++){
-          $("#service_list_status").append("<option value='"+statuses[i].value+"'>"+statuses[i].label+"</option>")
-        }
-        $("#service_list_status").append("<option value='no_close'><%= t(:label_reports_not_close_status) %></option>")
-      }
-    })
-  })
-</script>
