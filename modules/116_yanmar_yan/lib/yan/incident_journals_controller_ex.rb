@@ -2,6 +2,30 @@ module Yan::IncidentJournalsControllerEx
   def self.included(base)
     base.class_eval do
 
+      def new
+        @incident_journal = @incident_request.incident_journals.build()
+        if params[:add_watcher]
+          @incident_request.add_watcher(Irm::Person.current.id)
+        end
+        @incident_reply = Icm::IncidentReply.new()
+        respond_to do |format|
+          format.html { render :layout=>"application_right"}
+          format.xml  { render :xml => @incident_journal }
+          format.pdf {
+            render :pdf => "[#{@incident_request.request_number}]#{@incident_request.title}",
+                   :print_media_type => true,
+                   # :layout => 'layouts/pdf.html.erb',
+                   :encoding => 'utf-8',
+                   :layout => "layouts/markdown_pdf.html.erb",
+                   :book => true,
+                   :toc => {
+                       :header_text => t(:table_of_contents),
+                       :disable_back_links=>true
+                   }
+          }
+        end
+      end
+
       def edit_additional_info
         @incident_request = Icm::IncidentRequest.find(params[:request_id])
       end
