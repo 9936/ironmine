@@ -42,6 +42,14 @@ module Ccc::IncidentHistoryModelEx
         old_meaning = I18n.t(:null_string) if self.old_value.nil?||self.old_value.blank?
         new_meaning = I18n.t(:null_string) if self.new_value.nil?||self.new_value.blank?
         case self.property_key
+          when "update_people_date"
+            if old_meaning.nil?
+              real_value = Irm::Person.find(self.old_value).name
+              old_meaning = real_value if real_value
+            end
+            if new_meaning.nil?
+              new_meaning = nil
+            end
           when "support_person_id"
             if old_meaning.nil?
               real_value = Irm::Person.query_person_name(self.old_value).first

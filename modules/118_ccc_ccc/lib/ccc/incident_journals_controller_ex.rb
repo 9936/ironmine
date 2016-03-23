@@ -99,16 +99,6 @@ module Ccc::IncidentJournalsControllerEx
                   sa = Slm::ServiceAgreement.find(sla_instance.service_agreement_id)
                   Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
                   sla_instance.destroy
-                  # sla_instance = Slm::SlaInstance.where("id = ?",sla_instance_id)
-                  # if sla_instance.first().present?
-                  #   sla_instance = sla_instance.first()
-                  #   sa = Slm::ServiceAgreement.where("id = ?",sla_instance)
-                  #   if sa.first().present?
-                  #     sa = sa.first()
-                  #     Slm::SlaInstance.start(sa,{:bo_type => "Icm::IncidentRequest", :bo_id => @incident_request.id, :service_agreement_id => sa.id})
-                  #     sla_instance.destroy
-                  #   end
-                  # end
                 end
               end
             end
@@ -165,45 +155,44 @@ module Ccc::IncidentJournalsControllerEx
         @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
 
         respond_to do |format|
-          if
-            ir.update_attributes(params[:icm_incident_request])
+          if ir.update_attributes(params[:icm_incident_request])
 
-            Icm::IncidentWorkload.where("incident_request_id = ?", ir.id).each do |t|
-              t.destroy
-            end
-            params[:incident_workloads].each do |work|
-              if work[:real_processing_time].blank? || work[:real_processing_time].to_f == 0 || work[:person_id].blank?
-                next
-              end
-              Icm::IncidentWorkload.create(:incident_request_id => @incident_request.id,
-                                           :real_processing_time => work[:real_processing_time],
-                                           :workload_type => work[:workload_type],
-                                           :person_id => work[:person_id])
+            # Icm::IncidentWorkload.where("incident_request_id = ?", ir.id).each do |t|
+            #   t.destroy
+            # end
+            # params[:incident_workloads].each do |work|
+            #   if work[:real_processing_time].blank? || work[:real_processing_time].to_f == 0 || work[:person_id].blank?
+            #     next
+            #   end
+              # Icm::IncidentWorkload.create(:incident_request_id => @incident_request.id,
+              #                              :real_processing_time => work[:real_processing_time],
+              #                              :workload_type => work[:workload_type],
+              #                              :person_id => work[:person_id])
               Icm::IncidentHistory.create({:request_id => @incident_request.id,
                                            :journal_id=> "",
-                                           :property_key=> "update_workload",
-                                           :old_value => work[:person_id],
-                                           :new_value => work[:real_processing_time]})
+                                           :property_key=> "update_people_date",
+                                           :old_value => Irm::Person.current.id,
+                                           :new_value => nil})
               ir.update_attribute(:last_response_date, Time.now)
-            end if params[:incident_workloads]
+            # end if params[:incident_workloads]
 
 
-            if params[:next_status]
-              incident_request_bak = Icm::IncidentRequest.find(@incident_request.id)
-              @incident_request.update_attribute(:incident_status_id,params[:next_status])
-              @incident_journal = @incident_request.incident_journals.build()
-              @incident_journal.reply_type = "STATUS"
-              @incident_journal.replied_by=Irm::Person.current.id
-              puts @incident_journal.inspect
-              @incident_journal.save
-              ovalue = incident_request_bak.incident_status_id
-              nvalue = params[:next_status]
-              Icm::IncidentHistory.create({:request_id => @incident_request.id,
-                                           :journal_id=> @incident_journal.id,
-                                           :property_key=>"incident_status_id",
-                                           :old_value=>ovalue,
-                                           :new_value=>nvalue}) if !ovalue.eql?(nvalue)
-            end
+            # if params[:next_status]
+            #   incident_request_bak = Icm::IncidentRequest.find(@incident_request.id)
+            #   @incident_request.update_attribute(:incident_status_id,params[:next_status])
+            #   @incident_journal = @incident_request.incident_journals.build()
+            #   @incident_journal.reply_type = "STATUS"
+            #   @incident_journal.replied_by=Irm::Person.current.id
+            #   puts @incident_journal.inspect
+            #   @incident_journal.save
+            #   ovalue = incident_request_bak.incident_status_id
+            #   nvalue = params[:next_status]
+            #   Icm::IncidentHistory.create({:request_id => @incident_request.id,
+            #                                :journal_id=> @incident_journal.id,
+            #                                :property_key=>"incident_status_id",
+            #                                :old_value=>ovalue,
+            #                                :new_value=>nvalue}) if !ovalue.eql?(nvalue)
+            # end
 
             format.html { redirect_to({:action => "new"}) }
             format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
