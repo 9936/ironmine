@@ -117,7 +117,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "Y",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/incident_journals" => ["apply_entry_header", "create", "get_entry_header_data", "index", "new", "get_incident_history_data"],
+              "icm/incident_journals" => ["register_workload","apply_entry_header", "create", "get_entry_header_data", "index", "new", "get_incident_history_data"],
           },
 
           :view_incident_journal_his => {

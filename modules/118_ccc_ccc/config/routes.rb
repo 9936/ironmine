@@ -111,6 +111,7 @@ Ironmine::Application.routes.draw do
   end
 
  scope :module => "icm" do
+   match '/incident_journals/register_workload(.:format)' => "incident_journals#register_workload"
    match '/incident_journals/grade_of_satisfy(.:format)' => "incident_journals#grade_of_satisfy"
    match '/incident_requests/delete_user_history(.:format)' => "incident_requests#delete_user_history"
    match '/incident_requests/get_user_histories(.:format)' => "incident_requests#get_user_histories"

@@ -149,10 +149,23 @@ module Ccc::IncidentJournalsControllerEx
         end
       end
 
+      def register_workload
+        ir = Icm::IncidentRequest.find(@incident_request.id)
+        es = Irm::ExternalSystem.find(ir.external_system_id)
+        if es.strict_workload.eql?('Y')
+          Icm::IncidentWorkload.create({:incident_request_id => ir.id,
+                                        :incident_journal_id => nil,
+                                        :real_processing_time => params[:workload],
+                                        :person_id => Irm::Person.current.id,
+                                        :workload_type => params[:workload_type]})
+        end
+        render json: {:result=>"ok"}
+      end
+
       def update_workload
         ir = Icm::IncidentRequest.find(@incident_request.id)
         @incident_request.attributes = params[:icm_incident_request]
-        @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
+        # @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
 
         respond_to do |format|
           if ir.update_attributes(params[:icm_incident_request])
