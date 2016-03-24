@@ -2,7 +2,7 @@ module Irm::SetWho
   extend ActiveSupport::Concern
   
    included do
-      class_inheritable_accessor :record_who, :instance_writer => false
+      class_attribute :record_who, :instance_writer => false
       self.record_who = true
    end
 

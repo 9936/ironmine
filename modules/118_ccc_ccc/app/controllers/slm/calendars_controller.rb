@@ -143,7 +143,7 @@ class Slm::CalendarsController < ApplicationController
         start_time += 1.month
       end
 
-      start_time = Time.parse("#{e_year}-01-01", e_year)
+      start_time = Time.parse("#{e_year}-01-01")
       while start_time <= end_time
         year_months[e_year] << start_time.month
         start_time += 1.month

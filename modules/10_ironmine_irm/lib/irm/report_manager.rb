@@ -28,7 +28,12 @@ module Irm
     class ReportBase
       include Singleton
 
-      attr_accessor_with_default :partial_base_path,""
+      attr_writer :partial_base_path
+
+      def partial_base_path
+        @partial_base_path || ""
+      end
+
 
       def self.inherited(child)
         Irm::ReportManager.add_report(child)

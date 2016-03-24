@@ -2,7 +2,12 @@ class Icm::SupportGroup < ActiveRecord::Base
   set_table_name :icm_support_groups
 
   class << self
-    attr_accessor_with_default :multilingual_view_name, "icm_support_groups_vl"
+
+    attr_writer :multilingual_view_name
+
+    def multilingual_view_name
+      @multilingual_view_name || "icm_support_groups_vl"
+    end
   end
 
   #多语言关系

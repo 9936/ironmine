@@ -6,7 +6,11 @@ class Isp::AlertFilter < ActiveRecord::Base
 
   belongs_to :check_item, :foreign_key => :check_item_id
 
-  attr_accessor_with_default :content_format,"markdown"
+  attr_writer :content_format
+
+  def content_format
+    @content_format || "markdown"
+  end
 
   scope :with_check_item, lambda {|check_item_id|
     self.where("#{table_name}.check_item_id=?", check_item_id)

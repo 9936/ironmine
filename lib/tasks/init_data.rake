@@ -44,7 +44,7 @@ namespace :irm do
       rails_config.fwk.modules.each do |module_name|
         data_file_path = File.join(Rails.root,rails_config.fwk.module_folder,rails_config.fwk.module_mapping[module_name],'lib','init_data.rb')
         if File::exists?(data_file_path)
-         require data_file_path
+          require data_file_path
         end
         api_data_file_path = File.join(Rails.root,rails_config.fwk.module_folder,rails_config.fwk.module_mapping[module_name],'lib','api_data.rb')
         if File::exists?(api_data_file_path)
@@ -118,7 +118,8 @@ namespace :irm do
           function_group.controller = group[:controller]
           function_group.action = group[:action]
           #更新function_group的多语言
-          if function_group.function_groups_tls.any?
+          # if function_group.function_groups_tls.length > 0
+          if function_group.function_groups_tls.length > 0
             function_group.function_groups_tls = merge_languages(function_group.function_groups_tls, group[:languages]) if group[:languages]
           elsif group[:languages]
             group[:languages].each do |key, value|
@@ -174,14 +175,16 @@ namespace :irm do
                 tmp_function.default_flag = function[:default_flag] if function[:default_flag]
                 tmp_function.public_flag = function[:public_flag] if function[:public_flag]
                 #更新function对应的多语言
-                if tmp_function.functions_tls.any?
+                # if tmp_function.functions_tls.length > 0
+                if tmp_function.functions_tls.length > 0
                   tmp_function.functions_tls = merge_languages(tmp_function.functions_tls, function[:languages])
                 else
                   function[:languages].each do |key, value|
                     tmp_function.functions_tls.build(:language=> key.to_s,:source_lang=>'en',:name=> value[:name],:description=>value[:description])
                   end
                 end
-                if !function[:languages].any? and !tmp_function.functions_tls.any?
+                # if !function[:languages].any? and !tmp_function.functions_tls.length > 0
+                if !function[:languages].any? and !(tmp_function.functions_tls.length > 0)
                   missing_languages_function << function[:code] unless missing_languages_function.include?(function[:code])
                 end
                 success_update_functions << function[:code] unless success_update_functions.include?(function[:code])
@@ -221,7 +224,8 @@ namespace :irm do
           if need_delete_functions.any?
             need_delete_functions.each do |f|
               puts "#{RED} Delete function group #{group[:code]}'s child:#{f[:code].downcase}#{CLEAR}"
-              f.destroy
+              f.delete
+              f.save
             end
           end
         end
@@ -243,7 +247,9 @@ namespace :irm do
     if need_delete_groups.any?
       need_delete_groups.each do |g|
         puts "#{RED} Success delete function group: #{g[:code]}#{CLEAR}"
-        g.destroy
+        g.delete
+        g.save
+        # g.destroy
       end
     end
     #提示成功更新和成功添加的
@@ -293,7 +299,8 @@ namespace :irm do
       if tmp_menu.present?
         success_update_menus << code unless success_update_menus.include?(code)
         tmp_menu.not_auto_mult = true
-        if tmp_menu.menus_tls.any? and menu[:languages].any?
+        # if tmp_menu.menus_tls.length > 0 and menu[:languages].any?
+        if tmp_menu.menus_tls.length > 0 and menu[:languages].any?
           tmp_menu.menus_tls = merge_languages(tmp_menu.menus_tls, menu[:languages])
         elsif menu[:languages].any?
           menu[:languages].each do |key, value|
@@ -388,7 +395,7 @@ namespace :irm do
               tmp_entry = Irm::MenuEntry.where(:menu_id=> tmp_menu[:id],:sub_function_group_id => sub_function_group_id).first
             end
             if tmp_entry.present?
-              if tmp_entry.menu_entries_tls.any?
+              if tmp_entry.menu_entries_tls.length > 0
                 tmp_entry.menu_entries_tls = merge_languages(tmp_entry.menu_entries_tls, entry[:languages])
               end
               ###########################################################################
@@ -405,18 +412,22 @@ namespace :irm do
         end
 
       end
-      if need_delete_entries.any?
+      if need_delete_entries.length > 0
         need_delete_entries.each do |e|
           puts "#{RED}Success delete menu entry:#{e.id}"
-          e.destroy
+          e.delete
+          e.save
         end
       end
     end
+
     #需要删除的菜单
     if need_delete_menus.any?
       need_delete_menus.each do |m|
         puts "#{RED}Success delete menu:#{m[:code].downcase}#{CLEAR}"
-        m.destroy
+        # m.destroy
+        m.delete
+        m.save
       end
     end
     #缺少语言的菜单
@@ -452,6 +463,8 @@ namespace :irm do
       except_path_regex = /\([\.\/a-z_]*:([a-z_]+)[\/a-z_]*\)/
       routes.each do |r|
         next unless r[:reqs].present?
+        # puts r[:path].class
+        r[:path] = r[:path].spec.to_s
         params_count = r[:path].scan(path_regex).delete_if{|i| !i.any?}.count
         except_params_count = r[:path].scan(except_path_regex).delete_if{|i| !i.any?}.count
         #从path中获取sid
@@ -472,6 +485,7 @@ namespace :irm do
         route_permissions<<permission_params
       end
     end
+
     not_inited_route_permissions = route_permissions.dup
     functions = Fwk::MenuAndFunctionManager.functions
     functions ||={}
@@ -500,7 +514,6 @@ namespace :irm do
             next
           end
 
-
           if route_permission.nil?
             puts "#{BOLD}#{RED}No route match #{controller}/#{action.to_s}#{CLEAR}"
             next
@@ -520,8 +533,8 @@ namespace :irm do
           end
 
           if function_api_flag.eql?("Y") && permission.id.present?
-            #Irm::RestApi.delete_all("permission_id = '#{permission.id}'")
-            Irm::RestApi.where("permission_id = '#{permission.id}'").map(&:destroy)
+            Irm::RestApi.delete_all("permission_id = '#{permission.id}'")
+            # Irm::RestApi.where("permission_id = '#{permission.id}'").map(&:destroy)
 
             if api_controllers[controller].present? && api_controllers[controller].any?
               api_rest_data = api_controllers[controller][action.to_sym] || api_controllers[controller][action.to_s] || {}

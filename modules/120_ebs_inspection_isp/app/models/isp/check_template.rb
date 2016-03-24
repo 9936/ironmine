@@ -4,7 +4,11 @@ class Isp::CheckTemplate < ActiveRecord::Base
   belongs_to :program, :foreign_key => :program_id
   validates_presence_of :name, :program_id, :body
 
-  attr_accessor_with_default :content_format,"markdown"
+  attr_writer :content_format
+
+  def content_format
+    @content_format || "markdown"
+  end
 
   #加入activerecord的通用方法和scope
   query_extend

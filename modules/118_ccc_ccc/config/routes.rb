@@ -1,31 +1,31 @@
 Ironmine::Application.routes.draw do
   scope :module => "ccc" do
-    match '/statusCons(/index)(.:format)' => "statusCons#index", :via => :get
-    match '/statusCons/new(.:format)' => "statusCons#new", :via => :get
-    match '/statusCons/create(.:format)' => "statusCons#create", :via => :post
-    match '/statusCons/:id/edit(.:format)' => "statusCons#edit", :via => :get
-    match '/statusCons/:id(.:format)' => "statusCons#update", :via => :put
-    match '/statusCons/get_data(.:format)' => "statusCons#get_data"
+    match '/statusCons(/index)(.:format)' => "status_cons#index", :via => :get
+    match '/statusCons/new(.:format)' => "status_cons#new", :via => :get
+    match '/statusCons/create(.:format)' => "status_cons#create", :via => :post
+    match '/statusCons/:id/edit(.:format)' => "status_cons#edit", :via => :get
+    match '/statusCons/:id(.:format)' => "status_cons#update", :via => :put
+    match '/statusCons/get_data(.:format)' => "status_cons#get_data"
 
-    match '/projectTypes(/index)(.:format)' => "projectTypes#index", :via => :get
-    match '/projectTypes/get_data(.:format)' => "projectTypes#get_data"
-    match '/projectTypes/:id/edit(.:format)' => "projectTypes#edit", :via => :get
-    match '/projectTypes/:id(.:format)' => "projectTypes#update", :via => :put
-    match '/projectTypes/new(.:format)' => "projectTypes#new", :via => :get
-    match '/projectTypes/create(.:format)' => "projectTypes#create", :via => :post
-    match '/projectTypes/:id/multilingual_edit(.:format)' => "projectTypes#multilingual_edit", :via => :get
-    match '/projectTypes/:id/multilingual_update(.:format)' => "projectTypes#multilingual_update", :via => :put
-    match '/projectTypes/:id/show(.:format)' => "projectTypes#show", :via => :get
+    match '/projectTypes(/index)(.:format)' => "project_types#index", :via => :get
+    match '/projectTypes/get_data(.:format)' => "project_types#get_data"
+    match '/projectTypes/:id/edit(.:format)' => "project_types#edit", :via => :get
+    match '/projectTypes/:id(.:format)' => "project_types#update", :via => :put
+    match '/projectTypes/new(.:format)' => "project_types#new", :via => :get
+    match '/projectTypes/create(.:format)' => "project_types#create", :via => :post
+    match '/projectTypes/:id/multilingual_edit(.:format)' => "project_types#multilingual_edit", :via => :get
+    match '/projectTypes/:id/multilingual_update(.:format)' => "project_types#multilingual_update", :via => :put
+    match '/projectTypes/:id/show(.:format)' => "project_types#show", :via => :get
 
-    match '/priceTypes(/index)(.:format)' => "priceTypes#index", :via => :get
-    match '/priceTypes/get_data(.:format)' => "priceTypes#get_data"
-    match '/priceTypes/:id/edit(.:format)' => "priceTypes#edit", :via => :get
-    match '/priceTypes/:id(.:format)' => "priceTypes#update", :via => :put
-    match '/priceTypes/new(.:format)' => "priceTypes#new", :via => :get
-    match '/priceTypes/create(.:format)' => "priceTypes#create", :via => :post
-    match '/priceTypes/:id/multilingual_edit(.:format)' => "priceTypes#multilingual_edit", :via => :get
-    match '/priceTypes/:id/multilingual_update(.:format)' => "priceTypes#multilingual_update", :via => :put
-    match '/priceTypes/:id/show(.:format)' => "priceTypes#show", :via => :get
+    match '/priceTypes(/index)(.:format)' => "price_types#index", :via => :get
+    match '/priceTypes/get_data(.:format)' => "price_types#get_data"
+    match '/priceTypes/:id/edit(.:format)' => "price_types#edit", :via => :get
+    match '/priceTypes/:id(.:format)' => "price_types#update", :via => :put
+    match '/priceTypes/new(.:format)' => "price_types#new", :via => :get
+    match '/priceTypes/create(.:format)' => "price_types#create", :via => :post
+    match '/priceTypes/:id/multilingual_edit(.:format)' => "price_types#multilingual_edit", :via => :get
+    match '/priceTypes/:id/multilingual_update(.:format)' => "price_types#multilingual_update", :via => :put
+    match '/priceTypes/:id/show(.:format)' => "price_types#show", :via => :get
 
     match '/sexes(/index)(.:format)' => "sexes#index", :via => :get
     match '/sexes/get_data(.:format)' => "sexes#get_data"
@@ -37,55 +37,55 @@ Ironmine::Application.routes.draw do
     match '/sexes/:id/multilingual_update(.:format)' => "sexes#multilingual_update", :via => :put
     match '/sexes/:id/show(.:format)' => "sexes#show", :via => :get
 
-    match '/customerStatuses(/index)(.:format)' => "customerStatuses#index", :via => :get
-    match '/customerStatuses/get_data(.:format)' => "customerStatuses#get_data"
-    match '/customerStatuses/:id/edit(.:format)' => "customerStatuses#edit", :via => :get
-    match '/customerStatuses/:id(.:format)' => "customerStatuses#update", :via => :put
-    match '/customerStatuses/new(.:format)' => "customerStatuses#new", :via => :get
-    match '/customerStatuses/create(.:format)' => "customerStatuses#create", :via => :post
-    match '/customerStatuses/:id/multilingual_edit(.:format)' => "customerStatuses#multilingual_edit", :via => :get
-    match '/customerStatuses/:id/multilingual_update(.:format)' => "customerStatuses#multilingual_update", :via => :put
-    match '/customerStatuses/:id/show(.:format)' => "customerStatuses#show", :via => :get
+    match '/customerStatuses(/index)(.:format)' => "customer_statuses#index", :via => :get
+    match '/customerStatuses/get_data(.:format)' => "customer_statuses#get_data"
+    match '/customerStatuses/:id/edit(.:format)' => "customer_statuses#edit", :via => :get
+    match '/customerStatuses/:id(.:format)' => "customer_statuses#update", :via => :put
+    match '/customerStatuses/new(.:format)' => "customer_statuses#new", :via => :get
+    match '/customerStatuses/create(.:format)' => "customer_statuses#create", :via => :post
+    match '/customerStatuses/:id/multilingual_edit(.:format)' => "customer_statuses#multilingual_edit", :via => :get
+    match '/customerStatuses/:id/multilingual_update(.:format)' => "customer_statuses#multilingual_update", :via => :put
+    match '/customerStatuses/:id/show(.:format)' => "customer_statuses#show", :via => :get
 
-    match '/consultantTypes(/index)(.:format)' => "consultantTypes#index", :via => :get
-    match '/consultantTypes/get_data(.:format)' => "consultantTypes#get_data"
-    match '/consultantTypes/:id/edit(.:format)' => "consultantTypes#edit", :via => :get
-    match '/consultantTypes/:id(.:format)' => "consultantTypes#update", :via => :put
-    match '/consultantTypes/new(.:format)' => "consultantTypes#new", :via => :get
-    match '/consultantTypes/create(.:format)' => "consultantTypes#create", :via => :post
-    match '/consultantTypes/:id/multilingual_edit(.:format)' => "consultantTypes#multilingual_edit", :via => :get
-    match '/consultantTypes/:id/multilingual_update(.:format)' => "consultantTypes#multilingual_update", :via => :put
-    match '/consultantTypes/:id/show(.:format)' => "consultantTypes#show", :via => :get
+    match '/consultantTypes(/index)(.:format)' => "consultant_types#index", :via => :get
+    match '/consultantTypes/get_data(.:format)' => "consultant_types#get_data"
+    match '/consultantTypes/:id/edit(.:format)' => "consultant_types#edit", :via => :get
+    match '/consultantTypes/:id(.:format)' => "consultant_types#update", :via => :put
+    match '/consultantTypes/new(.:format)' => "consultant_types#new", :via => :get
+    match '/consultantTypes/create(.:format)' => "consultant_types#create", :via => :post
+    match '/consultantTypes/:id/multilingual_edit(.:format)' => "consultant_types#multilingual_edit", :via => :get
+    match '/consultantTypes/:id/multilingual_update(.:format)' => "consultant_types#multilingual_update", :via => :put
+    match '/consultantTypes/:id/show(.:format)' => "consultant_types#show", :via => :get
 
-    match '/consultantModules(/index)(.:format)' => "consultantModules#index", :via => :get
-    match '/consultantModules/get_data(.:format)' => "consultantModules#get_data"
-    match '/consultantModules/:id/edit(.:format)' => "consultantModules#edit", :via => :get
-    match '/consultantModules/:id(.:format)' => "consultantModules#update", :via => :put
-    match '/consultantModules/new(.:format)' => "consultantModules#new", :via => :get
-    match '/consultantModules/create(.:format)' => "consultantModules#create", :via => :post
-    match '/consultantModules/:id/multilingual_edit(.:format)' => "consultantModules#multilingual_edit", :via => :get
-    match '/consultantModules/:id/multilingual_update(.:format)' => "consultantModules#multilingual_update", :via => :put
-    match '/consultantModules/:id/show(.:format)' => "consultantModules#show", :via => :get
+    match '/consultantModules(/index)(.:format)' => "consultant_modules#index", :via => :get
+    match '/consultantModules/get_data(.:format)' => "consultant_modules#get_data"
+    match '/consultantModules/:id/edit(.:format)' => "consultant_modules#edit", :via => :get
+    match '/consultantModules/:id(.:format)' => "consultant_modules#update", :via => :put
+    match '/consultantModules/new(.:format)' => "consultant_modules#new", :via => :get
+    match '/consultantModules/create(.:format)' => "consultant_modules#create", :via => :post
+    match '/consultantModules/:id/multilingual_edit(.:format)' => "consultant_modules#multilingual_edit", :via => :get
+    match '/consultantModules/:id/multilingual_update(.:format)' => "consultant_modules#multilingual_update", :via => :put
+    match '/consultantModules/:id/show(.:format)' => "consultant_modules#show", :via => :get
 
-    match '/consultantStatuses(/index)(.:format)' => "consultantStatuses#index", :via => :get
-    match '/consultantStatuses/get_data(.:format)' => "consultantStatuses#get_data"
-    match '/consultantStatuses/:id/edit(.:format)' => "consultantStatuses#edit", :via => :get
-    match '/consultantStatuses/:id(.:format)' => "consultantStatuses#update", :via => :put
-    match '/consultantStatuses/new(.:format)' => "consultantStatuses#new", :via => :get
-    match '/consultantStatuses/create(.:format)' => "consultantStatuses#create", :via => :post
-    match '/consultantStatuses/:id/multilingual_edit(.:format)' => "consultantStatuses#multilingual_edit", :via => :get
-    match '/consultantStatuses/:id/multilingual_update(.:format)' => "consultantStatuses#multilingual_update", :via => :put
-    match '/consultantStatuses/:id/show(.:format)' => "consultantStatuses#show", :via => :get
+    match '/consultantStatuses(/index)(.:format)' => "consultant_statuses#index", :via => :get
+    match '/consultantStatuses/get_data(.:format)' => "consultant_statuses#get_data"
+    match '/consultantStatuses/:id/edit(.:format)' => "consultant_statuses#edit", :via => :get
+    match '/consultantStatuses/:id(.:format)' => "consultant_statuses#update", :via => :put
+    match '/consultantStatuses/new(.:format)' => "consultant_statuses#new", :via => :get
+    match '/consultantStatuses/create(.:format)' => "consultant_statuses#create", :via => :post
+    match '/consultantStatuses/:id/multilingual_edit(.:format)' => "consultant_statuses#multilingual_edit", :via => :get
+    match '/consultantStatuses/:id/multilingual_update(.:format)' => "consultant_statuses#multilingual_update", :via => :put
+    match '/consultantStatuses/:id/show(.:format)' => "consultant_statuses#show", :via => :get
 
-    match '/consultantLevels(/index)(.:format)' => "consultantLevels#index", :via => :get
-    match '/consultantLevels/get_data(.:format)' => "consultantLevels#get_data"
-    match '/consultantLevels/:id/edit(.:format)' => "consultantLevels#edit", :via => :get
-    match '/consultantLevels/:id(.:format)' => "consultantLevels#update", :via => :put
-    match '/consultantLevels/new(.:format)' => "consultantLevels#new", :via => :get
-    match '/consultantLevels/create(.:format)' => "consultantLevels#create", :via => :post
-    match '/consultantLevels/:id/multilingual_edit(.:format)' => "consultantLevels#multilingual_edit", :via => :get
-    match '/consultantLevels/:id/multilingual_update(.:format)' => "consultantLevels#multilingual_update", :via => :put
-    match '/consultantLevels/:id/show(.:format)' => "consultantLevels#show", :via => :get
+    match '/consultantLevels(/index)(.:format)' => "consultant_levels#index", :via => :get
+    match '/consultantLevels/get_data(.:format)' => "consultant_levels#get_data"
+    match '/consultantLevels/:id/edit(.:format)' => "consultant_levels#edit", :via => :get
+    match '/consultantLevels/:id(.:format)' => "consultant_levels#update", :via => :put
+    match '/consultantLevels/new(.:format)' => "consultant_levels#new", :via => :get
+    match '/consultantLevels/create(.:format)' => "consultant_levels#create", :via => :post
+    match '/consultantLevels/:id/multilingual_edit(.:format)' => "consultant_levels#multilingual_edit", :via => :get
+    match '/consultantLevels/:id/multilingual_update(.:format)' => "consultant_levels#multilingual_update", :via => :put
+    match '/consultantLevels/:id/show(.:format)' => "consultant_levels#show", :via => :get
 
     match '/industries(/index)(.:format)' => "industries#index", :via => :get
     match '/industries/get_data(.:format)' => "industries#get_data"
@@ -98,15 +98,15 @@ Ironmine::Application.routes.draw do
     match '/industries/:id/show(.:format)' => "industries#show", :via => :get
 
 
-    match '/connTypes(/index)(.:format)' => "connTypes#index", :via => :get
-    match '/connTypes/get_data(.:format)' => "connTypes#get_data"
-    match '/connTypes/:id/edit(.:format)' => "connTypes#edit", :via => :get
-    match '/connTypes/:id(.:format)' => "connTypes#update", :via => :put
-    match '/connTypes/new(.:format)' => "connTypes#new", :via => :get
-    match '/connTypes/create(.:format)' => "connTypes#create", :via => :post
-    match '/connTypes/:id/multilingual_edit(.:format)' => "connTypes#multilingual_edit", :via => :get
-    match '/connTypes/:id/multilingual_update(.:format)' => "connTypes#multilingual_update", :via => :put
-    match '/connTypes/:id/show(.:format)' => "connTypes#show", :via => :get
+    match '/connTypes(/index)(.:format)' => "conn_types#index", :via => :get
+    match '/connTypes/get_data(.:format)' => "conn_types#get_data"
+    match '/connTypes/:id/edit(.:format)' => "conn_types#edit", :via => :get
+    match '/connTypes/:id(.:format)' => "conn_types#update", :via => :put
+    match '/connTypes/new(.:format)' => "conn_types#new", :via => :get
+    match '/connTypes/create(.:format)' => "conn_types#create", :via => :post
+    match '/connTypes/:id/multilingual_edit(.:format)' => "conn_types#multilingual_edit", :via => :get
+    match '/connTypes/:id/multilingual_update(.:format)' => "conn_types#multilingual_update", :via => :put
+    match '/connTypes/:id/show(.:format)' => "conn_types#show", :via => :get
 
   end
 

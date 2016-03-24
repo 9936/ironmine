@@ -1,16 +1,20 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1.rc1'
+gem 'rails','3.2.14'
 
 gem 'rake','0.9.2'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+gem 'execjs', '2.5.0'
+gem 'i18n', '0.6.9'
+gem 'mustache', '0.99.5'
+gem 'highline', '1.6.20'
+gem 'net-ssh', '2.9.2'
+gem 'test-unit'
 
-#gem 'ruby-mysql'
-
-#gem 'rack-mini-profiler'
+gem 'passenger', '5.0.7'
 
 gem 'pry'
 
@@ -43,14 +47,11 @@ gem 'sunspot_rails','1.3.3'
 gem 'sunspot_solr', '1.3.3'
 gem "sunspot_cell", '0.1.2'
 
-#gem "sunspot", "1.2.1"
-#gem "sunspot_rails", "1.2.1"
-
-gem 'nokogiri', '1.5.0'
+gem 'nokogiri'
 
 gem "mysql2", "~> 0.3.11"
 
-gem 'sprockets','2.0.3'
+gem 'sprockets','2.2.2'
 
 gem 'yajl-ruby','1.1.0'
 
@@ -68,20 +69,17 @@ gem 'blankslate', '2.1.2.4'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.1.5'
-  gem 'coffee-rails', '~> 3.1.1'
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', '0.10.1'
 
-  gem 'uglifier', '>= 1.0.3'
   gem 'twitter-bootstrap-rails' ,'2.1.1'
   gem 'jquery-rails', '1.0.19'
 end
 
-#group :development do
-#  gem "better_errors"
-#end
 
 gem "httparty", "~> 0.11.0"
 
@@ -89,11 +87,8 @@ gem "httparty", "~> 0.11.0"
 gem 'capistrano'
 gem 'rvm-capistrano', :require => false
 
-#gem 'ruby-oci8'
-#gem 'activerecord-oracle_enhanced-adapter'
 
-
-if RUBY_VERSION =~ /1.9/
+if RUBY_VERSION =~ /2.2/
   Encoding.default_external = Encoding::UTF_8
   Encoding.default_internal = Encoding::UTF_8
 end
