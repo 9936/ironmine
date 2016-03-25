@@ -41,7 +41,7 @@ module Icm
           support_group_ids = support_group_scope.collect{|i| i.id}
 
           # 如果不存在可用的支持组，则中断自动分配
-          return unless support_group_ids.any?
+          return unless support_group_ids.length > 0
 
           #对事故单按照分派规则进行分单
           assign_rule = Icm::AssignRule.get_support_group_by_incident(request.id, request.external_system_id)

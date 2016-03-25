@@ -67,7 +67,7 @@ class Icm::AssignRule < ActiveRecord::Base
 
   def custom_hash
     return eval(self.custom_str) if self.custom_str.present?
-    if self.group_assignments.any?
+    if self.group_assignments.length > 0
       self.group_assignments.each do |ga|
         if ga.source_type.eql?('0') && ga.source_id.eql?('0')
           self.custom_str = ga.custom_str
@@ -95,7 +95,7 @@ class Icm::AssignRule < ActiveRecord::Base
   #组拼sql语句
   def build_sql(incident_request_id, external_system_id)
     sql_str = "SELECT DISTINCT ir.id FROM icm_incident_requests ir LEFT JOIN irm_person_relations_v irv ON ir.requested_by = irv.person_id"
-    if self.group_assignments.any?
+    if self.group_assignments.length > 0
       where_arr = []
       if self.group_assignments.collect(&:source_type).include?("IRM__ORGANIZATION_EXPLOSION")
         sql_str += " LEFT JOIN irm_organization_explosions ire ON ir.organization_id = ire.organization_id"
@@ -107,7 +107,7 @@ class Icm::AssignRule < ActiveRecord::Base
           custom_str_hash = eval(ga.custom_str)
           custom_str_hash.each do |k,v|
             where_arr << "(ir.#{k}='#{v}')"
-          end if custom_str_hash.any?
+          end if custom_str_hash.length > 0
         end
 
         case ga.source_type.to_s
@@ -123,7 +123,7 @@ class Icm::AssignRule < ActiveRecord::Base
             where_arr << "(irv.source_type='#{ga.source_type}' AND irv.source_id = '#{ga.source_id}')"
         end
       end
-      if where_arr.any?
+      if where_arr.length > 0
         sql_str += " AND ("
         sql_str += where_arr.join(" #{self.join_type} ")
         sql_str += " )"
