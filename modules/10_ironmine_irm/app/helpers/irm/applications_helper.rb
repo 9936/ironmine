@@ -3,7 +3,7 @@ module Irm::ApplicationsHelper
     if(application.tabs_str.present?)
       return application.tabs_str
     end
-    if(application.application_tabs.any?)
+    if(application.application_tabs.length > 0)
       return application.application_tabs.collect{|i| i.tab_id}.join(",")
     else
       return ""
@@ -16,7 +16,7 @@ module Irm::ApplicationsHelper
       return application.default_tab_id
     end
 
-    if application.application_tabs.any?
+    if application.application_tabs.length > 0
        tab = application.application_tabs.detect{|i| i.default_flag.eql?(Irm::Constant::SYS_YES)}
        if tab
          return tab.tab_id
