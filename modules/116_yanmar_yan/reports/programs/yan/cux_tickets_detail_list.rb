@@ -3,7 +3,7 @@ class Yan::CuxTicketsDetailList < Irm::ReportManager::ReportBase
     params||={}
 
     statis = Icm::IncidentRequest.
-        select_all.enabled.
+        select_all_for_reports.enabled.
         with_category(I18n.locale).
         with_close_reason(I18n.locale).
         with_requested_by(I18n.locale).
