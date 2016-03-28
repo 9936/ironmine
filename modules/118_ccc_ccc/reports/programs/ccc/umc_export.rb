@@ -41,7 +41,7 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
 
     else
       current_acc_systems = Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id)
-      statis = statis.where("external_system.id IN (?)", current_acc_systems + []) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).any?
+      statis = statis.where("external_system.id IN (?)", current_acc_systems + []) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).length > 0
       if current_acc_systems.present? && current_acc_systems.size == 1
         ex_attributes = Irm::ObjectAttribute.multilingual.enabled.
             where("external_system_id = ?", params[:external_system_id][0]).
@@ -82,7 +82,7 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
           where("reply_type = ?", "CLOSE").
           select("created_at").
           order("created_at DESC").limit(1)
-      if last_close_journal.any?
+      if last_close_journal.length > 0
         data[2] = last_close_journal.first[:created_at].strftime("%F %T")
       else
         data[2] = ""
@@ -94,7 +94,7 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
       data[7] = s[:external_system_name]
       data[8] = s[:submitted_name]
       watchers = s.person_watchers
-      if !watchers.nil? && watchers.any?
+      if !watchers.nil? && watchers.length > 0
         data[9] = watchers.collect(&:full_name).join(',')
       else
         data[9] = ""
