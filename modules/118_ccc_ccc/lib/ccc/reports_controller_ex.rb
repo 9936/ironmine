@@ -34,7 +34,7 @@ module Ccc::ReportsControllerEx
         end
 
         respond_to do |format|
-          format.html { render(:action=>"show", :layout => "application_full") }
+          format.html { render(:action=>"show", :layout => "report_application_full") }
           format.xls  { send_data(export_report_data_to_excel(@report),:type => "text/plain", :filename=>"report_#{@report.code.downcase}_#{Time.now.strftime('%Y%m%d%H%M%S')}.xls") }
           format.pdf  {
             render :pdf => @report[:name],
@@ -58,7 +58,7 @@ module Ccc::ReportsControllerEx
       def new_template
         @report = Irm::Report.new(:program_type=>"TEMPLATE")
         respond_to do |format|
-          format.html { render :layout => "application_full"}# index.html.erb
+          format.html { render :layout => "report_application_full"}# index.html.erb
         end
       end
 
@@ -104,7 +104,7 @@ module Ccc::ReportsControllerEx
             old_template.attachment.destroy if params[:report_template]
             format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
           else
-            format.html { render({:action=>"edit",:id=>@report.id}, :layout => "application_full") }
+            format.html { render({:action=>"edit",:id=>@report.id}, :layout => "report_application_full") }
           end
         end
       end
