@@ -102,7 +102,6 @@ class Boc::BoardsController < ApplicationController
     @daily_avg_close << today_avg_close
     @table_a_date << Time.now.strftime('%m/%d')
 
-
     base_query = Icm::IncidentRequest.enabled.
         where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m') = ?", (Time.now).strftime('%Y-%m')) #当月事故单条件
         # where("NOT EXISTS (SELECT 1 FROM icm_incident_journals ij WHERE ij.reply_type = 'CLOSE' AND ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)")

@@ -26,7 +26,7 @@
                 x: -20
             },
             xAxis: {
-                categories: ['<%= @table_a_month.join("','")%>'],
+                categories: "<%= @table_a_month.join(",")%>".split(","),
                 labels: {
                     style: {
                         fontSize: '10px'
@@ -107,7 +107,7 @@
                 x: -20
             },
             xAxis: {
-                categories: ['<%= @table_a_month.join("','")%>'],
+                categories: "<%= @table_a_month.join(",")%>".split(","),
                 labels: {
                     style: {
                         fontSize: '10px'
