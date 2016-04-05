@@ -167,6 +167,7 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
     headers = [
         I18n.t(:label_icm_incident_request_request_number_shot),
         I18n.t(:label_icm_incident_request_title),
+        I18n.t(:label_icm_incident_request_support_person),
         I18n.t(:label_icm_incident_request_priority),
         I18n.t(:label_icm_incident_request_request_type_code),
         I18n.t(:label_icm_incident_request_incident_category),
@@ -177,7 +178,6 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
         I18n.t(:label_icm_incident_request_submitted_time),
         I18n.t(:label_icm_incident_request_submitted_date),
         I18n.t(:label_icm_incident_request_incident_status_code),
-        I18n.t(:label_icm_incident_request_support_person),
         I18n.t(:label_icm_incident_request_watcher_first),
         I18n.t(:label_icm_incident_request_watcher_second),
         I18n.t(:label_icm_incident_request_watcher_other),
@@ -220,17 +220,17 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
       data = Array.new(26)
       data[0] = s[:request_number]
       data[1] = s[:title]
-      data[2] = s[:priority_name]
-      data[3] = s[:request_type_code_label]
-      data[4] = s[:incident_category_name]
-      data[5] = s[:incident_sub_category_name]
-      data[6] = s[:organization_name]
-      data[7] = s[:requested_name]
-      data[8] = s[:attribute1]
-      data[9] = s[:submitted_date].strftime("%F")
-      data[10] = s[:submitted_date].strftime("%T")
-      data[11] = s[:incident_status_name]
-      data[12] = s[:supporter_name]
+      data[2] = s[:supporter_name]
+      data[3] = s[:priority_name]
+      data[4] = s[:request_type_code_label]
+      data[5] = s[:incident_category_name]
+      data[6] = s[:incident_sub_category_name]
+      data[7] = s[:organization_name]
+      data[8] = s[:requested_name]
+      data[9] = s[:attribute1]
+      data[10] = s[:submitted_date].strftime("%F")
+      data[11] = s[:submitted_date].strftime("%T")
+      data[12] = s[:incident_status_name]
       data[13] = watcher_ids[0] if watcher_ids.length >=1
       data[14] = watcher_ids[1] if watcher_ids.length >=2
       data[15] = watcher_ids[2] if watcher_ids.length >=3
