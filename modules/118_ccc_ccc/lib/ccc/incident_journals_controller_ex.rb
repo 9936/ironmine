@@ -17,6 +17,12 @@ module Ccc::IncidentJournalsControllerEx
         @incident_reply = Icm::IncidentReply.new()
         @external_system = Irm::ExternalSystem.find(@incident_request.external_system_id)
         @show_external_system = Irm::ExternalSystem.list_all.find(@incident_request.external_system_id)
+        @object_project_manager = nil
+        project_manager = @show_external_system[:project_manager]
+        if project_manager.present?
+          login_name = project_manager.split("(")[1].split(")")[0]
+          @object_project_manager = Irm::Person.where("login_name = ?", login_name).first()
+        end
         @show_external_system = solve_people_date_message(@incident_request,@show_external_system)
         @organization = Irm::Organization.list_all.where(:organization_no=>@show_external_system.organization_no).first()
 

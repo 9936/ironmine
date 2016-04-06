@@ -213,28 +213,45 @@
             <div><%= @incident_request[:request_type_code_label] %></div>
           </td>
           <td class="label-col"><label><%= t(:label_icm_incident_request_support_group) %></label></td>
-          <td class="data-col">
+          <td class="data-col" colspan="3">
             <%if Irm::Person.current.profile.user_license.eql?("SUPPORTER")%>
             <div><%= @incident_request[:support_group_name]?@incident_request[:support_group_name].split("-")[1]:"" %></div>
             <%else%>
             <div><%= @incident_request[:description] %></div>
             <%end%>
           </td>
+        </tr>
+        <tr>
           <td class="label-col"><label><%= t(:label_icm_incident_request_support_person) %></label></td>
           <td class="data-col">
             <div><%= @incident_request[:supporter_name] %></div>
           </td>
-        </tr>
-        <tr>
           <td class="label-col"><label><%= t(:label_icm_incident_request_supporter_business_phone) %></label></td>
           <td class="data-col">
             <div><%= @incident_request[:supporter_business_phone] %></div>
           </td>
           <td class="label-col"><label><%= t(:label_icm_incident_request_supporter_email) %></label></td>
-          <td class="data-col" colspan="3">
+          <td class="data-col">
             <div><%= @incident_request[:supporter_email] %></div>
           </td>
         </tr>
+        <!-- 项目经理信息 -->
+        <%if @object_project_manager.present?%>
+        <tr>
+          <td class="label-col"><label><%= t(:label_project_manager) %></label></td>
+          <td class="data-col">
+            <div><%= @object_project_manager[:full_name] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_project_manager_telephone) %></label></td>
+          <td class="data-col">
+            <div><%= @object_project_manager[:mobile_phone] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_project_manager_email) %></label></td>
+          <td class="data-col">
+            <div><%= @object_project_manager[:email_address] %></div>
+          </td>
+        </tr>
+        <%end%>
         <% if allow_to_function?(:edit_workload) %>
             <tr>
               <% if (@incident_request.attribute3 != nil && @incident_request.attribute3 != "" && @incident_request.attribute3 != "0") ||

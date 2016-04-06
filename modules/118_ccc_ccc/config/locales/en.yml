@@ -160,6 +160,8 @@ en:
   label_irm_external_system_organization_no: Company No.
   label_irm_external_system_customer_no: Customer Manager
   label_project_manager: Interface Person
+  label_project_manager_telephone: Interface Person Telephone
+  label_project_manager_email: Interface Person Email
   label_disabled_flag: Disable
   label_project_type: Project Type
   label_pricing_type: Pricing Type
