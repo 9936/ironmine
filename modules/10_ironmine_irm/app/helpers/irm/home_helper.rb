@@ -9,7 +9,6 @@ module Irm::HomeHelper
 
   def portal_configs(default_layout_id)
 
-
     # 取出所有的portlet，过滤掉当前用户没有权限访问的
     portlets=Array.new
     Irm::Portlet.multilingual.each do |p|
@@ -64,7 +63,6 @@ module Irm::HomeHelper
       end
     end if portal_layout[:layout]
     portal_layout_json = "{_default:{bg:'normal',#{layouts.join(",")}}}"
-
     [portlets,portal_layout,portlet_str,portlet_config_str,portal_layout_json,layout_index]
   end
 
