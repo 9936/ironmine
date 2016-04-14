@@ -1,4 +1,9 @@
 zh:
+  label_icm_incident_sence_expect_date: 预估现场人天
+  label_icm_incident_remote_expect_date: 预估现场人天
+  label_icm_incident_sence_actual_date: 确认现场人天
+  label_icm_incident_remote_actual_date: 确认远程人天
+
   label_icm_incident_request_update_people_date: 登记人天
   label_reports_not_close_status: 未关闭
   label_for_no_organization: 该项目尚未关联组织,无法查看登录信息

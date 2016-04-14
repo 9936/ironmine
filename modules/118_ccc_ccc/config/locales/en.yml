@@ -1,4 +1,9 @@
 en:
+  label_icm_incident_sence_expect_date: Sence Expect Date(D)
+  label_icm_incident_remote_expect_date: Remote Expect Date(D)
+  label_icm_incident_sence_actual_date: Sence Comfirm Date(D)
+  label_icm_incident_remote_actual_date: Remote Comfirm Date(D)
+
   label_icm_incident_request_update_people_date: Edit People Day
   label_reports_not_close_status: Not close
   label_for_no_organization: There is no organization for this project

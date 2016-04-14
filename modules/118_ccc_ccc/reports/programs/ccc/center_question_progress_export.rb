@@ -15,6 +15,7 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         with_incident_status(I18n.locale).
         with_type_code(I18n.locale).
         with_submitted_by.
+        with_external_system(I18n.locale).
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
 
     all_external_system_ids = []
@@ -173,6 +174,7 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         I18n.t(:label_icm_incident_request_incident_category),
         I18n.t(:label_icm_incident_request_incident_sub_category),
         I18n.t(:label_icm_incident_request_requested_by_org),
+        I18n.t(:label_irm_external_system),
         I18n.t(:label_icm_incident_request_requested_by),
         I18n.t(:label_icm_incident_request_contact),
         I18n.t(:label_icm_incident_request_submitted_date),
@@ -199,7 +201,11 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         I18n.t(:label_irm_organization_industry),
         I18n.t(:label_icm_incident_request_upgrade_flag),
         I18n.t(:label_icm_incident_request_detail_workload),
-        I18n.t(:label_icm_incident_request_total_workload)
+        I18n.t(:label_icm_incident_request_total_workload),
+        I18n.t(:label_icm_incident_sence_expect_date),
+        I18n.t(:label_icm_incident_remote_expect_date),
+        I18n.t(:label_icm_incident_sence_actual_date),
+        I18n.t(:label_icm_incident_remote_actual_date)
     ]
 
     statis.each do |s|
@@ -244,7 +250,7 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         end
       end
 
-          data = Array.new(36)
+          data = Array.new(41)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = s[:supporter_name]
@@ -253,13 +259,14 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       data[5] = s[:incident_category_name]
       data[6] = s[:incident_sub_category_name]
       data[7] = s[:organization_name]
-      data[8] = s[:requested_name]
-      data[9] = s[:attribute1]
-      data[10] = s[:submitted_date].strftime("%F %T")
-      data[11] = s[:incident_status_name]
-      data[12] = watcher_ids[0] if watcher_ids.length >=1
-      data[13] = watcher_ids[1] if watcher_ids.length >=2
-      data[14] = watcher_ids[2] if watcher_ids.length >=3
+      data[8] = s[:external_system_name]
+      data[9] = s[:requested_name]
+      data[10] = s[:attribute1]
+      data[11] = s[:submitted_date].strftime("%F %T")
+      data[12] = s[:incident_status_name]
+      data[13] = watcher_ids[0] if watcher_ids.length >=1
+      data[14] = watcher_ids[1] if watcher_ids.length >=2
+      data[15] = watcher_ids[2] if watcher_ids.length >=3
       first_commit_history_time = Icm::IncidentHistory.
           where(:request_id=>s[:id],:property_key=>"incident_status_id",:new_value=>"000K000A0g9LO0pOKPsZ1s").
           order("created_at asc").
@@ -278,23 +285,23 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
           first()
 
       if first_commit_history_time.present?
-        data[15] = first_commit_history_time.created_at.strftime("%F %T")  #首提方案日期
+        data[16] = first_commit_history_time.created_at.strftime("%F %T")  #首提方案日期
       end
       if first_assign_history_time.present?
-        data[16] = first_assign_history_time.created_at.strftime("%F %T")  #第一次分配的时间
+        data[17] = first_assign_history_time.created_at.strftime("%F %T")  #第一次分配的时间
       end
       if first_solve_history_time.present?
-        data[17] = first_solve_history_time.created_at.strftime("%F %T")  #开始处理时间
+        data[18] = first_solve_history_time.created_at.strftime("%F %T")  #开始处理时间
       end
-      data[18] = s[:updated_at].strftime("%F %T")
+      data[19] = s[:updated_at].strftime("%F %T")
       if last_commit_history_time.present? && first_solve_history_time.present?
         #总处理时间 = 最后一次提交方案的时间 - 开始处理的时间
         calendar = Slm::Calendar.where(:external_system_id=>s[:external_system_id]).first()
         end_time = last_commit_history_time.created_at
         start_time = first_solve_history_time.created_at
         time_zone = "Beijing"
-        data[19] = calendar.working_time_with_zone(time_zone,start_time,end_time)
-        data[19] = (data[19] / 1440.0).round(2)
+        data[20] = calendar.working_time_with_zone(time_zone,start_time,end_time)
+        data[20] = (data[20] / 1440.0).round(2)
       end
       # 用户满意度调查
       sroc = Ccc::SatisRateOfConsultant.where(:incident_request_id=>s[:id]).first()
@@ -307,8 +314,8 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
         else
           type_name = "不满意"
         end
-        data[20] = type_name  #客户满意度
-        data[21] = sroc.bad_reason
+        data[21] = type_name  #客户满意度
+        data[22] = sroc.bad_reason
       end
 
       sla_con_incident_scope = Ccc::SlaConIncident.
@@ -317,17 +324,17 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       where("ssi.current_status = 'START'")
 
       if sla_con_incident_scope.length == 0
-        data[22] = "正常"
+        data[23] = "正常"
       elsif sla_con_incident_scope.length == 1
-        data[22] = sla_con_incident_scope.first().type_name    #警告
+        data[23] = sla_con_incident_scope.first().type_name    #警告
         # data[21] = sla_con_incident_scope.first().service_name #超时阶段
-        data[23] = service_name(sla_con_incident_scope.first().service_name,s[:type_name]) #超时阶段
+        data[24] = service_name(sla_con_incident_scope.first().service_name,s[:type_name]) #超时阶段
       elsif sla_con_incident_scope.length == 2
         sla_con_incident_scope.each do |scis|
           if scis.type_name.eql?("超时")
-            data[22] = scis.type_name    #超时
+            data[23] = scis.type_name    #超时
             # data[21] = scis.service_name #超时阶段
-            data[23] = service_name(scis.service_name,s[:type_name]) #超时阶段
+            data[24] = service_name(scis.service_name,s[:type_name]) #超时阶段
           end
         end
       end
@@ -335,21 +342,25 @@ class Ccc::CenterQuestionProgressExport < Irm::ReportManager::ReportBase
       # 项目信息开始
       external_system = Irm::ExternalSystem.list_all.find(s[:external_system_id])
       organization = Irm::Organization.list_all.find(s[:organization_id])
-      data[24] = external_system[:project_manager]
-      data[25] = external_system[:customer_no]
-      data[26] = external_system[:project_type_name]
-      data[27] = external_system[:price_type_name]
-      data[28] = external_system[:begin_date].present??external_system[:begin_date].strftime("%F %T"):""
-      data[29] = external_system[:after_date].present??external_system[:after_date].strftime("%F %T"):""
-      data[30] = organization[:A1_flag]
-      data[31] = organization[:industry_name]
+      data[25] = external_system[:project_manager]
+      data[26] = external_system[:customer_no]
+      data[27] = external_system[:project_type_name]
+      data[28] = external_system[:price_type_name]
+      data[29] = external_system[:begin_date].present??external_system[:begin_date].strftime("%F %T"):""
+      data[30] = external_system[:after_date].present??external_system[:after_date].strftime("%F %T"):""
+      data[31] = organization[:A1_flag]
+      data[32] = organization[:industry_name]
 
       upgrade_flag = Icm::IncidentHistory.where("request_id =? and property_key like '%upgrade%' ",s[:id]).size
-      data[32] = upgrade_flag == 0 ? "":"升级"
+      data[33] = upgrade_flag == 0 ? "":"升级"
 
-      data[33] = detail_workload
-      data[34] = total_workload == 0.0 ? "":total_workload
-      data[35] = s[:id]
+      data[34] = detail_workload
+      data[35] = total_workload == 0.0 ? "":total_workload
+      data[36] = s[:attribute3]
+      data[37] = s[:attribute6]
+      data[38] = s[:attribute4]
+      data[39] = s[:attribute7]
+      data[40] = s[:id]
 
       datas << data
     end
