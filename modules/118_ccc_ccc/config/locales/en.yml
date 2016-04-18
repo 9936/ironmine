@@ -1,4 +1,5 @@
 en:
+  label_icm_incident_request_inner_reply_flag: Inner Reply
   label_icm_incident_sence_expect_date: Sence Expect Date(D)
   label_icm_incident_remote_expect_date: Remote Expect Date(D)
   label_icm_incident_sence_actual_date: Sence Comfirm Date(D)

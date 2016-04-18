@@ -17,7 +17,7 @@ module Ccc::IncidentJournalsHelperEx
       def journals_size(incident_request)
         ir = Icm::IncidentRequest.find(incident_request.id)
         if Irm::Person.current.profile.user_license.eql?("SUPPORTER")
-          count = ir.incident_journals.enabled.size
+          count = incident_request.reply_count
         else
           count = ir.incident_journals.without_attribute_change_journal.enabled.size
         end
