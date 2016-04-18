@@ -67,7 +67,9 @@ class Irm::ReportTriggersController < ApplicationController
   # DELETE /report_triggers/1.xml
   def destroy
     @report_trigger = Irm::ReportTrigger.find(params[:id])
-    @report_trigger.destroy
+    @report_trigger.delete
+    @report_trigger.save
+    # @report_trigger.destroy
 
     respond_to do |format|
       format.html { redirect_to({:controller=>"irm/reports",:action => "show",:id=>@report_trigger.report_id}, :notice => t(:successfully_updated)) }

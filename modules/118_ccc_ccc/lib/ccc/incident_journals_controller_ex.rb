@@ -48,12 +48,17 @@ module Ccc::IncidentJournalsControllerEx
         # 1,客户回复
         # 2,服务台回复
         # 3,其他人员回复
-        if Irm::Person.current.id.eql?(@incident_request.requested_by)
-          @incident_journal.reply_type = "CUSTOMER_REPLY"
-        elsif Irm::Person.current.id.eql?(@incident_request.support_person_id)
-          @incident_journal.reply_type = "SUPPORTER_REPLY"
+        # 4,内部回复
+        if params[:inner_reply_flag].eql?("Y")
+          @incident_journal.reply_type = "INNER_REPLY"
         else
-          @incident_journal.reply_type = "OTHER_REPLY"
+          if Irm::Person.current.id.eql?(@incident_request.requested_by)
+            @incident_journal.reply_type = "CUSTOMER_REPLY"
+          elsif Irm::Person.current.id.eql?(@incident_request.support_person_id)
+            @incident_journal.reply_type = "SUPPORTER_REPLY"
+          else
+            @incident_journal.reply_type = "OTHER_REPLY"
+          end
         end
         #如果服务台人员手动修改状态，则使用手工修改的状态，如果状态为空则使用状态转移逻辑
         unless (params[:keep_next_status] && params[:keep_next_status].eql?("Y")) || @incident_reply.incident_status_id.present?

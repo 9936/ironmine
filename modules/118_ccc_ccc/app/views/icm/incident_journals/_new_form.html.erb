@@ -433,7 +433,14 @@
                         </div>
                     <% end %>
                   </td>
-
+                  <% if Irm::Person.current.profile.user_license.eql?("SUPPORTER") %>
+                      <td class="page-block-help" style="width: auto;">
+                        <div>
+                          <label style="display:inline;"><%= I18n.t(:label_icm_incident_request_inner_reply_flag) %></label>
+                          <%= check_box_tag :inner_reply_flag, 'Y'%>
+                        </div>
+                      </td>
+                  <%end%>
                   <td class="page-block-help" style="width: auto;display: none">
                     <div>
                       <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_request_keep_next_status) %></label>
