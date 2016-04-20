@@ -158,6 +158,7 @@ class Skm::EntryHeader < ActiveRecord::Base
       sp.with(:history_flag, Irm::Constant::SYS_NO)
       sp.with(:entry_status_code, "PUBLISHED")
       sp.with(:updated_at).greater_than(time_limit) if time_limit
+      sp.order_by(:doc_number,:desc)
       sp.paginate(:offset => offset, :per_page => per_page)
     end
 
