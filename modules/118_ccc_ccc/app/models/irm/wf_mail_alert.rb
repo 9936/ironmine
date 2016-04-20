@@ -139,6 +139,17 @@ class Irm::WfMailAlert < ActiveRecord::Base
       end
       recipient_ids = recipient_ids - temp_person_ids
     end
+    # 如果邮件是内部回复产生的则筛选掉客户
+    if self.mail_alert_code.eql?("INNER_REPLY_NOTIC")
+      temp_person_ids = []
+      recipient_ids.each do |r|
+        temp_person = Irm::Person.find(r)
+        if temp_person.profile.user_license.eql?("REQUESTER")
+          temp_person_ids << r
+        end
+      end
+      recipient_ids = recipient_ids - temp_person_ids
+    end
     # loop send mail
     # bo_update_by = bo.respond_to?(:updated_by)? bo.created_by : "nocreatedby" # do not send to creater
     bo_update_by = bo.respond_to?(:updated_by)? bo.updated_by : "noupdatedby"
