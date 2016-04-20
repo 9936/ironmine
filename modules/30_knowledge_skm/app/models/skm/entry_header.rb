@@ -144,6 +144,7 @@ class Skm::EntryHeader < ActiveRecord::Base
     string :entry_status_code
     string :history_flag
     string :published_date
+    string :doc_number
     time :updated_at
   end
 
