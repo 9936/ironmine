@@ -7,6 +7,10 @@ Ironmine::Application.routes.draw do
     match 'incident_journals/:request_id/:sid/update_workload(.:format)' => "incident_journals#update_workload", :via => :put
   end
 
+  scope :module => "irm" do
+    match '/reports/:id/generate_xls(.:format)' => "reports#generate_xls", :via => :get
+  end
+
   scope :module => "yan" do
     match '/parent_people/:id/new_from_person(.:format)' => "parent_people#new_from_person"
     match '/parent_people/:id/delete_from_parent(.:format)' => "parent_people#delete_from_parent"

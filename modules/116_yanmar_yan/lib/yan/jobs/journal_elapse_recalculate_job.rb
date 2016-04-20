@@ -1,8 +1,8 @@
 module Yan
   module Jobs
-    class RecalculateJob<Struct.new(:p)
+    class JournalElapseRecalculateJob<Struct.new(:sid)
       def perform
-
+        Icm::IncidentJournalElapse.recalculate_distance_by_system(sid)
       end
     end
   end

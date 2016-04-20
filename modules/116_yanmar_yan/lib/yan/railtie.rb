@@ -15,6 +15,7 @@ module Yan
       Mam::MasterStatus.send(:include, Yan::MasterStatusModelEx)
       Skm::EntryHeadersController.send(:include, Yan::EntryHeadersControllerEx)
       Skm::EntryHeader.send(:include, Yan::EntryHeaderModelEx)
+      Irm::ReportsController.send(:include, Yan::ReportsControllerEx)
     end
   end
 end
