@@ -1,4 +1,5 @@
 ja:
+  label_inner_reply_title: "inner reply at %{date_format} (%{time_distance}ago)"
   label_icm_incident_request_hotline: ホットライン
   label_icm_incident_request_hotline_y: レポート
   label_icm_incident_request_hotline_n: その他

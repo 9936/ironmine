@@ -16,7 +16,11 @@
      <div style="float:left; padding:0 0 0 5px;">
          <h3><%= journal[:replied_name]  %></h3>
             <span style="color:#666666;font-style:italic;">
-              <%= t(:label_reply_title,:time_distance=>distance_of_time_in_words(Time.now,journal[:created_at]),:date_format=>format_date(journal[:created_at])) %>
+              <% if journal[:reply_type].eql?("INNER_REPLY")%>
+                  <span style="color: red;"><%= t(:label_inner_reply_title,:time_distance=>distance_of_time_in_words(Time.now,journal[:created_at]),:date_format=>format_date(journal[:created_at])) %></span>
+              <%else%>
+                  <%= t(:label_inner_reply_title,:time_distance=>distance_of_time_in_words(Time.now,journal[:created_at]),:date_format=>format_date(journal[:created_at])) %>
+              <%end%>
               <% if journal[:created_at] != journal[:updated_at] %>
               <%= "(#{t(:updated_at)}: #{format_date(journal[:updated_at])}, #{distance_of_time_in_words(Time.now,journal[:updated_at])})"%>
               <% end %>
