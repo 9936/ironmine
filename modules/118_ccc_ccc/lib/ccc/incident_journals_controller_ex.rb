@@ -24,7 +24,8 @@ module Ccc::IncidentJournalsControllerEx
           @object_project_manager = Irm::Person.where("login_name = ?", login_name).first()
         end
         @show_external_system = solve_people_date_message(@incident_request,@show_external_system)
-        @organization = Irm::Organization.list_all.where(:organization_no=>@show_external_system.organization_no).first()
+        # @organization = Irm::Organization.list_all.where(:organization_no=>@show_external_system.organization_no).first()
+        @organization = Irm::Organization.list_all.find(Irm::Person.find(@incident_request.requested_by).organization_id)
 
         respond_to do |format|
           format.html { render :layout=>"application_right"}
