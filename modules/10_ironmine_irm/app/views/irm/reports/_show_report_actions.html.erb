@@ -42,8 +42,11 @@
         </div>
 
         <div class="btn-group"><%= link_to t(:back), {:action => "index"},:class => "btn cancel"%></div>
-      <%if @report.id.eql?("002K00091nmOVISuXGmqSe") and false%>
+      <%if @report.id.eql?("002K00091nmOVISuXGmqSe")%>
         <div class="btn-group"><%= link_to t(:generate_xls), {:action => "generate_xls",:id => @report.id},:class => "btn cancel"%></div>
+          <%if File::exists? "public/reports/cux_ticket_detail_list.xls"%>
+            <div class="btn-group"><%= link_to t(:download_xls), {:action => "download_xls",:id => @report.id},:class => "btn cancel"%></div>
+          <%end%>
       <%end%>
     </div>
 <%- end -%>

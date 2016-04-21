@@ -9,6 +9,7 @@ Ironmine::Application.routes.draw do
 
   scope :module => "irm" do
     match '/reports/:id/generate_xls(.:format)' => "reports#generate_xls", :via => :get
+    match '/reports/:id/download_xls(.:format)' => "reports#download_xls", :via => :get
   end
 
   scope :module => "yan" do

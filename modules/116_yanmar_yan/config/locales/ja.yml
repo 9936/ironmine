@@ -1,4 +1,8 @@
 ja:
+  label_action_generate_xls: Generate Excel
+  generate_xls: Generate Excel
+  download_xls: Download Excel
+  label_action_download_xls: Download Excel
   label_skm_entry_header_read_num: Read Number
   label_skm_entry_header_download_num: Download
   label_skm_entry_header_zan_num: 賛

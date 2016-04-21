@@ -2,6 +2,10 @@ module Yan
   module Jobs
     class GenerateXlsJob<Struct.new(:p)
       def perform
+        # 生成文件前先删除文件
+        if File::exists? "public/reports/cux_ticket_detail_list.xls"
+          File.delete "public/reports/cux_ticket_detail_list.xls"
+        end
         statis = Icm::IncidentRequest.
             select_all_for_reports.enabled.
             with_category(I18n.locale).
@@ -75,9 +79,9 @@ module Yan
           data[8] = s[:incident_category_name]
           data[9] = s[:incident_sub_category_name]
           data[10] = s[:incident_status_name]
-          data[11] = s[:submitted_date].strptime("%F %T")
-          data[12] = s[:estimated_date].strptime("%F %T")
-          data[13] = s[:last_response_date].strptime("%F %T")
+          data[11] = s[:submitted_date] ? s[:submitted_date].strftime("%F %T") : ""
+          data[12] = s[:estimated_date] ? s[:estimated_date].strftime("%F %T") : ""
+          data[13] = s[:last_response_date] ? s[:last_response_date].strftime("%F %T") : ""
           # get close date
           last_close_journal = Icm::IncidentJournal.
               where("incident_request_id = ?", s.id).
@@ -85,12 +89,12 @@ module Yan
               select("created_at").
               order("created_at DESC").limit(1)
           if last_close_journal.any?
-            data[14] = last_close_journal.first[:created_at]
+            data[14] = last_close_journal.first[:created_at] ? last_close_journal.first[:created_at].strftime("%F %T") : ""
             # (CloseDate is Null or CloseDate >= A)
             next if s.close? && Date.strptime("#{data[14]}", '%Y-%m-%d') < Date.strptime("#{start_date}", '%Y-%m-%d')
           else
             if s.close?
-              data[14] = s[:last_response_date]
+              data[14] = s[:last_response_date] ? s[:last_response_date].strftime("%F %T") : ""
               next if Date.strptime("#{data[14]}", '%Y-%m-%d') < Date.strptime("#{start_date}", '%Y-%m-%d')
             else
               data[14] = ""

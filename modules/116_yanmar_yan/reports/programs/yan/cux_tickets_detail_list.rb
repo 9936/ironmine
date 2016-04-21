@@ -73,14 +73,14 @@ class Yan::CuxTicketsDetailList < Irm::ReportManager::ReportBase
        start_date = "1970-1-1"
     end
 
-    book = Spreadsheet::Workbook.new
-    sheet1 = book.create_worksheet :name => 'Sheet1'
-    sheet1.row(0).concat headers
-    sheet1.row(0).height = 18
-    format = Spreadsheet::Format.new :weight => :bold, :size => 12
-    sheet1.row(0).default_format = format
+    # book = Spreadsheet::Workbook.new
+    # sheet1 = book.create_worksheet :name => 'Sheet1'
+    # sheet1.row(0).concat headers
+    # sheet1.row(0).height = 18
+    # format = Spreadsheet::Format.new :weight => :bold, :size => 12
+    # sheet1.row(0).default_format = format
 
-    count = 1
+    # count = 1
     statis.each do |s|
       data = Array.new(19 + ex_attributes.size)
       data[0] = s[:request_number]
@@ -125,11 +125,11 @@ class Yan::CuxTicketsDetailList < Irm::ReportManager::ReportBase
         nc = nc + 1
       end
       datas << data
-      sheet1.row(count).concat data
-      count = count + 1
+      # sheet1.row(count).concat data
+      # count = count + 1
     end
 
-    book.write 'public/reports/cux_ticket_detail_list.xls'
+    # book.write 'public/reports/cux_ticket_detail_list.xls'
 
     {:datas=>datas,:headers=>headers,:params=>params}
   end

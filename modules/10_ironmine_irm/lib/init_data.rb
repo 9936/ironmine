@@ -1045,7 +1045,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/reports" => ["index", "show", "run", "get_data", "get_reports_tree","generate_xls"],
+              "irm/reports" => ["index", "show", "run", "get_data", "get_reports_tree","generate_xls","download_xls"],
           },
           :create_reports => {
               :en => {:name => "New Report", :description => "New Report"},
