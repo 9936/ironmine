@@ -1,4 +1,6 @@
 en:
+  label_icm_incident_request_ABAP_relation: ABAP Relation
+  label_icm_incident_request_Basis_relation: Basis Relation
   label_inner_reply_title: "inner reply at %{date_format} (%{time_distance}ago)"
   label_icm_incident_request_inner_reply_flag: Inner Reply
   label_icm_incident_sence_expect_date: Sence Expect Date(D)

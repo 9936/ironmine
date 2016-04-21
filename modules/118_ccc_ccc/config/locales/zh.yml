@@ -1,4 +1,6 @@
 zh:
+  label_icm_incident_request_ABAP_relation: ABAP相关
+  label_icm_incident_request_Basis_relation: Basis相关
   label_inner_reply_title: "于%{date_format}(%{time_distance}前)内部回复"
   label_icm_incident_request_inner_reply_flag: 内部回复
   label_icm_incident_sence_expect_date: 预估现场人天

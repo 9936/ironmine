@@ -181,6 +181,8 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
         I18n.t(:label_icm_incident_request_watcher_first),
         I18n.t(:label_icm_incident_request_watcher_second),
         I18n.t(:label_icm_incident_request_watcher_other),
+        I18n.t(:label_icm_incident_request_ABAP_relation),
+        I18n.t(:label_icm_incident_request_Basis_relation),
         I18n.t(:label_icm_incident_request_first_commit_time),
         I18n.t(:label_icm_incident_request_respond_time),
         I18n.t(:label_icm_incident_request_start_solve_time),
@@ -192,7 +194,14 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
         I18n.t(:label_icm_incident_request_upgrade_flag)
     ]
 
+    abap_group_member_ids = Irm::GroupMember.select("person_id").where("group_id in ('0014000B2jRU7FjuWOlDfc','0014000B2kYFzYtQ0olbcW','0014000B2kYFzYtQ2OCJou')").group("person_id").collect { |am| am.person_id }
+    abap_group_member_ids.uniq!
+    basis_group_member_ids = Irm::GroupMember.select("person_id").where("group_id in ('0014000B2jnSnXNsXpilG4','0014000B2kYFzYtQ14JIJ6','0014000B2kYFzYtQ2b4Qcq')").group("person_id").collect { |bm| bm.person_id }
+    basis_group_member_ids.uniq!
+
     statis.each do |s|
+      has_abap_flag = false
+      has_basis_flag = false
       watcher_ids = []
       Irm::Watcher.where(:watchable_id=>s[:id]).collect { |w|
         person = Irm::Person.find(w.member_id)
@@ -200,6 +209,14 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
         if person.present?
           if !person.role_id.eql?("002N000B2jQQBCsvKW8BfM") && person.profile.user_license.eql?("SUPPORTER")
             watcher_ids << person.full_name
+            # 如果观察者中有abap组中的人,则标记为true
+            if abap_group_member_ids.include?(person.id)
+              has_abap_flag = true
+            end
+            # 如果观察者中有basis组中的人,则标记为true
+            if basis_group_member_ids.include?(person.id)
+              has_basis_flag = true
+            end
           end
         end
       }
@@ -217,7 +234,7 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
         end
       end
 
-      data = Array.new(26)
+      data = Array.new(28)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = s[:supporter_name]
@@ -234,6 +251,8 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
       data[13] = watcher_ids[0] if watcher_ids.length >=1
       data[14] = watcher_ids[1] if watcher_ids.length >=2
       data[15] = watcher_ids[2] if watcher_ids.length >=3
+      data[16] = has_abap_flag ? "是":""
+      data[17] = has_basis_flag ? "是":""
       first_commit_history_time = Icm::IncidentHistory.
           where(:request_id=>s[:id],:property_key=>"incident_status_id",:new_value=>"000K000A0g9LO0pOKPsZ1s").
           order("created_at asc").
@@ -252,23 +271,23 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
           first()
 
       if first_commit_history_time.present?
-        data[16] = first_commit_history_time.created_at.strftime("%F %T")  #首提方案日期
+        data[18] = first_commit_history_time.created_at.strftime("%F %T")  #首提方案日期
       end
       if first_assign_history_time.present?
-        data[17] = first_assign_history_time.created_at.strftime("%F %T")  #第一次分配的时间
+        data[19] = first_assign_history_time.created_at.strftime("%F %T")  #第一次分配的时间
       end
       if first_solve_history_time.present?
-        data[18] = first_solve_history_time.created_at.strftime("%F %T")  #开始处理时间
+        data[20] = first_solve_history_time.created_at.strftime("%F %T")  #开始处理时间
       end
-      data[19] = s[:updated_at].strftime("%F %T")
+      data[21] = s[:updated_at].strftime("%F %T")
       if last_commit_history_time.present? && first_solve_history_time.present?
         #总处理时间 = 最后一次提交方案的时间 - 开始处理的时间
         calendar = Slm::Calendar.where(:external_system_id=>s[:external_system_id]).first()
         end_time = last_commit_history_time.created_at
         start_time = first_solve_history_time.created_at
         time_zone = "Beijing"
-        data[20] = calendar.working_time_with_zone(time_zone,start_time,end_time)
-        data[20] = (data[20] / 1440.0).round(2)
+        data[22] = calendar.working_time_with_zone(time_zone,start_time,end_time)
+        data[22] = (data[22] / 1440.0).round(2)
       end
       # 用户满意度调查
       sroc = Ccc::SatisRateOfConsultant.where(:incident_request_id=>s[:id]).first()
@@ -281,7 +300,7 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
         else
           type_name = "不满意"
         end
-        data[21] = type_name  #客户满意度
+        data[23] = type_name  #客户满意度
       end
 
       sla_con_incident_scope = Ccc::SlaConIncident.
@@ -290,23 +309,23 @@ class Ccc::CenterBriefReport < Irm::ReportManager::ReportBase
           where("ssi.current_status = 'START'")
 
       if sla_con_incident_scope.length == 0
-        data[22] = "正常"
+        data[24] = "正常"
       elsif sla_con_incident_scope.length == 1
-        data[22] = sla_con_incident_scope.first().type_name    #警告
+        data[24] = sla_con_incident_scope.first().type_name    #警告
         # data[20] = sla_con_incident_scope.first().service_name #超时阶段
-        data[23] = service_name(sla_con_incident_scope.first().service_name,s[:type_name]) #超时阶段
+        data[25] = service_name(sla_con_incident_scope.first().service_name,s[:type_name]) #超时阶段
       elsif sla_con_incident_scope.length == 2
         sla_con_incident_scope.each do |scis|
           if scis.type_name.eql?("超时")
-            data[22] = scis.type_name    #超时
+            data[24] = scis.type_name    #超时
             # data[20] = scis.service_name #超时阶段
-            data[23] = service_name(scis.service_name,s[:type_name]) #超时阶段
+            data[25] = service_name(scis.service_name,s[:type_name]) #超时阶段
           end
         end
       end
       upgrade_flag = Icm::IncidentHistory.where("request_id =? and property_key like '%upgrade%' ",s[:id]).size
-      data[24] = upgrade_flag == 0 ? "":"升级"
-      data[25] = s[:id]
+      data[26] = upgrade_flag == 0 ? "":"升级"
+      data[27] = s[:id]
       datas << data
     end
 
