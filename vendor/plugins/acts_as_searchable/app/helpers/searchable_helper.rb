@@ -4,7 +4,12 @@ module SearchableHelper
     result_box = ""
     no_result = true
     return unless query.present?
-    Ironmine::Acts::Searchable.searchable_entity.each do |key,value|
+    temp_searchable_entity = Ironmine::Acts::Searchable.searchable_entity
+    temp_searchable_entity = temp_searchable_entity.sort {|a,b|
+      b[0] <=> a[0]
+    }
+    # Ironmine::Acts::Searchable.searchable_entity.each do |key,value|
+    temp_searchable_entity.each do |key,value|
       next unless !value.present?||allow_to_function?(value)
       next unless !search_option_str.present? || (search_option_str.present? && (search_option_str.split(" ").include?("ALL") || search_option_str.split(" ").include?(key)))
       search_entity = key.constantize

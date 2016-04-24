@@ -31,9 +31,6 @@ module Irm::SearchHelper
   #初始化搜索选项设置
   def init_search_options(selected = params[:search_option_str].split(" "))
     search_entities = Ironmine::Acts::Searchable.searchable_entity
-    search_entities = search_entities.sort {|a,b|
-      b[0] <=> a[0]
-    }
     search_options_hash = {}
     search_entities.each do |key, value|
       search_options_hash[key.to_s] = {:label =>t("label#{build_meaning(key)}"), :name => "search_option#{build_meaning(key)}"}

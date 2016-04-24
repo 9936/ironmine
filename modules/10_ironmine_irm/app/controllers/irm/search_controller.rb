@@ -33,7 +33,12 @@ class Irm::SearchController < ApplicationController
     #@results = {}
     search_option_arr = search_option_str.split(" ")
     #为系统搜索添加权限控制以及根据单号搜素
-    Ironmine::Acts::Searchable.searchable_entity.each do |key,value|
+    temp_searchable_entity = Ironmine::Acts::Searchable.searchable_entity
+    temp_searchable_entity = temp_searchable_entity.sort {|a,b|
+      b[0] <=> a[0]
+    }
+    # Ironmine::Acts::Searchable.searchable_entity.each do |key,value|
+    temp_searchable_entity.each do |key,value|
       next unless !value.present? || allow_to_function?(value) && search_option_arr.include?(key.to_s)
       search_entity = key.constantize
       if search_entity.searchable_options[:direct].present?&&search_entity.respond_to?(search_entity.searchable_options[:direct].to_sym)

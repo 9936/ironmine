@@ -163,10 +163,31 @@ class Skm::EntryHeader < ActiveRecord::Base
       sp.paginate(:offset => offset, :per_page => per_page)
     end
 
+    # search.each_hit_with_result do |hit, result|
+    #   results[result.id.to_sym] ||= {}
+    #   results[result.id.to_sym][:hit] = hit
+    # end if search
+
+    temp_result = []
+
     search.each_hit_with_result do |hit, result|
-      results[result.id.to_sym] ||= {}
-      results[result.id.to_sym][:hit] = hit
+      temp_result << hit
     end if search
+
+    for i in 0..temp_result.length
+      for j in (i+1)..temp_result.length
+        if temp_result[i].instance.doc_number < temp_result[j].instance.doc_number
+          temp = temp_result[i]
+          temp_result[i] = temp_result[j]
+          temp_result[j] = temp
+        end
+      end
+    end
+
+    temp_result.each do |r|
+      results[r.instance.id.to_sym] ||= {}
+      results[r.instance.id.to_sym][:hit] = r
+    end
 
     #搜索知识库附件关联
     #search_att = Sunspot.search(Irm::AttachmentVersion) do |sp|
