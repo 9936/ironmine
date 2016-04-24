@@ -30,7 +30,7 @@ Delayed::Worker.sleep_delay = 1
 #最大重新执行次数
 Delayed::Worker.max_attempts = 3
 #一个job的最长执行时间
-Delayed::Worker.max_run_time = 3.hours
+Delayed::Worker.max_run_time = 4.hours
 #数据存储方式
 Delayed::Worker.backend=:active_record
 
