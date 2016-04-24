@@ -104,9 +104,49 @@
               <tr>
                 <td class="label-col"><label>Item Code</label></td>
                 <td class="data-col">
-                  <%= f.text_field :item_code,:required => true, :maxlength => 40%>
+                  <%if false%>
+                      <%= f.text_field :item_code,:required => true, :maxlength => 40%>
+                      <%= mam_demo_label("KAC1*EBS")%>
+                  <%end%>
+                  <div id="code_div">
+                    <%= f.text_field :item_code,:required => true, :maxlength => 20%>
+                  </div>
                   <%= mam_demo_label("KAC1*EBS")%>
+                  <label class="checkbox">
+                    <input type="checkbox" style="margin-top: 2px" onclick="select_length()" id="sl" checked>: Use interface to other system
+                  </label>
+
                 </td>
+                <%= f.hidden_field(:interface_flag,:value=>'Y')%>
+                <script>
+                    function select_length(){
+                        $("#code_div").empty()
+                        if($("#sl").is(":checked")) {
+                            $("#code_div").html(
+                                    "<div class='form-field-wrapped form-field-required'>"+
+                                    "<span class='form-field-required-flag'></span>"+
+                                    "<span class='form-field'>"+
+                                    "<input id='mam_master_item_item_code' irequired='true'name='mam_master_item[item_code]' type='text'>"+
+                                    "</span>"+
+                                    "</div>"
+                            )
+                            $("#mam_master_item_item_code").maxlength({max: 20})
+                            $("#mam_master_item_interface_flag").val("Y")
+                        }
+                        else{
+                            $("#code_div").html(
+                                    "<div class='form-field-wrapped form-field-required'>"+
+                                    "<span class='form-field-required-flag'></span>"+
+                                    "<span class='form-field'>"+
+                                    "<input id='mam_master_item_item_code' irequired='true' name='mam_master_item[item_code]' type='text'>"+
+                                    "</span>"+
+                                    "</div>"
+                            )
+                            $("#mam_master_item_item_code").maxlength({max: 40})
+                            $("#mam_master_item_interface_flag").val("N")
+                        }
+                    }
+                </script>
                 <td class="label-col"><label>Item Description</label></td>
                 <td class="data-col">
                   <%= f.text_area :item_description,:required => true, :maxlength => 240%>
