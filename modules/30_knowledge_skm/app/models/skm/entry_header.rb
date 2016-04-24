@@ -174,13 +174,18 @@ class Skm::EntryHeader < ActiveRecord::Base
       temp_result << hit
     end if search
 
-    for i in 0..temp_result.length
-      for j in (i+1)..temp_result.length
-        if temp_result[i].instance.doc_number < temp_result[j].instance.doc_number
-          temp = temp_result[i]
-          temp_result[i] = temp_result[j]
-          temp_result[j] = temp
+    0.upto(temp_result.length-1) do |i|
+      exchange = false
+      0.upto(temp_result.length-1-i-1) do|j|
+        if temp_result[j].instance.doc_number.to_i < temp_result[j+1].instance.doc_number.to_i
+          tmp = temp_result[j+1]
+          temp_result[j+1] = temp_result[j]
+          temp_result[j] = tmp
+          exchange = true
         end
+      end
+      if !exchange
+        break
       end
     end
 
