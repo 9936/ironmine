@@ -3,7 +3,7 @@ module Ccc::IncidentJournalsHelperEx
     base.class_eval do
       def list_journals(incident_request)
         if Irm::Person.current.profile.user_license.eql?("SUPPORTER")
-          journals = Icm::IncidentJournal.enabled.list_all(incident_request.id).includes(:incident_histories).default_order
+          journals = Icm::IncidentJournal.enabled.list_all(incident_request.id).without_attribute_inner_change_journal.includes(:incident_histories).default_order
         else
           journals = Icm::IncidentJournal.enabled.list_all(incident_request.id).without_attribute_change_journal.includes(:incident_histories).default_order
         end

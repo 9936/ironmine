@@ -6,7 +6,7 @@ module Ccc::IncidentJournalModelEx
       #回写回复数量到事故单中，方便统计
       def count_reply
         ir = Icm::IncidentRequest.find(self.incident_request_id)
-        count = ir.incident_journals.enabled.size
+        count = ir.incident_journals.without_attribute_inner_change_journal.enabled.size
         ir.update_attribute(:reply_count, count)
         count
       rescue
@@ -16,6 +16,11 @@ module Ccc::IncidentJournalModelEx
       def generate_journal_number
         self.journal_number = Irm::Sequence.nextval(self.class.name)
       end
+
+      scope :without_attribute_inner_change_journal, lambda{
+                                                     where("#{table_name}.reply_type IN (?)",
+                                                           ["OTHER_REPLY", "CUSTOMER_REPLY", "SUPPORTER_REPLY","INNER_REPLY"])
+                                                   }
 
       private
 
