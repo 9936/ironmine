@@ -11,13 +11,13 @@
         <%= "#{data[:incident_category_id_label]}-#{data[:incident_sub_category_id_label]}"%>
     <%end%>
     <% builder.column(:request_type_code_label,{:title=>t(:label_icm_incident_request_request_type_code), :width => "55px",:searchable=>true,:sortable=>true})%>
-    <% builder.column(:title,{:title=>t(:label_icm_incident_request_title),:searchable=>true,:width => "350px"})  do |data|%>
+    <% builder.column(:title,{:title=>t(:label_icm_incident_request_title),:searchable=>true,:width => "300px"})  do |data|%>
           <% if(data[:reply_flag].eql?("Y") && data[:close_flag].eql?("N"))%>
              <%= icon_link("btn-reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
           <% end %>
-          <%= link_to( "(#{data[:incident_status_id_label]})"+data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
+          <%= link_to(data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
     <% end %>
-    <% builder.column(:external_system_id_label,{:title=>t(:label_irm_external_system),:width => "240px"}) do |data| %>
+    <% builder.column(:external_system_id_label,{:title=>t(:label_irm_external_system),:width => "230px"}) do |data| %>
         <%if false%>
             <CENTER>
         <%end%>
@@ -28,11 +28,11 @@
             </CENTER>
         <%end%>
     <% end %>
+    <% builder.column(:incident_status_id_label,{:title=>t(:label_icm_incident_request_incident_status), :width => "55px",:searchable=>true,:sortable=>true})%>
     <% builder.column(:priority_id_label,{:title=>t(:label_icm_incident_request_priority),:searchable=>true, :width => "60px",:sortable=>true})%>
     <% builder.column(:support_person_id_label,{:title=>t(:label_icm_incident_request_support_person),:searchable=>true, :width => "90px",:sortable=>true}) do |data| %>
           <%= data[:support_person_id_label]%>
     <% end %>
-    <% builder.column(:incident_status_id_label,{:title=>t(:label_icm_incident_request_incident_status_code), :hidden => true, :searchable=>true, :width => "0"})%>
     <% builder.column(:submitted_date,{:title=>t(:label_icm_incident_request_submitted_date), :width => "150px",:sortable=>true, :searchable=>true})%>
     <% builder.column(:last_response_date,{:title=>t(:label_icm_incident_request_last_date), :width => "150px",:sortable=>true})%>
     <% builder.row do |data|%>
