@@ -30,7 +30,7 @@ class Icm::IncidentWorkCalendarsController < ApplicationController
   def recalculate
     Icm::IncidentJournalElapse.recalculate_distance_by_system(params[:sid])
     # Delayed::Job.enqueue(Yan::Jobs::JournalElapseRecalculateJob.new(params[:sid]))
-    # redirect_to({:action=>"new"})
+    redirect_to({:action=>"new"})
 
   end
 

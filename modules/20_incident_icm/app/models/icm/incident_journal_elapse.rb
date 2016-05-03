@@ -15,7 +15,8 @@ class Icm::IncidentJournalElapse < ActiveRecord::Base
   scope :by_system, lambda { |external_system_id|
     joins("JOIN #{Icm::IncidentJournal.table_name} ON #{Icm::IncidentJournal.table_name}.id = #{self.table_name}.incident_journal_id").
         joins("JOIN #{Icm::IncidentRequest.table_name} ON #{Icm::IncidentRequest.table_name}.id = #{Icm::IncidentJournal.table_name}.incident_request_id").
-        where("#{Icm::IncidentRequest.table_name}.external_system_id = ?", external_system_id)
+        where("#{Icm::IncidentRequest.table_name}.external_system_id = ?", external_system_id).
+        where("DATE_FORMAT(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m') in ('#{(Time.now).strftime('%Y-%m')}','#{(Time.now - 1.month).strftime('%Y-%m')}')")
   }
 
   scope :by_request, lambda { |incident_request_id|
@@ -24,14 +25,16 @@ class Icm::IncidentJournalElapse < ActiveRecord::Base
   }
 
   def calculate_distance
-    self.distance = self.end_at.to_i - self.start_at.to_i
+    # if self.distance == self.real_distance || self.real_distance == 0
+      self.distance = self.end_at.to_i - self.start_at.to_i
 
-    work_calendar = Icm::IncidentWorkCalendar.where(:external_system_id => self.incident_journal.incident_request.external_system_id).first
-    if work_calendar.present?
-      self.real_distance = work_calendar.working_time(self.start_at, self.end_at)*60
-    else
-      self.real_distance = self.distance
-    end
+      work_calendar = Icm::IncidentWorkCalendar.where(:external_system_id => self.incident_journal.incident_request.external_system_id).first
+      if work_calendar.present?
+        self.real_distance = work_calendar.working_time(self.start_at, self.end_at)*60
+      else
+        self.real_distance = self.distance
+      end
+    # end
 
   end
 
