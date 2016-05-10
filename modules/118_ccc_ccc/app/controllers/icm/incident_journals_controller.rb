@@ -604,7 +604,6 @@ class Icm::IncidentJournalsController < ApplicationController
     attributes.each do |key|
       ovalue = old_value.send(key)
       nvalue = new_value.send(key)
-      puts key.to_s
       Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,
                                    :journal_id=>ref_journal.id,
                                    :property_key=>key.to_s,

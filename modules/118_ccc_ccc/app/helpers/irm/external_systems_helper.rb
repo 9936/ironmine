@@ -65,8 +65,8 @@ module Irm::ExternalSystemsHelper
 
   def ava_groups
     level_group_ids = []
-    level_group_ids << Irm::Group.where("parent_group_id = ''").first().id
-    Irm::Group.where(:parent_group_id=>level_group_ids[0]).each do |ig|
+    temp_level_group_ids = Irm::Group.where("parent_group_id = ''").collect { |i| i.id }
+    Irm::Group.where(:parent_group_id=>temp_level_group_ids).each do |ig|
       level_group_ids << ig.id
     end
 
