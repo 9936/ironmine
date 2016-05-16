@@ -1,4 +1,8 @@
 zh:
+  label_icm_incident_request_notice_first: 项目过期提醒
+  label_icm_incident_request_notice_second: 尊敬的客户您好，
+  label_icm_incident_request_notice_third: 从系统合同信息了解到，当前贵司合同已到期，请联系销售续签，为此给您带来的不便，深表歉意。
+
   label_icm_incident_request_ABAP_relation: ABAP相关
   label_icm_incident_request_Basis_relation: Basis相关
   label_inner_reply_title: "于%{date_format}(%{time_distance}前)内部回复"

@@ -1,4 +1,7 @@
 en:
+  label_icm_incident_request_notice_first: Project expired remind
+  label_icm_incident_request_notice_second: Dear customer：
+  label_icm_incident_request_notice_third: The contract has expired according to the system's contract. please contact saleman to renew this contract. Sorry for the inconvenience.
   label_icm_incident_request_ABAP_relation: ABAP Relation
   label_icm_incident_request_Basis_relation: Basis Relation
   label_inner_reply_title: "inner reply at %{date_format} (%{time_distance}ago)"
