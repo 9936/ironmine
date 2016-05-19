@@ -1,0 +1,342 @@
+<link href='/stylesheets/fullcalendar/fullcalendar.css' rel='stylesheet' />
+<link href='/stylesheets/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='/javascripts/fullcalendar/moment.min.js'></script>
+<script src='/javascripts/fullcalendar/fullcalendar.min.js'></script>
+<script src='/javascripts/fullcalendar/lang-all.js'></script>
+<style>
+  body {
+    padding: 0;
+    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    font-size: 14px;
+  }
+  #calendar {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+</style>
+<script>
+  $(document).ready(function() {
+    var my_events = []
+    var temp_my_events = "<%=@my_events%>".split(";")
+    for(var i=0;i<temp_my_events.length;i++){
+      var temp_values = temp_my_events[i].split("--")
+      if(temp_values.length == 4){
+        var a = {
+          id: temp_values[0],
+          title: temp_values[1],
+          start: temp_values[2],
+          end: temp_values[3]
+        }
+        my_events.push(a)
+      }
+    }
+    $('#calendar').fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+      defaultDate: new Date().Format("yyyy-MM-dd"),
+      selectable: true,
+      selectHelper: true,
+      defaultView: 'agendaWeek',
+      slotDuration: '00:15:00',
+      scrollTime: '09:00:00',
+      allDaySlot: false,
+      height: 450,
+      lang: 'en',
+      timezone: 'local',
+      select: function(start, end) {
+        $("#request_number").empty()
+        $("#start").val(new Date(start).Format("yyyy-MM-dd hh:mm:ss"))
+        $("#end").val(new Date(end).Format("yyyy-MM-dd hh:mm:ss"))
+        var date_from = new Date(start).Format("yyyy-MM-dd")
+        var date_to = new Date(end).Format("yyyy-MM-dd")
+        if(date_from == date_to){
+          var href = '<%= url_for(:controller => "icm/incident_requests",:action => "get_attend_incident")%>'
+          $.ajax({
+            url: href,
+            type: 'post',
+            dataType: 'json',
+            data: {
+              date_time: date_from
+            },
+            success: function (data) {
+              var result = data.result
+              $("#request_number").prepend("<option value='0'>---请选择---</option>")
+              for(var i = 0;i < result.length ;i++){
+                $("#request_number").append("<option value='"+result[i].id+"'>"+result[i].request_number+"</option>")
+              }
+              $("#modal_register_workload").modal("show")
+            }
+          })
+        }
+        else
+        {
+          alert("Sorry,You can't write cross more than two days")
+        }
+      },
+      eventClick: function(event, element) {
+        $("#request_number_update").empty()
+        $("#start").val(new Date(event.start._i).Format("yyyy-MM-dd hh:mm:ss"))
+        $("#end").val(new Date(event.end._i).Format("yyyy-MM-dd hh:mm:ss"))
+        $("#event_id").val(event.id)
+        var href = '<%= url_for(:controller => "icm/incident_requests",:action => "get_attend_incident")%>'
+        $.ajax({
+          url: href,
+          type: 'post',
+          dataType: 'json',
+          data: {
+            date_time: new Date(event.start._i).Format("yyyy-MM-dd")
+          },
+          success: function (data) {
+            var result = data.result
+            var request_number = event.title.split("(")[0]
+            $("#request_number_update").prepend("<option value='0'>---请选择---</option>")
+            for(var i = 0;i < result.length ;i++){
+              if(request_number != result[i].request_number)
+                $("#request_number_update").append("<option value='"+result[i].id+"'>"+result[i].request_number+"</option>")
+              else
+                $("#request_number_update").append("<option value='"+result[i].id+"' selected='selected'>"+result[i].request_number+"</option>")
+            }
+            $("#description_update").val(event.title.split("(")[1].split(")")[0])
+            $("#modal_update_workload").modal("show")
+          }
+        })
+      },
+      eventResize: function(event, delta, revertFunc) {
+        var href = '<%= url_for(:controller => "workload_register",:action => "update_workload_by_resize")%>'
+        $.ajax({
+          url: href,
+          type: 'post',
+          dataType: 'json',
+          data: {
+            start_date: new Date(event.start.format()).Format("yyyy-MM-dd hh:mm:ss"),
+            end_date: new Date(event.end.format()).Format("yyyy-MM-dd hh:mm:ss")
+          },
+          success: function (data) {
+            if(data.result == "OK"){
+              $("#modal_update_workload").modal("hide")
+              $("#start").val("")
+              $("#end").val("")
+              $("#description_update").val("")
+            }
+            else {
+              alert("编辑失败")
+            }
+          }
+        })
+      },
+      eventDrop: function(event, delta, revertFunc) {
+        var href = '<%= url_for(:controller => "workload_register",:action => "update_workload_by_drop")%>'
+        $.ajax({
+          url: href,
+          type: 'post',
+          dataType: 'json',
+          data: {
+            start_date: new Date(event.start.format()).Format("yyyy-MM-dd hh:mm:ss"),
+            end_date: new Date(event.end.format()).Format("yyyy-MM-dd hh:mm:ss"),
+            id: event.id
+          },
+          success: function (data) {
+            if(data.result == "OK"){
+              $("#modal_update_workload").modal("hide")
+              $("#start").val("")
+              $("#end").val("")
+              $("#description_update").val("")
+            }
+            else {
+              alert("编辑失败")
+            }
+          }
+        })
+      },
+      editable: true,
+      eventLimit: true, // allow "more" link when too many events
+      events: my_events
+    });
+  });
+</script>
+<div id=''></div>
+<div id='calendar'></div>
+
+
+<!-- 登记工时模态框 -->
+<div class="modal hide fade" id="modal_register_workload">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3><%= t(:label_slm_calendar_register_workload) %></h3>
+  </div>
+  <div class="modal-body form-horizontal">
+    <input type="hidden" id="start" value=""/>
+    <input type="hidden" id="end" value="" />
+    <input type="hidden" id="event_id" value="" />
+    <div class="control-group">
+      <label class="control-label"><%= t(:label_slm_calendar_request_number) %>:</label>
+      <div class="controls">
+        <select id="request_number"></select>
+        <span class="help-inline"></span>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><%= t(:label_slm_calendar_item_description) %>:</label>
+      <div class="controls">
+        <textarea cols="100" rows="4" id="description"></textarea>
+        <span class="help-inline"></span>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:void(0);" class="btn" data-dismiss="modal"><%=t(:cancel) %></a>
+    <a href="javascript:void(0);" onclick="register_workload()" id="add-event-submit" class="btn btn-primary"><%= t(:save) %></a>
+  </div>
+</div>
+<div class="modal hide fade" id="modal_update_workload">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3><%= t(:label_slm_calendar_update_workload) %></h3>
+  </div>
+  <div class="modal-body form-horizontal">
+    <div class="control-group">
+      <label class="control-label"><%= t(:label_slm_calendar_request_number) %>:</label>
+      <div class="controls">
+        <select id="request_number_update"></select>
+        <span class="help-inline"></span>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><%= t(:label_slm_calendar_item_description) %>:</label>
+      <div class="controls">
+        <textarea cols="100" rows="4" id="description_update"></textarea>
+        <span class="help-inline"></span>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:void(0);" class="btn" data-dismiss="modal"><%=t(:cancel) %></a>
+    <a href="javascript:void(0);" onclick="delete_workload()" id="add-event-submit" class="btn btn-danger"><%= t(:delete) %></a>
+    <a href="javascript:void(0);" onclick="update_workload()" id="add-event-submit" class="btn btn-primary"><%= t(:save) %></a>
+  </div>
+</div>
+<script>
+  function register_workload(){
+    var start = $("#start").val()
+    var end = $("#end").val()
+    var description = ""
+    if($("#request_number").find("option:selected").val() != 0)
+      description = $("#request_number").find("option:selected").text()+"("+$("#description").val()+")"
+    var eventData
+    if (description != "" && description != null) {
+      eventData = {
+        title: description,
+        start: start,
+        end: end
+      }
+      $('#calendar').fullCalendar('renderEvent', eventData, true)
+      var href = '<%= url_for(:controller => "workload_register",:action => "create_workload")%>'
+      $.ajax({
+        url: href,
+        type: 'post',
+        dataType: 'json',
+        data: {
+          request_id: $("#request_number").find("option:selected").val(),
+          description: description,
+          start_date: start,
+          end_date: end
+        },
+        success: function (data) {
+          if(data.result == "OK"){
+            $("#modal_register_workload").modal("hide")
+            $("#start").val("")
+            $("#end").val("")
+            $("#description").val("")
+          }
+          else {alert("登记失败")}
+        }
+      })
+    }
+  }
+  function update_workload(){
+    var start = $("#start").val()
+    var end = $("#end").val()
+    var description = ""
+    if($("#request_number_update").find("option:selected").val() != 0)
+      description = $("#request_number_update").find("option:selected").text()+"("+$("#description_update").val()+")"
+    if (description != "" && description != null) {
+      var href = '<%= url_for(:controller => "workload_register",:action => "update_workload")%>'
+      $.ajax({
+        url: href,
+        type: 'post',
+        dataType: 'json',
+        data: {
+          request_id: $("#request_number_update").find("option:selected").val(),
+          description: description,
+          start_date: start,
+          end_date: end
+        },
+        success: function (data) {
+          if(data.result == "OK"){
+            $("#modal_update_workload").modal("hide")
+            $("#start").val("")
+            $("#end").val("")
+            $("#description_update").val("")
+            window.location.reload()
+          }
+          else {
+            alert("编辑失败")
+          }
+        }
+      })
+    }
+  }
+  function delete_workload(){
+    var event_id = $("#event_id").val()
+    var href = '<%= url_for(:controller => "workload_register",:action => "delete_workload")%>'
+    $.ajax({
+      url: href,
+      type: 'post',
+      dataType: 'json',
+      data: {
+        id: event_id
+      },
+      success: function (data) {
+        if(data.result == "OK"){
+          $("#modal_update_workload").modal("hide")
+          $("#start").val("")
+          $("#end").val("")
+          $("#event_id").val("")
+          $("#description_update").val("")
+          window.location.reload()
+        }
+        else {
+          alert("删除失败")
+        }
+      }
+    })
+  }
+
+  // 对Date的扩展，将 Date 转化为指定格式的String
+  // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+  // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+  // 例子：
+  // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+  // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+  Date.prototype.Format = function(fmt)
+  { //author: meizz
+    var o = {
+      "M+" : this.getMonth()+1,                 //月份
+      "d+" : this.getDate(),                    //日
+      "h+" : this.getHours(),                   //小时
+      "m+" : this.getMinutes(),                 //分
+      "s+" : this.getSeconds(),                 //秒
+      "q+" : Math.floor((this.getMonth()+3)/3), //季度
+      "S"  : this.getMilliseconds()             //毫秒
+    };
+    if(/(y+)/.test(fmt))
+      fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    for(var k in o)
+      if(new RegExp("("+ k +")").test(fmt))
+        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+    return fmt;
+  }
+</script>

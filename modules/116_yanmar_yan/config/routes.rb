@@ -1,5 +1,7 @@
 Ironmine::Application.routes.draw do
   scope :module => "icm" do
+    match '/incident_requests/get_attend_incident(.:format)' => "incident_requests#get_attend_incident"
+
     match 'incident_journals/:request_id/:sid/edit_additional_info(.:format)' => "incident_journals#edit_additional_info", :via => :get
     match 'incident_journals/:request_id/:sid/update_additional_info(.:format)' => "incident_journals#update_additional_info", :via => :put
 
@@ -21,6 +23,13 @@ Ironmine::Application.routes.draw do
 
     match '/workload_authorities(/index)(.:format)' => "workload_authorities#index", :via => :get
     match '/workload_authorities/add_workload_authority(.:format)' => "workload_authorities#add_workload_authority"
+
+    match '/workload_register(/index)(.:format)' => "workload_register#index", :via => :get
+    match '/workload_register/create_workload(.:format)' => "workload_register#create_workload"
+    match '/workload_register/update_workload(.:format)' => "workload_register#update_workload"
+    match '/workload_register/update_workload_by_resize(.:format)' => "workload_register#update_workload_by_resize"
+    match '/workload_register/update_workload_by_drop(.:format)' => "workload_register#update_workload_by_drop"
+    match '/workload_register/delete_workload(.:format)' => "workload_register#delete_workload"
   end
 
 end

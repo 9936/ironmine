@@ -36,25 +36,25 @@ module Yan::IncidentJournalsControllerEx
         #     select("#{Icm::IncidentWorkload.table_name}.*").
         #     select("ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name").
         #     select("sg.name support_group_name")
-        @incident_journal = @incident_request.incident_journals.build()
-
-        @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").joins(",#{Irm::LookupValue.view_name} lv").
-            where("lv.language = ?", I18n.locale).where("lv.lookup_type = ?", "WORKLOAD_TYPE").
-            where("lv.lookup_code = #{Icm::IncidentWorkload.table_name}.workload_type").
-            select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, #{Icm::IncidentWorkload.table_name}.real_processing_time real_processing_time, #{Icm::IncidentWorkload.table_name}.workload_type workload_type, lv.meaning workload_type_label").
-            where("#{Icm::IncidentWorkload.table_name}.incident_request_id = ? AND #{Icm::IncidentWorkload.table_name}.person_id = ip.id", @incident_request.id).
-            where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0")
-
-        @supporters = Icm::IncidentJournal.where("1=1").
-            joins(",#{Irm::Person.table_name} ip").
-            select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, (SELECT iw.real_processing_time FROM #{Icm::IncidentWorkload.table_name} iw WHERE iw.incident_request_id = #{Icm::IncidentJournal.table_name}.incident_request_id AND iw.person_id = ip.id) real_processing_time").
-            where("ip.id = #{Icm::IncidentJournal.table_name}.replied_by").
-            where("ip.assignment_availability_flag = ?", Irm::Constant::SYS_YES).
-            where("#{Icm::IncidentJournal.table_name}.incident_request_id = ?", @incident_request.id) unless @supporters.any?
+        @incident_workloads = @incident_request.incident_workloads.build()
+        #
+        # @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").joins(",#{Irm::LookupValue.view_name} lv").
+        #     where("lv.language = ?", I18n.locale).where("lv.lookup_type = ?", "WORKLOAD_TYPE").
+        #     where("lv.lookup_code = #{Icm::IncidentWorkload.table_name}.workload_type").
+        #     select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, #{Icm::IncidentWorkload.table_name}.real_processing_time real_processing_time, #{Icm::IncidentWorkload.table_name}.workload_type workload_type, lv.meaning workload_type_label").
+        #     where("#{Icm::IncidentWorkload.table_name}.incident_request_id = ? AND #{Icm::IncidentWorkload.table_name}.person_id = ip.id", @incident_request.id).
+        #     where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0")
+        #
+        # @supporters = Icm::IncidentJournal.where("1=1").
+        #     joins(",#{Irm::Person.table_name} ip").
+        #     select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, (SELECT iw.real_processing_time FROM #{Icm::IncidentWorkload.table_name} iw WHERE iw.incident_request_id = #{Icm::IncidentJournal.table_name}.incident_request_id AND iw.person_id = ip.id) real_processing_time").
+        #     where("ip.id = #{Icm::IncidentJournal.table_name}.replied_by").
+        #     where("ip.assignment_availability_flag = ?", Irm::Constant::SYS_YES).
+        #     where("#{Icm::IncidentJournal.table_name}.incident_request_id = ?", @incident_request.id) unless @supporters.any?
 
         respond_to do |format|
           format.html { render :layout => "application_full"}# new.html.erb
-          format.xml  { render :xml => @incident_journal }
+          format.xml  { render :xml => @incident_workloads }
         end
 
       end

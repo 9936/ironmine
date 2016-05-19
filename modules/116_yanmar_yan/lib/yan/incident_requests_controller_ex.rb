@@ -69,6 +69,19 @@ module Yan::IncidentRequestsControllerEx
         end
       end
 
+      def get_attend_incident
+        # 获取可选事故单信息
+        incident = Icm::IncidentRequest.
+            joins("LEFT OUTER JOIN #{Icm::IncidentJournal.table_name} iij on iij.incident_request_id = #{Icm::IncidentRequest.table_name}.id").
+            where("DATE_FORMAT(iij.created_at, '%Y-%m-%d') = ? AND iij.replied_by = ?",params[:date_time],Irm::Person.current.id).
+            group("request_number").order("request_number ASC").collect{|i| {
+            :id => i.id,
+            :request_number => i.request_number}
+        }
+
+        render json: {:result=>incident}
+      end
+
       private
       def process_files(ref_request, private_flag = 'N')
         @files = []

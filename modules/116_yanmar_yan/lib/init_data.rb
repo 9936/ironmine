@@ -116,9 +116,41 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :zh => {:name => "工时管理", :description => "工时管理"},
                   :ja => {:name => "Workload Management", :description => "Workload Management"}
               }
+          },
+          :edit_workload => {
+              :type => "function",
+              :entry => {
+                  :sequence => 20,
+                  :en => {:name => "Register Workload", :description => "Register Workload"},
+                  :zh => {:name => "工时登记", :description => "工时登记"},
+                  :ja => {:name => "Register Workload", :description => "Register Workload"}
+              }
           }
       }
   }
+
+  map.function_group :edit_workload, {
+                                       :en => {:name => "Register Workload", :description => "Register Workload"},
+                                       :zh => {:name => "工时登记", :description => "工时登记"},
+                                       :ja => {:name => "Register Workload", :description => "Register Workload"}
+                                        }
+  map.function_group :edit_workload, {
+                                            :zone_code => "REGISTER_WORKLOAD",
+                                            :controller => "yan/workload_register",
+                                            :action => "index"}
+  map.function_group :edit_workload, {
+                                            :children => {
+                                                :edit_workload => {
+                                                    :en => {:name => "Register Workload", :description => "Register Workload"},
+                                                    :zh => {:name => "工时登记", :description => "工时登记"},
+                                                    :ja => {:name => "Register Workload", :description => "Register Workload"},
+                                                    :default_flag => "N",
+                                                    :login_flag => "N",
+                                                    :public_flag => "N",
+                                                    "yan/workload_register" => ["index"]
+                                                }
+                                            }
+                                        }
 
   map.function_group :workload_authority, {
       :en => {:name => "Workload Management", :description => "Workload Management"},
