@@ -10,8 +10,10 @@
     font-size: 14px;
   }
   #calendar {
-    max-width: 90%;
     margin: 0 auto;
+  }
+  .day_time {
+    width: 14%
   }
 </style>
 <script>
@@ -35,6 +37,17 @@
         left: 'prev,next today',
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
+      },
+      views: {
+        month: {
+          titleFormat: 'YYYY-MM'
+        },
+        agendaWeek: {
+          titleFormat: 'YYYY-MM-DD'
+        },
+        agendaDay: {
+          titleFormat: 'YYYY-MM-DD'
+        }
       },
       defaultDate: new Date().Format("yyyy-MM-dd"),
       selectable: true,
@@ -63,18 +76,20 @@
             },
             success: function (data) {
               var result = data.result
-              $("#request_number").prepend("<option value='0'>---请选择---</option>")
-              for(var i = 0;i < result.length ;i++){
-                $("#request_number").append("<option value='"+result[i].id+"'>"+result[i].request_number+"</option>")
+              if(result.length > 0){
+                $("#request_number").prepend("<option value='0'>---请选择---</option>")
+                for(var i = 0;i < result.length;i++){
+                  $("#request_number").append("<option value='"+result[i].id+"'>"+result[i].request_number+"</option>")
+                }
+                $("#modal_register_workload").modal("show")
               }
-              $("#modal_register_workload").modal("show")
+              else
+                $('#calendar').fullCalendar('unselect')
             }
           })
         }
         else
-        {
-          alert("Sorry,You can't write cross more than two days")
-        }
+          $('#calendar').fullCalendar('unselect')
       },
       eventClick: function(event, element) {
         $("#request_number_update").empty()
@@ -104,6 +119,10 @@
           }
         })
       },
+      dayClick: function(date, jsEvent, view) {
+        $('#calendar').fullCalendar( 'changeView', 'agendaDay' )
+        $('#calendar').fullCalendar( 'gotoDate', date )
+      },
       eventResize: function(event, delta, revertFunc) {
         var href = '<%= url_for(:controller => "workload_register",:action => "update_workload_by_resize")%>'
         $.ajax({
@@ -120,9 +139,13 @@
               $("#start").val("")
               $("#end").val("")
               $("#description_update").val("")
+              var view = $('#calendar').fullCalendar('getView')
+              if(view.name == 'agendaWeek'){
+                update_view_workload(view)
+              }
             }
             else {
-              alert("编辑失败")
+              revertFunc()
             }
           }
         })
@@ -136,6 +159,7 @@
           data: {
             start_date: new Date(event.start.format()).Format("yyyy-MM-dd hh:mm:ss"),
             end_date: new Date(event.end.format()).Format("yyyy-MM-dd hh:mm:ss"),
+            date_time: new Date(event.start.format()).Format("yyyy-MM-dd"),
             id: event.id
           },
           success: function (data) {
@@ -144,12 +168,19 @@
               $("#start").val("")
               $("#end").val("")
               $("#description_update").val("")
+              var view = $('#calendar').fullCalendar('getView')
+              if(view.name == 'agendaWeek'){
+                update_view_workload(view)
+              }
             }
             else {
-              alert("编辑失败")
+              revertFunc()
             }
           }
         })
+      },
+      viewRender: function( view, element ){
+        update_view_workload(view)
       },
       editable: true,
       eventLimit: true, // allow "more" link when too many events
@@ -157,8 +188,23 @@
     });
   });
 </script>
-<div id=''></div>
 <div id='calendar'></div>
+<div id='for_week' style="width: 99%;display: none">
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td style="width: 24px"><div id="total_day">Total</div></td>
+        <td class="day_time"></td>
+        <td class="day_time"></td>
+        <td class="day_time"></td>
+        <td class="day_time"></td>
+        <td class="day_time"></td>
+        <td class="day_time"></td>
+        <td class="day_time"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 
 <!-- 登记工时模态框 -->
@@ -246,6 +292,10 @@
         },
         success: function (data) {
           if(data.result == "OK"){
+            var view = $('#calendar').fullCalendar('getView')
+            if(view.name == 'agendaWeek'){
+              update_view_workload(view)
+            }
             $("#modal_register_workload").modal("hide")
             $("#start").val("")
             $("#end").val("")
@@ -313,6 +363,32 @@
         }
       }
     })
+  }
+  function update_view_workload(view){
+    var view_name = view.name
+    if(view_name == 'agendaWeek'){
+      var first_date = view.title.substring(0,10)
+      var href = '<%= url_for(:controller => "workload_register",:action => "get_week_workload")%>'
+      $.ajax({
+        url: href,
+        type: 'post',
+        dataType: 'json',
+        data: {
+          first_date: new Date(first_date).Format("yyyy-MM-dd")
+        },
+        success: function (data) {
+          var workload = data.register_workload
+          for(var i=0;i<workload.length;i++){
+            $(".day_time").eq(i).html(workload[i]+" H")
+          }
+          $("#for_week").show()
+        }
+      })
+    }
+    else{
+      $(".day_time").html("")
+      $("#for_week").hide()
+    }
   }
 
   // 对Date的扩展，将 Date 转化为指定格式的String

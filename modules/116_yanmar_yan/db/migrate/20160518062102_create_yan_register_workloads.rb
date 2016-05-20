@@ -6,6 +6,7 @@ class CreateYanRegisterWorkloads < ActiveRecord::Migration
       t.text            "description"
       t.datetime        "start_date"
       t.datetime        "end_date"
+      t.float           "workload"
       t.timestamps
     end
   end
