@@ -16,7 +16,7 @@ class Yan::WorkloadRegisterController < ApplicationController
                                                       :workload=>((params[:end_date].to_time-params[:start_date].to_time)/3600).round(2)
                                                      })
     if register_workload.save
-      render json: {:result=>"OK"}
+      render json: {:result=>"OK",:id=>register_workload.id}
     else
       render json: {:result=>"ERROR"}
     end

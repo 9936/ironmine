@@ -271,14 +271,7 @@
     var description = ""
     if($("#request_number").find("option:selected").val() != 0)
       description = $("#request_number").find("option:selected").text()+"("+$("#description").val()+")"
-    var eventData
     if (description != "" && description != null) {
-      eventData = {
-        title: description,
-        start: start,
-        end: end
-      }
-      $('#calendar').fullCalendar('renderEvent', eventData, true)
       var href = '<%= url_for(:controller => "workload_register",:action => "create_workload")%>'
       $.ajax({
         url: href,
@@ -292,6 +285,14 @@
         },
         success: function (data) {
           if(data.result == "OK"){
+            var eventData
+            eventData = {
+              title: description,
+              start: start,
+              end: end,
+              id: data.id
+            }
+            $('#calendar').fullCalendar('renderEvent', eventData, true)
             var view = $('#calendar').fullCalendar('getView')
             if(view.name == 'agendaWeek'){
               update_view_workload(view)
