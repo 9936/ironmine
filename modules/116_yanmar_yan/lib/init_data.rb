@@ -147,7 +147,8 @@ Fwk::MenuAndFunctionManager.map do |map|
                                                     :default_flag => "N",
                                                     :login_flag => "N",
                                                     :public_flag => "N",
-                                                    "yan/workload_register" => ["index"]
+                                                    "yan/workload_register" => ["index","create_workload","update_workload","update_workload_by_resize","update_workload_by_drop","delete_workload","get_week_workload"],
+                                                    "icm/incident_requests" => ["get_attend_incident"]
                                                 }
                                             }
                                         }
