@@ -3,7 +3,7 @@ class Yan::WorkloadRegisterController < ApplicationController
   def index
     @my_events = ""
     Yan::RegisterWorkload.where("supporter_id = ?",Irm::Person.current.id).collect{|w|
-      @my_events =  "#{@my_events}#{w.id}--#{w.description}--#{w.start_date}--#{w.end_date};"
+      @my_events =  "#{@my_events}#{w.id}--#{w.description}--#{w.start_date}--#{w.end_date}||"
     }
   end
 
@@ -23,9 +23,8 @@ class Yan::WorkloadRegisterController < ApplicationController
   end
 
   def update_workload
-    register_workload = Yan::RegisterWorkload.where(:supporter_id=>Irm::Person.current.id,:start_date=> params[:start_date],:end_date=>params[:end_date])
+    register_workload = Yan::RegisterWorkload.find(params[:id])
     if register_workload.present?
-      register_workload = register_workload.first()
       if register_workload.update_attributes({:description=>params[:description],:request_id=>params[:request_id]})
         render json: {:result=>"OK"}
       else
@@ -62,7 +61,11 @@ class Yan::WorkloadRegisterController < ApplicationController
           render json: {:result=>"ERROR"}
         end
       else
-        render json: {:result=>"ERROR"}
+        if register_workload.update_attributes({:end_date=>params[:end_date],:start_date=>params[:start_date],:workload=>((params[:end_date].to_time-params[:start_date].to_time)/3600).round(2),:request_id=>nil})
+          render json: {:result=>"OK"}
+        else
+          render json: {:result=>"ERROR"}
+        end
       end
     else
       render json: {:result=>"ERROR"}

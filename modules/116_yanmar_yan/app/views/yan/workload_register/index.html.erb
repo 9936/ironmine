@@ -13,13 +13,13 @@
     margin: 0 auto;
   }
   .day_time {
-    width: 14%
+    width: 13%
   }
 </style>
 <script>
   $(document).ready(function() {
     var my_events = []
-    var temp_my_events = "<%=@my_events%>".split(";")
+    var temp_my_events = "<%=@my_events%>".split("||")
     for(var i=0;i<temp_my_events.length;i++){
       var temp_values = temp_my_events[i].split("--")
       if(temp_values.length == 4){
@@ -76,15 +76,15 @@
             },
             success: function (data) {
               var result = data.result
-              if(result.length > 0){
-                $("#request_number").prepend("<option value='0'>---请选择---</option>")
-                for(var i = 0;i < result.length;i++){
-                  $("#request_number").append("<option value='"+result[i].id+"'>"+result[i].request_number+"</option>")
-                }
-                $("#modal_register_workload").modal("show")
+//              if(result.length > 0){
+              $("#request_number").prepend("<option value='0'>---请选择---</option>")
+              for(var i = 0;i < result.length;i++){
+                $("#request_number").append("<option value='"+result[i].id+"'>"+result[i].request_number+"</option>")
               }
-              else
-                $('#calendar').fullCalendar('unselect')
+              $("#modal_register_workload").modal("show")
+//              }
+//              else
+//                $('#calendar').fullCalendar('unselect')
             }
           })
         }
@@ -106,7 +106,14 @@
           },
           success: function (data) {
             var result = data.result
-            var request_number = event.title.split("(")[0]
+            var title = event.title
+            var request_number = ""
+            if(title.indexOf("(") != -1 && title.indexOf(")") != -1){
+              request_number = title.split("(")[0]
+              $("#description_update").val(event.title.split("(")[1].split(")")[0])
+            }
+            else
+              $("#description_update").val(title)
             $("#request_number_update").prepend("<option value='0'>---请选择---</option>")
             for(var i = 0;i < result.length ;i++){
               if(request_number != result[i].request_number)
@@ -114,7 +121,6 @@
               else
                 $("#request_number_update").append("<option value='"+result[i].id+"' selected='selected'>"+result[i].request_number+"</option>")
             }
-            $("#description_update").val(event.title.split("(")[1].split(")")[0])
             $("#modal_update_workload").modal("show")
           }
         })
@@ -135,6 +141,19 @@
           },
           success: function (data) {
             if(data.result == "OK"){
+              var title = event.title
+              var start_date = new Date(event.start.format()).Format("yyyy-MM-dd hh:mm:ss")
+              var end_date = new Date(event.end.format()).Format("yyyy-MM-dd hh:mm:ss")
+              $('#calendar').fullCalendar( 'removeEvents', event.id)
+              var eventData
+              eventData = {
+                title: title,
+                start: start_date,
+                end: end_date,
+                id: event.id
+              }
+              $('#calendar').fullCalendar('renderEvent', eventData, true)
+
               $("#modal_update_workload").modal("hide")
               $("#start").val("")
               $("#end").val("")
@@ -164,6 +183,18 @@
           },
           success: function (data) {
             if(data.result == "OK"){
+              var title = event.title
+              var start_date = new Date(event.start.format()).Format("yyyy-MM-dd hh:mm:ss")
+              var end_date = new Date(event.end.format()).Format("yyyy-MM-dd hh:mm:ss")
+              $('#calendar').fullCalendar( 'removeEvents', event.id)
+              var eventData
+              eventData = {
+                title: title,
+                start: start_date,
+                end: end_date,
+                id: event.id
+              }
+              $('#calendar').fullCalendar('renderEvent', eventData, true)
               $("#modal_update_workload").modal("hide")
               $("#start").val("")
               $("#end").val("")
@@ -186,14 +217,29 @@
       eventLimit: true, // allow "more" link when too many events
       events: my_events
     });
+
+    $("tr[data-time$='30:00']").attr("class","fc-minor")
+    $("tr[data-time$='30:00']").find("span").hide()
   });
 </script>
 <div id='calendar'></div>
-<div id='for_week' style="width: 99%;display: none">
+<div id='for_week' style="display: none;margin-top: 40px">
   <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Week</th>
+        <th>Sunday</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+      </tr>
+    </thead>
     <tbody>
       <tr>
-        <td style="width: 24px"><div id="total_day">Total</div></td>
+        <td style="width: 9%">Total Hour(H)</td>
         <td class="day_time"></td>
         <td class="day_time"></td>
         <td class="day_time"></td>
@@ -268,7 +314,7 @@
   function register_workload(){
     var start = $("#start").val()
     var end = $("#end").val()
-    var description = ""
+    var description = $("#description").val()
     if($("#request_number").find("option:selected").val() != 0)
       description = $("#request_number").find("option:selected").text()+"("+$("#description").val()+")"
     if (description != "" && description != null) {
@@ -284,7 +330,7 @@
           end_date: end
         },
         success: function (data) {
-          if(data.result == "OK"){
+          if (data.result == "OK") {
             var eventData
             eventData = {
               title: description,
@@ -294,7 +340,7 @@
             }
             $('#calendar').fullCalendar('renderEvent', eventData, true)
             var view = $('#calendar').fullCalendar('getView')
-            if(view.name == 'agendaWeek'){
+            if (view.name == 'agendaWeek') {
               update_view_workload(view)
             }
             $("#modal_register_workload").modal("hide")
@@ -302,15 +348,21 @@
             $("#end").val("")
             $("#description").val("")
           }
-          else {alert("登记失败")}
+          else {
+            alert("登记失败")
+          }
         }
       })
+    }
+    else{
+      alert("请填写单号或相关工作描述")
     }
   }
   function update_workload(){
     var start = $("#start").val()
     var end = $("#end").val()
-    var description = ""
+    var event_id = $("#event_id").val()
+    var description = $("#description_update").val()
     if($("#request_number_update").find("option:selected").val() != 0)
       description = $("#request_number_update").find("option:selected").text()+"("+$("#description_update").val()+")"
     if (description != "" && description != null) {
@@ -323,21 +375,37 @@
           request_id: $("#request_number_update").find("option:selected").val(),
           description: description,
           start_date: start,
-          end_date: end
+          end_date: end,
+          id: event_id
         },
         success: function (data) {
           if(data.result == "OK"){
+            $('#calendar').fullCalendar( 'removeEvents', event_id)
+            var eventData
+            eventData = {
+              title: description,
+              start: start,
+              end: end,
+              id: event_id
+            }
+            $('#calendar').fullCalendar('renderEvent', eventData, true)
+            var view = $('#calendar').fullCalendar('getView')
+            if (view.name == 'agendaWeek') {
+              update_view_workload(view)
+            }
             $("#modal_update_workload").modal("hide")
             $("#start").val("")
             $("#end").val("")
             $("#description_update").val("")
-            window.location.reload()
           }
           else {
             alert("编辑失败")
           }
         }
       })
+    }
+    else{
+      alert("请填写单号或相关工作描述")
     }
   }
   function delete_workload(){
@@ -352,12 +420,16 @@
       },
       success: function (data) {
         if(data.result == "OK"){
+          $('#calendar').fullCalendar( 'removeEvents', event_id)
+          var view = $('#calendar').fullCalendar('getView')
+          if (view.name == 'agendaWeek') {
+            update_view_workload(view)
+          }
           $("#modal_update_workload").modal("hide")
           $("#start").val("")
           $("#end").val("")
           $("#event_id").val("")
           $("#description_update").val("")
-          window.location.reload()
         }
         else {
           alert("删除失败")
@@ -380,7 +452,7 @@
         success: function (data) {
           var workload = data.register_workload
           for(var i=0;i<workload.length;i++){
-            $(".day_time").eq(i).html(workload[i]+" H")
+            $(".day_time").eq(i).html(workload[i])
           }
           $("#for_week").show()
         }
@@ -390,6 +462,8 @@
       $(".day_time").html("")
       $("#for_week").hide()
     }
+    $("tr[data-time$='30:00']").attr("class","fc-minor")
+    $("tr[data-time$='30:00']").find("span").hide()
   }
 
   // 对Date的扩展，将 Date 转化为指定格式的String
