@@ -1,0 +1,94 @@
+<table  class="form-table">
+  <tbody>
+    <tr>
+      <!-- external_system_id -->
+      <td class="label-col"><label><%= t(:label_irm_external_system) %></label></td>
+      <td class="data-col">
+        <%= select_tag_multiple(
+                    "program_params[external_system_id][]",
+                    nullable_options_for_select(current_person_assessible_external_system_full, program_params[:external_system_id]),
+                    "program_params[external_system_mul]",
+                    program_params[:external_system_mul] ? program_params[:external_system_mul] : 'N', {})%>
+      </td>
+      <td class="label-col"></td>
+      <td class="data-col"></td>
+    </tr>
+    <!-- Category -->
+    <tr>
+      <td class="label-col"><label><%= t(:label_icm_incident_request_incident_category) %></label></td>
+      <td class="data-col">
+        <%=select_tag_alias :category_id, ava_categories,program_params[:category_id],{
+                                                :name=>"program_params[category_id]",
+                                                :id=>"category_id"
+                                        }%>
+      </td>
+      <td class="label-col"></td>
+      <td class="data-col"></td>
+    </tr>
+
+    <!-- Status -->
+    <tr>
+      <td class="label-col"><label><%= t(:label_icm_incident_request_incident_status_code) %></label></td>
+      <td class="data-col">
+        <input type="checkbox" name="program_params[no_flag]" value="N" onclick="set_value(this)"/><label>非</label>
+        <%=select_tag_alias :status_id, ava_statuses,program_params[:status_id],{
+                                                :name=>"program_params[status_id]",
+                                                :id=>"status_id"
+                                        }%>
+      </td>
+      <td class="label-col"></td>
+      <td class="data-col"></td>
+    </tr>
+
+    <!-- 提交问题时间 -->
+    <tr>
+      <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_date) %></label></td>
+      <td class="data-col">
+        <%= date_field_tag(:start_date,:value => program_params[:start_date],:id=>"filterDateFrom",:name=>"program_params[start_date]",:size=>12,:nobutton=>true)%>
+        <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+        <%= date_field_tag(:end_date,:value => program_params[:end_date],:id=>"filterDateTo",:name=>"program_params[end_date]",:size=>12,:nobutton=>true)%>
+      </td>
+      <td class="label-col"></td>
+      <td class="data-col"></td>
+    </tr>
+    <!-- 支持组 -->
+    <tr>
+      <td class="label-col"><label><%= t(:label_icm_incident_request_support_group) %></label></td>
+      <td class="data-col">
+        <%=select_tag_alias :support_group_id, ava_groups,program_params[:support_group_id],{
+                                                :name=>"program_params[support_group_id]",
+                                                :id=>"support_group_id",
+                                                :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
+                                        }%>
+      </td>
+      <td class="label-col"></td>
+      <td class="data-col"></td>
+    </tr>
+    <!-- 优先级 -->
+    <tr>
+      <td class="label-col"><label><%= t(:label_icm_incident_request_priority) %></label></td>
+      <td class="data-col">
+        <%=select_tag_alias :priority_id, available_priority_for_report,program_params[:priority_id],{
+                                                  :name=>"program_params[priority_id]",
+                                                  :id=>"priority_id",
+                                                  :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
+                                          }%>
+      </td>
+      <td class="label-col"></td>
+      <td class="data-col"></td>
+    </tr>
+  </tbody>
+</table>
+<script>
+    $(function(){
+        if('<%=program_params[:no_flag]%>' == 'Y'){
+            $("input[name='program_params[no_flag]']").click()
+        }
+    })
+    function set_value(arg){
+        if(arg.checked)
+            $(arg).val("Y")
+        else
+            $(arg).val("N")
+    }
+</script>
