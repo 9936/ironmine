@@ -42,8 +42,12 @@ class Yan::CuxTicketsList < Irm::ReportManager::ReportBase
       end
     end
 
-    if params[:category_id].present?
-      statis = statis.where("icm_incident_requests.incident_category_id = ?", params[:category_id])
+    # if params[:category_id].present?
+    #   statis = statis.where("icm_incident_requests.incident_category_id = ?", params[:category_id])
+    # end
+
+    if params[:category_id].present? && params[:category_id].size > 0 && params[:category_id][0].present?
+      statis = statis.where("icm_incident_requests.incident_category_id IN (?)", params[:category_id] + [])
     end
 
     if params[:status_id].present? && params[:no_flag].eql?("N")
@@ -54,12 +58,19 @@ class Yan::CuxTicketsList < Irm::ReportManager::ReportBase
       statis = statis.where("icm_incident_requests.incident_status_id != ?", params[:status_id])
     end
 
-    if params[:support_group_id].present?
-      statis = statis.where("icm_incident_requests.support_group_id = ?", params[:support_group_id])
+    # if params[:support_group_id].present?
+    #   statis = statis.where("icm_incident_requests.support_group_id = ?", params[:support_group_id])
+    # end
+
+    if params[:support_group_id].present? && params[:support_group_id].size > 0 && params[:support_group_id][0].present?
+      statis = statis.where("icm_incident_requests.support_group_id IN (?)", params[:support_group_id] + [])
     end
 
-    if params[:priority_id].present?
-      statis = statis.where("icm_incident_requests.priority_id = ?", params[:priority_id])
+    # if params[:priority_id].present?
+    #   statis = statis.where("icm_incident_requests.priority_id = ?", params[:priority_id])
+    # end
+    if params[:priority_id].present? && params[:priority_id].size > 0 && params[:priority_id][0].present?
+      statis = statis.where("icm_incident_requests.priority_id IN (?)", params[:priority_id] + [])
     end
 
     datas = []

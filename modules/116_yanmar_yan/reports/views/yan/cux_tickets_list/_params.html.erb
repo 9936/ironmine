@@ -17,10 +17,17 @@
     <tr>
       <td class="label-col"><label><%= t(:label_icm_incident_request_incident_category) %></label></td>
       <td class="data-col">
+        <%if false%>
         <%=select_tag_alias :category_id, ava_categories,program_params[:category_id],{
                                                 :name=>"program_params[category_id]",
                                                 :id=>"category_id"
                                         }%>
+        <%end%>
+        <%= select_tag_multiple(
+                    "program_params[category_id][]",
+                    nullable_options_for_select(ava_categories, program_params[:category_id]),
+                    "program_params[category_mul]",
+                    program_params[:category_mul] ? program_params[:category_mul] : 'N', {})%>
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
@@ -55,11 +62,18 @@
     <tr>
       <td class="label-col"><label><%= t(:label_icm_incident_request_support_group) %></label></td>
       <td class="data-col">
+        <%if false%>
         <%=select_tag_alias :support_group_id, ava_groups,program_params[:support_group_id],{
                                                 :name=>"program_params[support_group_id]",
                                                 :id=>"support_group_id",
                                                 :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
                                         }%>
+        <%end%>
+        <%= select_tag_multiple(
+                    "program_params[support_group_id][]",
+                    nullable_options_for_select(ava_groups, program_params[:support_group_id]),
+                    "program_params[support_group_mul]",
+                    program_params[:support_group_mul] ? program_params[:support_group_mul] : 'N', {})%>
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
@@ -68,11 +82,18 @@
     <tr>
       <td class="label-col"><label><%= t(:label_icm_incident_request_priority) %></label></td>
       <td class="data-col">
-        <%=select_tag_alias :priority_id, available_priority_for_report,program_params[:priority_id],{
-                                                  :name=>"program_params[priority_id]",
-                                                  :id=>"priority_id",
-                                                  :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
-                                          }%>
+        <%if false%>
+            <%=select_tag_alias :priority_id, available_priority_for_report,program_params[:priority_id],{
+                                                      :name=>"program_params[priority_id]",
+                                                      :id=>"priority_id",
+                                                      :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
+                                              }%>
+        <%end%>
+        <%= select_tag_multiple(
+                    "program_params[priority_id][]",
+                    nullable_options_for_select(available_priority_for_report, program_params[:priority_id]),
+                    "program_params[priority_mul]",
+                    program_params[:priority_mul] ? program_params[:priority_mul] : 'N', {})%>
       </td>
       <td class="label-col"></td>
       <td class="data-col"></td>
