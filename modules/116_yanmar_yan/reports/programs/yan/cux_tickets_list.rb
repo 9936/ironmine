@@ -50,11 +50,11 @@ class Yan::CuxTicketsList < Irm::ReportManager::ReportBase
       statis = statis.where("icm_incident_requests.incident_category_id IN (?)", params[:category_id] + [])
     end
 
-    if params[:status_id].present? && params[:no_flag].eql?("N")
+    if params[:status_id].present? && !params[:no_flag].present?
       statis = statis.where("icm_incident_requests.incident_status_id = ?", params[:status_id])
     end
 
-    if params[:status_id].present? && params[:no_flag].eql?("Y")
+    if params[:status_id].present? && params[:no_flag].present?
       statis = statis.where("icm_incident_requests.incident_status_id != ?", params[:status_id])
     end
 

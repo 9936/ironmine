@@ -37,7 +37,9 @@
     <tr>
       <td class="label-col"><label><%= t(:label_icm_incident_request_incident_status_code) %></label></td>
       <td class="data-col">
-        <input type="checkbox" name="program_params[no_flag]" value="N" onclick="set_value(this)"/><label>非</label>
+        <!--<input type="checkbox" name="program_params[no_flag]" id="no_flag" onclick="set_value(this)"/>-->
+        <%= check_box_tag 'program_params[no_flag]' %>
+        <label>非</label>
         <%=select_tag_alias :status_id, ava_statuses,program_params[:status_id],{
                                                 :name=>"program_params[status_id]",
                                                 :id=>"status_id"
@@ -102,14 +104,8 @@
 </table>
 <script>
     $(function(){
-        if('<%=program_params[:no_flag]%>' == 'Y'){
-            $("input[name='program_params[no_flag]']").click()
+        if('<%=program_params[:no_flag]%>' == '1'){
+            $("input[name='program_params[no_flag]']").prop("checked",true)
         }
     })
-    function set_value(arg){
-        if(arg.checked)
-            $(arg).val("Y")
-        else
-            $(arg).val("N")
-    }
 </script>
