@@ -16,7 +16,7 @@ module Yan::ExternalSystemHelperEx
 
       def ava_statuses
         category_options = []
-        # category_options << ["--- #{t(:actionview_instancetag_blank_option)} ---",""]
+        category_options << ["--- #{t(:actionview_instancetag_blank_option)} ---",""]
         category_options += Icm::IncidentStatus.enabled.multilingual.order("display_sequence ASC").collect{|i|[i[:name],i.id]}
         category_options
       end
