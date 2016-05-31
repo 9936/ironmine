@@ -1,0 +1,10 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width=>"120px"}) do |data| %>
+        <%= link_modal(t(:edit),{:action=>"edit", :id=> data[:id]}, :class => "action-link") %>&nbsp;|
+        <%= link_to(t(:show),{:controller=>"ccc/blog", :action=>"show", :id=> data[:id]}, :class => "action-link")%>&nbsp;|
+        <%= link_to(t(:delete),{:controller=>"ccc/blog", :action=>"delete", :id=> data[:id], :format => :js}, data:{confirm:'Are you sure?'}, :remote => true,:class => "action-link")%>
+    <% end %>
+    <% builder.column(:title,{:title=>t(:title),:searchable=>true})%>
+    <% builder.column(:author,{:title=>t(:author),:searchable=>true}) %>
+    <% builder.column(:content,{:title=>t(:content)}) %>
+<% end %>

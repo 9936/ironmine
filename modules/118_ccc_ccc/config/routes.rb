@@ -108,6 +108,21 @@ Ironmine::Application.routes.draw do
     match '/connTypes/:id/multilingual_update(.:format)' => "conn_types#multilingual_update", :via => :put
     match '/connTypes/:id/show(.:format)' => "conn_types#show", :via => :get
 
+    match '/blog(/index)(.:format)' => "blog#index", :via => :get
+    match '/blog/get_data(.:format)' => "blog#get_data", :via => :get
+    match '/blog/new(.:format)' => "blog#new",:via => :get
+    match '/blog/create(.:format)' => "blog#create",:via => :post
+
+    match '/blog/:id/edit(.:format)' =>"blog#edit",:via => :get
+    match '/blog/update(.:format)' =>"blog#update",:via => :put
+    match '/blog/:id/show(.:format)' =>"blog#show",:via => :get
+    match '/blog/delete(.:format)' =>"blog#delete",:via => :get
+
+    match '/comment/get_data(.:format)' => "comment#get_data",:via => :get
+    match '/comment/new(.:format)' => "comment#new",:via => :get
+    match '/comment/create(.:format)' => "comment#create",:via => :post
+    match '/comment/delete(.:format)' => "comment#delete",:via => :get
+
   end
 
  scope :module => "icm" do

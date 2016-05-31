@@ -112,7 +112,6 @@ class Irm::PeopleController < ApplicationController
     @people = @people.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
     @people = @people.match_value("pv.profile_name",params[:profile_name])
 
-
     @people,count = paginate(@people)
     respond_to do |format|
       format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:person_name,:profile_name,

@@ -137,4 +137,18 @@ module Irm::ExternalSystemsHelper
     all_priceTypes.collect{|i|[i[:name],i.id]}
   end
 
+  def available_profile_name
+    Irm::Profile.multilingual.collect{|i|[i[:name],i.id]}
+    # Irm::Person
+    # Irm::Profile.multilingual
+    # Irm::Profile.joins("LEFT OUTER JOIN irm_profiles_tl ipt on ipt.profile_id = ip.id").where("language = '#{I18n.locale}'")
+    # all_priceTypes
+  end
+  def available_company_name
+    Irm::Organization.multilingual.collect{|i|[i[:name],i.id]}
+    # Irm::Person
+    # Irm::Profile.multilingual
+    # Irm::Profile.joins("LEFT OUTER JOIN irm_profiles_tl ipt on ipt.profile_id = ip.id").where("language = '#{I18n.locale}'")
+    # all_priceTypes
+  end
 end

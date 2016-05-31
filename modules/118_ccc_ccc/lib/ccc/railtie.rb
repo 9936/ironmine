@@ -13,6 +13,7 @@ module Ccc
       Irm::WatchersController.send(:include, Ccc::WatchersControllerEx)
       Irm::CustomFieldHelper.send(:include, Ccc::CustomFieldHelperEx)
       Irm::BulletinsController.send(:include, Ccc::BulletinsControllerEx)
+      Irm::Person.send(:include, Ccc::PersonModelEx)
     end
   end
 end

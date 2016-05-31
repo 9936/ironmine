@@ -1,0 +1,2 @@
+module Ccc::BlogHelper
+end

@@ -145,6 +145,14 @@ Fwk::MenuAndFunctionManager.map do |map|
                                            :zh => {:name => "客户状态", :description => "新建、查看、编辑一客户状态"},
                                        }
                                    },
+                                   :blog => {
+                                       :type => "function",
+                                       :entry => {
+                                           :sequence => 100,
+                                           :en => {:name => "blog", :description => "blog"},
+                                           :zh => {:name => "曲小妍的博客", :description => "查看添加编辑删除博客"},
+                                       }
+                                   },
                                    :sex_info => {
                                        :type => "function",
                                        :entry => {
@@ -238,6 +246,28 @@ Fwk::MenuAndFunctionManager.map do |map|
                                                   },
                                               }
                                           }
+  map.function_group :blog, {
+                              :en => { :name => "blog", :description => "blog" },
+                              :zh => { :name => "博客", :description => "博客" }, }
+  map.function_group :blog, {
+                              :zone_code => "SYSTEM_SETTING",
+                              :controller => "ccc/blog",
+                              :action => "index" }
+  map.function_group :blog, {
+                              :children => {
+                                  :blog => {
+                                      :en => { :name => "blog", :description => "blog" },
+                                      :zh => { :name => "曲小妍的博客", :description => "曲小妍的博客" },
+                                      :default_flag => "Y",
+                                      :login_flag => "N",
+                                      :public_flag => "N",
+                                      "ccc/blog" => ["index", "get_data", "new", "create", "edit", "update", "show", "delete"]
+
+
+                                  },
+                              }
+                          }
+
 
   map.function_group :customer_status_info, {
                                               :en => {:name => "Customer Status Info", :description => "Customer Status Info"},
@@ -259,6 +289,11 @@ Fwk::MenuAndFunctionManager.map do |map|
                                                   },
                                               }
                                           }
+
+
+
+
+
 
   map.function_group :sex_info, {
                                   :en => {:name => "Sex Info", :description => "Sex Info"},

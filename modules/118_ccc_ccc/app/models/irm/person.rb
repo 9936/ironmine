@@ -110,13 +110,12 @@ class Irm::Person < ActiveRecord::Base
   # }
 
   scope :with_organization,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} ON #{Irm::Organization.view_name}.id = #{table_name}.organization_id AND #{Irm::Organization.view_name}.language = '#{language}'").
+    joins("LEFT OUTER JOIN #{Irm::Organization.view_name}  ON #{Irm::Organization.view_name}.id = #{table_name}.organization_id AND #{Irm::Organization.view_name}.language = '#{language}'").
     select("#{Irm::Organization.view_name}.name organization_name")
   }
 
-
   scope :with_language,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Language.view_name} ON #{Irm::Language.view_name}.language_code=#{table_name}.language_code AND #{Irm::Language.view_name}.language = '#{language}'").
+    joins("LEFT OUTER JOIN  ON #{Irm::Language.view_name}.language_code=#{table_name}.language_code AND #{Irm::Language.view_name}.language = '#{language}'").
     select("#{Irm::Language.view_name}.description language_description")
   }
 
@@ -188,6 +187,7 @@ class Irm::Person < ActiveRecord::Base
       joins("JOIN #{Irm::Function.table_name} ifs ON ipf.function_id = ifs.id").
         where("ifs.code=?", function_code)
   }
+
 
   scope :group_memberable, lambda{|group_id|
     where("NOT EXISTS (SELECT 1 FROM #{Irm::GroupMember.table_name}  WHERE #{Irm::GroupMember.table_name}.person_id = #{table_name}.id AND #{Irm::GroupMember.table_name}.group_id = ?)",group_id).

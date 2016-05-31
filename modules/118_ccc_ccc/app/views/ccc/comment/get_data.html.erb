@@ -1,0 +1,6 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "80px"}) do |data| %>
+        <%= link_to(t(:delete), {:controller => "ccc/comment", :action=>"delete", :id=> data[:id], :format => :js}, data:{confirm:'Are you sure?'}, :remote => true,:class => "action-link")%>
+    <% end %>
+    <% builder.column(:content, {:title => t(:content)}) %>
+<% end %>

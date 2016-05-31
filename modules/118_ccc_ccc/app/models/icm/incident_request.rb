@@ -84,6 +84,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
       scoped
     end
   }
+
   # 查询出客户
   scope :with_requested_by,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} requested ON  requested.id = #{table_name}.requested_by").

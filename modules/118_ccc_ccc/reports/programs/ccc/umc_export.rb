@@ -25,7 +25,7 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
 
     start_date = params[:start_date]
     unless params[:start_date].present?
-       start_date = "1970-1-1"
+      start_date = "1970-1-1"
     end
     statis = statis.where("date_format(icm_incident_requests.submitted_date, '%Y-%m-%d') >= ?", Date.strptime("#{start_date}", '%Y-%m-%d').strftime("%Y-%m-%d"))
 
@@ -41,7 +41,7 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
 
     else
       current_acc_systems = Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id)
-      statis = statis.where("external_system.id IN (?)", current_acc_systems + []) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).length > 0
+      statis = statis.where("external_system.id IN (?)", current_acc_systems + []) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).any?
       if current_acc_systems.present? && current_acc_systems.size == 1
         ex_attributes = Irm::ObjectAttribute.multilingual.enabled.
             where("external_system_id = ?", params[:external_system_id][0]).
@@ -56,23 +56,23 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
     datas = []
 
     headers = [
-                "问题编号",
-                "问题提交时间",
-                "问题结束时间",
-                "优先级",
-                "问题状态",
-                "问题描述",
-                "分派给",
-                "项目名称",
-                "问题提交人",
-                "参与者",
-                "最后更新时间",
-                "问题分类"
-               ]
+        "问题编号",
+        "问题提交时间",
+        "问题结束时间",
+        "优先级",
+        "问题状态",
+        "问题描述",
+        "分派给",
+        "项目名称",
+        "问题提交人",
+        "参与者",
+        "最后更新时间",
+        "问题分类"
+    ]
     ex_attributes.each do |ea|
       headers << ea[:name]
     end
-   
+
     statis.each do |s|
       data = Array.new(12 + ex_attributes.size)
       data[0] = s[:request_number]
@@ -82,7 +82,7 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
           where("reply_type = ?", "CLOSE").
           select("created_at").
           order("created_at DESC").limit(1)
-      if last_close_journal.length > 0
+      if last_close_journal.any?
         data[2] = last_close_journal.first[:created_at].strftime("%F %T")
       else
         data[2] = ""
@@ -94,7 +94,7 @@ class Ccc::UmcExport < Irm::ReportManager::ReportBase
       data[7] = s[:external_system_name]
       data[8] = s[:submitted_name]
       watchers = s.person_watchers
-      if !watchers.nil? && watchers.length > 0
+      if !watchers.nil? && watchers.any?
         data[9] = watchers.collect(&:full_name).join(',')
       else
         data[9] = ""

@@ -1,4 +1,18 @@
 zh:
+
+  blog: blog
+  label_ccc_blog: 博客
+  label_ccc_blog_list: 博客列表
+  title: 博客标题
+  author: 博客作者
+  label_ccc_blog_new: 新建博客
+  label_ccc_blog_edit: 编辑博客
+  label_ccc_blog_show: 查看博客
+  label_ccc_blog_delete: 删除博客
+  label_ccc_comment_new: 添加评论
+  label_ccc_comment_list: 评论
+
+
   label_icm_incident_request_notice_first: 项目过期提醒
   label_icm_incident_request_notice_second: 尊敬的客户您好，
   label_icm_incident_request_notice_third: 从系统合同信息了解到，当前贵司合同已到期，请联系销售续签，为此给您带来的不便，深表歉意。
