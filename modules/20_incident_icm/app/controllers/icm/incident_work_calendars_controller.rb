@@ -28,7 +28,7 @@ class Icm::IncidentWorkCalendarsController < ApplicationController
   end
 
   def recalculate
-    Icm::IncidentJournalElapse.recalculate_distance_by_system(params[:sid])
+    Icm::IncidentJournalElapse.where("icm_incident_journal_elapses.updated_at >= '#{Time.now - 3.months}'").recalculate_distance_by_system(params[:sid])
     # Delayed::Job.enqueue(Yan::Jobs::JournalElapseRecalculateJob.new(params[:sid]))
     redirect_to({:action=>"new"})
 
