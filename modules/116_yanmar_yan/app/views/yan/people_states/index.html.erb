@@ -1,18 +1,54 @@
-<div class="list-group">
-  <a href="#" class="list-group-item list-group-item-success">顾问1</a>
-  <a href="#" class="list-group-item list-group-item-success">顾问2</a>
-  <a href="#" class="list-group-item list-group-item-success">顾问3</a>
-  <a href="#" class="list-group-item list-group-item-success">顾问4</a>
-</div>
-<div class="list-group">
-  <a href="#" class="list-group-item list-group-item-warning">顾问5</a>
-  <a href="#" class="list-group-item list-group-item-warning">顾问6</a>
-  <a href="#" class="list-group-item list-group-item-warning">顾问7</a>
-  <a href="#" class="list-group-item list-group-item-warning">顾问8</a>
-</div>
-<div class="list-group">
-  <a href="#" class="list-group-item list-group-item-danger">顾问9</a>
-  <a href="#" class="list-group-item list-group-item-danger">顾问10</a>
-  <a href="#" class="list-group-item list-group-item-danger">顾问11</a>
-  <a href="#" class="list-group-item list-group-item-danger">顾问12</a>
-</div>
+<style>
+  .people_table{
+    width: 33%;
+    float: left;
+  }
+  .people_table_1{
+    background-color: forestgreen;
+  }
+  .people_table_2{
+    background-color: red;
+  }
+  .people_table_3{
+    background-color: darkgrey;
+  }
+</style>
+<table class="table table-bordered table-condensed people_table people_table_1">
+  <thead>
+  <tr>
+    <th>Available</th>
+  </tr>
+  </thead>
+  <tbody>
+      <%=init_available_people%>
+  </tbody>
+</table>
+<table class="table table-bordered table-condensed people_table people_table_2">
+  <thead>
+  <tr>
+    <th>Busy</th>
+  </tr>
+  </thead>
+  <tbody>
+      <%=init_busy_people%>
+  </tbody>
+</table>
+<table class="table table-bordered table-condensed people_table people_table_3">
+  <thead>
+  <tr>
+    <th>Offline</th>
+  </tr>
+  </thead>
+  <tbody>
+      <%=init_offline_people%>
+  </tbody>
+</table>
+
+
+<script language="JavaScript">
+  function myrefresh()
+  {
+    window.location.reload();
+  }
+  setTimeout('myrefresh()',120000); //指定1秒刷新一次
+</script>
