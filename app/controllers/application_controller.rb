@@ -19,7 +19,26 @@ class ApplicationController < ActionController::Base
   before_filter :layout_setup
   before_filter :prepare_application
   before_filter :system_setup
+  before_filter :update_user_state
   #before_filter :menu_setup,:menu_entry_setup
+
+  #更新用户最近状态
+  def update_user_state
+    if Irm::Person.current && !Irm::Person.current.id.eql?("000100012i8IyyjJahryXQ") && Irm::Person.current.email_address.end_with?("hand-china.com")
+      people_state = Yan::PeopleState.where("person_id = ?",Irm::Person.current.id)
+      if people_state.length > 0
+        people_state = people_state.first()
+        people_state.update_attributes(:last_operate_time=>Time.now,:state => 'ENABLED')
+      else
+        new_people_state = Yan::PeopleState.new({
+                                 :person_id => Irm::Person.current.id,
+                                 :state => 'ENABLED',
+                                 :last_operate_time => Time.now
+                             })
+        new_people_state.save
+      end
+    end
+  end
 
   # 设置当前用户，为下步检查用户是否登录做准备
   def user_setup
