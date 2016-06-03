@@ -12,7 +12,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   validates_presence_of :title,:external_system_id,:requested_by,:submitted_by,
                         :impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code#,
-                        #:contact_number,:contact_id
+  #:contact_number,:contact_id
 
   attr_accessor :pass_flag,:close_flag,:permanent_close_flag
 
@@ -55,116 +55,116 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   # 查询当天新建的事故单，根据数量生成序列号
   scope :created_at_today,lambda{|cid|
-    where("#{table_name}.created_at > ? AND #{table_name}.id <= ?",Date.today,cid)
-  }
+                           where("#{table_name}.created_at > ? AND #{table_name}.id <= ?",Date.today,cid)
+                         }
 
   # 查询出非关闭状态的事故单
   scope :without_closed,lambda {
-    joins("JOIN #{Icm::IncidentStatus.table_name} ics ON #{table_name}.incident_status_id = ics.id").
-        where("ics.close_flag=?", 'N')
-  }
+                         joins("JOIN #{Icm::IncidentStatus.table_name} ics ON #{table_name}.incident_status_id = ics.id").
+                             where("ics.close_flag=?", 'N')
+                       }
   # 查询出优先级
   scope :with_priority,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::PriorityCode.view_name} priority_code ON  #{table_name}.priority_id = priority_code.id AND priority_code.language= '#{language}'").
-    select(" priority_code.name priority_name")
-  }
+                        joins("LEFT OUTER JOIN #{Icm::PriorityCode.view_name} priority_code ON  #{table_name}.priority_id = priority_code.id AND priority_code.language= '#{language}'").
+                            select(" priority_code.name priority_name")
+                      }
   # 查询出请求类型
   scope :with_request_type,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} request_type ON request_type.lookup_type='ICM_REQUEST_TYPE_CODE' AND request_type.lookup_code = #{table_name}.request_type_code AND request_type.language= '#{language}'").
-    select(" request_type.meaning request_type_name")
-  }
+                            joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} request_type ON request_type.lookup_type='ICM_REQUEST_TYPE_CODE' AND request_type.lookup_code = #{table_name}.request_type_code AND request_type.language= '#{language}'").
+                                select(" request_type.meaning request_type_name")
+                          }
   # 查询出服务
   scope :with_service,lambda{|language|
-    if Ironmine::Application.config.fwk.modules.include?("slm")
-      joins("LEFT OUTER JOIN #{Slm::ServiceCatalog.view_name} service ON service.catalog_code = #{table_name}.service_code AND service.language= '#{language}'").
-      select(" service.name service_name")
-    else
-      scoped
-    end
-  }
+                       if Ironmine::Application.config.fwk.modules.include?("slm")
+                         joins("LEFT OUTER JOIN #{Slm::ServiceCatalog.view_name} service ON service.catalog_code = #{table_name}.service_code AND service.language= '#{language}'").
+                             select(" service.name service_name")
+                       else
+                         scoped
+                       end
+                     }
   # 查询出客户
   scope :with_requested_by,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Person.table_name} requested ON  requested.id = #{table_name}.requested_by").
-    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} requested_organization ON  requested_organization.id = requested.organization_id AND requested_organization.language = '#{language}'").
-    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} requested_profile ON  requested_profile.id = requested.profile_id AND requested_profile.language = '#{language}'").
-    joins("LEFT OUTER JOIN #{Irm::Role.view_name} requested_role ON  requested_role.id = requested.role_id AND requested_role.language = '#{language}'").
-    select("requested.login_name requester_login_name, requested.organization_id requested_organization_id, requested.full_name requested_name,requested_organization.name requested_organization_name,requested_profile.name requested_profile_name,requested_role.name requested_role_name")
-  }
+                            joins("LEFT OUTER JOIN #{Irm::Person.table_name} requested ON  requested.id = #{table_name}.requested_by").
+                                joins("LEFT OUTER JOIN #{Irm::Organization.view_name} requested_organization ON  requested_organization.id = requested.organization_id AND requested_organization.language = '#{language}'").
+                                joins("LEFT OUTER JOIN #{Irm::Profile.view_name} requested_profile ON  requested_profile.id = requested.profile_id AND requested_profile.language = '#{language}'").
+                                joins("LEFT OUTER JOIN #{Irm::Role.view_name} requested_role ON  requested_role.id = requested.role_id AND requested_role.language = '#{language}'").
+                                select("requested.login_name requester_login_name, requested.organization_id requested_organization_id, requested.full_name requested_name,requested_organization.name requested_organization_name,requested_profile.name requested_profile_name,requested_role.name requested_role_name")
+                          }
 
   scope :with_organization,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} ON #{Irm::Organization.view_name}.id = #{table_name}.organization_id AND #{Irm::Organization.view_name}.language = '#{language}'").
-    select("#{Irm::Organization.view_name}.name organization_name")
-  }
+                            joins("LEFT OUTER JOIN #{Irm::Organization.view_name} ON #{Irm::Organization.view_name}.id = #{table_name}.organization_id AND #{Irm::Organization.view_name}.language = '#{language}'").
+                                select("#{Irm::Organization.view_name}.name organization_name")
+                          }
 
   scope :query_by_requested,lambda{|requested_by|
-    where(:requested_by=>requested_by)
-  }
+                             where(:requested_by=>requested_by)
+                           }
 
 
   # 查询出提交人
   scope :with_submitted_by,lambda{
-    joins("LEFT OUTER JOIN #{Irm::Person.table_name} submitted ON  submitted.id = #{table_name}.submitted_by").
-    select("submitted.full_name submitted_name")
-  }
+                            joins("LEFT OUTER JOIN #{Irm::Person.table_name} submitted ON  submitted.id = #{table_name}.submitted_by").
+                                select("submitted.full_name submitted_name")
+                          }
 
   # 查询出supporter
   scope :with_supporter,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Person.table_name} supporter ON  supporter.id = #{table_name}.support_person_id").
-    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} supporter_organization ON  supporter_organization.id = supporter.organization_id AND supporter_organization.language = '#{language}'").
-    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} supporter_profile ON  supporter_profile.id = supporter.profile_id AND supporter_profile.language = '#{language}'").
-    joins("LEFT OUTER JOIN #{Irm::Role.view_name} supporter_role ON  supporter_role.id = supporter.role_id AND supporter_role.language = '#{language}'").
-    select("supporter.full_name supporter_name,supporter_organization.name supporter_organization_name,supporter_profile.name supporter_profile_name,supporter_role.name supporter_role_name")
-  }
+                         joins("LEFT OUTER JOIN #{Irm::Person.table_name} supporter ON  supporter.id = #{table_name}.support_person_id").
+                             joins("LEFT OUTER JOIN #{Irm::Organization.view_name} supporter_organization ON  supporter_organization.id = supporter.organization_id AND supporter_organization.language = '#{language}'").
+                             joins("LEFT OUTER JOIN #{Irm::Profile.view_name} supporter_profile ON  supporter_profile.id = supporter.profile_id AND supporter_profile.language = '#{language}'").
+                             joins("LEFT OUTER JOIN #{Irm::Role.view_name} supporter_role ON  supporter_role.id = supporter.role_id AND supporter_role.language = '#{language}'").
+                             select("supporter.full_name supporter_name,supporter_organization.name supporter_organization_name,supporter_profile.name supporter_profile_name,supporter_role.name supporter_role_name")
+                       }
 
   # 查询出优先级
   scope :with_support_group,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::SupportGroup.table_name} ON  #{table_name}.support_group_id = #{Icm::SupportGroup.table_name}.id").
-    joins("LEFT OUTER JOIN #{Irm::Group.view_name} ON  #{Icm::SupportGroup.table_name}.group_id = #{Irm::Group.view_name}.id AND #{Irm::Group.view_name}.language= '#{language}'").
-    select(" #{Irm::Group.view_name}.name support_group_name")
-  }
+                             joins("LEFT OUTER JOIN #{Icm::SupportGroup.table_name} ON  #{table_name}.support_group_id = #{Icm::SupportGroup.table_name}.id").
+                                 joins("LEFT OUTER JOIN #{Irm::Group.view_name} ON  #{Icm::SupportGroup.table_name}.group_id = #{Irm::Group.view_name}.id AND #{Irm::Group.view_name}.language= '#{language}'").
+                                 select(" #{Irm::Group.view_name}.name support_group_name")
+                           }
 
   scope :query_by_submitted,lambda{|submitted_by|
-    where(:submitted_by=>submitted_by)
-  }
+                             where(:submitted_by=>submitted_by)
+                           }
 
   # 查询出紧急度
   scope :with_urgence,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::UrgenceCode.view_name} urgence_code ON  urgence_code.id = #{table_name}.urgence_id AND urgence_code.language= '#{language}'").
-    select(" urgence_code.name urgence_name")
-  }
+                       joins("LEFT OUTER JOIN #{Icm::UrgenceCode.view_name} urgence_code ON  urgence_code.id = #{table_name}.urgence_id AND urgence_code.language= '#{language}'").
+                           select(" urgence_code.name urgence_name")
+                     }
   # 查询出影响度
   scope :with_impact_range,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::ImpactRange.view_name} impact_range ON  impact_range.id = #{table_name}.impact_range_id AND impact_range.language= '#{language}'").
-    select(" impact_range.name impact_range_name")
-  }
+                            joins("LEFT OUTER JOIN #{Icm::ImpactRange.view_name} impact_range ON  impact_range.id = #{table_name}.impact_range_id AND impact_range.language= '#{language}'").
+                                select(" impact_range.name impact_range_name")
+                          }
   # 查询出联系人
   scope :with_contact,lambda{
-    joins("LEFT OUTER JOIN #{Irm::Person.table_name} contact ON  contact.id = #{table_name}.contact_id").
-    select("#{Irm::Person.name_to_sql(nil,'contact','contact_name')}")
-  }
+                       joins("LEFT OUTER JOIN #{Irm::Person.table_name} contact ON  contact.id = #{table_name}.contact_id").
+                           select("#{Irm::Person.name_to_sql(nil,'contact','contact_name')}")
+                     }
   # 查询出报告来源
   scope :with_report_source,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} report_source ON report_source.lookup_type='ICM_REQUEST_REPORT_SOURCE' AND report_source.lookup_code = #{table_name}.report_source_code AND report_source.language= '#{language}'").
-    select(" report_source.meaning report_source_name")
-  }
+                             joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} report_source ON report_source.lookup_type='ICM_REQUEST_REPORT_SOURCE' AND report_source.lookup_code = #{table_name}.report_source_code AND report_source.language= '#{language}'").
+                                 select(" report_source.meaning report_source_name")
+                           }
   # 查询出事故单状态
   scope :with_incident_status,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::IncidentStatus.view_name} incident_status ON  incident_status.id = #{table_name}.incident_status_id AND incident_status.language= '#{language}'").
-    joins("LEFT OUTER JOIN #{Icm::IncidentPhase.view_name} incident_phase ON  incident_phase.phase_code = incident_status.phase_code AND incident_phase.language= '#{language}'").
-    select(" incident_status.name incident_status_name,incident_phase.name incident_phase_name ,incident_status.close_flag close_flag")
-  }
+                               joins("LEFT OUTER JOIN #{Icm::IncidentStatus.view_name} incident_status ON  incident_status.id = #{table_name}.incident_status_id AND incident_status.language= '#{language}'").
+                                   joins("LEFT OUTER JOIN #{Icm::IncidentPhase.view_name} incident_phase ON  incident_phase.phase_code = incident_status.phase_code AND incident_phase.language= '#{language}'").
+                                   select(" incident_status.name incident_status_name,incident_phase.name incident_phase_name ,incident_status.close_flag close_flag")
+                             }
 
   scope :with_external_system, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::ExternalSystem.view_name} external_system ON external_system.id = #{table_name}.external_system_id AND external_system.language = '#{language}'").
-        select("external_system.system_name external_system_name")
-  }
+                               joins("LEFT OUTER JOIN #{Irm::ExternalSystem.view_name} external_system ON external_system.id = #{table_name}.external_system_id AND external_system.language = '#{language}'").
+                                   select("external_system.system_name external_system_name")
+                             }
   scope :query_by_support_person, lambda{|person_id|
-    where("#{table_name}.support_person_id = ?", person_id)
-  }
+                                  where("#{table_name}.support_person_id = ?", person_id)
+                                }
 
   scope :with_workloads, lambda{
-    select("(SELECT sum(iw.real_processing_time) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id) total_processing_time")
-  }
+                         select("(SELECT sum(iw.real_processing_time) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id) total_processing_time")
+                       }
   #scope :filter_incident_by_person, lambda{|person_id|
   #  select("#{table_name}.id").#where("#{table_name}.external_system_id IN (?)",system_ids).
   #      where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
@@ -172,106 +172,106 @@ class Icm::IncidentRequest < ActiveRecord::Base
   #}
   # use with_contact with_requested_by with_submmitted_by
   scope :relate_person,lambda{|person_id|
-    #where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
-    #Icm::IncidentRequest.name,person_id,Irm::Person.name)
-    where("1=1")
-  }
+                        #where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
+                        #Icm::IncidentRequest.name,person_id,Irm::Person.name)
+                        where("1=1")
+                      }
 
   scope :with_reply_flag,lambda{|person_id|
-    select("IF((#{table_name}.next_reply_user_license = 'REQUESTER' AND #{table_name}.requested_by = '#{person_id}') OR (#{table_name}.next_reply_user_license = 'SUPPORTER' AND #{table_name}.support_person_id = '#{person_id}'),'Y','N') reply_flag")
-  }
+                          select("IF((#{table_name}.next_reply_user_license = 'REQUESTER' AND #{table_name}.requested_by = '#{person_id}') OR (#{table_name}.next_reply_user_license = 'SUPPORTER' AND #{table_name}.support_person_id = '#{person_id}'),'Y','N') reply_flag")
+                        }
 
 
   # 在查询视图中使用，表示 我参与的事故单
   def self.mine_filter
     person_id = Irm::Person.current.id
     where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
-    Icm::IncidentRequest.name,person_id,Irm::Person.name)
+          Icm::IncidentRequest.name,person_id,Irm::Person.name)
   end
 
 
 
   scope :filter_system_ids,lambda{|system_ids|
-    if system_ids.length<1
-      system_ids = system_ids+["null"]
-    end
-    where("#{table_name}.external_system_id IN (?)",system_ids)
-  }
+                            if system_ids.length<1
+                              system_ids = system_ids+["null"]
+                            end
+                            where("#{table_name}.external_system_id IN (?)",system_ids)
+                          }
 
   scope :select_all,lambda{
-    select("#{table_name}.*")
-  }
+                     select("#{table_name}.*")
+                   }
 
   #报表使用
   scope :query_by_urgency,lambda{|language| select("v1.name urgency_name,sum(1) urgency_count").
-                          joins(",icm_urgence_codes_vl v1").
-                          where("v1.urgency_code = #{table_name}.urgence_code AND v1.language = '#{language}'").
-                          group("v1.name")
-  }
+                             joins(",icm_urgence_codes_vl v1").
+                             where("v1.urgency_code = #{table_name}.urgence_code AND v1.language = '#{language}'").
+                             group("v1.name")
+                         }
 
-   scope :query_by_report_source,lambda{|language| select("v1.meaning report_source_name,sum(1) report_source_count").
-                          joins(",irm_lookup_values_vl v1").
-                          where("v1.lookup_code = #{table_name}.report_source_code AND v1.language = '#{language}' AND " +
-                                "v1.lookup_type = 'ICM_REQUEST_REPORT_SOURCE'").
-                          group("v1.meaning")}
-
-
-   scope :query_by_request_type,lambda{|language| select("v1.meaning report_type_name,sum(1) report_type_count").
-                          joins(",irm_lookup_values_vl v1").
-                          where("v1.lookup_code = #{table_name}.request_type_code AND v1.language = '#{language}' AND " +
-                                "v1.lookup_type = 'ICM_REQUEST_TYPE_CODE'").
-                          group("v1.meaning")}
+  scope :query_by_report_source,lambda{|language| select("v1.meaning report_source_name,sum(1) report_source_count").
+                                   joins(",irm_lookup_values_vl v1").
+                                   where("v1.lookup_code = #{table_name}.report_source_code AND v1.language = '#{language}' AND " +
+                                             "v1.lookup_type = 'ICM_REQUEST_REPORT_SOURCE'").
+                                   group("v1.meaning")}
 
 
-   scope :query_by_impact_range,lambda{|language| select("v1.name impact_range_name,sum(1) impact_range_count").
-                          joins(",icm_impact_ranges_vl v1").
-                          where("v1.impact_code = #{table_name}.impact_range_code AND v1.language = '#{language}'").
-                          group("v1.name")}
-
-   scope :query_by_priority_code,lambda{|language| select("v1.name priority_code_name,sum(1) priority_code_count").
-                          joins(",icm_priority_codes_vl v1").
-                          where("v1.priority_code = #{table_name}.priority_code AND v1.language = '#{language}'").
-                          group("v1.name")}
-
-   #已经关闭的事故单
-   scope :query_by_completed_incident, where("#{table_name}.incident_status_code='CLOSE_INCIDENT'")
-
-   #未解决的事故单
-   scope :query_by_unsolved_incident, where("#{table_name}.incident_status_code not in ('CLOSE_INCIDENT','SOLVE_RECOVER')")
-   #针对于支持组id和支持组人员为空，被认为未分配的
-   scope :query_by_unallocated_incident, where("#{table_name}.support_person_id is null and " +
-                                              "#{table_name}.support_group_id is null")
-
-   #分月统计
-   scope :query_all_year_month,select("DATE_FORMAT(#{table_name}.created_at,'%Y-%m') created_year_month,sum(1) incident_count").
-                               group("DATE_FORMAT(#{table_name}.created_at,'%Y-%m')").
-                               order("DATE_FORMAT(#{table_name}.created_at,'%Y-%m') asc")
+  scope :query_by_request_type,lambda{|language| select("v1.meaning report_type_name,sum(1) report_type_count").
+                                  joins(",irm_lookup_values_vl v1").
+                                  where("v1.lookup_code = #{table_name}.request_type_code AND v1.language = '#{language}' AND " +
+                                            "v1.lookup_type = 'ICM_REQUEST_TYPE_CODE'").
+                                  group("v1.meaning")}
 
 
-   scope :assignable_to_person,lambda{|person_id|
-     joins("JOIN #{Icm::SupportGroup.table_name} ON #{Icm::SupportGroup.table_name}.id = #{table_name}.support_group_id ").
-         joins("JOIN #{Irm::GroupMember.table_name} ON #{Irm::GroupMember.table_name}.group_id = #{Icm::SupportGroup.table_name}.group_id").
-         where("#{table_name}.support_person_id IS NULL AND #{Irm::GroupMember.table_name}.person_id = ?",person_id)
-   }
+  scope :query_by_impact_range,lambda{|language| select("v1.name impact_range_name,sum(1) impact_range_count").
+                                  joins(",icm_impact_ranges_vl v1").
+                                  where("v1.impact_code = #{table_name}.impact_range_code AND v1.language = '#{language}'").
+                                  group("v1.name")}
+
+  scope :query_by_priority_code,lambda{|language| select("v1.name priority_code_name,sum(1) priority_code_count").
+                                   joins(",icm_priority_codes_vl v1").
+                                   where("v1.priority_code = #{table_name}.priority_code AND v1.language = '#{language}'").
+                                   group("v1.name")}
+
+  #已经关闭的事故单
+  scope :query_by_completed_incident, where("#{table_name}.incident_status_code='CLOSE_INCIDENT'")
+
+  #未解决的事故单
+  scope :query_by_unsolved_incident, where("#{table_name}.incident_status_code not in ('CLOSE_INCIDENT','SOLVE_RECOVER')")
+  #针对于支持组id和支持组人员为空，被认为未分配的
+  scope :query_by_unallocated_incident, where("#{table_name}.support_person_id is null and " +
+                                                  "#{table_name}.support_group_id is null")
+
+  #分月统计
+  scope :query_all_year_month,select("DATE_FORMAT(#{table_name}.created_at,'%Y-%m') created_year_month,sum(1) incident_count").
+                                 group("DATE_FORMAT(#{table_name}.created_at,'%Y-%m')").
+                                 order("DATE_FORMAT(#{table_name}.created_at,'%Y-%m') asc")
+
+
+  scope :assignable_to_person,lambda{|person_id|
+                               joins("JOIN #{Icm::SupportGroup.table_name} ON #{Icm::SupportGroup.table_name}.id = #{table_name}.support_group_id ").
+                                   joins("JOIN #{Irm::GroupMember.table_name} ON #{Irm::GroupMember.table_name}.group_id = #{Icm::SupportGroup.table_name}.group_id").
+                                   where("#{table_name}.support_person_id IS NULL AND #{Irm::GroupMember.table_name}.person_id = ?",person_id)
+                             }
 
   scope :with_skm_flag, lambda{
-    select("(SELECT COUNT(1) FROM #{Skm::EntryHeader.table_name} eh WHERE eh.source_type='INCIDENT_REQUEST' AND eh.source_id = #{table_name}.id) skm_flag")
-  }
+                        select("(SELECT COUNT(1) FROM #{Skm::EntryHeader.table_name} eh WHERE eh.source_type='INCIDENT_REQUEST' AND eh.source_id = #{table_name}.id) skm_flag")
+                      }
 
 
   scope :with_category,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ON  #{Icm::IncidentCategory.view_name}.id = #{table_name}.incident_category_id AND #{Icm::IncidentCategory.view_name}.language= '#{language}'").
-    joins("LEFT OUTER JOIN #{Icm::IncidentSubCategory.view_name} ON  #{Icm::IncidentSubCategory.view_name}.id = #{table_name}.incident_sub_category_id AND #{Icm::IncidentSubCategory.view_name}.language= '#{language}'").
-    select(" #{Icm::IncidentCategory.view_name}.name incident_category_name,#{Icm::IncidentSubCategory.view_name}.name incident_sub_category_name")
-  }
+                        joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ON  #{Icm::IncidentCategory.view_name}.id = #{table_name}.incident_category_id AND #{Icm::IncidentCategory.view_name}.language= '#{language}'").
+                            joins("LEFT OUTER JOIN #{Icm::IncidentSubCategory.view_name} ON  #{Icm::IncidentSubCategory.view_name}.id = #{table_name}.incident_sub_category_id AND #{Icm::IncidentSubCategory.view_name}.language= '#{language}'").
+                            select(" #{Icm::IncidentCategory.view_name}.name incident_category_name,#{Icm::IncidentSubCategory.view_name}.name incident_sub_category_name")
+                      }
 
   scope :with_close_reason, lambda{|language|
-    joins(" LEFT OUTER JOIN #{Icm::CloseReason.view_name} ON #{Icm::CloseReason.view_name}.id = #{table_name}.close_reason_id AND #{Icm::CloseReason.view_name}.language= '#{language}'").
-        select(" #{Icm::CloseReason.view_name}.name close_reason_name, #{Icm::CloseReason.view_name}.description close_reason_description")
-  }
+                            joins(" LEFT OUTER JOIN #{Icm::CloseReason.view_name} ON #{Icm::CloseReason.view_name}.id = #{table_name}.close_reason_id AND #{Icm::CloseReason.view_name}.language= '#{language}'").
+                                select(" #{Icm::CloseReason.view_name}.name close_reason_name, #{Icm::CloseReason.view_name}.description close_reason_description")
+                          }
 
   scope :with_close_reply, lambda{
-    joins(" LEFT OUTER JOIN #{Icm::IncidentJournal.table_name} icj ON icj.reply_type = 'CLOSE' AND icj.incident_request_id = #{table_name}.id AND icj.id = (SELECT
+                           joins(" LEFT OUTER JOIN #{Icm::IncidentJournal.table_name} icj ON icj.reply_type = 'CLOSE' AND icj.incident_request_id = #{table_name}.id AND icj.id = (SELECT
             ij1.id
         FROM
             icm_incident_journals ij1
@@ -280,8 +280,8 @@ class Icm::IncidentRequest < ActiveRecord::Base
                 AND #{table_name}.id = ij1.incident_request_id
         ORDER BY ij1.created_at DESC
         LIMIT 1)").
-        select(" icj.message_body close_message")
-  }
+                               select(" icj.message_body close_message")
+                         }
 
   acts_as_watchable
   def self.list_all
@@ -312,6 +312,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
       strip_tags(summary)
     end
     text :request_number, :boost => 3.0
+    # integer :request_number
     text :journals_content,:stored => true do
       incident_journals.map(&:message_body)
     end
@@ -333,6 +334,13 @@ class Icm::IncidentRequest < ActiveRecord::Base
   def self.search(args, page = 1, per_page = 30, offset = 0)
     query = args[0]
     time_limit = args[1]
+    filter_name = args[2]
+    filter_value = args[3]
+    sort_by = args[4]
+
+    # query = args[:q]
+    # time_limit = args[:time_option]
+    # category = args[:incident_request_category]
 
     results ||= {}
     system_ids = Irm::Person.current.system_ids
@@ -387,21 +395,88 @@ class Icm::IncidentRequest < ActiveRecord::Base
       #  end
       #end if search_att
       #获取事故单的详细信息
-      incident_requests = self.select_all.with_requested_by(I18n.locale).
-                              with_incident_status(I18n.locale).
-                              with_submitted_by.
-                              with_category(I18n.locale).
-                              with_support_group(I18n.locale).
-                              with_supporter(I18n.locale).
-                              with_external_system(I18n.locale).
-                              with_organization(I18n.locale).
-                              where(:id => results.keys).index_by(&:id)
+      base_query = self.select_all.
+          with_requested_by(I18n.locale).
+          with_incident_status(I18n.locale).
+          with_submitted_by.
+          with_category(I18n.locale).
+          with_support_group(I18n.locale).
+          with_supporter(I18n.locale).
+          with_external_system(I18n.locale).
+          with_organization(I18n.locale).
+          with_priority(I18n.locale).
+          where(:id => results.keys)
+
+      if filter_name.present? && filter_value.present?
+        case filter_name
+          when 'request_number' then
+            base_query = base_query.where("#{self.table_name}.request_number like '%#{filter_value}%'")
+          when 'title' then
+            base_query = base_query.where("#{self.table_name}.title like '%#{filter_value}%'")
+          when 'external_system' then
+            base_query = base_query.where("external_system.system_name like '%#{filter_value}%'")
+          when 'organization' then
+            base_query = base_query.where("#{Irm::Organization.view_name}.name like '%#{filter_value}%'")
+          when 'category' then
+            base_query = base_query.where("#{Icm::IncidentCategory.view_name}.name like '%#{filter_value}%'")
+          when 'sub_category' then
+            base_query = base_query.where("#{Icm::IncidentSubCategory.view_name}.name like '%#{filter_value}%'")
+          when 'priority' then
+            base_query = base_query.where("priority_code.name like '%#{filter_value}%'")
+          when 'support_person' then
+            base_query = base_query.where("supporter.full_name like '%#{filter_value}%'")
+          when 'status_code' then
+            base_query = base_query.where("incident_status.name like '%#{filter_value}%'")
+          when 'requested_by' then
+            base_query = base_query.where("requested.full_name like '%#{filter_value}%'")
+          when 'support_group' then
+            base_query = base_query.where("#{Irm::Group.view_name}.name like '%#{filter_value}%'")
+          else
+            base_query
+        end
+      end
+
+      if sort_by
+        case sort_by
+          when 'order_by_request_number_ASC' then
+            base_query = base_query.
+                order("request_number asc")
+          when 'order_by_request_number_DESC' then
+            base_query = base_query.
+                order("request_number desc")
+          when 'order_by_last_response_ASC' then
+            base_query = base_query.
+                order("#{self.table_name}.updated_at asc")
+          when 'order_by_last_response_DESC' then
+            base_query = base_query.
+                order("#{self.table_name}.updated_at desc")
+          else
+            base_query
+        end
+      end
+
+      incident_requests = base_query.
+          index_by(&:id)
 
       results.each do |k,v|
         results[k][:details] = incident_requests[k.to_s] if incident_requests[k.to_s].present?
+        if results[k][:details] == nil
+          results.delete(k)
+        end
       end
+
+      new_results = {}
+      incident_requests.each{ |k,v|
+        new_results.store(k.to_sym,results[k.to_sym])
+      }
+
     end
-    results
+    if sort_by
+      new_results
+    else
+      results
+    end
+
   end
 
   def self.query_by_request_number(query)
@@ -492,15 +567,15 @@ class Icm::IncidentRequest < ActiveRecord::Base
   end
 
   def need_customer_reply
-  # if the request is closed
-   return "C" if self.close?
-   # other person of the incident request
-   return "O" unless Irm::Person.current.id.eql?(self.requested_by)||Irm::Person.current.id.eql?(self.support_person_id)
-   if (self.last_request_date||self.created_at)>(self.last_response_date||self.created_at)
-     Irm::Constant::SYS_NO
-   else
-     Irm::Constant::SYS_YES
-   end
+    # if the request is closed
+    return "C" if self.close?
+    # other person of the incident request
+    return "O" unless Irm::Person.current.id.eql?(self.requested_by)||Irm::Person.current.id.eql?(self.support_person_id)
+    if (self.last_request_date||self.created_at)>(self.last_response_date||self.created_at)
+      Irm::Constant::SYS_NO
+    else
+      Irm::Constant::SYS_YES
+    end
   end
 
   def need_assign
@@ -530,7 +605,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     self.close_flag = status.close_flag if status
     return self.close_flag
   end
-    # setup close flag
+  # setup close flag
   def status_permanent_close_flag
     return self.permanent_close_flag if self.permanent_close_flag
     if self[:permanent_close_flag]

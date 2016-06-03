@@ -1,0 +1,2 @@
+module Yan::PeopleStatesHelper
+end

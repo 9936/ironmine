@@ -170,4 +170,21 @@ module Irm::SearchHelper
   def build_meaning(str)
     str.gsub(/::/,'').gsub(/([A-Z])/){ "_#{$1.downcase}" }
   end
+
+  def init_select_options
+    options = []
+    options << ["--- #{t(:actionview_instancetag_blank_option)} ---",""]
+    options << ["#{t(:label_icm_incident_request_request_number_shot)}","request_number"]
+    options << ["#{t(:label_icm_incident_request_title)}","title"]
+    options << ["#{t(:label_irm_external_system)}","external_system"]
+    options << ["#{t(:label_irm_organization)}","organization"]
+    options << ["#{t(:label_icm_incident_request_incident_category)}","category"]
+    options << ["#{t(:label_icm_incident_request_incident_sub_category)}","sub_category"]
+    options << ["#{t(:label_icm_incident_request_priority)}","priority"]
+    options << ["#{t(:label_icm_incident_request_support_person)}","support_person"]
+    options << ["#{t(:label_icm_incident_request_incident_status_code)}","status_code"]
+    options << ["#{t(:label_icm_incident_request_requested_by)}","requested_by"]
+    options << ["#{t(:label_icm_incident_request_support_group)}","support_group"]
+    options
+  end
 end

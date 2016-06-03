@@ -1,53 +1,104 @@
 <% require_jscss(:search) %>
 <div class="search-page-block">
-<table class="split-table" cellpadding="0" cellspacing="0">
-  <tbody><tr>
-    <td class="side-bar">
-      <div class='<%= ie6?? "left-sidebar" : "left-sidebar except-ie6"%>'>
-        <span class="record-toggle toggle-on"><%= t(:label_search_options_setting) %></span>
-        <ul class="tabs" id="entryList">
-          <%= init_search_options %>
-        </ul>
-        <span class="record-toggle toggle-on"><%= t(:label_search_options_time) %></span>
-        <ul class="tabs" id="timeList">
-          <%= init_time_limit(params[:time_option]) %>
-        </ul>
-      </div>
-    </td>
-    <td class="side-content">
-      <div id="header">
-        <%=form_tag({:controller=>"irm/search",:action=>"index"},{:nomask=>true,:id=>"searchForm"})  do %>
-          <%= hidden_field_tag :page, "1", {:id => "resultPage"} %>
-          <%= hidden_field_tag :start_page, params[:start_page] %>
-          <%= hidden_field_tag :search_option_str, "#{params[:search_option_str]}", {:id => "entries"} %>
-          <%= hidden_field_tag :time_option, "#{params[:time_option]}", {:id => "timeOption"} %>
-          <div class="form-inline">
-            <div class="input-append">
-              <input class="search-query" name="q" value="<%= params[:q] %>" type="text" style="width: 500px;"/>
-              <%= link_to t(:search), 'javascript:void(0);',:class => "btn",:type=> 'submit', :style => "margin-left: -5px;" %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-      <div id="main" style="margin-left: auto;">
-        <div>
-          <div class="result">
+  <table class="split-table" cellpadding="0" cellspacing="0">
+    <tbody><tr>
+      <td class="side-bar">
+        <div class='<%= ie6?? "left-sidebar" : "left-sidebar except-ie6"%>'>
+          <span class="record-toggle toggle-on"><%= t(:label_search_options_setting) %></span>
+          <ul class="tabs" id="entryList">
+            <%= init_search_options %>
+          </ul>
+          <span class="record-toggle toggle-on"><%= t(:label_search_options_time) %></span>
+          <ul class="tabs" id="timeList">
+            <%= init_time_limit(params[:time_option]) %>
+          </ul>
+          <span class="record-toggle toggle-on">Search sort options</span>
+          <ul class="tabs" id="view_sort">
+            <li>Ticket Number ASC
+                  <span class="check-btn">
+                    <input id="" name="by_request_number" type="radio" value="order_by_request_number_ASC">
+                    <span></span>
+                  </span>
+            </li>
+            <li>Ticket Number DESC
+                  <span class="check-btn">
+                    <input id="" name="by_request_number" type="radio" value="order_by_request_number_DESC">
+                    <span></span>
+                  </span>
+            </li>
+            <li>Last Response ASC
+                  <span class="check-btn">
+                    <input id="" name="by_request_number" type="radio" value="order_by_last_response_ASC">
+                    <span></span>
+                  </span>
+            </li>
+            <li >Last Response DESC
+                  <span class="check-btn">
+                    <input id="" name="by_request_number" type="radio" value="order_by_last_response_DESC">
+                    <span></span>
+                  </span>
+            </li>
+          </ul>
+          <span class="record-toggle toggle-on">Filter Options</span>
+          <ul class="tabs">
+            <li>
+              <%=select_tag_alias :filter_name, init_select_options,params[:incident_request_filter_name],{
+                                                      :id=>"view_filter_name",
+                                                      :style=>"margin-bottom: 9px;",
+                                                      :onchange=>"set_filter_name();"
+                                              }%>
+            </li>
+            <li>
+              <input type="text" class="form-control" id="view_filter_name_value" style="width: 92%;" name="view_filter_name_value" value="<%=params[:incident_request_filter_value] %>">
+            </li>
+          </ul>
+        </div>
+      </td>
+      <td class="side-content">
+        <div id="header">
+          <%=form_tag({:controller=>"irm/search",:action=>"index"},{:nomask=>true,:id=>"searchForm"})  do %>
+              <%= hidden_field_tag :page, "1", {:id => "resultPage"} %>
+              <%= hidden_field_tag :start_page, params[:start_page] %>
+              <%= hidden_field_tag :search_option_str, "#{params[:search_option_str]}", {:id => "entries"} %>
+              <%= hidden_field_tag :incident_request_filter_name, "#{params[:incident_request_filter_name]}", {:id => "view_incident_request_filter_name"} %>
+              <%= hidden_field_tag :incident_request_filter_value, "#{params[:incident_request_filter_value]}", {:id => "view_incident_request_filter_value"} %>
+              <%= hidden_field_tag :time_option, "#{params[:time_option]}", {:id => "timeOption"} %>
+              <%= hidden_field_tag :sort_option, "#{params[:sort_option]}", {:id => "sort_option"} %>
+              <div class="form-inline">
+                <div class="input-append">
+                  <input class="search-query" name="q" value="<%= params[:q] %>" type="text" style="width: 500px;"/>
+                  <%= link_to t(:search), 'javascript:void(0);',:class => "btn",:type=> 'submit', :style => "margin-left: -5px;" %>
+                </div>
+              </div>
+          <% end %>
+        </div>
+        <div id="main" style="margin-left: auto;">
+          <div>
+            <div class="result">
             <span id="result-items">
               <ul>
-                <%= show_search_result(params[:q], params[:search_option_str], params[:time_option]) %>
+                <%if false%>
+                    <%= show_search_result(params[:q], params[:search_option_str], params[:time_option],params[:incident_request_category]) %>
+                <%end%>
+                <%= show_search_result(params) %>
               </ul>
             </span>
+            </div>
           </div>
         </div>
-      </div>
-    </td>
-  </tr>
-  </tbody>
-</table>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 <script type="text/javascript">
   //处理搜索设置以及初始化搜选项
   $(function(){
+    $("#view_filter_name_value").keyup(function(e){
+      $("#view_incident_request_filter_value").val($("#view_filter_name_value").val());
+    });
+    $("input[value='<%=params[:sort_option]%>']").parents("li").addClass('current')
+    $("input[value='<%=params[:sort_option]%>']").attr("checked", true);
     $("#entryList").find('li').each(function(){
       var li = $(this);
       var checkbox = $(this).find('input')[0];
@@ -61,7 +112,7 @@
         }else if(li.hasClass('current')) {
           li.removeClass('current');
         }
-      });      
+      });
     });
     $(".search-page-block #searchAll").click(function(e){
       $(".search-page-block .searchOptions").each(function(){
@@ -101,6 +152,20 @@
         }
       });
     });
+    $("#view_sort").find('input').each(function(){
+      var radio = $(this),li = radio.parents('li');
+      $(this).bind('click', function(){
+        if(radio.is(":checked")) {
+          $("#view_sort").find('li').each(function(){
+            if ($(this).hasClass('current')){
+              $(this).removeClass('current')
+            }
+          });
+          $("#sort_option").val(radio.val());
+          li.addClass('current');
+        }
+      });
+    });
     //页码响应函数处理
     $(".search-page-block #pager, .search-page-block #pagerTop").find('a').each(function(e){
       $(this).bind('click',function(){
@@ -110,5 +175,7 @@
       });
     });
   });
+  function set_filter_name(){
+    $("#view_incident_request_filter_name").val($("#view_filter_name").find("option:selected").val())
+  }
 </script>
-

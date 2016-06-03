@@ -346,6 +346,20 @@ class Irm::CommonController < ApplicationController
 
   def logout_successful
      login_record = Irm::LoginRecord.where(:session_id=>session[:session_id]).first
+     if !login_record.identity_id.eql?("000100012i8IyyjJahryXQ") && Irm::Person.find(login_record.identity_id).email_address.end_with?("hand-china.com")
+       people_state = Yan::PeopleState.where("person_id = ?",login_record.identity_id)
+       if people_state.length > 0
+         people_state = people_state.first()
+         people_state.update_attributes(:last_operate_time=>Time.now,:state => 'DISABLED')
+       else
+         new_people_state = Yan::PeopleState.new({
+                                                     :person_id => Irm::Person.current.id,
+                                                     :state => 'DISABLED',
+                                                     :last_operate_time => Time.now
+                                                 })
+         new_people_state.save
+       end
+     end
      login_record.update_attributes(:logout_at=>Time.now) if login_record
   end
 

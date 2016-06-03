@@ -153,6 +153,29 @@ Fwk::MenuAndFunctionManager.map do |map|
                                             }
                                         }
 
+  map.function_group :people_states, {
+                                       :en => {:name => "People Status", :description => "People Status"},
+                                       :zh => {:name => "People Status", :description => "People Status"},
+                                       :ja => {:name => "People Status", :description => "People Status"}
+                                   }
+  map.function_group :people_states, {
+                                       :zone_code => "PEOPLE_STATUS",
+                                       :controller => "yan/people_states",
+                                       :action => "index"}
+  map.function_group :people_states, {
+                                       :children => {
+                                           :people_states => {
+                                               :en => {:name => "People Status", :description => "People Status"},
+                                               :zh => {:name => "People Status", :description => "People Status"},
+                                               :ja => {:name => "People Status", :description => "People Status"},
+                                               :default_flag => "N",
+                                               :login_flag => "N",
+                                               :public_flag => "N",
+                                               "yan/people_states" => ["index"]
+                                           }
+                                       }
+                                   }
+
   map.function_group :workload_authority, {
       :en => {:name => "Workload Management", :description => "Workload Management"},
       :zh => {:name => "工时管理", :description => "工时管理"},
