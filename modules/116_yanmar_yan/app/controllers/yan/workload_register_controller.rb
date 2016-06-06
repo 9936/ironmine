@@ -3,7 +3,7 @@ class Yan::WorkloadRegisterController < ApplicationController
   def index
     @my_events = ""
     Yan::RegisterWorkload.where("supporter_id = ?",Irm::Person.current.id).collect{|w|
-      @my_events =  "#{@my_events}#{w.id}--#{w.description}--#{w.start_date}--#{w.end_date}||"
+      @my_events =  "#{@my_events}#{w.id}--#{w.description}--#{w.start_date}--#{w.end_date}||".html_safe
     }
   end
 
