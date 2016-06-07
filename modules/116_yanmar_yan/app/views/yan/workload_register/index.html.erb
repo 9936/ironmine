@@ -81,7 +81,7 @@
             success: function (data) {
               var result = data.result
 //              if(result.length > 0){
-              $("#request_number").prepend("<option value='0'>---请选择---</option>")
+              $("#request_number").prepend("<option value='0'><%= t(:actionview_instancetag_blank_option)%></option>")
               for(var i = 0;i < result.length;i++){
                 $("#request_number").append("<option value='"+result[i].id+"'>"+result[i].request_number+"</option>")
               }
