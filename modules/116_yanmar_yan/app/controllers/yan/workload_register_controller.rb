@@ -101,4 +101,20 @@ class Yan::WorkloadRegisterController < ApplicationController
     render json: {:register_workload=>register_workload}
   end
 
+  def get_month_workload
+    month_workload = 0.0
+    date_time = (params[:first_date].to_time).to_s[0,10]
+    Yan::RegisterWorkload.
+        select("sum(workload) workload").
+        where("date_format(start_date, '%Y-%m-01') = ? and date_format(end_date, '%Y-%m-01') = ? and supporter_id = ?",
+              Date.strptime(date_time,'%Y-%m'),Date.strptime(date_time,'%Y-%m'),Irm::Person.current.id).collect{|rw|
+      if !rw.workload.present?
+        rw.workload = 0.0
+      end
+      month_workload = month_workload + rw.workload
+    }
+
+    render json: {:month_workload=>month_workload}
+  end
+
 end
