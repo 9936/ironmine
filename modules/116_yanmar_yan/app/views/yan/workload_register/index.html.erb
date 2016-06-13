@@ -16,10 +16,6 @@
   #calendar {
     margin: 0 auto;
   }
-  #modal_register_workload,#modal_update_workload{
-    width: 50%;
-    margin-left: -25%;
-  }
 </style>
 <script>
   $(document).ready(function() {
@@ -123,7 +119,7 @@
         <div class="control-group">
           <label class="control-label"><%= t(:label_slm_calendar_item_description) %>:</label>
           <div class="controls">
-            <textarea cols="150" rows="4" id="description" style="width: 300px"></textarea>
+            <textarea cols="120" rows="4" id="description" style="width: 300px"></textarea>
             <span class="help-inline"></span>
           </div>
         </div>
@@ -166,7 +162,7 @@
         <div class="control-group">
           <label class="control-label"><%= t(:label_slm_calendar_item_description) %>:</label>
           <div class="controls">
-            <textarea cols="150" rows="4" id="description_update" style="width: 300px"></textarea>
+            <textarea cols="120" rows="4" id="description_update" style="width: 300px"></textarea>
             <span class="help-inline"></span>
           </div>
         </div>
@@ -410,6 +406,7 @@
       select: function(start, end) {
         $("#request_number_list").empty()
         $("#request_number option[value='0']").remove()
+        $("#description").val("")
         $("#start").val(new Date(start).Format("yyyy-MM-dd hh:mm:ss"))
         $("#end").val(new Date(end).Format("yyyy-MM-dd hh:mm:ss"))
         var date_from = new Date(start).Format("yyyy-MM-dd")
@@ -429,7 +426,6 @@
               var option_html = ""
               for(var i = 0;i < result.length;i++){
                 option_html += "<option value='"+result[i].id+"'>"+result[i].request_number+"</option>"
-//                $("#request_number").append("<option value='"+result[i].id+"'>"+result[i].request_number+"</option>")
               }
               $("#request_number_list").html(option_html)
               $("#modal_register_workload").modal("show")
