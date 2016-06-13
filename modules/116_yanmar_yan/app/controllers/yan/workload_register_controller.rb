@@ -1,10 +1,7 @@
 class Yan::WorkloadRegisterController < ApplicationController
   layout "application_full"
   def index
-    @my_events = ""
-    Yan::RegisterWorkload.where("supporter_id = ?",Irm::Person.current.id).collect{|w|
-      @my_events =  "#{@my_events}#{w.id}--#{w.description}--#{w.start_date}--#{w.end_date}||".html_safe
-    }
+
   end
 
   def create_workload
@@ -116,5 +113,14 @@ class Yan::WorkloadRegisterController < ApplicationController
 
     render json: {:month_workload=>month_workload}
   end
+
+  def get_data
+    my_events = Yan::RegisterWorkload.where("supporter_id = ?",Irm::Person.current.id).collect{|w|
+      {:id=>w.id,:title=>w.description,:start_date=>w.start_date,:end_date=>w.end_date}
+    }
+
+    render json: {:my_events=>my_events}
+  end
+
 
 end

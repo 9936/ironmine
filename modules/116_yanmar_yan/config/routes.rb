@@ -32,6 +32,7 @@ Ironmine::Application.routes.draw do
     match '/workload_register/delete_workload(.:format)' => "workload_register#delete_workload"
     match '/workload_register/get_week_workload(.:format)' => "workload_register#get_week_workload"
     match '/workload_register/get_month_workload(.:format)' => "workload_register#get_month_workload"
+    match '/workload_register/get_data(.:format)' => "workload_register#get_data"
 
     match '/people_states(/index)(.:format)' => "people_states#index", :via => :get
   end

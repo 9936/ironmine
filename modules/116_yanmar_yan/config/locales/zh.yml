@@ -2,7 +2,7 @@ zh:
   label_second_search: 二次检索
   label_slm_calendar_update_workload: 更新工时
   label_slm_calendar_register_workload: 登记工时
-  label_slm_calendar_request_number: 单号
+  label_slm_calendar_request_number: Work Content
   label_slm_calendar_item_description: 描述
 
   label_action_generate_xls: Generate Excel

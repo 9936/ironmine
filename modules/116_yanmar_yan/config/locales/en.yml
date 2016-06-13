@@ -2,7 +2,7 @@ en:
   label_second_search: Second search
   label_slm_calendar_update_workload: Update Workload
   label_slm_calendar_register_workload: Register Workload
-  label_slm_calendar_request_number: Request Number
+  label_slm_calendar_request_number: Work Content
   label_slm_calendar_item_description: Description
 
   label_action_generate_xls: Generate Excel

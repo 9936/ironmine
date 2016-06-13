@@ -9,11 +9,12 @@
     font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
     font-size: 14px;
   }
+  p {
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+  }
   #calendar {
     margin: 0 auto;
-  }
-  .day_time {
-    width: 13%
   }
   #modal_register_workload,#modal_update_workload{
     width: 50%;
@@ -22,20 +23,362 @@
 </style>
 <script>
   $(document).ready(function() {
-    var my_events = []
-    var temp_my_events = "<%=@my_events%>".split("||")
-    for(var i=0;i<temp_my_events.length;i++){
-      var temp_values = temp_my_events[i].split("--")
-      if(temp_values.length == 4){
-        var a = {
-          id: temp_values[0],
-          title: temp_values[1],
-          start: temp_values[2],
-          end: temp_values[3]
+    get_data()
+    $("tr[data-time$='30:00']").attr("class","fc-minor")
+    $("tr[data-time$='30:00']").find("span").hide()
+    $("#for_week").find("div[class='fc-row fc-widget-header']").css("margin-right",$("#calendar").find("div[class='fc-row fc-widget-header']").css("margin-right"))
+    $("#calendar").find("td[class='fc-head-container fc-widget-header']").css("background-color","#A5BFE1")
+    $("#calendar").find(".fc-day-header").css("background-color","#A5BFE1")
+  });
+</script>
+
+<div id='for_month' class="fc fc-cursor fc-ltr fc-unthemed" style="margin-bottom: 10px;display: none">
+  <div class="fc-view-container">
+    <div class="fc-view fc-agendaWeek-view fc-agenda-view">
+      <table>
+        <thead class="fc-head">
+        <tr>
+          <td class="fc-head-container fc-widget-header">
+            <div class="fc-row fc-widget-header" style="border-right-width: 1px;">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="fc-day-header fc-widget-header fc-sun"></th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </td>
+        </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+<div id='calendar'></div>
+<div id='for_week' style="display: none" class="fc fc-cursor fc-ltr fc-unthemed">
+  <div class="fc-view-container">
+    <div class="fc-view fc-agendaWeek-view fc-agenda-view">
+      <table>
+        <thead class="fc-head">
+        <tr>
+          <td class="fc-head-container fc-widget-header">
+            <div class="fc-row fc-widget-header" style="border-right-width: 1px; margin-right: 16px;">
+              <table>
+                <thead>
+                <tr>
+                  <th class="fc-axis fc-widget-header" style="width: 32px;">
+                  </th>
+                  <th class="fc-day-header fc-widget-header fc-sun">Sun</th>
+                  <th class="fc-day-header fc-widget-header fc-mon">Mon</th>
+                  <th class="fc-day-header fc-widget-header fc-tue">Tue</th>
+                  <th class="fc-day-header fc-widget-header fc-wed">Wed</th>
+                  <th class="fc-day-header fc-widget-header fc-thu">Thu</th>
+                  <th class="fc-day-header fc-widget-header fc-fri">Fri</th>
+                  <th class="fc-day-header fc-widget-header fc-sat">Sat</th>
+                </tr>
+                </thead>
+              </table>
+            </div>
+          </td>
+        </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 登记工时模态框 -->
+<div class="modal hide fade bs-example-modal-lg" id="modal_register_workload" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3><%= t(:label_slm_calendar_register_workload) %></h3>
+      </div>
+      <div class="modal-body form-horizontal">
+        <input type="hidden" id="start" value=""/>
+        <input type="hidden" id="end" value="" />
+        <input type="hidden" id="event_id" value="" />
+        <div class="control-group">
+          <label class="control-label"><%= t(:label_slm_calendar_request_number) %>:</label>
+          <div class="controls">
+            <select id="request_number">
+              <optgroup label="Request Number" id="request_number_list">
+
+              </optgroup>
+              <optgroup label="Management">
+                <option value="SD Daily Meeting">SD Daily Meeting</option>
+                <option value="YA weekly meeting">YA weekly meeting</option>
+                <option value="Register Workload">Register Workload</option>
+                <option value="Failure Man-hour Monthly Report">Failure Man-hour Monthly Report</option>
+                <option value="Weekly Report">Weekly Report</option>
+                <option value="Monthly Report">Monthly Report</option>
+                <option value="Others">Others</option>
+              </optgroup>
+            </select>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label"><%= t(:label_slm_calendar_item_description) %>:</label>
+          <div class="controls">
+            <textarea cols="150" rows="4" id="description" style="width: 300px"></textarea>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+    <a href="javascript:void(0);" class="btn" data-dismiss="modal"><%=t(:cancel) %></a>
+    <a href="javascript:void(0);" onclick="register_workload()" id="add-event-submit" class="btn btn-primary"><%= t(:save) %></a>
+  </div>
+    </div>
+  </div>
+</div>
+<div class="modal hide fade bs-example-modal-lg" id="modal_update_workload" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3><%= t(:label_slm_calendar_update_workload) %></h3>
+      </div>
+      <div class="modal-body form-horizontal">
+        <div class="control-group">
+          <label class="control-label"><%= t(:label_slm_calendar_request_number) %>:</label>
+          <div class="controls">
+            <select id="request_number_update">
+              <optgroup label="Request Number" id="request_number_update_list">
+
+              </optgroup>
+              <optgroup label="Management">
+                <option value="SD Daily Meeting">SD Daily Meeting</option>
+                <option value="YA weekly meeting">YA weekly meeting</option>
+                <option value="Register Workload">Register Workload</option>
+                <option value="Failure Man-hour Monthly Report">Failure Man-hour Monthly Report</option>
+                <option value="Weekly Report">Weekly Report</option>
+                <option value="Monthly Report">Monthly Report</option>
+                <option value="Others">Others</option>
+              </optgroup>
+            </select>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label"><%= t(:label_slm_calendar_item_description) %>:</label>
+          <div class="controls">
+            <textarea cols="150" rows="4" id="description_update" style="width: 300px"></textarea>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+    <a href="javascript:void(0);" class="btn" data-dismiss="modal"><%=t(:cancel) %></a>
+    <a href="javascript:void(0);" onclick="delete_workload()" id="add-event-submit" class="btn btn-danger"><%= t(:delete) %></a>
+    <a href="javascript:void(0);" onclick="update_workload()" id="add-event-submit" class="btn btn-primary"><%= t(:save) %></a>
+  </div>
+    </div>
+  </div>
+</div>
+<script>
+  function register_workload(){
+    var start = $("#start").val()
+    var end = $("#end").val()
+    if ($("#request_number").find("option:selected").val() != 0) {
+      var description = $("#request_number").find("option:selected").text()+"("+$("#description").val()+")"
+      var href = '<%= url_for(:controller => "workload_register",:action => "create_workload")%>'
+      $.ajax({
+        url: href,
+        type: 'post',
+        dataType: 'json',
+        data: {
+          request_id: $("#request_number").find("option:selected").val(),
+          description: description,
+          start_date: start,
+          end_date: end
+        },
+        success: function (data) {
+          if (data.result == "OK") {
+            var eventData
+            eventData = {
+              title: description,
+              start: start,
+              end: end,
+              id: data.id
+            }
+            $('#calendar').fullCalendar('renderEvent', eventData, true)
+            var view = $('#calendar').fullCalendar('getView')
+            if (view.name == 'agendaWeek') {
+              update_view_workload(view)
+            }
+            $("#modal_register_workload").modal("hide")
+            $("#start").val("")
+            $("#end").val("")
+            $("#description").val("")
+          }
+          else {
+            alert("登记失败")
+          }
         }
-        my_events.push(a)
-      }
+      })
     }
+    else{
+      alert("请选择单号或相关工作选项")
+      return
+    }
+  }
+  function update_workload(){
+    var start = $("#start").val()
+    var end = $("#end").val()
+    var event_id = $("#event_id").val()
+    if ($("#request_number_update").find("option:selected").val() != 0) {
+      var description = $("#request_number_update").find("option:selected").text()+"("+$("#description_update").val()+")"
+      var href = '<%= url_for(:controller => "workload_register",:action => "update_workload")%>'
+      $.ajax({
+        url: href,
+        type: 'post',
+        dataType: 'json',
+        data: {
+          request_id: $("#request_number_update").find("option:selected").val(),
+          description: description,
+          start_date: start,
+          end_date: end,
+          id: event_id
+        },
+        success: function (data) {
+          if(data.result == "OK"){
+            $('#calendar').fullCalendar( 'removeEvents', event_id)
+            var eventData
+            eventData = {
+              title: description,
+              start: start,
+              end: end,
+              id: event_id
+            }
+            $('#calendar').fullCalendar('renderEvent', eventData, true)
+            var view = $('#calendar').fullCalendar('getView')
+            if (view.name == 'agendaWeek') {
+              update_view_workload(view)
+            }
+            $("#modal_update_workload").modal("hide")
+            $("#start").val("")
+            $("#end").val("")
+            $("#description_update").val("")
+          }
+          else {
+            alert("编辑失败")
+          }
+        }
+      })
+    }
+    else{
+      alert("请选择单号或相关工作选项")
+      return
+    }
+  }
+  function delete_workload(){
+    var event_id = $("#event_id").val()
+    var href = '<%= url_for(:controller => "workload_register",:action => "delete_workload")%>'
+    $.ajax({
+      url: href,
+      type: 'post',
+      dataType: 'json',
+      data: {
+        id: event_id
+      },
+      success: function (data) {
+        if(data.result == "OK"){
+          $('#calendar').fullCalendar( 'removeEvents', event_id)
+          var view = $('#calendar').fullCalendar('getView')
+          if (view.name == 'agendaWeek') {
+            update_view_workload(view)
+          }
+          $("#modal_update_workload").modal("hide")
+          $("#start").val("")
+          $("#end").val("")
+          $("#event_id").val("")
+          $("#description_update").val("")
+        }
+        else {
+          alert("删除失败")
+        }
+      }
+    })
+  }
+  function update_view_workload(view){
+    var view_name = view.name
+    if(view_name == 'agendaWeek'){
+      var first_date = view.title.substring(0,10)
+      var href = '<%= url_for(:controller => "workload_register",:action => "get_week_workload")%>'
+      $.ajax({
+        url: href,
+        type: 'post',
+        dataType: 'json',
+        data: {
+          first_date: new Date(first_date).Format("yyyy-MM-dd")
+        },
+        success: function (data) {
+          var workload = data.register_workload
+          $("#for_week .fc-axis").text("Total")
+          for(var i=0;i<workload.length;i++){
+            $("#for_week .fc-day-header").eq(i).html(workload[i])
+          }
+          $("#for_month").hide()
+          $("#for_week").show()
+        }
+      })
+    }
+    else if(view_name == 'month'){
+      var first_date = view.title.substring(0,10)
+      var href = '<%= url_for(:controller => "workload_register",:action => "get_month_workload")%>'
+      $.ajax({
+        url: href,
+        type: 'post',
+        dataType: 'json',
+        data: {
+          first_date: new Date(first_date).Format("yyyy-MM-dd")
+        },
+        success: function (data) {
+          $("#for_month .fc-day-header").eq(0).html(data.month_workload+"(H)")
+          $("#for_week").hide()
+          $("#for_month").show()
+        }
+      })
+    }
+    else{
+      $("#for_week .fc-day-header").html("")
+      $("#for_week,#for_month").hide()
+    }
+
+    $("tr[data-time$='30:00']").attr("class","fc-minor")
+    $("tr[data-time$='30:00']").find("span").hide()
+    $("#calendar").find("td[class='fc-head-container fc-widget-header']").css("background-color","#A5BFE1")
+    $("#calendar").find(".fc-day-header").css("background-color","#A5BFE1")
+  }
+  function get_data(){
+    var href = '<%= url_for(:controller => "workload_register",:action => "get_data")%>'
+    $.ajax({
+      url: href,
+      type: 'post',
+      dataType: 'json',
+      data: {
+      },
+      success: function (data) {
+        var my_events = []
+        var all_my_events = data.my_events
+        for(var i=0;i<all_my_events.length;i++){
+          var a = {
+            id: all_my_events[i].id,
+            title: all_my_events[i].title,
+            start: all_my_events[i].start_date,
+            end: all_my_events[i].end_date
+          }
+          my_events.push(a)
+        }
+        init_calendar(my_events)
+      }
+    })
+  }
+  function init_calendar(my_events){
     $('#calendar').fullCalendar({
       header: {
         left: 'prev,next today',
@@ -44,15 +387,16 @@
       },
       views: {
         month: {
-          titleFormat: 'YYYY-MM'
+          titleFormat: 'YYYY/MM'
         },
         agendaWeek: {
-          titleFormat: 'YYYY-MM-DD'
+          titleFormat: 'YYYY/MM/DD'
         },
         agendaDay: {
-          titleFormat: 'YYYY-MM-DD'
+          titleFormat: 'YYYY/MM/DD'
         }
       },
+      columnFormat: 'M/D ddd',
       defaultDate: new Date().Format("yyyy-MM-dd"),
       selectable: true,
       selectHelper: true,
@@ -64,7 +408,8 @@
       lang: 'en',
       timezone: 'local',
       select: function(start, end) {
-        $("#request_number").empty()
+        $("#request_number_list").empty()
+        $("#request_number option[value='0']").remove()
         $("#start").val(new Date(start).Format("yyyy-MM-dd hh:mm:ss"))
         $("#end").val(new Date(end).Format("yyyy-MM-dd hh:mm:ss"))
         var date_from = new Date(start).Format("yyyy-MM-dd")
@@ -80,15 +425,14 @@
             },
             success: function (data) {
               var result = data.result
-//              if(result.length > 0){
-              $("#request_number").prepend("<option value='0'><%= t(:actionview_instancetag_blank_option)%></option>")
+              $("#request_number").prepend("<option value='0' selected='selected'><%= t(:actionview_instancetag_blank_option)%></option>")
+              var option_html = ""
               for(var i = 0;i < result.length;i++){
-                $("#request_number").append("<option value='"+result[i].id+"'>"+result[i].request_number+"</option>")
+                option_html += "<option value='"+result[i].id+"'>"+result[i].request_number+"</option>"
+//                $("#request_number").append("<option value='"+result[i].id+"'>"+result[i].request_number+"</option>")
               }
+              $("#request_number_list").html(option_html)
               $("#modal_register_workload").modal("show")
-//              }
-//              else
-//                $('#calendar').fullCalendar('unselect')
             }
           })
         }
@@ -96,7 +440,8 @@
           $('#calendar').fullCalendar('unselect')
       },
       eventClick: function(event, element) {
-        $("#request_number_update").empty()
+        $("#request_number_update_list").empty()
+        $("#request_number_update option[value='0']").remove()
         $("#start").val(new Date(event.start._i).Format("yyyy-MM-dd hh:mm:ss"))
         $("#end").val(new Date(event.end._i).Format("yyyy-MM-dd hh:mm:ss"))
         $("#event_id").val(event.id)
@@ -111,19 +456,18 @@
           success: function (data) {
             var result = data.result
             var title = event.title
-            var request_number = ""
-            if(title.indexOf("(") != -1 && title.indexOf(")") != -1){
-              request_number = title.split("(")[0]
-              $("#description_update").val(event.title.split("(")[1].split(")")[0])
-            }
-            else
-              $("#description_update").val(title)
+            var work_content = title.split("(")[0]
+            $("#description_update").val(event.title.split("(")[1].split(")")[0])
             $("#request_number_update").prepend("<option value='0'><%= t(:actionview_instancetag_blank_option)%></option>")
-            for(var i = 0;i < result.length ;i++){
-              if(request_number != result[i].request_number)
-                $("#request_number_update").append("<option value='"+result[i].id+"'>"+result[i].request_number+"</option>")
-              else
-                $("#request_number_update").append("<option value='"+result[i].id+"' selected='selected'>"+result[i].request_number+"</option>")
+            var option_html = ""
+            for(var i = 0;i < result.length;i++){
+              option_html += "<option value='"+result[i].id+"'>"+result[i].request_number+"</option>"
+            }
+            $("#request_number_update_list").html(option_html)
+            var options = $("#request_number_update").find("option")
+            for(var i=0;i<options.length;i++){
+              if(options.eq(i).text() == work_content)
+                options.eq(i).attr("selected",true);
             }
             $("#modal_update_workload").modal("show")
           }
@@ -218,319 +562,13 @@
         update_view_workload(view)
       },
       eventAfterAllRender: function(view){
-        render_events()
       },
       editable: true,
       eventLimit: true, // allow "more" link when too many events
       events: my_events
     });
+  }
 
-    $("tr[data-time$='30:00']").attr("class","fc-minor")
-    $("tr[data-time$='30:00']").find("span").hide()
-  });
-</script>
-
-<div id='for_month' class="fc fc-cursor fc-ltr fc-unthemed" style="margin-bottom: 10px;display: none">
-  <div class="fc-view-container">
-    <div class="fc-view fc-agendaWeek-view fc-agenda-view">
-      <table>
-        <thead class="fc-head">
-        <tr>
-          <td class="fc-head-container fc-widget-header">
-            <div class="fc-row fc-widget-header" style="border-right-width: 1px;">
-              <table>
-                <thead>
-                  <tr>
-                    <th class="fc-day-header fc-widget-header fc-sun"></th>
-                  </tr>
-                </thead>
-              </table>
-            </div>
-          </td>
-        </tr>
-        </thead>
-      </table>
-    </div>
-  </div>
-</div>
-<div id='calendar'></div>
-<div id='for_week' style="display: none" class="fc fc-cursor fc-ltr fc-unthemed">
-  <div class="fc-view-container">
-    <div class="fc-view fc-agendaWeek-view fc-agenda-view">
-      <table>
-        <thead class="fc-head">
-        <tr>
-          <td class="fc-head-container fc-widget-header">
-            <div class="fc-row fc-widget-header" style="border-right-width: 1px; margin-right: 16px;">
-              <table>
-                <thead>
-                <tr>
-                  <th class="fc-axis fc-widget-header" style="width: 32px;">
-                  </th>
-                  <th class="fc-day-header fc-widget-header fc-sun">Sun</th>
-                  <th class="fc-day-header fc-widget-header fc-mon">Mon</th>
-                  <th class="fc-day-header fc-widget-header fc-tue">Tue</th>
-                  <th class="fc-day-header fc-widget-header fc-wed">Wed</th>
-                  <th class="fc-day-header fc-widget-header fc-thu">Thu</th>
-                  <th class="fc-day-header fc-widget-header fc-fri">Fri</th>
-                  <th class="fc-day-header fc-widget-header fc-sat">Sat</th>
-                </tr>
-                </thead>
-              </table>
-            </div>
-          </td>
-        </tr>
-        </thead>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- 登记工时模态框 -->
-<div class="modal hide fade bs-example-modal-lg" id="modal_register_workload" >
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3><%= t(:label_slm_calendar_register_workload) %></h3>
-      </div>
-      <div class="modal-body form-horizontal">
-        <input type="hidden" id="start" value=""/>
-        <input type="hidden" id="end" value="" />
-        <input type="hidden" id="event_id" value="" />
-        <div class="control-group">
-          <label class="control-label"><%= t(:label_slm_calendar_request_number) %>:</label>
-          <div class="controls">
-            <select id="request_number"></select>
-            <span class="help-inline"></span>
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label"><%= t(:label_slm_calendar_item_description) %>:</label>
-          <div class="controls">
-            <textarea cols="100" rows="4" id="description" wrap="hard"></textarea>
-            <%= new_xheditor("description", false,true) %>
-            <span class="help-inline"></span>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-    <a href="javascript:void(0);" class="btn" data-dismiss="modal"><%=t(:cancel) %></a>
-    <a href="javascript:void(0);" onclick="register_workload()" id="add-event-submit" class="btn btn-primary"><%= t(:save) %></a>
-  </div>
-    </div>
-  </div>
-</div>
-<div class="modal hide fade bs-example-modal-lg" id="modal_update_workload" >
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3><%= t(:label_slm_calendar_update_workload) %></h3>
-      </div>
-      <div class="modal-body form-horizontal">
-        <div class="control-group">
-          <label class="control-label"><%= t(:label_slm_calendar_request_number) %>:</label>
-          <div class="controls">
-            <select id="request_number_update"></select>
-            <span class="help-inline"></span>
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label"><%= t(:label_slm_calendar_item_description) %>:</label>
-          <div class="controls">
-            <textarea cols="100" rows="4" id="description_update" wrap="hard"></textarea>
-            <%= new_xheditor("description_update", false,true) %>
-            <span class="help-inline"></span>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-    <a href="javascript:void(0);" class="btn" data-dismiss="modal"><%=t(:cancel) %></a>
-    <a href="javascript:void(0);" onclick="delete_workload()" id="add-event-submit" class="btn btn-danger"><%= t(:delete) %></a>
-    <a href="javascript:void(0);" onclick="update_workload()" id="add-event-submit" class="btn btn-primary"><%= t(:save) %></a>
-  </div>
-    </div>
-  </div>
-</div>
-<script>
-  function register_workload(){
-    var start = $("#start").val()
-    var end = $("#end").val()
-    var description = $("#description").val()
-    if($("#request_number").find("option:selected").val() != 0)
-      description = $("#request_number").find("option:selected").text()+"("+$("#description").val()+")"
-    if (description != "" && description != null) {
-      var href = '<%= url_for(:controller => "workload_register",:action => "create_workload")%>'
-      $.ajax({
-        url: href,
-        type: 'post',
-        dataType: 'json',
-        data: {
-          request_id: $("#request_number").find("option:selected").val(),
-          description: description,
-          start_date: start,
-          end_date: end
-        },
-        success: function (data) {
-          if (data.result == "OK") {
-            var eventData
-            eventData = {
-              title: description,
-              start: start,
-              end: end,
-              id: data.id
-            }
-            $('#calendar').fullCalendar('renderEvent', eventData, true)
-            var view = $('#calendar').fullCalendar('getView')
-            if (view.name == 'agendaWeek') {
-              update_view_workload(view)
-            }
-            $("#modal_register_workload").modal("hide")
-            $("#start").val("")
-            $("#end").val("")
-            $("#description").val("")
-          }
-          else {
-            alert("登记失败")
-          }
-        }
-      })
-    }
-    else{
-      alert("请填写单号或相关工作描述")
-    }
-  }
-  function update_workload(){
-    var start = $("#start").val()
-    var end = $("#end").val()
-    var event_id = $("#event_id").val()
-    var description = $("#description_update").val()
-    if($("#request_number_update").find("option:selected").val() != 0)
-      description = $("#request_number_update").find("option:selected").text()+"("+$("#description_update").val()+")"
-    if (description != "" && description != null) {
-      var href = '<%= url_for(:controller => "workload_register",:action => "update_workload")%>'
-      $.ajax({
-        url: href,
-        type: 'post',
-        dataType: 'json',
-        data: {
-          request_id: $("#request_number_update").find("option:selected").val(),
-          description: description,
-          start_date: start,
-          end_date: end,
-          id: event_id
-        },
-        success: function (data) {
-          if(data.result == "OK"){
-            $('#calendar').fullCalendar( 'removeEvents', event_id)
-            var eventData
-            eventData = {
-              title: description,
-              start: start,
-              end: end,
-              id: event_id
-            }
-            $('#calendar').fullCalendar('renderEvent', eventData, true)
-            var view = $('#calendar').fullCalendar('getView')
-            if (view.name == 'agendaWeek') {
-              update_view_workload(view)
-            }
-            $("#modal_update_workload").modal("hide")
-            $("#start").val("")
-            $("#end").val("")
-            $("#description_update").val("")
-          }
-          else {
-            alert("编辑失败")
-          }
-        }
-      })
-    }
-    else{
-      alert("请填写单号或相关工作描述")
-    }
-  }
-  function delete_workload(){
-    var event_id = $("#event_id").val()
-    var href = '<%= url_for(:controller => "workload_register",:action => "delete_workload")%>'
-    $.ajax({
-      url: href,
-      type: 'post',
-      dataType: 'json',
-      data: {
-        id: event_id
-      },
-      success: function (data) {
-        if(data.result == "OK"){
-          $('#calendar').fullCalendar( 'removeEvents', event_id)
-          var view = $('#calendar').fullCalendar('getView')
-          if (view.name == 'agendaWeek') {
-            update_view_workload(view)
-          }
-          $("#modal_update_workload").modal("hide")
-          $("#start").val("")
-          $("#end").val("")
-          $("#event_id").val("")
-          $("#description_update").val("")
-        }
-        else {
-          alert("删除失败")
-        }
-      }
-    })
-  }
-  function update_view_workload(view){
-    var view_name = view.name
-    if(view_name == 'agendaWeek'){
-      var first_date = view.title.substring(0,10)
-      var href = '<%= url_for(:controller => "workload_register",:action => "get_week_workload")%>'
-      $.ajax({
-        url: href,
-        type: 'post',
-        dataType: 'json',
-        data: {
-          first_date: new Date(first_date).Format("yyyy-MM-dd")
-        },
-        success: function (data) {
-          var workload = data.register_workload
-          $("#for_week .fc-axis").text("Total")
-          for(var i=0;i<workload.length;i++){
-            $("#for_week .fc-day-header").eq(i).html(workload[i])
-          }
-          $("#for_week").show()
-        }
-      })
-    }
-    else if(view_name == 'month'){
-      var first_date = view.title.substring(0,10)
-      var href = '<%= url_for(:controller => "workload_register",:action => "get_month_workload")%>'
-      $.ajax({
-        url: href,
-        type: 'post',
-        dataType: 'json',
-        data: {
-          first_date: new Date(first_date).Format("yyyy-MM-dd")
-        },
-        success: function (data) {
-          $("#for_month .fc-day-header").eq(0).html(data.month_workload+"(H)")
-          $("#for_month").show()
-        }
-      })
-    }
-    else{
-      $("#for_week .fc-day-header").html("")
-      $("#for_week,#for_month").hide()
-    }
-
-    $("tr[data-time$='30:00']").attr("class","fc-minor")
-    $("tr[data-time$='30:00']").find("span").hide()
-  }
-  function render_events(){
-    $(".fc-title").each(function(){
-      $(this).html($(this).text())
-    })
-  }
   // 对Date的扩展，将 Date 转化为指定格式的String
   // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
   // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
