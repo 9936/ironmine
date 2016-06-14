@@ -110,8 +110,55 @@ class Yan::WorkloadRegisterController < ApplicationController
       end
       month_workload = month_workload + rw.workload
     }
+    # 统计周工时
+    week_workload = []
+    week_regions = []
+    first_date = Date.strptime(date_time,'%Y-%m-01')
+    end_date = first_date.end_of_month
+    # 获取周区间
+    week_region = []
+    while first_date <= end_date
+      if week_region.length == 0
+        week_region << first_date
+      else
+        if week_region[0].strftime("%U").eql?(first_date.strftime("%U"))
+          week_region << first_date
+        else
+          start_week_date = week_region[0]
+          week_length = week_region.length - 1
+          end_week_date = week_region[week_length]
+          week_regions << {:start_date=>start_week_date.strftime("%Y-%m-%d"),:end_date=>end_week_date.strftime("%Y-%m-%d")}
+          week_region = []
+          week_region << first_date
+        end
+      end
+      first_date = first_date + 1.day
+    end
 
-    render json: {:month_workload=>month_workload}
+    start_week_date = week_region[0]
+    week_length = week_region.length - 1
+    end_week_date = week_region[week_length]
+    week_regions << {:start_date=>start_week_date.strftime("%Y-%m-%d"),:end_date=>end_week_date.strftime("%Y-%m-%d")}
+
+    for wr in week_regions
+      temp_workload = 0.0
+      Yan::RegisterWorkload.
+          select("sum(workload) workload").
+          where("date_format(start_date, '%Y-%m-%d') >= ? and date_format(end_date, '%Y-%m-%d') <= ? and supporter_id = ?",
+                wr[:start_date],wr[:end_date],Irm::Person.current.id).collect{|rw|
+        if !rw.workload.present?
+          rw.workload = 0.0
+        end
+        temp_workload = temp_workload + rw.workload
+      }
+      week_workload << temp_workload
+    end
+
+    while week_workload.length < 6
+      week_workload << 0.0
+    end
+
+    render json: {:month_workload=>month_workload,:week_workload=>week_workload}
   end
 
   def get_data
@@ -121,6 +168,4 @@ class Yan::WorkloadRegisterController < ApplicationController
 
     render json: {:my_events=>my_events}
   end
-
-
 end

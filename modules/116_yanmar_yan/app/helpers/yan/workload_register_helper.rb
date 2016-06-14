@@ -1,3 +1,3 @@
 module Yan::WorkloadRegisterHelper
-  
+
 end
