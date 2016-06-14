@@ -327,8 +327,6 @@
     }
     else if(view_name == 'month'){
       var first_date = view.title+"/01"
-      console.log("111111111  "+first_date)
-      console.log(new Date(first_date).Format("yyyy-MM-dd"))
       var href = '<%= url_for(:controller => "workload_register",:action => "get_month_workload")%>'
       $.ajax({
         url: href,
