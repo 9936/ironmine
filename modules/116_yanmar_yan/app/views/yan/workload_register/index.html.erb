@@ -28,29 +28,6 @@
   });
 </script>
 
-<div id='for_month' class="fc fc-cursor fc-ltr fc-unthemed" style="margin-bottom: 10px;display: none">
-  <div class="fc-view-container">
-    <div class="fc-view fc-agendaWeek-view fc-agenda-view">
-      <table>
-        <thead class="fc-head">
-        <tr>
-          <td class="fc-head-container fc-widget-header">
-            <div class="fc-row fc-widget-header" style="border-right-width: 1px;">
-              <table>
-                <thead>
-                  <tr>
-                    <th class="fc-day-header fc-widget-header fc-sun"></th>
-                  </tr>
-                </thead>
-              </table>
-            </div>
-          </td>
-        </tr>
-        </thead>
-      </table>
-    </div>
-  </div>
-</div>
 <div id='calendar'></div>
 <div id='for_week' style="display: none" class="fc fc-cursor fc-ltr fc-unthemed">
   <div class="fc-view-container">
@@ -320,13 +297,21 @@
           for(var i=0;i<workload.length;i++){
             $("#for_week .fc-day-header").eq(i).html(workload[i])
           }
-          $("#for_month").hide()
           $("#for_week").show()
         }
       })
     }
     else if(view_name == 'month'){
       var first_date = view.title+"/01"
+
+      $("#for_week").hide()
+      if($("#month_total").length == 0){
+        $(".fc-month-view").css({"width":"90%","float":"left"})
+        $(".fc-month-view").parent().append("<div id='month_total' class='fc-view fc-month-view fc-basic-view' style='width: 10%;float: left;'><table><thead class='fc-head'><tr><td class='fc-head-container fc-widget-header'><div class='fc-row fc-widget-header'><table><thead><tr><th class='fc-day-header-total fc-widget-header fc-sun'>Total</th></tr></thead></table></div></td></tr></thead><tbody class='fc-body'><tr><td class='fc-widget-content'><div class='fc-scroller fc-day-grid-container' style='overflow: hidden; height: 382px;'><div class='fc-day-grid fc-unselectable'><div class='fc-row fc-week fc-widget-content fc-rigid' style='height: 63px;'><div class='fc-bg'><table><tbody><tr><td class='fc-day fc-widget-content fc-sun fc-other-month'></td></tr></tbody></table></div><div class='fc-content-skeleton'><table><thead><tr><td class='fc-day-number fc-sun fc-other-month'></td></tr></thead><tbody><tr><td></td></tr></tbody></table></div></div><div class='fc-row fc-week fc-widget-content fc-rigid' style='height: 63px;'><div class='fc-bg'><table><tbody><tr><td class='fc-day fc-widget-content fc-sun fc-other-month'></td></tr></tbody></table></div><div class='fc-content-skeleton'><table><thead><tr><td class='fc-day-number fc-sun fc-other-month'></td></tr></thead><tbody><tr><td></td></tr></tbody></table></div></div><div class='fc-row fc-week fc-widget-content fc-rigid' style='height: 63px;'><div class='fc-bg'><table><tbody><tr><td class='fc-day fc-widget-content fc-sun fc-other-month'></td></tr></tbody></table></div><div class='fc-content-skeleton'><table><thead><tr><td class='fc-day-number fc-sun fc-other-month'></td></tr></thead><tbody><tr><td></td></tr></tbody></table></div></div><div class='fc-row fc-week fc-widget-content fc-rigid' style='height: 63px;'><div class='fc-bg'><table><tbody><tr><td class='fc-day fc-widget-content fc-sun fc-other-month'></td></tr></tbody></table></div><div class='fc-content-skeleton'><table><thead><tr><td class='fc-day-number fc-sun fc-other-month'></td></tr></thead><tbody><tr><td></td></tr></tbody></table></div></div><div class='fc-row fc-week fc-widget-content fc-rigid' style='height: 63px;'><div class='fc-bg'><table><tbody><tr><td class='fc-day fc-widget-content fc-sun fc-other-month'></td></tr></tbody></table></div><div class='fc-content-skeleton'><table><thead><tr><td class='fc-day-number fc-sun fc-other-month'></td></tr></thead><tbody><tr><td></td></tr></tbody></table></div></div><div class='fc-row fc-week fc-widget-content fc-rigid' style='height: 63px;'><div class='fc-bg'><table><tbody><tr><td class='fc-day fc-widget-content fc-sun fc-other-month'></td></tr></tbody></table></div><div class='fc-content-skeleton'><table><thead><tr><td class='fc-day-number fc-sun fc-other-month'></td></tr></thead><tbody><tr><td></td></tr></tbody></table></div></div></div></div></td></tr></tbody></table></div>")
+        $("#calendar").find(".fc-day-header-total").css("background-color","#FFFF00")
+      }
+      $("#month_total").find(".fc-day").css("text-align","center")
+
       var href = '<%= url_for(:controller => "workload_register",:action => "get_month_workload")%>'
       $.ajax({
         url: href,
@@ -336,16 +321,8 @@
           first_date: new Date(first_date).Format("yyyy-MM-dd")
         },
         success: function (data) {
-          $("#for_month .fc-day-header").eq(0).html(data.month_workload+"(H)")
-          $("#for_week").hide()
-          $("#for_month").show()
+          $("#calendar").find(".fc-day-header-total").html("Total "+data.month_workload)
 
-          if($("#month_total").length == 0){
-            $(".fc-month-view").css({"width":"90%","float":"left"})
-            $(".fc-month-view").parent().append("<div id='month_total' class='fc-view fc-month-view fc-basic-view' style='width: 10%;float: left;'><table><thead class='fc-head'><tr><td class='fc-head-container fc-widget-header'><div class='fc-row fc-widget-header'><table><thead><tr><th class='fc-day-header-total fc-widget-header fc-sun'>Total</th></tr></thead></table></div></td></tr></thead><tbody class='fc-body'><tr><td class='fc-widget-content'><div class='fc-scroller fc-day-grid-container' style='overflow: hidden; height: 382px;'><div class='fc-day-grid fc-unselectable'><div class='fc-row fc-week fc-widget-content fc-rigid' style='height: 63px;'><div class='fc-bg'><table><tbody><tr><td class='fc-day fc-widget-content fc-sun fc-other-month'></td></tr></tbody></table></div><div class='fc-content-skeleton'><table><thead><tr><td class='fc-day-number fc-sun fc-other-month'></td></tr></thead><tbody><tr><td></td></tr></tbody></table></div></div><div class='fc-row fc-week fc-widget-content fc-rigid' style='height: 63px;'><div class='fc-bg'><table><tbody><tr><td class='fc-day fc-widget-content fc-sun fc-other-month'></td></tr></tbody></table></div><div class='fc-content-skeleton'><table><thead><tr><td class='fc-day-number fc-sun fc-other-month'></td></tr></thead><tbody><tr><td></td></tr></tbody></table></div></div><div class='fc-row fc-week fc-widget-content fc-rigid' style='height: 63px;'><div class='fc-bg'><table><tbody><tr><td class='fc-day fc-widget-content fc-sun fc-other-month'></td></tr></tbody></table></div><div class='fc-content-skeleton'><table><thead><tr><td class='fc-day-number fc-sun fc-other-month'></td></tr></thead><tbody><tr><td></td></tr></tbody></table></div></div><div class='fc-row fc-week fc-widget-content fc-rigid' style='height: 63px;'><div class='fc-bg'><table><tbody><tr><td class='fc-day fc-widget-content fc-sun fc-other-month'></td></tr></tbody></table></div><div class='fc-content-skeleton'><table><thead><tr><td class='fc-day-number fc-sun fc-other-month'></td></tr></thead><tbody><tr><td></td></tr></tbody></table></div></div><div class='fc-row fc-week fc-widget-content fc-rigid' style='height: 63px;'><div class='fc-bg'><table><tbody><tr><td class='fc-day fc-widget-content fc-sun fc-other-month'></td></tr></tbody></table></div><div class='fc-content-skeleton'><table><thead><tr><td class='fc-day-number fc-sun fc-other-month'></td></tr></thead><tbody><tr><td></td></tr></tbody></table></div></div><div class='fc-row fc-week fc-widget-content fc-rigid' style='height: 63px;'><div class='fc-bg'><table><tbody><tr><td class='fc-day fc-widget-content fc-sun fc-other-month'></td></tr></tbody></table></div><div class='fc-content-skeleton'><table><thead><tr><td class='fc-day-number fc-sun fc-other-month'></td></tr></thead><tbody><tr><td></td></tr></tbody></table></div></div></div></div></td></tr></tbody></table></div>")
-            $("#calendar").find(".fc-day-header-total").css("background-color","#FFFF00")
-          }
-          $("#month_total").find(".fc-day").css("text-align","center")
           var week_workload = data.week_workload
           var month_total_length = $("#month_total").find(".fc-day").length
           for(var i=0;i<month_total_length;i++){
@@ -358,7 +335,7 @@
       $("#month_total").remove()
       $(".fc-month-view").css({"width":"auto","float":""})
       $("#for_week .fc-day-header").html("")
-      $("#for_week,#for_month").hide()
+      $("#for_week").hide()
     }
 
     $("tr[data-time$='30:00']").attr("class","fc-minor")

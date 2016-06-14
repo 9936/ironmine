@@ -101,15 +101,15 @@ class Yan::WorkloadRegisterController < ApplicationController
   def get_month_workload
     month_workload = 0.0
     date_time = (params[:first_date].to_time).to_s[0,10]
-    Yan::RegisterWorkload.
-        select("sum(workload) workload").
-        where("date_format(start_date, '%Y-%m-01') = ? and date_format(end_date, '%Y-%m-01') = ? and supporter_id = ?",
-              Date.strptime(date_time,'%Y-%m'),Date.strptime(date_time,'%Y-%m'),Irm::Person.current.id).collect{|rw|
-      if !rw.workload.present?
-        rw.workload = 0.0
-      end
-      month_workload = month_workload + rw.workload
-    }
+    # Yan::RegisterWorkload.
+    #     select("sum(workload) workload").
+    #     where("date_format(start_date, '%Y-%m-01') = ? and date_format(end_date, '%Y-%m-01') = ? and supporter_id = ?",
+    #           Date.strptime(date_time,'%Y-%m'),Date.strptime(date_time,'%Y-%m'),Irm::Person.current.id).collect{|rw|
+    #   if !rw.workload.present?
+    #     rw.workload = 0.0
+    #   end
+    #   month_workload = month_workload + rw.workload
+    # }
     # 统计周工时
     week_workload = []
     week_regions = []
@@ -152,6 +152,8 @@ class Yan::WorkloadRegisterController < ApplicationController
         temp_workload = temp_workload + rw.workload
       }
       week_workload << temp_workload
+
+      month_workload = month_workload + temp_workload
     end
 
     while week_workload.length < 6
