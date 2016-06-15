@@ -20,11 +20,6 @@
 <script>
   $(document).ready(function() {
     get_data()
-    $("tr[data-time$='30:00']").attr("class","fc-minor")
-    $("tr[data-time$='30:00']").find("span").hide()
-    $("#for_week").find("div[class='fc-row fc-widget-header']").css("margin-right",$("#calendar").find("div[class='fc-row fc-widget-header']").css("margin-right"))
-    $("#calendar").find("td[class='fc-head-container fc-widget-header']").css("background-color","#A5BFE1")
-    $("#calendar").find(".fc-day-header").css("background-color","#A5BFE1")
   });
 </script>
 
@@ -36,12 +31,11 @@
         <thead class="fc-head">
         <tr>
           <td class="fc-head-container fc-widget-header">
-            <div class="fc-row fc-widget-header" style="border-right-width: 1px; margin-right: 16px;">
+            <div class="fc-row fc-widget-header" style="border-right-width: 1px;">
               <table>
                 <thead>
                 <tr>
-                  <th class="fc-axis fc-widget-header" style="width: 32px;">
-                  </th>
+                  <th class="fc-axis fc-widget-header" style=""></th>
                   <th class="fc-day-header fc-widget-header fc-sun">Sun</th>
                   <th class="fc-day-header fc-widget-header fc-mon">Mon</th>
                   <th class="fc-day-header fc-widget-header fc-tue">Tue</th>
@@ -311,6 +305,8 @@
         $("#calendar").find(".fc-day-header-total").css("background-color","#FFFF00")
       }
       $("#month_total").find(".fc-day").css("text-align","center")
+      var div_hight = $("#calendar").find(".fc-row").eq(1).css("height")
+      $("#month_total").find(".fc-week").css("height",div_hight)
 
       var href = '<%= url_for(:controller => "workload_register",:action => "get_month_workload")%>'
       $.ajax({
@@ -386,7 +382,7 @@
           titleFormat: 'YYYY/MM/DD'
         }
       },
-      columnFormat: 'M/D ddd',
+      columnFormat: 'dddd',
       defaultDate: new Date().Format("yyyy-MM-dd"),
       selectable: true,
       selectHelper: true,
@@ -558,6 +554,18 @@
       eventLimit: true, // allow "more" link when too many events
       events: my_events
     });
+    init_style()
+  }
+  function init_style(){
+    $("tr[data-time$='30:00']").attr("class","fc-minor")
+    $("tr[data-time$='30:00']").find("span").hide()
+    var div_margin_right = Math.round($("#calendar").find("div[class='fc-row fc-widget-header']").css("margin-right").split("px")[0]) + "px"
+    var th_width =  $("#calendar").find("th[class='fc-axis fc-widget-header']").attr("style").split(": ")[1].split(";")[0]
+    $("#for_week").find("div[class='fc-row fc-widget-header']").css("margin-right",div_margin_right)
+    $("#for_week").find("th[class='fc-axis fc-widget-header']").css("width",th_width)
+
+    $("#calendar").find("td[class='fc-head-container fc-widget-header']").css("background-color","#A5BFE1")
+    $("#calendar").find(".fc-day-header").css("background-color","#A5BFE1")
   }
 
   // 对Date的扩展，将 Date 转化为指定格式的String
