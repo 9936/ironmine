@@ -11,6 +11,12 @@ gem 'rake','0.9.2'
 #gem 'ruby-mysql'
 
 #gem 'rack-mini-profiler'
+gem 'i18n', '0.6.9'
+gem 'highline', '1.6.20'
+gem 'execjs', '2.5.0'
+gem 'mustache', '0.99.5'
+
+gem 'net-ssh', '2.9.2'
 
 gem 'passenger', '4.0.16'
 
@@ -43,7 +49,10 @@ gem 'macaddr','1.6.1'
 
 gem 'sunspot_rails','1.3.3'
 gem 'sunspot_solr', '1.3.3'
+gem 'rsolr', '1.0.9'
 gem "sunspot_cell", '0.1.2'
+
+gem 'progress_bar'
 
 #gem "sunspot", "1.2.1"
 #gem "sunspot_rails", "1.2.1"
@@ -76,7 +85,7 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', '0.10.1'
 
-  gem 'uglifier', '>= 1.0.3'
+  gem 'uglifier', '2.7.2'
   gem 'twitter-bootstrap-rails' ,'2.1.1'
   gem 'jquery-rails', '1.0.19'
 end
