@@ -1,4 +1,17 @@
 zh:
+
+
+  management: 管理
+  label_yan_management: 管理
+  label_yan_management_list: 管理者列表
+  management_code: 管理者编码
+  name: 姓名
+  label_yan_management_new: 新建管理者
+  label_yan_management_edit: 编辑管理者
+  label_yan_management_show: 查看管理者
+  label_yan_management_delete: 删除管理者
+
+
   label_second_search: 二次检索
   label_slm_calendar_update_workload: 更新工时
   label_slm_calendar_register_workload: 登记工时

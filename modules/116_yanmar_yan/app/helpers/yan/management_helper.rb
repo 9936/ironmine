@@ -1,0 +1,2 @@
+module Yan::ManagementHelper
+end

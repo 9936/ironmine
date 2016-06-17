@@ -15,6 +15,18 @@ Ironmine::Application.routes.draw do
   end
 
   scope :module => "yan" do
+    match '/management(/index)(.:format)' => "management#index", :via => :get
+    match '/management/get_data(.:format)' => "management#get_data", :via => :get
+    match '/management/new(.:format)' => "management#new",:via => :get
+    match '/management/create(.:format)' => "management#create",:via => :post
+
+    match '/management/:id/edit(.:format)' =>"management#edit",:via => :get
+    match '/management/update(.:format)' =>"management#update",:via => :put
+    match '/management/:id/show(.:format)' =>"management#show",:via => :get
+    match '/management/delete(.:format)' =>"management#delete",:via => :get
+
+
+
     match '/parent_people/:id/new_from_person(.:format)' => "parent_people#new_from_person"
     match '/parent_people/:id/delete_from_parent(.:format)' => "parent_people#delete_from_parent"
     match '/parent_people/:id/get_owned_parents_data(.:format)' => "parent_people#get_owned_parents_data"

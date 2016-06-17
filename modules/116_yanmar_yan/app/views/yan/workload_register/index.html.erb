@@ -1,8 +1,13 @@
 <link href='/stylesheets/fullcalendar/fullcalendar.css' rel='stylesheet' />
 <link href='/stylesheets/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<link rel="stylesheet" type="text/css" href="/stylesheets/context/context.standalone.css">
+
+<script src="/javascripts/context/context.js"></script>
+<script src="/javascripts/context/demo.js"></script>
 <script src='/javascripts/fullcalendar/moment.min.js'></script>
 <script src='/javascripts/fullcalendar/fullcalendar.min.js'></script>
 <script src='/javascripts/fullcalendar/lang-all.js'></script>
+
 <style>
   body {
     padding: 0;
@@ -66,6 +71,7 @@
       <div class="modal-body form-horizontal">
         <input type="hidden" id="start" value=""/>
         <input type="hidden" id="end" value="" />
+        <input type="hidden" id="event_title" value="" />
         <input type="hidden" id="event_id" value="" />
         <div class="control-group">
           <label class="control-label"><%= t(:label_slm_calendar_request_number) %>:</label>
@@ -140,7 +146,6 @@
       </div>
       <div class="modal-footer">
     <a href="javascript:void(0);" class="btn" data-dismiss="modal"><%=t(:cancel) %></a>
-    <a href="javascript:void(0);" onclick="delete_workload()" id="add-event-submit" class="btn btn-danger"><%= t(:delete) %></a>
     <a href="javascript:void(0);" onclick="update_workload()" id="add-event-submit" class="btn btn-primary"><%= t(:save) %></a>
   </div>
     </div>
@@ -297,7 +302,6 @@
     }
     else if(view_name == 'month'){
       var first_date = view.title+"/01"
-
       $("#for_week").hide()
       if($("#month_total").length == 0){
         $(".fc-month-view").css({"width":"90%","float":"left"})
@@ -305,8 +309,6 @@
         $("#calendar").find(".fc-day-header-total").css("background-color","#FFFF00")
       }
       $("#month_total").find(".fc-day").css("text-align","center")
-      var div_hight = $("#calendar").find(".fc-row").eq(1).css("height")
-      $("#month_total").find(".fc-week").css("height",div_hight)
 
       var href = '<%= url_for(:controller => "workload_register",:action => "get_month_workload")%>'
       $.ajax({
@@ -382,7 +384,11 @@
           titleFormat: 'YYYY/MM/DD'
         }
       },
-      columnFormat: 'dddd',
+      columnFormat: {
+        month: 'dddd',
+        agendaWeek: 'M/D dddd',
+        agendaDay: 'dddd'
+      },
       defaultDate: new Date().Format("yyyy-MM-dd"),
       selectable: true,
       selectHelper: true,
@@ -430,38 +436,9 @@
         $("#request_number_update option[value='0']").remove()
         $("#start").val(new Date(event.start._i).Format("yyyy-MM-dd hh:mm:ss"))
         $("#end").val(new Date(event.end._i).Format("yyyy-MM-dd hh:mm:ss"))
+        $("#event_title").val(event.title)
         $("#event_id").val(event.id)
-        var href = '<%= url_for(:controller => "icm/incident_requests",:action => "get_attend_incident")%>'
-        $.ajax({
-          url: href,
-          type: 'post',
-          dataType: 'json',
-          data: {
-            date_time: new Date(event.start._i).Format("yyyy-MM-dd")
-          },
-          success: function (data) {
-            var result = data.result
-            var title = event.title
-            var work_content = title.split("(")[0]
-            $("#description_update").val(event.title.split("(")[1].split(")")[0])
-            $("#request_number_update").prepend("<option value='0'><%= t(:actionview_instancetag_blank_option)%></option>")
-            var option_html = ""
-            for(var i = 0;i < result.length;i++){
-              option_html += "<option value='"+result[i].id+"'>"+result[i].request_number+"</option>"
-            }
-            $("#request_number_update_list").html(option_html)
-            var options = $("#request_number_update").find("option")
-            for(var i=0;i<options.length;i++){
-              if(options.eq(i).text() == work_content)
-                options.eq(i).attr("selected",true);
-            }
-            $("#modal_update_workload").modal("show")
-          }
-        })
-      },
-      dayClick: function(date, jsEvent, view) {
-//        $('#calendar').fullCalendar( 'changeView', 'agendaDay' )
-//        $('#calendar').fullCalendar( 'gotoDate', date )
+
       },
       eventResize: function(event, delta, revertFunc) {
         var href = '<%= url_for(:controller => "workload_register",:action => "update_workload_by_resize")%>'
@@ -548,13 +525,51 @@
         update_view_workload(view)
       },
       eventAfterAllRender: function(view){
-
+        var div_height = $("#calendar").find(".fc-row").eq(1).css("height")
+        $("#month_total").find(".fc-week").css("height",div_height)
+      },
+      eventMouseover: function(event, jsEvent, view){
+        $("#request_number_update_list").empty()
+        $("#request_number_update option[value='0']").remove()
+        $("#start").val(new Date(event.start._i).Format("yyyy-MM-dd hh:mm:ss"))
+        $("#end").val(new Date(event.end._i).Format("yyyy-MM-dd hh:mm:ss"))
+        $("#event_title").val(event.title)
+        $("#event_id").val(event.id)
       },
       editable: true,
       eventLimit: true, // allow "more" link when too many events
       events: my_events
     });
     init_style()
+  }
+  function show_edit_modal(){
+    var href = '<%= url_for(:controller => "icm/incident_requests",:action => "get_attend_incident")%>'
+    $.ajax({
+      url: href,
+      type: 'post',
+      dataType: 'json',
+      data: {
+        date_time: $("#start").val()
+      },
+      success: function (data) {
+        var result = data.result
+        var title = $("#event_title").val()
+        var work_content = title.split("(")[0]
+        $("#description_update").val(title.split("(")[1].split(")")[0])
+        $("#request_number_update").prepend("<option value='0'><%= t(:actionview_instancetag_blank_option)%></option>")
+        var option_html = ""
+        for(var i = 0;i < result.length;i++){
+          option_html += "<option value='"+result[i].id+"'>"+result[i].request_number+"</option>"
+        }
+        $("#request_number_update_list").html(option_html)
+        var options = $("#request_number_update").find("option")
+        for(var i=0;i<options.length;i++){
+          if(options.eq(i).text() == work_content)
+            options.eq(i).attr("selected",true);
+        }
+        $("#modal_update_workload").modal("show")
+      }
+    })
   }
   function init_style(){
     $("tr[data-time$='30:00']").attr("class","fc-minor")
@@ -567,6 +582,7 @@
     $("#calendar").find("td[class='fc-head-container fc-widget-header']").css("background-color","#A5BFE1")
     $("#calendar").find(".fc-day-header").css("background-color","#A5BFE1")
   }
+
 
   // 对Date的扩展，将 Date 转化为指定格式的String
   // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，

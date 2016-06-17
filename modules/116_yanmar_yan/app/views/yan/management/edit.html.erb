@@ -1,0 +1,37 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismfss="modal" arfa-hidden="true"></button>
+  <h3><%= t(:label_yan_management_edit)  %></h3>
+</div>
+
+<%= form_for(@management,:url=>{:action=>"update", :id=>@management.id}, :html => {:class =>"modal-form"}, :builder => CustomFormBuilder) do |f| %>
+
+    <div class="modal-body form-horizontal">
+      <table class="form-table" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+
+        <tr>
+          <td class="label-col"><label for="record_status"><%=t(:management_code)%></label> </td>
+          <td class="data-col"><%=f.text_field :management_code, :required =>true%></td>
+          <td class="label-col">&nbsp;</td>
+          <td class="data-col">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="label-col"><label for="record_status"><%=t(:name)%></label> </td>
+          <td class="data-col"><%=f.text_field :name, :required =>true%></td>
+          <td class="label-col">&nbsp;</td>
+          <td class="data-col">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="label-col"><label for="record_status"><%=t(:description)%></label> </td>
+          <td class="data-col"><%=f.text_area :description, :rows => "4", :required =>true%></td>
+          <td class="label-col">&nbsp;</td>
+          <td class="data-col">&nbsp;</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <%= link_submit t(:save), :class => "btn btn-primary" %>
+      <%= link_to t(:cancel), "#", :class => "btn", :id => "cancel_mo", "data-dismiss" => "modal", "aria-hidden" => "true" %>
+    </div>
+<% end %>

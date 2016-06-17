@@ -1,0 +1,10 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:management_code=>t(:operation), :width=>"120px"}) do |data| %>
+        <%= link_modal(t(:edit),{:action=>"edit", :id=> data[:id]}, :class => "action-link") %>&nbsp;|
+        <%= link_to(t(:show),{:controller=>"yan/management", :action=>"show", :id=> data[:id]}, :class => "action-link")%>&nbsp;|
+        <%= link_to(t(:delete),{:controller=>"yan/management", :action=>"delete", :id=> data[:id], :format => :js}, data:{confirm:'Are you sure?'}, :remote => true,:class => "action-link")%>
+    <% end %>
+    <% builder.column(:management_code,{:management_code=>t(:management_code),:searchable=>true})%>
+    <% builder.column(:name,{:management_code=>t(:name),:searchable=>true}) %>
+    <% builder.column(:description,{:management_code=>t(:description)}) %>
+<% end %>

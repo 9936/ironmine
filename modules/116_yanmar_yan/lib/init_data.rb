@@ -125,17 +125,48 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :zh => {:name => "工时登记", :description => "工时登记"},
                   :ja => {:name => "Register Workload", :description => "Register Workload"}
               }
+          },
+          :management => {
+              :type => "function",
+              :entry => {
+                 :sequence => 100,
+                 :en => {:name => "management", :description => "management"},
+                 :zh => {:name => "管理", :description => "查看添加编辑删除管理者"},
+                 :ja => {:name => "management", :description => "management"}
+              }
           }
       }
   }
+  map.function_group :management, {
+                              :en => { :name => "management", :description => "management" },
+                              :zh => { :name => "管理者", :description => "管理者" },
+                              :ja => {:name => "management", :description => "management"}}
+  map.function_group :management, {
+                              :zone_code => "WORKLOAD",
+                              :controller => "yan/management",
+                              :action => "index" }
+  map.function_group :management, {
+                              :children => {
+                                  :management => {
+                                      :en => { :name => "management", :description => "management" },
+                                      :zh => { :name => "管理者", :description => "管理者" },
+                                      :ja => {:name => "management", :description => "management"},
+                                      :default_flag => "Y",
+                                      :login_flag => "N",
+                                      :public_flag => "N",
+                                      "yan/management" => ["index", "get_data", "new", "create", "edit", "update", "show", "delete"]
 
+
+                                  },
+                              }
+                          }
   map.function_group :edit_workload, {
                                        :en => {:name => "Register Workload", :description => "Register Workload"},
                                        :zh => {:name => "工时登记", :description => "工时登记"},
                                        :ja => {:name => "Register Workload", :description => "Register Workload"}
                                         }
   map.function_group :edit_workload, {
-                                            :zone_code => "REGISTER_WORKLOAD",
+                                            :zone_code => "WORKLOAD",
                                             :controller => "yan/workload_register",
                                             :action => "index"}
   map.function_group :edit_workload, {
